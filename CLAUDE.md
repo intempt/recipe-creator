@@ -2,13 +2,15 @@
 
 ## Overview
 
-Public recipes repository for the Intempt platform. Contains 256 recipe `.md` files with YAML frontmatter, organized by Blu Group.
+Public recipes repository for the Intempt platform. Contains 292 recipe `.md` files with YAML frontmatter, organized by Blu Group.
 
 ## Structure
 
 ```
 recipes/
   agents/            #  1 recipe  — customer-facing AI agent setup
+  content/           #  4 recipes — channel content (email, SMS, push, site)
+  creative/          # 32 recipes — image + video creative ops (pack-shot, on-model, remix, ad, video reel, etc.)
   dashboards/        # 21 recipes — persona-specific dashboard composition
   experiments/       # 24 recipes — A/B / multivariate tests
   journeys/          # 35 recipes — multi-step lifecycle playbooks
@@ -83,4 +85,4 @@ Recipes are ingested into single-metadata via:
 
 ## Output Types
 
-Output types across recipes: segment, journey, workflow, content, dashboard, report, experiment, experience, attribute, event-mapping, task, deal, account, meeting, meeting_type, meeting_summary_recipe, meeting_type_inventory, agent-config, snippet, recommendation.
+Output types across recipes: segment, journey, workflow, content, dashboard, report, experiment, experience, attribute, event-mapping, task, deal, account, meeting, meeting_type, meeting_summary_recipe, meeting_type_inventory, agent-config, snippet, recommendation, image, video.
