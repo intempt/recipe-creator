@@ -24,6 +24,7 @@ intempt:
     events:
       - { value: email_received, severity: blocking }
     integrations:
+      - { value: slack, severity: recommended }
       - { value: gmail, severity: recommended }
   invokesCommands:
     - create_ai_attribute

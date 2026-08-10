@@ -21,6 +21,11 @@ intempt:
   visibility: published
   accessTier: free
   aiPassRequired: true
+  prerequisites:
+    integrations:
+      - { value: hubspot, severity: blocking }
+      - { value: shopify, severity: blocking }
+      - { value: stripe, severity: blocking }
   invokesCommands:
     - build_insights_report
   procedure:

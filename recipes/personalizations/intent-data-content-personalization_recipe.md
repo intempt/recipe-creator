@@ -21,6 +21,10 @@ intempt:
   visibility: published
   accessTier: free
   aiPassRequired: true
+  prerequisites:
+    integrations:
+      - { value: salesforce, severity: blocking }
+      - { value: slack, severity: recommended }
   invokesCommands:
     - create_personalization
   procedure:

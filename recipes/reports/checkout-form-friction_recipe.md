@@ -21,6 +21,10 @@ intempt:
   visibility: published
   accessTier: free
   aiPassRequired: true
+  prerequisites:
+    integrations:
+      - { value: shopify, severity: blocking }
+      - { value: stripe, severity: blocking }
   invokesCommands:
     - build_funnel_report
   procedure:

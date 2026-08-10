@@ -21,6 +21,8 @@ intempt:
   accessTier: free
   aiPassRequired: true
   prerequisites:
+    integrations:
+      - { value: slack, severity: recommended }
     events:
       - { value: deal_stage_changed, severity: recommended }
       - { value: meeting_completed, severity: recommended }
