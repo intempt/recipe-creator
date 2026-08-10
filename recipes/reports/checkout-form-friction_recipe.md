@@ -23,8 +23,8 @@ intempt:
   aiPassRequired: true
   prerequisites:
     integrations:
-      - { value: shopify, severity: blocking }
-      - { value: stripe, severity: blocking }
+      - { value: shopify, severity: blocking, group: checkout-source }
+      - { value: stripe, severity: blocking, group: checkout-source }
   invokesCommands:
     - build_funnel_report
   procedure:

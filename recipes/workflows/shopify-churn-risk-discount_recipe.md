@@ -50,6 +50,8 @@ intempt:
 
 # Shopify Churn Risk Discount
 
+> **Not runnable yet.** Applying a discount code in Shopify has no backend. The connector reads today and cannot write, and Airbyte does not close that gap — its destinations write to warehouses, not into Shopify. This recipe is published so the demand is recorded and the workflow is designed, and it will fail at the write step until the operation ships.
+
 ## Procedure
 
 1. **Find Who Is Slipping** [`create_segment`] — Create a segment of customers whose purchase cadence has broken — a gap materially longer than their own established rhythm, not a fixed number of days that treats a monthly buyer and an annual one the same. → produces: segment

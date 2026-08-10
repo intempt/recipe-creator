@@ -50,6 +50,8 @@ intempt:
 
 # Shopify Segment To Customer Tag
 
+> **Not runnable yet.** Tagging a customer in Shopify has no backend. The connector reads today and cannot write, and Airbyte does not close that gap — its destinations write to warehouses, not into Shopify. This recipe is published so the demand is recorded and the workflow is designed, and it will fail at the write step until the operation ships.
+
 ## Procedure
 
 1. **Define The Cohort** [`create_segment`] — Create the segment to tag — high lifetime value, repeat buyer, lapsed, whatever the store wants to treat differently. The segment is the definition; the tag is only its shadow in Shopify. → produces: segment

@@ -52,6 +52,8 @@ intempt:
 
 # Salesforce Pql To Lead
 
+> **Not runnable yet.** Creating a lead in Salesforce has no backend. The connector reads today and cannot write, and Airbyte does not close that gap — its destinations write to warehouses, not into Salesforce. This recipe is published so the demand is recorded and the workflow is designed, and it will fail at the write step until the operation ships.
+
 ## Procedure
 
 1. **Define The Qualifying Signal** [`create_segment`] — Create a segment describing the product-qualified signal — the usage threshold, the feature reached, the seats added — rather than encoding it inside the workflow. The definition is the thing sales and product will argue about, so it needs to live somewhere both can see it. → produces: segment

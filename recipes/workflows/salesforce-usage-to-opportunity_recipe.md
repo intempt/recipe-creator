@@ -52,6 +52,8 @@ intempt:
 
 # Salesforce Usage To Opportunity
 
+> **Not runnable yet.** Updating opportunity fields in Salesforce has no backend. The connector reads today and cannot write, and Airbyte does not close that gap — its destinations write to warehouses, not into Salesforce. This recipe is published so the demand is recorded and the workflow is designed, and it will fail at the write step until the operation ships.
+
 ## Procedure
 
 1. **Compute The Usage Signal** [`create_attribute`] — Create account attributes describing engagement in the terms the forecast cares about: active seats, weekly active proportion, depth of feature adoption, trend over the last month. These are what a rep would otherwise assert from memory. → produces: attribute

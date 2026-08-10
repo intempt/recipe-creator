@@ -23,8 +23,6 @@ intempt:
   accessTier: free
   aiPassRequired: true
   prerequisites:
-    integrations:
-      - { value: salesforce, severity: blocking }
   invokesCommands:
     - create_segment
   procedure:

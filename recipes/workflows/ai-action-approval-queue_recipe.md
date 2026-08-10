@@ -22,7 +22,7 @@ intempt:
   aiPassRequired: true
   prerequisites:
     integrations:
-      - { value: slack, severity: recommended }
+      - { value: slack, severity: blocking }
   invokesCommands:
     - create_workflow
     - configure_webhook_step

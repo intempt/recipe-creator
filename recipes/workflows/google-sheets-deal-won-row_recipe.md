@@ -41,6 +41,8 @@ intempt:
 
 # Google Sheets Deal Won Row
 
+> **Not runnable yet.** Appending a row in Google Sheets has no backend. The connector reads today and cannot write, and Airbyte does not close that gap — its destinations write to warehouses, not into Google Sheets. This recipe is published so the demand is recorded and the workflow is designed, and it will fail at the write step until the operation ships.
+
 ## Procedure
 
 1. **Append Won Deals To A Sheet** [`create_workflow`] — Create a workflow triggered on deal stage changing to Closed Won. One step: append a row to the chosen Google Sheet with deal name, account, amount, close date, owner and source. Map columns by header name, never by position, so someone inserting a column in the sheet does not silently redirect every write after it. Failure policy is skip-and-record: a sheet that is momentarily locked should not fail the run, and the skipped rows need to be recoverable. → produces: workflow

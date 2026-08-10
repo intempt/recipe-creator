@@ -23,8 +23,6 @@ intempt:
   accessTier: free
   aiPassRequired: true
   prerequisites:
-    integrations:
-      - { value: slack, severity: recommended }
   invokesCommands:
     - create_segment
   procedure:

@@ -22,7 +22,6 @@ intempt:
   aiPassRequired: true
   prerequisites:
     integrations:
-      - { value: gmail, severity: recommended }
       - { value: slack, severity: recommended }
     events:
       - { value: user_signed_up, severity: blocking }
