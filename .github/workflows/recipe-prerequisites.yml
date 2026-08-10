@@ -16,20 +16,22 @@ name: recipe-prerequisites
 # false within a quarter and nothing will tell you — which is the whole reason
 # this file exists rather than a note in a review checklist.
 #
-# Runs on every PR touching a recipe, and on pushes to main so a direct commit
-# cannot bypass it either.
+# Runs on every PR to main, and on every push to main so a direct commit cannot
+# bypass it either.
+#
+# Deliberately NO `paths:` filter, even though that would skip runs on PRs that
+# touch no recipe. This check is a required status check in branch protection,
+# and a required check that is skipped never reports at all — GitHub leaves the
+# PR stuck on "Expected — waiting for status" forever. A path filter here would
+# block every PR that does not happen to touch a recipe. The script reads 302
+# markdown files and finishes in about a second, so running it always is
+# cheaper than the failure mode of running it sometimes.
 
 on:
   pull_request:
     branches: [main]
-    paths:
-      - "recipes/**/*.md"
-      - "scripts/check_recipe_prerequisites.py"
   push:
     branches: [main]
-    paths:
-      - "recipes/**/*.md"
-      - "scripts/check_recipe_prerequisites.py"
 
 jobs:
   prerequisites:
