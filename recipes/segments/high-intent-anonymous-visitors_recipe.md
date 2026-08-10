@@ -72,4 +72,4 @@ intempt:
 - total_events is canonical Users attribute.
 - email is canonical Users attribute; "is empty" filter captures unidentified users.
 - page_viewed and session_start are canonical events.
-- This segment is most valuable when synced to Meta/Google Custom Audiences (via the existing "add-users-to-facebook-custom-audiences" journey workflow) — anonymous-but-engaged is the sweet spot for retargeting spend.
+- Anonymous-but-engaged is the sweet spot for retargeting spend, so the natural next move is a paid-audience sync. There is no Meta or Google Ads connector today, so the segment exports rather than syncs. An earlier version of this note pointed at an "add-users-to-facebook-custom-audiences" workflow as though it existed; it never has, and naming an asset a customer cannot find is the same failure as naming a connector we do not have.
