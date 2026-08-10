@@ -23,8 +23,8 @@ intempt:
   aiPassRequired: true
   prerequisites:
     integrations:
-      - { value: hubspot, severity: blocking }
-      - { value: salesforce, severity: blocking }
+      - { value: hubspot, severity: blocking, group: crm }
+      - { value: salesforce, severity: blocking, group: crm }
   invokesCommands:
     - build_insights_report
   procedure:

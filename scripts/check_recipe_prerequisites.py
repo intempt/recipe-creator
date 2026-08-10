@@ -96,15 +96,8 @@ def frontmatter(text: str) -> str:
     return m.group(1) if m else ""
 
 
-def declared(text: str) -> set[str]:
-    """Values declared under `prerequisites.integrations`, in any YAML shape.
-
-    The first version matched only inline flow-maps with unquoted values and was
-    case-sensitive, so `- value: stripe` on its own line, `value: "stripe"`, and
-    `Integrations:` all read as *undeclared* — a correctly-written recipe would
-    have failed the guard. None of the 302 recipes used those shapes, so it never
-    fired; that is luck, not correctness.
-    """
+def _integrations_block(text: str) -> list[str]:
+    """The raw lines under `prerequisites.integrations` in the frontmatter."""
     fm = frontmatter(text)
     lines = fm.splitlines()
     start = None
@@ -115,27 +108,91 @@ def declared(text: str) -> set[str]:
             start, key_indent = n + 1, len(m.group(1))
             break
     if start is None:
-        return set()
-
-    # Everything indented deeper than the key belongs to the block. Bounding it
-    # by indentation rather than by a lookahead for the next key is the whole
-    # point: a lookahead has to predict the shape of whatever follows, and the
-    # first attempt at one silently matched nothing when the next line was
-    # `scope: global` — a value on the same line as its key, which is ordinary.
+        return []
     body = []
     for line in lines[start:]:
         if line.strip() and len(line) - len(line.lstrip()) <= key_indent:
             break
         body.append(line)
+    return body
 
+
+def declared(text: str) -> set[str]:
+    """Values declared under `prerequisites.integrations`, in any YAML shape.
+
+    The first version was case-sensitive and matched only inline flow-maps with
+    unquoted values, so `- value: stripe` on its own line, `value: "stripe"` and
+    `Integrations:` all read as *undeclared* — a correctly-written recipe would
+    have failed the guard. It also matched a block anywhere in the file, so a
+    documentation example in the markdown body satisfied it and a genuinely
+    undeclared recipe could pass. Neither ever fired, because no recipe used
+    those shapes. That is luck, not correctness.
+    """
     return {
         v.lower()
-        for v in re.findall(r"value:\s*[\"']?([A-Za-z0-9_\-]+)", "\n".join(body))
+        for v in re.findall(
+            r"value:\s*[\"']?([A-Za-z0-9_\-]+)", "\n".join(_integrations_block(text))
+        )
     }
+
+
+def entries(text: str) -> list[dict[str, str]]:
+    """Every integration entry with its severity and optional group.
+
+    `declared()` answers "is this vendor named at all", which is all the naming
+    check needs. Group validation needs the whole entry.
+    """
+    out: list[dict[str, str]] = []
+    for line in _integrations_block(text):
+        vals = dict(re.findall(r"(value|severity|group):\s*[\"']?([A-Za-z0-9_\-]+)", line))
+        if "value" in vals:
+            out.append(vals)
+    return out
+
+
+def check_groups(path: str, text: str) -> list[str]:
+    """A `group` marks alternatives: at least one member must be connected.
+
+    Added 2026-08-10. Seven recipes declared substitutes as if they were
+    simultaneous requirements — `mrr-movement-decomposition` wanted HubSpot AND
+    Shopify AND Stripe, while its own body says it "degrades to New MRR +
+    Churned MRR only, still valuable", and four CRM reports wanted HubSpot AND
+    Salesforce, which no company has as system of record. Every one of them
+    disabled Run for the ordinary single-connector customer.
+
+    Two ways to get the new key wrong, both checked here:
+      - a group with one member, which is a hard requirement wearing an
+        alternative's clothes and reads as if a choice exists;
+      - `severity: recommended` inside a group, which is meaningless — a
+        recommended prerequisite never blocks, so there is nothing to satisfy
+        by choosing one member over another.
+    """
+    problems: list[str] = []
+    groups: dict[str, list[dict[str, str]]] = {}
+    for e in entries(text):
+        if "group" in e:
+            groups.setdefault(e["group"], []).append(e)
+    for name, members in groups.items():
+        if len(members) < 2:
+            problems.append(
+                f"group '{name}' has one member ({members[0]['value']}). "
+                f"A group means 'any one of these' — with one member it is a plain "
+                f"blocking prerequisite, and naming it a group implies a choice the "
+                f"customer does not have."
+            )
+        bad = [m["value"] for m in members if m.get("severity") != "blocking"]
+        if bad:
+            problems.append(
+                f"group '{name}' contains non-blocking member(s): {', '.join(bad)}. "
+                f"A recommended prerequisite never disables Run, so there is nothing "
+                f"for the group to satisfy."
+            )
+    return problems
 
 
 def main() -> int:
     failures: list[tuple[str, list[str]]] = []
+    group_problems: list[tuple[str, str]] = []
     files = sorted(glob.glob("recipes/**/*.md", recursive=True))
 
     for path in files:
@@ -152,9 +209,21 @@ def main() -> int:
         if missing:
             failures.append((path, sorted(set(missing))))
 
-    if not failures:
+        for problem in check_groups(path, text):
+            group_problems.append((path, problem))
+
+    if group_problems:
+        print(f"recipe prerequisites: {len(group_problems)} alternative-group problem(s).\n")
+        for path, problem in group_problems:
+            print(f"  {path}\n      {problem}")
+        print()
+
+    if not failures and not group_problems:
         print(f"recipe prerequisites: pass ({len(files)} recipes checked).")
         return 0
+
+    if not failures:
+        return 1
 
     print(f"recipe prerequisites: {len(failures)} recipe(s) name an integration they do not declare.\n")
     for path, missing in failures:

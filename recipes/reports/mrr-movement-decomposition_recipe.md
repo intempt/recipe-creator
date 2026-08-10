@@ -23,9 +23,9 @@ intempt:
   aiPassRequired: true
   prerequisites:
     integrations:
-      - { value: hubspot, severity: blocking }
-      - { value: shopify, severity: blocking }
-      - { value: stripe, severity: blocking }
+      - { value: hubspot, severity: blocking, group: subscription-source }
+      - { value: shopify, severity: blocking, group: subscription-source }
+      - { value: stripe, severity: blocking, group: subscription-source }
   invokesCommands:
     - build_insights_report
   procedure:

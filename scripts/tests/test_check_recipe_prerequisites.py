@@ -51,6 +51,27 @@ CASES: list[tuple[str, str, set[str]]] = [
 ]
 
 
+GROUP_CASES: list[tuple[str, str, int]] = [
+    ("valid two-member group", fm("    integrations:\n      - { value: hubspot, severity: blocking, group: crm }\n      - { value: salesforce, severity: blocking, group: crm }\n"), 0),
+    ("valid three-member group", fm("    integrations:\n      - { value: hubspot, severity: blocking, group: s }\n      - { value: shopify, severity: blocking, group: s }\n      - { value: stripe, severity: blocking, group: s }\n"), 0),
+    ("no group at all is still fine", fm("    integrations:\n      - { value: shopify, severity: blocking }\n"), 0),
+    ("two independent groups", fm("    integrations:\n      - { value: hubspot, severity: blocking, group: crm }\n      - { value: salesforce, severity: blocking, group: crm }\n      - { value: shopify, severity: blocking, group: cart }\n      - { value: stripe, severity: blocking, group: cart }\n"), 0),
+    # The two ways to get the key wrong.
+    ("single-member group is caught", fm("    integrations:\n      - { value: hubspot, severity: blocking, group: crm }\n"), 1),
+    ("recommended inside a group is caught", fm("    integrations:\n      - { value: hubspot, severity: blocking, group: crm }\n      - { value: slack, severity: recommended, group: crm }\n"), 1),
+]
+
+
+def check_groups_tests() -> int:
+    failed = 0
+    for name, text, want in GROUP_CASES:
+        got = len(guard.check_groups("t.md", text))
+        ok = got == want
+        failed += not ok
+        print(f"  {'PASS' if ok else 'FAIL'}  {name:<38} problems={got} want={want}")
+    return failed
+
+
 def main() -> int:
     failed = 0
     for name, text, want in CASES:
@@ -59,8 +80,13 @@ def main() -> int:
         failed += not ok
         print(f"  {'PASS' if ok else 'FAIL'}  {name:<28} got={sorted(got)} want={sorted(want)}")
     total = len(CASES)
-    print(f"\nguard shape tests: {total - failed}/{total} pass")
-    return 1 if failed else 0
+    print(f"\nguard shape tests: {total - failed}/{total} pass\n")
+
+    print("alternative-group validation:")
+    gfailed = check_groups_tests()
+    gtotal = len(GROUP_CASES)
+    print(f"\ngroup tests: {gtotal - gfailed}/{gtotal} pass")
+    return 1 if (failed or gfailed) else 0
 
 
 if __name__ == "__main__":
