@@ -21,6 +21,8 @@ intempt:
   accessTier: free
   aiPassRequired: true
   prerequisites:
+    integrations:
+      - { value: slack, severity: recommended }
     events:
       - { value: form_submitted, severity: blocking }
       - { value: user_signed_up, severity: recommended }

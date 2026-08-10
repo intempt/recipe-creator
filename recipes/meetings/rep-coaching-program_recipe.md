@@ -20,6 +20,9 @@ intempt:
   visibility: published
   accessTier: free
   aiPassRequired: true
+  prerequisites:
+    integrations:
+      - { value: slack, severity: recommended }
   invokesCommands:
     - analyze_talk_listen_ratio
     - get_meeting_coaching_insights

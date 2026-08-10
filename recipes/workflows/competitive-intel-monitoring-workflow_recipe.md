@@ -20,6 +20,9 @@ intempt:
   visibility: published
   accessTier: free
   aiPassRequired: true
+  prerequisites:
+    integrations:
+      - { value: slack, severity: recommended }
   invokesCommands:
     - create_workflow
     - configure_workflow_wait_until_step

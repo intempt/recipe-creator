@@ -20,6 +20,9 @@ intempt:
   visibility: published
   accessTier: free
   aiPassRequired: true
+  prerequisites:
+    integrations:
+      - { value: slack, severity: recommended }
   invokesCommands:
     - create_ai_attribute
     - create_workflow

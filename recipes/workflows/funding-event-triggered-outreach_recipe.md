@@ -21,6 +21,8 @@ intempt:
   accessTier: free
   aiPassRequired: true
   prerequisites:
+    integrations:
+      - { value: slack, severity: recommended }
     events:
       - { value: external_signal_received, severity: blocking }
   invokesCommands:

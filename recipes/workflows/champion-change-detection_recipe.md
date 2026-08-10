@@ -21,6 +21,8 @@ intempt:
   accessTier: free
   aiPassRequired: true
   prerequisites:
+    integrations:
+      - { value: slack, severity: recommended }
     events:
       - { value: email_bounced, severity: recommended }
       - { value: user_identified, severity: recommended }

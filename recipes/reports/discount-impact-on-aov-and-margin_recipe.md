@@ -21,6 +21,9 @@ intempt:
   visibility: published
   accessTier: free
   aiPassRequired: true
+  prerequisites:
+    integrations:
+      - { value: shopify, severity: blocking }
   invokesCommands:
     - build_insights_report
   procedure:

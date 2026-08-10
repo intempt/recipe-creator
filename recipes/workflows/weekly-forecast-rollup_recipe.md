@@ -20,6 +20,9 @@ intempt:
   visibility: published
   accessTier: free
   aiPassRequired: true
+  prerequisites:
+    integrations:
+      - { value: slack, severity: recommended }
   invokesCommands:
     - build_insights_report
     - create_email_content

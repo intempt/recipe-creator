@@ -21,6 +21,8 @@ intempt:
   accessTier: free
   aiPassRequired: true
   prerequisites:
+    integrations:
+      - { value: slack, severity: recommended }
     events:
       - { value: feature_used, severity: recommended }
       - { value: session_start, severity: recommended }
