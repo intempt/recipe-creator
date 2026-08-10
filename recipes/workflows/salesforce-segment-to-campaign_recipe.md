@@ -50,6 +50,8 @@ intempt:
 
 # Salesforce Segment To Campaign
 
+> **Not runnable yet.** Adding members to a campaign in Salesforce has no backend. The connector reads today and cannot write, and Airbyte does not close that gap — its destinations write to warehouses, not into Salesforce. This recipe is published so the demand is recorded and the workflow is designed, and it will fail at the write step until the operation ships.
+
 ## Procedure
 
 1. **Define The Audience** [`create_segment`] — Create the segment whose members belong in the campaign. Keep the definition here rather than duplicating it in Salesforce, so there is one answer to who is in the audience. → produces: segment

@@ -22,8 +22,6 @@ intempt:
   accessTier: free
   aiPassRequired: true
   prerequisites:
-    integrations:
-      - { value: stripe, severity: blocking }
   invokesCommands:
     - create_personalization
   procedure:

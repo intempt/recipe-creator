@@ -41,5 +41,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      # The guard's own parsing is tested first. A guard that is right about the
+      # corpus it was written against says nothing about the next recipe someone
+      # writes — the first version of it was case-sensitive and inline-only, and
+      # passed 302/302 purely because no recipe used the shapes it could not read.
+      - name: Guard parses every YAML shape a recipe may use
+        run: python3 scripts/tests/test_check_recipe_prerequisites.py
       - name: Every recipe declares the integrations it names
         run: python3 scripts/check_recipe_prerequisites.py

@@ -50,6 +50,8 @@ intempt:
 
 # Google Sheets Segment Weekly Export
 
+> **Not runnable yet.** Appending rows in Google Sheets has no backend. The connector reads today and cannot write, and Airbyte does not close that gap — its destinations write to warehouses, not into Google Sheets. This recipe is published so the demand is recorded and the workflow is designed, and it will fail at the write step until the operation ships.
+
 ## Procedure
 
 1. **Define The Segment To Export** [`create_segment`] — Create or pick the segment whose members should land in the sheet each week. Keep it a segment rather than a filter inside the workflow, so the same definition drives the export and anything else that needs the same audience. → produces: segment
