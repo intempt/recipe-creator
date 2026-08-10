@@ -1,0 +1,45 @@
+name: recipe-prerequisites
+
+# Server-side enforcement of BC-RCP-015: a recipe naming an integration must
+# declare it under `prerequisites.integrations`.
+#
+# The requirement it protects is BC-RCP-010 — Blu checks prerequisites before
+# offering Run, and disables Run with a Connect affordance when one is missing.
+# That check reads `prerequisites.integrations`, so a recipe that names Shopify
+# in its text and declares nothing gets an enabled Run button and a workflow
+# that dies at the connector.
+#
+# This existed as a requirement long before it existed as a gate, and the
+# catalogue drifted all the way away from it: 287 of 292 recipes declared
+# nothing while 54 named a connector. Nothing failed, because nothing was
+# checking. A requirement with no enforcement is a requirement that will be
+# false within a quarter and nothing will tell you — which is the whole reason
+# this file exists rather than a note in a review checklist.
+#
+# Runs on every PR to main, and on every push to main so a direct commit cannot
+# bypass it either.
+#
+# Deliberately NO `paths:` filter, even though that would skip runs on PRs that
+# touch no recipe. This check is a required status check in branch protection,
+# and a required check that is skipped never reports at all — GitHub leaves the
+# PR stuck on "Expected — waiting for status" forever. A path filter here would
+# block every PR that does not happen to touch a recipe. The script reads 302
+# markdown files and finishes in about a second, so running it always is
+# cheaper than the failure mode of running it sometimes.
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  prerequisites:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Every recipe declares the integrations it names
+        run: python3 scripts/check_recipe_prerequisites.py
