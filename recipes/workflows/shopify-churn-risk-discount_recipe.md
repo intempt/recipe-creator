@@ -43,4 +43,18 @@ intempt:
       - at_risk
       description: 'Create a workflow applying the discount code to each member. The step states the blast radius before it runs, because a discount applied to the wrong segment is money already gone by the time anyone notices. Shopify rejections come back verbatim: an expired code and an already-applied code call for different fixes.'
       prompt: 'Create a workflow applying the discount code to each member. The step states the blast radius before it runs, because a discount applied to the wrong segment is money already gone by the time anyone notices. Shopify rejections come back verbatim: an expired code and an already-applied code call for different fixes.'
+  outputs:
+    - { name: at_risk, type: segment, cardinality: single, description: "Segment produced by this recipe." }
+    - { name: workflow, type: workflow, cardinality: single, description: "Workflow produced by this recipe." }
 ---
+
+# Shopify Churn Risk Discount
+
+## Procedure
+
+1. **Find Who Is Slipping** [`create_segment`] — Create a segment of customers whose purchase cadence has broken — a gap materially longer than their own established rhythm, not a fixed number of days that treats a monthly buyer and an annual one the same. → produces: segment
+2. **Apply The Discount** [`create_workflow`] — Create a workflow applying the discount code to each member. The step states the blast radius before it runs, because a discount applied to the wrong segment is money already gone by the time anyone notices. Shopify rejections come back verbatim: an expired code and an already-applied code call for different fixes. → produces: workflow
+
+## Prerequisites
+
+- Integration **shopify** (blocking)

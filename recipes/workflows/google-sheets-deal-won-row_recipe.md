@@ -35,4 +35,17 @@ intempt:
       bindsAs: workflow
       description: 'Create a workflow triggered on deal stage changing to Closed Won. One step: append a row to the chosen Google Sheet with deal name, account, amount, close date, owner and source. Map columns by header name, never by position, so someone inserting a column in the sheet does not silently redirect every write after it. Failure policy is skip-and-record: a sheet that is momentarily locked should not fail the run, and the skipped rows need to be recoverable.'
       prompt: 'Create a workflow triggered on deal stage changing to Closed Won. One step: append a row to the chosen Google Sheet with deal name, account, amount, close date, owner and source. Map columns by header name, never by position, so someone inserting a column in the sheet does not silently redirect every write after it. Failure policy is skip-and-record: a sheet that is momentarily locked should not fail the run, and the skipped rows need to be recoverable.'
+  outputs:
+    - { name: workflow, type: workflow, cardinality: single, description: "Workflow produced by this recipe." }
 ---
+
+# Google Sheets Deal Won Row
+
+## Procedure
+
+1. **Append Won Deals To A Sheet** [`create_workflow`] — Create a workflow triggered on deal stage changing to Closed Won. One step: append a row to the chosen Google Sheet with deal name, account, amount, close date, owner and source. Map columns by header name, never by position, so someone inserting a column in the sheet does not silently redirect every write after it. Failure policy is skip-and-record: a sheet that is momentarily locked should not fail the run, and the skipped rows need to be recoverable. → produces: workflow
+
+## Prerequisites
+
+- Event `deal_stage_changed` (blocking)
+- Integration **google_sheets** (blocking)

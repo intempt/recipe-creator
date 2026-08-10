@@ -45,4 +45,19 @@ intempt:
       - pql
       description: 'Create a workflow that creates a HubSpot deal for each qualifying account, matched on a key so a second signal updates the deal instead of opening a duplicate. Set only the fields Intempt owns — source, the signal that triggered it, the score — and leave stage and amount to the rep.'
       prompt: 'Create a workflow that creates a HubSpot deal for each qualifying account, matched on a key so a second signal updates the deal instead of opening a duplicate. Set only the fields Intempt owns — source, the signal that triggered it, the score — and leave stage and amount to the rep.'
+  outputs:
+    - { name: pql, type: segment, cardinality: single, description: "Segment produced by this recipe." }
+    - { name: workflow, type: workflow, cardinality: single, description: "Workflow produced by this recipe." }
 ---
+
+# Hubspot Pql To Deal
+
+## Procedure
+
+1. **Define The Signal** [`create_segment`] — Create the segment describing the product-qualified account — the usage that means someone is ready to buy, agreed once and reused. → produces: segment
+2. **Create The Deal** [`create_workflow`] — Create a workflow that creates a HubSpot deal for each qualifying account, matched on a key so a second signal updates the deal instead of opening a duplicate. Set only the fields Intempt owns — source, the signal that triggered it, the score — and leave stage and amount to the rep. → produces: workflow
+
+## Prerequisites
+
+- Event `feature_used` (recommended)
+- Integration **hubspot** (blocking)

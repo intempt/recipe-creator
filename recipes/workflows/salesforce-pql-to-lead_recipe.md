@@ -45,4 +45,19 @@ intempt:
       - pql
       description: 'Create a workflow enrolling members of the segment and creating a Salesforce lead for each. Use upsert with an external ID rather than create, because a create without a match key is a duplicate generator and the rep pays for it. Map only fields Intempt owns — the score, the signal, the source — and leave Salesforce-owned fields alone. Failure policy is skip-and-record so one rejected lead does not stop the rest.'
       prompt: 'Create a workflow enrolling members of the segment and creating a Salesforce lead for each. Use upsert with an external ID rather than create, because a create without a match key is a duplicate generator and the rep pays for it. Map only fields Intempt owns — the score, the signal, the source — and leave Salesforce-owned fields alone. Failure policy is skip-and-record so one rejected lead does not stop the rest.'
+  outputs:
+    - { name: pql, type: segment, cardinality: single, description: "Segment produced by this recipe." }
+    - { name: workflow, type: workflow, cardinality: single, description: "Workflow produced by this recipe." }
 ---
+
+# Salesforce Pql To Lead
+
+## Procedure
+
+1. **Define The Qualifying Signal** [`create_segment`] — Create a segment describing the product-qualified signal — the usage threshold, the feature reached, the seats added — rather than encoding it inside the workflow. The definition is the thing sales and product will argue about, so it needs to live somewhere both can see it. → produces: segment
+2. **Create The Lead In Salesforce** [`create_workflow`] — Create a workflow enrolling members of the segment and creating a Salesforce lead for each. Use upsert with an external ID rather than create, because a create without a match key is a duplicate generator and the rep pays for it. Map only fields Intempt owns — the score, the signal, the source — and leave Salesforce-owned fields alone. Failure policy is skip-and-record so one rejected lead does not stop the rest. → produces: workflow
+
+## Prerequisites
+
+- Event `feature_used` (recommended)
+- Integration **salesforce** (blocking)

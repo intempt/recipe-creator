@@ -43,4 +43,18 @@ intempt:
       - segment
       description: 'Create a scheduled workflow that reads the segment and appends its members to a Google Sheet weekly. Use append-or-update matched on the record identifier so a re-run maintains the sheet rather than duplicating it — a plain append turns a weekly export into a growing pile nobody trusts. State the row count before the run so an author can see a segment that has unexpectedly collapsed or exploded.'
       prompt: 'Create a scheduled workflow that reads the segment and appends its members to a Google Sheet weekly. Use append-or-update matched on the record identifier so a re-run maintains the sheet rather than duplicating it — a plain append turns a weekly export into a growing pile nobody trusts. State the row count before the run so an author can see a segment that has unexpectedly collapsed or exploded.'
+  outputs:
+    - { name: segment, type: segment, cardinality: single, description: "Segment produced by this recipe." }
+    - { name: workflow, type: workflow, cardinality: single, description: "Workflow produced by this recipe." }
 ---
+
+# Google Sheets Segment Weekly Export
+
+## Procedure
+
+1. **Define The Segment To Export** [`create_segment`] — Create or pick the segment whose members should land in the sheet each week. Keep it a segment rather than a filter inside the workflow, so the same definition drives the export and anything else that needs the same audience. → produces: segment
+2. **Export It On A Schedule** [`create_workflow`] — Create a scheduled workflow that reads the segment and appends its members to a Google Sheet weekly. Use append-or-update matched on the record identifier so a re-run maintains the sheet rather than duplicating it — a plain append turns a weekly export into a growing pile nobody trusts. State the row count before the run so an author can see a segment that has unexpectedly collapsed or exploded. → produces: workflow
+
+## Prerequisites
+
+- Integration **google_sheets** (blocking)

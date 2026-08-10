@@ -43,4 +43,18 @@ intempt:
       - cohort
       description: 'Create a workflow that tags each member in Shopify. Tags are additive and the workflow states which tag it manages, because a tag the store team also edits by hand will otherwise be fought over silently. Shopify''s own rejection is surfaced verbatim — a tag limit and a permission error need different responses.'
       prompt: 'Create a workflow that tags each member in Shopify. Tags are additive and the workflow states which tag it manages, because a tag the store team also edits by hand will otherwise be fought over silently. Shopify''s own rejection is surfaced verbatim — a tag limit and a permission error need different responses.'
+  outputs:
+    - { name: cohort, type: segment, cardinality: single, description: "Segment produced by this recipe." }
+    - { name: workflow, type: workflow, cardinality: single, description: "Workflow produced by this recipe." }
 ---
+
+# Shopify Segment To Customer Tag
+
+## Procedure
+
+1. **Define The Cohort** [`create_segment`] — Create the segment to tag — high lifetime value, repeat buyer, lapsed, whatever the store wants to treat differently. The segment is the definition; the tag is only its shadow in Shopify. → produces: segment
+2. **Tag Them In Shopify** [`create_workflow`] — Create a workflow that tags each member in Shopify. Tags are additive and the workflow states which tag it manages, because a tag the store team also edits by hand will otherwise be fought over silently. Shopify's own rejection is surfaced verbatim — a tag limit and a permission error need different responses. → produces: workflow
+
+## Prerequisites
+
+- Integration **shopify** (blocking)

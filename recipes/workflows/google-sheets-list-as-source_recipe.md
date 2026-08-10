@@ -43,4 +43,18 @@ intempt:
       - workflow
       description: 'Create a segment over the imported records so the list is usable everywhere else. This is the point of importing rather than reading the sheet at the moment of use: the list becomes an audience the rest of the platform understands.'
       prompt: 'Create a segment over the imported records so the list is usable everywhere else. This is the point of importing rather than reading the sheet at the moment of use: the list becomes an audience the rest of the platform understands.'
+  outputs:
+    - { name: workflow, type: workflow, cardinality: single, description: "Workflow produced by this recipe." }
+    - { name: segment, type: segment, cardinality: single, description: "Segment produced by this recipe." }
 ---
+
+# Google Sheets List As Source
+
+## Procedure
+
+1. **Read The Sheet On A Schedule** [`create_workflow`] — Create a scheduled workflow that reads rows from the named sheet and upserts them as records, matched on a key column such as email or domain. Report accepted, skipped and rejected counts per run with a reason per row — a hand-maintained sheet always has malformed rows, and a silent total teaches nobody which ones to fix. → produces: workflow
+2. **Segment On What The Sheet Says** [`create_segment`] — Create a segment over the imported records so the list is usable everywhere else. This is the point of importing rather than reading the sheet at the moment of use: the list becomes an audience the rest of the platform understands. → produces: segment
+
+## Prerequisites
+
+- Integration **google_sheets** (blocking)
