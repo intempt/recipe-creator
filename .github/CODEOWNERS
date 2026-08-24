@@ -1,0 +1,21 @@
+# CODEOWNERS — who approves a PR in this repo.
+#
+# Generated from The Merge Gate §02 (rev 2), the reviewed per-repo merge policy.
+# Repo write access does NOT equal merge rights. This file decides who approves.
+#
+#   lane      auto if clean
+#   approvals 1
+#   primary   @sidchaudhary
+#   backup    — none named yet; see Merge Gate §04 open item 5
+#
+# This repo has one owner. Under §03 it can never auto-merge — a single owner
+# means auto-merge would mean nobody ever reads the code. Naming a backup is
+# what changes that, not a policy exception.
+#
+# Default owner for every path.
+*                       @sidchaudhary
+
+# CI and release surface. Changing what runs on merge changes the gate itself,
+# so it is listed explicitly rather than inherited from the default line.
+/.github/               @sidchaudhary
+
