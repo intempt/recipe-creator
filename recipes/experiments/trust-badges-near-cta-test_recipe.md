@@ -6,7 +6,7 @@ arguments: []
 intempt:
   id: trust-badges-near-cta-test
   version: 1.0.0
-  slashCommand: /experiment-recipe
+  slashCommand: /trust-badges-near-cta-test
   group: Experiments
   shortDescription: "Test placement and selection of trust badges (security, money-back guarantee, payment methods, accreditations) near the primary CTA. Cited 102% lift when integrated correctly."
   author: { type: intempt, name: "Intempt" }

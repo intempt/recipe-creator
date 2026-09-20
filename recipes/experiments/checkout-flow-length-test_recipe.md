@@ -6,7 +6,7 @@ arguments: []
 intempt:
   id: checkout-flow-length-test
   version: 1.0.1
-  slashCommand: /experiment-recipe
+  slashCommand: /checkout-flow-length-test
   group: Experiments
   shortDescription: "Test whether single-page or multi-step checkout reduces abandonment. Client experiment."
   author: { type: intempt, name: "Intempt" }

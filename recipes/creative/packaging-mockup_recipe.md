@@ -8,7 +8,7 @@ intempt:
   version: 1.0.0
   slashCommand: /packaging-mockup
   group: Creative
-  shortDescription: "Flat label → wrapped on 3D pack."
+  shortDescription: 'Flat label to wrapped on 3D pack.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]

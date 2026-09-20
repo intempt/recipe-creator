@@ -6,7 +6,7 @@ arguments: []
 intempt:
   id: loyalty-program-entry-offer-test
   version: 1.0.1
-  slashCommand: /experiment-recipe
+  slashCommand: /loyalty-program-entry-offer-test
   group: Experiments
   shortDescription: "Test the best entry offer to drive loyalty programme sign-ups at checkout. Client experiment with random split."
   author: { type: intempt, name: "Intempt" }

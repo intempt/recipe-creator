@@ -8,7 +8,7 @@ intempt:
   version: 1.0.0
   slashCommand: /support-deflection-paths
   group: Reports
-  shortDescription: "Backward path from ticket_created — surfaces in-product paths that immediately precede support tickets."
+  shortDescription: 'Backward path from ticket_created: surfaces in-product paths that immediately precede support tickets.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

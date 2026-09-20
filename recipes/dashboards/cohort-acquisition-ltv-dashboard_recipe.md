@@ -8,7 +8,7 @@ intempt:
   version: 1.0.0
   slashCommand: /cohort-acquisition-ltv-dashboard
   group: Dashboards
-  shortDescription: "Performance Marketer / DTC Founder view: cohort LTV curves by acquisition channel, repeat-purchase mechanics, second-order velocity — the #1 dashboard for $20M+ DTC brands."
+  shortDescription: 'Performance Marketer / DTC Founder view: cohort LTV curves by acquisition channel, repeat-purchase mechanics, second-order velocity: the #1 dashboard for $20M+ DTC brands.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

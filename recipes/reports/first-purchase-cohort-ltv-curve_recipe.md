@@ -8,7 +8,7 @@ intempt:
   version: 1.0.0
   slashCommand: /first-purchase-cohort-ltv-curve
   group: Reports
-  shortDescription: "Cumulative revenue per cohort member by cohort age — the textbook DTC LTV view."
+  shortDescription: 'Cumulative revenue per cohort member by cohort age: the textbook DTC LTV view.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

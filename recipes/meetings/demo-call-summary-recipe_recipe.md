@@ -7,7 +7,7 @@ intempt:
   version: 1.0.0
   slashCommand: /demo-call-summary-recipe
   group: Meetings
-  shortDescription: "Customize how the AI summarizes Demo calls — extract features shown, questions asked, objections raised, technical concerns flagged, and the proposed follow-up — so demo data feeds into product feedback, sales coaching, and deal-stage progression in parallel."
+  shortDescription: 'Customize how the AI summarizes Demo calls (extract features shown, questions asked, objections raised, technical concerns flagged, and the proposed follow-up) so demo data feeds into product feedback, sales coaching, and deal-stage progression in parallel.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]

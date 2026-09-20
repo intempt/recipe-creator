@@ -6,7 +6,7 @@ arguments: []
 intempt:
   id: personalized-cta-copy-personalization
   version: 1.0.0
-  slashCommand: /personalization-recipe
+  slashCommand: /personalized-cta-copy-personalization
   group: Personalizations
   shortDescription: "Show personalized CTA copy per audience segment (first-time: \"Start your free trial\"; returning: \"Continue where you left off\"; existing customer: \"Upgrade to Pro\"). 202% lift cited."
   author: { type: intempt, name: "Intempt" }

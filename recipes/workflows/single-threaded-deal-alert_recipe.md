@@ -7,7 +7,7 @@ intempt:
   version: 1.0.0
   slashCommand: /single-threaded-deal-alert
   group: Workflows
-  shortDescription: "Detect deals where only one contact from the buyer side is engaged — single-threaded deals lose 3x more often when the lone champion leaves or doesn't have authority. Surface them with a multi-threading task and a recommended contact list."
+  shortDescription: 'Detect deals where only one contact from the buyer side is engaged: single-threaded deals lose 3x more often when the lone champion leaves or doesn''t have authority. Surface them with a multi-threading task and a recommended contact list.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]

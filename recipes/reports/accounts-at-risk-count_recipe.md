@@ -8,7 +8,7 @@ intempt:
   version: 1.0.0
   slashCommand: /accounts-at-risk-count
   group: Reports
-  shortDescription: "Count and trend of accounts whose engagement has declined materially — the canonical CS early-warning headline metric."
+  shortDescription: 'Count and trend of accounts whose engagement has declined materially: the canonical CS early-warning headline metric.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

@@ -6,7 +6,7 @@ arguments: []
 intempt:
   id: landing-page-sticky-cta-test
   version: 1.0.0
-  slashCommand: /experiment-recipe
+  slashCommand: /landing-page-sticky-cta-test
   group: Experiments
   shortDescription: "Test sticky CTA bar on SaaS marketing pages: always-visible vs. fade-in-on-scroll vs. no sticky. 8-15% lift cited; distinct from mobile-sticky-add-to-cart (ecom PDP)."
   author: { type: intempt, name: "Intempt" }

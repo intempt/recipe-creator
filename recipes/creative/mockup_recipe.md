@@ -8,7 +8,7 @@ intempt:
   version: 1.0.0
   slashCommand: /mockup
   group: Creative
-  shortDescription: "Apparel, print, packaging — mockup in one click."
+  shortDescription: 'Apparel, print, packaging: mockup in one click.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]

@@ -8,7 +8,7 @@ intempt:
   version: 1.0.0
   slashCommand: /activation-funnel-with-velocity
   group: Reports
-  shortDescription: "Activation funnel with median + p75 step velocity — surfaces where users stall, not just where they drop."
+  shortDescription: 'Activation funnel with median + p75 step velocity: surfaces where users stall, not just where they drop.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

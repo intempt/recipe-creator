@@ -7,7 +7,7 @@ intempt:
   version: 1.0.0
   slashCommand: /free-to-paid-csm-kickoff
   group: Workflows
-  shortDescription: "When a user converts from free → paid (subscription_created on a previously-free user), create a CSM kickoff task with the user's full pre-conversion activity history and trigger the structured onboarding journey — every paid customer gets a real human handoff."
+  shortDescription: 'When a user converts from free to paid (subscription_created on a previously-free user), create a CSM kickoff task with the user''s full pre-conversion activity history and trigger the structured onboarding journey: every paid customer gets a real human handoff.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]

@@ -8,7 +8,7 @@ intempt:
   version: 1.0.0
   slashCommand: /checkout-form-friction
   group: Reports
-  shortDescription: "Checkout-stage drop-off with page-level friction surfacing — reveals form fields, payment methods, and steps that cause abandonment."
+  shortDescription: 'Checkout-stage drop-off with page-level friction surfacing: reveals form fields, payment methods, and steps that cause abandonment.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

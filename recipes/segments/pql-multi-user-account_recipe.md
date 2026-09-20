@@ -6,9 +6,9 @@ arguments: []
 intempt:
   id: pql-multi-user-account
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /pql-multi-user-account
   group: Segments
-  shortDescription: "Free/trial accounts with 2+ engaged users from same company — enterprise PQL signal."
+  shortDescription: 'Free/trial accounts with 2+ engaged users from same company: enterprise PQL signal.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

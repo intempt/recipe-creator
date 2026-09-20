@@ -6,7 +6,7 @@ arguments: []
 intempt:
   id: paid-users-low-engagement
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /paid-users-low-engagement
   group: Segments
   shortDescription: "Paying customers showing early disengagement signals. Engagement bucketed enum."
   author: { type: intempt, name: "Intempt" }

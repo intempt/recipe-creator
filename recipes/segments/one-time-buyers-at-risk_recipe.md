@@ -6,7 +6,7 @@ arguments: []
 intempt:
   id: one-time-buyers-at-risk
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /one-time-buyers-at-risk
   group: Segments
   shortDescription: "Customers who made one purchase but have not returned in 60+ days."
   author: { type: intempt, name: "Intempt" }

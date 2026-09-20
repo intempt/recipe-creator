@@ -7,7 +7,7 @@ intempt:
   version: 1.0.0
   slashCommand: /google-sheets-list-as-source
   group: Workflows
-  shortDescription: "Treat a Google Sheet a team already maintains by hand — target accounts, an event list, a suppression list — as records the platform can segment and act on."
+  shortDescription: 'Treat a Google Sheet a team already maintains by hand (target accounts, an event list, a suppression list) as records the platform can segment and act on.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [marketing]

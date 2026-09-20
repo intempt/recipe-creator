@@ -6,9 +6,9 @@ arguments: []
 intempt:
   id: high-intent-anonymous-visitors
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /high-intent-anonymous-visitors
   group: Segments
-  shortDescription: "Unidentified visitors with strong engagement signals — ad retargeting cohort."
+  shortDescription: 'Unidentified visitors with strong engagement signals: ad retargeting cohort.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

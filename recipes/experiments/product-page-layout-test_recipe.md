@@ -6,7 +6,7 @@ arguments: []
 intempt:
   id: product-page-layout-test
   version: 1.0.0
-  slashCommand: /experiment-recipe
+  slashCommand: /product-page-layout-test
   group: Experiments
   shortDescription: "Test which PDP layout drives the highest add-to-cart rate. Client experiment with three layouts."
   author: { type: intempt, name: "Intempt" }

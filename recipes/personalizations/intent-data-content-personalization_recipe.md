@@ -6,9 +6,9 @@ arguments: []
 intempt:
   id: intent-data-content-personalization
   version: 1.0.0
-  slashCommand: /personalization-recipe
+  slashCommand: /intent-data-content-personalization
   group: Personalizations
-  shortDescription: "Show different content blocks based on the visitor's recent on-site behavioral signals (viewed pricing 2x → ROI calculator; downloaded security paper → security case study). Behavior-driven, not firmographic."
+  shortDescription: 'Show different content blocks based on the visitor''s recent on-site behavioral signals (viewed pricing 2x to ROI calculator; downloaded security paper to security case study). Behavior-driven, not firmographic.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [experiences]

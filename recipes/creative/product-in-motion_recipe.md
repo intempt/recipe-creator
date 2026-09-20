@@ -8,7 +8,7 @@ intempt:
   version: 1.0.0
   slashCommand: /product-in-motion
   group: Creative
-  shortDescription: "Packshot → turntable spin."
+  shortDescription: 'Packshot to turntable spin.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]

@@ -8,7 +8,7 @@ intempt:
   version: 1.0.0
   slashCommand: /beauty-close-up
   group: Creative
-  shortDescription: "Plain bottle → branded bottle close-up."
+  shortDescription: 'Plain bottle to branded bottle close-up.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]

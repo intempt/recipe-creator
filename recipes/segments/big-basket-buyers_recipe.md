@@ -6,9 +6,9 @@ arguments: []
 intempt:
   id: big-basket-buyers
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /big-basket-buyers
   group: Segments
-  shortDescription: "Customers with high average order value — premium-bundle and upsell-targeting cohort."
+  shortDescription: 'Customers with high average order value: premium-bundle and upsell-targeting cohort.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

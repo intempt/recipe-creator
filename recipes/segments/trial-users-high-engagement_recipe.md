@@ -6,7 +6,7 @@ arguments: []
 intempt:
   id: trial-users-high-engagement
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /trial-users-high-engagement
   group: Segments
   shortDescription: "Trial users with strong usage signals who are likely to convert. Engagement bucketed enum."
   author: { type: intempt, name: "Intempt" }

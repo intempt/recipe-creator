@@ -7,7 +7,7 @@ intempt:
   version: 1.0.0
   slashCommand: /community-mention-listening-workflow
   group: Workflows
-  shortDescription: "Scrape relevant subreddits, forums, and review sites for trigger phrases ('looking for [category]', 'alternative to [competitor]', 'anyone using [your product]') → AI classifies intent + sentiment → creates AE task for active-intent posts + logs brand mentions for marketing tracking. The Reddit-listening pattern."
+  shortDescription: 'Scrape relevant subreddits, forums, and review sites for trigger phrases (''looking for [category]'', ''alternative to [competitor]'', ''anyone using [your product]'') to AI classifies intent + sentiment to creates AE task for active-intent posts + logs brand mentions for marketing tracking. The Reddit-listening pattern.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales, marketing]

@@ -6,9 +6,9 @@ arguments: []
 intempt:
   id: engaged-free-users
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /engaged-free-users
   group: Segments
-  shortDescription: "Free-plan users with high engagement — prime upgrade-targeting cohort."
+  shortDescription: 'Free-plan users with high engagement: prime upgrade-targeting cohort.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

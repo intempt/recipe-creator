@@ -6,9 +6,9 @@ arguments: []
 intempt:
   id: demo-requested-accounts
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /demo-requested-accounts
   group: Segments
-  shortDescription: "Accounts where any user submitted a demo form in last 30 days — top SDR-routing priority."
+  shortDescription: 'Accounts where any user submitted a demo form in last 30 days: top SDR-routing priority.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

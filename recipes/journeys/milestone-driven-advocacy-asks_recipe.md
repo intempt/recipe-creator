@@ -7,7 +7,7 @@ intempt:
   version: 1.0.0
   slashCommand: /milestone-driven-advocacy-asks
   group: Journeys
-  shortDescription: "Detect natural advocacy moments via AI attribute — first value achieved, expansion completed, renewal closed, high-engagement-streak, customer-milestone-hit — fire contextual advocacy ask matched to moment (review / referral / case-study / speaker opportunity). The Captivate Collective Lifecycle Advocacy framework."
+  shortDescription: 'Detect natural advocacy moments via AI attribute (first value achieved, expansion completed, renewal closed, high-engagement-streak, customer-milestone-hit), fire contextual advocacy ask matched to moment (review / referral / case-study / speaker opportunity). The Captivate Collective Lifecycle Advocacy framework.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [marketing]

@@ -6,9 +6,9 @@ arguments: []
 intempt:
   id: search-results-ranking-test
   version: 1.0.1
-  slashCommand: /experiment-recipe
+  slashCommand: /search-results-ranking-test
   group: Experiments
-  shortDescription: "Optimize product search ranking — relevance vs. popularity-weighted vs. margin-weighted. Server experiment with JSON payload controlling search backend."
+  shortDescription: 'Optimize product search ranking: relevance vs. popularity-weighted vs. margin-weighted. Server experiment with JSON payload controlling search backend.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [experiences]

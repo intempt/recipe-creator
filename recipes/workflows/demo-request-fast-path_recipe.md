@@ -7,7 +7,7 @@ intempt:
   version: 1.0.0
   slashCommand: /demo-request-fast-path
   group: Workflows
-  shortDescription: "When a prospect submits a demo form, fire instant account enrichment, create a high-priority AE task, and ping Slack — getting from request to AE outreach in under an hour."
+  shortDescription: 'When a prospect submits a demo form, fire instant account enrichment, create a high-priority AE task, and ping Slack: getting from request to AE outreach in under an hour.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]

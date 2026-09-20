@@ -7,7 +7,7 @@ intempt:
   version: 1.0.0
   slashCommand: /usage-based-upgrade-trigger
   group: Workflows
-  shortDescription: "When a user approaches their plan's usage limit (API calls, contacts, seats, storage), trigger an in-app upgrade prompt AND create an AE task for high-MRR accounts — catch upgrade-ready moments at the moment of intent, not on the next renewal call."
+  shortDescription: 'When a user approaches their plan''s usage limit (API calls, contacts, seats, storage), trigger an in-app upgrade prompt AND create an AE task for high-MRR accounts: catch upgrade-ready moments at the moment of intent, not on the next renewal call.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales, marketing]

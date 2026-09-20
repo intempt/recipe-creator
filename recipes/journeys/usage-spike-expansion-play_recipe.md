@@ -7,7 +7,7 @@ intempt:
   version: 1.0.0
   slashCommand: /usage-spike-expansion-play
   group: Journeys
-  shortDescription: "'When existing paying customers cross usage thresholds — fast user-growth on the account, feature-depth expansion, multi-team usage — fire a multi-stakeholder expansion journey: champion gets ''you''re scaling'' content, economic buyer gets upgrade-options content, recommendation surface highlights expansion features.'"
+  shortDescription: 'When existing paying customers cross usage thresholds (fast user-growth on the account, feature-depth expansion, multi-team usage), fire a multi-stakeholder expansion journey: champion gets ''you''re scaling'' content, economic buyer gets upgrade-options content, recommendation surface highlights expansion features.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales, marketing]

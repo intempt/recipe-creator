@@ -7,7 +7,7 @@ intempt:
   version: 1.0.0
   slashCommand: /auto-enrich-new-accounts
   group: Workflows
-  shortDescription: "When a new account record is created (from signup, form, or import), immediately enrich it with firmographic + technographic data, compute ICP fit, and route based on tier — so reps see fully-formed account context, not a name and email."
+  shortDescription: 'When a new account record is created (from signup, form, or import), immediately enrich it with firmographic + technographic data, compute ICP fit, and route based on tier: so reps see fully-formed account context, not a name and email.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]

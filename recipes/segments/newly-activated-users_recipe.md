@@ -6,9 +6,9 @@ arguments: []
 intempt:
   id: newly-activated-users
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /newly-activated-users
   group: Segments
-  shortDescription: "Users who completed activation in the last 7 days — warm and ready to expand."
+  shortDescription: 'Users who completed activation in the last 7 days: warm and ready to expand.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

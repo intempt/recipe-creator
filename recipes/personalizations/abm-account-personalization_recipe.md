@@ -6,7 +6,7 @@ arguments: []
 intempt:
   id: abm-account-personalization
   version: 1.0.0
-  slashCommand: /personalization-recipe
+  slashCommand: /abm-account-personalization
   group: Personalizations
   shortDescription: "Personalize homepage hero (logo, industry-specific messaging) per identified target account. The canonical Mutiny/Demandbase pattern. Requires firmographic enrichment."
   author: { type: intempt, name: "Intempt" }

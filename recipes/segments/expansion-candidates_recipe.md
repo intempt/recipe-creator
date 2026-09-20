@@ -6,7 +6,7 @@ arguments: []
 intempt:
   id: expansion-candidates
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /expansion-candidates
   group: Segments
   shortDescription: "Users approaching their plan limit who are ready for an upgrade conversation."
   author: { type: intempt, name: "Intempt" }

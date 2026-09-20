@@ -6,9 +6,9 @@ arguments: []
 intempt:
   id: multi-stakeholder-engaged-accounts
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /multi-stakeholder-engaged-accounts
   group: Segments
-  shortDescription: "Accounts where 3+ users have been active in last 14 days — buying-committee signal for B2B."
+  shortDescription: 'Accounts where 3+ users have been active in last 14 days: buying-committee signal for B2B.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

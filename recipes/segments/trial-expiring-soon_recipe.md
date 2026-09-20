@@ -6,7 +6,7 @@ arguments: []
 intempt:
   id: trial-expiring-soon
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /trial-expiring-soon
   group: Segments
   shortDescription: "Trial users approaching expiry who haven't converted to paid."
   author: { type: intempt, name: "Intempt" }

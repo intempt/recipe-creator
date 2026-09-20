@@ -6,7 +6,7 @@ arguments: []
 intempt:
   id: free-shipping-threshold-test
   version: 1.0.1
-  slashCommand: /experiment-recipe
+  slashCommand: /free-shipping-threshold-test
   group: Experiments
   shortDescription: "Find the optimal free shipping threshold ($50, $75, $99, or no free shipping) that maximizes revenue per session. Server experiment with JSON payload."
   author: { type: intempt, name: "Intempt" }

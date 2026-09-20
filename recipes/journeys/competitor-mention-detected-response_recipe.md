@@ -7,7 +7,7 @@ intempt:
   version: 1.0.0
   slashCommand: /competitor-mention-detected-response
   group: Journeys
-  shortDescription: "Behavioral signal detection — visited competitor comparison page, mentioned competitor in support conversation, clicked competitor-keyword email content — fires personalized competitive content + AE/CSM task with intel + recommendation surface highlighting differentiators. Modern B2B savvy."
+  shortDescription: 'Behavioral signal detection (visited competitor comparison page, mentioned competitor in support conversation, clicked competitor-keyword email content) fires personalized competitive content + AE/CSM task with intel + recommendation surface highlighting differentiators. Modern B2B savvy.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales, marketing]

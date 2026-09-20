@@ -6,9 +6,9 @@ arguments: []
 intempt:
   id: at-risk-vips
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /at-risk-vips
   group: Segments
-  shortDescription: "High-lifetime-value customers showing recency decay — Klaviyo's Needs Attention cohort. Distinct from generic churn risk."
+  shortDescription: 'High-lifetime-value customers showing recency decay: Klaviyo''s Needs Attention cohort. Distinct from generic churn risk.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

@@ -7,7 +7,7 @@ intempt:
   version: 1.0.0
   slashCommand: /no-show-recovery
   group: Journeys
-  shortDescription: "When a prospect doesn't attend a scheduled meeting, fire a 3-touch recovery sequence over 7 days — assuming scheduling conflict (not disinterest) and offering an easy reschedule, then dropping into nurture if still unresponsive."
+  shortDescription: 'When a prospect doesn''t attend a scheduled meeting, fire a 3-touch recovery sequence over 7 days: assuming scheduling conflict (not disinterest) and offering an easy reschedule, then dropping into nurture if still unresponsive.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales, marketing]

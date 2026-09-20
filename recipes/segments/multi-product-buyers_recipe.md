@@ -6,9 +6,9 @@ arguments: []
 intempt:
   id: multi-product-buyers
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /multi-product-buyers
   group: Segments
-  shortDescription: "Customers who have purchased across multiple distinct products — cross-sell-ready cohort."
+  shortDescription: 'Customers who have purchased across multiple distinct products: cross-sell-ready cohort.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

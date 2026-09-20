@@ -6,7 +6,7 @@ arguments: []
 intempt:
   id: mobile-sticky-add-to-cart-test
   version: 1.0.0
-  slashCommand: /experiment-recipe
+  slashCommand: /mobile-sticky-add-to-cart-test
   group: Experiments
   shortDescription: "Test whether a sticky add-to-cart bar on mobile improves conversion. Client experiment, mobile-only."
   author: { type: intempt, name: "Intempt" }

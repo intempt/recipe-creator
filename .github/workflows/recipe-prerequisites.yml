@@ -16,8 +16,13 @@ name: recipe-prerequisites
 # false within a quarter and nothing will tell you — which is the whole reason
 # this file exists rather than a note in a review checklist.
 #
-# Runs on every PR to main, and on every push to main so a direct commit cannot
-# bypass it either.
+# Runs on every PR to staging (the default branch, where contributions land) and
+# to main, and on pushes to both so a direct commit cannot bypass it either.
+#
+# staging was missing until 2026-09-20. The guard triggered on main only while the
+# default branch is staging, so it had never once run on a contribution PR: every
+# recorded run was a push to main or the promotion PR. A guard on the wrong branch
+# reports green by never running.
 #
 # Deliberately NO `paths:` filter, even though that would skip runs on PRs that
 # touch no recipe. This check is a required status check in branch protection,
@@ -29,9 +34,9 @@ name: recipe-prerequisites
 
 on:
   pull_request:
-    branches: [main]
+    branches: [staging, main]
   push:
-    branches: [main]
+    branches: [staging, main]
 
 jobs:
   prerequisites:
@@ -49,3 +54,13 @@ jobs:
         run: python3 scripts/tests/test_check_recipe_prerequisites.py
       - name: Every recipe declares the integrations it names
         run: python3 scripts/check_recipe_prerequisites.py
+      - name: Install the YAML parser the catalog build needs
+        run: pip install --quiet pyyaml
+      # The copy gate. Fails on an empty or quote-wrapped shortDescription, on an
+      # em-dash, en-dash or arrow in customer-visible copy, and on a duplicate id.
+      # These are the fields the website and the console both render, so a defect
+      # here is a defect a customer reads.
+      - name: The catalog builds and its customer-facing copy is clean
+        run: python3 scripts/build_artifacts.py --out /tmp/catalog --check
+      - name: Ids and slash commands are unique, and ids match filenames
+        run: python3 scripts/check_recipe_identity.py

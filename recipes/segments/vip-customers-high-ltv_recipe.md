@@ -6,7 +6,7 @@ arguments: []
 intempt:
   id: vip-customers-high-ltv
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /vip-customers-high-ltv
   group: Segments
   shortDescription: "Highest-value customers by lifetime spend. Concrete numeric threshold (no percentile placeholder)."
   author: { type: intempt, name: "Intempt" }

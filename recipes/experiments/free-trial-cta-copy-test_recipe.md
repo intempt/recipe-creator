@@ -6,7 +6,7 @@ arguments: []
 intempt:
   id: free-trial-cta-copy-test
   version: 1.0.0
-  slashCommand: /experiment-recipe
+  slashCommand: /free-trial-cta-copy-test
   group: Experiments
   shortDescription: "Test which CTA button copy drives more trial signups on a landing page. Client experiment with random traffic split."
   author: { type: intempt, name: "Intempt" }

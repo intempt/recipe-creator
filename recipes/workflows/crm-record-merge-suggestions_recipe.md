@@ -7,7 +7,7 @@ intempt:
   version: 1.0.0
   slashCommand: /crm-record-merge-suggestions
   group: Workflows
-  shortDescription: "'Real-time on record creation: find similar existing records, AI computes match confidence, high-confidence pairs auto-merge, medium-confidence flag for review, low-confidence ignore. Prevents duplicates entering the CRM rather than cleaning them up later.'"
+  shortDescription: 'Real-time on record creation: find similar existing records, AI computes match confidence, high-confidence pairs auto-merge, medium-confidence flag for review, low-confidence ignore. Prevents duplicates entering the CRM rather than cleaning them up later.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]

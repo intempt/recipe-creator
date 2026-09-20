@@ -6,9 +6,9 @@ arguments: []
 intempt:
   id: pricing-display-savings-format-test
   version: 1.0.0
-  slashCommand: /experiment-recipe
+  slashCommand: /pricing-display-savings-format-test
   group: Experiments
-  shortDescription: "Test how savings are displayed on pricing pages: dollar amount ($24 off) vs. percentage (20% off) vs. compare-at framing ($120 → $96). Universally cited as one of the highest-impact pricing tests."
+  shortDescription: 'Test how savings are displayed on pricing pages: dollar amount ($24 off) vs. percentage (20% off) vs. compare-at framing ($120 to $96). Universally cited as one of the highest-impact pricing tests.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [experiences]

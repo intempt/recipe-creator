@@ -8,7 +8,7 @@ intempt:
   version: 1.0.0
   slashCommand: /post-purchase-second-order-velocity
   group: Reports
-  shortDescription: "Histogram of days from 1st to 2nd order_created — informs the right delay for replenishment journey triggers."
+  shortDescription: 'Histogram of days from 1st to 2nd order_created: informs the right delay for replenishment journey triggers.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

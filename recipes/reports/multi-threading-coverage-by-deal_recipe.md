@@ -8,7 +8,7 @@ intempt:
   version: 1.0.0
   slashCommand: /multi-threading-coverage-by-deal
   group: Reports
-  shortDescription: "Number of distinct stakeholders engaged per deal — single-threaded deals close at materially lower rates per Gartner."
+  shortDescription: 'Number of distinct stakeholders engaged per deal: single-threaded deals close at materially lower rates per Gartner.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

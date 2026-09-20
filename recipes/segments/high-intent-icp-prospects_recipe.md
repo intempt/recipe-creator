@@ -6,7 +6,7 @@ arguments: []
 intempt:
   id: high-intent-icp-prospects
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /high-intent-icp-prospects
   group: Segments
   shortDescription: "ICP-matching accounts with active intent signals (pricing + docs visited recently)."
   author: { type: intempt, name: "Intempt" }

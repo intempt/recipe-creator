@@ -6,7 +6,7 @@ arguments: []
 intempt:
   id: product-recommendation-algorithm
   version: 1.0.1
-  slashCommand: /experiment-recipe
+  slashCommand: /product-recommendation-algorithm
   group: Experiments
   shortDescription: "Test which recommendation engine drives more cross-sell revenue: collaborative filtering vs. session-based vs. popularity. Server experiment with JSON payload."
   author: { type: intempt, name: "Intempt" }

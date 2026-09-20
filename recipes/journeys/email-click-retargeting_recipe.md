@@ -7,7 +7,7 @@ intempt:
   version: 1.0.0
   slashCommand: /email-click-retargeting
   group: Journeys
-  shortDescription: "When a user clicks a specific link in a marketing email (product feature, pricing page, case study), fire an interest-based follow-up sequence with deeper content on that exact topic — clicks are intent signals, treat them as such."
+  shortDescription: 'When a user clicks a specific link in a marketing email (product feature, pricing page, case study), fire an interest-based follow-up sequence with deeper content on that exact topic: clicks are intent signals, treat them as such.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [marketing]

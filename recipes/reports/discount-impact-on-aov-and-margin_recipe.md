@@ -8,7 +8,7 @@ intempt:
   version: 1.0.0
   slashCommand: /discount-impact-on-aov-and-margin
   group: Reports
-  shortDescription: "How discount usage affects AOV — surfaces whether discounts grow the basket or just shift demand to discounted moments."
+  shortDescription: 'How discount usage affects AOV: surfaces whether discounts grow the basket or just shift demand to discounted moments.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

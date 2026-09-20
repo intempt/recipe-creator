@@ -6,9 +6,9 @@ arguments: []
 intempt:
   id: mid-market-accounts
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /mid-market-accounts
   group: Segments
-  shortDescription: "Mid-sized companies (100-1000 employees) — inside-sales / scaled-AE routing."
+  shortDescription: 'Mid-sized companies (100-1000 employees): inside-sales / scaled-AE routing.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

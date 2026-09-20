@@ -7,7 +7,7 @@ intempt:
   version: 1.0.0
   slashCommand: /power-user-pattern-detection
   group: Journeys
-  shortDescription: "Detect users repeatedly performing manual workflows that the product can automate (5+ same task in 7 days, batch operations being done one-at-a-time, repeat exports) → surface the relevant power-feature contextually via in-app + recommendation surface, then invite to advocacy program if adopted."
+  shortDescription: 'Detect users repeatedly performing manual workflows that the product can automate (5+ same task in 7 days, batch operations being done one-at-a-time, repeat exports) to surface the relevant power-feature contextually via in-app + recommendation surface, then invite to advocacy program if adopted.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [marketing]

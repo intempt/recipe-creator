@@ -8,7 +8,7 @@ intempt:
   version: 1.0.0
   slashCommand: /browse-abandonment
   group: Journeys
-  shortDescription: "Re-engage users who browsed products without adding to cart \u2014 earlier-funnel than cart abandonment."
+  shortDescription: "Re-engage users who browsed products without adding to cart: earlier-funnel than cart abandonment."
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [marketing]

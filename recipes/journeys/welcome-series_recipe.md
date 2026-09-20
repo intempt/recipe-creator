@@ -8,7 +8,7 @@ intempt:
   version: 1.0.0
   slashCommand: /welcome-series
   group: Journeys
-  shortDescription: "First-touch sequence for new subscribers \u2014 segment, content, journey, A/B variants, performance dashboard."
+  shortDescription: "First-touch sequence for new subscribers: segment, content, journey, A/B variants, performance dashboard."
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [marketing]

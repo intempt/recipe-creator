@@ -8,7 +8,7 @@ intempt:
   version: 1.0.0
   slashCommand: /mrr-movement-decomposition
   group: Reports
-  shortDescription: "The canonical SaaS MRR waterfall — new, expansion, contraction, churn, reactivation per month. Requires subscription_updated delta-computation."
+  shortDescription: 'The canonical SaaS MRR waterfall: new, expansion, contraction, churn, reactivation per month. Requires subscription_updated delta-computation.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

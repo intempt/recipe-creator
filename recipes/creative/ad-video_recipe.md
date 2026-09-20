@@ -8,7 +8,7 @@ intempt:
   version: 1.0.0
   slashCommand: /ad-video
   group: Creative
-  shortDescription: "Product still → cinematic spot."
+  shortDescription: 'Product still to cinematic spot.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]

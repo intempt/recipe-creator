@@ -8,7 +8,7 @@ intempt:
   version: 1.0.0
   slashCommand: /weekly-active-users-trend
   group: Reports
-  shortDescription: "WAU trend with WAU/MAU stickiness ratio — the standard PLG engagement view."
+  shortDescription: 'WAU trend with WAU/MAU stickiness ratio: the standard PLG engagement view.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

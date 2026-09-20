@@ -6,7 +6,7 @@ arguments: []
 intempt:
   id: icp-match-accounts
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /icp-match-accounts
   group: Segments
   shortDescription: "Accounts matching ideal customer profile by company size, industry, and geography."
   author: { type: intempt, name: "Intempt" }

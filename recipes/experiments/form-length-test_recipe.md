@@ -6,7 +6,7 @@ arguments: []
 intempt:
   id: form-length-test
   version: 1.0.0
-  slashCommand: /experiment-recipe
+  slashCommand: /form-length-test
   group: Experiments
   shortDescription: "Test 3-field vs. 5-field vs. 7-field demo-request form. Universal CRO test; 10-15% conversion drop per added field cited."
   author: { type: intempt, name: "Intempt" }

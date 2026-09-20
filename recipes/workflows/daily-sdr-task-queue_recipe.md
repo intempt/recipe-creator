@@ -7,7 +7,7 @@ intempt:
   version: 1.0.0
   slashCommand: /daily-sdr-task-queue
   group: Workflows
-  shortDescription: "Every morning, build each SDR a prioritized daily task queue — ranked by signal strength (PQL / PQA / pricing-page intent / target-account match) and recency, capped at a manageable daily volume — so SDRs work the highest-value signals first instead of working their queue chronologically."
+  shortDescription: 'Every morning, build each SDR a prioritized daily task queue (ranked by signal strength (PQL / PQA / pricing-page intent / target-account match) and recency, capped at a manageable daily volume) so SDRs work the highest-value signals first instead of working their queue chronologically.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]

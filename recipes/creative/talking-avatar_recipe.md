@@ -8,7 +8,7 @@ intempt:
   version: 1.0.0
   slashCommand: /talking-avatar
   group: Creative
-  shortDescription: "Portrait still → spokesperson clip."
+  shortDescription: 'Portrait still to spokesperson clip.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]

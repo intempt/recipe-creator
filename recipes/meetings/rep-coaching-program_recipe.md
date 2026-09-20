@@ -7,7 +7,7 @@ intempt:
   version: 1.0.0
   slashCommand: /rep-coaching-program
   group: Meetings
-  shortDescription: "'Set up a manager-facing weekly coaching rollup: per-rep talk-listen ratio + topic coverage + leaderboard, delivered to managers every Monday with action-item suggestions. Turns meeting intelligence into concrete coaching conversations.'"
+  shortDescription: 'Set up a manager-facing weekly coaching rollup: per-rep talk-listen ratio + topic coverage + leaderboard, delivered to managers every Monday with action-item suggestions. Turns meeting intelligence into concrete coaching conversations.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]

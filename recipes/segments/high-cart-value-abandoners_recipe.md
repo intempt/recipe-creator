@@ -6,9 +6,9 @@ arguments: []
 intempt:
   id: high-cart-value-abandoners
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /high-cart-value-abandoners
   group: Segments
-  shortDescription: "Cart abandoners with high cart value — priority recovery cohort distinct from frequency-based abandoners."
+  shortDescription: 'Cart abandoners with high cart value: priority recovery cohort distinct from frequency-based abandoners.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

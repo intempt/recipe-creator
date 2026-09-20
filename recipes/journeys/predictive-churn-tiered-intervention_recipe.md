@@ -7,7 +7,7 @@ intempt:
   version: 1.0.0
   slashCommand: /predictive-churn-tiered-intervention
   group: Journeys
-  shortDescription: "Predictive churn-risk AI attribute with nuanced scores routes users to one of four intervention tiers — low gets nurture content, medium gets personalized in-app + email, high gets CSM task + recommendation surface, critical gets agent handoff + exec-sponsor task — the CleverTap-style differentiated churn rescue."
+  shortDescription: 'Predictive churn-risk AI attribute with nuanced scores routes users to one of four intervention tiers (low gets nurture content, medium gets personalized in-app + email, high gets CSM task + recommendation surface, critical gets agent handoff + exec-sponsor task), the CleverTap-style differentiated churn rescue.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [marketing]

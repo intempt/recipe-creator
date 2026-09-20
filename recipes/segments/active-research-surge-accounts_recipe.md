@@ -6,9 +6,9 @@ arguments: []
 intempt:
   id: active-research-surge-accounts
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /active-research-surge-accounts
   group: Segments
-  shortDescription: "Accounts with 3+ pricing-page visits in last 7 days — active buying-cycle signal."
+  shortDescription: 'Accounts with 3+ pricing-page visits in last 7 days: active buying-cycle signal.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

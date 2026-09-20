@@ -7,7 +7,7 @@ intempt:
   version: 1.0.0
   slashCommand: /aha-moment-activation
   group: Journeys
-  shortDescription: "When a user completes their product's defined aha-moment action (the activation event that predicts retention), fire a reinforcement journey — congratulate, deepen engagement with the next-step feature, and educate around expansion to prevent post-aha dropoff."
+  shortDescription: 'When a user completes their product''s defined aha-moment action (the activation event that predicts retention), fire a reinforcement journey: congratulate, deepen engagement with the next-step feature, and educate around expansion to prevent post-aha dropoff.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [marketing]

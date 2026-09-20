@@ -7,7 +7,7 @@ intempt:
   version: 1.0.0
   slashCommand: /content-download-nurture
   group: Journeys
-  shortDescription: "When a prospect downloads a content asset (ebook, guide, whitepaper, calculator), fire a topic-aligned nurture sequence — related content, case study, and warm CTA — to convert content interest into product evaluation."
+  shortDescription: 'When a prospect downloads a content asset (ebook, guide, whitepaper, calculator), fire a topic-aligned nurture sequence (related content, case study, and warm CTA) to convert content interest into product evaluation.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [marketing]

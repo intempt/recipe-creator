@@ -6,7 +6,7 @@ arguments: []
 intempt:
   id: express-checkout-placement-test
   version: 1.0.0
-  slashCommand: /experiment-recipe
+  slashCommand: /express-checkout-placement-test
   group: Experiments
   shortDescription: "Test express-checkout button placement on PDP, cart, and checkout. \"Highest-impact payment additions\" eliminating card-entry friction; major mobile conversion factor."
   author: { type: intempt, name: "Intempt" }

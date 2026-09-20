@@ -8,7 +8,7 @@ intempt:
   version: 1.0.0
   slashCommand: /account-engagement-score-trend
   group: Reports
-  shortDescription: "Account-level engagement (rolled up from all users on the account) tracked over time — identifies expansion vs. churn-risk accounts."
+  shortDescription: 'Account-level engagement (rolled up from all users on the account) tracked over time: identifies expansion vs. churn-risk accounts.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

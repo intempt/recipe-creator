@@ -7,7 +7,7 @@ intempt:
   version: 1.0.0
   slashCommand: /dormant-high-ltv-concierge
   group: Workflows
-  shortDescription: "When a high-LTV customer goes dormant (no product activity 30+ days), trigger a concierge outreach task — high-LTV silence is the strongest churn precursor and warrants personal CSM contact, not automated nurture."
+  shortDescription: 'When a high-LTV customer goes dormant (no product activity 30+ days), trigger a concierge outreach task: high-LTV silence is the strongest churn precursor and warrants personal CSM contact, not automated nurture.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]

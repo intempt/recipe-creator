@@ -8,7 +8,7 @@ intempt:
   version: 1.0.0
   slashCommand: /ugc-selfie-video
   group: Creative
-  shortDescription: "Handheld selfie still → candid clip."
+  shortDescription: 'Handheld selfie still to candid clip.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]

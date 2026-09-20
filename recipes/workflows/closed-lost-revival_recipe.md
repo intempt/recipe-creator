@@ -7,7 +7,7 @@ intempt:
   version: 1.0.0
   slashCommand: /closed-lost-revival
   group: Workflows
-  shortDescription: "'Revive closed-lost deals 90 days after loss with a fresh re-evaluation outreach — context has likely changed (new initiatives, leadership, budget cycle). Typical revival rates: 5-10%, with low cost of outreach.'"
+  shortDescription: 'Revive closed-lost deals 90 days after loss with a fresh re-evaluation outreach: context has likely changed (new initiatives, leadership, budget cycle). Typical revival rates: 5-10%, with low cost of outreach.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]

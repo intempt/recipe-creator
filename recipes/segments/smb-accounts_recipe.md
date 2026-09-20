@@ -6,9 +6,9 @@ arguments: []
 intempt:
   id: smb-accounts
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /smb-accounts
   group: Segments
-  shortDescription: "Small businesses (under 100 employees) — self-serve / low-touch routing."
+  shortDescription: 'Small businesses (under 100 employees): self-serve / low-touch routing.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

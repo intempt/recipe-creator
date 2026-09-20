@@ -8,7 +8,7 @@ intempt:
   version: 1.0.0
   slashCommand: /post-conversion-onboarding-paths
   group: Reports
-  shortDescription: "Forward path from first paid event (subscription or order) — what new paying customers do in their first session as customers."
+  shortDescription: 'Forward path from first paid event (subscription or order): what new paying customers do in their first session as customers.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

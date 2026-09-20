@@ -6,7 +6,7 @@ arguments: []
 intempt:
   id: power-users
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /power-users
   group: Segments
   shortDescription: "Highly engaged users with frequent sessions and high activity score in the last 30 days."
   author: { type: intempt, name: "Intempt" }

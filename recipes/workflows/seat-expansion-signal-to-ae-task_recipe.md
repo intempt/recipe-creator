@@ -7,7 +7,7 @@ intempt:
   version: 1.0.0
   slashCommand: /seat-expansion-signal-to-ae-task
   group: Workflows
-  shortDescription: "When an existing customer adds users approaching their plan limit OR multiple new users from the same domain self-serve sign up, create an AE expansion task — the strongest predictor of a seat upsell opportunity."
+  shortDescription: 'When an existing customer adds users approaching their plan limit OR multiple new users from the same domain self-serve sign up, create an AE expansion task: the strongest predictor of a seat upsell opportunity.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]

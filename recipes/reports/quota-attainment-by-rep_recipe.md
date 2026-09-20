@@ -8,7 +8,7 @@ intempt:
   version: 1.0.0
   slashCommand: /quota-attainment-by-rep
   group: Reports
-  shortDescription: "Per-rep quota attainment (% of target hit) with trend, coverage ratio, and ranking — the headline sales-manager metric."
+  shortDescription: 'Per-rep quota attainment (% of target hit) with trend, coverage ratio, and ranking: the headline sales-manager metric.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

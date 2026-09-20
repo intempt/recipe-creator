@@ -6,9 +6,9 @@ arguments: []
 intempt:
   id: accounts-no-open-deal
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /accounts-no-open-deal
   group: Segments
-  shortDescription: "Healthy customer accounts with no current open deal — whitespace expansion opportunity."
+  shortDescription: 'Healthy customer accounts with no current open deal: whitespace expansion opportunity.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

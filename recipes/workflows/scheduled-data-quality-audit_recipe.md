@@ -7,7 +7,7 @@ intempt:
   version: 1.0.0
   slashCommand: /scheduled-data-quality-audit
   group: Workflows
-  shortDescription: "'Weekly: scan for duplicate accounts/users, stale records, missing required fields, and abandoned data → AI-suggests merges and cleanups → batch into approval queue for RevOps review. Replaces the manual ''when did we last clean the CRM?'' problem with a continuous hygiene program.'"
+  shortDescription: 'Weekly: scan for duplicate accounts/users, stale records, missing required fields, and abandoned data to AI-suggests merges and cleanups to batch into approval queue for RevOps review. Replaces the manual ''when did we last clean the CRM?'' problem with a continuous hygiene program.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]

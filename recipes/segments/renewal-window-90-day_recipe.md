@@ -6,9 +6,9 @@ arguments: []
 intempt:
   id: renewal-window-90-day
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /renewal-window-90-day
   group: Segments
-  shortDescription: "Subscriptions ending in next 90 days — foundation for renewal-flow journeys and NRR plays."
+  shortDescription: 'Subscriptions ending in next 90 days: foundation for renewal-flow journeys and NRR plays.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

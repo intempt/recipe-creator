@@ -6,9 +6,9 @@ arguments: []
 intempt:
   id: engaged-non-buyers
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /engaged-non-buyers
   group: Segments
-  shortDescription: "Highly engaged visitors who have never made a purchase — first-purchase targeting cohort."
+  shortDescription: 'Highly engaged visitors who have never made a purchase: first-purchase targeting cohort.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

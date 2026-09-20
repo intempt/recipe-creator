@@ -6,7 +6,7 @@ arguments: []
 intempt:
   id: lifecycle-stage-homepage-personalization
   version: 1.0.0
-  slashCommand: /personalization-recipe
+  slashCommand: /lifecycle-stage-homepage-personalization
   group: Personalizations
   shortDescription: "Show different homepage hero content based on the visitor's canonical lifecycle_score (At risk, Champions, etc.). Client personalization for ecommerce."
   author: { type: intempt, name: "Intempt" }

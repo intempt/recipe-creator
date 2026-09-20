@@ -7,7 +7,7 @@ intempt:
   version: 1.0.0
   slashCommand: /ai-account-research-deep-dive
   group: Workflows
-  shortDescription: "AI agent autonomously researches a target account — scrapes website, summarizes news, extracts decision-makers, scores ICP fit, drafts an opening hypothesis — and populates the Account record. The Claygent-style deep-research workflow that turns 30 minutes of SDR research into 2 minutes of AI work."
+  shortDescription: 'AI agent autonomously researches a target account (scrapes website, summarizes news, extracts decision-makers, scores ICP fit, drafts an opening hypothesis) and populates the Account record. The Claygent-style deep-research workflow that turns 30 minutes of SDR research into 2 minutes of AI work.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]

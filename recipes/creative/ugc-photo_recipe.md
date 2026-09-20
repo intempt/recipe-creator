@@ -8,7 +8,7 @@ intempt:
   version: 1.0.0
   slashCommand: /ugc-photo
   group: Creative
-  shortDescription: "Studio packshot → candid handheld."
+  shortDescription: 'Studio packshot to candid handheld.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]

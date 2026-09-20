@@ -6,9 +6,9 @@ arguments: []
 intempt:
   id: high-intent-visitors
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /high-intent-visitors
   group: Segments
-  shortDescription: "Non-customers who viewed both pricing and documentation in the last 14 days — strong buying signals."
+  shortDescription: 'Non-customers who viewed both pricing and documentation in the last 14 days: strong buying signals.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

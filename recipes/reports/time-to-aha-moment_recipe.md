@@ -8,7 +8,7 @@ intempt:
   version: 1.0.0
   slashCommand: /time-to-aha-moment
   group: Reports
-  shortDescription: "Histogram of time from user_created to first activation goal — surfaces whether users hit aha in 5 min, 5 hours, or 5 days."
+  shortDescription: 'Histogram of time from user_created to first activation goal: surfaces whether users hit aha in 5 min, 5 hours, or 5 days.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

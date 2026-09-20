@@ -6,7 +6,7 @@ arguments: []
 intempt:
   id: upgrade-prompt-optimization
   version: 1.0.0
-  slashCommand: /experiment-recipe
+  slashCommand: /upgrade-prompt-optimization
   group: Experiments
   shortDescription: "Combined test of upgrade prompt placement (where) and timing (when) for free SaaS users. Two creation flows: client variants for placement, server payload for timing."
   author: { type: intempt, name: "Intempt" }

@@ -8,7 +8,7 @@ intempt:
   version: 1.0.0
   slashCommand: /win-rate-trend
   group: Reports
-  shortDescription: "Win rate over time as a single tracking metric — surfaces GTM health trajectory without the breakdown overhead of win-loss-analysis."
+  shortDescription: 'Win rate over time as a single tracking metric: surfaces GTM health trajectory without the breakdown overhead of win-loss-analysis.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

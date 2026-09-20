@@ -8,7 +8,7 @@ intempt:
   version: 1.0.0
   slashCommand: /active-vs-passive-users
   group: Reports
-  shortDescription: "Three-way split: producers (frequent click_on), consumers (only page_viewed/session_start), and inactive — the hidden segment most teams miss."
+  shortDescription: 'Three-way split: producers (frequent click_on), consumers (only page_viewed/session_start), and inactive: the hidden segment most teams miss.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

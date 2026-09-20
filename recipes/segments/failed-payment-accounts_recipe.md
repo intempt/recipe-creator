@@ -6,9 +6,9 @@ arguments: []
 intempt:
   id: failed-payment-accounts
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /failed-payment-accounts
   group: Segments
-  shortDescription: "Users with payment failure in last 14 days — dunning/recovery cohort."
+  shortDescription: 'Users with payment failure in last 14 days: dunning/recovery cohort.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

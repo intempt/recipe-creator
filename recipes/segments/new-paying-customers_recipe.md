@@ -6,9 +6,9 @@ arguments: []
 intempt:
   id: new-paying-customers
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /new-paying-customers
   group: Segments
-  shortDescription: "First 30 days post-subscription — paid-onboarding cohort distinct from generic recently-signed-up."
+  shortDescription: 'First 30 days post-subscription: paid-onboarding cohort distinct from generic recently-signed-up.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

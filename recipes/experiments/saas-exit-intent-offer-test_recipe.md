@@ -6,7 +6,7 @@ arguments: []
 intempt:
   id: saas-exit-intent-offer-test
   version: 1.0.0
-  slashCommand: /experiment-recipe
+  slashCommand: /saas-exit-intent-offer-test
   group: Experiments
   shortDescription: "Test what to OFFER on exit-intent for SaaS visitors (discount vs. comparison guide vs. content download vs. survey). 5x conversion vs. time-based popup cited."
   author: { type: intempt, name: "Intempt" }

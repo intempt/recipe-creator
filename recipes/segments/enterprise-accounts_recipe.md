@@ -6,9 +6,9 @@ arguments: []
 intempt:
   id: enterprise-accounts
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /enterprise-accounts
   group: Segments
-  shortDescription: "Large companies (1000+ employees) — AE white-glove sales-motion routing."
+  shortDescription: 'Large companies (1000+ employees): AE white-glove sales-motion routing.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

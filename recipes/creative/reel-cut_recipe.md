@@ -8,7 +8,7 @@ intempt:
   version: 1.0.0
   slashCommand: /reel-cut
   group: Creative
-  shortDescription: "16:9 spot → 9:16 vertical."
+  shortDescription: '16:9 spot to 9:16 vertical.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]

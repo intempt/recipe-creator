@@ -8,7 +8,7 @@ intempt:
   version: 1.0.0
   slashCommand: /path-explorer-dashboard
   group: Dashboards
-  shortDescription: "UX / PM research view: the full set of behavioral path analyses on one canvas — first-session, feature paths, support deflection, pre-churn."
+  shortDescription: 'UX / PM research view: the full set of behavioral path analyses on one canvas: first-session, feature paths, support deflection, pre-churn.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

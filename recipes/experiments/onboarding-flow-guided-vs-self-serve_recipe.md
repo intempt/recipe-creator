@@ -6,7 +6,7 @@ arguments: []
 intempt:
   id: onboarding-flow-guided-vs-self-serve
   version: 1.0.0
-  slashCommand: /experiment-recipe
+  slashCommand: /onboarding-flow-guided-vs-self-serve
   group: Experiments
   shortDescription: "Test whether a guided wizard or self-serve checklist or video-first onboarding produces faster time-to-value. Client experiment."
   author: { type: intempt, name: "Intempt" }

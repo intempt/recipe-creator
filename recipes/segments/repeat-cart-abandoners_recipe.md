@@ -6,7 +6,7 @@ arguments: []
 intempt:
   id: repeat-cart-abandoners
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /repeat-cart-abandoners
   group: Segments
   shortDescription: "Users who have abandoned checkout 2+ times in the last 30 days without purchasing."
   author: { type: intempt, name: "Intempt" }

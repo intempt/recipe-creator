@@ -6,9 +6,9 @@ arguments: []
 intempt:
   id: recently-signed-up-users
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /recently-signed-up-users
   group: Segments
-  shortDescription: "Users who created an account in the last 30 days — onboarding cohort."
+  shortDescription: 'Users who created an account in the last 30 days: onboarding cohort.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

@@ -8,7 +8,7 @@ intempt:
   version: 1.0.0
   slashCommand: /feature-paywall-conversion
   group: Reports
-  shortDescription: "Per-feature: % of free users who interact with it and subsequently view pricing AND subscribe — informs feature-gating strategy."
+  shortDescription: 'Per-feature: % of free users who interact with it and subsequently view pricing AND subscribe: informs feature-gating strategy.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

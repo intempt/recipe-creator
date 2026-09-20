@@ -8,7 +8,7 @@ intempt:
   version: 1.0.0
   slashCommand: /founder-weekly-review-dashboard
   group: Dashboards
-  shortDescription: "The single scorecard a founder/operator wants every Monday — new customers, churn, revenue, retention, engagement, with WoW and YoY comparison."
+  shortDescription: 'The single scorecard a founder/operator wants every Monday: new customers, churn, revenue, retention, engagement, with WoW and YoY comparison.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

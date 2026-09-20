@@ -6,9 +6,9 @@ arguments: []
 intempt:
   id: discount-only-buyers
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /discount-only-buyers
   group: Segments
-  shortDescription: "Customers who only purchase when a discount is applied — suppression cohort for full-price campaigns."
+  shortDescription: 'Customers who only purchase when a discount is applied: suppression cohort for full-price campaigns.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

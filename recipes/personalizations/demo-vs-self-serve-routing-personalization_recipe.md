@@ -6,7 +6,7 @@ arguments: []
 intempt:
   id: demo-vs-self-serve-routing-personalization
   version: 1.0.0
-  slashCommand: /personalization-recipe
+  slashCommand: /demo-vs-self-serve-routing-personalization
   group: Personalizations
   shortDescription: "Show enterprise visitors a demo CTA, smaller-company visitors a self-serve CTA. Client personalization with firmographic audience targeting (no random split)."
   author: { type: intempt, name: "Intempt" }

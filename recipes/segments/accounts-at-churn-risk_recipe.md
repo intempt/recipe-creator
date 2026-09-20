@@ -6,9 +6,9 @@ arguments: []
 intempt:
   id: accounts-at-churn-risk
   version: 1.0.1
-  slashCommand: /segment-recipe
+  slashCommand: /accounts-at-churn-risk
   group: Segments
-  shortDescription: "Active accounts showing health deterioration — CSM intervention needed."
+  shortDescription: 'Active accounts showing health deterioration: CSM intervention needed.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

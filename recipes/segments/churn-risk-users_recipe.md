@@ -6,7 +6,7 @@ arguments: []
 intempt:
   id: churn-risk-users
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /churn-risk-users
   group: Segments
   shortDescription: "Previously active paid users who have gone silent in the last month."
   author: { type: intempt, name: "Intempt" }

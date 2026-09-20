@@ -6,7 +6,7 @@ arguments: []
 intempt:
   id: onboarding-checklist-length
   version: 1.0.0
-  slashCommand: /experiment-recipe
+  slashCommand: /onboarding-checklist-length
   group: Experiments
   shortDescription: "Test whether shorter or longer in-app onboarding checklists improve 7-day activation. Client experiment."
   author: { type: intempt, name: "Intempt" }

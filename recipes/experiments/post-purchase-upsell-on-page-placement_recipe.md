@@ -6,9 +6,9 @@ arguments: []
 intempt:
   id: post-purchase-upsell-on-page-placement
   version: 1.0.0
-  slashCommand: /experiment-recipe
+  slashCommand: /post-purchase-upsell-on-page-placement
   group: Experiments
-  shortDescription: "Test where to show the post-purchase upsell on the order confirmation page (above order details, below order details, or as inline modal). Website-only — email and push variants are out of scope."
+  shortDescription: 'Test where to show the post-purchase upsell on the order confirmation page (above order details, below order details, or as inline modal). Website-only: email and push variants are out of scope.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [experiences]

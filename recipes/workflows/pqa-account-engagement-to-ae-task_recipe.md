@@ -7,7 +7,7 @@ intempt:
   version: 1.0.0
   slashCommand: /pqa-account-engagement-to-ae-task
   group: Workflows
-  shortDescription: "When multiple users from the same account engage with the product in a short window — PQA signal — create an AE deal-creation task with the account's full engagement picture, because account-level signals are stronger than single-user signals."
+  shortDescription: 'When multiple users from the same account engage with the product in a short window (PQA signal), create an AE deal-creation task with the account''s full engagement picture, because account-level signals are stronger than single-user signals.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]

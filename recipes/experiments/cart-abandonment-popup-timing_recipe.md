@@ -6,7 +6,7 @@ arguments: []
 intempt:
   id: cart-abandonment-popup-timing
   version: 1.0.1
-  slashCommand: /experiment-recipe
+  slashCommand: /cart-abandonment-popup-timing
   group: Experiments
   shortDescription: "Test when to show the save-your-cart popup: exit-intent vs. delay vs. no popup. Client experiment."
   author: { type: intempt, name: "Intempt" }

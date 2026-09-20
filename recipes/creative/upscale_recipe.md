@@ -8,7 +8,7 @@ intempt:
   version: 1.0.0
   slashCommand: /upscale
   group: Creative
-  shortDescription: "Soft input → razor-sharp output."
+  shortDescription: 'Soft input to razor-sharp output.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]

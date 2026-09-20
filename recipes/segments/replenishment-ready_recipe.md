@@ -6,7 +6,7 @@ arguments: []
 intempt:
   id: replenishment-ready
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /replenishment-ready
   group: Segments
   shortDescription: "Customers approaching their typical re-order cycle. 8-15% conversion on replenishment reminders vs 1-3% on general promos."
   author: { type: intempt, name: "Intempt" }

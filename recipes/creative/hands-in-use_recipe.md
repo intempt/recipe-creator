@@ -8,7 +8,7 @@ intempt:
   version: 1.0.0
   slashCommand: /hands-in-use
   group: Creative
-  shortDescription: "Pouring, applying, holding — no face."
+  shortDescription: 'Pouring, applying, holding: no face.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]

@@ -7,7 +7,7 @@ intempt:
   version: 1.0.0
   slashCommand: /pre-cancellation-save
   group: Journeys
-  shortDescription: "When a user starts the cancellation flow (visits cancel page, clicks cancel button) but hasn't completed it, fire a contextual save sequence — pause offer, downgrade offer, retention discount, or human handoff — calibrated by user value and stated cancel reason."
+  shortDescription: 'When a user starts the cancellation flow (visits cancel page, clicks cancel button) but hasn''t completed it, fire a contextual save sequence (pause offer, downgrade offer, retention discount, or human handoff) calibrated by user value and stated cancel reason.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [marketing]

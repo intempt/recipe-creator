@@ -6,9 +6,9 @@ arguments: []
 intempt:
   id: decision-maker-prospects
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /decision-maker-prospects
   group: Segments
-  shortDescription: "Senior-title users (C-level, VP, Director) showing intent — priority routing for AE outreach."
+  shortDescription: 'Senior-title users (C-level, VP, Director) showing intent: priority routing for AE outreach.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

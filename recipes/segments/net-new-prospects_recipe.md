@@ -6,9 +6,9 @@ arguments: []
 intempt:
   id: net-new-prospects
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /net-new-prospects
   group: Segments
-  shortDescription: "Recently identified accounts with minimal engagement — SDR first-touch foundation."
+  shortDescription: 'Recently identified accounts with minimal engagement: SDR first-touch foundation.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

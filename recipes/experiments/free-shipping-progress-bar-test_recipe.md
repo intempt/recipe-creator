@@ -6,7 +6,7 @@ arguments: []
 intempt:
   id: free-shipping-progress-bar-test
   version: 1.0.0
-  slashCommand: /experiment-recipe
+  slashCommand: /free-shipping-progress-bar-test
   group: Experiments
   shortDescription: "Test cart-page free-shipping progress bar (e.g., \"$12 away from free shipping\") vs. no progress bar. Top-cited AOV-lifting test in 2026 CRO content."
   author: { type: intempt, name: "Intempt" }

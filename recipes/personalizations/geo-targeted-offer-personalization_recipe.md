@@ -6,9 +6,9 @@ arguments: []
 intempt:
   id: geo-targeted-offer-personalization
   version: 1.0.0
-  slashCommand: /personalization-recipe
+  slashCommand: /geo-targeted-offer-personalization
   group: Personalizations
-  shortDescription: "Show different homepage offers based on visitor's geography (country, region) — different shipping promotions, currency display, and local promotions. Client personalization."
+  shortDescription: 'Show different homepage offers based on visitor''s geography (country, region): different shipping promotions, currency display, and local promotions. Client personalization.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [experiences]

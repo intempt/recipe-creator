@@ -8,7 +8,7 @@ intempt:
   version: 1.0.0
   slashCommand: /funnel-dropoff-attribution-by-source
   group: Reports
-  shortDescription: "Same funnel run separately by Users.utm_source — surfaces which acquisition channels actually convert."
+  shortDescription: 'Same funnel run separately by Users.utm_source: surfaces which acquisition channels actually convert.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

@@ -7,7 +7,7 @@ intempt:
   version: 1.0.0
   slashCommand: /account-engagement-score-orchestration
   group: Journeys
-  shortDescription: "'B2B account-level engagement scoring (aggregate user activity rolled up to account) → tiered account journeys: green accounts get expansion-leaning content, yellow get reactivation, red get save-flow + CSM task, dormant get win-back. Adobe CJA B2B-style account-as-unit pattern.'"
+  shortDescription: 'B2B account-level engagement scoring (aggregate user activity rolled up to account), then tiered account journeys: green accounts get expansion-leaning content, yellow get reactivation, red get save-flow + CSM task, dormant get win-back. Adobe CJA B2B-style account-as-unit pattern.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales, marketing]

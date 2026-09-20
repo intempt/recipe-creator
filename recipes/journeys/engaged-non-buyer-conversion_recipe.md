@@ -7,7 +7,7 @@ intempt:
   version: 1.0.0
   slashCommand: /engaged-non-buyer-conversion
   group: Journeys
-  shortDescription: "Free/trial users who consistently engage with the product (multiple sessions, deep feature use, opens marketing emails) but haven't converted after 30+ days get a diagnostic intervention — personalized offer + AE/human touch option + agent handoff. NOT generic upgrade nag."
+  shortDescription: 'Free/trial users who consistently engage with the product (multiple sessions, deep feature use, opens marketing emails) but haven''t converted after 30+ days get a diagnostic intervention: personalized offer + AE/human touch option + agent handoff. NOT generic upgrade nag.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [marketing]

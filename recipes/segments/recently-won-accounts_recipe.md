@@ -6,9 +6,9 @@ arguments: []
 intempt:
   id: recently-won-accounts
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /recently-won-accounts
   group: Segments
-  shortDescription: "Accounts that closed a deal in last 90 days — onboarding cohort distinct from new-paying-customers."
+  shortDescription: 'Accounts that closed a deal in last 90 days: onboarding cohort distinct from new-paying-customers.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

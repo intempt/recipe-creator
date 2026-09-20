@@ -6,7 +6,7 @@ arguments: []
 intempt:
   id: hero-static-vs-screenshot-test
   version: 1.0.0
-  slashCommand: /experiment-recipe
+  slashCommand: /hero-static-vs-screenshot-test
   group: Experiments
   shortDescription: "Test landing page hero image: abstract illustration vs. real product screenshot vs. customer/team photo. Distinct from product-page-layout (ecom) and onboarding-flow (post-signup)."
   author: { type: intempt, name: "Intempt" }

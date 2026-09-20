@@ -6,7 +6,7 @@ arguments: []
 intempt:
   id: returning-vs-new-visitor-personalization
   version: 1.0.1
-  slashCommand: /personalization-recipe
+  slashCommand: /returning-vs-new-visitor-personalization
   group: Personalizations
   shortDescription: "Show new visitors a value proposition; show returning visitors continuation cues (recently viewed, abandoned cart). Client personalization based on prior session history."
   author: { type: intempt, name: "Intempt" }

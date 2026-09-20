@@ -6,9 +6,9 @@ arguments: []
 intempt:
   id: single-threaded-accounts
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /single-threaded-accounts
   group: Segments
-  shortDescription: "Multi-user companies where only 1 user is engaged — multi-threading risk for enterprise SaaS."
+  shortDescription: 'Multi-user companies where only 1 user is engaged: multi-threading risk for enterprise SaaS.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

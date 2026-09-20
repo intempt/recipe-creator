@@ -6,9 +6,9 @@ arguments: []
 intempt:
   id: winnable-churned-users
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /winnable-churned-users
   group: Segments
-  shortDescription: "Recently churned users who showed engagement before churn — best win-back candidates."
+  shortDescription: 'Recently churned users who showed engagement before churn: best win-back candidates.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

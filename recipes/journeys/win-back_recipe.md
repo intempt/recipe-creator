@@ -8,7 +8,7 @@ intempt:
   version: 1.0.0
   slashCommand: /win-back
   group: Journeys
-  shortDescription: "Tiered re-engagement for lapsed users \u2014 segment by recency, content per tier, journey, retention measurement."
+  shortDescription: "Tiered re-engagement for lapsed users: segment by recency, content per tier, journey, retention measurement."
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [marketing]

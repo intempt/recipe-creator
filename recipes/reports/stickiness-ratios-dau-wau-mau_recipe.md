@@ -8,7 +8,7 @@ intempt:
   version: 1.0.0
   slashCommand: /stickiness-ratios-dau-wau-mau
   group: Reports
-  shortDescription: "DAU, WAU, MAU with stickiness ratios (DAU/WAU and DAU/MAU) — the standard PLG engagement metric."
+  shortDescription: 'DAU, WAU, MAU with stickiness ratios (DAU/WAU and DAU/MAU): the standard PLG engagement metric.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

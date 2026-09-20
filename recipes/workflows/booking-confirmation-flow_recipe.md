@@ -7,7 +7,7 @@ intempt:
   version: 1.0.0
   slashCommand: /booking-confirmation-flow
   group: Workflows
-  shortDescription: "When a B2B meeting books, fire a reminder ladder — 48hr email, 24hr email, 2hr SMS — to maximize show-rate, plus host notification on book and a coverage dashboard. Distinct from scheduling-setup (which configures the booking link itself)."
+  shortDescription: 'When a B2B meeting books, fire a reminder ladder (48hr email, 24hr email, 2hr SMS) to maximize show-rate, plus host notification on book and a coverage dashboard. Distinct from scheduling-setup (which configures the booking link itself).'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]

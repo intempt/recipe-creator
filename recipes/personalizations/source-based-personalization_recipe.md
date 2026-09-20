@@ -6,7 +6,7 @@ arguments: []
 intempt:
   id: source-based-personalization
   version: 1.0.0
-  slashCommand: /personalization-recipe
+  slashCommand: /source-based-personalization
   group: Personalizations
   shortDescription: "Match landing page hero / messaging to the ad source the visitor came from (utm_source, utm_campaign, referrer). Cited as \"the simplest high-impact personalization implementation.\""
   author: { type: intempt, name: "Intempt" }

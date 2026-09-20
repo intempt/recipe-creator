@@ -6,7 +6,7 @@ arguments: []
 intempt:
   id: repeat-buyers
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /repeat-buyers
   group: Segments
   shortDescription: "Customers who have made 3+ purchases in the last 90 days with meaningful spend."
   author: { type: intempt, name: "Intempt" }

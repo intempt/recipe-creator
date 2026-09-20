@@ -6,9 +6,9 @@ arguments: []
 intempt:
   id: recently-churned-users
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /recently-churned-users
   group: Segments
-  shortDescription: "Users who cancelled their subscription in the last 30 days — fast win-back cohort."
+  shortDescription: 'Users who cancelled their subscription in the last 30 days: fast win-back cohort.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

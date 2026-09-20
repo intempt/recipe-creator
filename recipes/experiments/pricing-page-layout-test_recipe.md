@@ -6,7 +6,7 @@ arguments: []
 intempt:
   id: pricing-page-layout-test
   version: 1.0.0
-  slashCommand: /experiment-recipe
+  slashCommand: /pricing-page-layout-test
   group: Experiments
   shortDescription: "Test which pricing page layout maximizes plan selection and checkout starts. Client experiment with three variants."
   author: { type: intempt, name: "Intempt" }

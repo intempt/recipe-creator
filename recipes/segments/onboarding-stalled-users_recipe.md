@@ -6,9 +6,9 @@ arguments: []
 intempt:
   id: onboarding-stalled-users
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /onboarding-stalled-users
   group: Segments
-  shortDescription: "Recently signed up but no activation milestone in last 14 days — activation-rescue cohort."
+  shortDescription: 'Recently signed up but no activation milestone in last 14 days: activation-rescue cohort.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

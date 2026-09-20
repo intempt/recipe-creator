@@ -6,9 +6,9 @@ arguments: []
 intempt:
   id: high-frequency-buyers
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /high-frequency-buyers
   group: Segments
-  shortDescription: "Customers who purchase 4+ times per quarter — most loyal cohort."
+  shortDescription: 'Customers who purchase 4+ times per quarter: most loyal cohort.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

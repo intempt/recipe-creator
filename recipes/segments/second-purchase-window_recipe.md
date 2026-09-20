@@ -6,7 +6,7 @@ arguments: []
 intempt:
   id: second-purchase-window
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /second-purchase-window
   group: Segments
   shortDescription: "First-time buyers in the critical 1-30 day window after their first order. 50% of all repeat purchases happen here."
   author: { type: intempt, name: "Intempt" }

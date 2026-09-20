@@ -7,7 +7,7 @@ intempt:
   version: 1.0.0
   slashCommand: /champion-change-detection
   group: Workflows
-  shortDescription: "Detect when a deal's identified champion changes role, departs the company, or stops responding — the highest-leverage early-warning signal for stalled deals. Trigger stakeholder re-engagement workflow before the deal silently dies."
+  shortDescription: 'Detect when a deal''s identified champion changes role, departs the company, or stops responding: the highest-leverage early-warning signal for stalled deals. Trigger stakeholder re-engagement workflow before the deal silently dies.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]

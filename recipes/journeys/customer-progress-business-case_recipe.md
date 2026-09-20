@@ -7,7 +7,7 @@ intempt:
   version: 1.0.0
   slashCommand: /customer-progress-business-case
   group: Journeys
-  shortDescription: "'Quarterly journey: AI-generated personalized snapshot of customer''s usage, outcomes, value delivered → email + in-app dashboard surface + optional CSM-shareable PDF. Helps customer build their internal case for budget, drives renewal goodwill, surfaces wins worth amplifying. The ChurnZero ''highlight customer progress'' play.'"
+  shortDescription: 'Quarterly journey: AI-generated personalized snapshot of customer''s usage, outcomes, value delivered, surfaced in email + in-app dashboard surface + optional CSM-shareable PDF. Helps customer build their internal case for budget, drives renewal goodwill, surfaces wins worth amplifying. The ChurnZero ''highlight customer progress'' play.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [marketing, sales]

@@ -6,9 +6,9 @@ arguments: []
 intempt:
   id: acquisition-channel-cohort
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /acquisition-channel-cohort
   group: Segments
-  shortDescription: "Customers acquired through a specific channel (parameterized by utm_source/medium) — for channel-quality analysis."
+  shortDescription: 'Customers acquired through a specific channel (parameterized by utm_source/medium): for channel-quality analysis.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

@@ -6,7 +6,7 @@ arguments: []
 intempt:
   id: industry-vertical-homepage-personalization
   version: 1.0.0
-  slashCommand: /personalization-recipe
+  slashCommand: /industry-vertical-homepage-personalization
   group: Personalizations
   shortDescription: "Show different homepage hero, social proof, and messaging based on the visitor's detected industry (4-5 segments). Demandbase pattern; distinct from per-account ABM."
   author: { type: intempt, name: "Intempt" }
