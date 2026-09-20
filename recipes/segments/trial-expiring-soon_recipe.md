@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /trial-expiring-soon
   group: Segments
-  shortDescription: "Trial users approaching expiry who haven't converted to paid."
+  title: 'Trials expiring this week'
+  shortDescription: 'Trial users whose trial runs out within a week and who have not paid yet, your last chance to convert them.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]
@@ -26,11 +27,11 @@ intempt:
     - create_segment
   procedure:
     - step: 1
-      title: "Configure Segment Rule"
+      title: 'Build the expiring-trial list'
       command: create_segment
       produces: segment
       bindsAs: segment
-      description: "Open the segment authoring surface, name the segment, and apply the rule below."
+      description: 'Users on the trial plan whose end date falls within the next 7 days and who have not created a subscription in the last 14 days.'
       prompt: |
         Create a segment called "Trial Expiring Soon".
 
@@ -45,29 +46,18 @@ intempt:
   outputs:
     - { name: segment, type: segment, cardinality: single, description: "Segment created on /segments." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Trial Expiring Soon
+# Trials expiring this week
 
-## Procedure
+Trial users whose trial runs out within a week and who have not paid yet, your last chance to convert them.
 
-1. **Configure Segment Rule** [`create_segment`] — Open the segment authoring surface, name the segment, and apply the rule below. → produces: segment
+## What it does
 
-   ```text
-   Create a segment called "Trial Expiring Soon".
+1. **Build the expiring-trial list** (`create_segment`)
 
-   Object: Users
+   Users on the trial plan whose end date falls within the next 7 days and who have not created a subscription in the last 14 days.
 
-   Rules (all conditions joined by AND):
-   - Attribute: plan_name = "trial"
-   - AND Attribute: end_date is within next 7 days
-   - AND Event: subscription_created has not occurred in last 14 days
+## What you end up with
 
-   Description: Trial users approaching expiry without paid conversion. Trigger a final-push email or in-app upgrade prompt.
-   ```
-
-## Taxonomy notes
-
-- plan_name is canonical.
-- end_date is canonical Users attribute (subscription end_date — populated when the user is on a trial subscription with a defined end date). Source template referenced "trial_end_date" which is not canonical; end_date is the equivalent canonical property.
-- subscription_created is canonical V2.1 event.
-- For workspaces that don't model trials as subscriptions with end_date, this rule needs the merchant to populate a custom attribute via identify(). The recipe above assumes the canonical subscription model is in use.
+- **segment** (segment): Segment created on /segments.

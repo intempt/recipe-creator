@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /cinematic-studio
   group: Creative
-  shortDescription: "Nine cinematic looks from one frame."
+  title: 'Cinematic look board'
+  shortDescription: 'Returns a board of nine cinematic looks from one image, so you can pick the grade you want.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]
@@ -25,11 +26,11 @@ intempt:
     - generate_image
   procedure:
     - step: 1
-      title: "Generate cinematic board"
+      title: 'Render nine cinematic looks'
       command: generate_image
       produces: image
       bindsAs: image
-      description: "Drop in any image and receive a 3×3 board of cinematic looks inspired by iconic cinematographers."
+      description: 'Renders nine looks from your image in parallel, each in the style of a different cinematographer. You promote the one you want to the canvas.'
       prompt: |
         Generate a 3×3 board of cinematic looks from one input image.
 
@@ -42,20 +43,18 @@ intempt:
   outputs:
     - { name: image, type: image, cardinality: list, description: "9 cinematic looks." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Cinematic Studio
+# Cinematic look board
 
-## Procedure
+Returns a board of nine cinematic looks from one image, so you can pick the grade you want.
 
-1. **Generate cinematic board** [`generate_image`] — Drop in any image and receive a 3×3 board of cinematic looks. → produces: image
+## What it does
 
-   ```text
-   Input: any image
-   Pipeline: restyle × 9 (parallel)
-   Output: 3×3 board of cinematic grading options
-   ```
+1. **Render nine cinematic looks** (`generate_image`)
 
-## Notes
+   Renders nine looks from your image in parallel, each in the style of a different cinematographer. You promote the one you want to the canvas.
 
-- fal.ai pipeline: restyle × 9 in parallel.
-- Cinematic references: Wes Anderson, Roger Deakins, Lubezki, Christopher Doyle, Bradford Young, and more.
+## What you end up with
+
+- **image** (image): 9 cinematic looks.

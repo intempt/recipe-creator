@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /cart-abandoned-push
   group: Content
-  shortDescription: "Win-back lockscreen notification."
+  title: "Cart abandonment push notification"
+  shortDescription: "Writes a lockscreen push that brings shoppers back to an abandoned cart, naming the item they left behind."
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [content]
@@ -25,11 +26,11 @@ intempt:
     - create_content
   procedure:
     - step: 1
-      title: "Compose re-engagement push"
+      title: "Write the win-back push"
       command: create_content
       produces: content
       bindsAs: content
-      description: "Generate a win-back push notification with brand icon, title, and body for cart abandonment recovery."
+      description: "A push notification with your brand icon, a title and body copy, naming the abandoned item where it is known. Helpful in tone, not pushy."
       prompt: |
         Create a cart abandonment re-engagement push notification.
 
@@ -39,14 +40,18 @@ intempt:
   outputs:
     - { name: content, type: content, cardinality: single, description: "Re-engagement push notification." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Cart Abandoned Push
+# Cart abandonment push notification
 
-## Procedure
+Writes a lockscreen push that brings shoppers back to an abandoned cart, naming the item they left behind.
 
-1. **Compose re-engagement push** [`create_content`] — Generate win-back push notification. → produces: content
+## What it does
 
-## Notes
+1. **Write the win-back push** (`create_content`)
 
-- Routes to: /content-builder?type=push&recipe=push/push-cart-abandoned
-- iOS lockscreen format with brand icon.
+   A push notification with your brand icon, a title and body copy, naming the abandoned item where it is known. Helpful in tone, not pushy.
+
+## What you end up with
+
+- **content** (content): Re-engagement push notification.

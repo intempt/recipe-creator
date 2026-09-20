@@ -1,14 +1,15 @@
 ---
 name: winnable-churned-users
 description: |
-  Use when a user mentions "winnable churned users", or asks for related help. Recently churned users who showed engagement before churn — best win-back candidates.
+  Use when a user mentions "winnable churned users", or asks for related help. Recently churned users who showed engagement before churn: best win-back candidates.
 arguments: []
 intempt:
   id: winnable-churned-users
   version: 1.0.0
   slashCommand: /winnable-churned-users
   group: Segments
-  shortDescription: 'Recently churned users who showed engagement before churn: best win-back candidates.'
+  title: 'Winnable churned users'
+  shortDescription: 'People who cancelled in the last two months but used the product heavily before they left, the best odds for a win-back.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]
@@ -26,11 +27,11 @@ intempt:
     - create_segment
   procedure:
     - step: 1
-      title: "Configure Segment Rule"
+      title: 'Build the win-back list'
       command: create_segment
       produces: segment
       bindsAs: segment
-      description: "Open the segment authoring surface, name the segment, and apply the rule below."
+      description: 'Users with a subscription cancellation in the last 60 days, lifetime value above zero, and 50 or more events on record.'
       prompt: |
         Create a segment called "Winnable Churned Users".
 
@@ -45,30 +46,18 @@ intempt:
   outputs:
     - { name: segment, type: segment, cardinality: single, description: "Segment created on /segments." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Winnable Churned Users
+# Winnable churned users
 
-## Procedure
+People who cancelled in the last two months but used the product heavily before they left, the best odds for a win-back.
 
-1. **Configure Segment Rule** [`create_segment`] — Open the segment authoring surface, name the segment, and apply the rule below. → produces: segment
+## What it does
 
-   ```text
-   Create a segment called "Winnable Churned Users".
+1. **Build the win-back list** (`create_segment`)
 
-   Object: Users
+   Users with a subscription cancellation in the last 60 days, lifetime value above zero, and 50 or more events on record.
 
-   Rules (all conditions joined by AND):
-   - Event: subscription_cancelled occurred >= 1 time in last 60 days
-   - AND Attribute: lifetime_value > 0
-   - AND Attribute: total_events >= 50
+## What you end up with
 
-   Description: Recently churned users with prior engagement (positive lifetime value, meaningful event volume during their active period). Best candidates for a win-back offer.
-   ```
-
-## Taxonomy notes
-
-- subscription_cancelled is canonical (note: British spelling per V2.1 taxonomy).
-- lifetime_value > 0 confirms they had paid usage at some point.
-- total_events >= 50 is the canonical proxy for "was previously engaged" (replaces source template's logically impossible "engagement_score WAS >= 50 before churn" — V2.1 segment rules evaluate CURRENT attribute values, never historical values).
-- The 50-event threshold is a starting point; merchants typically tune based on the median total_events of their healthy paid cohort.
-- For a more sophisticated win-back targeting, layer with a saved Power-Users-At-Time-Of-Cancellation segment (would require historical cohort tagging via user_tags_added at the time of cancellation, which is set up separately).
+- **segment** (segment): Segment created on /segments.

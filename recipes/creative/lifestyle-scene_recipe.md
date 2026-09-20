@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /lifestyle-scene
   group: Creative
-  shortDescription: "Product in a real-world setting."
+  title: 'Product in a real setting'
+  shortDescription: 'Moves a studio packshot into a real-world setting such as a kitchen, office or outdoors, with natural light and depth of field.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]
@@ -25,11 +26,11 @@ intempt:
     - generate_image
   procedure:
     - step: 1
-      title: "Place product in lifestyle scene"
+      title: 'Place the product in a scene'
       command: generate_image
       produces: image
       bindsAs: image
-      description: "Take a studio packshot and place the product in a real-world environment with natural lighting and depth of field."
+      description: 'Re-renders the product in a real-world environment with natural ambient lighting and realistic depth of field. The product itself is unchanged.'
       prompt: |
         Place a product in a lifestyle scene.
 
@@ -39,14 +40,18 @@ intempt:
   outputs:
     - { name: image, type: image, cardinality: single, description: "Lifestyle scene image." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Lifestyle Scene
+# Product in a real setting
 
-## Procedure
+Moves a studio packshot into a real-world setting such as a kitchen, office or outdoors, with natural light and depth of field.
 
-1. **Place product in lifestyle scene** [`generate_image`] — Packshot → real-world environment. → produces: image
+## What it does
 
-## Notes
+1. **Place the product in a scene** (`generate_image`)
 
-- Pipeline: flux-pro/kontext with identity-locked product placement.
-- Product identity preserved; only environment changes.
+   Re-renders the product in a real-world environment with natural ambient lighting and realistic depth of field. The product itself is unchanged.
+
+## What you end up with
+
+- **image** (image): Lifestyle scene image.

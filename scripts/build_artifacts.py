@@ -54,6 +54,7 @@ def public_step(step):
 
 
 SHORT_DESCRIPTION_MAX = 200
+STEP_TITLE_MAX = 40
 
 
 def is_public(intempt):
@@ -69,6 +70,7 @@ def catalog_entry(front, intempt):
     entry = {
         "slug": intempt["id"],
         "name": front.get("name") or intempt["id"],
+        "title": intempt.get("title") or "",
         "group": intempt.get("group") or "",
         "shortDescription": intempt.get("shortDescription") or "",
         "classification": intempt.get("classification") or {},
@@ -76,8 +78,6 @@ def catalog_entry(front, intempt):
         "outputs": outputs,
         "outputCount": len(outputs),
     }
-    if intempt.get("title"):
-        entry["title"] = intempt["title"]
     return entry
 
 
@@ -114,6 +114,26 @@ def main():
         if not is_public(intempt):
             continue
         entry = catalog_entry(front, intempt)
+        title = (intempt.get("title") or "").strip()
+        if not title:
+            problems.append(f"{path}: title is missing. It renders as the id to customers")
+        elif title == intempt["id"]:
+            problems.append(f"{path}: title is the id. Give it a real name")
+
+        for step in entry["procedure"]:
+            n = step.get("step")
+            st = (step.get("title") or "").strip()
+            sd = (step.get("description") or "").strip()
+            if not st:
+                problems.append(f"{path}: step {n} has no title")
+            elif len(st) > STEP_TITLE_MAX:
+                warnings.append(f"{path}: step {n} title is {len(st)} chars, over {STEP_TITLE_MAX}")
+            if not sd:
+                problems.append(f"{path}: step {n} has no description")
+            for glyph, label in (("\u2014", "em-dash"), ("\u2013", "en-dash"), ("\u2192", "arrow")):
+                if glyph in st or glyph in sd:
+                    problems.append(f"{path}: step {n} contains a {label}")
+
         short = entry["shortDescription"].strip()
         if not short:
             problems.append(f"{path}: shortDescription is empty")

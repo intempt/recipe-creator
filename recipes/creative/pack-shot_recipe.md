@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /pack-shot
   group: Creative
-  shortDescription: "Studio-clean product stills from one SKU."
+  title: 'Studio product shots'
+  shortDescription: 'Generates clean studio stills of one catalog product, in a background and lighting you pick.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]
@@ -25,11 +26,11 @@ intempt:
     - generate_image
   procedure:
     - step: 1
-      title: "Select product and scene"
+      title: 'Render the product'
       command: generate_image
       produces: image
       bindsAs: image
-      description: "Pick a catalog product (SKU) and a scene for background and lighting, then render pack-shot variants."
+      description: 'You pick a catalog product and a scene that sets background and lighting. Returns a kit of clean studio shots: front, three-quarter, detail and lifestyle inserts.'
       prompt: |
         Generate studio pack-shot images for the selected product.
 
@@ -44,29 +45,18 @@ intempt:
   outputs:
     - { name: image, type: image, cardinality: single, description: "Generated pack-shot image." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Pack Shot
+# Studio product shots
 
-## Procedure
+Generates clean studio stills of one catalog product, in a background and lighting you pick.
 
-1. **Select product and scene** [`generate_image`] — Pick a catalog product (SKU) and a scene for background and lighting, then render pack-shot variants. → produces: image
+## What it does
 
-   ```text
-   Generate studio pack-shot images for the selected product.
+1. **Render the product** (`generate_image`)
 
-   Inputs:
-   - productId: catalog SKU to photograph
-   - sceneId: background + lighting preset
+   You pick a catalog product and a scene that sets background and lighting. Returns a kit of clean studio shots: front, three-quarter, detail and lifestyle inserts.
 
-   Pipeline: nano-banana-pro/edit
-   Runner: pack-shot (custom)
+## What you end up with
 
-   Produce a kit of clean studio shots (front, three-quarter, detail, lifestyle inserts)
-   from the single catalog product using the chosen scene for background and lighting.
-   ```
-
-## Notes
-
-- Uses the `pack-shot` custom runner in the content builder.
-- fal.ai pipeline: nano-banana-pro/edit.
-- Corresponds to the `packshot` tile on the Design Home page.
+- **image** (image): Generated pack-shot image.

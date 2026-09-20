@@ -5,10 +5,11 @@ description: |
 arguments: []
 intempt:
   id: lead-qualification
+  title: "Lead qualification and handoff"
   version: 1.0.0
   slashCommand: /lead-qualification
   group: Journeys
-  shortDescription: "Score leads, segment, route hot leads to sales, nurture the rest."
+  shortDescription: "Scores inbound leads, sends the sales ready ones round robin to a rep with the context attached, and puts the rest into nurture."
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]
@@ -29,43 +30,43 @@ intempt:
     - create_dashboard
   procedure:
     - step: 1
-      title: "Compute Qualification Score"
+      title: "Score every lead"
       command: create_ai_attribute
       produces: attribute
       bindsAs: attribute
-      description: "Define a Qualification attribute weighting firmographic fit, intent, and engagement."
+      description: "A qualification score weighing company fit, intent and engagement."
       prompt: "Define a Qualification attribute weighting firmographic fit, intent, and engagement."
     - step: 2
-      title: "Segment By Tier"
+      title: "Split into hot, warm and cold"
       command: create_segment
       produces: segment
       bindsAs: segment
       dependsOn: [attribute]
-      description: "Segment leads into hot/warm/cold tiers based on qualification score."
+      description: "Three tiers off that score."
       prompt: "Segment leads into hot/warm/cold tiers based on qualification score."
     - step: 3
-      title: "Build Routing Workflow"
+      title: "Route hot leads round robin"
       command: create_workflow
       produces: workflow
       bindsAs: workflow
       dependsOn: [attribute, segment]
-      description: "Create a workflow assigning hot leads to sales reps (round-robin within team) and creating tasks with context."
+      description: "Hot leads are handed round robin to a rep on the team, with a task created that carries the context."
       prompt: "Create a workflow assigning hot leads to sales reps (round-robin within team) and creating tasks with context."
     - step: 4
-      title: "Build Nurture Journey"
+      title: "Nurture warm and cold leads"
       command: create_journey
       produces: journey
       bindsAs: journey
       dependsOn: [attribute, segment, workflow]
-      description: "Build nurture journeys for warm and cold leads with appropriate cadence."
+      description: "A journey for each of the other two tiers, at a cadence that suits how far off they are."
       prompt: "Build nurture journeys for warm and cold leads with appropriate cadence."
     - step: 5
-      title: "Build Dashboard"
+      title: "Track handoff to opportunity"
       command: create_dashboard
       produces: dashboard
       bindsAs: dashboard
       dependsOn: [attribute, segment, workflow, journey]
-      description: "Compose a dashboard tracking lead volume, score distribution, handoff rate, and conversion to opportunity."
+      description: "Lead volume, score distribution, how many reach a rep, and how many turn into opportunities."
       prompt: "Compose a dashboard tracking lead volume, score distribution, handoff rate, and conversion to opportunity."
   outputs:
     - { name: attribute, type: attribute, cardinality: single, description: "Attribute produced by this recipe." }
@@ -74,13 +75,38 @@ intempt:
     - { name: journey, type: journey, cardinality: single, description: "Journey produced by this recipe." }
     - { name: dashboard, type: dashboard, cardinality: single, description: "Dashboard produced by this recipe." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Lead Qualification & Routing
+# Lead qualification and handoff
 
-## Procedure
+Scores inbound leads, sends the sales ready ones round robin to a rep with the context attached, and puts the rest into nurture.
 
-1. **Compute Qualification Score** [`create_ai_attribute`] — Define a Qualification attribute weighting firmographic fit, intent, and engagement. → produces: attribute
-2. **Segment By Tier** [`create_segment`] — Segment leads into hot/warm/cold tiers based on qualification score. → produces: segment
-3. **Build Routing Workflow** [`create_workflow`] — Create a workflow assigning hot leads to sales reps (round-robin within team) and creating tasks with context. → produces: workflow
-4. **Build Nurture Journey** [`create_journey`] — Build nurture journeys for warm and cold leads with appropriate cadence. → produces: journey
-5. **Build Dashboard** [`create_dashboard`] — Compose a dashboard tracking lead volume, score distribution, handoff rate, and conversion to opportunity. → produces: dashboard
+## What it does
+
+1. **Score every lead** (`create_ai_attribute`)
+
+   A qualification score weighing company fit, intent and engagement.
+
+2. **Split into hot, warm and cold** (`create_segment`)
+
+   Three tiers off that score.
+
+3. **Route hot leads round robin** (`create_workflow`)
+
+   Hot leads are handed round robin to a rep on the team, with a task created that carries the context.
+
+4. **Nurture warm and cold leads** (`create_journey`)
+
+   A journey for each of the other two tiers, at a cadence that suits how far off they are.
+
+5. **Track handoff to opportunity** (`create_dashboard`)
+
+   Lead volume, score distribution, how many reach a rep, and how many turn into opportunities.
+
+## What you end up with
+
+- **attribute** (attribute): Attribute produced by this recipe.
+- **segment** (segment): Segment produced by this recipe.
+- **workflow** (workflow): Workflow produced by this recipe.
+- **journey** (journey): Journey produced by this recipe.
+- **dashboard** (dashboard): Dashboard produced by this recipe.

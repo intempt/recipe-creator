@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /editorial-model
   group: Creative
-  shortDescription: "Full-body model, on location."
+  title: 'Editorial lookbook shot'
+  shortDescription: 'Produces a full-body editorial fashion photo of an AI model on location, then varies the lighting while holding pose and framing.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]
@@ -25,11 +26,11 @@ intempt:
     - generate_image
   procedure:
     - step: 1
-      title: "Generate editorial lookbook shot"
+      title: 'Relight the lookbook shot'
       command: generate_image
       produces: image
       bindsAs: image
-      description: "Generate a full-body editorial fashion photo with an AI model on location, with lighting variation."
+      description: 'Keeps the same model, outfit, pose, street and framing, and changes only the lighting, for example golden hour with long raking shadows.'
       prompt: |
         Generate an editorial lookbook shot.
 
@@ -39,14 +40,18 @@ intempt:
   outputs:
     - { name: image, type: image, cardinality: single, description: "Editorial lookbook image." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Editorial Lookbook
+# Editorial lookbook shot
 
-## Procedure
+Produces a full-body editorial fashion photo of an AI model on location, then varies the lighting while holding pose and framing.
 
-1. **Generate editorial lookbook shot** [`generate_image`] — Full-body model on location with lighting variation. → produces: image
+## What it does
 
-## Notes
+1. **Relight the lookbook shot** (`generate_image`)
 
-- Pipeline: flux-pro/kontext.
-- Model identity, outfit, and pose locked; lighting and mood vary.
+   Keeps the same model, outfit, pose, street and framing, and changes only the lighting, for example golden hour with long raking shadows.
+
+## What you end up with
+
+- **image** (image): Editorial lookbook image.

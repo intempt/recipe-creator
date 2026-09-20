@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /ad-builder
   group: Creative
-  shortDescription: "One-click on-brand ad from product + concept."
+  title: 'Branded ad from a product'
+  shortDescription: 'Turns a catalog product and a headline into a finished ad laid out in your Brand Kit colours, fonts and layout.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]
@@ -25,11 +26,11 @@ intempt:
     - generate_image
   procedure:
     - step: 1
-      title: "Build branded ad"
+      title: 'Build the ad'
       command: generate_image
       produces: image
       bindsAs: image
-      description: "Combine a product, a headline concept, and a Brand Kit Ad Recipe to produce a finished ad."
+      description: 'Combines the product, your headline concept and a Brand Kit ad recipe, so colours, fonts and layout come from your design system. The output is a finished ad ready to run.'
       prompt: |
         Build a branded ad image.
 
@@ -38,25 +39,24 @@ intempt:
         - productId: catalog product
         - adRecipeId: Brand Kit Ad Recipe for colors, fonts, layout
 
-        Pipeline: restyle → nano-banana-pro/edit with Brand Kit Ad Recipe composition
+        Pipeline: restyle to nano-banana-pro/edit with Brand Kit Ad Recipe composition
 
         Brand colours, fonts and layout flow from the design system. Produce a finished ad ready for deployment.
   outputs:
     - { name: image, type: image, cardinality: single, description: "Finished ad image." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Ad Builder
+# Branded ad from a product
 
-## Procedure
+Turns a catalog product and a headline into a finished ad laid out in your Brand Kit colours, fonts and layout.
 
-1. **Build branded ad** [`generate_image`] — Combine a product, a headline concept, and a Brand Kit Ad Recipe to produce a finished ad. → produces: image
+## What it does
 
-   ```text
-   Inputs: concept (headline), productId (SKU), adRecipeId (Brand Kit layout)
-   Pipeline: restyle → nano-banana-pro/edit
-   ```
+1. **Build the ad** (`generate_image`)
 
-## Notes
+   Combines the product, your headline concept and a Brand Kit ad recipe, so colours, fonts and layout come from your design system. The output is a finished ad ready to run.
 
-- fal.ai pipeline: restyle → nano-banana-pro/edit with Brand Kit Ad Recipe composition.
-- Brand colours, fonts, and layout sourced from the project's design system.
+## What you end up with
+
+- **image** (image): Finished ad image.

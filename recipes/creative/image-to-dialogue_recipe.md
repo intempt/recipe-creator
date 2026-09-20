@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /image-to-dialogue
   group: Creative
-  shortDescription: "Make any portrait speak your script."
+  title: 'Talking portrait'
+  shortDescription: 'Makes any portrait speak a script you write, in a voice you pick, with the face lip-synced to the audio.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]
@@ -25,11 +26,11 @@ intempt:
     - generate_video
   procedure:
     - step: 1
-      title: "Animate portrait with dialogue"
+      title: 'Make the portrait speak'
       command: generate_video
       produces: video
       bindsAs: video
-      description: "Upload a portrait, pick a voice, write the script. The model lip-syncs the face to the generated speech."
+      description: 'You upload a portrait, choose a voice preset and write the script. The face is lip-synced to the generated speech, with its identity and features preserved.'
       prompt: |
         Generate a talking-portrait video.
 
@@ -44,19 +45,18 @@ intempt:
   outputs:
     - { name: video, type: video, cardinality: single, description: "Talking-portrait clip." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Image to Dialogue
+# Talking portrait
 
-## Procedure
+Makes any portrait speak a script you write, in a voice you pick, with the face lip-synced to the audio.
 
-1. **Animate portrait with dialogue** [`generate_video`] — Upload portrait, pick voice, write script. → produces: video
+## What it does
 
-   ```text
-   Inputs: portrait image, script, voiceId
-   Pipeline: kling-clip + elevenlabs-tts
-   ```
+1. **Make the portrait speak** (`generate_video`)
 
-## Notes
+   You upload a portrait, choose a voice preset and write the script. The face is lip-synced to the generated speech, with its identity and features preserved.
 
-- fal.ai pipeline: kling-clip for lip-sync + elevenlabs-tts for voice.
-- Portrait identity preserved during animation.
+## What you end up with
+
+- **video** (video): Talking-portrait clip.

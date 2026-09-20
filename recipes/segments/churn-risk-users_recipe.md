@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /churn-risk-users
   group: Segments
-  shortDescription: "Previously active paid users who have gone silent in the last month."
+  title: 'Paid users going quiet'
+  shortDescription: 'Paying users who used to log in regularly and have not shown up for a month, so you can reach them before they cancel.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]
@@ -26,11 +27,11 @@ intempt:
     - create_segment
   procedure:
     - step: 1
-      title: "Configure Segment Rule"
+      title: 'Build the silent paid-user list'
       command: create_segment
       produces: segment
       bindsAs: segment
-      description: "Open the segment authoring surface, name the segment, and apply the rule below."
+      description: 'Users on a paid plan who started 5 or more sessions between 60 and 90 days ago and have started none in the last 30 days.'
       prompt: |
         Create a segment called "Churn Risk Users".
 
@@ -45,28 +46,18 @@ intempt:
   outputs:
     - { name: segment, type: segment, cardinality: single, description: "Segment created on /segments." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Churn Risk Users
+# Paid users going quiet
 
-## Procedure
+Paying users who used to log in regularly and have not shown up for a month, so you can reach them before they cancel.
 
-1. **Configure Segment Rule** [`create_segment`] — Open the segment authoring surface, name the segment, and apply the rule below. → produces: segment
+## What it does
 
-   ```text
-   Create a segment called "Churn Risk Users".
+1. **Build the silent paid-user list** (`create_segment`)
 
-   Object: Users
+   Users on a paid plan who started 5 or more sessions between 60 and 90 days ago and have started none in the last 30 days.
 
-   Rules (all conditions joined by AND):
-   - Event: session_start occurred >= 5 times between 60 and 90 days ago
-   - AND Event: session_start occurred 0 times in last 30 days
-   - AND Attribute: plan_name is not "free"
+## What you end up with
 
-   Description: Previously active paid users who have gone silent. Trigger CSM outreach or save-offer journey before they churn.
-   ```
-
-## Taxonomy notes
-
-- session_start is canonical.
-- plan_name is canonical (replaces source template's "plan" which is not the canonical attribute name).
-- The "between 60 and 90 days ago" + "0 times in last 30 days" pattern combines two windowed rules to capture the silent-after-active behavior.
+- **segment** (segment): Segment created on /segments.

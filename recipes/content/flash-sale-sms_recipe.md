@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /flash-sale-sms
   group: Content
-  shortDescription: "Urgency-driven short copy."
+  title: "Flash sale text message"
+  shortDescription: "Writes a short text message for a time-limited offer, inside SMS character limits, with a short link to the offer page."
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [content]
@@ -25,11 +26,11 @@ intempt:
     - create_content
   procedure:
     - step: 1
-      title: "Compose flash sale SMS"
+      title: "Write the flash sale SMS"
       command: create_content
       produces: content
       bindsAs: content
-      description: "Generate urgency-driven SMS copy with flash sale messaging and short link preview card."
+      description: "Direct, time-limited copy that fits SMS character limits, with a short link and preview card for the offer landing page."
       prompt: |
         Create a flash sale SMS message.
 
@@ -39,14 +40,18 @@ intempt:
   outputs:
     - { name: content, type: content, cardinality: single, description: "Flash sale SMS message." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Flash Sale SMS
+# Flash sale text message
 
-## Procedure
+Writes a short text message for a time-limited offer, inside SMS character limits, with a short link to the offer page.
 
-1. **Compose flash sale SMS** [`create_content`] — Generate urgency-driven SMS copy. → produces: content
+## What it does
 
-## Notes
+1. **Write the flash sale SMS** (`create_content`)
 
-- Routes to: /content-builder?type=sms&recipe=sms/sms-flash-sale-blast
-- Optimized for SMS character limits and urgency conversion.
+   Direct, time-limited copy that fits SMS character limits, with a short link and preview card for the offer landing page.
+
+## What you end up with
+
+- **content** (content): Flash sale SMS message.

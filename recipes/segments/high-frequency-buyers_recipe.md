@@ -1,14 +1,15 @@
 ---
 name: high-frequency-buyers
 description: |
-  Use when a user mentions "high-frequency buyers", or asks for related help. Customers who purchase 4+ times per quarter — most loyal cohort.
+  Use when a user mentions "high-frequency buyers", or asks for related help. Customers who purchase 4+ times per quarter: most loyal cohort.
 arguments: []
 intempt:
   id: high-frequency-buyers
   version: 1.0.0
   slashCommand: /high-frequency-buyers
   group: Segments
-  shortDescription: 'Customers who purchase 4+ times per quarter: most loyal cohort.'
+  title: 'High-frequency buyers'
+  shortDescription: 'Customers who order at least four times a quarter, so loyalty perks and early access go to the people who buy most often.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]
@@ -26,11 +27,11 @@ intempt:
     - create_segment
   procedure:
     - step: 1
-      title: "Configure Segment Rule"
+      title: 'Build the frequent-buyer list'
       command: create_segment
       produces: segment
       bindsAs: segment
-      description: "Open the segment authoring surface, name the segment, and apply the rule below."
+      description: 'Users with 4 or more orders in the last 90 days.'
       prompt: |
         Create a segment called "High-Frequency Buyers".
 
@@ -39,29 +40,22 @@ intempt:
         Rules:
         - Event: order_created occurred >= 4 times in last 90 days
 
-        Description: High-frequency buyers — the most loyal cohort. Priority for loyalty program enrollment, early access, and brand-ambassador outreach.
+        Description: High-frequency buyers: the most loyal cohort. Priority for loyalty program enrollment, early access, and brand-ambassador outreach.
   outputs:
     - { name: segment, type: segment, cardinality: single, description: "Segment created on /segments." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# High-Frequency Buyers
+# High-frequency buyers
 
-## Procedure
+Customers who order at least four times a quarter, so loyalty perks and early access go to the people who buy most often.
 
-1. **Configure Segment Rule** [`create_segment`] — Open the segment authoring surface, name the segment, and apply the rule below. → produces: segment
+## What it does
 
-   ```text
-   Create a segment called "High-Frequency Buyers".
+1. **Build the frequent-buyer list** (`create_segment`)
 
-   Object: Users
+   Users with 4 or more orders in the last 90 days.
 
-   Rules:
-   - Event: order_created occurred >= 4 times in last 90 days
+## What you end up with
 
-   Description: High-frequency buyers — the most loyal cohort. Priority for loyalty program enrollment, early access, and brand-ambassador outreach.
-   ```
-
-## Taxonomy notes
-
-- order_created is canonical.
-- This is the cleanest segment in the bundle — a single rule on a single canonical event. Add Attribute: lifetime_value >= <threshold> as an optional refinement to filter out high-frequency low-value buyers (e.g., subscribers using credits).
+- **segment** (segment): Segment created on /segments.

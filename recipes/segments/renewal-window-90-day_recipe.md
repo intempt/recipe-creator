@@ -1,14 +1,15 @@
 ---
 name: renewal-window-90-day
 description: |
-  Use when a user mentions "renewal window — 90 days", or asks for related help. Subscriptions ending in next 90 days — foundation for renewal-flow journeys and NRR plays.
+  Use when a user mentions "renewal window (90 days", or asks for related help. Subscriptions ending in next 90 days) foundation for renewal-flow journeys and NRR plays.
 arguments: []
 intempt:
   id: renewal-window-90-day
   version: 1.0.0
   slashCommand: /renewal-window-90-day
   group: Segments
-  shortDescription: 'Subscriptions ending in next 90 days: foundation for renewal-flow journeys and NRR plays.'
+  title: 'Renewals due in 90 days'
+  shortDescription: 'Paid subscriptions that end within the next three months, so renewal conversations start early instead of the week before.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]
@@ -26,13 +27,13 @@ intempt:
     - create_segment
   procedure:
     - step: 1
-      title: "Configure Segment Rule"
+      title: 'Build the renewal list'
       command: create_segment
       produces: segment
       bindsAs: segment
-      description: "Open the segment authoring surface, name the segment, and apply the rule below."
+      description: 'Users on a paid plan whose subscription end date falls within the next 90 days and is still in the future.'
       prompt: |
-        Create a segment called "Renewal Window — 90 Days".
+        Create a segment called "Renewal Window: 90 Days".
 
         Object: Users
 
@@ -41,34 +42,22 @@ intempt:
         - AND Attribute: end_date is in the future
         - AND Attribute: plan_name is not "free"
 
-        Description: Users with active paid subscriptions ending in the next 90 days. The renewal-targeting cohort — foundation for QBR-style ROI emails, renewal-conversation triggers, and NRR-driven CSM outreach. NRR is the single most important SaaS metric in 2026; this segment makes the renewal pipeline actionable.
+        Description: Users with active paid subscriptions ending in the next 90 days. The renewal-targeting cohort: foundation for QBR-style ROI emails, renewal-conversation triggers, and NRR-driven CSM outreach. NRR is the single most important SaaS metric in 2026; this segment makes the renewal pipeline actionable.
   outputs:
     - { name: segment, type: segment, cardinality: single, description: "Segment created on /segments." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Renewal Window — 90 Days
+# Renewals due in 90 days
 
-## Procedure
+Paid subscriptions that end within the next three months, so renewal conversations start early instead of the week before.
 
-1. **Configure Segment Rule** [`create_segment`] — Open the segment authoring surface, name the segment, and apply the rule below. → produces: segment
+## What it does
 
-   ```text
-   Create a segment called "Renewal Window — 90 Days".
+1. **Build the renewal list** (`create_segment`)
 
-   Object: Users
+   Users on a paid plan whose subscription end date falls within the next 90 days and is still in the future.
 
-   Rules (all conditions joined by AND):
-   - Attribute: end_date is within next 90 days
-   - AND Attribute: end_date is in the future
-   - AND Attribute: plan_name is not "free"
+## What you end up with
 
-   Description: Users with active paid subscriptions ending in the next 90 days. The renewal-targeting cohort — foundation for QBR-style ROI emails, renewal-conversation triggers, and NRR-driven CSM outreach. NRR is the single most important SaaS metric in 2026; this segment makes the renewal pipeline actionable.
-   ```
-
-## Taxonomy notes
-
-- end_date is canonical Users attribute (subscription end timestamp).
-- plan_name is canonical (excludes free-tier users who don't have renewal events).
-- The "in the future" filter ensures we don't include subscriptions that have already lapsed — those belong in different cohorts (recently-churned-users or subscription-expired flows).
-- Tighter renewal-window variants are common: 60-day cohort for late-stage CSM outreach, 30-day cohort for at-risk-renewal escalation. Clone this recipe per cadence the merchant runs.
-- Pair with account_health and engagement_score on the Accounts side for a renewal-risk tier (healthy renewals get light-touch reminders; at-risk renewals get high-touch CSM intervention).
+- **segment** (segment): Segment created on /segments.

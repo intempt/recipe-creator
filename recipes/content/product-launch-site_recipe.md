@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /product-launch-site
   group: Content
-  shortDescription: "One or more pages, deploy in a click."
+  title: "Product launch microsite"
+  shortDescription: "Builds a small launch site (hero, feature pages, call to action, footer) in your brand styling, ready to publish in one click."
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [content]
@@ -25,11 +26,11 @@ intempt:
     - create_content
   procedure:
     - step: 1
-      title: "Build product launch site"
+      title: "Build the launch microsite"
       command: create_content
       produces: content
       bindsAs: content
-      description: "Generate a multi-page microsite with hero, feature pages, CTA, and footer for a product launch."
+      description: "A multi-page site with a hero, feature and benefit pages, a call to action and a footer, using your brand styling and deployable in one click."
       prompt: |
         Create a product launch microsite.
 
@@ -39,14 +40,18 @@ intempt:
   outputs:
     - { name: content, type: content, cardinality: single, description: "Product launch microsite." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Product Launch Site
+# Product launch microsite
 
-## Procedure
+Builds a small launch site (hero, feature pages, call to action, footer) in your brand styling, ready to publish in one click.
 
-1. **Build product launch site** [`create_content`] — Generate multi-page microsite. → produces: content
+## What it does
 
-## Notes
+1. **Build the launch microsite** (`create_content`)
 
-- Routes to: /content-builder?type=landing_page&microsite=1&recipe=site/product-launch
-- Multi-page with hero, features, CTA, footer.
+   A multi-page site with a hero, feature and benefit pages, a call to action and a footer, using your brand styling and deployable in one click.
+
+## What you end up with
+
+- **content** (content): Product launch microsite.

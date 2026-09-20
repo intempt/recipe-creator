@@ -4,10 +4,11 @@ description: Use when a user mentions "tag shopify customers", "segment to shopi
 arguments: []
 intempt:
   id: shopify-segment-to-customer-tag
+  title: "Tag Shopify customers from a segment"
   version: 1.0.0
   slashCommand: /shopify-segment-to-customer-tag
   group: Workflows
-  shortDescription: "Tag Shopify customers from a segment computed here, so a cohort the CDP understands becomes something the store can merchandise against."
+  shortDescription: "Pushes a cohort computed here onto Shopify customers as a tag, so the store can merchandise against it."
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [marketing]
@@ -28,35 +29,46 @@ intempt:
     - create_workflow
   procedure:
     - step: 1
-      title: Define The Cohort
+      title: "Define the cohort to tag"
       command: create_segment
       produces: segment
       bindsAs: cohort
-      description: 'Create the segment to tag — high lifetime value, repeat buyer, lapsed, whatever the store wants to treat differently. The segment is the definition; the tag is only its shadow in Shopify.'
-      prompt: 'Create the segment to tag — high lifetime value, repeat buyer, lapsed, whatever the store wants to treat differently. The segment is the definition; the tag is only its shadow in Shopify.'
+      description: "High lifetime value, repeat buyer, lapsed, or whatever the store wants to treat differently. The segment is the definition and the tag is only its shadow in Shopify."
+      prompt: 'Create the segment to tag: high lifetime value, repeat buyer, lapsed, whatever the store wants to treat differently. The segment is the definition; the tag is only its shadow in Shopify.'
     - step: 2
-      title: Tag Them In Shopify
+      title: "Write the tag into Shopify"
       command: create_workflow
       produces: workflow
       bindsAs: workflow
       dependsOn:
       - cohort
-      description: 'Create a workflow that tags each member in Shopify. Tags are additive and the workflow states which tag it manages, because a tag the store team also edits by hand will otherwise be fought over silently. Shopify''s own rejection is surfaced verbatim — a tag limit and a permission error need different responses.'
-      prompt: 'Create a workflow that tags each member in Shopify. Tags are additive and the workflow states which tag it manages, because a tag the store team also edits by hand will otherwise be fought over silently. Shopify''s own rejection is surfaced verbatim — a tag limit and a permission error need different responses.'
+      description: "Each member is tagged in Shopify. Tags are additive, and the workflow names the one tag it manages, because a tag the store team also edits by hand gets fought over silently. Shopify's own rejection is shown as it came, since a tag limit and a permission error need different responses."
+      prompt: 'Create a workflow that tags each member in Shopify. Tags are additive and the workflow states which tag it manages, because a tag the store team also edits by hand will otherwise be fought over silently. Shopify''s own rejection is surfaced verbatim: a tag limit and a permission error need different responses.'
   outputs:
     - { name: cohort, type: segment, cardinality: single, description: "Segment produced by this recipe." }
     - { name: workflow, type: workflow, cardinality: single, description: "Workflow produced by this recipe." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Shopify Segment To Customer Tag
+# Tag Shopify customers from a segment
 
-> **Not runnable yet.** Tagging a customer in Shopify has no backend. The connector reads today and cannot write, and Airbyte does not close that gap — its destinations write to warehouses, not into Shopify. This recipe is published so the demand is recorded and the workflow is designed, and it will fail at the write step until the operation ships.
+Pushes a cohort computed here onto Shopify customers as a tag, so the store can merchandise against it.
 
-## Procedure
+## Before you run it
 
-1. **Define The Cohort** [`create_segment`] — Create the segment to tag — high lifetime value, repeat buyer, lapsed, whatever the store wants to treat differently. The segment is the definition; the tag is only its shadow in Shopify. → produces: segment
-2. **Tag Them In Shopify** [`create_workflow`] — Create a workflow that tags each member in Shopify. Tags are additive and the workflow states which tag it manages, because a tag the store team also edits by hand will otherwise be fought over silently. Shopify's own rejection is surfaced verbatim — a tag limit and a permission error need different responses. → produces: workflow
+- Connect shopify
 
-## Prerequisites
+## What it does
 
-- Integration **shopify** (blocking)
+1. **Define the cohort to tag** (`create_segment`)
+
+   High lifetime value, repeat buyer, lapsed, or whatever the store wants to treat differently. The segment is the definition and the tag is only its shadow in Shopify.
+
+2. **Write the tag into Shopify** (`create_workflow`)
+
+   Each member is tagged in Shopify. Tags are additive, and the workflow names the one tag it manages, because a tag the store team also edits by hand gets fought over silently. Shopify's own rejection is shown as it came, since a tag limit and a permission error need different responses.
+
+## What you end up with
+
+- **cohort** (segment): Segment produced by this recipe.
+- **workflow** (workflow): Workflow produced by this recipe.

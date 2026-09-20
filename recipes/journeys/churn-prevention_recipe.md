@@ -5,10 +5,11 @@ description: |
 arguments: []
 intempt:
   id: churn-prevention
+  title: "Churn prevention"
   version: 1.0.0
   slashCommand: /churn-prevention
   group: Journeys
-  shortDescription: "AI-derived risk scoring, CSM alerts, automated re-engagement, and retention measurement."
+  shortDescription: "Flags customers who are drifting away, reaches them automatically while it is still cheap to fix, and pulls in a CSM when it is not."
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [marketing]
@@ -34,59 +35,59 @@ intempt:
     - create_dashboard
   procedure:
     - step: 1
-      title: "Compute Churn Risk"
+      title: "Score churn risk"
       command: create_ai_attribute
       produces: attribute
       bindsAs: attribute
-      description: "Define an AI-derived churn_risk_score attribute using engagement decline, support ticket sentiment, and feature-usage signals."
+      description: "A churn risk score built from falling engagement, the tone of support tickets, and which features have gone unused."
       prompt: "Define an AI-derived churn_risk_score attribute using engagement decline, support ticket sentiment, and feature-usage signals."
     - step: 2
-      title: "Segment At Risk"
+      title: "Split into low, medium and high"
       command: create_segment
       produces: segment
       bindsAs: segment
       dependsOn: [attribute]
-      description: "Segment users into low/medium/high churn-risk buckets."
+      description: "Three risk buckets off that score."
       prompt: "Segment users into low/medium/high churn-risk buckets."
     - step: 3
-      title: "Build Csm Workflow"
+      title: "Tell the CSM about high risk"
       command: create_workflow
       produces: workflow
       bindsAs: workflow
       dependsOn: [attribute, segment]
-      description: "Create a workflow alerting CSMs when high-risk users cross the threshold, with context payload to Slack."
+      description: "When a user crosses the high risk threshold, their CSM gets a Slack message carrying the context behind the score."
       prompt: "Create a workflow alerting CSMs when high-risk users cross the threshold, with context payload to Slack."
     - step: 4
-      title: "Build Content"
+      title: "Write the win back emails"
       command: create_email_content
       produces: asset
       bindsAs: asset
       dependsOn: [attribute, segment, workflow]
-      description: "Generate re-engagement content: win-back-feature emails, success-story emails, value-reminder emails."
+      description: "Emails that point to a feature they are missing, share a customer success story, and remind them what they are paying for."
       prompt: "Generate re-engagement content: win-back-feature emails, success-story emails, value-reminder emails."
     - step: 5
-      title: "Build Journey"
+      title: "Reach medium risk first"
       command: create_journey
       produces: journey
       bindsAs: journey
       dependsOn: [attribute, segment, workflow, asset]
-      description: "Build a journey for medium-risk users with auto-engagement before CSM intervention is needed."
+      description: "Medium risk users get those emails automatically, before the account needs a CSM to step in."
       prompt: "Build a journey for medium-risk users with auto-engagement before CSM intervention is needed."
     - step: 6
-      title: "Build Retention Report"
+      title: "Compare churn by risk tier"
       command: build_retention_report
       produces: report
       bindsAs: report
       dependsOn: [attribute, segment, workflow, asset, journey]
-      description: "Compose a retention report tracking churn rate by risk tier and intervention type."
+      description: "Churn rate by risk tier and by which intervention the user received."
       prompt: "Compose a retention report tracking churn rate by risk tier and intervention type."
     - step: 7
-      title: "Build Dashboard"
+      title: "See if the saves are working"
       command: create_dashboard
       produces: dashboard
       bindsAs: dashboard
       dependsOn: [attribute, segment, workflow, asset, journey, report]
-      description: "Compose a dashboard showing risk distribution, intervention success rate, and net retention impact."
+      description: "Risk distribution, how often an intervention works, and the net effect on retention."
       prompt: "Compose a dashboard showing risk distribution, intervention success rate, and net retention impact."
   outputs:
     - { name: attribute, type: attribute, cardinality: single, description: "Attribute produced by this recipe." }
@@ -97,15 +98,52 @@ intempt:
     - { name: report, type: report, cardinality: single, description: "Report produced by this recipe." }
     - { name: dashboard, type: dashboard, cardinality: single, description: "Dashboard produced by this recipe." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Churn Prevention
+# Churn prevention
 
-## Procedure
+Flags customers who are drifting away, reaches them automatically while it is still cheap to fix, and pulls in a CSM when it is not.
 
-1. **Compute Churn Risk** [`create_ai_attribute`] — Define an AI-derived churn_risk_score attribute using engagement decline, support ticket sentiment, and feature-usage signals. → produces: attribute
-2. **Segment At Risk** [`create_segment`] — Segment users into low/medium/high churn-risk buckets. → produces: segment
-3. **Build Csm Workflow** [`create_workflow`] — Create a workflow alerting CSMs when high-risk users cross the threshold, with context payload to Slack. → produces: workflow
-4. **Build Content** [`create_email_content`] — Generate re-engagement content: win-back-feature emails, success-story emails, value-reminder emails. → produces: asset
-5. **Build Journey** [`create_journey`] — Build a journey for medium-risk users with auto-engagement before CSM intervention is needed. → produces: journey
-6. **Build Retention Report** [`build_retention_report`] — Compose a retention report tracking churn rate by risk tier and intervention type. → produces: report
-7. **Build Dashboard** [`create_dashboard`] — Compose a dashboard showing risk distribution, intervention success rate, and net retention impact. → produces: dashboard
+## Before you run it
+
+- Connect slack
+
+## What it does
+
+1. **Score churn risk** (`create_ai_attribute`)
+
+   A churn risk score built from falling engagement, the tone of support tickets, and which features have gone unused.
+
+2. **Split into low, medium and high** (`create_segment`)
+
+   Three risk buckets off that score.
+
+3. **Tell the CSM about high risk** (`create_workflow`)
+
+   When a user crosses the high risk threshold, their CSM gets a Slack message carrying the context behind the score.
+
+4. **Write the win back emails** (`create_email_content`)
+
+   Emails that point to a feature they are missing, share a customer success story, and remind them what they are paying for.
+
+5. **Reach medium risk first** (`create_journey`)
+
+   Medium risk users get those emails automatically, before the account needs a CSM to step in.
+
+6. **Compare churn by risk tier** (`build_retention_report`)
+
+   Churn rate by risk tier and by which intervention the user received.
+
+7. **See if the saves are working** (`create_dashboard`)
+
+   Risk distribution, how often an intervention works, and the net effect on retention.
+
+## What you end up with
+
+- **attribute** (attribute): Attribute produced by this recipe.
+- **segment** (segment): Segment produced by this recipe.
+- **workflow** (workflow): Workflow produced by this recipe.
+- **asset** (asset): Asset produced by this recipe.
+- **journey** (journey): Journey produced by this recipe.
+- **report** (report): Report produced by this recipe.
+- **dashboard** (dashboard): Dashboard produced by this recipe.

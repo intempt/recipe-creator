@@ -1,14 +1,15 @@
 ---
 name: ugc-photo
 description: |
-  Use when a user mentions "UGC photo", "user-generated content", "candid photo", "handheld photo", "selfie with product", or asks for authentic-looking product photos. Studio packshot → candid handheld.
+  Use when a user mentions "UGC photo", "user-generated content", "candid photo", "handheld photo", "selfie with product", or asks for authentic-looking product photos. Studio packshot to candid handheld.
 arguments: []
 intempt:
   id: ugc-photo
   version: 1.0.0
   slashCommand: /ugc-photo
   group: Creative
-  shortDescription: 'Studio packshot to candid handheld.'
+  title: 'UGC-style product photo'
+  shortDescription: 'Re-shoots a studio packshot as a candid handheld phone photo of a real person holding the product.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]
@@ -25,11 +26,11 @@ intempt:
     - generate_image
   procedure:
     - step: 1
-      title: "Generate UGC photo"
+      title: 'Reshoot as a candid photo'
       command: generate_image
       produces: image
       bindsAs: image
-      description: "Re-shoot a studio packshot as a candid handheld iPhone selfie with the product."
+      description: 'Re-renders the same product as a handheld selfie: a real person holding it at arm''s length, a kitchen or bathroom counter behind, real skin texture and slightly underexposed. Authentic rather than glamour.'
       prompt: |
         Re-shoot a product as a candid UGC photo.
 
@@ -39,14 +40,18 @@ intempt:
   outputs:
     - { name: image, type: image, cardinality: single, description: "UGC-style product photo." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# UGC Photo
+# UGC-style product photo
 
-## Procedure
+Re-shoots a studio packshot as a candid handheld phone photo of a real person holding the product.
 
-1. **Generate UGC photo** [`generate_image`] — Packshot → candid handheld selfie. → produces: image
+## What it does
 
-## Notes
+1. **Reshoot as a candid photo** (`generate_image`)
 
-- Pipeline: flux-pro/kontext.
-- Authentic candid feel — not glamour photography.
+   Re-renders the same product as a handheld selfie: a real person holding it at arm's length, a kitchen or bathroom counter behind, real skin texture and slightly underexposed. Authentic rather than glamour.
+
+## What you end up with
+
+- **image** (image): UGC-style product photo.

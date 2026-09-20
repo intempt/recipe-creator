@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /pre-churn-behavioral-signals
   group: Reports
-  shortDescription: "Path to subscription_cancelled with precursor-event ranking by lift over baseline."
+  title: "Pre churn behaviour signals"
+  shortDescription: "Shows what customers do in the month before they cancel, and which of those actions are genuinely unusual compared with customers who stay."
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]
@@ -25,11 +26,11 @@ intempt:
     - build_paths_report
   procedure:
     - step: 1
-      title: "Build Path Report"
+      title: "Rank the signals before a cancel"
       command: build_paths_report
       produces: report
       bindsAs: report
-      description: "Configure and materialize the report described below."
+      description: "The 7 steps before each cancellation in the 30 days leading up to it, across the last 90 days of cancellations and grouped by reason. Every precursor event is ranked by how much more often it appears than in a matched active cohort, flagging anything above 50%."
       prompt: |
         Create a Path report called "Pre-Churn Behavioral Signals".
 
@@ -40,7 +41,7 @@ intempt:
         Loop compression: on
         Time range: Last 90 days of cancellations
 
-        Breakdown: By the cancellation reason — subscription_cancelled.reason is a free-text property; cluster reasons before breakdown (e.g. price, fit, feature-gap, churn-without-reason).
+        Breakdown: By the cancellation reason: subscription_cancelled.reason is a free-text property; cluster reasons before breakdown (e.g. price, fit, feature-gap, churn-without-reason).
 
         Surface both the top paths (most common precursor sequences) AND a precursor-event ranking:
 
@@ -53,9 +54,9 @@ intempt:
 
         Annotations:
         - Flag any event whose lift exceeds 50% (occurs >1.5× more often in pre-churn period than in matched active cohort).
-        - Surface the median time between the highest-lift event and the cancellation — this is the intervention window.
-        - Highlight any "ticket_created" events in the top precursors — high-priority operational issues.
-        - Highlight any "invoice_payment_failed" events — distinct from product-fit churn; require dunning remediation.
+        - Surface the median time between the highest-lift event and the cancellation: this is the intervention window.
+        - Highlight any "ticket_created" events in the top precursors: high-priority operational issues.
+        - Highlight any "invoice_payment_failed" events: distinct from product-fit churn; require dunning remediation.
 
         Surface the 3 strongest behavioral leading indicators of churn and the typical intervention window.
 
@@ -65,43 +66,18 @@ intempt:
   outputs:
     - { name: report, type: report, cardinality: single, description: "Report produced by this recipe." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Pre-Churn Behavioral Signal Identification
+# Pre churn behaviour signals
 
-## Procedure
+Shows what customers do in the month before they cancel, and which of those actions are genuinely unusual compared with customers who stay.
 
-1. **Build Path Report** [`build_paths_report`] — Configure and materialize the report described below. → produces: report
+## What it does
 
-   ```text
-   Create a Path report called "Pre-Churn Behavioral Signals".
+1. **Rank the signals before a cancel** (`build_paths_report`)
 
-   Anchor event: subscription_cancelled
-   Direction: backward (looking back from the cancellation event)
-   Depth: 7 steps backward
-   Window: 30 days before cancellation
-   Loop compression: on
-   Time range: Last 90 days of cancellations
+   The 7 steps before each cancellation in the 30 days leading up to it, across the last 90 days of cancellations and grouped by reason. Every precursor event is ranked by how much more often it appears than in a matched active cohort, flagging anything above 50%.
 
-   Breakdown: By the cancellation reason — subscription_cancelled.reason is a free-text property; cluster reasons before breakdown (e.g. price, fit, feature-gap, churn-without-reason).
+## What you end up with
 
-   Surface both the top paths (most common precursor sequences) AND a precursor-event ranking:
-
-   Precursor-event ranking computation:
-   - For each canonical event type that occurs in the 30 days before cancellation:
-     - Compute its frequency in the pre-churn window (cancelled cohort)
-     - Compute its frequency in the same 30-day window for a control cohort (active subscribers, matched on plan_name and tenure since subscription_created)
-     - Lift = (frequency in churned cohort − frequency in control cohort) / frequency in control cohort × 100
-   - Surface the top 10 events by lift
-
-   Annotations:
-   - Flag any event whose lift exceeds 50% (occurs >1.5× more often in pre-churn period than in matched active cohort).
-   - Surface the median time between the highest-lift event and the cancellation — this is the intervention window.
-   - Highlight any "ticket_created" events in the top precursors — high-priority operational issues.
-   - Highlight any "invoice_payment_failed" events — distinct from product-fit churn; require dunning remediation.
-
-   Surface the 3 strongest behavioral leading indicators of churn and the typical intervention window.
-
-   Taxonomy notes:
-   - subscription_cancelled is canonical; reason is a free-text property requiring clustering.
-   - Path engine ranks all canonical events that appear in the backward-window. The "support_ticket_created" event is actually called ticket_created.
-   ```
+- **report** (report): Report produced by this recipe.

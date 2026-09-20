@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /interior-staging
   group: Creative
-  shortDescription: "Empty room, finished room."
+  title: 'Virtual interior staging'
+  shortDescription: 'Furnishes a photo of an empty room, leaving the walls, floor, windows and daylight exactly as they were shot.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]
@@ -25,11 +26,11 @@ intempt:
     - generate_image
   procedure:
     - step: 1
-      title: "Stage interior"
+      title: 'Furnish the empty room'
       command: generate_image
       produces: image
       bindsAs: image
-      description: "Take an empty room photo and add furniture, decor, and styling while preserving the room geometry and daylight."
+      description: 'Adds furniture, a coffee table, a vase, a floor lamp and other staging suited to the space. Room geometry, walls, flooring, windows and daylight stay unchanged.'
       prompt: |
         Stage an empty room with furniture and decor.
 
@@ -39,14 +40,18 @@ intempt:
   outputs:
     - { name: image, type: image, cardinality: single, description: "Staged interior image." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Interior Staging
+# Virtual interior staging
 
-## Procedure
+Furnishes a photo of an empty room, leaving the walls, floor, windows and daylight exactly as they were shot.
 
-1. **Stage interior** [`generate_image`] — Add furniture and decor to an empty room. → produces: image
+## What it does
 
-## Notes
+1. **Furnish the empty room** (`generate_image`)
 
-- Pipeline: flux-pro/kontext for scene augmentation.
-- Room geometry and lighting preserved; only furnishings added.
+   Adds furniture, a coffee table, a vase, a floor lamp and other staging suited to the space. Room geometry, walls, flooring, windows and daylight stay unchanged.
+
+## What you end up with
+
+- **image** (image): Staged interior image.

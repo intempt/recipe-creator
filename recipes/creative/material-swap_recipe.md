@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /material-swap
   group: Creative
-  shortDescription: "Re-cover, re-finish, re-colour."
+  title: 'Material and finish swap'
+  shortDescription: 'Changes the material, finish or colour of a product while the shape, pose, camera angle and shadow stay exactly as shot.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]
@@ -25,28 +26,32 @@ intempt:
     - generate_image
   procedure:
     - step: 1
-      title: "Swap material or finish"
+      title: 'Swap the material'
       command: generate_image
       produces: image
       bindsAs: image
-      description: "Change the material, finish, or colour of a product while keeping form, pose, camera angle, and shadow identical."
+      description: 'Changes only the surface material, for example linen to boucle, oak to walnut, or matte to gloss. Frame, pose, camera angle and shadow are identical.'
       prompt: |
         Swap the material/finish on a product.
 
-        Keep the frame, pose, camera angle, and shadow identical. Only change the surface material (e.g., linen → bouclé, oak → walnut, matte → gloss).
+        Keep the frame, pose, camera angle, and shadow identical. Only change the surface material (e.g., linen to bouclé, oak to walnut, matte to gloss).
 
         Pipeline: flux-pro/kontext (material-targeted edit)
   outputs:
     - { name: image, type: image, cardinality: single, description: "Material-swapped product image." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Material Swap
+# Material and finish swap
 
-## Procedure
+Changes the material, finish or colour of a product while the shape, pose, camera angle and shadow stay exactly as shot.
 
-1. **Swap material or finish** [`generate_image`] — Change surface material while preserving form. → produces: image
+## What it does
 
-## Notes
+1. **Swap the material** (`generate_image`)
 
-- Pipeline: flux-pro/kontext.
-- Supports fabric, wood, metal, paint, and texture swaps.
+   Changes only the surface material, for example linen to boucle, oak to walnut, or matte to gloss. Frame, pose, camera angle and shadow are identical.
+
+## What you end up with
+
+- **image** (image): Material-swapped product image.

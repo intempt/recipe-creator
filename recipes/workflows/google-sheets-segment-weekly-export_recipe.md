@@ -4,10 +4,11 @@ description: Use when a user mentions "weekly segment export", "segment to sprea
 arguments: []
 intempt:
   id: google-sheets-segment-weekly-export
+  title: "Weekly segment export to a sheet"
   version: 1.0.0
   slashCommand: /google-sheets-segment-weekly-export
   group: Workflows
-  shortDescription: "Export a segment to a Google Sheet on a schedule, replacing the weekly CSV someone downloads and re-uploads by hand."
+  shortDescription: "Writes a segment into a Google Sheet every week, replacing the CSV someone downloads and re-uploads by hand."
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [marketing]
@@ -28,35 +29,46 @@ intempt:
     - create_workflow
   procedure:
     - step: 1
-      title: Define The Segment To Export
+      title: "Pick the audience to export"
       command: create_segment
       produces: segment
       bindsAs: segment
-      description: 'Create or pick the segment whose members should land in the sheet each week. Keep it a segment rather than a filter inside the workflow, so the same definition drives the export and anything else that needs the same audience.'
+      description: "Define it as a segment rather than a filter inside the workflow, so the same definition drives the export and anything else that needs the same list."
       prompt: 'Create or pick the segment whose members should land in the sheet each week. Keep it a segment rather than a filter inside the workflow, so the same definition drives the export and anything else that needs the same audience.'
     - step: 2
-      title: Export It On A Schedule
+      title: "Refresh the sheet each week"
       command: create_workflow
       produces: workflow
       bindsAs: workflow
       dependsOn:
       - segment
-      description: 'Create a scheduled workflow that reads the segment and appends its members to a Google Sheet weekly. Use append-or-update matched on the record identifier so a re-run maintains the sheet rather than duplicating it — a plain append turns a weekly export into a growing pile nobody trusts. State the row count before the run so an author can see a segment that has unexpectedly collapsed or exploded.'
-      prompt: 'Create a scheduled workflow that reads the segment and appends its members to a Google Sheet weekly. Use append-or-update matched on the record identifier so a re-run maintains the sheet rather than duplicating it — a plain append turns a weekly export into a growing pile nobody trusts. State the row count before the run so an author can see a segment that has unexpectedly collapsed or exploded.'
+      description: "A weekly run writes the segment's members into the sheet, matched on the record identifier so a repeat run updates rows instead of duplicating them. The row count is stated before the run, so a segment that has collapsed or exploded is visible."
+      prompt: 'Create a scheduled workflow that reads the segment and appends its members to a Google Sheet weekly. Use append-or-update matched on the record identifier so a re-run maintains the sheet rather than duplicating it: a plain append turns a weekly export into a growing pile nobody trusts. State the row count before the run so an author can see a segment that has unexpectedly collapsed or exploded.'
   outputs:
     - { name: segment, type: segment, cardinality: single, description: "Segment produced by this recipe." }
     - { name: workflow, type: workflow, cardinality: single, description: "Workflow produced by this recipe." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Google Sheets Segment Weekly Export
+# Weekly segment export to a sheet
 
-> **Not runnable yet.** Appending rows in Google Sheets has no backend. The connector reads today and cannot write, and Airbyte does not close that gap — its destinations write to warehouses, not into Google Sheets. This recipe is published so the demand is recorded and the workflow is designed, and it will fail at the write step until the operation ships.
+Writes a segment into a Google Sheet every week, replacing the CSV someone downloads and re-uploads by hand.
 
-## Procedure
+## Before you run it
 
-1. **Define The Segment To Export** [`create_segment`] — Create or pick the segment whose members should land in the sheet each week. Keep it a segment rather than a filter inside the workflow, so the same definition drives the export and anything else that needs the same audience. → produces: segment
-2. **Export It On A Schedule** [`create_workflow`] — Create a scheduled workflow that reads the segment and appends its members to a Google Sheet weekly. Use append-or-update matched on the record identifier so a re-run maintains the sheet rather than duplicating it — a plain append turns a weekly export into a growing pile nobody trusts. State the row count before the run so an author can see a segment that has unexpectedly collapsed or exploded. → produces: workflow
+- Connect google_sheets
 
-## Prerequisites
+## What it does
 
-- Integration **google_sheets** (blocking)
+1. **Pick the audience to export** (`create_segment`)
+
+   Define it as a segment rather than a filter inside the workflow, so the same definition drives the export and anything else that needs the same list.
+
+2. **Refresh the sheet each week** (`create_workflow`)
+
+   A weekly run writes the segment's members into the sheet, matched on the record identifier so a repeat run updates rows instead of duplicating them. The row count is stated before the run, so a segment that has collapsed or exploded is visible.
+
+## What you end up with
+
+- **segment** (segment): Segment produced by this recipe.
+- **workflow** (workflow): Workflow produced by this recipe.

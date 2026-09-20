@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /paths-from-product-detail-page
   group: Reports
-  shortDescription: "Forward path from PDP page_viewed surfacing whether users add to cart, browse similar, search again, or exit."
+  title: "Paths from a product page"
+  shortDescription: "Shows what shoppers do after landing on a product page: add to cart, keep browsing, search again, or leave."
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]
@@ -25,11 +26,11 @@ intempt:
     - build_paths_report
   procedure:
     - step: 1
-      title: "Build Path Report"
+      title: "See what follows a product view"
       command: build_paths_report
       produces: report
       bindsAs: report
-      description: "Configure and materialize the report described below."
+      description: "The 5 steps after a product page view inside a 30 minute window over the last 30 days, split by device, with the share that adds to cart and the share that leaves without buying. Flags an exit rate over 50%."
       prompt: |
         Create a Path report called "Paths from Product Detail Page".
 
@@ -45,13 +46,13 @@ intempt:
         - The top 10 most-common 5-step paths starting from a PDP view
         - The % of PDP views that result in a cart_created within the window (PDP-to-cart conversion)
         - The % of PDP views that result in a session_end without any cart_created OR order_created (PDP exit rate)
-        - The most common immediate-next event after PDP — typically: cart_created, another page_viewed (similar product), search/category navigation, or session exit
+        - The most common immediate-next event after PDP: typically: cart_created, another page_viewed (similar product), search/category navigation, or session exit
 
         Annotations:
         - Flag if PDP-exit rate exceeds 50% (typical strong signal of weak product page conversion).
-        - Flag if the most common next event after PDP is "page_viewed on category/listing" — users are comparison-shopping, suggesting the PDP lacks comparison features or social proof.
+        - Flag if the most common next event after PDP is "page_viewed on category/listing": users are comparison-shopping, suggesting the PDP lacks comparison features or social proof.
         - Flag if mobile PDP exit rate is >10 points worse than desktop (mobile UX issue specific to product pages).
-        - Highlight top 3 emerging "PDP → cart" paths — these are the high-conversion product flows; learn their characteristics and apply them.
+        - Highlight top 3 emerging "PDP to cart" paths: these are the high-conversion product flows; learn their characteristics and apply them.
 
         Use case: PDP is the highest-leverage page in ecommerce, and most teams optimize it without seeing where users actually go after viewing. Per the Solar Engine path-analysis case study, a 20% add-to-cart rate lift came from this exact analysis (discovering users went back to category to comparison-shop, prompting addition of a comparison carousel).
 
@@ -60,38 +61,18 @@ intempt:
   outputs:
     - { name: report, type: report, cardinality: single, description: "Report produced by this recipe." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Paths from Product Detail Page
+# Paths from a product page
 
-## Procedure
+Shows what shoppers do after landing on a product page: add to cart, keep browsing, search again, or leave.
 
-1. **Build Path Report** [`build_paths_report`] — Configure and materialize the report described below. → produces: report
+## What it does
 
-   ```text
-   Create a Path report called "Paths from Product Detail Page".
+1. **See what follows a product view** (`build_paths_report`)
 
-   Anchor event: page_viewed where page_url contains "/products/" (PDP pattern)
-   Direction: forward
-   Depth: 5 steps
-   Window: 30 minutes after the PDP view (in-session)
-   Loop compression: on
-   Time range: Last 30 days
-   Breakdown: By "device_type" attribute on the Users object (desktop, mobile, tablet)
+   The 5 steps after a product page view inside a 30 minute window over the last 30 days, split by device, with the share that adds to cart and the share that leaves without buying. Flags an exit rate over 50%.
 
-   Surface:
-   - The top 10 most-common 5-step paths starting from a PDP view
-   - The % of PDP views that result in a cart_created within the window (PDP-to-cart conversion)
-   - The % of PDP views that result in a session_end without any cart_created OR order_created (PDP exit rate)
-   - The most common immediate-next event after PDP — typically: cart_created, another page_viewed (similar product), search/category navigation, or session exit
+## What you end up with
 
-   Annotations:
-   - Flag if PDP-exit rate exceeds 50% (typical strong signal of weak product page conversion).
-   - Flag if the most common next event after PDP is "page_viewed on category/listing" — users are comparison-shopping, suggesting the PDP lacks comparison features or social proof.
-   - Flag if mobile PDP exit rate is >10 points worse than desktop (mobile UX issue specific to product pages).
-   - Highlight top 3 emerging "PDP → cart" paths — these are the high-conversion product flows; learn their characteristics and apply them.
-
-   Use case: PDP is the highest-leverage page in ecommerce, and most teams optimize it without seeing where users actually go after viewing. Per the Solar Engine path-analysis case study, a 20% add-to-cart rate lift came from this exact analysis (discovering users went back to category to comparison-shop, prompting addition of a comparison carousel).
-
-   Taxonomy notes:
-   - page_viewed.page_url is used to identify PDPs. cart_created and order_created are canonical conversion events. session_end is the canonical exit signal.
-   ```
+- **report** (report): Report produced by this recipe.

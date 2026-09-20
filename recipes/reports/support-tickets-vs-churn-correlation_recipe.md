@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /support-tickets-vs-churn-correlation
   group: Reports
-  shortDescription: "Dual-axis support ticket volume vs subscription cancellations with priority decomposition and lead-lag."
+  title: "Support volume versus churn"
+  shortDescription: "Puts weekly ticket volume next to cancellations to show whether support spikes tend to come before churn, and by how long."
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]
@@ -25,11 +26,11 @@ intempt:
     - build_insights_report
   procedure:
     - step: 1
-      title: "Build Insights Report"
+      title: "Line up tickets against churn"
       command: build_insights_report
       produces: report
       bindsAs: report
-      description: "Configure and materialize the report described below."
+      description: "Weekly ticket counts by priority against cancellations by reason over 12 weeks on a dual axis. Flags weeks where high priority tickets ran 50% above the 8 week average and checks whether ticket spikes lead churn spikes by the usual 2 to 4 weeks."
       prompt: |
         Create an Insights report called "Support Volume vs Churn".
 
@@ -37,14 +38,14 @@ intempt:
         Series B: Event "subscription_cancelled", aggregation: Count, label: "Churns"
         Time granularity: Weekly
         Breakdown for Series A: By "priority" property on ticket_created (the canonical event has priority as a property)
-        Breakdown for Series B: By "reason" property on subscription_cancelled (text — group by cleaned/tokenized reason categories)
+        Breakdown for Series B: By "reason" property on subscription_cancelled (text: group by cleaned/tokenized reason categories)
         Time range: Last 12 weeks
         Compare: Previous period (prior 12 weeks)
-        Chart type: Dual-axis chart — left axis tickets (stacked area by priority), right axis churns (lines by reason group)
+        Chart type: Dual-axis chart: left axis tickets (stacked area by priority), right axis churns (lines by reason group)
 
         Annotations:
         - Highlight any week where high-priority tickets exceeded the trailing 8-week average by 50% or more.
-        - For each spike in churns, surface the leading 2-week ticket volume — flag if elevated by more than 30% vs. baseline.
+        - For each spike in churns, surface the leading 2-week ticket volume: flag if elevated by more than 30% vs. baseline.
 
         Surface whether high-priority ticket spikes precede churn spikes (typical lag is 2-4 weeks). If correlation is strong, identify which subscription_cancelled.reason categories are most associated with prior support load.
 
@@ -54,32 +55,18 @@ intempt:
   outputs:
     - { name: report, type: report, cardinality: single, description: "Report produced by this recipe." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Support Tickets vs Churn Correlation
+# Support volume versus churn
 
-## Procedure
+Puts weekly ticket volume next to cancellations to show whether support spikes tend to come before churn, and by how long.
 
-1. **Build Insights Report** [`build_insights_report`] — Configure and materialize the report described below. → produces: report
+## What it does
 
-   ```text
-   Create an Insights report called "Support Volume vs Churn".
+1. **Line up tickets against churn** (`build_insights_report`)
 
-   Series A: Event "ticket_created", aggregation: Count, label: "Tickets"
-   Series B: Event "subscription_cancelled", aggregation: Count, label: "Churns"
-   Time granularity: Weekly
-   Breakdown for Series A: By "priority" property on ticket_created (the canonical event has priority as a property)
-   Breakdown for Series B: By "reason" property on subscription_cancelled (text — group by cleaned/tokenized reason categories)
-   Time range: Last 12 weeks
-   Compare: Previous period (prior 12 weeks)
-   Chart type: Dual-axis chart — left axis tickets (stacked area by priority), right axis churns (lines by reason group)
+   Weekly ticket counts by priority against cancellations by reason over 12 weeks on a dual axis. Flags weeks where high priority tickets ran 50% above the 8 week average and checks whether ticket spikes lead churn spikes by the usual 2 to 4 weeks.
 
-   Annotations:
-   - Highlight any week where high-priority tickets exceeded the trailing 8-week average by 50% or more.
-   - For each spike in churns, surface the leading 2-week ticket volume — flag if elevated by more than 30% vs. baseline.
+## What you end up with
 
-   Surface whether high-priority ticket spikes precede churn spikes (typical lag is 2-4 weeks). If correlation is strong, identify which subscription_cancelled.reason categories are most associated with prior support load.
-
-   Taxonomy notes:
-   - ticket_created is canonical (no "support_" prefix). Properties: ticket_id, priority, source_type, status, subject.
-   - subscription_cancelled (British spelling) carries reason as a free-text field. Cluster reasons before breakdown.
-   ```
+- **report** (report): Report produced by this recipe.

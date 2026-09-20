@@ -1,14 +1,15 @@
 ---
 name: trial-users-high-engagement
 description: |
-  Use when a user mentions "trial users — high engagement", or asks for related help. Trial users with strong usage signals who are likely to convert. Engagement bucketed enum.
+  Use when a user mentions "trial users: high engagement", or asks for related help. Trial users with strong usage signals who are likely to convert. Engagement bucketed enum.
 arguments: []
 intempt:
   id: trial-users-high-engagement
   version: 1.0.0
   slashCommand: /trial-users-high-engagement
   group: Segments
-  shortDescription: "Trial users with strong usage signals who are likely to convert. Engagement bucketed enum."
+  title: 'Trials most likely to convert'
+  shortDescription: 'Trial users who are using the product heavily with two weeks left to run, the ones worth a sales call.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]
@@ -26,13 +27,13 @@ intempt:
     - create_segment
   procedure:
     - step: 1
-      title: "Configure Segment Rule"
+      title: 'Build the strong-trial list'
       command: create_segment
       produces: segment
       bindsAs: segment
-      description: "Open the segment authoring surface, name the segment, and apply the rule below."
+      description: 'Users on the trial plan with a High engagement score, an end date within the next 14 days, and 3 or more journey goals completed in the last 14 days.'
       prompt: |
-        Create a segment called "Trial Users — High Engagement".
+        Create a segment called "Trial Users: High Engagement".
 
         Object: Users
 
@@ -42,34 +43,22 @@ intempt:
         - AND Attribute: engagement_score = "High"
         - AND Event: goal_completed_in_journey occurred >= 3 times in last 14 days
 
-        Description: Trial users with strong usage signals — most likely to convert. Trigger high-touch sales outreach or premium-feature unlock.
+        Description: Trial users with strong usage signals: most likely to convert. Trigger high-touch sales outreach or premium-feature unlock.
   outputs:
     - { name: segment, type: segment, cardinality: single, description: "Segment created on /segments." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Trial Users — High Engagement
+# Trials most likely to convert
 
-## Procedure
+Trial users who are using the product heavily with two weeks left to run, the ones worth a sales call.
 
-1. **Configure Segment Rule** [`create_segment`] — Open the segment authoring surface, name the segment, and apply the rule below. → produces: segment
+## What it does
 
-   ```text
-   Create a segment called "Trial Users — High Engagement".
+1. **Build the strong-trial list** (`create_segment`)
 
-   Object: Users
+   Users on the trial plan with a High engagement score, an end date within the next 14 days, and 3 or more journey goals completed in the last 14 days.
 
-   Rules (all conditions joined by AND):
-   - Attribute: plan_name = "trial"
-   - AND Attribute: end_date is within next 14 days
-   - AND Attribute: engagement_score = "High"
-   - AND Event: goal_completed_in_journey occurred >= 3 times in last 14 days
+## What you end up with
 
-   Description: Trial users with strong usage signals — most likely to convert. Trigger high-touch sales outreach or premium-feature unlock.
-   ```
-
-## Taxonomy notes
-
-- plan_name and end_date are canonical Users attributes.
-- engagement_score uses the canonical enum Low | Medium | High (per platform scoring rules — no numeric thresholds on score attributes). Source template used numeric ">= 60" which violates the scoring constraint.
-- goal_completed_in_journey is canonical.
-- For more precision, the goal_completed_in_journey rule can be filtered to a specific journey_id.
+- **segment** (segment): Segment created on /segments.

@@ -1,14 +1,15 @@
 ---
 name: mid-market-accounts
 description: |
-  Use when a user mentions "mid-market accounts (100-1000 employees)", or asks for related help. Mid-sized companies (100-1000 employees) — inside-sales / scaled-AE routing.
+  Use when a user mentions "mid-market accounts (100-1000 employees)", or asks for related help. Mid-sized companies (100-1000 employees): inside-sales / scaled-AE routing.
 arguments: []
 intempt:
   id: mid-market-accounts
   version: 1.0.0
   slashCommand: /mid-market-accounts
   group: Segments
-  shortDescription: 'Mid-sized companies (100-1000 employees): inside-sales / scaled-AE routing.'
+  title: 'Mid-market accounts'
+  shortDescription: 'Companies with 100 to 1,000 employees, so your inside sales team works from one list.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]
@@ -26,11 +27,11 @@ intempt:
     - create_segment
   procedure:
     - step: 1
-      title: "Configure Segment Rule"
+      title: 'Build the mid-market list'
       command: create_segment
       produces: segment
       bindsAs: segment
-      description: "Open the segment authoring surface, name the segment, and apply the rule below."
+      description: 'Accounts with 100 or more employees and fewer than 1,000.'
       prompt: |
         Create a segment called "Mid-Market Accounts".
 
@@ -40,32 +41,22 @@ intempt:
         - Attribute: employees >= 100
         - AND Attribute: employees < 1000
 
-        Description: Companies with 100-1000 employees. Foundation for inside-sales / scaled-AE routing — these accounts get standardized playbooks, semi-personalized campaigns, and shorter sales cycles than enterprise. Universal B2B routing pattern.
+        Description: Companies with 100-1000 employees. Foundation for inside-sales / scaled-AE routing: these accounts get standardized playbooks, semi-personalized campaigns, and shorter sales cycles than enterprise. Universal B2B routing pattern.
   outputs:
     - { name: segment, type: segment, cardinality: single, description: "Segment created on /segments." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Mid-Market Accounts (100-1000 Employees)
+# Mid-market accounts
 
-## Procedure
+Companies with 100 to 1,000 employees, so your inside sales team works from one list.
 
-1. **Configure Segment Rule** [`create_segment`] — Open the segment authoring surface, name the segment, and apply the rule below. → produces: segment
+## What it does
 
-   ```text
-   Create a segment called "Mid-Market Accounts".
+1. **Build the mid-market list** (`create_segment`)
 
-   Object: Accounts
+   Accounts with 100 or more employees and fewer than 1,000.
 
-   Rules (all conditions joined by AND):
-   - Attribute: employees >= 100
-   - AND Attribute: employees < 1000
+## What you end up with
 
-   Description: Companies with 100-1000 employees. Foundation for inside-sales / scaled-AE routing — these accounts get standardized playbooks, semi-personalized campaigns, and shorter sales cycles than enterprise. Universal B2B routing pattern.
-   ```
-
-## Taxonomy notes
-
-- employees is canonical Accounts attribute.
-- The 100-1000 range is the canonical mid-market definition. Adjust the lower bound (50, 200) and upper bound (500, 2000) per merchant's segmentation.
-- Pair with intent_level (High → priority routing) or account_health (healthy → expansion targeting) for more nuanced mid-market plays.
-- This is one of three account-size segments (alongside enterprise-accounts and smb-accounts) that together form the universal B2B sales-motion-routing foundation.
+- **segment** (segment): Segment created on /segments.

@@ -4,10 +4,11 @@ description: Use when a user mentions "usage to opportunity", "update salesforce
 arguments: []
 intempt:
   id: salesforce-usage-to-opportunity
+  title: "Usage onto the Salesforce opportunity"
   version: 1.0.0
   slashCommand: /salesforce-usage-to-opportunity
   group: Workflows
-  shortDescription: "Update an open Salesforce opportunity when product usage changes, so the forecast reflects what the account is actually doing rather than what it said in a call."
+  shortDescription: "Keeps the usage fields on an open opportunity current, so the forecast reflects what the account is doing rather than what was said on a call."
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]
@@ -30,36 +31,47 @@ intempt:
     - create_workflow
   procedure:
     - step: 1
-      title: Compute The Usage Signal
+      title: "Describe usage for the forecast"
       command: create_attribute
       produces: attribute
       bindsAs: usage_attrs
-      description: 'Create account attributes describing engagement in the terms the forecast cares about: active seats, weekly active proportion, depth of feature adoption, trend over the last month. These are what a rep would otherwise assert from memory.'
+      description: "Active seats, the share of them active weekly, how deeply features are adopted, and the trend over the last month. These are the things a rep would otherwise assert from memory."
       prompt: 'Create account attributes describing engagement in the terms the forecast cares about: active seats, weekly active proportion, depth of feature adoption, trend over the last month. These are what a rep would otherwise assert from memory.'
     - step: 2
-      title: Write It To The Opportunity
+      title: "Update the open opportunity"
       command: create_workflow
       produces: workflow
       bindsAs: workflow
       dependsOn:
       - usage_attrs
-      description: 'Create a workflow that finds the open opportunity for the account and updates the usage fields on it. Only fields Intempt owns are written — never stage, never amount, never close date, which belong to the rep. A CDP that silently moves a stage is a forecasting incident that presents as an integration.'
-      prompt: 'Create a workflow that finds the open opportunity for the account and updates the usage fields on it. Only fields Intempt owns are written — never stage, never amount, never close date, which belong to the rep. A CDP that silently moves a stage is a forecasting incident that presents as an integration.'
+      description: "It finds the open opportunity for the account and writes the usage fields onto it. Only the fields Intempt owns are written, never the stage, the amount or the close date, which belong to the rep. A CDP that quietly moves a stage is a forecasting incident dressed up as an integration."
+      prompt: 'Create a workflow that finds the open opportunity for the account and updates the usage fields on it. Only fields Intempt owns are written: never stage, never amount, never close date, which belong to the rep. A CDP that silently moves a stage is a forecasting incident that presents as an integration.'
   outputs:
     - { name: usage_attrs, type: attribute, cardinality: single, description: "AI-Derived Attribute produced by this recipe." }
     - { name: workflow, type: workflow, cardinality: single, description: "Workflow produced by this recipe." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Salesforce Usage To Opportunity
+# Usage onto the Salesforce opportunity
 
-> **Not runnable yet.** Updating opportunity fields in Salesforce has no backend. The connector reads today and cannot write, and Airbyte does not close that gap — its destinations write to warehouses, not into Salesforce. This recipe is published so the demand is recorded and the workflow is designed, and it will fail at the write step until the operation ships.
+Keeps the usage fields on an open opportunity current, so the forecast reflects what the account is doing rather than what was said on a call.
 
-## Procedure
+## Before you run it
 
-1. **Compute The Usage Signal** [`create_attribute`] — Create account attributes describing engagement in the terms the forecast cares about: active seats, weekly active proportion, depth of feature adoption, trend over the last month. These are what a rep would otherwise assert from memory. → produces: attribute
-2. **Write It To The Opportunity** [`create_workflow`] — Create a workflow that finds the open opportunity for the account and updates the usage fields on it. Only fields Intempt owns are written — never stage, never amount, never close date, which belong to the rep. A CDP that silently moves a stage is a forecasting incident that presents as an integration. → produces: workflow
+- Connect salesforce
+- Send the `feature_used` event
 
-## Prerequisites
+## What it does
 
-- Event `feature_used` (recommended)
-- Integration **salesforce** (blocking)
+1. **Describe usage for the forecast** (`create_attribute`)
+
+   Active seats, the share of them active weekly, how deeply features are adopted, and the trend over the last month. These are the things a rep would otherwise assert from memory.
+
+2. **Update the open opportunity** (`create_workflow`)
+
+   It finds the open opportunity for the account and writes the usage fields onto it. Only the fields Intempt owns are written, never the stage, the amount or the close date, which belong to the rep. A CDP that quietly moves a stage is a forecasting incident dressed up as an integration.
+
+## What you end up with
+
+- **usage_attrs** (attribute): AI-Derived Attribute produced by this recipe.
+- **workflow** (workflow): Workflow produced by this recipe.

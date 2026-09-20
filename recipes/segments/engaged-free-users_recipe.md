@@ -1,14 +1,15 @@
 ---
 name: engaged-free-users
 description: |
-  Use when a user mentions "engaged free users", or asks for related help. Free-plan users with high engagement — prime upgrade-targeting cohort.
+  Use when a user mentions "engaged free users", or asks for related help. Free-plan users with high engagement: prime upgrade-targeting cohort.
 arguments: []
 intempt:
   id: engaged-free-users
   version: 1.0.0
   slashCommand: /engaged-free-users
   group: Segments
-  shortDescription: 'Free-plan users with high engagement: prime upgrade-targeting cohort.'
+  title: 'Engaged free users'
+  shortDescription: 'Free-plan users who are in the product often and recently, so upgrade prompts reach the people already getting value.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]
@@ -26,11 +27,11 @@ intempt:
     - create_segment
   procedure:
     - step: 1
-      title: "Configure Segment Rule"
+      title: 'Build the engaged free list'
       command: create_segment
       produces: segment
       bindsAs: segment
-      description: "Open the segment authoring surface, name the segment, and apply the rule below."
+      description: 'Users on the free plan with a High engagement score, active in the last 7 days, and 5 or more sessions in the last 14 days.'
       prompt: |
         Create a segment called "Engaged Free Users".
 
@@ -46,31 +47,18 @@ intempt:
   outputs:
     - { name: segment, type: segment, cardinality: single, description: "Segment created on /segments." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Engaged Free Users
+# Engaged free users
 
-## Procedure
+Free-plan users who are in the product often and recently, so upgrade prompts reach the people already getting value.
 
-1. **Configure Segment Rule** [`create_segment`] — Open the segment authoring surface, name the segment, and apply the rule below. → produces: segment
+## What it does
 
-   ```text
-   Create a segment called "Engaged Free Users".
+1. **Build the engaged free list** (`create_segment`)
 
-   Object: Users
+   Users on the free plan with a High engagement score, active in the last 7 days, and 5 or more sessions in the last 14 days.
 
-   Rules (all conditions joined by AND):
-   - Attribute: plan_name = "free"
-   - AND Attribute: engagement_score = "High"
-   - AND Attribute: days_since_last_activity <= 7
-   - AND Event: session_start occurred >= 5 times in last 14 days
+## What you end up with
 
-   Description: Free users showing strong engagement and recent activity. Prime cohort for upgrade prompts, premium-feature trials, and account-expansion outreach.
-   ```
-
-## Taxonomy notes
-
-- plan_name is canonical.
-- engagement_score uses canonical enum (Low | Medium | High) per scoring constraint.
-- days_since_last_activity is canonical numeric.
-- session_start is canonical event.
-- This segment is the foundation for product-qualified-lead (PQL) workflows — these are users actively getting value but not paying.
+- **segment** (segment): Segment created on /segments.

@@ -4,10 +4,11 @@ description: Use when a user mentions "churn risk discount", "win back discount 
 arguments: []
 intempt:
   id: shopify-churn-risk-discount
+  title: "Discount before a shopper lapses"
   version: 1.0.0
   slashCommand: /shopify-churn-risk-discount
   group: Workflows
-  shortDescription: "Apply a Shopify discount to customers a churn signal has flagged, before they lapse rather than after."
+  shortDescription: "Sends a Shopify discount to customers whose buying rhythm has broken, judged against their own pattern rather than a fixed number of days."
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [marketing]
@@ -28,35 +29,46 @@ intempt:
     - create_workflow
   procedure:
     - step: 1
-      title: Find Who Is Slipping
+      title: "Spot a broken buying rhythm"
       command: create_segment
       produces: segment
       bindsAs: at_risk
-      description: 'Create a segment of customers whose purchase cadence has broken — a gap materially longer than their own established rhythm, not a fixed number of days that treats a monthly buyer and an annual one the same.'
-      prompt: 'Create a segment of customers whose purchase cadence has broken — a gap materially longer than their own established rhythm, not a fixed number of days that treats a monthly buyer and an annual one the same.'
+      description: "Customers whose gap since the last order is materially longer than their own established rhythm, rather than a fixed number of days that treats a monthly buyer and an annual one the same."
+      prompt: 'Create a segment of customers whose purchase cadence has broken: a gap materially longer than their own established rhythm, not a fixed number of days that treats a monthly buyer and an annual one the same.'
     - step: 2
-      title: Apply The Discount
+      title: "Apply the code, state the size"
       command: create_workflow
       produces: workflow
       bindsAs: workflow
       dependsOn:
       - at_risk
-      description: 'Create a workflow applying the discount code to each member. The step states the blast radius before it runs, because a discount applied to the wrong segment is money already gone by the time anyone notices. Shopify rejections come back verbatim: an expired code and an already-applied code call for different fixes.'
+      description: "The discount code is applied to each member, and the step states how many people that is before it runs, because a discount sent to the wrong segment is money already gone by the time anyone notices. Shopify's rejections come back word for word, since an expired code and an already applied code need different fixes."
       prompt: 'Create a workflow applying the discount code to each member. The step states the blast radius before it runs, because a discount applied to the wrong segment is money already gone by the time anyone notices. Shopify rejections come back verbatim: an expired code and an already-applied code call for different fixes.'
   outputs:
     - { name: at_risk, type: segment, cardinality: single, description: "Segment produced by this recipe." }
     - { name: workflow, type: workflow, cardinality: single, description: "Workflow produced by this recipe." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Shopify Churn Risk Discount
+# Discount before a shopper lapses
 
-> **Not runnable yet.** Applying a discount code in Shopify has no backend. The connector reads today and cannot write, and Airbyte does not close that gap — its destinations write to warehouses, not into Shopify. This recipe is published so the demand is recorded and the workflow is designed, and it will fail at the write step until the operation ships.
+Sends a Shopify discount to customers whose buying rhythm has broken, judged against their own pattern rather than a fixed number of days.
 
-## Procedure
+## Before you run it
 
-1. **Find Who Is Slipping** [`create_segment`] — Create a segment of customers whose purchase cadence has broken — a gap materially longer than their own established rhythm, not a fixed number of days that treats a monthly buyer and an annual one the same. → produces: segment
-2. **Apply The Discount** [`create_workflow`] — Create a workflow applying the discount code to each member. The step states the blast radius before it runs, because a discount applied to the wrong segment is money already gone by the time anyone notices. Shopify rejections come back verbatim: an expired code and an already-applied code call for different fixes. → produces: workflow
+- Connect shopify
 
-## Prerequisites
+## What it does
 
-- Integration **shopify** (blocking)
+1. **Spot a broken buying rhythm** (`create_segment`)
+
+   Customers whose gap since the last order is materially longer than their own established rhythm, rather than a fixed number of days that treats a monthly buyer and an annual one the same.
+
+2. **Apply the code, state the size** (`create_workflow`)
+
+   The discount code is applied to each member, and the step states how many people that is before it runs, because a discount sent to the wrong segment is money already gone by the time anyone notices. Shopify's rejections come back word for word, since an expired code and an already applied code need different fixes.
+
+## What you end up with
+
+- **at_risk** (segment): Segment produced by this recipe.
+- **workflow** (workflow): Workflow produced by this recipe.

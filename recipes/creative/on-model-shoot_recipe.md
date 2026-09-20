@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /on-model
   group: Creative
-  shortDescription: "Avatar wearing or holding your product in a scene."
+  title: 'On-model product shot'
+  shortDescription: 'Puts your identity-locked avatar in a scene wearing or holding a catalog product, for lifestyle product photography.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]
@@ -25,11 +26,11 @@ intempt:
     - generate_image
   procedure:
     - step: 1
-      title: "Compose on-model shot"
+      title: 'Compose the on-model shot'
       command: generate_image
       produces: image
       bindsAs: image
-      description: "Combine an Avatar with a catalog product, a Scene, and optional Poses to generate lifestyle product photography."
+      description: 'Combines a catalog product, an avatar, a scene and optional pose references. The avatar keeps the same identity across every generation.'
       prompt: |
         Generate an on-model lifestyle product photo.
 
@@ -46,28 +47,18 @@ intempt:
   outputs:
     - { name: image, type: image, cardinality: single, description: "On-model lifestyle shot." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# On-Model Photoshoot
+# On-model product shot
 
-## Procedure
+Puts your identity-locked avatar in a scene wearing or holding a catalog product, for lifestyle product photography.
 
-1. **Compose on-model shot** [`generate_image`] — Combine an Avatar with a catalog product, a Scene, and optional Poses to generate lifestyle product photography. → produces: image
+## What it does
 
-   ```text
-   Generate an on-model lifestyle product photo.
+1. **Compose the on-model shot** (`generate_image`)
 
-   Inputs:
-   - productId: catalog SKU
-   - modelId: identity-locked Avatar
-   - sceneId: background + lighting
-   - poseIds (optional): pose references
+   Combines a catalog product, an avatar, a scene and optional pose references. The avatar keeps the same identity across every generation.
 
-   Pipeline: nano-banana-pro/edit with Avatar references
-   Runner: on-model (custom)
-   ```
+## What you end up with
 
-## Notes
-
-- Uses the `on-model` custom runner in the content builder.
-- fal.ai pipeline: nano-banana-pro/edit with Avatar reference images.
-- Corresponds to the `on-model` tile on the Design Home page.
+- **image** (image): On-model lifestyle shot.

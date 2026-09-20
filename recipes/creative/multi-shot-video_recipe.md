@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /multi-shot
   group: Creative
-  shortDescription: "Tell a story in six shots without an editor."
+  title: 'Multi-shot video from a shot list'
+  shortDescription: 'Renders every shot in your shot list with one consistent look and joins them into a single reel, with no editor involved.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]
@@ -25,11 +26,11 @@ intempt:
     - generate_video
   procedure:
     - step: 1
-      title: "Render multi-shot video"
+      title: 'Render and join the shots'
       command: generate_video
       produces: video
       bindsAs: video
-      description: "Write a shot list (one prompt per shot). Each shot is rendered with a consistent look and concatenated into one reel."
+      description: 'You write one prompt per shot, pick a shared scene look, and set 3 or 5 seconds per shot. Each shot is rendered in the same visual style, then concatenated into one reel.'
       prompt: |
         Generate a multi-shot video from a shot list.
 
@@ -44,19 +45,18 @@ intempt:
   outputs:
     - { name: video, type: video, cardinality: single, description: "Multi-shot reel." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Multi-Shot Video
+# Multi-shot video from a shot list
 
-## Procedure
+Renders every shot in your shot list with one consistent look and joins them into a single reel, with no editor involved.
 
-1. **Render multi-shot video** [`generate_video`] — Write a shot list, each shot rendered consistently and concatenated. → produces: video
+## What it does
 
-   ```text
-   Inputs: shotList (prompts), scene, durationPerShot (3s/5s)
-   Pipeline: kling v2.1 master t2v × N + concat
-   ```
+1. **Render and join the shots** (`generate_video`)
 
-## Notes
+   You write one prompt per shot, pick a shared scene look, and set 3 or 5 seconds per shot. Each shot is rendered in the same visual style, then concatenated into one reel.
 
-- fal.ai pipeline: kling v2.1 master t2v × N shots + concat.
-- Consistent visual style maintained across all shots.
+## What you end up with
+
+- **video** (video): Multi-shot reel.

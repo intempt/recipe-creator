@@ -4,10 +4,11 @@ description: Use when a user mentions "segment to salesforce campaign", "add lea
 arguments: []
 intempt:
   id: salesforce-segment-to-campaign
+  title: "Segment into a Salesforce campaign"
   version: 1.0.0
   slashCommand: /salesforce-segment-to-campaign
   group: Workflows
-  shortDescription: "Add a segment's members to a Salesforce campaign, which is how a CDP audience becomes something a sales team can actually run against."
+  shortDescription: "Puts a segment's members into a Salesforce campaign, which is how an audience built here becomes something a sales team can run against."
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [marketing]
@@ -28,35 +29,46 @@ intempt:
     - create_workflow
   procedure:
     - step: 1
-      title: Define The Audience
+      title: "Define the audience once"
       command: create_segment
       produces: segment
       bindsAs: audience
-      description: 'Create the segment whose members belong in the campaign. Keep the definition here rather than duplicating it in Salesforce, so there is one answer to who is in the audience.'
+      description: "The segment whose members belong in the campaign, defined here rather than rebuilt in Salesforce, so there is one answer to who is in it."
       prompt: 'Create the segment whose members belong in the campaign. Keep the definition here rather than duplicating it in Salesforce, so there is one answer to who is in the audience.'
     - step: 2
-      title: Add Them To The Campaign
+      title: "Add members without doubling"
       command: create_workflow
       produces: workflow
       bindsAs: workflow
       dependsOn:
       - audience
-      description: 'Create a workflow that adds each member to the named Salesforce campaign with a campaign member status. Adding is idempotent — a member already in the campaign is left alone rather than duplicated — and removal is deliberately not part of this recipe, because campaign membership is a record of who was contacted and deleting it destroys attribution.'
-      prompt: 'Create a workflow that adds each member to the named Salesforce campaign with a campaign member status. Adding is idempotent — a member already in the campaign is left alone rather than duplicated — and removal is deliberately not part of this recipe, because campaign membership is a record of who was contacted and deleting it destroys attribution.'
+      description: "Each member is added to the named campaign with a member status. Adding is idempotent, so anyone already in it is left alone. Removal is deliberately not part of this: campaign membership records who was contacted, and deleting it destroys the attribution."
+      prompt: 'Create a workflow that adds each member to the named Salesforce campaign with a campaign member status. Adding is idempotent (a member already in the campaign is left alone rather than duplicated) and removal is deliberately not part of this recipe, because campaign membership is a record of who was contacted and deleting it destroys attribution.'
   outputs:
     - { name: audience, type: segment, cardinality: single, description: "Segment produced by this recipe." }
     - { name: workflow, type: workflow, cardinality: single, description: "Workflow produced by this recipe." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Salesforce Segment To Campaign
+# Segment into a Salesforce campaign
 
-> **Not runnable yet.** Adding members to a campaign in Salesforce has no backend. The connector reads today and cannot write, and Airbyte does not close that gap — its destinations write to warehouses, not into Salesforce. This recipe is published so the demand is recorded and the workflow is designed, and it will fail at the write step until the operation ships.
+Puts a segment's members into a Salesforce campaign, which is how an audience built here becomes something a sales team can run against.
 
-## Procedure
+## Before you run it
 
-1. **Define The Audience** [`create_segment`] — Create the segment whose members belong in the campaign. Keep the definition here rather than duplicating it in Salesforce, so there is one answer to who is in the audience. → produces: segment
-2. **Add Them To The Campaign** [`create_workflow`] — Create a workflow that adds each member to the named Salesforce campaign with a campaign member status. Adding is idempotent — a member already in the campaign is left alone rather than duplicated — and removal is deliberately not part of this recipe, because campaign membership is a record of who was contacted and deleting it destroys attribution. → produces: workflow
+- Connect salesforce
 
-## Prerequisites
+## What it does
 
-- Integration **salesforce** (blocking)
+1. **Define the audience once** (`create_segment`)
+
+   The segment whose members belong in the campaign, defined here rather than rebuilt in Salesforce, so there is one answer to who is in it.
+
+2. **Add members without doubling** (`create_workflow`)
+
+   Each member is added to the named campaign with a member status. Adding is idempotent, so anyone already in it is left alone. Removal is deliberately not part of this: campaign membership records who was contacted, and deleting it destroys the attribution.
+
+## What you end up with
+
+- **audience** (segment): Segment produced by this recipe.
+- **workflow** (workflow): Workflow produced by this recipe.

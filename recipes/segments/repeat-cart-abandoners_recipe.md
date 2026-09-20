@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /repeat-cart-abandoners
   group: Segments
-  shortDescription: "Users who have abandoned checkout 2+ times in the last 30 days without purchasing."
+  title: 'Repeat cart abandoners'
+  shortDescription: 'People who have walked away from checkout twice or more this month without buying, usually a sign of friction or price resistance.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]
@@ -26,11 +27,11 @@ intempt:
     - create_segment
   procedure:
     - step: 1
-      title: "Configure Segment Rule"
+      title: 'Build the repeat-abandoner list'
       command: create_segment
       produces: segment
       bindsAs: segment
-      description: "Open the segment authoring surface, name the segment, and apply the rule below."
+      description: 'Users who abandoned checkout 2 or more times in the last 30 days and placed no order in that period.'
       prompt: |
         Create a segment called "Repeat Cart Abandoners".
 
@@ -40,31 +41,22 @@ intempt:
         - Event: abandoned_checkout occurred >= 2 times in last 30 days
         - AND Event: order_created occurred 0 times in last 30 days
 
-        Description: Users who repeatedly abandon checkout — likely friction or price sensitivity. Trigger differentiated recovery offers (different from first-time abandoners).
+        Description: Users who repeatedly abandon checkout: likely friction or price sensitivity. Trigger differentiated recovery offers (different from first-time abandoners).
   outputs:
     - { name: segment, type: segment, cardinality: single, description: "Segment created on /segments." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Repeat Cart Abandoners
+# Repeat cart abandoners
 
-## Procedure
+People who have walked away from checkout twice or more this month without buying, usually a sign of friction or price resistance.
 
-1. **Configure Segment Rule** [`create_segment`] — Open the segment authoring surface, name the segment, and apply the rule below. → produces: segment
+## What it does
 
-   ```text
-   Create a segment called "Repeat Cart Abandoners".
+1. **Build the repeat-abandoner list** (`create_segment`)
 
-   Object: Users
+   Users who abandoned checkout 2 or more times in the last 30 days and placed no order in that period.
 
-   Rules (all conditions joined by AND):
-   - Event: abandoned_checkout occurred >= 2 times in last 30 days
-   - AND Event: order_created occurred 0 times in last 30 days
+## What you end up with
 
-   Description: Users who repeatedly abandon checkout — likely friction or price sensitivity. Trigger differentiated recovery offers (different from first-time abandoners).
-   ```
-
-## Taxonomy notes
-
-- abandoned_checkout is canonical V2.1 event with properties abandoned_at, checkout_id, email, items, masterID, recovery_url.
-- order_created is canonical.
-- For broader cart abandonment (carts that never reached checkout), use cart_abandoned (also canonical) instead. abandoned_checkout fires only when checkout was started; cart_abandoned fires when items were added but not converted.
+- **segment** (segment): Segment created on /segments.

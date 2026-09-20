@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /ecommerce-operations-dashboard
   group: Dashboards
-  shortDescription: "Ops / fulfillment view: order flow, fulfillment rate, returns, refunds, and quality issues by product."
+  title: "Fulfillment, returns and refunds"
+  shortDescription: "Answers whether orders are shipping on time and where quality problems are hiding, by tracking fulfillment rate, returns and refunds down to the product."
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]
@@ -25,11 +26,11 @@ intempt:
     - create_dashboard
   procedure:
     - step: 1
-      title: "Build Dashboard"
+      title: "Build the operations board"
       command: create_dashboard
       produces: dashboard
       bindsAs: dashboard
-      description: "Create a Dash board (composition canvas) and populate it with linked cards sourced from existing report recipes per the spec below."
+      description: "Order flow and fulfillment rate, returns and refunds broken down by product, plus pre-purchase friction and support volume."
       prompt: |
         Create a Dash board (12-column composition canvas) titled "E-commerce Operations".
 
@@ -42,27 +43,27 @@ intempt:
         - exclusionPeriod: today (operations data lags by hours)
         - visibility: project
         - boardFilters: none by default
-        - boardBreakdowns: product_category (derived from items) — pushed down to applicable cards
+        - boardBreakdowns: product_category (derived from items): pushed down to applicable cards
 
         Layout: 4 rows.
 
-        Row 1 — Operational KPIs (heightPx: 200, four metric cards at widthUnits: 3):
-        - Card 1: Insights metric → source recipe: order-status-flow, vizType: metric, titleOverride: "Orders (30d)"
-        - Card 2: Insights metric → source recipe: order-status-flow, vizType: metric, titleOverride: "Fulfillment Rate"
-        - Card 3: Insights metric → source recipe: return-rate-by-category, vizType: metric, titleOverride: "Return Rate (30d)"
-        - Card 4: Insights metric → source recipe: refund-rate-by-product-and-category, vizType: metric, titleOverride: "Refund Rate (30d)"
+        Row 1: Operational KPIs (heightPx: 200, four metric cards at widthUnits: 3):
+        - Card 1: Insights metric to source recipe: order-status-flow, vizType: metric, titleOverride: "Orders (30d)"
+        - Card 2: Insights metric to source recipe: order-status-flow, vizType: metric, titleOverride: "Fulfillment Rate"
+        - Card 3: Insights metric to source recipe: return-rate-by-category, vizType: metric, titleOverride: "Return Rate (30d)"
+        - Card 4: Insights metric to source recipe: refund-rate-by-product-and-category, vizType: metric, titleOverride: "Refund Rate (30d)"
 
-        Row 2 — Order flow (heightPx: 400, two cards at widthUnits: 6):
-        - Card 1: Insights → source recipe: order-status-flow, displayMode: chart, vizType: stacked_column (created/fulfilled/refunded/cancelled distribution over time)
-        - Card 2: Insights → source recipe: time-to-ship-distribution, displayMode: chart, vizType: bar (histogram with cumulative line)
+        Row 2: Order flow (heightPx: 400, two cards at widthUnits: 6):
+        - Card 1: Insights to source recipe: order-status-flow, displayMode: chart, vizType: stacked_column (created/fulfilled/refunded/cancelled distribution over time)
+        - Card 2: Insights to source recipe: time-to-ship-distribution, displayMode: chart, vizType: bar (histogram with cumulative line)
 
-        Row 3 — Quality issues (heightPx: 440, two cards at widthUnits: 6):
-        - Card 1: Insights → source recipe: return-rate-by-category, displayMode: chart, vizType: bar
-        - Card 2: Insights → source recipe: refund-rate-by-product-and-category, displayMode: chart, vizType: bar
+        Row 3: Quality issues (heightPx: 440, two cards at widthUnits: 6):
+        - Card 1: Insights to source recipe: return-rate-by-category, displayMode: chart, vizType: bar
+        - Card 2: Insights to source recipe: refund-rate-by-product-and-category, displayMode: chart, vizType: bar
 
-        Row 4 — Pre-purchase friction and support (heightPx: 400, two cards at widthUnits: 6):
-        - Card 1: Funnel → source recipe: checkout-form-friction, displayMode: chart, vizType: funnel_steps (per-checkout-step friction)
-        - Card 2: Path → source recipe: support-deflection-paths, displayMode: chart (paths preceding ticket_created — operational quality intelligence)
+        Row 4: Pre-purchase friction and support (heightPx: 400, two cards at widthUnits: 6):
+        - Card 1: Funnel to source recipe: checkout-form-friction, displayMode: chart, vizType: funnel_steps (per-checkout-step friction)
+        - Card 2: Path to source recipe: support-deflection-paths, displayMode: chart (paths preceding ticket_created: operational quality intelligence)
 
         Annotations:
         - Row 1 Card 2 ("Fulfillment Rate") is the operational headline. <90% indicates a backlog or capacity issue.
@@ -76,54 +77,18 @@ intempt:
   outputs:
     - { name: dashboard, type: dashboard, cardinality: single, description: "Dash board (composition canvas) produced by this recipe." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# E-commerce Operations Dashboard
+# Fulfillment, returns and refunds
 
-## Procedure
+Answers whether orders are shipping on time and where quality problems are hiding, by tracking fulfillment rate, returns and refunds down to the product.
 
-1. **Build Dashboard** [`create_dashboard`] — Create a Dash board (composition canvas) and populate it with linked cards sourced from existing report recipes per the spec below. → produces: dashboard
+## What it does
 
-   ```text
-   Create a Dash board (12-column composition canvas) titled "E-commerce Operations".
+1. **Build the operations board** (`create_dashboard`)
 
-   Persona: Operations Lead, Fulfillment Manager, or Customer Service Lead. Question answered: "Is the post-purchase machine working? Where are quality issues hiding?"
+   Order flow and fulfillment rate, returns and refunds broken down by product, plus pre-purchase friction and support volume.
 
-   Distinct from the E-commerce Revenue Dashboard: Revenue is "are we selling" (top of order); Operations is "are we delivering" (bottom of order through return). Zero card overlap.
+## What you end up with
 
-   Board-level configuration:
-   - defaultDateRange: last_30_days
-   - exclusionPeriod: today (operations data lags by hours)
-   - visibility: project
-   - boardFilters: none by default
-   - boardBreakdowns: product_category (derived from items) — pushed down to applicable cards
-
-   Layout: 4 rows.
-
-   Row 1 — Operational KPIs (heightPx: 200, four metric cards at widthUnits: 3):
-   - Card 1: Insights metric → source recipe: order-status-flow, vizType: metric, titleOverride: "Orders (30d)"
-   - Card 2: Insights metric → source recipe: order-status-flow, vizType: metric, titleOverride: "Fulfillment Rate"
-   - Card 3: Insights metric → source recipe: return-rate-by-category, vizType: metric, titleOverride: "Return Rate (30d)"
-   - Card 4: Insights metric → source recipe: refund-rate-by-product-and-category, vizType: metric, titleOverride: "Refund Rate (30d)"
-
-   Row 2 — Order flow (heightPx: 400, two cards at widthUnits: 6):
-   - Card 1: Insights → source recipe: order-status-flow, displayMode: chart, vizType: stacked_column (created/fulfilled/refunded/cancelled distribution over time)
-   - Card 2: Insights → source recipe: time-to-ship-distribution, displayMode: chart, vizType: bar (histogram with cumulative line)
-
-   Row 3 — Quality issues (heightPx: 440, two cards at widthUnits: 6):
-   - Card 1: Insights → source recipe: return-rate-by-category, displayMode: chart, vizType: bar
-   - Card 2: Insights → source recipe: refund-rate-by-product-and-category, displayMode: chart, vizType: bar
-
-   Row 4 — Pre-purchase friction and support (heightPx: 400, two cards at widthUnits: 6):
-   - Card 1: Funnel → source recipe: checkout-form-friction, displayMode: chart, vizType: funnel_steps (per-checkout-step friction)
-   - Card 2: Path → source recipe: support-deflection-paths, displayMode: chart (paths preceding ticket_created — operational quality intelligence)
-
-   Annotations:
-   - Row 1 Card 2 ("Fulfillment Rate") is the operational headline. <90% indicates a backlog or capacity issue.
-   - Row 2 surfaces the operational tempo (Card 1: order flow over time) and ship-time distribution (Card 2: how fast are we actually shipping). The histogram is more useful than just "average ship time" because it surfaces the long tail.
-   - Row 3 surfaces post-purchase quality (categories with high return AND high refund rates are the inventory-quality problem children); Row 4 surfaces pre-purchase friction and support load.
-
-   Taxonomy notes:
-   - All source recipes are taxonomy-grounded. order-status-flow and time-to-ship-distribution are new v5 recipes designed specifically for this dashboard's operational use case (replacing earlier inline custom specs).
-   - order_created, order_fulfilled, order_refunded, order_cancelled are all canonical events.
-   - Time-to-ship is computed from (order_fulfilled.created_at − order_created.created_at) joined on order_id.
-   ```
+- **dashboard** (dashboard): Dash board (composition canvas) produced by this recipe.

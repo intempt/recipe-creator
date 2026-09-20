@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /ad-variants
   group: Creative
-  shortDescription: "One ad in, six tested variants out."
+  title: 'Six variants of one ad'
+  shortDescription: 'Takes an ad you already have and returns six variants, one for each dimension you choose to vary.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]
@@ -25,11 +26,11 @@ intempt:
     - generate_image
   procedure:
     - step: 1
-      title: "Generate ad variants"
+      title: 'Fan out the variants'
       command: generate_image
       produces: image
       bindsAs: image
-      description: "Upload an existing ad and select swap dimensions to fan out tested variants."
+      description: 'You upload an existing ad and pick which dimensions to vary. Returns six variants covering headline, palette, background, model, CTA and aspect ratio, with one focused change each.'
       prompt: |
         Generate ad variants from an existing ad.
 
@@ -43,19 +44,18 @@ intempt:
   outputs:
     - { name: image, type: image, cardinality: list, description: "6 ad variants." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Ad Variants
+# Six variants of one ad
 
-## Procedure
+Takes an ad you already have and returns six variants, one for each dimension you choose to vary.
 
-1. **Generate ad variants** [`generate_image`] — Upload an existing ad and select swap dimensions to fan out tested variants. → produces: image
+## What it does
 
-   ```text
-   Swap dimensions: headline, palette, background, model, CTA, aspect
-   Pipeline: restyle × N (one per swap)
-   ```
+1. **Fan out the variants** (`generate_image`)
 
-## Notes
+   You upload an existing ad and pick which dimensions to vary. Returns six variants covering headline, palette, background, model, CTA and aspect ratio, with one focused change each.
 
-- fal.ai pipeline: restyle × N (one call per swap dimension).
-- Produces up to 6 variants from a single ad input.
+## What you end up with
+
+- **image** (image): 6 ad variants.

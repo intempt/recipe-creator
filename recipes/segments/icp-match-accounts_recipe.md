@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /icp-match-accounts
   group: Segments
-  shortDescription: "Accounts matching ideal customer profile by company size, industry, and geography."
+  title: 'Accounts matching your ICP'
+  shortDescription: 'Accounts that fit your ideal customer profile on size, industry, and country, as the base list for account-based targeting.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]
@@ -26,11 +27,11 @@ intempt:
     - create_segment
   procedure:
     - step: 1
-      title: "Configure Segment Rule"
+      title: 'Build the ICP list'
       command: create_segment
       produces: segment
       bindsAs: segment
-      description: "Open the segment authoring surface, name the segment, and apply the rule below."
+      description: 'Accounts with 50 to 500 employees in SaaS, Technology, or Financial Services, based in the US, UK, Canada, or Australia.'
       prompt: |
         Create a segment called "ICP Match Accounts".
 
@@ -45,29 +46,18 @@ intempt:
   outputs:
     - { name: segment, type: segment, cardinality: single, description: "Segment created on /segments." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# ICP Match Accounts
+# Accounts matching your ICP
 
-## Procedure
+Accounts that fit your ideal customer profile on size, industry, and country, as the base list for account-based targeting.
 
-1. **Configure Segment Rule** [`create_segment`] — Open the segment authoring surface, name the segment, and apply the rule below. → produces: segment
+## What it does
 
-   ```text
-   Create a segment called "ICP Match Accounts".
+1. **Build the ICP list** (`create_segment`)
 
-   Object: Accounts
+   Accounts with 50 to 500 employees in SaaS, Technology, or Financial Services, based in the US, UK, Canada, or Australia.
 
-   Rules (all conditions joined by AND):
-   - Attribute: employees is between 50 and 500
-   - AND Attribute: industry is one of ["SaaS", "Technology", "Financial Services"]
-   - AND Attribute: country is one of ["US", "UK", "CA", "AU"]
+## What you end up with
 
-   Description: Accounts matching the ideal customer profile by size, industry, and geography. Foundation segment for ABM targeting.
-   ```
-
-## Taxonomy notes
-
-- employees is the canonical Accounts attribute (replaces source template's "employee_count" — the canonical property name is "employees").
-- industry is canonical on Accounts.
-- country is canonical on Accounts (also canonical on Users, but for an Accounts segment this is the Accounts.country property).
-- The industry list and country list are starting points; merchants tune to match their actual ICP definition.
+- **segment** (segment): Segment created on /segments.

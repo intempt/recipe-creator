@@ -1,14 +1,15 @@
 ---
 name: recently-signed-up-users
 description: |
-  Use when a user mentions "recently signed-up users", or asks for related help. Users who created an account in the last 30 days — onboarding cohort.
+  Use when a user mentions "recently signed-up users", or asks for related help. Users who created an account in the last 30 days: onboarding cohort.
 arguments: []
 intempt:
   id: recently-signed-up-users
   version: 1.0.0
   slashCommand: /recently-signed-up-users
   group: Segments
-  shortDescription: 'Users who created an account in the last 30 days: onboarding cohort.'
+  title: 'Recent signups'
+  shortDescription: 'Everyone who created an account in the last month, the audience for your welcome and first-week activation emails.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]
@@ -26,11 +27,11 @@ intempt:
     - create_segment
   procedure:
     - step: 1
-      title: "Configure Segment Rule"
+      title: 'Build the new signup list'
       command: create_segment
       produces: segment
       bindsAs: segment
-      description: "Open the segment authoring surface, name the segment, and apply the rule below."
+      description: 'Users first seen in the last 30 days.'
       prompt: |
         Create a segment called "Recently Signed-Up Users".
 
@@ -43,26 +44,18 @@ intempt:
   outputs:
     - { name: segment, type: segment, cardinality: single, description: "Segment created on /segments." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Recently Signed-Up Users
+# Recent signups
 
-## Procedure
+Everyone who created an account in the last month, the audience for your welcome and first-week activation emails.
 
-1. **Configure Segment Rule** [`create_segment`] — Open the segment authoring surface, name the segment, and apply the rule below. → produces: segment
+## What it does
 
-   ```text
-   Create a segment called "Recently Signed-Up Users".
+1. **Build the new signup list** (`create_segment`)
 
-   Object: Users
+   Users first seen in the last 30 days.
 
-   Rules:
-   - Attribute: first_seen_at is within last 30 days
+## What you end up with
 
-   Description: Onboarding cohort. Use as the audience for first-week activation campaigns, welcome journeys, and onboarding email sequences.
-   ```
-
-## Taxonomy notes
-
-- first_seen_at is canonical Users attribute (timestamp of first identification).
-- Single-rule segment by design — keep it broad and let downstream journeys/personalizations narrow further.
-- For SaaS specifically, layer with plan_name = "trial" or "free" to focus on non-paying signups during onboarding.
+- **segment** (segment): Segment created on /segments.

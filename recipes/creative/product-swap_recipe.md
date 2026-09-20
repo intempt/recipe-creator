@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /product-swap
   group: Creative
-  shortDescription: "Same scene, new product."
+  title: 'Product swap in a scene'
+  shortDescription: 'Replaces the product in a shot you already have with a different one, keeping the scene, lighting and shadow the same.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]
@@ -25,11 +26,11 @@ intempt:
     - generate_image
   procedure:
     - step: 1
-      title: "Swap product in scene"
+      title: 'Swap in the new product'
       command: generate_image
       produces: image
       bindsAs: image
-      description: "Replace one product with another in the same scene, preserving lighting, shadow, and backdrop."
+      description: 'Replaces only the product with the new SKU at identical size and position. Scene, lighting, shadow and backdrop are unchanged.'
       prompt: |
         Swap the product in an existing image.
 
@@ -39,14 +40,18 @@ intempt:
   outputs:
     - { name: image, type: image, cardinality: single, description: "Product-swapped image." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Product Swap
+# Product swap in a scene
 
-## Procedure
+Replaces the product in a shot you already have with a different one, keeping the scene, lighting and shadow the same.
 
-1. **Swap product in scene** [`generate_image`] — Replace one product with another, preserving the scene. → produces: image
+## What it does
 
-## Notes
+1. **Swap in the new product** (`generate_image`)
 
-- Pipeline: flux-pro/kontext for identity-locked product replacement.
-- Scene, lighting, shadow, and backdrop preserved exactly.
+   Replaces only the product with the new SKU at identical size and position. Scene, lighting, shadow and backdrop are unchanged.
+
+## What you end up with
+
+- **image** (image): Product-swapped image.

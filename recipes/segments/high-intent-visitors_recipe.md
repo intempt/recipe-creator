@@ -1,14 +1,15 @@
 ---
 name: high-intent-visitors
 description: |
-  Use when a user mentions "high-intent visitors", or asks for related help. Non-customers who viewed both pricing and documentation in the last 14 days — strong buying signals.
+  Use when a user mentions "high-intent visitors", or asks for related help. Non-customers who viewed both pricing and documentation in the last 14 days: strong buying signals.
 arguments: []
 intempt:
   id: high-intent-visitors
   version: 1.0.0
   slashCommand: /high-intent-visitors
   group: Segments
-  shortDescription: 'Non-customers who viewed both pricing and documentation in the last 14 days: strong buying signals.'
+  title: 'High-intent visitors'
+  shortDescription: 'Free and unregistered users who read both your pricing and your docs in the last two weeks, the clearest sign somebody is close to buying.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]
@@ -26,11 +27,11 @@ intempt:
     - create_segment
   procedure:
     - step: 1
-      title: "Configure Segment Rule"
+      title: 'Build the high-intent list'
       command: create_segment
       produces: segment
       bindsAs: segment
-      description: "Open the segment authoring surface, name the segment, and apply the rule below."
+      description: 'Users with no plan or the free plan who viewed both a /pricing page and a /docs page in the last 14 days.'
       prompt: |
         Create a segment called "High-Intent Visitors".
 
@@ -45,28 +46,18 @@ intempt:
   outputs:
     - { name: segment, type: segment, cardinality: single, description: "Segment created on /segments." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# High-Intent Visitors
+# High-intent visitors
 
-## Procedure
+Free and unregistered users who read both your pricing and your docs in the last two weeks, the clearest sign somebody is close to buying.
 
-1. **Configure Segment Rule** [`create_segment`] — Open the segment authoring surface, name the segment, and apply the rule below. → produces: segment
+## What it does
 
-   ```text
-   Create a segment called "High-Intent Visitors".
+1. **Build the high-intent list** (`create_segment`)
 
-   Object: Users
+   Users with no plan or the free plan who viewed both a /pricing page and a /docs page in the last 14 days.
 
-   Rules (all conditions joined by AND):
-   - Event: page_viewed where page_url contains "/pricing" occurred >= 1 time in last 14 days
-   - AND Event: page_viewed where page_url contains "/docs" occurred >= 1 time in last 14 days
-   - AND Attribute: plan_name is empty OR plan_name = "free"
+## What you end up with
 
-   Description: Non-customers (or free-plan users) showing strong buying signals across pricing and docs. Prioritize for sales outreach or in-app upgrade prompt.
-   ```
-
-## Taxonomy notes
-
-- page_viewed is canonical. The filter property is page_url (not "page" — the source template used the non-canonical property name).
-- plan_name is canonical (replaces "plan").
-- 14-day window captures recent intent without including stale browsing history.
+- **segment** (segment): Segment created on /segments.
