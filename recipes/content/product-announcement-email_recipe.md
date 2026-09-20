@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /product-announcement-email
   group: Content
-  shortDescription: "Launch-day email with hero."
+  title: "Product launch announcement email"
+  shortDescription: "Writes a launch-day email in your brand colors and fonts, with the product hero image and a subject line written for opens and clicks."
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [content]
@@ -25,11 +26,11 @@ intempt:
     - create_content
   procedure:
     - step: 1
-      title: "Compose product announcement email"
+      title: "Write the announcement email"
       command: create_content
       produces: content
       bindsAs: content
-      description: "Generate a product announcement email with brand tokens, product hero block, and announcement subject line."
+      description: "A ready-to-send email using your brand colors, fonts and logo, with a product hero block and a subject line written for open and click rate."
       prompt: |
         Create a product announcement email.
 
@@ -39,14 +40,18 @@ intempt:
   outputs:
     - { name: content, type: content, cardinality: single, description: "Product announcement email." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Product Announcement Email
+# Product launch announcement email
 
-## Procedure
+Writes a launch-day email in your brand colors and fonts, with the product hero image and a subject line written for opens and clicks.
 
-1. **Compose product announcement email** [`create_content`] — Generate email with brand tokens and product hero. → produces: content
+## What it does
 
-## Notes
+1. **Write the announcement email** (`create_content`)
 
-- Routes to: /content-builder?type=email&recipe=email/product-announcement
-- Applies project brand tokens automatically.
+   A ready-to-send email using your brand colors, fonts and logo, with a product hero block and a subject line written for open and click rate.
+
+## What you end up with
+
+- **content** (content): Product announcement email.

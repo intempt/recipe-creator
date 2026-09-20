@@ -1,14 +1,15 @@
 ---
 name: packaging-mockup
 description: |
-  Use when a user mentions "packaging mockup", "label mockup", "wrap label", "packaging design", or asks to wrap flat label artwork onto a 3D package. Flat label → wrapped on 3D pack.
+  Use when a user mentions "packaging mockup", "label mockup", "wrap label", "packaging design", or asks to wrap flat label artwork onto a 3D package. Flat label to wrapped on 3D pack.
 arguments: []
 intempt:
   id: packaging-mockup
   version: 1.0.0
   slashCommand: /packaging-mockup
   group: Creative
-  shortDescription: "Flat label → wrapped on 3D pack."
+  title: 'Label wrapped on a package'
+  shortDescription: 'Wraps your flat label artwork photorealistically around a 3D can, bottle or box, with the label content unchanged.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]
@@ -25,11 +26,11 @@ intempt:
     - generate_image
   procedure:
     - step: 1
-      title: "Wrap label onto package"
+      title: 'Wrap the label'
       command: generate_image
       produces: image
       bindsAs: image
-      description: "Take flat 2D label artwork and wrap it photorealistically around a 3D package (can, bottle, box)."
+      description: 'Takes the same label artwork, wordmark and layout and wraps it around a 3D package on the same backdrop. Nothing on the label is redrawn.'
       prompt: |
         Wrap flat label artwork onto a 3D package.
 
@@ -39,15 +40,18 @@ intempt:
   outputs:
     - { name: image, type: image, cardinality: single, description: "Packaging mockup image." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Packaging Mockup
+# Label wrapped on a package
 
-## Procedure
+Wraps your flat label artwork photorealistically around a 3D can, bottle or box, with the label content unchanged.
 
-1. **Wrap label onto package** [`generate_image`] — Flat artwork → 3D package render. → produces: image
+## What it does
 
-## Notes
+1. **Wrap the label** (`generate_image`)
 
-- Pipeline: flux-pro/kontext.
-- Label content and branding preserved exactly during 3D wrapping.
-- Related to but distinct from the general `mockup` recipe (which handles apparel, print, billboard).
+   Takes the same label artwork, wordmark and layout and wraps it around a 3D package on the same backdrop. Nothing on the label is redrawn.
+
+## What you end up with
+
+- **image** (image): Packaging mockup image.

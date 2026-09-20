@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /video-remix
   group: Creative
-  shortDescription: "Four references in, your branded reel out."
+  title: 'Reference-anchored video remix'
+  shortDescription: 'Pin up to four video references and get back branded reel variants anchored to them (four by default).'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]
@@ -25,16 +26,16 @@ intempt:
     - generate_video
   procedure:
     - step: 1
-      title: "Remix video from references"
+      title: 'Pin clips and fan out'
       command: generate_video
       produces: video
       bindsAs: video
-      description: "Pin 1–4 video references (clip, scene, avatar, product) and fan out branded variants."
+      description: 'You pin one to four references, which can be a clip, scene, avatar or product. Returns branded reel variants anchored to those clips.'
       prompt: |
         Generate branded video variations from reference pins.
 
         Inputs:
-        - references: 1–4 video references (clip, scene, avatar, product)
+        - references: 1: 4 video references (clip, scene, avatar, product)
         - fanout: number of variations (default: 4)
 
         Pipeline: kling v3 i2v multi-ref
@@ -44,19 +45,18 @@ intempt:
   outputs:
     - { name: video, type: video, cardinality: list, description: "Remixed video variations." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Video Remix
+# Reference-anchored video remix
 
-## Procedure
+Pin up to four video references and get back branded reel variants anchored to them (four by default).
 
-1. **Remix video from references** [`generate_video`] — Pin 1–4 video references and fan out branded variants. → produces: video
+## What it does
 
-   ```text
-   Inputs: 1–4 references, fanout count
-   Pipeline: kling v3 i2v multi-ref
-   ```
+1. **Pin clips and fan out** (`generate_video`)
 
-## Notes
+   You pin one to four references, which can be a clip, scene, avatar or product. Returns branded reel variants anchored to those clips.
 
-- Uses the `video-remix` custom runner.
-- fal.ai pipeline: kling v3 i2v multi-ref for multi-reference generation.
+## What you end up with
+
+- **video** (video): Remixed video variations.

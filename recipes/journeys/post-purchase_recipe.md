@@ -5,10 +5,11 @@ description: |
 arguments: []
 intempt:
   id: post-purchase
+  title: "Post purchase follow up"
   version: 1.0.0
   slashCommand: /post-purchase
   group: Journeys
-  shortDescription: "Thank-you, review request, brand education, and cross-sell for first-time buyers."
+  shortDescription: "Thanks the buyer, shows them how to use what they bought, asks for a review, and suggests what goes with it."
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [marketing]
@@ -30,51 +31,51 @@ intempt:
     - create_dashboard
   procedure:
     - step: 1
-      title: "Identify Recent Buyers"
+      title: "Split first time from repeat"
       command: create_segment
       produces: segment
       bindsAs: segment
-      description: "Identify users with order_placed event in last 14 days, segmented by first-time vs repeat buyer."
+      description: "People who placed an order in the last 14 days, separated into first time and repeat buyers."
       prompt: "Identify users with order_placed event in last 14 days, segmented by first-time vs repeat buyer."
     - step: 2
-      title: "Build Content"
+      title: "Write the five emails"
       command: create_email_content
       produces: asset
       bindsAs: asset
       dependsOn: [segment]
-      description: "Generate post-purchase content: thank-you email, product-care info, review request, and cross-sell suggestions."
+      description: "A thank you, care and use information for the product, a review request, cross sell suggestions, and an introduction to the loyalty programme."
       prompt: "Generate post-purchase content: thank-you email, product-care info, review request, and cross-sell suggestions."
     - step: 3
-      title: "Build Journey"
+      title: "Send over the first month"
       command: create_journey
       produces: journey
       bindsAs: journey
       dependsOn: [segment, asset]
-      description: "Build a 5-touch journey sending content at 0hr (confirmation), 3day (care), 7day (review), 14day (cross-sell), 30day (loyalty intro)."
+      description: "Confirmation straight away, care information on day 3, the review request on day 7, cross sell on day 14, and loyalty on day 30."
       prompt: "Build a 5-touch journey sending content at 0hr (confirmation), 3day (care), 7day (review), 14day (cross-sell), 30day (loyalty intro)."
     - step: 4
-      title: "Build Recommendations"
+      title: "Pick what goes with it"
       command: create_recommendation
       produces: recommendation
       bindsAs: recommendation
       dependsOn: [segment, asset, journey]
-      description: "Generate cross-sell recommendations based on the purchased items and the customer's profile."
+      description: "Cross sell recommendations built from what they bought and their profile."
       prompt: "Generate cross-sell recommendations based on the purchased items and the customer's profile."
     - step: 5
-      title: "Build Experiment"
+      title: "Test when to ask for a review"
       command: create_experiment
       produces: experiment
       bindsAs: experiment
       dependsOn: [segment, asset, journey, recommendation]
-      description: "Add A/B variants on review-request timing (3day vs 7day vs 14day)."
+      description: "A/B variants sending the review request at 3, 7 or 14 days."
       prompt: "Add A/B variants on review-request timing (3day vs 7day vs 14day)."
     - step: 6
-      title: "Build Dashboard"
+      title: "Track reviews and repeat orders"
       command: create_dashboard
       produces: dashboard
       bindsAs: dashboard
       dependsOn: [segment, asset, journey, recommendation, experiment]
-      description: "Compose a dashboard tracking review-collection rate, second-purchase rate, and AOV uplift from cross-sell."
+      description: "How many reviews come in, how many people buy a second time, and the lift in order value from cross sell."
       prompt: "Compose a dashboard tracking review-collection rate, second-purchase rate, and AOV uplift from cross-sell."
   outputs:
     - { name: segment, type: segment, cardinality: single, description: "Segment produced by this recipe." }
@@ -84,14 +85,43 @@ intempt:
     - { name: experiment, type: experiment, cardinality: single, description: "Experiment produced by this recipe." }
     - { name: dashboard, type: dashboard, cardinality: single, description: "Dashboard produced by this recipe." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Post-Purchase Nurture
+# Post purchase follow up
 
-## Procedure
+Thanks the buyer, shows them how to use what they bought, asks for a review, and suggests what goes with it.
 
-1. **Identify Recent Buyers** [`create_segment`] — Identify users with order_placed event in last 14 days, segmented by first-time vs repeat buyer. → produces: segment
-2. **Build Content** [`create_email_content`] — Generate post-purchase content: thank-you email, product-care info, review request, and cross-sell suggestions. → produces: asset
-3. **Build Journey** [`create_journey`] — Build a 5-touch journey sending content at 0hr (confirmation), 3day (care), 7day (review), 14day (cross-sell), 30day (loyalty intro). → produces: journey
-4. **Build Recommendations** [`create_recommendation`] — Generate cross-sell recommendations based on the purchased items and the customer's profile. → produces: recommendation
-5. **Build Experiment** [`create_experiment`] — Add A/B variants on review-request timing (3day vs 7day vs 14day). → produces: experiment
-6. **Build Dashboard** [`create_dashboard`] — Compose a dashboard tracking review-collection rate, second-purchase rate, and AOV uplift from cross-sell. → produces: dashboard
+## What it does
+
+1. **Split first time from repeat** (`create_segment`)
+
+   People who placed an order in the last 14 days, separated into first time and repeat buyers.
+
+2. **Write the five emails** (`create_email_content`)
+
+   A thank you, care and use information for the product, a review request, cross sell suggestions, and an introduction to the loyalty programme.
+
+3. **Send over the first month** (`create_journey`)
+
+   Confirmation straight away, care information on day 3, the review request on day 7, cross sell on day 14, and loyalty on day 30.
+
+4. **Pick what goes with it** (`create_recommendation`)
+
+   Cross sell recommendations built from what they bought and their profile.
+
+5. **Test when to ask for a review** (`create_experiment`)
+
+   A/B variants sending the review request at 3, 7 or 14 days.
+
+6. **Track reviews and repeat orders** (`create_dashboard`)
+
+   How many reviews come in, how many people buy a second time, and the lift in order value from cross sell.
+
+## What you end up with
+
+- **segment** (segment): Segment produced by this recipe.
+- **asset** (asset): Asset produced by this recipe.
+- **journey** (journey): Journey produced by this recipe.
+- **recommendation** (recommendation): Recommendation produced by this recipe.
+- **experiment** (experiment): Experiment produced by this recipe.
+- **dashboard** (dashboard): Dashboard produced by this recipe.

@@ -1,14 +1,15 @@
 ---
 name: failed-payment-accounts
 description: |
-  Use when a user mentions "failed-payment users", or asks for related help. Users with payment failure in last 14 days — dunning/recovery cohort.
+  Use when a user mentions "failed-payment users", or asks for related help. Users with payment failure in last 14 days: dunning/recovery cohort.
 arguments: []
 intempt:
   id: failed-payment-accounts
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /failed-payment-accounts
   group: Segments
-  shortDescription: "Users with payment failure in last 14 days — dunning/recovery cohort."
+  title: 'Users with a failed payment'
+  shortDescription: 'Users whose payment was declined in the last two weeks, so you can recover the money before the subscription lapses.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]
@@ -29,17 +30,17 @@ intempt:
     - create_segment
   procedure:
     - step: 1
-      title: "Configure Segment Rule"
+      title: 'Build the failed-payment list'
       command: create_segment
       produces: segment
       bindsAs: segment
-      description: "Open the segment authoring surface, name the segment, and apply the rule below."
+      description: 'Users with any of payment_failed, invoice_payment_failed, billing_failed, or charge_failed in the last 14 days.'
       prompt: |
         Create a segment called "Failed-Payment Users".
 
         Object: Users
 
-        Rules (any condition matches — joined by OR):
+        Rules (any condition matches: joined by OR):
         - Event: payment_failed occurred >= 1 time in last 14 days
         - OR Event: invoice_payment_failed occurred >= 1 time in last 14 days
         - OR Event: billing_failed occurred >= 1 time in last 14 days
@@ -49,31 +50,22 @@ intempt:
   outputs:
     - { name: segment, type: segment, cardinality: single, description: "Segment created on /segments." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Failed-Payment Users
+# Users with a failed payment
 
-## Procedure
+Users whose payment was declined in the last two weeks, so you can recover the money before the subscription lapses.
 
-1. **Configure Segment Rule** [`create_segment`] — Open the segment authoring surface, name the segment, and apply the rule below. → produces: segment
+## Before you run it
 
-   ```text
-   Create a segment called "Failed-Payment Users".
+- Connect stripe
 
-   Object: Users
+## What it does
 
-   Rules (any condition matches — joined by OR):
-   - Event: payment_failed occurred >= 1 time in last 14 days
-   - OR Event: invoice_payment_failed occurred >= 1 time in last 14 days
-   - OR Event: billing_failed occurred >= 1 time in last 14 days
-   - OR Event: charge_failed occurred >= 1 time in last 14 days
+1. **Build the failed-payment list** (`create_segment`)
 
-   Description: Users with one or more payment failures in the last 14 days. Dunning-recovery cohort with the highest immediate-revenue ROI of any segment. Trigger an automated card-update email sequence; for high-LTV failures, escalate to manual CSM/AE outreach with a personal touch.
-   ```
+   Users with any of payment_failed, invoice_payment_failed, billing_failed, or charge_failed in the last 14 days.
 
-## Taxonomy notes
+## What you end up with
 
-- payment_failed, invoice_payment_failed, billing_failed, charge_failed are all canonical V2.1 events (Stripe-sourced) with rich properties (amount_cents, decline_code, failure_code, etc.).
-- The OR-joined rule structure captures any kind of payment failure — different payment processors and contract types fire different events.
-- The 14-day window matches typical dunning retry cadence (Stripe defaults: retry at days 1, 3, 5, 7 after initial fail, then mark as past_due).
-- For higher-value escalation, layer with lifetime_value > <threshold> to identify high-LTV failures that warrant manual intervention beyond the standard dunning email sequence.
-- Distinct from subscription_cancelled (which is voluntary churn) — failed payments are involuntary churn that's typically recoverable with simple card-update flows.
+- **segment** (segment): Segment created on /segments.

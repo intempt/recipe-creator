@@ -1,14 +1,15 @@
 ---
 name: beauty-close-up
 description: |
-  Use when a user mentions "beauty close-up", "beauty shot", "skincare shot", "cosmetics close-up", or asks for a tight beauty photo with product branding. Plain bottle → branded bottle close-up.
+  Use when a user mentions "beauty close-up", "beauty shot", "skincare shot", "cosmetics close-up", or asks for a tight beauty photo with product branding. Plain bottle to branded bottle close-up.
 arguments: []
 intempt:
   id: beauty-close-up
   version: 1.0.0
   slashCommand: /beauty-close-up
   group: Creative
-  shortDescription: "Plain bottle → branded bottle close-up."
+  title: 'Branded beauty close-up'
+  shortDescription: 'Puts your brand wordmark and cap styling onto the product in a beauty close-up, leaving the model, hands and framing untouched.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]
@@ -25,11 +26,11 @@ intempt:
     - generate_image
   procedure:
     - step: 1
-      title: "Generate beauty close-up"
+      title: 'Brand the product in frame'
       command: generate_image
       produces: image
       bindsAs: image
-      description: "Take a tight beauty close-up with product and apply brand identity (wordmark, label) while preserving the model and composition."
+      description: 'Keeps the same model, skin, hand position, bottle and composition. The only change is the brand wordmark and cap styling on the product.'
       prompt: |
         Generate a beauty close-up with branded product.
 
@@ -39,14 +40,18 @@ intempt:
   outputs:
     - { name: image, type: image, cardinality: single, description: "Branded beauty close-up." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Beauty Close-Up
+# Branded beauty close-up
 
-## Procedure
+Puts your brand wordmark and cap styling onto the product in a beauty close-up, leaving the model, hands and framing untouched.
 
-1. **Generate beauty close-up** [`generate_image`] — Apply brand identity to product in close-up. → produces: image
+## What it does
 
-## Notes
+1. **Brand the product in frame** (`generate_image`)
 
-- Pipeline: flux-pro/kontext for identity-locked branding.
-- Model identity, skin, and composition preserved; only product branding changes.
+   Keeps the same model, skin, hand position, bottle and composition. The only change is the brand wordmark and cap styling on the product.
+
+## What you end up with
+
+- **image** (image): Branded beauty close-up.

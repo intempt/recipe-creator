@@ -1,14 +1,15 @@
 ---
 name: mockup
 description: |
-  Use when a user mentions "mockup", "product mockup", "t-shirt mockup", "mug mockup", "billboard mockup", or asks to composite artwork onto a physical object. Apparel, print, packaging — mockup in one click.
+  Use when a user mentions "mockup", "product mockup", "t-shirt mockup", "mug mockup", "billboard mockup", or asks to composite artwork onto a physical object. Apparel, print, packaging: mockup in one click.
 arguments: []
 intempt:
   id: mockup
   version: 1.0.0
   slashCommand: /mockup
   group: Creative
-  shortDescription: "Apparel, print, packaging — mockup in one click."
+  title: 'Artwork on a mockup'
+  shortDescription: 'Puts your artwork onto a t-shirt, mug, billboard or package with realistic lighting, perspective and material.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]
@@ -25,11 +26,11 @@ intempt:
     - generate_image
   procedure:
     - step: 1
-      title: "Composite artwork onto mockup"
+      title: 'Composite the artwork'
       command: generate_image
       produces: image
       bindsAs: image
-      description: "Drop in artwork and a mockup scene (t-shirt, mug, billboard, packaging) to composite with realistic lighting and warping."
+      description: 'You supply the artwork and pick a mockup scene. The artwork is composited on with realistic lighting, perspective warping and material-appropriate rendering.'
       prompt: |
         Generate a product mockup.
 
@@ -37,25 +38,24 @@ intempt:
         - artwork: artwork file (upload)
         - mockupScene: mockup scene preset (t-shirt, mug, billboard, packaging, etc.)
 
-        Pipeline: restyle → nano-banana-pro/edit
+        Pipeline: restyle to nano-banana-pro/edit
 
         Composite the artwork onto the mockup scene with realistic lighting, perspective warping, and material-appropriate rendering.
   outputs:
     - { name: image, type: image, cardinality: single, description: "Mockup image." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Mockup
+# Artwork on a mockup
 
-## Procedure
+Puts your artwork onto a t-shirt, mug, billboard or package with realistic lighting, perspective and material.
 
-1. **Composite artwork onto mockup** [`generate_image`] — Drop in artwork and a mockup scene to composite with realistic lighting and warping. → produces: image
+## What it does
 
-   ```text
-   Inputs: artwork (file upload), mockupScene (preset)
-   Pipeline: restyle → nano-banana-pro/edit
-   ```
+1. **Composite the artwork** (`generate_image`)
 
-## Notes
+   You supply the artwork and pick a mockup scene. The artwork is composited on with realistic lighting, perspective warping and material-appropriate rendering.
 
-- fal.ai pipeline: restyle → nano-banana-pro/edit.
-- Supports apparel, print, packaging, and billboard mockup scenes.
+## What you end up with
+
+- **image** (image): Mockup image.

@@ -4,10 +4,11 @@ description: 'Use when a user mentions "CRM record merge suggestions", "real-tim
 arguments: []
 intempt:
   id: crm-record-merge-suggestions
+  title: "Catch duplicates as they arrive"
   version: 1.0.0
   slashCommand: /crm-record-merge-suggestions
   group: Workflows
-  shortDescription: "'Real-time on record creation: find similar existing records, AI computes match confidence, high-confidence pairs auto-merge, medium-confidence flag for review, low-confidence ignore. Prevents duplicates entering the CRM rather than cleaning them up later.'"
+  shortDescription: "Checks every new account or contact against what you already have, merges the obvious duplicates, and queues the doubtful ones for a person to judge."
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]
@@ -34,73 +35,73 @@ intempt:
     - publish_workflow
   procedure:
     - step: 1
-      title: Build the Real-Time Dedup Workflow
+      title: "Check at the moment of creation"
       command: create_workflow
       produces: workflow
       bindsAs: workflow
-      description: 'Create a workflow ''Real-time CRM dedup'' triggered immediately on account_created OR user_created events. Goal: catch duplicates at creation moment rather than letting them propagate, then needing cleanup later.'
+      description: "Runs the instant an account or user is created, so duplicates are caught before they spread rather than cleaned up months later."
       prompt: 'Create a workflow ''Real-time CRM dedup'' triggered immediately on account_created OR user_created events. Goal: catch duplicates at creation moment rather than letting them propagate, then needing cleanup later.'
     - step: 2
-      title: Find Similar Existing Records
+      title: "Look for a match"
       command: configure_find_records_step
       produces: step
       bindsAs: search
       dependsOn:
       - workflow
-      description: 'Configure find-records step that searches for existing records similar to the newly-created one. Match criteria: same domain (for accounts), same email (for users), fuzzy name match (Levenshtein distance < 3), same primary contact. Returns: list of candidate matches with similarity scores.'
+      description: "Searches for records that look the same: the same domain for accounts, the same email for people, a close name match, or the same primary contact, returning candidates with a similarity score."
       prompt: 'Configure find-records step that searches for existing records similar to the newly-created one. Match criteria: same domain (for accounts), same email (for users), fuzzy name match (Levenshtein distance < 3), same primary contact. Returns: list of candidate matches with similarity scores.'
     - step: 3
-      title: Branch on Match Found
+      title: "Stop early if it is new"
       command: configure_workflow_branch_step
       produces: step
       bindsAs: found_branch
       dependsOn:
       - workflow
       - search
-      description: 'Branch step: did the search find any candidate matches? If NO matches — record is unique, proceed to standard onboarding flow (handoff to auto-enrich-new-accounts). If YES matches found — continue to AI confidence scoring.'
-      prompt: 'Branch step: did the search find any candidate matches? If NO matches — record is unique, proceed to standard onboarding flow (handoff to auto-enrich-new-accounts). If YES matches found — continue to AI confidence scoring.'
+      description: "No candidates means the record is genuinely new and it goes on to normal onboarding and enrichment. Candidates mean it carries on to scoring."
+      prompt: 'Branch step: did the search find any candidate matches? If NO matches (record is unique, proceed to standard onboarding flow (handoff to auto-enrich-new-accounts). If YES matches found) continue to AI confidence scoring.'
     - step: 4
-      title: AI Compute Match Confidence
+      title: "Score each pair"
       command: configure_ai_research_step
       produces: step
       bindsAs: ai_confidence
       dependsOn:
       - workflow
       - found_branch
-      description: 'Configure AI step that compares the new record to each candidate match and produces a confidence score (0-100) per pair. Inputs: all available fields, recent activity, contextual clues (e.g. same source UTM suggests same person). Considers nuances (e.g. ''sales@acme.com'' and ''john@acme.com'' are different people at same company, not duplicates). Output: ranked match candidates with confidence + reasoning.'
+      description: "Every candidate is scored 0 to 100 against the new record on all its fields, recent activity and context such as arriving from the same campaign. It knows two addresses at one company are usually two people rather than one duplicate, and it explains every score."
       prompt: 'Configure AI step that compares the new record to each candidate match and produces a confidence score (0-100) per pair. Inputs: all available fields, recent activity, contextual clues (e.g. same source UTM suggests same person). Considers nuances (e.g. ''sales@acme.com'' and ''john@acme.com'' are different people at same company, not duplicates). Output: ranked match candidates with confidence + reasoning.'
     - step: 5
-      title: Multi-Split by Confidence
+      title: "Act on the confidence"
       command: configure_workflow_multi_split_step
       produces: step
       bindsAs: conf_split
       dependsOn:
       - workflow
       - ai_confidence
-      description: 'Multi-split based on top candidate''s confidence score: HIGH (>90) — auto-merge into existing record; MEDIUM (60-90) — flag for review in dedup queue, do NOT auto-merge; LOW (<60) — likely not a duplicate, proceed with new record but tag as ''review-candidate'' for periodic re-evaluation.'
-      prompt: 'Multi-split based on top candidate''s confidence score: HIGH (>90) — auto-merge into existing record; MEDIUM (60-90) — flag for review in dedup queue, do NOT auto-merge; LOW (<60) — likely not a duplicate, proceed with new record but tag as ''review-candidate'' for periodic re-evaluation.'
+      description: "Above 90 merges automatically. Between 60 and 90 goes to the review queue and is never merged on its own. Below 60 carries on as a new record, tagged for a later look."
+      prompt: 'Multi-split based on top candidate''s confidence score: HIGH (>90) (auto-merge into existing record; MEDIUM (60-90)) flag for review in dedup queue, do NOT auto-merge; LOW (<60): likely not a duplicate, proceed with new record but tag as ''review-candidate'' for periodic re-evaluation.'
     - step: 6
-      title: 'High-Confidence: Auto-Merge'
+      title: "Merge into the older record"
       command: configure_update_attribute_step
       produces: step
       bindsAs: merge
       dependsOn:
       - workflow
       - conf_split
-      description: 'On high-confidence branch: merge the new record into the existing one. Keep the existing record as survivor (preserves history), copy any new fields from the new record, mark the new record as ''merged into [existing_id]''. The new record reference still works for inbound webhooks but redirects to the survivor.'
+      description: "The existing record survives so its history is kept, any new fields are copied across, and the new record is marked as merged into it. References to the new one still work and point at the survivor."
       prompt: 'On high-confidence branch: merge the new record into the existing one. Keep the existing record as survivor (preserves history), copy any new fields from the new record, mark the new record as ''merged into [existing_id]''. The new record reference still works for inbound webhooks but redirects to the survivor.'
     - step: 7
-      title: 'Medium-Confidence: Flag for Review'
+      title: "Queue the uncertain pairs"
       command: configure_create_task_step
       produces: step
       bindsAs: review_task
       dependsOn:
       - workflow
       - conf_split
-      description: 'On medium-confidence branch: create a RevOps task with both records side-by-side, AI''s reasoning for the suspicion, and merge/separate decision buttons. SLA: review within 5 business days — uncertain duplicates accumulate fast if not handled.'
-      prompt: 'On medium-confidence branch: create a RevOps task with both records side-by-side, AI''s reasoning for the suspicion, and merge/separate decision buttons. SLA: review within 5 business days — uncertain duplicates accumulate fast if not handled.'
+      description: "A RevOps task showing both records side by side with the reasoning for the suspicion and a merge or separate decision, to be cleared within five working days before the queue builds up."
+      prompt: 'On medium-confidence branch: create a RevOps task with both records side-by-side, AI''s reasoning for the suspicion, and merge/separate decision buttons. SLA: review within 5 business days: uncertain duplicates accumulate fast if not handled.'
     - step: 8
-      title: Validate and Publish
+      title: "Publish and audit the merges"
       command: publish_workflow
       produces: workflow
       bindsAs: published
@@ -108,22 +109,57 @@ intempt:
       - workflow
       - merge
       - review_task
-      description: 'Validate and publish. Monitor: auto-merge volume per week (proves the workflow is catching real duplicates), false-positive rate (sample audit of auto-merges — were any wrong?), review-queue depth (high = too many medium-confidence cases, suggests AI prompt tuning). Together with the scheduled-data-quality-audit, this is the dedup defense-in-depth pattern.'
-      prompt: 'Validate and publish. Monitor: auto-merge volume per week (proves the workflow is catching real duplicates), false-positive rate (sample audit of auto-merges — were any wrong?), review-queue depth (high = too many medium-confidence cases, suggests AI prompt tuning). Together with the scheduled-data-quality-audit, this is the dedup defense-in-depth pattern.'
+      description: "Validated and published, watching auto merges per week, the false positive rate from a sample audit of them, and the depth of the review queue, which grows when too much lands in the middle band."
+      prompt: 'Validate and publish. Monitor: auto-merge volume per week (proves the workflow is catching real duplicates), false-positive rate (sample audit of auto-merges: were any wrong?), review-queue depth (high = too many medium-confidence cases, suggests AI prompt tuning). Together with the scheduled-data-quality-audit, this is the dedup defense-in-depth pattern.'
   outputs:
     - { name: workflow, type: workflow, cardinality: single, description: "Workflow produced by this recipe." }
     - { name: step, type: step, cardinality: multiple, description: "Workflow Step produced by this recipe." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Crm Record Merge Suggestions
+# Catch duplicates as they arrive
 
-## Procedure
+Checks every new account or contact against what you already have, merges the obvious duplicates, and queues the doubtful ones for a person to judge.
 
-1. **Build the Real-Time Dedup Workflow** [`create_workflow`] — Create a workflow 'Real-time CRM dedup' triggered immediately on account_created OR user_created events. Goal: catch duplicates at creation moment rather than letting them propagate, then needing cleanup later. → produces: workflow
-2. **Find Similar Existing Records** [`configure_find_records_step`] — Configure find-records step that searches for existing records similar to the newly-created one. Match criteria: same domain (for accounts), same email (for users), fuzzy name match (Levenshtein distance < 3), same primary contact. Returns: list of candidate matches with similarity scores. → produces: step
-3. **Branch on Match Found** [`configure_workflow_branch_step`] — Branch step: did the search find any candidate matches? If NO matches — record is unique, proceed to standard onboarding flow (handoff to auto-enrich-new-accounts). If YES matches found — continue to AI confidence scoring. → produces: step
-4. **AI Compute Match Confidence** [`configure_ai_research_step`] — Configure AI step that compares the new record to each candidate match and produces a confidence score (0-100) per pair. Inputs: all available fields, recent activity, contextual clues (e.g. same source UTM suggests same person). Considers nuances (e.g. 'sales@acme.com' and 'john@acme.com' are different people at same company, not duplicates). Output: ranked match candidates with confidence + reasoning. → produces: step
-5. **Multi-Split by Confidence** [`configure_workflow_multi_split_step`] — Multi-split based on top candidate's confidence score: HIGH (>90) — auto-merge into existing record; MEDIUM (60-90) — flag for review in dedup queue, do NOT auto-merge; LOW (<60) — likely not a duplicate, proceed with new record but tag as 'review-candidate' for periodic re-evaluation. → produces: step
-6. **High-Confidence: Auto-Merge** [`configure_update_attribute_step`] — On high-confidence branch: merge the new record into the existing one. Keep the existing record as survivor (preserves history), copy any new fields from the new record, mark the new record as 'merged into [existing_id]'. The new record reference still works for inbound webhooks but redirects to the survivor. → produces: step
-7. **Medium-Confidence: Flag for Review** [`configure_create_task_step`] — On medium-confidence branch: create a RevOps task with both records side-by-side, AI's reasoning for the suspicion, and merge/separate decision buttons. SLA: review within 5 business days — uncertain duplicates accumulate fast if not handled. → produces: step
-8. **Validate and Publish** [`publish_workflow`] — Validate and publish. Monitor: auto-merge volume per week (proves the workflow is catching real duplicates), false-positive rate (sample audit of auto-merges — were any wrong?), review-queue depth (high = too many medium-confidence cases, suggests AI prompt tuning). Together with the scheduled-data-quality-audit, this is the dedup defense-in-depth pattern. → produces: workflow
+## Before you run it
+
+- Send the `account_created` event
+
+## What it does
+
+1. **Check at the moment of creation** (`create_workflow`)
+
+   Runs the instant an account or user is created, so duplicates are caught before they spread rather than cleaned up months later.
+
+2. **Look for a match** (`configure_find_records_step`)
+
+   Searches for records that look the same: the same domain for accounts, the same email for people, a close name match, or the same primary contact, returning candidates with a similarity score.
+
+3. **Stop early if it is new** (`configure_workflow_branch_step`)
+
+   No candidates means the record is genuinely new and it goes on to normal onboarding and enrichment. Candidates mean it carries on to scoring.
+
+4. **Score each pair** (`configure_ai_research_step`)
+
+   Every candidate is scored 0 to 100 against the new record on all its fields, recent activity and context such as arriving from the same campaign. It knows two addresses at one company are usually two people rather than one duplicate, and it explains every score.
+
+5. **Act on the confidence** (`configure_workflow_multi_split_step`)
+
+   Above 90 merges automatically. Between 60 and 90 goes to the review queue and is never merged on its own. Below 60 carries on as a new record, tagged for a later look.
+
+6. **Merge into the older record** (`configure_update_attribute_step`)
+
+   The existing record survives so its history is kept, any new fields are copied across, and the new record is marked as merged into it. References to the new one still work and point at the survivor.
+
+7. **Queue the uncertain pairs** (`configure_create_task_step`)
+
+   A RevOps task showing both records side by side with the reasoning for the suspicion and a merge or separate decision, to be cleared within five working days before the queue builds up.
+
+8. **Publish and audit the merges** (`publish_workflow`)
+
+   Validated and published, watching auto merges per week, the false positive rate from a sample audit of them, and the depth of the review queue, which grows when too much lands in the middle band.
+
+## What you end up with
+
+- **workflow** (workflow): Workflow produced by this recipe.
+- **step** (step): Workflow Step produced by this recipe.

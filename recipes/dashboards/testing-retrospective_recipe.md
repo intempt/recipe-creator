@@ -8,7 +8,8 @@ intempt:
   version: 1.0.1
   slashCommand: /testing-retrospective
   group: Dashboards
-  shortDescription: "Quarterly experiment review and roadmap for next testing cycle."
+  title: "Quarterly experiment retrospective"
+  shortDescription: "Pulls every experiment you ran last quarter into one review: what won, what lost, what the results have in common, and what to test next."
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [marketing]
@@ -27,37 +28,53 @@ intempt:
     - create_dashboard
   procedure:
     - step: 1
-      title: "Compile Experiment Results"
+      title: "Compile the quarter's results"
       command: create_report
       produces: report
       bindsAs: report
-      description: "Compile results across all experiments run in the period — winners, losers, inconclusive."
-      prompt: "Compile results across all experiments run in the period — winners, losers, inconclusive."
+      description: "Every experiment run in the period sorted into winners, losers and inconclusive."
+      prompt: "Compile results across all experiments run in the period: winners, losers, inconclusive."
     - step: 2
-      title: "Build Insights Report"
+      title: "Find the patterns that repeat"
       command: build_insights_report
       produces: report
       bindsAs: report_2
       dependsOn: [report]
-      description: "Generate insights report extracting patterns: which hypothesis families won, which traffic sources differed, best surfaces."
+      description: "Which kinds of hypothesis won, which traffic sources behaved differently, and which surfaces performed best."
       prompt: "Generate insights report extracting patterns: which hypothesis families won, which traffic sources differed, best surfaces."
     - step: 3
-      title: "Build Retrospective Dashboard"
+      title: "Track cadence and impact"
       command: create_dashboard
       produces: dashboard
       bindsAs: dashboard
       dependsOn: [report, report_2]
-      description: "Compose a dashboard summarizing testing cadence, win rate, and revenue impact."
+      description: "How many tests you ran, what share of them won, and the revenue those wins produced."
       prompt: "Compose a dashboard summarizing testing cadence, win rate, and revenue impact."
   outputs:
     - { name: report, type: report, cardinality: multi, description: "Reports produced by this recipe." }
     - { name: dashboard, type: dashboard, cardinality: single, description: "Dashboard produced by this recipe." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Testing Retrospective
+# Quarterly experiment retrospective
 
-## Procedure
+Pulls every experiment you ran last quarter into one review: what won, what lost, what the results have in common, and what to test next.
 
-1. **Compile Experiment Results** [`create_report`] — Compile results across all experiments run in the period — winners, losers, inconclusive. → produces: report
-2. **Build Insights Report** [`build_insights_report`] — Generate insights report extracting patterns: which hypothesis families won, which traffic sources differed, best surfaces. → produces: report
-3. **Build Retrospective Dashboard** [`create_dashboard`] — Compose a dashboard summarizing testing cadence, win rate, and revenue impact. → produces: dashboard
+## What it does
+
+1. **Compile the quarter's results** (`create_report`)
+
+   Every experiment run in the period sorted into winners, losers and inconclusive.
+
+2. **Find the patterns that repeat** (`build_insights_report`)
+
+   Which kinds of hypothesis won, which traffic sources behaved differently, and which surfaces performed best.
+
+3. **Track cadence and impact** (`create_dashboard`)
+
+   How many tests you ran, what share of them won, and the revenue those wins produced.
+
+## What you end up with
+
+- **report** (report): Reports produced by this recipe.
+- **dashboard** (dashboard): Dashboard produced by this recipe.

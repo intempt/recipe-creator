@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /accessory-try-on
   group: Creative
-  shortDescription: "Eyewear, jewelry, watches on model."
+  title: 'Accessory on a model'
+  shortDescription: 'Takes a packshot of eyewear, jewelry or a watch and shows it worn by an AI model, with the accessory itself unchanged.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]
@@ -25,11 +26,11 @@ intempt:
     - generate_image
   procedure:
     - step: 1
-      title: "Place accessory on model"
+      title: 'Put the accessory on a model'
       command: generate_image
       produces: image
       bindsAs: image
-      description: "Take a packshot of an accessory (eyewear, jewelry, watch) and place it on an AI model."
+      description: 'Places the same accessory on an AI model, shoulders up, in soft window light against a neutral backdrop. The accessory itself is not redrawn.'
       prompt: |
         Place the accessory on an AI model.
 
@@ -39,14 +40,18 @@ intempt:
   outputs:
     - { name: image, type: image, cardinality: single, description: "Accessory try-on image." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Accessory Try-On
+# Accessory on a model
 
-## Procedure
+Takes a packshot of eyewear, jewelry or a watch and shows it worn by an AI model, with the accessory itself unchanged.
 
-1. **Place accessory on model** [`generate_image`] — Packshot → accessory worn by AI model. → produces: image
+## What it does
 
-## Notes
+1. **Put the accessory on a model** (`generate_image`)
 
-- Pipeline: flux-pro/kontext.
-- Supports eyewear, jewelry, watches, and other wearable accessories.
+   Places the same accessory on an AI model, shoulders up, in soft window light against a neutral backdrop. The accessory itself is not redrawn.
+
+## What you end up with
+
+- **image** (image): Accessory try-on image.

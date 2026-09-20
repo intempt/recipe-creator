@@ -1,14 +1,15 @@
 ---
 name: big-basket-buyers
 description: |
-  Use when a user mentions "big-basket buyers", or asks for related help. Customers with high average order value — premium-bundle and upsell-targeting cohort.
+  Use when a user mentions "big-basket buyers", or asks for related help. Customers with high average order value: premium-bundle and upsell-targeting cohort.
 arguments: []
 intempt:
   id: big-basket-buyers
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /big-basket-buyers
   group: Segments
-  shortDescription: "Customers with high average order value — premium-bundle and upsell-targeting cohort."
+  title: 'Big basket buyers'
+  shortDescription: 'Customers who spend heavily on every single order, so premium bundles and higher tiers go to people who already buy big.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]
@@ -26,11 +27,11 @@ intempt:
     - create_segment
   procedure:
     - step: 1
-      title: "Configure Segment Rule"
+      title: 'Build the big-basket list'
       command: create_segment
       produces: segment
       bindsAs: segment
-      description: "Open the segment authoring surface, name the segment, and apply the rule below."
+      description: 'Customers with an average order value of 150 or more, 2 or more orders all time, and lifetime value of 300 or more.'
       prompt: |
         Create a segment called "Big-Basket Buyers".
 
@@ -41,34 +42,22 @@ intempt:
         - AND Event: order_created occurred >= 2 times (all time)
         - AND Attribute: lifetime_value >= 300
 
-        Description: Customers who buy at higher AOV per order. Distinct from VIPs (which is by lifetime spend). Big-basket buyers may have fewer orders but consistently spend big on each — the right cohort for premium product launches, bundle offers, and "spend more, save more" tier promotions.
+        Description: Customers who buy at higher AOV per order. Distinct from VIPs (which is by lifetime spend). Big-basket buyers may have fewer orders but consistently spend big on each: the right cohort for premium product launches, bundle offers, and "spend more, save more" tier promotions.
   outputs:
     - { name: segment, type: segment, cardinality: single, description: "Segment created on /segments." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Big-Basket Buyers
+# Big basket buyers
 
-## Procedure
+Customers who spend heavily on every single order, so premium bundles and higher tiers go to people who already buy big.
 
-1. **Configure Segment Rule** [`create_segment`] — Open the segment authoring surface, name the segment, and apply the rule below. → produces: segment
+## What it does
 
-   ```text
-   Create a segment called "Big-Basket Buyers".
+1. **Build the big-basket list** (`create_segment`)
 
-   Object: Users
+   Customers with an average order value of 150 or more, 2 or more orders all time, and lifetime value of 300 or more.
 
-   Rules (all conditions joined by AND):
-   - Attribute: avg_order_value >= 150
-   - AND Event: order_created occurred >= 2 times (all time)
-   - AND Attribute: lifetime_value >= 300
+## What you end up with
 
-   Description: Customers who buy at higher AOV per order. Distinct from VIPs (which is by lifetime spend). Big-basket buyers may have fewer orders but consistently spend big on each — the right cohort for premium product launches, bundle offers, and "spend more, save more" tier promotions.
-   ```
-
-## Taxonomy notes
-
-- avg_order_value, lifetime_value are canonical Users numeric attributes.
-- order_created is canonical event.
-- The composite (avg_order_value >= 150 AND >= 2 orders AND lifetime_value >= 300) prevents single-order outliers from inflating the segment — a customer who placed one $200 order isn't a "big-basket buyer," they're a one-off.
-- Tune avg_order_value threshold to ~1.5x your typical AOV. For stores with $80 typical AOV, use $120; for stores with $200 typical AOV, use $300.
-- Distinct from vip-customers-high-ltv (which is cumulative spend, may be many small orders) — big-basket-buyers is per-order intensity. The two cohorts overlap but capture different shopping patterns.
+- **segment** (segment): Segment created on /segments.

@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /return-rate-by-category
   group: Reports
-  shortDescription: "Return rate by product category with previous-period comparison and rising-rate flagging."
+  title: "Return rate by category"
+  shortDescription: "Shows which product categories get returned most, and which ones have got worse since last quarter."
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]
@@ -25,18 +26,18 @@ intempt:
     - build_insights_report
   procedure:
     - step: 1
-      title: "Build Insights Report"
+      title: "Rank categories by returns"
       command: build_insights_report
       produces: report
       bindsAs: report
-      description: "Configure and materialize the report described below."
+      description: "Return requests as a percentage of fulfilled orders by product category over the last 90 days, compared with the prior 90. Flags any category up more than 5 points and lists the top 5 by volume and the top 5 by rate."
       prompt: |
         Create an Insights report called "Return Rate by Category".
 
         Series A: Event "order_fulfilled", aggregation: Count
         Series B: Event "return_requested", aggregation: Count
         Formula: (B / A) × 100, unit: %, label: "Return Rate"
-        Breakdown: By product category — derive from return_requested.items joined to Products to find category, OR from the source order's items (return_requested carries order_id relation).
+        Breakdown: By product category: derive from return_requested.items joined to Products to find category, OR from the source order's items (return_requested carries order_id relation).
         Time range: Last 90 days
         Compare: Previous period (prior 90 days)
         Chart type: Bar chart sorted by total return rate descending
@@ -51,29 +52,18 @@ intempt:
   outputs:
     - { name: report, type: report, cardinality: single, description: "Report produced by this recipe." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Return Rate by Category
+# Return rate by category
 
-## Procedure
+Shows which product categories get returned most, and which ones have got worse since last quarter.
 
-1. **Build Insights Report** [`build_insights_report`] — Configure and materialize the report described below. → produces: report
+## What it does
 
-   ```text
-   Create an Insights report called "Return Rate by Category".
+1. **Rank categories by returns** (`build_insights_report`)
 
-   Series A: Event "order_fulfilled", aggregation: Count
-   Series B: Event "return_requested", aggregation: Count
-   Formula: (B / A) × 100, unit: %, label: "Return Rate"
-   Breakdown: By product category — derive from return_requested.items joined to Products to find category, OR from the source order's items (return_requested carries order_id relation).
-   Time range: Last 90 days
-   Compare: Previous period (prior 90 days)
-   Chart type: Bar chart sorted by total return rate descending
+   Return requests as a percentage of fulfilled orders by product category over the last 90 days, compared with the prior 90. Flags any category up more than 5 points and lists the top 5 by volume and the top 5 by rate.
 
-   Annotations:
-   - Flag any category where return rate jumped >5 percentage points vs. prior period.
-   - Surface top 5 categories by absolute return volume and top 5 by return rate (the lists are usually different and both matter).
+## What you end up with
 
-   Taxonomy notes:
-   - return_requested has items, order_id (relation), return_id, status. Items resolve to categories through the Products record object.
-   - Note: there is no canonical "return_reason" property on return_requested. Reason analysis would require joining with order_refunded (which has a reason text field) when the return is monetized.
-   ```
+- **report** (report): Report produced by this recipe.

@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /browse-to-buy-retention
   group: Reports
-  shortDescription: "First-visit-to-purchase retention with W1/W4/W12 benchmarks and channel-source comparison."
+  title: "Browse to buy retention"
+  shortDescription: "Measures how long first time visitors take to place an order, by acquisition source, so you can tell fast converting channels from slow ones."
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]
@@ -25,11 +26,11 @@ intempt:
     - build_retention_report
   procedure:
     - step: 1
-      title: "Build Retention Report"
+      title: "Track first visit to first order"
       command: build_retention_report
       produces: report
       bindsAs: report
-      description: "Configure and materialize the report described below."
+      description: "Weekly cohorts anchored on a visitor's first session, measuring who places an order in weeks 1, 2, 4, 8 and 12, split by the top 6 traffic sources. Flags any source still under 8% at week 12."
       prompt: |
         Create a Retention report called "Browse to Buy Retention".
 
@@ -55,33 +56,18 @@ intempt:
   outputs:
     - { name: report, type: report, cardinality: single, description: "Report produced by this recipe." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Browse-to-Buy Retention
+# Browse to buy retention
 
-## Procedure
+Measures how long first time visitors take to place an order, by acquisition source, so you can tell fast converting channels from slow ones.
 
-1. **Build Retention Report** [`build_retention_report`] — Configure and materialize the report described below. → produces: report
+## What it does
 
-   ```text
-   Create a Retention report called "Browse to Buy Retention".
+1. **Track first visit to first order** (`build_retention_report`)
 
-   Anchor event: session_start (each user's first session_start)
-   Return event: order_created
-   Cohort granularity: Weekly
-   Time range: Last 12 weeks
-   Breakdown: By Users.utm_source (top 6 sources)
-   Compare: Previous period (prior 12 weeks of cohorts)
-   Chart type: Retention curve plus cohort table with W1 / W2 / W4 / W8 / W12 columns
+   Weekly cohorts anchored on a visitor's first session, measuring who places an order in weeks 1, 2, 4, 8 and 12, split by the top 6 traffic sources. Flags any source still under 8% at week 12.
 
-   Annotations:
-   - Add benchmarks: W1 first-purchase rate of 5% is typical for considered-purchase DTC, 10%+ for impulse-buy.
-   - Flag any source where W12 first-purchase rate is below 8% (browse-to-buy gap).
-   - Highlight the source with the fastest first-purchase rate (steepest W1 conversion).
-   - Highlight the source with the highest W12 conversion (best overall, even if slower).
+## What you end up with
 
-   Surface which sources produce "fast converters" vs "slow converters."
-
-   Taxonomy notes:
-   - session_start and order_created are canonical. Users.utm_source is canonical.
-   - "first session" per-user is determined by the earliest session_start for that customer_id.
-   ```
+- **report** (report): Report produced by this recipe.

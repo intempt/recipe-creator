@@ -4,10 +4,11 @@ description: Use when a user mentions "PQL to Salesforce", "create lead from pro
 arguments: []
 intempt:
   id: salesforce-pql-to-lead
+  title: "Product qualified signal to a Salesforce lead"
   version: 1.0.0
   slashCommand: /salesforce-pql-to-lead
   group: Workflows
-  shortDescription: "Create a Salesforce lead the moment a product-qualified signal fires, so a signal the product saw becomes a record a rep can work."
+  shortDescription: "Creates a Salesforce lead the moment product usage says someone is ready, so a signal the product saw becomes a record a rep can work."
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]
@@ -30,36 +31,47 @@ intempt:
     - create_workflow
   procedure:
     - step: 1
-      title: Define The Qualifying Signal
+      title: "Agree the qualifying signal"
       command: create_segment
       produces: segment
       bindsAs: pql
-      description: 'Create a segment describing the product-qualified signal — the usage threshold, the feature reached, the seats added — rather than encoding it inside the workflow. The definition is the thing sales and product will argue about, so it needs to live somewhere both can see it.'
-      prompt: 'Create a segment describing the product-qualified signal — the usage threshold, the feature reached, the seats added — rather than encoding it inside the workflow. The definition is the thing sales and product will argue about, so it needs to live somewhere both can see it.'
+      description: "The usage threshold, the feature reached or the seats added, defined as a segment rather than buried inside the workflow. Sales and product will argue about this definition, so it has to live where both can see it."
+      prompt: 'Create a segment describing the product-qualified signal (the usage threshold, the feature reached, the seats added) rather than encoding it inside the workflow. The definition is the thing sales and product will argue about, so it needs to live somewhere both can see it.'
     - step: 2
-      title: Create The Lead In Salesforce
+      title: "Upsert the lead, never double"
       command: create_workflow
       produces: workflow
       bindsAs: workflow
       dependsOn:
       - pql
-      description: 'Create a workflow enrolling members of the segment and creating a Salesforce lead for each. Use upsert with an external ID rather than create, because a create without a match key is a duplicate generator and the rep pays for it. Map only fields Intempt owns — the score, the signal, the source — and leave Salesforce-owned fields alone. Failure policy is skip-and-record so one rejected lead does not stop the rest.'
-      prompt: 'Create a workflow enrolling members of the segment and creating a Salesforce lead for each. Use upsert with an external ID rather than create, because a create without a match key is a duplicate generator and the rep pays for it. Map only fields Intempt owns — the score, the signal, the source — and leave Salesforce-owned fields alone. Failure policy is skip-and-record so one rejected lead does not stop the rest.'
+      description: "Members of the segment are enrolled and a Salesforce lead is created for each, by upsert against an external ID rather than a plain create, because a create with no match key generates duplicates the rep pays for. Only the fields Intempt owns are mapped, the score, the signal and the source, and Salesforce's own fields are left alone. A rejected lead is recorded and skipped rather than stopping the rest."
+      prompt: 'Create a workflow enrolling members of the segment and creating a Salesforce lead for each. Use upsert with an external ID rather than create, because a create without a match key is a duplicate generator and the rep pays for it. Map only fields Intempt owns (the score, the signal, the source) and leave Salesforce-owned fields alone. Failure policy is skip-and-record so one rejected lead does not stop the rest.'
   outputs:
     - { name: pql, type: segment, cardinality: single, description: "Segment produced by this recipe." }
     - { name: workflow, type: workflow, cardinality: single, description: "Workflow produced by this recipe." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Salesforce Pql To Lead
+# Product qualified signal to a Salesforce lead
 
-> **Not runnable yet.** Creating a lead in Salesforce has no backend. The connector reads today and cannot write, and Airbyte does not close that gap — its destinations write to warehouses, not into Salesforce. This recipe is published so the demand is recorded and the workflow is designed, and it will fail at the write step until the operation ships.
+Creates a Salesforce lead the moment product usage says someone is ready, so a signal the product saw becomes a record a rep can work.
 
-## Procedure
+## Before you run it
 
-1. **Define The Qualifying Signal** [`create_segment`] — Create a segment describing the product-qualified signal — the usage threshold, the feature reached, the seats added — rather than encoding it inside the workflow. The definition is the thing sales and product will argue about, so it needs to live somewhere both can see it. → produces: segment
-2. **Create The Lead In Salesforce** [`create_workflow`] — Create a workflow enrolling members of the segment and creating a Salesforce lead for each. Use upsert with an external ID rather than create, because a create without a match key is a duplicate generator and the rep pays for it. Map only fields Intempt owns — the score, the signal, the source — and leave Salesforce-owned fields alone. Failure policy is skip-and-record so one rejected lead does not stop the rest. → produces: workflow
+- Connect salesforce
+- Send the `feature_used` event
 
-## Prerequisites
+## What it does
 
-- Event `feature_used` (recommended)
-- Integration **salesforce** (blocking)
+1. **Agree the qualifying signal** (`create_segment`)
+
+   The usage threshold, the feature reached or the seats added, defined as a segment rather than buried inside the workflow. Sales and product will argue about this definition, so it has to live where both can see it.
+
+2. **Upsert the lead, never double** (`create_workflow`)
+
+   Members of the segment are enrolled and a Salesforce lead is created for each, by upsert against an external ID rather than a plain create, because a create with no match key generates duplicates the rep pays for. Only the fields Intempt owns are mapped, the score, the signal and the source, and Salesforce's own fields are left alone. A rejected lead is recorded and skipped rather than stopping the rest.
+
+## What you end up with
+
+- **pql** (segment): Segment produced by this recipe.
+- **workflow** (workflow): Workflow produced by this recipe.

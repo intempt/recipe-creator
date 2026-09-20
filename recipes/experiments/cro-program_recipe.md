@@ -8,7 +8,8 @@ intempt:
   version: 1.0.1
   slashCommand: /cro-program
   group: Experiments
-  shortDescription: "Find drop-off, design experiment, ship variants, analyze, kill or promote."
+  title: 'Conversion optimization program'
+  shortDescription: 'Runs a full optimization cycle: find the worst drop-off, design the test, ship the variants, then kill or promote on the results.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [marketing]
@@ -29,43 +30,43 @@ intempt:
     - create_dashboard
   procedure:
     - step: 1
-      title: "Find Dropoff"
+      title: 'Find the worst drop-off'
       command: build_funnel_report
       produces: report
       bindsAs: report
-      description: "Build funnel report identifying highest-impact drop-off step in conversion path."
+      description: 'Builds a funnel report across the conversion path and identifies the step losing the most people, which is where a test is worth running.'
       prompt: "Build funnel report identifying highest-impact drop-off step in conversion path."
     - step: 2
-      title: "Design Experiment"
+      title: 'Design the test'
       command: create_experiment
       produces: experiment
       bindsAs: experiment
       dependsOn: [report]
-      description: "Define experiment hypothesis, variants, primary metric, sample-size target, and stop conditions."
+      description: 'Sets the hypothesis, the variants, the primary metric, how many people the test needs, and the conditions under which it stops.'
       prompt: "Define experiment hypothesis, variants, primary metric, sample-size target, and stop conditions."
     - step: 3
-      title: "Build Personalization"
+      title: 'Target the right visitors'
       command: create_personalization
       produces: personalization
       bindsAs: personalization
       dependsOn: [report, experiment]
-      description: "Configure personalization rule that serves variant content to assigned cohort."
+      description: 'Configures the personalization rule that decides who sees which variant, so each cohort gets the content assigned to it.'
       prompt: "Configure personalization rule that serves variant content to assigned cohort."
     - step: 4
-      title: "Build Variants Content"
+      title: 'Write the variant content'
       command: create_email_content
       produces: asset
       bindsAs: asset
       dependsOn: [report, experiment, personalization]
-      description: "Generate variant content (copy, layout, CTA changes) per the experiment design."
+      description: 'Generates the copy, layout and CTA changes for each variant, matching the design set in the previous step.'
       prompt: "Generate variant content (copy, layout, CTA changes) per the experiment design."
     - step: 5
-      title: "Build Results Dashboard"
+      title: 'Build the results dashboard'
       command: create_dashboard
       produces: dashboard
       bindsAs: dashboard
       dependsOn: [report, experiment, personalization, asset]
-      description: "Compose a dashboard tracking experiment lift, statistical significance, and segment-level performance."
+      description: 'Composes a dashboard tracking lift per variant, whether the result is statistically significant, and how it breaks down by segment.'
       prompt: "Compose a dashboard tracking experiment lift, statistical significance, and segment-level performance."
   outputs:
     - { name: report, type: report, cardinality: single, description: "Report produced by this recipe." }
@@ -74,13 +75,38 @@ intempt:
     - { name: asset, type: asset, cardinality: single, description: "Asset produced by this recipe." }
     - { name: dashboard, type: dashboard, cardinality: single, description: "Dashboard produced by this recipe." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# CRO Program
+# Conversion optimization program
 
-## Procedure
+Runs a full optimization cycle: find the worst drop-off, design the test, ship the variants, then kill or promote on the results.
 
-1. **Find Dropoff** [`build_funnel_report`] — Build funnel report identifying highest-impact drop-off step in conversion path. → produces: report
-2. **Design Experiment** [`create_experiment`] — Define experiment hypothesis, variants, primary metric, sample-size target, and stop conditions. → produces: experiment
-3. **Build Personalization** [`create_personalization`] — Configure personalization rule that serves variant content to assigned cohort. → produces: personalization
-4. **Build Variants Content** [`create_email_content`] — Generate variant content (copy, layout, CTA changes) per the experiment design. → produces: asset
-5. **Build Results Dashboard** [`create_dashboard`] — Compose a dashboard tracking experiment lift, statistical significance, and segment-level performance. → produces: dashboard
+## What it does
+
+1. **Find the worst drop-off** (`build_funnel_report`)
+
+   Builds a funnel report across the conversion path and identifies the step losing the most people, which is where a test is worth running.
+
+2. **Design the test** (`create_experiment`)
+
+   Sets the hypothesis, the variants, the primary metric, how many people the test needs, and the conditions under which it stops.
+
+3. **Target the right visitors** (`create_personalization`)
+
+   Configures the personalization rule that decides who sees which variant, so each cohort gets the content assigned to it.
+
+4. **Write the variant content** (`create_email_content`)
+
+   Generates the copy, layout and CTA changes for each variant, matching the design set in the previous step.
+
+5. **Build the results dashboard** (`create_dashboard`)
+
+   Composes a dashboard tracking lift per variant, whether the result is statistically significant, and how it breaks down by segment.
+
+## What you end up with
+
+- **report** (report): Report produced by this recipe.
+- **experiment** (experiment): Experiment produced by this recipe.
+- **personalization** (personalization): Personalization produced by this recipe.
+- **asset** (asset): Asset produced by this recipe.
+- **dashboard** (dashboard): Dashboard produced by this recipe.

@@ -1,88 +1,44 @@
 # CLAUDE.md
 
-## Overview
+Public, source-available recipes for the Intempt platform. Recipes are templates Blu
+executes inside a customer's project using that person's own access.
 
-Public recipes repository for the Intempt platform. Contains 292 recipe `.md` files with YAML frontmatter, organized by Blu Group.
+## Writing or editing a recipe
 
-## Structure
+Use the `write-recipe` skill in `.claude/skills/write-recipe/`. It owns the frontmatter
+schema, the copy rules, the safety rules and the pull request flow. Do not restate them
+here: one copy, in the skill.
+
+## Before you push
 
 ```
-recipes/
-  agents/            #  1 recipe  — customer-facing AI agent setup
-  content/           #  4 recipes — channel content (email, SMS, push, site)
-  creative/          # 32 recipes — image + video creative ops (pack-shot, on-model, remix, ad, video reel, etc.)
-  dashboards/        # 21 recipes — persona-specific dashboard composition
-  experiments/       # 24 recipes — A/B / multivariate tests
-  journeys/          # 35 recipes — multi-step lifecycle playbooks
-  meetings/          #  9 recipes — notetaker, taxonomy, summaries, coaching
-  personalizations/  #  9 recipes — audience-targeted website personalization
-  recommendations/   #  1 recipe  — catalog-aware product/content recs
-  reports/           # 71 recipes — insights, funnel, retention, paths
-  segments/          # 47 recipes — dynamic audience cohorts
-  workflows/         # 38 recipes — triggered automation, enrichment, routing
-recipes-catalog.xlsx   # Full catalog with taxonomy, commands, mode coverage
-scripts/
-  convert_ts_to_md.py  # Conversion from consolev2-loveable TS format
+python3 scripts/check_recipe_prerequisites.py    # declares every integration it names
+python3 scripts/check_recipe_identity.py         # id unique, matches filename, slash unique
+python3 scripts/build_artifacts.py --out /tmp/c --check   # customer-facing copy is clean
 ```
 
-## Recipe .md Format
+All three run in CI on pull requests to `staging` and `main`.
 
-Each recipe is a markdown file with YAML frontmatter compatible with `RecipeMdParser` in single-metadata:
+## Branches
 
-```yaml
----
-name: recipe-name
-description: |
-  Use when a user mentions "X", or asks for related help. Short description.
-arguments: []
-intempt:
-  id: recipe-slug                    # kebab-case, unique
-  version: 1.0.0                     # semver
-  slashCommand: /recipe-slug
-  group: Segments                    # Blu Group (directory name)
-  shortDescription: "..."
-  author: { type: intempt, name: "Intempt" }
-  classification:
-    product: [segments]              # product categories
-    agent: segment-architect         # AI agent type
-    mode: [b2b, saas]               # business modes
-    object: accounts                 # optional: target object
-    complexity: standard             # quick | standard | advanced
-    executionMode: live              # oneshot | live | scheduled
-    tags: [tag1, tag2]
-  scope: global
-  visibility: published
-  accessTier: free
-  aiPassRequired: true
-  prerequisites:                     # optional
-    events:
-      - { value: event_name, severity: blocking }
-    integrations:
-      - { value: shopify, severity: blocking }
-  invokesCommands:
-    - create_segment
-  procedure:
-    - step: 1
-      title: "Step Title"
-      command: create_segment
-      produces: segment
-      bindsAs: segment
-      dependsOn: []                  # optional: refs to prior bindsAs values
-      description: "What this step does."
-      prompt: |
-        Detailed prompt for the AI agent executing this step.
-  outputs:
-    - { name: segment, type: segment, cardinality: single, description: "What this output creates." }
----
-# Markdown body with human-readable description
+`staging` is the default branch and where contributions land. `main` is fast-forward only
+from `staging`; there are no pull requests to `main`. Merging to `staging` publishes the
+catalog for internal testing, promotion to `main` publishes it to customers.
+
+## Counts
+
+Never write a recipe count into a document by hand. Three files once claimed 256, 292 and
+302 for the same corpus. `README.md` generates its table, and anything else should read:
+
+```
+find recipes -name '*.md' | wc -l
 ```
 
-## Ingestion
+## Scripts
 
-Recipes are ingested into single-metadata via:
-- `POST /v1/{org}/projects/{project}/recipes/bundles` — ZIP of .md files
-- `POST /v1/{org}/projects/{project}/recipes/ingest-md` — single .md file
-
-## Output Types
-
-Output types across recipes: segment, journey, workflow, content, dashboard, report, experiment, experience, attribute, event-mapping, task, deal, account, meeting, meeting_type, meeting_summary_recipe, meeting_type_inventory, agent-config, snippet, recommendation, image, video.
+| | |
+|---|---|
+| `build_artifacts.py` | builds the public catalog from the `.md` sources. The `--check` mode is the copy gate |
+| `check_recipe_identity.py` | id and slash-command uniqueness, id matches filename |
+| `check_recipe_prerequisites.py` | a recipe naming an integration must declare it |
+| `convert_ts_to_md.py` | one-time migration from an older TypeScript format. Kept for provenance, not part of any flow |

@@ -1,138 +1,125 @@
 # Intempt Recipes
 
-Pre-built automation recipes for the Intempt platform. Each recipe is a structured `.md` file with YAML frontmatter that Blu (Intempt's AI) uses to execute multi-step workflows on behalf of users.
+Pre-built automations for the [Intempt](https://intempt.com) platform. Each recipe is a
+markdown file that Blu, Intempt's agent, executes on your behalf: build a segment, run a
+journey, compose a dashboard, generate creative.
 
-**256 recipes** across **10 categories**, covering segments, reports, journeys, workflows, experiments, dashboards, personalizations, meetings, agents, and recommendations.
-
-## Categories
-
-| Category | Count | Description |
-|----------|------:|-------------|
-| **reports** | 71 | Insights, funnel, retention, and path analysis |
-| **segments** | 47 | Dynamic audience cohorts (accounts, users, leads) |
-| **workflows** | 38 | Triggered automation, enrichment, and routing |
-| **journeys** | 35 | Multi-step lifecycle playbooks |
-| **experiments** | 24 | A/B and multivariate tests |
-| **dashboards** | 21 | Persona-specific dashboard compositions |
-| **personalizations** | 9 | Audience-targeted website experiences |
-| **meetings** | 9 | Notetaker setup, taxonomy, summaries, coaching |
-| **agents** | 1 | Customer-facing AI agent configuration |
-| **recommendations** | 1 | Catalog-aware product/content recs |
-
-## Business Modes
-
-Recipes are tagged by the business model they apply to:
-
-- **SaaS** — 68 recipes
-- **B2B + SaaS** — 65 recipes
-- **Ecommerce** — 60 recipes
-- **B2B** — 28 recipes
-- **All modes** — 14 recipes
-- **Cross-mode** — 21 recipes
-
-## AI Agents
-
-Each recipe is assigned to an AI agent that executes it:
-
-| Agent | Recipes | Focus |
-|-------|--------:|-------|
-| data-analyst | 90 | Reports, dashboards, analytics |
-| segment-architect | 46 | Audience segmentation |
-| experiment-strategist | 32 | A/B tests, experiments |
-| journey-builder | 31 | Lifecycle journeys |
-| revops-automator | 25 | Revenue operations workflows |
-| workflow-builder | 12 | General automation |
-| meeting-notetaker | 12 | Meeting intelligence |
-| experience-optimizer | 4 | Personalizations |
-| scheduling-assistant | 2 | Meeting scheduling |
-| outreach-rep | 2 | Sales outreach |
-
-## Recipe Format
-
-Each recipe is a markdown file with YAML frontmatter:
-
-```yaml
----
-name: recipe-name
-description: |
-  Use when a user mentions "X", or asks for related help.
-arguments: []
-intempt:
-  id: recipe-slug
-  version: 1.0.0
-  slashCommand: /recipe-slug
-  group: Segments
-  shortDescription: "..."
-  author: { type: intempt, name: "Intempt" }
-  classification:
-    product: [segments]
-    agent: segment-architect
-    mode: [b2b, saas]
-    complexity: standard        # quick | standard | advanced
-    executionMode: live         # oneshot | live | scheduled
-    tags: [tag1, tag2]
-  scope: global
-  visibility: published
-  accessTier: free
-  aiPassRequired: true
-  prerequisites:                # optional
-    events:
-      - { value: event_name, severity: blocking }
-    integrations:
-      - { value: shopify, severity: blocking }
-  invokesCommands:
-    - create_segment
-  procedure:
-    - step: 1
-      title: "Step Title"
-      command: create_segment
-      produces: segment
-      bindsAs: segment
-      description: "What this step does."
-      prompt: |
-        Detailed prompt for the AI agent.
-  outputs:
-    - { name: segment, type: segment, cardinality: single }
----
-
-# Human-readable description
-```
-
-### Key Fields
-
-| Field | Purpose |
-|-------|---------|
-| `classification.mode` | Business model fit (b2b, saas, ecommerce) |
-| `classification.complexity` | quick (71), standard (129), advanced (56) |
-| `classification.executionMode` | live (253), oneshot (2), scheduled (1) |
-| `prerequisites` | Required events or integrations (blocking/recommended) |
-| `procedure` | Ordered steps with commands, bindings, and prompts |
-| `outputs` | What the recipe produces (segment, journey, report, etc.) |
-
-## Ingestion
-
-Recipes are loaded into the platform via the single-metadata service:
-
-```
-POST /v1/{org}/projects/{project}/recipes/bundles      # ZIP of .md files
-POST /v1/{org}/projects/{project}/recipes/ingest-md     # Single .md file
-```
-
-## Repo Structure
+**302 recipes** across 12 groups. Anyone can propose one.
 
 ```
 recipes/
-  agents/              — 1 recipe
-  dashboards/          — 21 recipes
-  experiments/         — 24 recipes
-  journeys/            — 35 recipes
-  meetings/            — 9 recipes
-  personalizations/    — 9 recipes
-  recommendations/     — 1 recipe
-  reports/             — 71 recipes
-  segments/            — 47 recipes
-  workflows/           — 38 recipes
-recipes-catalog.xlsx   — Full catalog with taxonomy and mode coverage
-scripts/
-  convert_ts_to_md.py  — Converts from consolev2-loveable TS format
+  agents/                1
+  content/               4
+  creative/             32
+  dashboards/           21
+  experiments/          24
+  journeys/             35
+  meetings/              9
+  personalizations/      9
+  recommendations/       1
+  reports/              71
+  segments/             47
+  workflows/            48
 ```
+
+## What a recipe is
+
+A recipe is a template, not a script you run yourself. It describes an outcome in
+steps, and Blu carries the steps out inside your project using your own access.
+Nothing in a recipe can do more than you can.
+
+Recipes in this repository are **global**: identical for every customer, read-only,
+and published to a catalog that the Intempt website and console both read.
+
+When you use one, Intempt makes a **copy in your project**. That copy is yours to
+edit and it never changes underneath you when the original is updated.
+
+## Anatomy
+
+Every recipe is one `.md` file with YAML frontmatter.
+
+```yaml
+---
+name: cart-recovery
+description: |
+  Use when a user mentions "abandoned cart", "cart recovery", or asks for related help.
+arguments: []
+intempt:
+  id: cart-recovery
+  title: Abandoned cart recovery
+  version: 1.0.0
+  slashCommand: /cart-recovery
+  group: Journeys
+  shortDescription: Emails shoppers who left items behind, three times over three days.
+  classification:
+    product: [marketing]
+    agent: journey-builder
+    mode: [ecommerce]
+    complexity: advanced
+    executionMode: live
+    tags: [cart, recovery]
+  prerequisites:
+    integrations:
+      - { value: shopify, severity: blocking }
+  procedure:
+    - step: 1
+      title: Find who abandoned a cart
+      command: create_segment
+      produces: segment
+      bindsAs: cart_abandoners
+      description: >
+        Shoppers with a cart_abandoned event in the last 30 days who never
+        placed an order for that cart.
+      prompt: |
+        Create a segment called "Cart Abandoners" ...
+  outputs:
+    - { name: segment, type: segment, cardinality: single, description: "The audience." }
+---
+Markdown body: the human-readable walkthrough.
+```
+
+Two fields do different jobs and are easy to confuse:
+
+| Field | Read by | Written for |
+|---|---|---|
+| `description` | Blu, to decide when a recipe is relevant | intent matching, not customers |
+| `shortDescription` | customers, on the website and in the console | one plain sentence, what they get |
+
+## Writing a good one
+
+The bar is that a customer who has never seen your recipe understands what it does
+before they run it.
+
+- **`title`** is a real name. "Abandoned cart recovery", not `cart-recovery`.
+- **`shortDescription`** says what the customer gets, in one sentence, under 200
+  characters. Never list the objects it builds: "segment, content, journey,
+  dashboard" is our vocabulary, not theirs.
+- **Step `title`** names the action, not the object type. "Find who abandoned a
+  cart", not "Build Segment". Keep it under about 40 characters so it fits a
+  canvas node.
+- **Step `description`** carries the real rule: the threshold, the timing, the exit
+  condition. If it could describe any recipe, it is not specific enough.
+- **No em-dashes and no arrow glyphs.** Use a colon, a full stop, or a comma.
+- **Declare every integration you mention** under `prerequisites.integrations`, or
+  CI will fail the pull request.
+
+## Contributing
+
+1. Fork, branch, add or edit a file under `recipes/<group>/`.
+2. Open a pull request **against `staging`**. Not `main`.
+3. CI checks prerequisites, id and slash-command uniqueness, and the copy rules.
+4. A maintainer reviews. Recipes are executed inside customer projects, so review
+   is about safety as much as quality.
+5. Merged to `staging`, your recipe is live for internal testing. It reaches
+   customers when `staging` is promoted to `main`.
+
+`main` is fast-forward only from `staging`. There are no pull requests to `main`.
+
+## Licence
+
+Source-available, not open source. You may read these, run them on Intempt, and
+contribute. You may not redistribute them or use them to build a competing
+product. See [LICENSE](./LICENSE).
+
+Contributing grants Intempt a licence to publish your contribution. Partner
+revenue share, where it applies, is a separate written agreement.

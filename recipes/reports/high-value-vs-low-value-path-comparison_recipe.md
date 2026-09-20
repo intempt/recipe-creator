@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /high-value-vs-low-value-path-comparison
   group: Reports
-  shortDescription: "Two Path reports side-by-side: paths taken by users who placed >$X orders vs <$X or non-converters."
+  title: "High value versus low value paths"
+  shortDescription: "Puts the journeys of big spenders next to the journeys of small spenders and non buyers, and names the steps that only show up on the profitable side."
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]
@@ -25,11 +26,11 @@ intempt:
     - build_paths_report
   procedure:
     - step: 1
-      title: "Build Path Report"
+      title: "Contrast big and small basket paths"
       command: build_paths_report
       produces: report
       bindsAs: report
-      description: "Configure and materialize the report described below."
+      description: "Two 7 step journeys from a first session inside a 7 day window over the last 60 days: one ending in an order above the high value threshold (100 dollars by default), one ending below it or with no order at all. Surfaces the events unique to each side."
       prompt: |
         Create a Path report called "High-Value vs Low-Value Path Comparison".
 
@@ -39,7 +40,7 @@ intempt:
         - Threshold for "high value": default $100 (configurable; or use the 75th-percentile order_created.total_price)
         - Threshold for "low value": default <$50 OR no order placed in the window (configurable)
 
-        Path A — High-value paths:
+        Path A: High-value paths:
         - Anchor event: session_start (user's first session in the window)
         - End event: order_created where total_price >= high-value threshold
         - Direction: forward
@@ -47,7 +48,7 @@ intempt:
         - Window: 7 days
         - Loop compression: on
 
-        Path B — Low-value paths:
+        Path B: Low-value paths:
         - Anchor event: session_start
         - End event: order_created where total_price < low-value threshold OR session_end without any order_created
         - Direction: forward
@@ -61,8 +62,8 @@ intempt:
 
         Annotations:
         - Surface the top 5 events that appear disproportionately in high-value paths (the "high-value-buyer signals").
-        - Surface the top 5 events that appear in low-value paths (the "low-value-buyer signals" — typically discount_applied events, single product detail page_viewed without category browsing, etc.).
-        - Surface the median path length (number of steps) for each segment — high-value buyers typically take longer, more deliberate paths.
+        - Surface the top 5 events that appear in low-value paths (the "low-value-buyer signals": typically discount_applied events, single product detail page_viewed without category browsing, etc.).
+        - Surface the median path length (number of steps) for each segment: high-value buyers typically take longer, more deliberate paths.
 
         Use case: identify behaviors that predict high-value purchase intent in the first session, so you can trigger personalization for users showing those signals.
 
@@ -71,49 +72,18 @@ intempt:
   outputs:
     - { name: report, type: report, cardinality: single, description: "Report produced by this recipe." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# High-Value vs Low-Value Path Comparison
+# High value versus low value paths
 
-## Procedure
+Puts the journeys of big spenders next to the journeys of small spenders and non buyers, and names the steps that only show up on the profitable side.
 
-1. **Build Path Report** [`build_paths_report`] — Configure and materialize the report described below. → produces: report
+## What it does
 
-   ```text
-   Create a Path report called "High-Value vs Low-Value Path Comparison".
+1. **Contrast big and small basket paths** (`build_paths_report`)
 
-   This recipe runs two Path reports in parallel and surfaces them side-by-side.
+   Two 7 step journeys from a first session inside a 7 day window over the last 60 days: one ending in an order above the high value threshold (100 dollars by default), one ending below it or with no order at all. Surfaces the events unique to each side.
 
-   Configuration:
-   - Threshold for "high value": default $100 (configurable; or use the 75th-percentile order_created.total_price)
-   - Threshold for "low value": default <$50 OR no order placed in the window (configurable)
+## What you end up with
 
-   Path A — High-value paths:
-   - Anchor event: session_start (user's first session in the window)
-   - End event: order_created where total_price >= high-value threshold
-   - Direction: forward
-   - Depth: 7 steps
-   - Window: 7 days
-   - Loop compression: on
-
-   Path B — Low-value paths:
-   - Anchor event: session_start
-   - End event: order_created where total_price < low-value threshold OR session_end without any order_created
-   - Direction: forward
-   - Depth: 7 steps
-   - Window: 7 days
-   - Loop compression: on
-
-   Time range: Last 60 days
-
-   Render the two Path reports side-by-side and compute a "lift" view: events that appear in Path A's top 10 paths but NOT in Path B's top 10, and vice versa.
-
-   Annotations:
-   - Surface the top 5 events that appear disproportionately in high-value paths (the "high-value-buyer signals").
-   - Surface the top 5 events that appear in low-value paths (the "low-value-buyer signals" — typically discount_applied events, single product detail page_viewed without category browsing, etc.).
-   - Surface the median path length (number of steps) for each segment — high-value buyers typically take longer, more deliberate paths.
-
-   Use case: identify behaviors that predict high-value purchase intent in the first session, so you can trigger personalization for users showing those signals.
-
-   Taxonomy notes:
-   - session_start, order_created, session_end are all canonical. order_created.total_price is the value used for the threshold filter.
-   ```
+- **report** (report): Report produced by this recipe.

@@ -8,7 +8,8 @@ intempt:
   version: 1.0.1
   slashCommand: /inbox-setup
   group: Agents
-  shortDescription: "Multi-channel inbox configuration with AI drafts, snippet library, routing, dashboard."
+  title: "Shared inbox with AI drafts"
+  shortDescription: "Sets up the shared inbox: reusable replies for the questions you get most, rules that send each message to the right owner, and a view of how fast you respond."
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales, design]
@@ -27,35 +28,35 @@ intempt:
     - create_agent
   procedure:
     - step: 1
-      title: "Configure Snippets"
+      title: "Build the snippet library"
       command: create_snippet
       produces: asset
       bindsAs: snippet
-      description: "Configure snippet library across categories (Pricing, Support, Scheduling, Follow-up, Objections) with brand voice."
+      description: "Reusable replies grouped by pricing, support, scheduling, follow-up and objections, written in your brand voice."
       prompt: "Configure snippet library across categories (Pricing, Support, Scheduling, Follow-up, Objections) with brand voice."
     - step: 2
-      title: "Configure Snippets"
+      title: "Add reply templates"
       command: create_snippet
       produces: asset
       bindsAs: asset
       dependsOn: [snippet]
-      description: "Configure reusable email content templates for common reply scenarios."
+      description: "Longer reusable email templates for the reply scenarios that come up most often."
       prompt: "Configure reusable email content templates for common reply scenarios."
     - step: 3
-      title: "Build Inbox Dashboard"
+      title: "Track inbox performance"
       command: create_dashboard
       produces: dashboard
       bindsAs: dashboard
       dependsOn: [snippet, asset]
-      description: "Compose a dashboard tracking inbox volume, response time, AI-draft acceptance rate, routing accuracy."
+      description: "Message volume, response time, how often the AI draft gets accepted, and how accurately messages are routed."
       prompt: "Compose a dashboard tracking inbox volume, response time, AI-draft acceptance rate, routing accuracy."
     - step: 4
-      title: "Configure Routing Agent"
+      title: "Set the routing rules"
       command: create_agent
       produces: agent
       bindsAs: agent
       dependsOn: [snippet, asset, dashboard]
-      description: "Configure the routing agent with rules: account-owner-first, round-robin fallback, AI-confidence threshold."
+      description: "Messages go to the account owner first and round-robin when there is no owner, and are only handled automatically above a confidence threshold."
       prompt: "Configure the routing agent with rules: account-owner-first, round-robin fallback, AI-confidence threshold."
   outputs:
     - { name: asset, type: asset, cardinality: single, description: "Snippet produced by this recipe." }
@@ -63,12 +64,33 @@ intempt:
     - { name: dashboard, type: dashboard, cardinality: single, description: "Dashboard produced by this recipe." }
     - { name: agent, type: agent, cardinality: single, description: "Agent produced by this recipe." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Inbox & Conversation Management
+# Shared inbox with AI drafts
 
-## Procedure
+Sets up the shared inbox: reusable replies for the questions you get most, rules that send each message to the right owner, and a view of how fast you respond.
 
-1. **Configure Snippets** [`create_snippet`] — Configure snippet library across categories (Pricing, Support, Scheduling, Follow-up, Objections) with brand voice. → produces: asset
-2. **Configure Snippets** [`create_snippet`] — Configure reusable email content templates for common reply scenarios. → produces: asset
-3. **Build Inbox Dashboard** [`create_dashboard`] — Compose a dashboard tracking inbox volume, response time, AI-draft acceptance rate, routing accuracy. → produces: dashboard
-4. **Configure Routing Agent** [`create_agent`] — Configure the routing agent with rules: account-owner-first, round-robin fallback, AI-confidence threshold. → produces: agent
+## What it does
+
+1. **Build the snippet library** (`create_snippet`)
+
+   Reusable replies grouped by pricing, support, scheduling, follow-up and objections, written in your brand voice.
+
+2. **Add reply templates** (`create_snippet`)
+
+   Longer reusable email templates for the reply scenarios that come up most often.
+
+3. **Track inbox performance** (`create_dashboard`)
+
+   Message volume, response time, how often the AI draft gets accepted, and how accurately messages are routed.
+
+4. **Set the routing rules** (`create_agent`)
+
+   Messages go to the account owner first and round-robin when there is no owner, and are only handled automatically above a confidence threshold.
+
+## What you end up with
+
+- **asset** (asset): Snippet produced by this recipe.
+- **asset** (asset): Asset produced by this recipe.
+- **dashboard** (dashboard): Dashboard produced by this recipe.
+- **agent** (agent): Agent produced by this recipe.

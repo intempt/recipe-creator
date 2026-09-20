@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /product-reshoot
   group: Creative
-  shortDescription: "Re-light any product without booking a studio."
+  title: 'Product relight'
+  shortDescription: 'Re-lights a product photo you already have, using a setting, lighting direction and camera angle that you choose.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]
@@ -25,11 +26,11 @@ intempt:
     - generate_image
   procedure:
     - step: 1
-      title: "Re-light product"
+      title: 'Relight the product'
       command: generate_image
       produces: image
       bindsAs: image
-      description: "Pick setting, lighting, and angle chips then re-shoot the product with controlled studio light."
+      description: 'You upload a product photo and pick the setting, lighting and angle. The shot is relit with physically accurate light falloff and the product itself is unchanged.'
       prompt: |
         Re-shoot a product image with new lighting.
 
@@ -39,25 +40,24 @@ intempt:
         - lighting: lighting direction/style
         - angle: camera angle
 
-        Pipeline: iclight-v2 relight → optional nano-banana-pro/edit
+        Pipeline: iclight-v2 relight to optional nano-banana-pro/edit
 
         Re-light the product with physically-accurate light falloff. The product identity must remain unchanged.
   outputs:
     - { name: image, type: image, cardinality: single, description: "Re-lit product image." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Product Reshoot
+# Product relight
 
-## Procedure
+Re-lights a product photo you already have, using a setting, lighting direction and camera angle that you choose.
 
-1. **Re-light product** [`generate_image`] — Pick setting, lighting, and angle chips then re-shoot the product with controlled studio light. → produces: image
+## What it does
 
-   ```text
-   Inputs: productImage, setting, lighting, angle
-   Pipeline: iclight-v2 relight
-   ```
+1. **Relight the product** (`generate_image`)
 
-## Notes
+   You upload a product photo and pick the setting, lighting and angle. The shot is relit with physically accurate light falloff and the product itself is unchanged.
 
-- fal.ai pipeline: iclight-v2 for physically-accurate relighting.
-- Product identity preserved — only lighting, angle, and environment change.
+## What you end up with
+
+- **image** (image): Re-lit product image.

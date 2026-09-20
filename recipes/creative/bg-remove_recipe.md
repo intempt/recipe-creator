@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /bg-remove
   group: Creative
-  shortDescription: "Clean alpha, ready to drop in."
+  title: 'Background removal'
+  shortDescription: 'Strips the backdrop and shadow from a product image and returns a transparent cutout you can drop anywhere.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]
@@ -25,11 +26,11 @@ intempt:
     - generate_image
   procedure:
     - step: 1
-      title: "Remove background"
+      title: 'Cut out the product'
       command: generate_image
       produces: image
       bindsAs: image
-      description: "Remove the background from a product image, producing a clean alpha-channel cutout."
+      description: 'Replaces the backdrop and shadow with a transparent alpha channel. The product stays in the same position and is not re-rendered.'
       prompt: |
         Remove the background from a product image.
 
@@ -39,14 +40,18 @@ intempt:
   outputs:
     - { name: image, type: image, cardinality: single, description: "Product on transparent background." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Background Remove
+# Background removal
 
-## Procedure
+Strips the backdrop and shadow from a product image and returns a transparent cutout you can drop anywhere.
 
-1. **Remove background** [`generate_image`] — Isolate product with clean alpha cutout. → produces: image
+## What it does
 
-## Notes
+1. **Cut out the product** (`generate_image`)
 
-- Pipeline: flux-pro/kontext for background isolation.
-- Product identity and position preserved exactly.
+   Replaces the backdrop and shadow with a transparent alpha channel. The product stays in the same position and is not re-rendered.
+
+## What you end up with
+
+- **image** (image): Product on transparent background.

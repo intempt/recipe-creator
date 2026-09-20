@@ -6,9 +6,10 @@ arguments: []
 intempt:
   id: power-users
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /power-users
   group: Segments
-  shortDescription: "Highly engaged users with frequent sessions and high activity score in the last 30 days."
+  title: 'Power users'
+  shortDescription: 'Your most active users over the last month, the people to ask for reviews, case studies, and beta feedback.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]
@@ -26,11 +27,11 @@ intempt:
     - create_segment
   procedure:
     - step: 1
-      title: "Configure Segment Rule"
+      title: 'Build the power-user list'
       command: create_segment
       produces: segment
       bindsAs: segment
-      description: "Open the segment authoring surface, name the segment, and apply the rule below."
+      description: 'Users with 10 or more sessions and 20 or more clicks in the last 30 days, a High engagement score, and activity in the last 7 days.'
       prompt: |
         Create a segment called "Power Users".
 
@@ -42,34 +43,22 @@ intempt:
         - AND Attribute: engagement_score = "High"
         - AND Attribute: last_seen_at is within last 7 days
 
-        Description: Highly engaged users — frequent sessions, high engagement, recent activity. Priority cohort for advocacy programs, beta access, and case-study outreach.
+        Description: Highly engaged users: frequent sessions, high engagement, recent activity. Priority cohort for advocacy programs, beta access, and case-study outreach.
   outputs:
     - { name: segment, type: segment, cardinality: single, description: "Segment created on /segments." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Power Users
+# Power users
 
-## Procedure
+Your most active users over the last month, the people to ask for reviews, case studies, and beta feedback.
 
-1. **Configure Segment Rule** [`create_segment`] — Open the segment authoring surface, name the segment, and apply the rule below. → produces: segment
+## What it does
 
-   ```text
-   Create a segment called "Power Users".
+1. **Build the power-user list** (`create_segment`)
 
-   Object: Users
+   Users with 10 or more sessions and 20 or more clicks in the last 30 days, a High engagement score, and activity in the last 7 days.
 
-   Rules (all conditions joined by AND):
-   - Event: session_start occurred >= 10 times in last 30 days
-   - AND Event: click_on occurred >= 20 times in last 30 days
-   - AND Attribute: engagement_score = "High"
-   - AND Attribute: last_seen_at is within last 7 days
+## What you end up with
 
-   Description: Highly engaged users — frequent sessions, high engagement, recent activity. Priority cohort for advocacy programs, beta access, and case-study outreach.
-   ```
-
-## Taxonomy notes
-
-- session_start, click_on are canonical V2.1 events.
-- engagement_score is canonical Users attribute and uses the enum bucket Low | Medium | High (no numeric thresholds).
-- last_seen_at is canonical (replaces source template's "last_active_at" which is not canonical).
-- "click_on >= 20 times" is intentionally generic. To filter clicks on a SPECIFIC feature, use click_on where target_id = "<concrete element id>" or page_url contains "<feature path>". The original source template's click_on where target = "feature" used a non-canonical property name and an over-broad value.
+- **segment** (segment): Segment created on /segments.

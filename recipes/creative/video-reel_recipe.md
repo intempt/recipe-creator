@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /video-reel
   group: Creative
-  shortDescription: "Script + Avatar + product = posted-ready reel."
+  title: 'Short video reel'
+  shortDescription: 'Builds a 5 or 10 second reel from a script, using your avatar, a catalog product, or a scene on its own, with voice and music.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]
@@ -25,11 +26,11 @@ intempt:
     - generate_video
   procedure:
     - step: 1
-      title: "Generate video reel"
+      title: 'Generate the reel'
       command: generate_video
       produces: video
       bindsAs: video
-      description: "Choose a subject mode (Avatar, Product, or Scene-only), write a script, and generate a short reel."
+      description: 'You pick a subject mode and write the script. With an avatar, the identity is locked into the first frame with voice and music. With a product, the catalog SKU anchors the first frame. Scene-only runs text to video.'
       prompt: |
         Generate a short video reel.
 
@@ -48,20 +49,18 @@ intempt:
   outputs:
     - { name: video, type: video, cardinality: single, description: "Generated reel." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Video Reel
+# Short video reel
 
-## Procedure
+Builds a 5 or 10 second reel from a script, using your avatar, a catalog product, or a scene on its own, with voice and music.
 
-1. **Generate video reel** [`generate_video`] — Choose subject mode, write script, generate reel. → produces: video
+## What it does
 
-   ```text
-   Subject modes: Avatar (identity-locked), Product (SKU-anchored), Scene-only (t2v)
-   Pipeline: kling v2.1 i2v + elevenlabs-tts
-   ```
+1. **Generate the reel** (`generate_video`)
 
-## Notes
+   You pick a subject mode and write the script. With an avatar, the identity is locked into the first frame with voice and music. With a product, the catalog SKU anchors the first frame. Scene-only runs text to video.
 
-- Uses the `video-reel` custom runner.
-- fal.ai pipeline: kling v2.1 i2v + elevenlabs-tts for voiceover.
-- Supports 5s and 10s durations.
+## What you end up with
+
+- **video** (video): Generated reel.

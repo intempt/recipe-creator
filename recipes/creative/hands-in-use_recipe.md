@@ -1,14 +1,15 @@
 ---
 name: hands-in-use
 description: |
-  Use when a user mentions "hands in use", "product in use", "pouring", "applying", "holding product", or asks for a product being used by hands without showing a face. Pouring, applying, holding — no face.
+  Use when a user mentions "hands in use", "product in use", "pouring", "applying", "holding product", or asks for a product being used by hands without showing a face. Pouring, applying, holding: no face.
 arguments: []
 intempt:
   id: hands-in-use
   version: 1.0.0
   slashCommand: /hands-in-use
   group: Creative
-  shortDescription: "Pouring, applying, holding — no face."
+  title: 'Hands using the product'
+  shortDescription: 'Shows hands pouring, applying or holding your product, with no face in frame and small props added around it.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]
@@ -25,28 +26,32 @@ intempt:
     - generate_image
   procedure:
     - step: 1
-      title: "Generate hands-in-use shot"
+      title: 'Shoot hands with the product'
       command: generate_image
       produces: image
       bindsAs: image
-      description: "Show hands interacting with the product (pouring, applying, holding) — no face visible. Add complementary props."
+      description: 'Keeps the same hands, product and surface, and adds small props such as a napkin, sprig or utensil. Lighting and angle are unchanged and no face is visible.'
       prompt: |
         Generate a hands-in-use product shot.
 
-        Same hands, product, and surface. Add small complementary props (napkin, sprig, utensil). Identical lighting and angle. No face visible — only hands interacting with the product.
+        Same hands, product, and surface. Add small complementary props (napkin, sprig, utensil). Identical lighting and angle. No face visible: only hands interacting with the product.
 
         Pipeline: flux-pro/kontext (prop addition with identity lock)
   outputs:
     - { name: image, type: image, cardinality: single, description: "Hands-in-use product image." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Hands in Use
+# Hands using the product
 
-## Procedure
+Shows hands pouring, applying or holding your product, with no face in frame and small props added around it.
 
-1. **Generate hands-in-use shot** [`generate_image`] — Product being used by hands, no face. → produces: image
+## What it does
 
-## Notes
+1. **Shoot hands with the product** (`generate_image`)
 
-- Pipeline: flux-pro/kontext.
-- No face visible — emphasizes product interaction.
+   Keeps the same hands, product and surface, and adds small props such as a napkin, sprig or utensil. Lighting and angle are unchanged and no face is visible.
+
+## What you end up with
+
+- **image** (image): Hands-in-use product image.

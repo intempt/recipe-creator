@@ -1,13 +1,14 @@
 ---
 name: demo-request-fast-path
-description: Use when a user mentions "demo request fast path", "instant demo response", "demo SLA workflow", or asks for related help. When a prospect submits a demo form, fire instant account enrichment, create a high-priority AE task, and ping Slack — getting from request to AE outreach in under an hour.
+description: Use when a user mentions "demo request fast path", "instant demo response", "demo SLA workflow", or asks for related help. When a prospect submits a demo form, fire instant account enrichment, create a high-priority AE task, and ping Slack, getting from request to AE outreach in under an hour.
 arguments: []
 intempt:
   id: demo-request-fast-path
+  title: "Demo request fast path"
   version: 1.0.0
   slashCommand: /demo-request-fast-path
   group: Workflows
-  shortDescription: "When a prospect submits a demo form, fire instant account enrichment, create a high-priority AE task, and ping Slack — getting from request to AE outreach in under an hour."
+  shortDescription: "Enriches a demo request the moment it lands, puts a same day task on the right AE, and posts it to Slack, aiming for first contact inside an hour."
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]
@@ -33,48 +34,75 @@ intempt:
     - create_dashboard
   procedure:
     - step: 1
-      title: Identify Demo Requesters
+      title: "Find recent demo requests"
       command: create_segment
       produces: segment
       bindsAs: segment
-      description: Build a segment 'Demo Requesters - last 7 days' capturing users with form_submitted event where form_type = demo_request in the last 7 days. Used by the routing workflow to identify which users should hit the fast-path and excluded from standard nurture journeys for the duration of the fast-path window.
+      description: "Anyone who submitted a demo request form in the last 7 days. They are held out of the normal nurture journeys while the fast path runs."
       prompt: Build a segment 'Demo Requesters - last 7 days' capturing users with form_submitted event where form_type = demo_request in the last 7 days. Used by the routing workflow to identify which users should hit the fast-path and excluded from standard nurture journeys for the duration of the fast-path window.
     - step: 2
-      title: Build Alert Content
+      title: "Write the triage card"
       command: create_slack_content
       produces: asset
       bindsAs: asset
       dependsOn: [segment]
-      description: 'Generate Slack alert content for the #demo-requests channel. Include: requester name, account name, employee count, industry, deal-size estimate (if available), prior touch history (last engagement, ICP fit score), and a direct link to the user record. Tone: terse, scannable — this is a triage card, not a marketing message.'
-      prompt: 'Generate Slack alert content for the #demo-requests channel. Include: requester name, account name, employee count, industry, deal-size estimate (if available), prior touch history (last engagement, ICP fit score), and a direct link to the user record. Tone: terse, scannable — this is a triage card, not a marketing message.'
+      description: "For the demo requests channel: who asked, the account, headcount, industry, a deal size estimate where there is one, their last engagement and ICP fit score, and a link to the record. Short and scannable."
+      prompt: 'Generate Slack alert content for the #demo-requests channel. Include: requester name, account name, employee count, industry, deal-size estimate (if available), prior touch history (last engagement, ICP fit score), and a direct link to the user record. Tone: terse, scannable: this is a triage card, not a marketing message.'
     - step: 3
-      title: Build Routing Workflow
+      title: "Route it inside the hour"
       command: create_workflow
       produces: workflow
       bindsAs: workflow
       dependsOn: [segment, asset]
-      description: 'Create a workflow firing on form_submitted where form_type = demo_request. Step sequence: (1) enrich account via firmographic lookup if not already enriched; (2) compute ICP fit score and store as user attribute; (3) for high-fit ICPs (score >= 70), create a high-priority AE task due same-day with the prospect''s contact info, account context, and form responses pre-attached; (4) post the alert content to Slack #demo-requests. For low-fit ICPs, drop into self-serve nurture journey instead.'
+      description: "On a demo request it enriches the account if needed and scores the ICP fit. At 70 or above it creates a high priority AE task due the same day, with the contact details, the account context and the form answers attached, then posts the card to Slack. Low fit requests go into self serve nurture instead."
       prompt: 'Create a workflow firing on form_submitted where form_type = demo_request. Step sequence: (1) enrich account via firmographic lookup if not already enriched; (2) compute ICP fit score and store as user attribute; (3) for high-fit ICPs (score >= 70), create a high-priority AE task due same-day with the prospect''s contact info, account context, and form responses pre-attached; (4) post the alert content to Slack #demo-requests. For low-fit ICPs, drop into self-serve nurture journey instead.'
     - step: 4
-      title: Build SLA Dashboard
+      title: "Hold the response time"
       command: create_dashboard
       produces: dashboard
       bindsAs: dashboard
       dependsOn: [segment, asset, workflow]
-      description: 'Compose a dashboard tracking the demo-request response funnel: form_submitted → task_created → task_completed → meeting_scheduled. Surface median + p75 time from form_submitted to AE first-touch (SLA metric — target: under 60 minutes during business hours). Break down by ICP fit tier (high/med/low) and by AE owner. Add a card flagging any demo request open >2 hours without a task completion.'
-      prompt: 'Compose a dashboard tracking the demo-request response funnel: form_submitted → task_created → task_completed → meeting_scheduled. Surface median + p75 time from form_submitted to AE first-touch (SLA metric — target: under 60 minutes during business hours). Break down by ICP fit tier (high/med/low) and by AE owner. Add a card flagging any demo request open >2 hours without a task completion.'
+      description: "The funnel from form to task created, task done and meeting booked, with the median and 75th percentile time from form to first contact against a 60 minute target in business hours, split by fit tier and AE, and a card for any request open more than two hours."
+      prompt: 'Compose a dashboard tracking the demo-request response funnel: form_submitted to task_created to task_completed to meeting_scheduled. Surface median + p75 time from form_submitted to AE first-touch (SLA metric: target: under 60 minutes during business hours). Break down by ICP fit tier (high/med/low) and by AE owner. Add a card flagging any demo request open >2 hours without a task completion.'
   outputs:
     - { name: segment, type: segment, cardinality: single, description: "Segment produced by this recipe." }
     - { name: asset, type: asset, cardinality: single, description: "Asset produced by this recipe." }
     - { name: workflow, type: workflow, cardinality: single, description: "Workflow produced by this recipe." }
     - { name: dashboard, type: dashboard, cardinality: single, description: "Dashboard produced by this recipe." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Demo Request Fast Path
+# Demo request fast path
 
-## Procedure
+Enriches a demo request the moment it lands, puts a same day task on the right AE, and posts it to Slack, aiming for first contact inside an hour.
 
-1. **Identify Demo Requesters** [`create_segment`] — Build a segment 'Demo Requesters - last 7 days' capturing users with form_submitted event where form_type = demo_request in the last 7 days. Used by the routing workflow to identify which users should hit the fast-path and excluded from standard nurture journeys for the duration of the fast-path window. → produces: segment
-2. **Build Alert Content** [`create_slack_content`] — Generate Slack alert content for the #demo-requests channel. Include: requester name, account name, employee count, industry, deal-size estimate (if available), prior touch history (last engagement, ICP fit score), and a direct link to the user record. Tone: terse, scannable — this is a triage card, not a marketing message. → produces: asset
-3. **Build Routing Workflow** [`create_workflow`] — Create a workflow firing on form_submitted where form_type = demo_request. Step sequence: (1) enrich account via firmographic lookup if not already enriched; (2) compute ICP fit score and store as user attribute; (3) for high-fit ICPs (score >= 70), create a high-priority AE task due same-day with the prospect's contact info, account context, and form responses pre-attached; (4) post the alert content to Slack #demo-requests. For low-fit ICPs, drop into self-serve nurture journey instead. → produces: workflow
-4. **Build SLA Dashboard** [`create_dashboard`] — Compose a dashboard tracking the demo-request response funnel: form_submitted → task_created → task_completed → meeting_scheduled. Surface median + p75 time from form_submitted to AE first-touch (SLA metric — target: under 60 minutes during business hours). Break down by ICP fit tier (high/med/low) and by AE owner. Add a card flagging any demo request open >2 hours without a task completion. → produces: dashboard
+## Before you run it
+
+- Connect slack
+- Send the `form_submitted` event
+- Send the `user_identified` event
+
+## What it does
+
+1. **Find recent demo requests** (`create_segment`)
+
+   Anyone who submitted a demo request form in the last 7 days. They are held out of the normal nurture journeys while the fast path runs.
+
+2. **Write the triage card** (`create_slack_content`)
+
+   For the demo requests channel: who asked, the account, headcount, industry, a deal size estimate where there is one, their last engagement and ICP fit score, and a link to the record. Short and scannable.
+
+3. **Route it inside the hour** (`create_workflow`)
+
+   On a demo request it enriches the account if needed and scores the ICP fit. At 70 or above it creates a high priority AE task due the same day, with the contact details, the account context and the form answers attached, then posts the card to Slack. Low fit requests go into self serve nurture instead.
+
+4. **Hold the response time** (`create_dashboard`)
+
+   The funnel from form to task created, task done and meeting booked, with the median and 75th percentile time from form to first contact against a 60 minute target in business hours, split by fit tier and AE, and a card for any request open more than two hours.
+
+## What you end up with
+
+- **segment** (segment): Segment produced by this recipe.
+- **asset** (asset): Asset produced by this recipe.
+- **workflow** (workflow): Workflow produced by this recipe.
+- **dashboard** (dashboard): Dashboard produced by this recipe.

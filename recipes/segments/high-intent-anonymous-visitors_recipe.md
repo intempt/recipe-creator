@@ -1,14 +1,15 @@
 ---
 name: high-intent-anonymous-visitors
 description: |
-  Use when a user mentions "high-intent anonymous visitors", or asks for related help. Unidentified visitors with strong engagement signals — ad retargeting cohort.
+  Use when a user mentions "high-intent anonymous visitors", or asks for related help. Unidentified visitors with strong engagement signals: ad retargeting cohort.
 arguments: []
 intempt:
   id: high-intent-anonymous-visitors
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /high-intent-anonymous-visitors
   group: Segments
-  shortDescription: "Unidentified visitors with strong engagement signals — ad retargeting cohort."
+  title: 'High-intent anonymous visitors'
+  shortDescription: 'Visitors you cannot email yet who keep coming back, so you can retarget them with ads or try to capture an address.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]
@@ -26,11 +27,11 @@ intempt:
     - create_segment
   procedure:
     - step: 1
-      title: "Configure Segment Rule"
+      title: 'Build the anonymous visitor list'
       command: create_segment
       produces: segment
       bindsAs: segment
-      description: "Open the segment authoring surface, name the segment, and apply the rule below."
+      description: 'Visitors with no email on file, 5 or more events in total, and 3 or more page views across 2 or more sessions in the last 7 days.'
       prompt: |
         Create a segment called "High-Intent Anonymous Visitors".
 
@@ -42,34 +43,22 @@ intempt:
         - AND Event: page_viewed occurred >= 3 times in last 7 days
         - AND Event: session_start occurred >= 2 times in last 7 days
 
-        Description: Unidentified visitors with multiple sessions and substantial activity. Ad-retargeting cohort — also a candidate for an email-capture popup or content offer.
+        Description: Unidentified visitors with multiple sessions and substantial activity. Ad-retargeting cohort: also a candidate for an email-capture popup or content offer.
   outputs:
     - { name: segment, type: segment, cardinality: single, description: "Segment created on /segments." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# High-Intent Anonymous Visitors
+# High-intent anonymous visitors
 
-## Procedure
+Visitors you cannot email yet who keep coming back, so you can retarget them with ads or try to capture an address.
 
-1. **Configure Segment Rule** [`create_segment`] — Open the segment authoring surface, name the segment, and apply the rule below. → produces: segment
+## What it does
 
-   ```text
-   Create a segment called "High-Intent Anonymous Visitors".
+1. **Build the anonymous visitor list** (`create_segment`)
 
-   Object: Users
+   Visitors with no email on file, 5 or more events in total, and 3 or more page views across 2 or more sessions in the last 7 days.
 
-   Rules (all conditions joined by AND):
-   - Attribute: total_events >= 5
-   - AND Attribute: email is empty
-   - AND Event: page_viewed occurred >= 3 times in last 7 days
-   - AND Event: session_start occurred >= 2 times in last 7 days
+## What you end up with
 
-   Description: Unidentified visitors with multiple sessions and substantial activity. Ad-retargeting cohort — also a candidate for an email-capture popup or content offer.
-   ```
-
-## Taxonomy notes
-
-- total_events is canonical Users attribute.
-- email is canonical Users attribute; "is empty" filter captures unidentified users.
-- page_viewed and session_start are canonical events.
-- Anonymous-but-engaged is the sweet spot for retargeting spend, so the natural next move is a paid-audience sync. There is no Meta or Google Ads connector today, so the segment exports rather than syncs. An earlier version of this note pointed at an "add-users-to-facebook-custom-audiences" workflow as though it existed; it never has, and naming an asset a customer cannot find is the same failure as naming a connector we do not have.
+- **segment** (segment): Segment created on /segments.

@@ -1,14 +1,15 @@
 ---
 name: expansion-candidates
 description: |
-  Use when a user mentions "expansion candidates — near plan limit", or asks for related help. Users approaching their plan limit who are ready for an upgrade conversation.
+  Use when a user mentions "expansion candidates: near plan limit", or asks for related help. Users approaching their plan limit who are ready for an upgrade conversation.
 arguments: []
 intempt:
   id: expansion-candidates
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /expansion-candidates
   group: Segments
-  shortDescription: "Users approaching their plan limit who are ready for an upgrade conversation."
+  title: 'Users close to their plan limit'
+  shortDescription: 'Users who have used up most of their plan allowance, so you can start the upgrade conversation before they hit the ceiling.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]
@@ -26,11 +27,11 @@ intempt:
     - create_segment
   procedure:
     - step: 1
-      title: "Configure Segment Rule"
+      title: 'Build the near-limit list'
       command: create_segment
       produces: segment
       bindsAs: segment
-      description: "Open the segment authoring surface, name the segment, and apply the rule below."
+      description: 'Users on any plan other than enterprise whose usage is at 80 percent or more of their limit.'
       prompt: |
         Create a segment called "Expansion Candidates".
 
@@ -40,31 +41,22 @@ intempt:
         - Attribute: plan_name is not "enterprise"
         - AND Attribute: usage_pct >= 80
 
-        Description: Users approaching plan limits — prime upgrade candidates. Trigger in-app upgrade prompt or AE outreach.
+        Description: Users approaching plan limits: prime upgrade candidates. Trigger in-app upgrade prompt or AE outreach.
   outputs:
     - { name: segment, type: segment, cardinality: single, description: "Segment created on /segments." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Expansion Candidates — Near Plan Limit
+# Users close to their plan limit
 
-## Procedure
+Users who have used up most of their plan allowance, so you can start the upgrade conversation before they hit the ceiling.
 
-1. **Configure Segment Rule** [`create_segment`] — Open the segment authoring surface, name the segment, and apply the rule below. → produces: segment
+## What it does
 
-   ```text
-   Create a segment called "Expansion Candidates".
+1. **Build the near-limit list** (`create_segment`)
 
-   Object: Users
+   Users on any plan other than enterprise whose usage is at 80 percent or more of their limit.
 
-   Rules (all conditions joined by AND):
-   - Attribute: plan_name is not "enterprise"
-   - AND Attribute: usage_pct >= 80
+## What you end up with
 
-   Description: Users approaching plan limits — prime upgrade candidates. Trigger in-app upgrade prompt or AE outreach.
-   ```
-
-## Taxonomy notes
-
-- plan_name is canonical.
-- usage_pct is a CUSTOM attribute. The merchant must populate it via identify() — the platform does not natively compute plan-usage percentages. Without the integration, this segment will be empty.
-- The source template also referenced rate_limit_hit as an event signal. That event is NOT canonical in V2.1 taxonomy and was removed from this recipe. If the merchant emits a paywall_hit or limit_reached custom event, it can be added as an additional condition (custom event).
+- **segment** (segment): Segment created on /segments.

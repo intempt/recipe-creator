@@ -8,7 +8,8 @@ intempt:
   version: 1.0.1
   slashCommand: /compliance-setup
   group: Segments
-  shortDescription: "Build a marketing-consent suppression segment from consent_granted/consent_revoked events. Excludes opted-out users from marketing journeys for GDPR/CAN-SPAM compliance."
+  title: 'Marketing consent suppression list'
+  shortDescription: 'A list of people who never gave marketing consent or have since opted out, so you can exclude them from every marketing send.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [marketing, sales]
@@ -30,18 +31,33 @@ intempt:
     - create_segment
   procedure:
     - step: 1
-      title: "Build Suppression Segment"
+      title: 'Build the suppression list'
       command: create_segment
       produces: segment
       bindsAs: segment
-      description: "Build a suppression segment of users without marketing consent or with active opt-outs."
+      description: 'Users with no marketing consent on record, or with an active opt-out, read from your consent_granted and consent_revoked events. Exclude this list from every marketing journey.'
       prompt: "Build a suppression segment of users without marketing consent or with active opt-outs."
   outputs:
     - { name: segment, type: segment, cardinality: single, description: "Segment produced by this recipe." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Compliance & Privacy Setup
+# Marketing consent suppression list
 
-## Procedure
+A list of people who never gave marketing consent or have since opted out, so you can exclude them from every marketing send.
 
-1. **Build Suppression Segment** [`create_segment`] — Build a suppression segment of users without marketing consent or with active opt-outs. → produces: segment
+## Before you run it
+
+- Send the `consent_granted` event
+- Send the `consent_revoked` event
+- Send the `preference_updated` event
+
+## What it does
+
+1. **Build the suppression list** (`create_segment`)
+
+   Users with no marketing consent on record, or with an active opt-out, read from your consent_granted and consent_revoked events. Exclude this list from every marketing journey.
+
+## What you end up with
+
+- **segment** (segment): Segment produced by this recipe.

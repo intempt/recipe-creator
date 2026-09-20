@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /image-remix
   group: Creative
-  shortDescription: "Reference-anchored variations from your pinboard."
+  title: 'Reference-anchored remix'
+  shortDescription: 'Pin up to four reference images with a weight on each, and get back variations anchored to them (four by default).'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]
@@ -25,16 +26,16 @@ intempt:
     - generate_image
   procedure:
     - step: 1
-      title: "Pin references and generate variations"
+      title: 'Pin references and fan out'
       command: generate_image
       produces: image
       bindsAs: image
-      description: "Pin 1–4 reference images each with Light/Medium/Strong weight, then fan out variations."
+      description: 'You pin one to four references (a canvas snapshot, scene, avatar or upload) and set each to Light, Medium or Strong. The weight decides how strongly that reference pulls the output.'
       prompt: |
         Generate image variations from reference pins.
 
         Inputs:
-        - references: 1–4 reference images (canvas snapshot, scene, avatar, or upload) each with weight (Light/Medium/Strong)
+        - references: 1: 4 reference images (canvas snapshot, scene, avatar, or upload) each with weight (Light/Medium/Strong)
         - fanout: number of variations to generate (default: 4)
 
         Pipeline: nano-banana-pro with reference_images[] and per-weight prompt directives
@@ -44,20 +45,18 @@ intempt:
   outputs:
     - { name: image, type: image, cardinality: list, description: "Remixed image variations." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Image Remix
+# Reference-anchored remix
 
-## Procedure
+Pin up to four reference images with a weight on each, and get back variations anchored to them (four by default).
 
-1. **Pin references and generate variations** [`generate_image`] — Pin 1–4 reference images each with Light/Medium/Strong weight, then fan out variations. → produces: image
+## What it does
 
-   ```text
-   Pin 1–4 reference images with per-pin weight (Light/Medium/Strong).
-   Fan out N on-brand variations anchored to the references.
-   Pipeline: nano-banana-pro + reference_images[]
-   ```
+1. **Pin references and fan out** (`generate_image`)
 
-## Notes
+   You pin one to four references (a canvas snapshot, scene, avatar or upload) and set each to Light, Medium or Strong. The weight decides how strongly that reference pulls the output.
 
-- Uses the `image-remix` custom runner.
-- fal.ai pipeline: nano-banana-pro with reference_images[].
+## What you end up with
+
+- **image** (image): Remixed image variations.

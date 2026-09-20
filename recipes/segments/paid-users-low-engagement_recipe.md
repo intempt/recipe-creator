@@ -1,14 +1,15 @@
 ---
 name: paid-users-low-engagement
 description: |
-  Use when a user mentions "paid users — low engagement", or asks for related help. Paying customers showing early disengagement signals. Engagement bucketed enum.
+  Use when a user mentions "paid users: low engagement", or asks for related help. Paying customers showing early disengagement signals. Engagement bucketed enum.
 arguments: []
 intempt:
   id: paid-users-low-engagement
   version: 1.0.0
-  slashCommand: /segment-recipe
+  slashCommand: /paid-users-low-engagement
   group: Segments
-  shortDescription: "Paying customers showing early disengagement signals. Engagement bucketed enum."
+  title: 'Paid users losing interest'
+  shortDescription: 'Paying customers whose usage has dropped off in the last couple of weeks, early enough to fix before it turns into churn.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]
@@ -26,13 +27,13 @@ intempt:
     - create_segment
   procedure:
     - step: 1
-      title: "Configure Segment Rule"
+      title: 'Build the low-engagement list'
       command: create_segment
       produces: segment
       bindsAs: segment
-      description: "Open the segment authoring surface, name the segment, and apply the rule below."
+      description: 'Users on a paid plan (not free or trial) with a Low engagement score whose last activity was 7 to 21 days ago.'
       prompt: |
-        Create a segment called "Paid Users — Low Engagement".
+        Create a segment called "Paid Users: Low Engagement".
 
         Object: Users
 
@@ -45,29 +46,18 @@ intempt:
   outputs:
     - { name: segment, type: segment, cardinality: single, description: "Segment created on /segments." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Paid Users — Low Engagement
+# Paid users losing interest
 
-## Procedure
+Paying customers whose usage has dropped off in the last couple of weeks, early enough to fix before it turns into churn.
 
-1. **Configure Segment Rule** [`create_segment`] — Open the segment authoring surface, name the segment, and apply the rule below. → produces: segment
+## What it does
 
-   ```text
-   Create a segment called "Paid Users — Low Engagement".
+1. **Build the low-engagement list** (`create_segment`)
 
-   Object: Users
+   Users on a paid plan (not free or trial) with a Low engagement score whose last activity was 7 to 21 days ago.
 
-   Rules (all conditions joined by AND):
-   - Attribute: plan_name is not in ["free", "trial"]
-   - AND Attribute: days_since_last_activity is between 7 and 21
-   - AND Attribute: engagement_score = "Low"
+## What you end up with
 
-   Description: Paid customers showing early disengagement before they become full churn risk. Trigger CSM check-in or feature-rediscovery campaign.
-   ```
-
-## Taxonomy notes
-
-- plan_name is canonical.
-- days_since_last_activity is canonical Users attribute (numeric, no scoring constraint applies).
-- engagement_score uses canonical enum (replaces source template's numeric "<= 30" with the enum equivalent "Low" per scoring constraint).
-- The 7-to-21-day window is the early-warning zone — before they hit the >30-day silent-user threshold that defines actual churn risk.
+- **segment** (segment): Segment created on /segments.

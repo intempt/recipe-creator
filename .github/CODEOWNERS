@@ -12,10 +12,23 @@
 # means auto-merge would mean nobody ever reads the code. Naming a backup is
 # what changes that, not a policy exception.
 #
+# The repository is public and accepts external contributions. A contributor's
+# recipe is executed by an agent inside customer projects, so every pull request
+# is reviewed by an owner for safety, not only for quality. Write access is not
+# merge rights and forks cannot approve themselves.
+
 # Default owner for every path.
 *                       @sidchaudhary
 
 # CI and release surface. Changing what runs on merge changes the gate itself,
 # so it is listed explicitly rather than inherited from the default line.
 /.github/               @sidchaudhary
+
+# The licence and the contribution terms. Changing these changes what a
+# contributor has agreed to, so they never ride along in a recipe PR.
+/LICENSE                @sidchaudhary
+/README.md              @sidchaudhary
+
+# The authoring skill is the contract contributors are told to follow.
+/.claude/               @sidchaudhary
 

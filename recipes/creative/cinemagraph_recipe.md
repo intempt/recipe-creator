@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /cinemagraph
   group: Creative
-  shortDescription: "Still photo, one element moves."
+  title: 'Cinemagraph loop'
+  shortDescription: 'Turns a still photo into a seamless loop where one element moves, such as steam or a pour, and everything else stays frozen.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]
@@ -25,28 +26,32 @@ intempt:
     - generate_video
   procedure:
     - step: 1
-      title: "Generate cinemagraph"
+      title: 'Animate one element'
       command: generate_video
       produces: video
       bindsAs: video
-      description: "Take a still image and animate only one element (steam, leaf, liquid) while everything else stays frozen."
+      description: 'Holds the camera fixed and freezes the whole frame except one element, such as gentle steam, a leaf in the breeze or a liquid pour. The result is a subtle seamless loop.'
       prompt: |
         Generate a cinemagraph from a still image.
 
         Camera stays fixed. Everything stays frozen except one element (gentle steam, single leaf in breeze, liquid pour). Subtle hypnotic seamless loop.
 
-        Pipeline: image→video (camera-fixed, loop)
+        Pipeline: image to video (camera-fixed, loop)
   outputs:
     - { name: video, type: video, cardinality: single, description: "Cinemagraph loop." }
 ---
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->
 
-# Cinemagraph
+# Cinemagraph loop
 
-## Procedure
+Turns a still photo into a seamless loop where one element moves, such as steam or a pour, and everything else stays frozen.
 
-1. **Generate cinemagraph** [`generate_video`] — Animate one element in a still photo. → produces: video
+## What it does
 
-## Notes
+1. **Animate one element** (`generate_video`)
 
-- Pipeline: fal.ai image→video (camera-fixed).
-- Seamless loop — one element animates while the rest stays frozen.
+   Holds the camera fixed and freezes the whole frame except one element, such as gentle steam, a leaf in the breeze or a liquid pour. The result is a subtle seamless loop.
+
+## What you end up with
+
+- **video** (video): Cinemagraph loop.
