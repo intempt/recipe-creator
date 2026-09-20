@@ -78,6 +78,13 @@ def catalog_entry(front, intempt):
         "outputs": outputs,
         "outputCount": len(outputs),
     }
+    # Prerequisites gate the Run affordance (BC-RCP-010): Blu disables Run and
+    # offers Connect when a blocking integration is missing. Leaving them out of
+    # the catalog would show an enabled Run on a recipe that dies at the connector,
+    # which is the defect the repo's prerequisites guard exists to prevent.
+    prerequisites = intempt.get("prerequisites")
+    if prerequisites:
+        entry["prerequisites"] = prerequisites
     return entry
 
 
