@@ -9,7 +9,7 @@ intempt:
   slashCommand: /cinemagraph
   group: Creative
   title: 'Cinemagraph loop'
-  shortDescription: 'Turns a still photo into a seamless loop where one element moves, such as steam or a pour, and everything else stays frozen.'
+  shortDescription: 'Turns a still photo into a looping clip where one element moves, such as steam or a pour, and everything else stays frozen.'
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]
@@ -30,11 +30,11 @@ intempt:
       command: generate_video
       produces: video
       bindsAs: video
-      description: 'Holds the camera fixed and freezes the whole frame except one element, such as gentle steam, a leaf in the breeze or a liquid pour. The result is a subtle seamless loop.'
+      description: 'Holds the camera fixed and freezes the whole frame except one element, such as gentle steam, a leaf in the breeze or a liquid pour. The result is a subtle loop that repeats without a visible cut.'
       prompt: |
         Generate a cinemagraph from a still image.
 
-        Camera stays fixed. Everything stays frozen except one element (gentle steam, single leaf in breeze, liquid pour). Subtle hypnotic seamless loop.
+        Camera stays fixed. Everything stays frozen except one element (gentle steam, single leaf in breeze, liquid pour). Subtle hypnotic loop with no visible cut.
 
         Pipeline: image to video (camera-fixed, loop)
   outputs:
@@ -44,13 +44,13 @@ intempt:
 
 # Cinemagraph loop
 
-Turns a still photo into a seamless loop where one element moves, such as steam or a pour, and everything else stays frozen.
+Turns a still photo into a looping clip where one element moves, such as steam or a pour, and everything else stays frozen.
 
 ## What it does
 
 1. **Animate one element** (`generate_video`)
 
-   Holds the camera fixed and freezes the whole frame except one element, such as gentle steam, a leaf in the breeze or a liquid pour. The result is a subtle seamless loop.
+   Holds the camera fixed and freezes the whole frame except one element, such as gentle steam, a leaf in the breeze or a liquid pour. The result is a subtle loop that repeats without a visible cut.
 
 ## What you end up with
 

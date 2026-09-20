@@ -70,7 +70,7 @@ intempt:
       description: "Three emails on day 0, day 14 and day 28, each about a different untouched feature. If they start using one in between, that email is skipped. They leave once all three are adopted, if they open the cancel flow, or after 60 days."
       prompt: 'Build a 3-touch journey triggered weekly for users in the feature-discovery segment. Each touch surfaces a DIFFERENT untouched feature from the user''s list (not the same feature 3 times). Touch 1: top feature, Day 0. Touch 2: second feature, Day 14. Touch 3: third feature, Day 28. Skip a touch if the user actually started using that feature between touches (they got the message: don''t pester). Exit on: user adopts all 3 features (success), user opens cancel-flow (handoff to pre-cancellation-save), or 60-day completion.'
     - step: 5
-      title: "See what the nudges unlock"
+      title: "See what the nudges actually change"
       command: create_dashboard
       produces: dashboard
       bindsAs: dashboard
@@ -117,7 +117,7 @@ Shows paying customers the features they have never opened, one at a time, picke
 
    Three emails on day 0, day 14 and day 28, each about a different untouched feature. If they start using one in between, that email is skipped. They leave once all three are adopted, if they open the cancel flow, or after 60 days.
 
-5. **See what the nudges unlock** (`create_dashboard`)
+5. **See what the nudges actually change** (`create_dashboard`)
 
    Emails per feature, how many people use the feature within 14 days of a nudge, the 90 day retention of those who adopted against a control, and which features go untouched most often.
 
