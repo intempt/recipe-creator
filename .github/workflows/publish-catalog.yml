@@ -61,6 +61,19 @@ jobs:
       - name: Build the catalog
         run: python3 scripts/build_artifacts.py --out dist --version "$GITHUB_SHA"
 
+      - name: Write the Marketplace into the recipe database
+        if: env.SYNC_URL != ''
+        run: python3 scripts/sync_marketplace.py --catalog dist/recipes.json --recipes recipes --url "$SYNC_URL"
+        env:
+          SYNC_URL: ${{ github.ref == 'refs/heads/main' && secrets.MARKETPLACE_SYNC_URL_PRODUCTION || secrets.MARKETPLACE_SYNC_URL_STAGING }}
+          MARKETPLACE_SYNC_TOKEN: ${{ github.ref == 'refs/heads/main' && secrets.MARKETPLACE_SYNC_TOKEN_PRODUCTION || secrets.MARKETPLACE_SYNC_TOKEN_STAGING }}
+
+      - name: Say the database sync is not configured yet
+        if: env.SYNC_URL == ''
+        run: echo "::warning::MARKETPLACE_SYNC_URL is not set for this branch, so the recipe database was not updated"
+        env:
+          SYNC_URL: ${{ github.ref == 'refs/heads/main' && secrets.MARKETPLACE_SYNC_URL_PRODUCTION || secrets.MARKETPLACE_SYNC_URL_STAGING }}
+
       - uses: aws-actions/configure-aws-credentials@v4
         with:
           # A role scoped to the recipes/* prefix of this bucket and nothing else.
