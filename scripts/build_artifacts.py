@@ -45,6 +45,13 @@ def public_step(n, step):
     return entry
 
 
+def full_classification(front):
+    steps = len(front.get("steps") or [])
+    derived = "quick" if steps <= 1 else "standard" if steps <= 3 else "advanced"
+    given = front.get("classification") or {}
+    return {"product": [], "mode": [], "tags": [], "complexity": derived, **given}
+
+
 def catalog_entry(front, _):
     outputs = [
         {"name": o.get("key"), "type": o.get("type"), **({"description": o["description"]} if o.get("description") else {})}
@@ -58,7 +65,7 @@ def catalog_entry(front, _):
         "group": front.get("group") or "",
         "owner": front.get("owner") or "",
         "shortDescription": front.get("summary") or "",
-        "classification": front.get("classification") or {},
+        "classification": full_classification(front),
         "availability": status,
         "waitingOn": waiting,
         "slashCommand": front.get("slash_command") or "",

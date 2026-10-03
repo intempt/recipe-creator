@@ -55,6 +55,7 @@ find recipes -name recipe.md | wc -l
 
 | | |
 |---|---|
+| `accept_submission.py` | places an approved submission at `recipes/<owner>/<id>/recipe.md`, normalised and checked; `--external` refuses the `intempt` folder, `--replace` overwrites |
 | `build_artifacts.py` | builds the public catalog from the `.md` sources. The `--check` mode is the copy gate |
 | `check_recipe_identity.py` | id and slash-command uniqueness, id matches its folder |
 | `check_recipe_prerequisites.py` | a recipe naming an integration must declare it |
