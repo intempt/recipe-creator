@@ -70,7 +70,7 @@ how anyone finds your submission.
 - **There is no self-service withdrawal.** No command or button pulls a submission back. To withdraw
   one, ask Somya and it is handled by hand.
 - **No status notifications yet.** If a review needs changes, that reaches you from a person.
-- Questions about what the engine can build go to Beso on the Intempt engine team, through Somya.
+- Questions about what the engine can build go to the Intempt engine team, through Somya.
 
 ## Resubmitting
 

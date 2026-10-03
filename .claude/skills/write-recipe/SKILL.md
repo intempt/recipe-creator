@@ -46,7 +46,7 @@ grep -rh "^slash_command:" recipes/ | sort | uniq -d
 
 ## 3. Write each step's description
 
-This is the field the engine runs, and the one Beso's step check judges. Write it as you
+This is the field the engine runs, and the one the engine's step check judges. Write it as you
 would type it into the console's Add step panel:
 
 - one thing per step;

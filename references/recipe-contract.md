@@ -8,7 +8,7 @@ Where each rule comes from, so nobody has to take this file's word for it:
 
 | Rule | Source |
 |---|---|
-| A step is `id`, `title`, `description`, `dependsOn`; everything else is derived | `llm-wrapper` `src/blu_chat/sevices/recipes/md_import.py`, Beso rulings 2026-09-30 |
+| A step is `id`, `title`, `description`, `dependsOn`; everything else is derived | `llm-wrapper` `src/blu_chat/sevices/recipes/md_import.py`, engine team rulings 2026-09-30 |
 | `description` is the one instruction a step runs on | `llm-wrapper` `orchestrator.py` `step_text()` |
 | command, entity, kind, arguments and `modelConfig` come from the step check | `llm-wrapper` `step_check.py` |
 | A description must point to things that exist, or the step is marked vague | `step_check.py` R36 |
