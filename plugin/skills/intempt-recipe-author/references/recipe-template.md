@@ -72,5 +72,5 @@ outputs:
 them with nothing. All three render into the body as "What this recipe touches", "Declared inputs"
 and "What this recipe does not claim".
 
-`builds` must be a value from [references/entities.md](./references/entities.md). Use only
+`builds` must be a value from [references/entities.md](entities.md). Use only
 the Install now list if you want the recipe runnable on day one.

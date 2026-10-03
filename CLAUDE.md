@@ -1,13 +1,22 @@
-# CLAUDE.md
+@AGENTS.md
 
-Public, source-available recipes for the Intempt platform. Recipes are templates Blu
-executes inside a customer's project using that person's own access.
+# Maintainer notes
+
+The imported file is the brief for an agent writing a recipe. What follows is for people and agents
+maintaining this repository.
 
 ## Writing or editing a recipe
 
 Start at [START-HERE.md](./START-HERE.md). The schema lives in one place,
-[references/recipe-contract.md](./references/recipe-contract.md), and the `write-recipe` skill in
-`.claude/skills/write-recipe/` is the procedure. Do not restate either here.
+[references/recipe-contract.md](./references/recipe-contract.md), and the `intempt-recipe-author`
+skill in `plugin/skills/` is the procedure. Do not restate either here.
+
+## The plugin mirrors
+
+`plugin/skills/intempt-recipe-author/references/` and `scripts/` are copies of files at the repo
+root. Edit the root file, then run `python3 scripts/sync_plugin.py`. CI runs `--check` and fails on
+drift. When the skill changes, bump `version` in all three `plugin/*/plugin.json` files and the
+announce line in the skill; the sync check fails if they disagree.
 
 ## Before you push
 
@@ -18,6 +27,7 @@ python3 scripts/validate_recipes.py --lint       # the v2 contract the engine re
 python3 scripts/check_recipe_prerequisites.py    # declares every integration it names
 python3 scripts/check_recipe_identity.py         # id unique, matches its folder, slash unique
 python3 scripts/build_artifacts.py --out /tmp/c --check   # customer-facing copy is clean
+python3 scripts/sync_plugin.py --check           # the plugin's copies match the root
 ```
 
 All of them run in CI on pull requests to `staging` and `main`.
@@ -48,5 +58,6 @@ find recipes -name recipe.md | wc -l
 | `validate_recipes.py` | validates every recipe.md, reports availability and description lints |
 | `render_entities_doc.py` | regenerates `references/entities.md` from the recipes |
 | `rebuild_bodies.py` | regenerates each body from its frontmatter |
-| `migrate_v2.py` | one-time migration from the v1 `intempt:` format. Kept for provenance, not part of any flow |
+| `sync_plugin.py` | copies the root references and validator into the plugin; `--check` fails on drift |
+| `migrate_v2.py` | converts the v1 `intempt:` format; `--file <path> --owner <folder>` converts one file, see `workflows/existing-recipe.md` |
 | `convert_ts_to_md.py` | one-time migration from an older TypeScript format. Kept for provenance, not part of any flow |

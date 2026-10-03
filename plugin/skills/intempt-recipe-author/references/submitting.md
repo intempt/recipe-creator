@@ -16,7 +16,7 @@ The public guide is at [intempt.com/recipes/submission-guide](https://intempt.co
 
 ## Before either route
 
-1. Validate it. See [VALIDATION.md](./VALIDATION.md).
+1. Validate it. See [VALIDATION.md](validation.md).
 2. **Read it end to end.** You are the last reviewer before it goes out. Nobody runs your recipe as
    part of review: review reads the file, so the runs you did while writing it are the only runs it
    gets before somebody installs it.
@@ -99,6 +99,6 @@ Every submission, by either route, agrees to this text, version `intempt-recipes
 
 ## Licence
 
-The terms that apply to this repository are in [LICENSE](./LICENSE). They are under review as the
+The terms that apply to this repository are in [LICENSE](https://github.com/intempt/recipe-creator/blob/main/LICENSE). They are under review as the
 repository becomes public. Partner revenue share, where it applies, is a separate written agreement;
 see [intempt.com/partner](https://intempt.com/partner#build) and the Intempt Collective Terms.

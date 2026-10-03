@@ -77,3 +77,7 @@ jobs:
       # quoting step titles that no longer existed.
       - name: Every markdown body matches its frontmatter
         run: python3 scripts/rebuild_bodies.py --check
+      - name: The plugin's copies of the references and validator match the root
+        run: python3 scripts/sync_plugin.py --check
+      - name: The plugin's bundled validator runs on its bundled example
+        run: python3 plugin/skills/intempt-recipe-author/scripts/validate_recipes.py --lint plugin/skills/intempt-recipe-author/references/examples/intempt/trial-expiring-nudge/recipe.md

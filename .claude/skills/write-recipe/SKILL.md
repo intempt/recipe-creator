@@ -5,6 +5,9 @@ description: Use when writing, editing, converting, or reviewing an Intempt reci
 
 # Writing an Intempt recipe
 
+For creating a recipe to submit, use the `intempt-recipe-author` plugin skill in
+`plugin/skills/`. This skill is for maintaining the recipes already in this repository.
+
 A recipe is a template Blu runs inside a customer's workspace, using **their** access. Two
 audiences read it, and they read different fields:
 
@@ -56,7 +59,12 @@ would type it into the console's Add step panel:
 Bad: `Generate per-tier email content. GREEN (expansion-leaning content ...). The account-as-unit aggregation is the differentiator.`
 Good: `Write a designed email for the accounts in "Group paying accounts by tier" whose tier is green. Two sentences on what high-growth accounts do next and one button to book a call.`
 
-## 4. Write the customer copy
+## 4. Declare what it touches
+
+Every recipe needs `touches` with `reads`, `writes` and `never`. Add `inputs` for anything the
+installer supplies and `does_not_claim` for what nothing checked. See the contract.
+
+## 5. Write the customer copy
 
 - `title`: a real name, never the id.
 - `summary`: what the customer gets, one sentence, under 200 characters. Never list the
@@ -65,7 +73,7 @@ Good: `Write a designed email for the accounts in "Group paying accounts by tier
 - step `summary`: the concrete rule in plain words.
 - No em-dashes, en-dashes or arrow glyphs anywhere a customer reads.
 
-## 5. Validate
+## 6. Validate
 
 ```
 python3 scripts/rebuild_bodies.py
@@ -78,7 +86,7 @@ python3 scripts/build_artifacts.py --out /tmp/c --check
 Fix every contract problem. Treat every lint on an Install now recipe as a defect: it is
 the difference between a step that runs and a step that asks the customer to clarify.
 
-## 6. Open the pull request
+## 7. Open the pull request
 
 Against **`staging`**, never `main`.
 

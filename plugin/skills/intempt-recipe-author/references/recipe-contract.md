@@ -16,7 +16,7 @@ Where each rule comes from, so nobody has to take this file's word for it:
 | No placeholders, variables or curly braces | `md_import.py` RULES |
 | Outputs are `{key, producedByStep}` | `llm-wrapper` `validate.py:260` |
 | `slash_command` is `/kebab-case` | `llm-wrapper` `validate.py:51` |
-| Which entities the engine can build | `md_import.py` `ALLOWED_ENTITIES`, see [entities.md](./entities.md) |
+| Which entities the engine can build | `md_import.py` `ALLOWED_ENTITIES`, see [entities.md](entities.md) |
 
 ## Frontmatter
 

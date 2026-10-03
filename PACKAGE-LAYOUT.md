@@ -1,26 +1,23 @@
 # Package layout
 
+A recipe is one file:
+
 ```
-recipes/
-  intempt/                  recipes the Intempt team publishes
-    cart-recovery/
-      recipe.md
-  <partner>/                one folder per Intempt Collective partner
-    <recipe-id>/
-      recipe.md
-      references/           optional supporting notes for reviewers, never published
-examples/
-  intempt/<recipe-id>/recipe.md   recipes that meet the bar, to copy from
-references/                 the contract and the entity list
-scripts/                    the validator, the catalog build and the guards CI runs
+<owner>/<recipe-id>/recipe.md
 ```
 
-Rules the validator enforces:
+Write it there in your own working directory. The validator checks that the folder name equals the
+recipe `id` and that the parent folder equals `owner`, your Intempt Collective handle in kebab-case.
 
-- The folder name equals the recipe `id`.
-- The partner folder equals the recipe `owner`.
-- One `recipe.md` per folder. The body under the frontmatter is generated; edit the
-  frontmatter and run `python3 scripts/rebuild_bodies.py`.
+The body under the frontmatter is generated from it. Edit the frontmatter only.
 
-A partner folder name is your Intempt Collective handle in kebab-case. Ask in the pull
-request if you do not have one yet.
+## This repository
+
+```
+recipes/<author>/<recipe-id>/recipe.md   published recipes, written only when a submission is approved
+examples/intempt/<recipe-id>/recipe.md    recipes chosen to copy from
+references/                               the contract and the entity list
+workflows/                                the three routes in
+plugin/                                   the intempt-recipe-author plugin
+scripts/                                  the validator, the catalog build and the guards CI runs
+```

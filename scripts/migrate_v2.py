@@ -48,7 +48,7 @@ def clean_instruction(text):
     return "\n".join(line for line in lines if line.strip())
 
 
-def convert(front, path):
+def convert(front, path, owner="intempt"):
     i = front["intempt"]
     steps_v1 = i.get("procedure") or []
     sid_by_bind = {}
@@ -101,7 +101,7 @@ def convert(front, path):
         "title": i["title"],
         "slash_command": i["slashCommand"],
         "group": i["group"],
-        "owner": "intempt",
+        "owner": owner,
         "summary": i["shortDescription"],
         "description": Literal(re.sub(r"\s+", " ", intent)),
         "version": "2.0.0",
@@ -123,16 +123,21 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--src", default="recipes", type=pathlib.Path)
     parser.add_argument("--dst", default="recipes", type=pathlib.Path)
+    parser.add_argument("--file", type=pathlib.Path, help="Convert one v1 file instead of every file under --src.")
+    parser.add_argument("--owner", default="intempt", help="Partner folder the converted recipe belongs to.")
     args = parser.parse_args()
-    old = sorted(args.src.glob("*/*_recipe.md"))
+    old = [args.file] if args.file else sorted(args.src.glob("*/*_recipe.md"))
     for path in old:
         match = FRONTMATTER.match(path.read_text(encoding="utf-8"))
+        if not match or "intempt" not in (yaml.safe_load(match.group(1)) or {}):
+            print(f"error: {path} is not a v1 recipe with an intempt: block", file=sys.stderr)
+            return 2
         front = yaml.safe_load(match.group(1))
-        v2 = convert(front, path)
-        out = args.dst / "intempt" / v2["id"] / "recipe.md"
+        v2 = convert(front, path, args.owner)
+        out = args.dst / args.owner / v2["id"] / "recipe.md"
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(dump(v2), encoding="utf-8")
-    print(f"converted {len(old)} recipes into {args.dst}/intempt/")
+    print(f"converted {len(old)} recipe(s) into {args.dst}/{args.owner}/; add touches before validating")
 
 
 if __name__ == "__main__":
