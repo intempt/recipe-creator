@@ -66,7 +66,7 @@ jobs:
         run: python3 scripts/sync_marketplace.py --catalog dist/recipes.json --recipes recipes --url "$SYNC_URL"
         env:
           SYNC_URL: ${{ github.ref == 'refs/heads/main' && secrets.MARKETPLACE_SYNC_URL_PRODUCTION || secrets.MARKETPLACE_SYNC_URL_STAGING }}
-          MARKETPLACE_SYNC_TOKEN: ${{ github.ref == 'refs/heads/main' && secrets.MARKETPLACE_SYNC_TOKEN_PRODUCTION || secrets.MARKETPLACE_SYNC_TOKEN_STAGING }}
+          MARKETPLACE_SYNC_SECRET: ${{ github.ref == 'refs/heads/main' && secrets.MARKETPLACE_SYNC_SECRET_PRODUCTION || secrets.MARKETPLACE_SYNC_SECRET_STAGING }}
 
       - name: Say the database sync is not configured yet
         if: env.SYNC_URL == ''

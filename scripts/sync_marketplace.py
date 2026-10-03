@@ -53,7 +53,7 @@ def send(url, payload, token):
         url,
         data=json.dumps(payload).encode(),
         method="PUT",
-        headers={"Content-Type": "application/json", "Authorization": f"Bearer {token}"},
+        headers={"Content-Type": "application/json", "X-Marketplace-Secret": token},
     )
     with urllib.request.urlopen(request, timeout=120) as response:
         return response.status
@@ -77,9 +77,9 @@ def main():
     print(f"{len(payload['recipes'])} recipes at {payload['version']}")
     if not args.url:
         return 0
-    token = os.environ.get("MARKETPLACE_SYNC_TOKEN")
+    token = os.environ.get("MARKETPLACE_SYNC_SECRET")
     if not token:
-        print("MARKETPLACE_SYNC_TOKEN is not set", file=sys.stderr)
+        print("MARKETPLACE_SYNC_SECRET is not set", file=sys.stderr)
         return 2
     try:
         status = send(args.url, payload, token)

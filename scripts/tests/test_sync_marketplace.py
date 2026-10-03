@@ -81,7 +81,7 @@ class SyncMarketplace(unittest.TestCase):
             capture_output=True, text=True, env={"PATH": "/usr/bin:/bin"},
         )
         self.assertEqual(result.returncode, 2)
-        self.assertIn("MARKETPLACE_SYNC_TOKEN", result.stderr)
+        self.assertIn("MARKETPLACE_SYNC_SECRET", result.stderr)
 
 
 if __name__ == "__main__":
