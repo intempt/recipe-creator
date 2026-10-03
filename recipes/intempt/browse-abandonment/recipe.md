@@ -4,6 +4,7 @@ title: Browse abandonment follow up
 slash_command: /browse-abandonment
 group: Journeys
 owner: intempt
+curator: somya
 summary: Reminds people who looked at products but never added anything to the cart, showing the items
   they viewed and a few they might prefer.
 description: >-

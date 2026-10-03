@@ -4,6 +4,7 @@ title: Vertical reel cut
 slash_command: /reel-cut
 group: Creative
 owner: intempt
+curator: aurobind
 summary: Re-frames a 16:9 landscape shot as a 9:16 vertical reel, ready to post.
 description: >-
   16:9 spot to 9:16 vertical.

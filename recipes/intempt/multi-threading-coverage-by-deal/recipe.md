@@ -4,6 +4,7 @@ title: Multi threading coverage
 slash_command: /multi-threading-coverage-by-deal
 group: Reports
 owner: intempt
+curator: aman
 summary: Shows how many people you are actually talking to inside each open deal, and how win rates compare
   between single threaded and multi threaded deals.
 description: >-

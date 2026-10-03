@@ -4,6 +4,7 @@ title: Lapsed customer win back
 slash_command: /win-back
 group: Journeys
 owner: intempt
+curator: somya
 summary: Sorts lapsed customers by how long they have been gone and escalates the offer with the gap,
   from a gentle nudge to an exclusive deal.
 description: >-

@@ -4,6 +4,7 @@ title: Trial activation funnel
 slash_command: /trial-activation-funnel
 group: Reports
 owner: intempt
+curator: aman
 summary: Shows how far trial users get through setup and core feature use before the trial ends, and which
   sources bring trials that activate.
 description: >-

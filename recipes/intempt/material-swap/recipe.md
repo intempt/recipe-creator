@@ -4,6 +4,7 @@ title: Material and finish swap
 slash_command: /material-swap
 group: Creative
 owner: intempt
+curator: aurobind
 summary: Changes the material, finish or colour of a product while the shape, pose, camera angle and shadow
   stay exactly as shot.
 description: >-

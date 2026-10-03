@@ -4,6 +4,7 @@ title: Revenue by acquisition channel
 slash_command: /revenue-by-channel
 group: Reports
 owner: intempt
+curator: aman
 summary: Shows which channels brought in revenue over the last 30 days, each channel's share, and how
   the mix has shifted since last year.
 description: >-

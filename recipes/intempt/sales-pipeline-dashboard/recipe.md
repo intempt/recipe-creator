@@ -4,6 +4,7 @@ title: Deals to work this week
 slash_command: /sales-pipeline-dashboard
 group: Dashboards
 owner: intempt
+curator: sid
 summary: Answers which open deals need attention now, flagging the ones that have stalled and the ones
   where only a single contact is engaged.
 description: >-

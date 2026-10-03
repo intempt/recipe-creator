@@ -4,6 +4,7 @@ title: Sticky CTA bar test
 slash_command: /landing-page-sticky-cta-test
 group: Experiments
 owner: intempt
+curator: rana
 summary: Compares an always-visible sticky CTA bar, one that fades in after the hero, and no sticky bar
   at all on marketing pages.
 description: >-

@@ -4,6 +4,7 @@ title: Lead qualification funnel
 slash_command: /lead-to-mql-to-sql-funnel
 group: Reports
 owner: intempt
+curator: aman
 summary: Shows how leads move through MQL, SQL, demo and closed won, where they stall, and how long the
   whole cycle takes.
 description: >-

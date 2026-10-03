@@ -4,6 +4,7 @@ title: Account expansion funnel
 slash_command: /account-expansion-funnel
 group: Reports
 owner: intempt
+curator: aman
 summary: Tracks how many customers go from viewing pricing to clicking upgrade, starting checkout and
   landing on a higher plan, and how long each step takes.
 description: >-

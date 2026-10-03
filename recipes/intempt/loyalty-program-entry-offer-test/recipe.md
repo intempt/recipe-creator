@@ -4,6 +4,7 @@ title: Loyalty signup offer test
 slash_command: /loyalty-program-entry-offer-test
 group: Experiments
 owner: intempt
+curator: rana
 summary: Compares four checkout offers for joining the loyalty programme, scored on how many first-time
   buyers actually join.
 description: >-

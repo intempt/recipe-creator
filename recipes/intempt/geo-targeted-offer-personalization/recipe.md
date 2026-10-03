@@ -4,6 +4,7 @@ title: Offers by visitor country
 slash_command: /geo-targeted-offer-personalization
 group: Personalizations
 owner: intempt
+curator: rana
 summary: US, UK and EU, and APAC visitors each see the shipping threshold, currency and promotion for
   their region instead of one global message.
 description: >-

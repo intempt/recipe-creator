@@ -4,6 +4,7 @@ title: Win back after cancellation
 slash_command: /post-cancel-winback
 group: Journeys
 owner: intempt
+curator: somya
 summary: Goes back to people who cancelled at 30, 60 and 90 days with what has changed, a discount, and
   a free month, then stops.
 description: >-

@@ -4,6 +4,7 @@ title: CTA wording by account state
 slash_command: /personalized-cta-copy-personalization
 group: Personalizations
 owner: intempt
+curator: rana
 summary: The main button reads differently for a first-time visitor, a returning one, someone mid-trial,
   a free-plan user and a paying customer, instead of one generic prompt.
 description: >-

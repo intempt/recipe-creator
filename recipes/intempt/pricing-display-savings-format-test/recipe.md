@@ -4,6 +4,7 @@ title: Savings format test
 slash_command: /pricing-display-savings-format-test
 group: Experiments
 owner: intempt
+curator: rana
 summary: Compares showing a discount as a dollar amount, as a percentage, or as a struck-through compare-at
   price, scored on revenue.
 description: >-

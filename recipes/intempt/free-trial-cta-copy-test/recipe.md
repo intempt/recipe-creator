@@ -4,6 +4,7 @@ title: Trial CTA copy test
 slash_command: /free-trial-cta-copy-test
 group: Experiments
 owner: intempt
+curator: rana
 summary: Compares three wordings of the trial signup button to see which one gets more people to sign
   up.
 description: >-

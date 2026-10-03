@@ -4,6 +4,7 @@ title: Weekly active users
 slash_command: /weekly-active-users-trend
 group: Reports
 owner: intempt
+curator: aman
 summary: Shows weekly active users next to monthly, and the ratio between them, which tells you whether
   growth is real engagement or just signups.
 description: >-

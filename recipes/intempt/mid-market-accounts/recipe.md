@@ -4,6 +4,7 @@ title: Mid-market accounts
 slash_command: /mid-market-accounts
 group: Segments
 owner: intempt
+curator: harish
 summary: Companies with 100 to 1,000 employees, so your inside sales team works from one list.
 description: >-
   Mid-sized companies (100-1000 employees): inside-sales / scaled-AE routing.

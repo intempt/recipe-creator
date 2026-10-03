@@ -4,6 +4,7 @@ title: Recently cancelled customers
 slash_command: /recently-churned-users
 group: Segments
 owner: intempt
+curator: harish
 summary: Customers who cancelled in the last month, while the reason is fresh and a win-back still has
   a chance.
 description: >-

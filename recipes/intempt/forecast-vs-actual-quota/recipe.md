@@ -4,6 +4,7 @@ title: Forecast versus quota
 slash_command: /forecast-vs-actual-quota
 group: Reports
 owner: intempt
+curator: aman
 summary: Puts closed revenue, weighted forecast and quota target side by side, with pipeline coverage
   and what is likely to close in the next 30 days.
 description: >-

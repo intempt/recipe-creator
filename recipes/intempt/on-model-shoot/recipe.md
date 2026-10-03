@@ -4,6 +4,7 @@ title: On-model product shot
 slash_command: /on-model
 group: Creative
 owner: intempt
+curator: aurobind
 summary: Puts your identity-locked avatar in a scene wearing or holding a catalog product, for lifestyle
   product photography.
 description: >-

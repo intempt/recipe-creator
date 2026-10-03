@@ -4,6 +4,7 @@ title: Win loss analysis
 slash_command: /win-loss-analysis-report
 group: Reports
 owner: intempt
+curator: aman
 summary: Breaks closed deals into won and lost by lead source, deal size and the stage they died at, so
   the pattern is visible.
 description: >-

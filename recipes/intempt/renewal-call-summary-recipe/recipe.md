@@ -4,6 +4,7 @@ title: Renewal call summary fields
 slash_command: /renewal-call-summary-recipe
 group: Meetings
 owner: intempt
+curator: sid
 summary: 'Tells the notetaker what to pull out of every renewal call: how the customer is using the product,
   expansion interest, churn signals and contract changes.'
 description: >-

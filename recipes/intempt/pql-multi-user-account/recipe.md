@@ -4,6 +4,7 @@ title: Free accounts with a team trying it
 slash_command: /pql-multi-user-account
 group: Segments
 owner: intempt
+curator: harish
 summary: Free and trial accounts where two or more colleagues are both active, which converts better than
   one person trying it alone.
 description: >-

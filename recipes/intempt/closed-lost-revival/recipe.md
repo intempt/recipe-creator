@@ -4,6 +4,7 @@ title: Closed lost revival
 slash_command: /closed-lost-revival
 group: Workflows
 owner: intempt
+curator: trishik
 summary: Goes back to deals lost 90 days ago, checks what has changed at the account, and reopens the
   conversation where the reason for losing may have expired.
 description: >-

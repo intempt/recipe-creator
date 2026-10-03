@@ -4,6 +4,7 @@ title: Product launch microsite
 slash_command: /product-launch-site
 group: Content
 owner: intempt
+curator: aurobind
 summary: Builds a small launch site (hero, feature pages, call to action, footer) in your brand styling,
   ready to publish in one click.
 description: >-

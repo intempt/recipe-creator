@@ -4,6 +4,7 @@ title: Upgrade prompt test
 slash_command: /upgrade-prompt-optimization
 group: Experiments
 owner: intempt
+curator: rana
 summary: Compares four places to show the upgrade prompt to free users, with timing layered in through
   audience targeting.
 description: >-

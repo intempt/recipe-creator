@@ -4,6 +4,7 @@ title: Activated and paying
 slash_command: /compound-funnel-activated-and-paying
 group: Reports
 owner: intempt
+curator: aman
 summary: Counts only the signups who both use the product habitually and pay for it, so your activation
   number cannot flatter you.
 description: >-

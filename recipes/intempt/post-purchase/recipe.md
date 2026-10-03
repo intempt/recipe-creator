@@ -4,6 +4,7 @@ title: Post purchase follow up
 slash_command: /post-purchase
 group: Journeys
 owner: intempt
+curator: somya
 summary: Thanks the buyer, shows them how to use what they bought, asks for a review, and suggests what
   goes with it.
 description: >-

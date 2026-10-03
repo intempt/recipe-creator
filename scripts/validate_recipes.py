@@ -7,6 +7,8 @@ import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
 from recipe_contract import RecipeError, availability, read, recipe_paths, validate
+import injection
+import portability
 
 BRACKET = re.compile(r"\[[A-Z][A-Za-z ]+\]")
 RATIONALE = re.compile(r"\b(the differentiator|most CDPs|best practice|industry standard|pattern|-style)\b", re.I)
@@ -41,6 +43,11 @@ def main():
     args = parser.parse_args()
 
     paths = args.paths or recipe_paths(args.recipes)
+    try:
+        _, patterns = injection.load_patterns()
+    except injection.PatternsTampered as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 2
     problems = []
     statuses = collections.Counter()
     waiting = collections.Counter()
@@ -53,6 +60,11 @@ def main():
             problems.append(str(exc))
             continue
         problems += [f"{path}: {p}" for p in validate(path, front)]
+        text = pathlib.Path(path).read_text(encoding="utf-8")
+        problems += [f"{path}: injection {f['pattern_id']} at {f['where']}: {f['evidence']}"
+                     for f in injection.scan_text(text, patterns) if f["severity"] == "block"]
+        problems += [f"{path}: portability {f['kind']} at {f['where']}: {f['evidence']}; move it into inputs"
+                     for f in portability.scan_text(text)]
         status, wait = availability(front)
         statuses[status] += 1
         waiting.update(wait)

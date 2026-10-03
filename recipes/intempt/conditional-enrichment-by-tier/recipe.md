@@ -4,6 +4,7 @@ title: Enrich by account tier
 slash_command: /conditional-enrichment-by-tier
 group: Workflows
 owner: intempt
+curator: trishik
 summary: 'Spends enrichment credits in proportion to the account: everything on the enterprise ones, a
   standard package mid market, and nothing more on poor fits.'
 description: >-

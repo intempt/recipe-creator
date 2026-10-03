@@ -4,6 +4,7 @@ title: Users close to their plan limit
 slash_command: /expansion-candidates
 group: Segments
 owner: intempt
+curator: harish
 summary: Users who have used up most of their plan allowance, so you can start the upgrade conversation
   before they hit the ceiling.
 description: >-

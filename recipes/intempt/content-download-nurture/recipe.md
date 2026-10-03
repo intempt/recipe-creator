@@ -4,6 +4,7 @@ title: Content download nurture
 slash_command: /content-download-nurture
 group: Journeys
 owner: intempt
+curator: somya
 summary: Follows a gated download with two more pieces on the same topic and a soft invite, and fast tracks
   anyone who reads all three.
 description: >-

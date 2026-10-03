@@ -4,6 +4,7 @@ title: Billing toggle default test
 slash_command: /pricing-toggle-default-test
 group: Experiments
 owner: intempt
+curator: rana
 summary: Tests whether defaulting the pricing toggle to annual rather than monthly earns more, counting
   annual plans at full annual value.
 description: >-

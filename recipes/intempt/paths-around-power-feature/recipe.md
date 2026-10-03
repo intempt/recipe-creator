@@ -4,6 +4,7 @@ title: Paths around a key feature
 slash_command: /paths-around-power-feature
 group: Reports
 owner: intempt
+curator: aman
 summary: Shows what leads people to your most valuable feature and what they do straight after using it.
 description: >-
   Bidirectional path bracketing a high-value feature interaction: surfaces what leads to discovery and

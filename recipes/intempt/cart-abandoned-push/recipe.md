@@ -4,6 +4,7 @@ title: Cart abandonment push notification
 slash_command: /cart-abandoned-push
 group: Content
 owner: intempt
+curator: aurobind
 summary: Writes a lockscreen push that brings shoppers back to an abandoned cart, naming the item they
   left behind.
 description: >-

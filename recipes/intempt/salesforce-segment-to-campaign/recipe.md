@@ -4,6 +4,7 @@ title: Segment into a Salesforce campaign
 slash_command: /salesforce-segment-to-campaign
 group: Workflows
 owner: intempt
+curator: trishik
 summary: Puts a segment's members into a Salesforce campaign, which is how an audience built here becomes
   something a sales team can run against.
 description: >-

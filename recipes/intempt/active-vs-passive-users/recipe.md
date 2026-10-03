@@ -4,6 +4,7 @@ title: Active versus passive users
 slash_command: /active-vs-passive-users
 group: Reports
 owner: intempt
+curator: aman
 summary: Splits your users into producers, consumers, lurkers and inactive each week, so you can see how
   much of your base is actually doing something.
 description: >-

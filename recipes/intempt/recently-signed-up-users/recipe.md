@@ -4,6 +4,7 @@ title: Recent signups
 slash_command: /recently-signed-up-users
 group: Segments
 owner: intempt
+curator: harish
 summary: Everyone who created an account in the last month, the audience for your welcome and first-week
   activation emails.
 description: >-

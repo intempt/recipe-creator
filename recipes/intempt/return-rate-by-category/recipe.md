@@ -4,6 +4,7 @@ title: Return rate by category
 slash_command: /return-rate-by-category
 group: Reports
 owner: intempt
+curator: aman
 summary: Shows which product categories get returned most, and which ones have got worse since last quarter.
 description: >-
   Return rate by product category with previous-period comparison and rising-rate flagging.

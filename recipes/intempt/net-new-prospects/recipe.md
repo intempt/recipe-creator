@@ -4,6 +4,7 @@ title: Net-new prospect accounts
 slash_command: /net-new-prospects
 group: Segments
 owner: intempt
+curator: harish
 summary: Accounts created in the last week that have barely done anything yet, so SDRs know who to contact
   first.
 description: >-

@@ -64,6 +64,14 @@ jobs:
         run: python3 scripts/build_artifacts.py --out /tmp/catalog --check
       - name: The recipe.md contract tests pass
         run: python3 scripts/tests/test_recipe_contract.py
+      - name: Every script's tests pass
+        run: for t in scripts/tests/test_*.py; do python3 "$t" || exit 1; done
+      - name: No recipe or example carries prompt injection
+        run: python3 scripts/injection.py recipes examples
+      - name: No recipe or example carries a value that only exists in one workspace
+        run: python3 scripts/portability.py recipes examples
+      - name: Every recipe and example is normalised
+        run: python3 scripts/normalise_recipe.py --check recipes examples
       - name: Every recipe.md meets the v2 contract the engine reads
         run: python3 scripts/validate_recipes.py --lint
       - name: The examples meet the contract too
@@ -79,5 +87,7 @@ jobs:
         run: python3 scripts/rebuild_bodies.py --check
       - name: The plugin's copies of the references and validator match the root
         run: python3 scripts/sync_plugin.py --check
-      - name: The plugin's bundled validator runs on its bundled example
-        run: python3 plugin/skills/intempt-recipe-author/scripts/validate_recipes.py --lint plugin/skills/intempt-recipe-author/references/examples/intempt/trial-expiring-nudge/recipe.md
+      - name: The plugin's bundled validator runs on its bundled examples
+        run: python3 plugin/skills/intempt-recipe-author/scripts/validate_recipes.py --lint --recipes plugin/skills/intempt-recipe-author/references/examples
+      - name: The plugin's bundled scans run on its bundled examples
+        run: python3 plugin/skills/intempt-recipe-author/scripts/injection.py plugin/skills/intempt-recipe-author/references/examples && python3 plugin/skills/intempt-recipe-author/scripts/portability.py plugin/skills/intempt-recipe-author/references/examples

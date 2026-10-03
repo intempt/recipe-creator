@@ -4,6 +4,7 @@ title: Champion change detection
 slash_command: /champion-change-detection
 group: Workflows
 owner: intempt
+curator: trishik
 summary: Notices when the person backing a deal goes quiet or leaves, names who could replace them, and
   gets the rep moving before the deal dies quietly.
 description: >-

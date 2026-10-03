@@ -4,6 +4,7 @@ title: B2B lead nurture and routing
 slash_command: /b2b-nurture
 group: Journeys
 owner: intempt
+curator: somya
 summary: Scores inbound leads, hands the sales ready ones to a rep with an owner and a task, and keeps
   the rest warm with content matched to how close they are.
 description: >-

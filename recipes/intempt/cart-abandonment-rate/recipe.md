@@ -4,6 +4,7 @@ title: Cart abandonment rate
 slash_command: /cart-abandonment-rate
 group: Reports
 owner: intempt
+curator: aman
 summary: Shows what share of shoppers who add to cart never order, week by week and by device, against
   the 70% industry line.
 description: >-

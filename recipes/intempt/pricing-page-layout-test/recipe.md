@@ -4,6 +4,7 @@ title: Pricing page layout test
 slash_command: /pricing-page-layout-test
 group: Experiments
 owner: intempt
+curator: rana
 summary: Compares your current pricing layout against side-by-side cards with a recommended plan and an
   interactive usage slider.
 description: >-

@@ -4,6 +4,7 @@ title: High-value cart abandoners
 slash_command: /high-cart-value-abandoners
 group: Segments
 owner: intempt
+curator: harish
 summary: People who walked away from an expensive cart in the last week and have not bought since, so
   you chase the baskets worth chasing.
 description: >-

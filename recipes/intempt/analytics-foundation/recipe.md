@@ -4,6 +4,7 @@ title: Analytics foundation
 slash_command: /analytics-foundation
 group: Reports
 owner: intempt
+curator: aman
 summary: 'Sets up your core analytics in one pass: the key metric, conversion, cohort and user flow reports,
   then an executive dashboard that pulls the headline numbers together.'
 description: >-

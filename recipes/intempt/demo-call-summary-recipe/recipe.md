@@ -4,6 +4,7 @@ title: Demo call summary fields
 slash_command: /demo-call-summary-recipe
 group: Meetings
 owner: intempt
+curator: sid
 summary: 'Tells the notetaker what to pull out of every demo: features shown, questions asked, objections
   raised, who from the buying side attended, and the agreed next step.'
 description: >-

@@ -4,6 +4,7 @@ title: Subscription revenue health
 slash_command: /subscription-health-dashboard
 group: Dashboards
 owner: intempt
+curator: sid
 summary: 'Answers whether subscription revenue is compounding or eroding each month and where the leakage
   is: MRR movement, churn cohorts, failed payments and NRR.'
 description: >-

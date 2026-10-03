@@ -4,6 +4,7 @@ title: Paths before a support ticket
 slash_command: /support-deflection-paths
 group: Reports
 owner: intempt
+curator: aman
 summary: Shows what people were doing in the product just before they raised a ticket, and which page
   they gave up on.
 description: >-

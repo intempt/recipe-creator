@@ -4,6 +4,7 @@ title: Cinematic look board
 slash_command: /cinematic-studio
 group: Creative
 owner: intempt
+curator: aurobind
 summary: Returns a board of nine cinematic looks from one image, so you can pick the grade you want.
 description: >-
   Nine cinematic looks from one frame.

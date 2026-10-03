@@ -4,6 +4,7 @@ title: Weekly business review pack
 slash_command: /business-review
 group: Dashboards
 owner: intempt
+curator: sid
 summary: Builds the weekly scorecard, writes the narrative on what moved and why, and posts both to Slack
   on the cadence you pick.
 description: >-

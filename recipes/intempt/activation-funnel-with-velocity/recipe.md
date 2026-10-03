@@ -4,6 +4,7 @@ title: Activation funnel with velocity
 slash_command: /activation-funnel-with-velocity
 group: Reports
 owner: intempt
+curator: aman
 summary: Shows where new users drop out of activation and, just as important, where they stall, with median
   and 75th percentile timings for every step.
 description: >-

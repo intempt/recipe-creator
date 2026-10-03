@@ -4,6 +4,7 @@ title: Demo form length test
 slash_command: /form-length-test
 group: Experiments
 owner: intempt
+curator: rana
 summary: Compares a 3, 5 and 7 field demo request form, so you can see what each extra field costs you
   in submissions.
 description: >-

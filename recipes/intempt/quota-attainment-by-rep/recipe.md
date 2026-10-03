@@ -4,6 +4,7 @@ title: Quota attainment by rep
 slash_command: /quota-attainment-by-rep
 group: Reports
 owner: intempt
+curator: aman
 summary: Ranks each rep on how much of their quota they closed, with pipeline coverage and a rolling 12
   month view so one bad quarter does not read as a trend.
 description: >-

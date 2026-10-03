@@ -4,6 +4,7 @@ title: Expansion revenue trend
 slash_command: /expansion-revenue-trend
 group: Reports
 owner: intempt
+curator: aman
 summary: Shows how much new revenue comes from existing customers upgrading or adding seats each month,
   and how that compares with revenue from new customers.
 description: >-

@@ -4,6 +4,7 @@ title: Search to purchase
 slash_command: /search-conversion
 group: Reports
 owner: intempt
+curator: aman
 summary: Shows how many on site searches lead to a click, a cart and an order, and compares that with
   shoppers who just browse.
 description: >-

@@ -4,6 +4,7 @@ title: Product swap in a scene
 slash_command: /product-swap
 group: Creative
 owner: intempt
+curator: aurobind
 summary: Replaces the product in a shot you already have with a different one, keeping the scene, lighting
   and shadow the same.
 description: >-

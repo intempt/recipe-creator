@@ -4,6 +4,7 @@ title: Single-threaded open deals
 slash_command: /single-threaded-accounts
 group: Segments
 owner: intempt
+curator: harish
 summary: Open deals at larger companies where only one person is engaged, so an AE can bring more stakeholders
   in before it stalls.
 description: >-

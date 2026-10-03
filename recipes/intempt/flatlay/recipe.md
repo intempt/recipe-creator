@@ -4,6 +4,7 @@ title: Styled flatlay
 slash_command: /flatlay
 group: Creative
 owner: intempt
+curator: aurobind
 summary: Arranges your product in a top-down flatlay with complementary props styled around it.
 description: >-
   Top-down styled composition.

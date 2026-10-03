@@ -4,6 +4,7 @@ title: Product qualified lead to SDR task
 slash_command: /pql-signal-to-sdr-task
 group: Workflows
 owner: intempt
+curator: trishik
 summary: When a free user's behaviour says they are ready for a conversation, it creates an SDR task carrying
   everything needed for the first touch.
 description: >-

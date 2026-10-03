@@ -4,6 +4,7 @@ title: Paid users going quiet
 slash_command: /churn-risk-users
 group: Segments
 owner: intempt
+curator: harish
 summary: Paying users who used to log in regularly and have not shown up for a month, so you can reach
   them before they cancel.
 description: >-

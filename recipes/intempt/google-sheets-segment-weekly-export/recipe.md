@@ -4,6 +4,7 @@ title: Weekly segment export to a sheet
 slash_command: /google-sheets-segment-weekly-export
 group: Workflows
 owner: intempt
+curator: trishik
 summary: Writes a segment into a Google Sheet every week, replacing the CSV someone downloads and re-uploads
   by hand.
 description: >-

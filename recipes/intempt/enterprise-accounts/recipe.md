@@ -4,6 +4,7 @@ title: Enterprise accounts
 slash_command: /enterprise-accounts
 group: Segments
 owner: intempt
+curator: harish
 summary: Companies with 1,000 or more employees, so your enterprise sellers work from one list.
 description: >-
   Large companies (1000+ employees): AE white-glove sales-motion routing.

@@ -4,6 +4,7 @@ title: SaaS growth command center
 slash_command: /saas-growth-command-center
 group: Dashboards
 owner: intempt
+curator: sid
 summary: 'Answers whether you are growing and whether the growth is healthy, on one canvas: weekly actives,
   MRR, trial conversion, activation, retention and feature adoption.'
 description: >-

@@ -4,6 +4,7 @@ title: Demo or self-serve CTA by company size
 slash_command: /demo-vs-self-serve-routing-personalization
 group: Personalizations
 owner: intempt
+curator: rana
 summary: Visitors from companies over 200 people see a book-a-demo button. Smaller returning companies
   see a self-serve sign-up with social proof. Nobody is split at random.
 description: >-

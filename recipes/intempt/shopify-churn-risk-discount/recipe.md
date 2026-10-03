@@ -4,6 +4,7 @@ title: Discount before a shopper lapses
 slash_command: /shopify-churn-risk-discount
 group: Workflows
 owner: intempt
+curator: trishik
 summary: Sends a Shopify discount to customers whose buying rhythm has broken, judged against their own
   pattern rather than a fixed number of days.
 description: >-

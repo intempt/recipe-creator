@@ -4,6 +4,7 @@ title: Decide which calls get recorded
 slash_command: /notetaker-coverage-setup
 group: Meetings
 owner: intempt
+curator: sid
 summary: Sets the rules for when the notetaker joins, by meeting type, deal value and attendee opt-out,
   so coverage is consistent without toggling it call by call.
 description: >-

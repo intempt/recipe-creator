@@ -4,6 +4,7 @@ title: Net revenue retention by cohort
 slash_command: /net-revenue-retention-by-cohort
 group: Reports
 owner: intempt
+curator: aman
 summary: Tracks what each monthly cohort of paying customers is worth over time once upgrades, downgrades,
   churn and reactivations are all counted.
 description: >-

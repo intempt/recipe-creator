@@ -4,6 +4,7 @@ title: High-frequency buyers
 slash_command: /high-frequency-buyers
 group: Segments
 owner: intempt
+curator: harish
 summary: Customers who order at least four times a quarter, so loyalty perks and early access go to the
   people who buy most often.
 description: >-

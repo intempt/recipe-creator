@@ -4,6 +4,7 @@ title: Call recording intelligence
 slash_command: /call-recording-intelligence
 group: Workflows
 owner: intempt
+curator: trishik
 summary: Pulls the objections, the talk ratio, the sentiment and the buying signals out of every call
   recording, files them on the deal, and flags the bad calls.
 description: >-

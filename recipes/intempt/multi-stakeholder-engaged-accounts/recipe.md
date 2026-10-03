@@ -4,6 +4,7 @@ title: Accounts with a buying group active
 slash_command: /multi-stakeholder-engaged-accounts
 group: Segments
 owner: intempt
+curator: harish
 summary: Accounts where three or more people have been using the product in the last two weeks, usually
   the sign a buying group has formed.
 description: >-

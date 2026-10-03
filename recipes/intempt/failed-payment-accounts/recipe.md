@@ -4,6 +4,7 @@ title: Users with a failed payment
 slash_command: /failed-payment-accounts
 group: Segments
 owner: intempt
+curator: harish
 summary: Users whose payment was declined in the last two weeks, so you can recover the money before the
   subscription lapses.
 description: >-

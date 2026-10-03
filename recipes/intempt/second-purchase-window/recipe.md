@@ -4,6 +4,7 @@ title: First-time buyers in the repeat window
 slash_command: /second-purchase-window
 group: Segments
 owner: intempt
+curator: harish
 summary: Customers who bought for the first time in the last month, the period when most second purchases
   happen.
 description: >-

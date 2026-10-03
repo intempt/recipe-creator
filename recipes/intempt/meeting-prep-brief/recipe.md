@@ -4,6 +4,7 @@ title: Meeting prep brief
 slash_command: /meeting-prep-brief
 group: Workflows
 owner: intempt
+curator: trishik
 summary: 'Sends the host a brief 24 hours before a meeting: who is coming, how the account is doing, every
   prior touch, and what to talk about.'
 description: >-

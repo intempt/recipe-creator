@@ -4,6 +4,7 @@ title: Browse to purchase funnel
 slash_command: /browse-purchase-funnel
 group: Reports
 owner: intempt
+curator: aman
 summary: Shows how many shoppers move from a category page to a product page, cart, checkout and a completed
   order, and where you lose them on each device.
 description: >-

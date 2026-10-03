@@ -4,6 +4,7 @@ title: Category performance
 slash_command: /product-category-performance
 group: Reports
 owner: intempt
+curator: aman
 summary: Shows revenue and units by product category for the last 30 days, against both the previous month
   and the same month last year.
 description: >-

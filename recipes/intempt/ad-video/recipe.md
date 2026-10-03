@@ -4,6 +4,7 @@ title: Cinematic ad spot
 slash_command: /ad-video
 group: Creative
 owner: intempt
+curator: aurobind
 summary: Turns one product still into a 5 second cinematic spot with slow camera drift and soft particles,
   no text or logo.
 description: >-

@@ -4,6 +4,7 @@ title: Feature adoption by plan
 slash_command: /feature-adoption-by-plan
 group: Reports
 owner: intempt
+curator: aman
 summary: Shows which features each plan tier actually uses, as a share of that tier's active users, and
   whether adoption is rising or falling.
 description: >-

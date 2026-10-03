@@ -4,6 +4,7 @@ title: Catch duplicates as they arrive
 slash_command: /crm-record-merge-suggestions
 group: Workflows
 owner: intempt
+curator: trishik
 summary: Checks every new account or contact against what you already have, merges the obvious duplicates,
   and queues the doubtful ones for a person to judge.
 description: >-
@@ -89,7 +90,7 @@ steps:
     description: >-
       Configure AI step that compares the new record to each candidate match and produces a confidence
       score (0-100) per pair. Inputs: all available fields, recent activity, contextual clues (e.g. same
-      source UTM suggests same person). Considers nuances (e.g. 'sales@acme.com' and 'john@acme.com' are
+      source UTM suggests same person). Considers nuances (e.g. 'sales@example.com' and 'john@example.com' are
       different people at same company, not duplicates). Output: ranked match candidates with confidence
       + reasoning. Use the result of "Check at the moment of creation", "Stop early if it is new".
     dependsOn:

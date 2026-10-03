@@ -4,6 +4,7 @@ title: Feature to paywall conversion
 slash_command: /feature-paywall-conversion
 group: Reports
 owner: intempt
+curator: aman
 summary: Shows which features push free users to look at pricing and actually pay, so you know what is
   worth putting behind the paywall.
 description: >-

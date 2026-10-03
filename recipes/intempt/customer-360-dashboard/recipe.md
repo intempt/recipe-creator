@@ -4,6 +4,7 @@ title: Customer lifecycle overview
 slash_command: /customer-360-dashboard
 group: Dashboards
 owner: intempt
+curator: sid
 summary: Answers where your customers sit across the six lifecycle stages, how many moved stage this month,
   and which acquisition cohorts produce the highest lifetime value.
 description: >-

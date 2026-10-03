@@ -4,6 +4,7 @@ title: Renewals due in 90 days
 slash_command: /renewal-window-90-day
 group: Segments
 owner: intempt
+curator: harish
 summary: Paid subscriptions that end within the next three months, so renewal conversations start early
   instead of the week before.
 description: >-

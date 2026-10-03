@@ -4,6 +4,7 @@ title: Customer onboarding
 slash_command: /customer-onboarding
 group: Journeys
 owner: intempt
+curator: somya
 summary: Sets up a new account, gives the CSM a dated checklist, books the kickoff, and walks the customer
   through to go live.
 description: >-

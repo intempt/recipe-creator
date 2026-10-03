@@ -4,6 +4,7 @@ title: Free shipping progress bar test
 slash_command: /free-shipping-progress-bar-test
 group: Experiments
 owner: intempt
+curator: rana
 summary: Compares a cart bar counting down to free shipping against no bar at all, scored on revenue and
   average order value.
 description: >-

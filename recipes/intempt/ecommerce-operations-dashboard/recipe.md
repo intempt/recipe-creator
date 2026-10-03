@@ -4,6 +4,7 @@ title: Fulfillment, returns and refunds
 slash_command: /ecommerce-operations-dashboard
 group: Dashboards
 owner: intempt
+curator: sid
 summary: Answers whether orders are shipping on time and where quality problems are hiding, by tracking
   fulfillment rate, returns and refunds down to the product.
 description: >-

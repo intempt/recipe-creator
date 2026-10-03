@@ -4,6 +4,7 @@ title: Homepage by customer lifecycle stage
 slash_command: /lifecycle-stage-homepage-personalization
 group: Personalizations
 owner: intempt
+curator: rana
 summary: Loyal shoppers get a welcome back, lapsed ones get a win-back offer, and new shoppers get an
   introduction, based on the lifecycle stage already on their profile.
 description: >-

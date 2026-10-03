@@ -4,6 +4,7 @@ title: Mobile sticky add to cart test
 slash_command: /mobile-sticky-add-to-cart-test
 group: Experiments
 owner: intempt
+curator: rana
 summary: Compares a standard add-to-cart button against two sticky bottom bars on mobile product pages,
   scored on carts created.
 description: >-

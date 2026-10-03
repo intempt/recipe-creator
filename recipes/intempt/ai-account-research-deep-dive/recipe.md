@@ -4,6 +4,7 @@ title: AI account research
 slash_command: /ai-account-research-deep-dive
 group: Workflows
 owner: intempt
+curator: trishik
 summary: Reads a target account's website, pulls out the decision makers, scores the fit against your
   ICP, and drafts an opener for the rep to edit.
 description: >-

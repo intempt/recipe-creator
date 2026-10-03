@@ -4,6 +4,7 @@ title: Users stuck in onboarding
 slash_command: /onboarding-stalled-users
 group: Segments
 owner: intempt
+curator: harish
 summary: People who signed up a few weeks ago and still drop in now and then, but have never finished
   setup, so you can help them over the line.
 description: >-

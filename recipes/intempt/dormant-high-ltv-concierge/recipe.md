@@ -4,6 +4,7 @@ title: Concierge for dormant big accounts
 slash_command: /dormant-high-ltv-concierge
 group: Workflows
 owner: intempt
+curator: trishik
 summary: When one of your most valuable accounts stops showing up for a month, it briefs the CSM and asks
   them to call. Nothing is sent automatically.
 description: >-

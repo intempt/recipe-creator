@@ -4,6 +4,7 @@ title: Engaged visitors who never bought
 slash_command: /engaged-non-buyers
 group: Segments
 owner: intempt
+curator: harish
 summary: People who use your site a lot but have never placed an order, so you can aim a first-purchase
   offer at them.
 description: >-

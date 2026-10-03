@@ -4,6 +4,7 @@ title: AI inbox triage
 slash_command: /ai-inbox-triage-agent-workflow
 group: Workflows
 owner: intempt
+curator: trishik
 summary: Reads every inbound message, works out whether it is sales, support, billing, partnership or
   spam, and gets it to the right person inside five minutes.
 description: >-

@@ -4,6 +4,7 @@ title: Accessory on a model
 slash_command: /accessory-try-on
 group: Creative
 owner: intempt
+curator: aurobind
 summary: Takes a packshot of eyewear, jewelry or a watch and shows it worn by an AI model, with the accessory
   itself unchanged.
 description: >-

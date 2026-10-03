@@ -4,6 +4,7 @@ title: Customer lifecycle distribution
 slash_command: /customer-lifecycle-distribution
 group: Reports
 owner: intempt
+curator: aman
 summary: Shows how your customers are spread across the six lifecycle stages today, how much revenue sits
   in each, and who moved between stages in the last month.
 description: >-

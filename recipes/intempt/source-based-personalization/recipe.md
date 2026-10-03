@@ -4,6 +4,7 @@ title: Landing page matched to the ad
 slash_command: /source-based-personalization
 group: Personalizations
 owner: intempt
+curator: rana
 summary: The hero repeats the promise of the ad the visitor clicked, so a competitor search, a LinkedIn
   enterprise ad and a partner referral each land somewhere that matches.
 description: >-

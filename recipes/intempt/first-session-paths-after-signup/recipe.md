@@ -4,6 +4,7 @@ title: First session paths after signup
 slash_command: /first-session-paths-after-signup
 group: Reports
 owner: intempt
+curator: aman
 summary: Shows what new users actually do in their first 24 hours and how far that is from the onboarding
   you designed.
 description: >-

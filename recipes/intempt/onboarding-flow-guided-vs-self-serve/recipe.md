@@ -4,6 +4,7 @@ title: Guided vs self-serve onboarding
 slash_command: /onboarding-flow-guided-vs-self-serve
 group: Experiments
 owner: intempt
+curator: rana
 summary: Compares a self-serve checklist, a guided wizard and a video-first walkthrough, scored on activation
   within 7 days.
 description: >-

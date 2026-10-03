@@ -4,6 +4,7 @@ title: Aha moment reinforcement
 slash_command: /aha-moment-activation
 group: Journeys
 owner: intempt
+curator: somya
 summary: Follows up right after someone hits the action that predicts retention, so the first win turns
   into a habit instead of a one off.
 description: >-

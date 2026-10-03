@@ -4,6 +4,7 @@ title: Reference-anchored remix
 slash_command: /image-remix
 group: Creative
 owner: intempt
+curator: aurobind
 summary: Pin up to four reference images with a weight on each, and get back variations anchored to them
   (four by default).
 description: >-

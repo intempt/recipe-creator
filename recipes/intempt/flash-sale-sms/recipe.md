@@ -4,6 +4,7 @@ title: Flash sale text message
 slash_command: /flash-sale-sms
 group: Content
 owner: intempt
+curator: aurobind
 summary: Writes a short text message for a time-limited offer, inside SMS character limits, with a short
   link to the offer page.
 description: >-

@@ -4,6 +4,7 @@ title: Branded ad from a product
 slash_command: /ad-builder
 group: Creative
 owner: intempt
+curator: aurobind
 summary: Turns a catalog product and a headline into a finished ad laid out in your Brand Kit colours,
   fonts and layout.
 description: >-

@@ -4,6 +4,7 @@ title: Funnel drop off by source
 slash_command: /funnel-dropoff-attribution-by-source
 group: Reports
 owner: intempt
+curator: aman
 summary: Runs the same acquisition to retention funnel separately for each traffic source, so you can
   see which channels bring people who actually stick.
 description: >-

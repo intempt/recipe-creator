@@ -4,6 +4,7 @@ title: Reference-anchored video remix
 slash_command: /video-remix
 group: Creative
 owner: intempt
+curator: aurobind
 summary: Pin up to four video references and get back branded reel variants anchored to them (four by
   default).
 description: >-

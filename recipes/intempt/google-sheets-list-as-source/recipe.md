@@ -4,6 +4,7 @@ title: Use a Google Sheet as a list
 slash_command: /google-sheets-list-as-source
 group: Workflows
 owner: intempt
+curator: trishik
 summary: Turns a sheet your team keeps by hand, target accounts or an event list or a suppression list,
   into records you can segment and act on.
 description: >-

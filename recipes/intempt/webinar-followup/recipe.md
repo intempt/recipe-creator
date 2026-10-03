@@ -4,6 +4,7 @@ title: Webinar follow up
 slash_command: /webinar-followup
 group: Journeys
 owner: intempt
+curator: somya
 summary: Sends attendees the recording and a next step, sends no shows the on demand link, and shows which
   webinars actually create deals.
 description: >-

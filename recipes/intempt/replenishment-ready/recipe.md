@@ -4,6 +4,7 @@ title: Customers due to re-order
 slash_command: /replenishment-ready
 group: Segments
 owner: intempt
+curator: harish
 summary: Customers whose last order was one to two months ago and who are about due for another, the moment
   a running-low reminder lands best.
 description: >-

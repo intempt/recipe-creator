@@ -4,7 +4,7 @@ import sys
 import unittest
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
-from recipe_contract import availability, render_body, validate
+from recipe_contract import INTEMPT_CURATORS, availability, curator_for_group, render_body, validate
 
 PATH = pathlib.Path("recipes/intempt/vip-users/recipe.md")
 
@@ -136,6 +136,29 @@ class Contract(unittest.TestCase):
         body = render_body(recipe())
         self.assertNotIn("## Declared inputs", body)
         self.assertNotIn("## What this recipe does not claim", body)
+
+    def test_a_known_intempt_curator_is_accepted(self):
+        self.assertEqual(validate(PATH, recipe(curator="somya")), [])
+
+    def test_a_curator_that_is_not_kebab_case_is_refused(self):
+        self.assertTrue(any("curator" in p and "kebab-case" in p for p in validate(PATH, recipe(curator="Somya Nayak"))))
+
+    def test_an_intempt_recipe_with_an_unknown_curator_is_refused(self):
+        self.assertTrue(any("curator 'bob'" in p for p in validate(PATH, recipe(curator="bob"))))
+
+    def test_a_partner_recipe_may_name_its_own_curator(self):
+        path = pathlib.Path("recipes/acme/vip-users/recipe.md")
+        self.assertEqual(validate(path, recipe(owner="acme", curator="jane-doe")), [])
+
+    def test_curator_is_optional(self):
+        self.assertEqual(validate(PATH, recipe()), [])
+
+    def test_every_marketplace_group_has_exactly_one_intempt_curator(self):
+        groups = [g for gs in INTEMPT_CURATORS.values() for g in gs]
+        self.assertEqual(len(groups), len(set(groups)))
+        self.assertEqual(curator_for_group("Segments"), "harish")
+        self.assertEqual(curator_for_group("Creative"), "aurobind")
+        self.assertEqual(curator_for_group("A group nobody curates"), "sid")
 
 
 if __name__ == "__main__":

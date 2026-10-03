@@ -4,6 +4,7 @@ title: Product engagement and adoption
 slash_command: /product-health-dashboard
 group: Dashboards
 owner: intempt
+curator: sid
 summary: Answers whether the product is getting more or less engaging, which features people keep coming
   back to, and how users say they feel about it.
 description: >-

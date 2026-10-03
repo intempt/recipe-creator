@@ -1,0 +1,19 @@
+Intempt recipe creator
+
+Copyright (c) 2026 Intempt Technologies, Inc.
+
+Nothing in this repository is MIT-licensed. Every file, including the kit, the scripts, the
+plugin and the recipes, is published under the Intempt Recipes License in LICENSE. It is
+source-available, not open source.
+
+Recipes under recipes/<owner>/<id>/ are submitted by their authors. Under section 3 of LICENSE,
+each author grants Intempt a licence to use, modify, publish and distribute their recipe as part
+of this repository and the Intempt platform, and confirms they have the right to grant it.
+Accepted recipes are published under the same licence. Attribution lives in the path each recipe
+is published under (recipes/<owner>/<id>/) and in its frontmatter: owner names the company that
+submitted it, and the optional curator names the person who stands behind it.
+
+The layout of this kit (DETERMINISM.md, the per-builder pages in references/entities/, the
+worked examples, and the injection, portability, normalise and package scripts) follows the
+structure of clay-run/clay-skill-creator, which is MIT-licensed. No text or code from that
+repository is included here.

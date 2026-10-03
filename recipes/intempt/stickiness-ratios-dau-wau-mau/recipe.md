@@ -4,6 +4,7 @@ title: Daily, weekly and monthly stickiness
 slash_command: /stickiness-ratios-dau-wau-mau
 group: Reports
 owner: intempt
+curator: aman
 summary: Shows daily, weekly and monthly active users together with the ratios between them, the standard
   read on how habitual your product is.
 description: >-

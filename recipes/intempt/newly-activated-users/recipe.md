@@ -4,6 +4,7 @@ title: Newly activated users
 slash_command: /newly-activated-users
 group: Segments
 owner: intempt
+curator: harish
 summary: Paying users who hit their activation milestone in the last week, while they are warm enough
   to say yes to more.
 description: >-

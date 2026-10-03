@@ -4,6 +4,7 @@ title: MRR movement waterfall
 slash_command: /mrr-movement-decomposition
 group: Reports
 owner: intempt
+curator: aman
 summary: Breaks each month's recurring revenue change into new, expansion, contraction, churn and reactivation,
   so you can see what is really driving growth.
 description: >-

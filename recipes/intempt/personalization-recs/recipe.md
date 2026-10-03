@@ -4,6 +4,7 @@ title: Product recommendations across channels
 slash_command: /personalization-recs
 group: Recommendations
 owner: intempt
+curator: rana
 summary: Puts product recommendations on your product pages, cart, post-purchase screens and emails, tuned
   to how the shopper behaves, and measures what they earn.
 description: >-

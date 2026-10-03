@@ -4,6 +4,7 @@ title: Paths after first payment
 slash_command: /post-conversion-onboarding-paths
 group: Reports
 owner: intempt
+curator: aman
 summary: Shows what new paying customers do in their first week, and how many pay and then vanish.
 description: >-
   Forward path from first paid event (subscription or order): what new paying customers do in their first

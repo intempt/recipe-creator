@@ -84,6 +84,22 @@ def builds_for_command(command):
     return command.split("_", 1)[-1]
 
 
+INTEMPT_CURATORS = {
+    "aman": ("Reports",),
+    "trishik": ("Workflows",),
+    "harish": ("Segments",),
+    "aurobind": ("Creative", "Content"),
+    "somya": ("Journeys",),
+    "rana": ("Personalizations", "Experiments", "Recommendations"),
+    "sid": ("Dashboards", "Meetings", "Agents"),
+}
+DEFAULT_INTEMPT_CURATOR = "sid"
+
+
+def curator_for_group(group):
+    return next((key for key, groups in INTEMPT_CURATORS.items() if group in groups), DEFAULT_INTEMPT_CURATOR)
+
+
 ID_PATTERN = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
 SLASH_PATTERN = re.compile(r"^/[a-z0-9]+(-[a-z0-9]+)*$")
 STEP_ID_PATTERN = re.compile(r"^s[1-9][0-9]*$")
@@ -123,6 +139,33 @@ def read(path):
     return front, match.group(2)
 
 
+def split(text):
+    match = FRONTMATTER.match(text)
+    if not match:
+        return None, text
+    return match.group(1), match.group(2)
+
+
+def text_fields(value, where=""):
+    if isinstance(value, str):
+        yield where, value
+    elif isinstance(value, dict):
+        for key, item in value.items():
+            yield from text_fields(item, f"{where}.{key}" if where else str(key))
+    elif isinstance(value, list):
+        for n, item in enumerate(value):
+            label = item.get("id") if isinstance(item, dict) and where == "steps" and isinstance(item.get("id"), str) else f"[{n}]"
+            yield from text_fields(item, f"{where}.{label}" if label[0] != "[" else f"{where}{label}")
+
+
+def recipe_files(paths):
+    found = []
+    for path in paths:
+        path = pathlib.Path(path)
+        found += sorted(path.glob("**/recipe.md")) if path.is_dir() else [path]
+    return found
+
+
 def availability(front):
     waiting = sorted({s.get("builds") for s in front.get("steps") or []} - set(BUILDABLE_ENTITIES) - {None})
     return ("install_now" if not waiting else "coming_soon"), waiting
@@ -144,6 +187,12 @@ def validate(path, front):
         problems.append(f"owner {owner!r} must equal the partner folder {p.parent.parent.name!r}")
     if owner and not OWNER_PATTERN.match(owner):
         problems.append(f"owner {owner!r} must be kebab-case")
+    if "curator" in front:
+        curator = front.get("curator")
+        if not isinstance(curator, str) or not OWNER_PATTERN.match(curator):
+            problems.append(f"curator {curator!r} must be kebab-case")
+        elif owner == "intempt" and curator not in INTEMPT_CURATORS:
+            problems.append(f"curator {curator!r} is not an Intempt curator: " + ", ".join(sorted(INTEMPT_CURATORS)))
     slash = front.get("slash_command") or ""
     if slash and not SLASH_PATTERN.match(slash):
         problems.append(f"slash_command {slash!r} must match /kebab-case (validate.py:51)")

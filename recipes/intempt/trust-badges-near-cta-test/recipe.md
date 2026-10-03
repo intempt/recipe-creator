@@ -4,6 +4,7 @@ title: Trust badges near the CTA
 slash_command: /trust-badges-near-cta-test
 group: Experiments
 owner: intempt
+curator: rana
 summary: Compares no badges, security badges, guarantee badges and all of them together beside your main
   call to action.
 description: >-

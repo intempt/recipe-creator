@@ -4,6 +4,7 @@ title: Hands using the product
 slash_command: /hands-in-use
 group: Creative
 owner: intempt
+curator: aurobind
 summary: Shows hands pouring, applying or holding your product, with no face in frame and small props
   added around it.
 description: >-

@@ -4,6 +4,7 @@ title: Daily SDR task queue
 slash_command: /daily-sdr-task-queue
 group: Workflows
 owner: intempt
+curator: trishik
 summary: Ranks each SDR's open tasks by how strong and how fresh the signal is and sends them the top
   25 every morning, instead of a chronological list.
 description: >-

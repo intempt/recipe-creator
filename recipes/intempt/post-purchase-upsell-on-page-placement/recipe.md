@@ -4,6 +4,7 @@ title: Post-purchase upsell placement test
 slash_command: /post-purchase-upsell-on-page-placement
 group: Experiments
 owner: intempt
+curator: rana
 summary: Compares three places to put the upsell on the order confirmation page, scored on extra revenue
   within 24 hours.
 description: >-

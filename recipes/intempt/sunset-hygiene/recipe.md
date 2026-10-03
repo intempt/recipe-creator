@@ -4,6 +4,7 @@ title: Sunset inactive subscribers
 slash_command: /sunset-hygiene
 group: Journeys
 owner: intempt
+curator: somya
 summary: Gives subscribers who have ignored six months of email one chance to say they still want it,
   then stops mailing them to protect deliverability.
 description: >-

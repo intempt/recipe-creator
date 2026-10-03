@@ -4,6 +4,7 @@ title: Lead to customer
 slash_command: /lead-customer-sales
 group: Reports
 owner: intempt
+curator: aman
 summary: Shows how many demo requests turn into booked meetings, completed demos, proposals and closed
   deals, and which lead sources actually convert.
 description: >-

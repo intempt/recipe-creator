@@ -4,6 +4,7 @@ title: Image upscale
 slash_command: /upscale
 group: Creative
 owner: intempt
+curator: aurobind
 summary: Enlarges a soft or low-resolution image to four times the size with sharper detail and nothing
   re-rendered.
 description: >-

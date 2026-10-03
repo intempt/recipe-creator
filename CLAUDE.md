@@ -13,9 +13,9 @@ skill in `plugin/skills/` is the procedure. Do not restate either here.
 
 ## The plugin mirrors
 
-`plugin/skills/intempt-recipe-author/references/` and `scripts/` are copies of files at the repo
-root. Edit the root file, then run `python3 scripts/sync_plugin.py`. CI runs `--check` and fails on
-drift. When the skill changes, bump `version` in all three `plugin/*/plugin.json` files and the
+`plugin/skills/intempt-recipe-author/references/` and `scripts/` (with `scripts/fixtures/`) are
+copies of files at the repo root; `MIRRORS` in `scripts/sync_plugin.py` lists them. Edit the root
+file, then run `python3 scripts/sync_plugin.py`. CI runs `--check` and fails on drift. When the skill changes, bump `version` in all three `plugin/*/plugin.json` files and the
 announce line in the skill; the sync check fails if they disagree.
 
 ## Before you push
@@ -23,7 +23,11 @@ announce line in the skill; the sync check fails if they disagree.
 See [VALIDATION.md](./VALIDATION.md). The short version:
 
 ```
-python3 scripts/validate_recipes.py --lint       # the v2 contract the engine reads
+python3 scripts/validate_recipes.py --lint       # the v2 contract the engine reads, plus both scans
+python3 scripts/injection.py recipes examples    # prompt injection
+python3 scripts/portability.py recipes examples  # values that only exist in one workspace
+python3 scripts/normalise_recipe.py --check recipes examples
+for t in scripts/tests/test_*.py; do python3 "$t" || exit 1; done
 python3 scripts/check_recipe_prerequisites.py    # declares every integration it names
 python3 scripts/check_recipe_identity.py         # id unique, matches its folder, slash unique
 python3 scripts/build_artifacts.py --out /tmp/c --check   # customer-facing copy is clean
@@ -55,8 +59,12 @@ find recipes -name recipe.md | wc -l
 | `check_recipe_identity.py` | id and slash-command uniqueness, id matches its folder |
 | `check_recipe_prerequisites.py` | a recipe naming an integration must declare it |
 | `recipe_contract.py` | the v2 contract in code: required fields, entity lists, availability. Everything else imports it |
-| `validate_recipes.py` | validates every recipe.md, reports availability and description lints |
-| `render_entities_doc.py` | regenerates `references/entities.md` from the recipes |
+| `validate_recipes.py` | validates every recipe.md, reports availability and description lints, and fails on injection or portability findings |
+| `injection.py` | prompt-injection scan. Patterns are `fixtures/injection_patterns.json`, pinned by `fixtures/SUITE_SHA256`; change both in one commit |
+| `portability.py` | flags ids, emails and links that only exist in the author's workspace |
+| `normalise_recipe.py` | LF, no trailing whitespace, template key order, regenerated body; `--check` is in CI |
+| `package_recipe.py` | contract + both scans, then writes the submission bundle: `recipe.md` and `manifest.json` |
+| `render_entities_doc.py` | regenerates `references/entities.md` and `references/entities/coming-soon.md` from the recipes |
 | `rebuild_bodies.py` | regenerates each body from its frontmatter |
 | `sync_plugin.py` | copies the root references and validator into the plugin; `--check` fails on drift |
 | `migrate_v2.py` | converts the v1 `intempt:` format; `--file <path> --owner <folder>` converts one file, see `workflows/existing-recipe.md` |

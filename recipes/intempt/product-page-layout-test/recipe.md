@@ -4,6 +4,7 @@ title: Product page layout test
 slash_command: /product-page-layout-test
 group: Experiments
 owner: intempt
+curator: rana
 summary: Compares your current product page against a full-width hero with a floating details panel and
   a video-first layout.
 description: >-

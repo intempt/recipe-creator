@@ -4,6 +4,7 @@ title: Follow a champion who moves
 slash_command: /job-change-detection-workflow
 group: Workflows
 owner: intempt
+curator: trishik
 summary: 'Spots when a champion changes employer and runs both plays: protect the account they left, and
   chase the one they joined.'
 description: >-

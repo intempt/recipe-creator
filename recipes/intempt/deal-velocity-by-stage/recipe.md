@@ -4,6 +4,7 @@ title: Deal velocity by stage
 slash_command: /deal-velocity-by-stage
 group: Reports
 owner: intempt
+curator: aman
 summary: Shows how long deals sit in each sales stage and which stage is the bottleneck, with won deals
   set against lost ones.
 description: >-

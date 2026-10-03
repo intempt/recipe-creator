@@ -4,6 +4,7 @@ title: Shared inbox with AI drafts
 slash_command: /inbox-setup
 group: Agents
 owner: intempt
+curator: sid
 summary: 'Sets up the shared inbox: reusable replies for the questions you get most, rules that send each
   message to the right owner, and a view of how fast you respond.'
 description: >-

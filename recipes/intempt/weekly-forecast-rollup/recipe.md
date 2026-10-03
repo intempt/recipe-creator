@@ -4,6 +4,7 @@ title: Weekly forecast rollup
 slash_command: /weekly-forecast-rollup
 group: Workflows
 owner: intempt
+curator: trishik
 summary: Freezes the pipeline every Monday, sends leadership the weighted forecast and what moved, and
   keeps the snapshot so last week can be checked.
 description: >-

@@ -4,6 +4,7 @@ title: Virtual interior staging
 slash_command: /interior-staging
 group: Creative
 owner: intempt
+curator: aurobind
 summary: Furnishes a photo of an empty room, leaving the walls, floor, windows and daylight exactly as
   they were shot.
 description: >-

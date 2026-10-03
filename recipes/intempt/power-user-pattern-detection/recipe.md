@@ -4,6 +4,7 @@ title: Power user pattern detection
 slash_command: /power-user-pattern-detection
 group: Journeys
 owner: intempt
+curator: somya
 summary: Notices people doing a job by hand over and over, shows them the feature that automates it at
   that exact moment, and asks for a review if it lands.
 description: >-

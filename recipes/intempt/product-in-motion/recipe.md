@@ -4,6 +4,7 @@ title: Turntable product spin
 slash_command: /product-in-motion
 group: Creative
 owner: intempt
+curator: aurobind
 summary: Turns a product packshot into a slow 360 degree turntable spin video on the same backdrop.
 description: >-
   Packshot to turntable spin.

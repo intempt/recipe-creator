@@ -4,6 +4,7 @@ title: Email to purchase
 slash_command: /email-purchase
 group: Reports
 owner: intempt
+curator: aman
 summary: Shows how many people who open an email go on to click, view a product and buy, and which campaigns
   actually earn revenue.
 description: >-

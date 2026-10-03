@@ -4,6 +4,7 @@ title: Feature usage by signup cohort
 slash_command: /feature-usage-heatmap-by-cohort
 group: Reports
 owner: intempt
+curator: aman
 summary: Shows whether newer signups adopt each feature as well as older ones did, which is how you catch
   an onboarding change that quietly broke something.
 description: >-

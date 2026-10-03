@@ -4,6 +4,7 @@ title: Nudge trials before they expire
 slash_command: /trial-expiring-nudge
 group: Segments
 owner: intempt
+curator: harish
 summary: >-
   Finds trial users whose trial ends this week and who have not upgraded, then sends them a
   short upgrade email.

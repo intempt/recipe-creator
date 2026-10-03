@@ -4,6 +4,7 @@ title: Background removal
 slash_command: /bg-remove
 group: Creative
 owner: intempt
+curator: aurobind
 summary: Strips the backdrop and shadow from a product image and returns a transparent cutout you can
   drop anywhere.
 description: >-

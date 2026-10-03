@@ -4,6 +4,7 @@ title: Repeat buyers
 slash_command: /repeat-buyers
 group: Segments
 owner: intempt
+curator: harish
 summary: Customers who have ordered three or more times this quarter and spent real money, the right list
   for loyalty perks and review requests.
 description: >-

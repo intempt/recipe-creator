@@ -4,6 +4,7 @@ title: Review gate for bulk updates
 slash_command: /bulk-update-review-workflow
 group: Workflows
 owner: intempt
+curator: trishik
 summary: Stops a mass field change, merge or delete above the size you set, shows a sample of before and
   after, and lets a reviewer approve all, some or none.
 description: >-

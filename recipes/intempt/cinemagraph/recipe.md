@@ -4,6 +4,7 @@ title: Cinemagraph loop
 slash_command: /cinemagraph
 group: Creative
 owner: intempt
+curator: aurobind
 summary: Turns a still photo into a looping clip where one element moves, such as steam or a pour, and
   everything else stays frozen.
 description: >-

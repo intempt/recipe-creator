@@ -4,6 +4,7 @@ title: Express checkout placement test
 slash_command: /express-checkout-placement-test
 group: Experiments
 owner: intempt
+curator: rana
 summary: Compares showing Apple Pay, Google Pay and Shop Pay on the product page, in the cart drawer,
   in both, or only at checkout.
 description: >-

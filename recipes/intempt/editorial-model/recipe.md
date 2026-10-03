@@ -4,6 +4,7 @@ title: Editorial lookbook shot
 slash_command: /editorial-model
 group: Creative
 owner: intempt
+curator: aurobind
 summary: Produces a full-body editorial fashion photo of an AI model on location, then varies the lighting
   while holding pose and framing.
 description: >-

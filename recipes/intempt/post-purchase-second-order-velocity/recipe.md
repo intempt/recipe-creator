@@ -4,6 +4,7 @@ title: Time to second purchase
 slash_command: /post-purchase-second-order-velocity
 group: Reports
 owner: intempt
+curator: aman
 summary: Shows how long repeat buyers wait before ordering again, which is the number you set replenishment
   reminders against.
 description: >-

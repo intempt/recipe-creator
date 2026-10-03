@@ -4,6 +4,7 @@ title: Single threaded deal alert
 slash_command: /single-threaded-deal-alert
 group: Workflows
 owner: intempt
+curator: trishik
 summary: Finds late stage deals where only one person on the buyer's side is engaged and gives the rep
   three other names to bring in.
 description: >-

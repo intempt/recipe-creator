@@ -4,6 +4,7 @@ title: Winnable churned users
 slash_command: /winnable-churned-users
 group: Segments
 owner: intempt
+curator: harish
 summary: People who cancelled in the last two months but used the product heavily before they left, the
   best odds for a win-back.
 description: >-

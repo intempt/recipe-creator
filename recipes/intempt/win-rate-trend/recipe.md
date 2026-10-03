@@ -4,6 +4,7 @@ title: Win rate trend
 slash_command: /win-rate-trend
 group: Reports
 owner: intempt
+curator: aman
 summary: Tracks win rate month by month with a 90 day rolling line, so you can see the direction without
   the noise of a single month.
 description: >-

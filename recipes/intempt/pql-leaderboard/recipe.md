@@ -4,6 +4,7 @@ title: Product qualified lead leaderboard
 slash_command: /pql-leaderboard
 group: Reports
 owner: intempt
+curator: aman
 summary: Ranks the free users showing the strongest buying signals, with a score and contact details,
   so sales knows who to call first.
 description: >-

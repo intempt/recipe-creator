@@ -4,6 +4,7 @@ title: Weekly competitive intel briefing
 slash_command: /competitive-intel-monitoring-workflow
 group: Workflows
 owner: intempt
+curator: trishik
 summary: Checks your competitors' pricing, features, blog, changelog, hiring and reviews every Monday
   and posts what actually changed to Slack.
 description: >-

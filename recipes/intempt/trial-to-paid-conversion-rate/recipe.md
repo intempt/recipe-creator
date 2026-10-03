@@ -4,6 +4,7 @@ title: Trial to paid conversion rate
 slash_command: /trial-to-paid-conversion-rate
 group: Reports
 owner: intempt
+curator: aman
 summary: Shows what share of trials turn into paying customers each week, by signup source, against the
   18% industry median.
 description: >-

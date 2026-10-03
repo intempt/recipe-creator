@@ -4,6 +4,7 @@ title: Replenishment and cross sell
 slash_command: /replenishment-cross-sell
 group: Journeys
 owner: intempt
+curator: somya
 summary: Reminds people to reorder before they run out, at the pace they actually get through it, and
   suggests what pairs with it.
 description: >-

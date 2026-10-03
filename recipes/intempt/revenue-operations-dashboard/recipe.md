@@ -4,6 +4,7 @@ title: GTM health and revenue leakage
 slash_command: /revenue-operations-dashboard
 group: Dashboards
 owner: intempt
+curator: sid
 summary: Answers where the go-to-market machine leaks over a trailing 90 days, by source and cohort rather
   than by rep, so you can move spend and fix process.
 description: >-

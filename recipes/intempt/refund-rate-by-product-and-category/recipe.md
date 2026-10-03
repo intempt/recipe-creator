@@ -4,6 +4,7 @@ title: Refund rate by product
 slash_command: /refund-rate-by-product-and-category
 group: Reports
 owner: intempt
+curator: aman
 summary: Shows which products get refunded most often and which ones are getting worse, over the last
   90 days.
 description: >-

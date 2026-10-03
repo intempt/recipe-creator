@@ -4,6 +4,7 @@ title: Time to ship
 slash_command: /time-to-ship-distribution
 group: Reports
 owner: intempt
+curator: aman
 summary: Shows how long orders take to ship, bucketed from same day out past two weeks, with median, 75th
   and 95th percentile callouts.
 description: >-

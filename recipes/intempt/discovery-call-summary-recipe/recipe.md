@@ -4,6 +4,7 @@ title: Discovery call qualification fields
 slash_command: /discovery-call-summary-recipe
 group: Meetings
 owner: intempt
+curator: sid
 summary: 'Tells the notetaker to pull the qualification story out of every discovery call: champion, pain,
   current tool, decision criteria, timeline and budget.'
 description: >-

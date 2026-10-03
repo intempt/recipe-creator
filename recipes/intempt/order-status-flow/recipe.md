@@ -4,6 +4,7 @@ title: Order status flow
 slash_command: /order-status-flow
 group: Reports
 owner: intempt
+curator: aman
 summary: Shows daily order volume alongside how many get fulfilled, refunded or cancelled, and the rate
   for each.
 description: >-

@@ -4,6 +4,7 @@ title: Cart popup timing test
 slash_command: /cart-abandonment-popup-timing
 group: Experiments
 owner: intempt
+curator: rana
 summary: Compares exit-intent, a 30 second delay and no popup at all on cart pages, scored on orders placed
   within 24 hours.
 description: >-
@@ -68,7 +69,7 @@ steps:
        <h2>Wait! Save your cart</h2>
        <p>We'll save your items and email you a reminder.</p>
        <form class="popup-email-form" id="popup-email-form">
-       <input type="email" name="email" placeholder="your@email.com" required />
+       <input type="email" name="email" placeholder="you@example.com" required />
        <button type="submit" class="popup-cta" id="popup-save-cart">Save my cart</button>
        </form>
        </div>
@@ -84,7 +85,7 @@ steps:
        <h2>Still thinking it over?</h2>
        <p>Save your cart and we'll send you a reminder: no pressure.</p>
        <form class="popup-email-form" id="popup-email-form">
-       <input type="email" name="email" placeholder="your@email.com" required />
+       <input type="email" name="email" placeholder="you@example.com" required />
        <button type="submit" class="popup-cta" id="popup-save-cart">Save my cart</button>
        </form>
        </div>

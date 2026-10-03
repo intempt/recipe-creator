@@ -4,6 +4,7 @@ title: Monthly recurring revenue trend
 slash_command: /mrr-trend
 group: Reports
 owner: intempt
+curator: aman
 summary: Shows recurring revenue by plan over the last 12 months, with the month on month change and how
   each month compares with the same month last year.
 description: >-

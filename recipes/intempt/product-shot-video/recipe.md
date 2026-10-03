@@ -4,6 +4,7 @@ title: Product clip from a still
 slash_command: /product-shot-video
 group: Creative
 owner: intempt
+curator: aurobind
 summary: Turns a static product image into a 5 second clip with a 360 spin, a dolly-in or a floating reveal,
   plus an optional music bed.
 description: >-

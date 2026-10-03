@@ -4,6 +4,7 @@ title: Repeat cart abandoners
 slash_command: /repeat-cart-abandoners
 group: Segments
 owner: intempt
+curator: harish
 summary: People who have walked away from checkout twice or more this month without buying, usually a
   sign of friction or price resistance.
 description: >-

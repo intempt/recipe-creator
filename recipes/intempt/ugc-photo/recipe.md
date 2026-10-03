@@ -4,6 +4,7 @@ title: UGC-style product photo
 slash_command: /ugc-photo
 group: Creative
 owner: intempt
+curator: aurobind
 summary: Re-shoots a studio packshot as a candid handheld phone photo of a real person holding the product.
 description: >-
   Studio packshot to candid handheld.

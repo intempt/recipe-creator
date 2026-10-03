@@ -4,6 +4,7 @@ title: Ecommerce revenue overview
 slash_command: /ecommerce-revenue-dashboard
 group: Dashboards
 owner: intempt
+curator: sid
 summary: Answers how much you are making, which channels and categories it comes from, and whether the
   trend is holding.
 description: >-

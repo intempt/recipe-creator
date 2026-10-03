@@ -4,6 +4,7 @@ title: Recommendation algorithm test
 slash_command: /product-recommendation-algorithm
 group: Experiments
 owner: intempt
+curator: rana
 summary: Compares three ways of picking recommended products (also bought, recently viewed, trending)
   on cross-sell revenue.
 description: >-

@@ -4,6 +4,7 @@ title: Multi-shot video from a shot list
 slash_command: /multi-shot
 group: Creative
 owner: intempt
+curator: aurobind
 summary: Renders every shot in your shot list with one consistent look and joins them into a single reel,
   with no editor involved.
 description: >-

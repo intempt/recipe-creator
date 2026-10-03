@@ -4,6 +4,7 @@ title: Friction rescue
 slash_command: /friction-point-detected-intervention
 group: Journeys
 owner: intempt
+curator: somya
 summary: Catches people who are stuck, helps them in the app first, emails a fix if that misses, and brings
   in an agent or a human if they are still stuck.
 description: >-

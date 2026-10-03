@@ -4,6 +4,7 @@ title: Small business accounts
 slash_command: /smb-accounts
 group: Segments
 owner: intempt
+curator: harish
 summary: Companies under 100 employees, the list your self-serve nurture and in-product prompts should
   run against.
 description: >-

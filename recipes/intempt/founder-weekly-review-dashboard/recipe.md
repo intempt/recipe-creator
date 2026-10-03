@@ -4,6 +4,7 @@ title: Monday morning scorecard
 slash_command: /founder-weekly-review-dashboard
 group: Dashboards
 owner: intempt
+curator: sid
 summary: 'The one page to read before the Monday team meeting: new customers, churn, revenue, retention
   and engagement, each against last week and last year.'
 description: >-

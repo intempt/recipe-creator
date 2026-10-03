@@ -4,6 +4,7 @@ title: Human approval for AI actions
 slash_command: /ai-action-approval-queue
 group: Workflows
 owner: intempt
+curator: trishik
 summary: Holds the riskier things an AI workflow wants to do, such as a mass update or a send to a big
   account, for a yes or no in Slack.
 description: >-

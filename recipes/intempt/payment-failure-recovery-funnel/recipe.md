@@ -4,6 +4,7 @@ title: Payment recovery funnel
 slash_command: /payment-failure-recovery-funnel
 group: Reports
 owner: intempt
+curator: aman
 summary: Shows how much failed payment revenue you get back, which retry attempt recovers it, and how
   much is still at risk.
 description: >-

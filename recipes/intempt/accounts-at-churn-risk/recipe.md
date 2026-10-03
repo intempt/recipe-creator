@@ -4,6 +4,7 @@ title: Accounts at churn risk
 slash_command: /accounts-at-churn-risk
 group: Segments
 owner: intempt
+curator: harish
 summary: Paying accounts the health score has flagged as at risk, with no renewal deal in flight, so your
   CSMs can step in before they leave.
 description: >-

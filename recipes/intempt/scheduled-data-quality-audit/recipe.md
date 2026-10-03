@@ -4,6 +4,7 @@ title: Weekly CRM hygiene audit
 slash_command: /scheduled-data-quality-audit
 group: Workflows
 owner: intempt
+curator: trishik
 summary: Scans every Sunday for duplicates, stale records and missing fields, then hands RevOps a reviewed
   cleanup queue on Monday morning.
 description: >-

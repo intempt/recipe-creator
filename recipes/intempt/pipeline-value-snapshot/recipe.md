@@ -4,6 +4,7 @@ title: Pipeline value snapshot
 slash_command: /pipeline-value-snapshot
 group: Reports
 owner: intempt
+curator: aman
 summary: Shows what your open pipeline is worth today, stage by stage, alongside a forecast weighted by
   how often each stage actually closes.
 description: >-

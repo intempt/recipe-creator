@@ -4,6 +4,7 @@ title: New paying customers
 slash_command: /new-paying-customers
 group: Segments
 owner: intempt
+curator: harish
 summary: Customers who started paying in the last month, the window where onboarding decides whether they
   stay.
 description: >-

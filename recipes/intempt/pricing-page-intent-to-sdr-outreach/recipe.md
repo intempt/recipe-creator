@@ -4,6 +4,7 @@ title: Pricing page intent to outreach
 slash_command: /pricing-page-intent-to-sdr-outreach
 group: Workflows
 owner: intempt
+curator: trishik
 summary: Treats a repeat pricing page visit, or one after real product use, as a buying signal and puts
   it on an SDR with the visit context attached.
 description: >-

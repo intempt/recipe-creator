@@ -4,6 +4,7 @@ title: Next best action orchestration
 slash_command: /next-best-action-orchestration
 group: Journeys
 owner: intempt
+curator: somya
 summary: 'Picks each person''s next step from their live signal instead of a fixed cadence: teach, nurture,
   offer, nudge a feature, recommend, hand off, or wait.'
 description: >-

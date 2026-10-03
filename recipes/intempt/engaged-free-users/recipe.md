@@ -4,6 +4,7 @@ title: Engaged free users
 slash_command: /engaged-free-users
 group: Segments
 owner: intempt
+curator: harish
 summary: Free-plan users who are in the product often and recently, so upgrade prompts reach the people
   already getting value.
 description: >-

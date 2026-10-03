@@ -4,6 +4,7 @@ title: First purchase LTV curve
 slash_command: /first-purchase-cohort-ltv-curve
 group: Reports
 owner: intempt
+curator: aman
 summary: Shows cumulative revenue per customer for each monthly cohort as it ages, so you can see which
   acquisition months and channels pay back.
 description: >-

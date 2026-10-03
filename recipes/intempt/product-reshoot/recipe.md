@@ -4,6 +4,7 @@ title: Product relight
 slash_command: /product-reshoot
 group: Creative
 owner: intempt
+curator: aurobind
 summary: Re-lights a product photo you already have, using a setting, lighting direction and camera angle
   that you choose.
 description: >-

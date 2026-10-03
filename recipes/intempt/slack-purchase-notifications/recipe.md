@@ -4,6 +4,7 @@ title: Revenue notifications in Slack
 slash_command: /slack-purchase-notifications
 group: Workflows
 owner: intempt
+curator: trishik
 summary: Posts the wins to one channel and the problems to another, with the person who needs to act tagged,
   and stays quiet outside working hours.
 description: >-

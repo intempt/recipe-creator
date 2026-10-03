@@ -4,6 +4,7 @@ title: Retention lift from a feature
 slash_command: /retention-lifted-by-feature-adoption
 group: Reports
 owner: intempt
+curator: aman
 summary: Compares how long users stay when they adopt a given feature in their first week against users
   who never touch it.
 description: >-

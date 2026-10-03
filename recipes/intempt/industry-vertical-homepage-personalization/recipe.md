@@ -4,6 +4,7 @@ title: Homepage by visitor industry
 slash_command: /industry-vertical-homepage-personalization
 group: Personalizations
 owner: intempt
+curator: rana
 summary: Technology, financial services, healthcare and manufacturing visitors each see a hero and proof
   points for their industry. Visitors you cannot identify see the generic one.
 description: >-

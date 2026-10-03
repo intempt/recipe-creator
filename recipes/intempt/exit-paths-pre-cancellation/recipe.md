@@ -4,6 +4,7 @@ title: Exit paths before cancellation
 slash_command: /exit-paths-pre-cancellation
 group: Reports
 owner: intempt
+curator: aman
 summary: Shows what people do after they land on your cancel page, and which of those paths end in a save
   rather than a cancellation.
 description: >-

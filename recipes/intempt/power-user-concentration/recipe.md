@@ -4,6 +4,7 @@ title: Power user concentration
 slash_command: /power-user-concentration
 group: Reports
 owner: intempt
+curator: aman
 summary: Shows how much of your total activity comes from the top 1%, 5% and 10% of users, and how much
   comes from everyone else.
 description: >-

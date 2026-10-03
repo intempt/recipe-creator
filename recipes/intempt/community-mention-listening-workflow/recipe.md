@@ -4,6 +4,7 @@ title: Community mention listening
 slash_command: /community-mention-listening-workflow
 group: Workflows
 owner: intempt
+curator: trishik
 summary: Watches Reddit, forums and review sites for people shopping in your category or naming you, and
   hands the real ones to a human. It never auto replies.
 description: >-

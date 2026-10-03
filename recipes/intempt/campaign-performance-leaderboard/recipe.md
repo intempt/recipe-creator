@@ -4,6 +4,7 @@ title: Campaign performance leaderboard
 slash_command: /campaign-performance-leaderboard
 group: Reports
 owner: intempt
+curator: aman
 summary: Ranks every email and SMS campaign of the last 90 days by revenue, with sends, opens, clicks,
   conversions, open rate, click rate and revenue per send.
 description: >-

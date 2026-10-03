@@ -4,6 +4,7 @@ title: Accounts researching pricing now
 slash_command: /active-research-surge-accounts
 group: Segments
 owner: intempt
+curator: harish
 summary: Accounts whose people hit your pricing page three or more times in the past week and have no
   deal open yet, so an AE can reach out while they are still looking.
 description: >-

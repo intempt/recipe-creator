@@ -4,6 +4,7 @@ title: Quarterly customer progress report
 slash_command: /customer-progress-business-case
 group: Journeys
 owner: intempt
+curator: somya
 summary: Sends each account a quarterly account of what they got out of the product, in the app and as
   a PDF they can hand to their own boss.
 description: >-

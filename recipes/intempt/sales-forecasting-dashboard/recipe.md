@@ -4,6 +4,7 @@ title: Will we hit the number
 slash_command: /sales-forecasting-dashboard
 group: Dashboards
 owner: intempt
+curator: sid
 summary: 'Answers whether the period will close on target and where the risk sits: pipeline coverage,
   weighted forecast, quota attainment per rep, and past forecast accuracy.'
 description: >-

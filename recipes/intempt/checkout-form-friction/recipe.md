@@ -4,6 +4,7 @@ title: Checkout friction
 slash_command: /checkout-form-friction
 group: Reports
 owner: intempt
+curator: aman
 summary: Shows which checkout step loses you orders, how long shoppers sit on each one, and where mobile
   is worse than desktop.
 description: >-

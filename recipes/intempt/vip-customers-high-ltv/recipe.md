@@ -4,6 +4,7 @@ title: VIP customers
 slash_command: /vip-customers-high-ltv
 group: Segments
 owner: intempt
+curator: harish
 summary: Customers who have spent 1,000 or more across repeat orders, the base list for rewards, early
   access, and concierge support.
 description: >-

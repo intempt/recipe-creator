@@ -4,6 +4,7 @@ title: Cold outbound sequence
 slash_command: /cold-outbound
 group: Journeys
 owner: intempt
+curator: somya
 summary: Builds a target list from your ICP, runs a multi touch sequence with a booking link in it, and
   shows what pipeline came out.
 description: >-

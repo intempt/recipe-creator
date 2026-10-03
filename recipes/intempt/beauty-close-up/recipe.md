@@ -4,6 +4,7 @@ title: Branded beauty close-up
 slash_command: /beauty-close-up
 group: Creative
 owner: intempt
+curator: aurobind
 summary: Puts your brand wordmark and cap styling onto the product in a beauty close-up, leaving the model,
   hands and framing untouched.
 description: >-

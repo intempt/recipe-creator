@@ -4,6 +4,7 @@ title: Tiered churn intervention
 slash_command: /predictive-churn-tiered-intervention
 group: Journeys
 owner: intempt
+curator: somya
 summary: 'Scores churn risk daily and treats each band differently: content at low risk, in app help at
   medium, a CSM at high, a founder''s email at critical.'
 description: >-

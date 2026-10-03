@@ -4,6 +4,7 @@ title: Artwork on a mockup
 slash_command: /mockup
 group: Creative
 owner: intempt
+curator: aurobind
 summary: Puts your artwork onto a t-shirt, mug, billboard or package with realistic lighting, perspective
   and material.
 description: >-

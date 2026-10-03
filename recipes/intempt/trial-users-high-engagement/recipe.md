@@ -4,6 +4,7 @@ title: Trials most likely to convert
 slash_command: /trial-users-high-engagement
 group: Segments
 owner: intempt
+curator: harish
 summary: Trial users who are using the product heavily with two weeks left to run, the ones worth a sales
   call.
 description: >-

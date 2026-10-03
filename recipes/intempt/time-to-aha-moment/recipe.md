@@ -4,6 +4,7 @@ title: Time to first value
 slash_command: /time-to-aha-moment
 group: Reports
 owner: intempt
+curator: aman
 summary: Shows how long new users take to reach their first activation goal, so you can tell whether onboarding
   works in minutes or in days.
 description: >-

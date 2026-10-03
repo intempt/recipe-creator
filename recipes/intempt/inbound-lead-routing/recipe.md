@@ -4,6 +4,7 @@ title: Inbound lead routing
 slash_command: /inbound-lead-routing
 group: Workflows
 owner: intempt
+curator: trishik
 summary: Enriches and scores every inbound lead, then assigns it by named account, territory or round
   robin so nothing rots in an unassigned queue.
 description: >-

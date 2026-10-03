@@ -4,6 +4,7 @@ title: Named-account homepage hero
 slash_command: /abm-account-personalization
 group: Personalizations
 owner: intempt
+curator: rana
 summary: Visitors from your target accounts see a hero built for their industry, with their company name
   and relevant customer logos. Everyone else sees the standard hero.
 description: >-

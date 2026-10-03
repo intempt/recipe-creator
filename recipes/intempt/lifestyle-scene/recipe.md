@@ -4,6 +4,7 @@ title: Product in a real setting
 slash_command: /lifestyle-scene
 group: Creative
 owner: intempt
+curator: aurobind
 summary: Moves a studio packshot into a real-world setting such as a kitchen, office or outdoors, with
   natural light and depth of field.
 description: >-

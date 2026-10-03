@@ -4,6 +4,7 @@ title: Talking portrait
 slash_command: /image-to-dialogue
 group: Creative
 owner: intempt
+curator: aurobind
 summary: Makes any portrait speak a script you write, in a voice you pick, with the face lip-synced to
   the audio.
 description: >-

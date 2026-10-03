@@ -4,6 +4,7 @@ title: Usage onto the Salesforce opportunity
 slash_command: /salesforce-usage-to-opportunity
 group: Workflows
 owner: intempt
+curator: trishik
 summary: Keeps the usage fields on an open opportunity current, so the forecast reflects what the account
   is doing rather than what was said on a call.
 description: >-

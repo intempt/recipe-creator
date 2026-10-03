@@ -4,6 +4,7 @@ title: Upgrade prompt when limits approach
 slash_command: /usage-based-upgrade-trigger
 group: Workflows
 owner: intempt
+curator: trishik
 summary: Catches an account nearing its plan limits, shows the decision maker an upgrade inside the app,
   and calls an AE in on the bigger ones.
 description: >-

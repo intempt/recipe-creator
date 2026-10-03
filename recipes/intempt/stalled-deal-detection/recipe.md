@@ -4,6 +4,7 @@ title: Stalled deal detection
 slash_command: /stalled-deal-detection
 group: Workflows
 owner: intempt
+curator: trishik
 summary: Finds deals sitting in a stage far longer than usual with no activity, drafts a nudge that fits
   the stage, and escalates if they stay stuck.
 description: >-

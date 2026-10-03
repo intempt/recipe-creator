@@ -4,6 +4,7 @@ title: Feature discovery for paid users
 slash_command: /feature-discovery-for-paid-users
 group: Journeys
 owner: intempt
+curator: somya
 summary: Shows paying customers the features they have never opened, one at a time, picked for the way
   they actually use the product.
 description: >-

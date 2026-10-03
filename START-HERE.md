@@ -77,6 +77,11 @@ routes never touch your project and ask for nothing.
 The agent writes the whole `recipe.md` first: every step, every value, the touches block, the inputs.
 People correct a document far better than they answer questions about one.
 
+Every step is written to [DETERMINISM.md](./DETERMINISM.md): could two installers following this
+description end up with different things built? The page for each builder, with good and bad steps
+from this repository, is in [references/entities/](./references/entities/README.md), and four
+worked recipes are in [examples/](./examples/README.md).
+
 ### 4. At most three questions, one per message
 
 A question is asked only when the answer changes what gets written: a threshold with no stated
@@ -89,7 +94,9 @@ questions and the rest are written as `does_not_claim` lines.
 intempt recipe validate <file> --json
 ```
 
-or, without the CLI, `python3 scripts/validate_recipes.py --lint <file>`. See
+or, without the CLI, `python3 scripts/validate_recipes.py --lint <file>`, which also scans for
+prompt injection and for ids, emails and links that only exist in your workspace. To build the
+exact bundle a submission sends, `python3 scripts/package_recipe.py <file> --out <dir>`. See
 [VALIDATION.md](./VALIDATION.md).
 
 ### 6. One stop, with both ways to submit

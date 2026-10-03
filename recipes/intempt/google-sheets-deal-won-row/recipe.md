@@ -4,6 +4,7 @@ title: Log won deals to a sheet
 slash_command: /google-sheets-deal-won-row
 group: Workflows
 owner: intempt
+curator: trishik
 summary: Adds a row to a Google Sheet every time a deal is won, so finance and ops keep working in the
   sheet they already have.
 description: >-

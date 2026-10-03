@@ -4,6 +4,7 @@ title: Churn prevention
 slash_command: /churn-prevention
 group: Journeys
 owner: intempt
+curator: somya
 summary: Flags customers who are drifting away, reaches them automatically while it is still cheap to
   fix, and pulls in a CSM when it is not.
 description: >-

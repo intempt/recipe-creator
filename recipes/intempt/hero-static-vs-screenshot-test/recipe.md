@@ -4,6 +4,7 @@ title: Landing page hero image test
 slash_command: /hero-static-vs-screenshot-test
 group: Experiments
 owner: intempt
+curator: rana
 summary: Compares your current hero image against a real product screenshot and a photo of customers or
   the team. Static images only.
 description: >-

@@ -4,6 +4,7 @@ title: Weekly rep coaching rollup
 slash_command: /rep-coaching-program
 group: Meetings
 owner: intempt
+curator: sid
 summary: 'Sends each manager a Monday brief on their reps: talk time against the healthy range for that
   call type, the skill to work on, and the evidence from real calls.'
 description: >-

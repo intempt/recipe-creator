@@ -34,11 +34,14 @@ The rest is reference, in the order you will want it:
    [workflows/workspace-to-recipe.md](./workflows/workspace-to-recipe.md) or
    [workflows/existing-recipe.md](./workflows/existing-recipe.md).
 3. [WRITING-STEPS.md](./WRITING-STEPS.md): read this before writing any step. The test, the vague
-   rule, and before and after examples from this repository.
+   rule, and before and after examples from this repository. [DETERMINISM.md](./DETERMINISM.md) is
+   the reasoning behind it: what the engine derives from a step, and the seven rules that pin it.
 4. [NO-ENTITY-EXISTS.md](./NO-ENTITY-EXISTS.md): read this while you are still talking. The jobs the
    engine cannot build yet, and how they become Coming soon instead of being faked.
 5. [references/recipe-contract.md](./references/recipe-contract.md): what the file must contain.
-6. [references/entities.md](./references/entities.md): what a step can build, generated from the recipes.
+6. [references/entities.md](./references/entities.md): what a step can build, generated from the recipes,
+   and [references/entities/](./references/entities/README.md): one page per builder, with good and bad
+   steps.
 7. [RECIPE-TEMPLATE.md](./RECIPE-TEMPLATE.md) and [PACKAGE-LAYOUT.md](./PACKAGE-LAYOUT.md).
 8. [VALIDATION.md](./VALIDATION.md), then [SUBMITTING.md](./SUBMITTING.md).
 
@@ -61,7 +64,8 @@ the recipes.
 
 ## Where finished recipes live
 
-- **[examples/](./examples/)** is a curated set to copy from, chosen because it meets the bar.
+- **[examples/](./examples/README.md)** is a curated set to copy from, chosen because it meets the
+  bar. Its README says what each one teaches.
 - **`recipes/<author>/<recipe-id>/recipe.md`** holds published recipes. A folder there is written
   only when a submission is approved. `recipes/intempt/` holds the recipes the Intempt team
   publishes.
@@ -97,6 +101,6 @@ it under `does_not_claim`. A recipe that declares nothing cannot be trusted or c
 
 ## Licence
 
-Source-available, not open source. See [LICENSE](./LICENSE). The licence terms are under review as
+Source-available, not open source. See [LICENSE](./LICENSE) and [NOTICE](./NOTICE). The licence terms are under review as
 this repository becomes public under its new name; until they change, the LICENSE file as it stands
 applies.

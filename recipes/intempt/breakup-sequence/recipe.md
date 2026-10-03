@@ -4,6 +4,7 @@ title: Breakup email for silent prospects
 slash_command: /breakup-sequence
 group: Journeys
 owner: intempt
+curator: somya
 summary: Sends one honest last email to prospects who never replied, which usually gets a faster yes or
   no than another follow up would.
 description: >-

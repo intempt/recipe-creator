@@ -4,6 +4,7 @@ title: Account engagement scoring and plays
 slash_command: /account-engagement-score-orchestration
 group: Journeys
 owner: intempt
+curator: somya
 summary: Scores each account from 0 to 100 on how its whole team uses the product, then runs a different
   play for healthy, slipping, declining and inactive accounts.
 description: >-

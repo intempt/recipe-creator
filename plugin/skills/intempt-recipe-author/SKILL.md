@@ -29,7 +29,7 @@ could not settle.** People correct a document far better than they answer questi
 First line of output, before anything else:
 
 ```
-intempt-recipe-author/1.0.0 · loaded from <absolute path to this SKILL.md>
+intempt-recipe-author/1.1.0 · loaded from <absolute path to this SKILL.md>
 ```
 
 Keep that absolute path. Every relative path below (`references/...`, `scripts/...`) resolves
@@ -131,7 +131,8 @@ a user's record. If a segment's rules are not in what you can read, ask the user
 
 ## Step 3: Draft the whole recipe before asking anything
 
-Read `references/recipe-contract.md` and `references/entities.md` first. Then write the complete
+Read `references/recipe-contract.md` and `references/entities.md` first, then
+`references/entities/README.md` and the one family page for each builder the recipe uses. Then write the complete
 `recipe.md` at `<owner>/<id>/recipe.md` in the user's working directory, where `owner` is their
 handle in kebab-case and `id` is the recipe id. The validator checks both folder names.
 
@@ -149,7 +150,8 @@ A complete draft has:
 - `does_not_claim`, one line per thing nothing checked: where a threshold came from, what is
   decided at run time. On the idea route it always names the interview as the source of the logic.
 
-Compare against `references/examples/intempt/trial-expiring-nudge/recipe.md`. Do not write the body under
+Compare against the closest of the four examples in `references/examples/`; its `README.md` says
+what each one teaches. Do not write the body under
 the frontmatter by hand. `intempt recipe new` writes a template with the body; otherwise leave the
 body empty and say the reviewer's tooling regenerates it.
 
@@ -171,8 +173,8 @@ becomes `does_not_claim` lines. "It was arbitrary" is a good answer and gets rec
 
 ## Step 5: Write every step to the bar
 
-Read `references/writing-steps.md`. The test: could two competent people type this description
-into the Add step panel and get different things? Every description:
+Read `references/writing-steps.md` and `references/determinism.md`. The test: could two installers
+following this description end up with different things built? Every description:
 
 - says users or accounts;
 - names the exact event, attribute and value, as they exist;
@@ -207,8 +209,12 @@ no `recipe` command, use the bundled copy (needs PyYAML):
 python3 "$SKILL_DIR/scripts/validate_recipes.py" --lint <owner>/<id>/recipe.md
 ```
 
-Fix every contract problem. Treat every lint on an Install now recipe as a defect. Never rewrite the
-user's logic to clear a warning without asking.
+The bundled validator also runs `scripts/injection.py` (text aimed at the agent, the engine or a
+reviewer) and `scripts/portability.py` (ids, emails and links that only exist in the author's
+workspace), and reports their findings as problems. Fix every contract problem. A portability
+finding is fixed by an `inputs` row, never by deleting the value without a replacement. Treat every
+lint on an Install now recipe as a defect. Never rewrite the user's logic to clear a warning without
+asking.
 
 ## Step 8: One stop, both ways to submit
 

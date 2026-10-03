@@ -4,6 +4,7 @@ title: AI drafted sales replies
 slash_command: /ai-draft-sales-reply
 group: Workflows
 owner: intempt
+curator: trishik
 summary: Drafts a reply to every inbound sales email using the thread, the deal stage and the buyer's
   recent product use, and leaves it in the rep's drafts.
 description: >-

@@ -4,6 +4,7 @@ title: AI nudge for a stalled deal
 slash_command: /ai-stalled-deal-nudge
 group: Workflows
 owner: intempt
+curator: trishik
 summary: Writes a re-engagement email that names the actual blocker from the last call instead of just
   checking in, and leaves it for the rep to send.
 description: >-

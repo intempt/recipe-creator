@@ -4,6 +4,7 @@ title: NPS tracking
 slash_command: /nps-tracking
 group: Reports
 owner: intempt
+curator: aman
 summary: Tracks your Net Promoter Score month by month with the promoter, passive and detractor split
   behind it.
 description: >-

@@ -4,6 +4,7 @@ title: Account health and churn risk
 slash_command: /customer-success-dashboard
 group: Dashboards
 owner: intempt
+curator: sid
 summary: Answers which accounts need attention this week and whether the customer base is healthy, using
   engagement scores, retention, net revenue retention and NPS.
 description: >-

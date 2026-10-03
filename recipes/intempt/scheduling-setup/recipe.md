@@ -4,6 +4,7 @@ title: Meeting booking and follow-up
 slash_command: /scheduling-setup
 group: Meetings
 owner: intempt
+curator: sid
 summary: Sets up your booking link, routes each request to the right host, confirms it by email, and tracks
   how many of the people who booked actually show up.
 description: >-

@@ -4,6 +4,7 @@ title: Email and SMS campaign results
 slash_command: /email-sms-campaign-performance-dashboard
 group: Dashboards
 owner: intempt
+curator: sid
 summary: Ranks every email and SMS send by the revenue it produced, so you can see which subject lines,
   offers and content earn their place.
 description: >-

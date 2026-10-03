@@ -4,6 +4,7 @@ title: New versus returning visitor hero
 slash_command: /returning-vs-new-visitor-personalization
 group: Personalizations
 owner: intempt
+curator: rana
 summary: First-time visitors get the value proposition. Returning visitors get picked up where they left
   off, with their abandoned cart if they have one.
 description: >-

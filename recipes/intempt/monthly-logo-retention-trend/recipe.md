@@ -4,6 +4,7 @@ title: Monthly logo retention
 slash_command: /monthly-logo-retention-trend
 group: Reports
 owner: intempt
+curator: aman
 summary: Shows what share of your customers were still subscribed at the end of each month, as a monthly
   rate and a smoother 3 month average.
 description: >-

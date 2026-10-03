@@ -4,6 +4,7 @@ title: Pre churn behaviour signals
 slash_command: /pre-churn-behavioral-signals
 group: Reports
 owner: intempt
+curator: aman
 summary: Shows what customers do in the month before they cancel, and which of those actions are genuinely
   unusual compared with customers who stay.
 description: >-

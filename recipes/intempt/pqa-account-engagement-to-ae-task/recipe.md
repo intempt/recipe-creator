@@ -4,6 +4,7 @@ title: Account level signal to AE task
 slash_command: /pqa-account-engagement-to-ae-task
 group: Workflows
 owner: intempt
+curator: trishik
 summary: When several people from one company start using the product in the same fortnight, it briefs
   an AE and asks them to open a deal.
 description: >-

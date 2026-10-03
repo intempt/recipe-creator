@@ -4,6 +4,7 @@ title: Signup to activation
 slash_command: /signup-activation-funnel
 group: Reports
 owner: intempt
+curator: aman
 summary: Shows how many new signups come back, use the core feature and activate within two weeks, and
   which signup source produces the best ones.
 description: >-

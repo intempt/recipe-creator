@@ -4,6 +4,7 @@ title: Link meetings to the right deal
 slash_command: /meeting-deal-linking-audit
 group: Meetings
 owner: intempt
+curator: sid
 summary: Finds sales calls from the last 60 days with no deal attached, suggests the right one, and keeps
   new meetings linked automatically from then on.
 description: >-

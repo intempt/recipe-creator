@@ -4,6 +4,7 @@ title: Competitor signal response
 slash_command: /competitor-mention-detected-response
 group: Journeys
 owner: intempt
+curator: somya
 summary: 'Spots customers comparing you with a rival and answers within hours: a matched email, the capabilities
   they have not tried, and a briefed CSM.'
 description: >-

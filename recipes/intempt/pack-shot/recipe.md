@@ -4,6 +4,7 @@ title: Studio product shots
 slash_command: /pack-shot
 group: Creative
 owner: intempt
+curator: aurobind
 summary: Generates clean studio stills of one catalog product, in a background and lighting you pick.
 description: >-
   Studio-clean product stills from one SKU.

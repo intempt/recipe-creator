@@ -4,6 +4,7 @@ title: What users actually do
 slash_command: /path-explorer-dashboard
 group: Dashboards
 owner: intempt
+curator: sid
 summary: Answers where real user journeys diverge from the one you designed, across the first session,
   feature use, support and the weeks before churn.
 description: >-

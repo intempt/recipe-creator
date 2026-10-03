@@ -4,6 +4,7 @@ title: Quarterly experiment retrospective
 slash_command: /testing-retrospective
 group: Dashboards
 owner: intempt
+curator: sid
 summary: 'Pulls every experiment you ran last quarter into one review: what won, what lost, what the results
   have in common, and what to test next.'
 description: >-

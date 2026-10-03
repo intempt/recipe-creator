@@ -4,6 +4,7 @@ title: Abandoned cart recovery
 slash_command: /cart-recovery
 group: Journeys
 owner: intempt
+curator: somya
 summary: Emails shoppers who left items behind, three times over three days, and measures how much revenue
   comes back.
 description: >-

@@ -4,6 +4,7 @@ title: ICP accounts showing intent
 slash_command: /high-intent-icp-prospects
 group: Segments
 owner: intempt
+curator: harish
 summary: Accounts that fit your ideal profile and read both your pricing and your docs this week, with
   no deal open yet.
 description: >-

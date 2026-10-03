@@ -4,6 +4,7 @@ title: Paid user retention
 slash_command: /paid-user-retention
 group: Reports
 owner: intempt
+curator: aman
 summary: Shows whether paying customers keep logging in and keep paying, tracked separately, month by
   month and by plan.
 description: >-

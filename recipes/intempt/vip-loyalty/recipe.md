@@ -4,6 +4,7 @@ title: VIP loyalty programme
 slash_command: /vip-loyalty
 group: Journeys
 owner: intempt
+curator: somya
 summary: Ranks your best customers into tiers, gives each tier something worth having, and tests which
   rewards actually keep them.
 description: >-

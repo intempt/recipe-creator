@@ -4,6 +4,7 @@ title: Browse to buy retention
 slash_command: /browse-to-buy-retention
 group: Reports
 owner: intempt
+curator: aman
 summary: Measures how long first time visitors take to place an order, by acquisition source, so you can
   tell fast converting channels from slow ones.
 description: >-

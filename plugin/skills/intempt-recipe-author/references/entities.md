@@ -4,6 +4,8 @@
 
 What a step can `builds`. Snapshot of `intempt/llm-wrapper@16c2a7a2 src/blu_chat/sevices/recipes/md_import.py ALLOWED_ENTITIES`.
 
+How to write a step for each one: [entities/README.md](entities/README.md).
+
 ## Install now: the engine builds these today
 
 | builds | What it makes |

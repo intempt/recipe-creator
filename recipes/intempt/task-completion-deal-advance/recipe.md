@@ -4,6 +4,7 @@ title: Advance the deal when a task is done
 slash_command: /task-completion-deal-advance
 group: Workflows
 owner: intempt
+curator: trishik
 summary: Moves a deal to the next stage when the task that gates it is completed, so the pipeline report
   is not wrong because somebody forgot.
 description: >-

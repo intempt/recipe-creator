@@ -4,6 +4,7 @@ title: Free users worth calling
 slash_command: /plg-sales-handoff-dashboard
 group: Dashboards
 owner: intempt
+curator: sid
 summary: Answers which free users are showing buying intent and which features push them toward paid,
   so sales knows who to reach out to.
 description: >-

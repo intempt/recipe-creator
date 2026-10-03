@@ -4,6 +4,7 @@ title: Post meeting follow up
 slash_command: /post-meeting-followup
 group: Workflows
 owner: intempt
+curator: trishik
 summary: Turns a finished call into a recap email, a set of tasks with owners and due dates, and an updated
   deal, inside half an hour.
 description: >-

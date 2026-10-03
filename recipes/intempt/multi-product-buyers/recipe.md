@@ -4,6 +4,7 @@ title: Multi-product buyers
 slash_command: /multi-product-buyers
 group: Segments
 owner: intempt
+curator: harish
 summary: Customers who have bought more than once and spent a meaningful amount, so cross-sell offers
   reach people with broad interest.
 description: >-

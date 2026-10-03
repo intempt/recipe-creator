@@ -4,6 +4,7 @@ title: Short video reel
 slash_command: /video-reel
 group: Creative
 owner: intempt
+curator: aurobind
 summary: Builds a 5 or 10 second reel from a script, using your avatar, a catalog product, or a scene
   on its own, with voice and music.
 description: >-

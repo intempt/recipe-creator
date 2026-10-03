@@ -4,6 +4,7 @@ title: Lead qualification and handoff
 slash_command: /lead-qualification
 group: Journeys
 owner: intempt
+curator: somya
 summary: Scores inbound leads, sends the sales ready ones round robin to a rep with the context attached,
   and puts the rest into nurture.
 description: >-

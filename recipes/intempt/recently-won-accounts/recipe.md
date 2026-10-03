@@ -4,6 +4,7 @@ title: Recently won accounts
 slash_command: /recently-won-accounts
 group: Segments
 owner: intempt
+curator: harish
 summary: Accounts that became customers in the last quarter, so onboarding and implementation start from
   one current list.
 description: >-

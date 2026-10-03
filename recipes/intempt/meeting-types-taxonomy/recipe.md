@@ -4,6 +4,7 @@ title: Set up your meeting types
 slash_command: /meeting-types-taxonomy
 group: Meetings
 owner: intempt
+curator: sid
 summary: Sorts your calls into a clean set of types so summaries, coaching and reporting all target the
   right kind of call instead of guessing.
 description: >-

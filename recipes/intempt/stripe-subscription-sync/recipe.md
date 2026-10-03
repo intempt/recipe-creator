@@ -4,6 +4,7 @@ title: Sync Stripe subscriptions
 slash_command: /stripe-subscription-sync
 group: Workflows
 owner: intempt
+curator: trishik
 summary: Keeps plan, status, revenue and renewal dates on every profile in step with Stripe, so segmentation
   and churn reporting match billing reality.
 description: >-

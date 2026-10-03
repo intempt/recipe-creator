@@ -4,6 +4,7 @@ title: Ecommerce lifecycle and retention
 slash_command: /ecommerce-lifecycle-dashboard
 group: Dashboards
 owner: intempt
+curator: sid
 summary: Answers how shoppers move between lifecycle stages, when they reorder, and whether your discount
   codes are adding revenue or eating into it.
 description: >-

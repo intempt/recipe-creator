@@ -4,6 +4,7 @@ title: Write lifecycle back to HubSpot
 slash_command: /hubspot-lifecycle-writeback
 group: Workflows
 owner: intempt
+curator: trishik
 summary: Pushes the lifecycle stage computed from real product and billing behaviour onto the HubSpot
   contact, so sales and marketing read the same thing.
 description: >-

@@ -4,6 +4,7 @@ title: Cohort LTV by acquisition channel
 slash_command: /cohort-acquisition-ltv-dashboard
 group: Dashboards
 owner: intempt
+curator: sid
 summary: Shows which acquisition channels bring customers who keep buying, by tracking cumulative revenue
   per cohort over 12 months against repeat-purchase rate and time to second order.
 description: >-

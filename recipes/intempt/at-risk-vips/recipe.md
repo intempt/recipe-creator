@@ -4,6 +4,7 @@ title: At-risk VIP customers
 slash_command: /at-risk-vips
 group: Segments
 owner: intempt
+curator: harish
 summary: Your biggest spenders who have gone quiet for about six weeks, so you can reach out personally
   before they drift away for good.
 description: >-

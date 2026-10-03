@@ -4,6 +4,7 @@ title: Rep activity leaderboard
 slash_command: /rep-activity-leaderboard
 group: Reports
 owner: intempt
+curator: aman
 summary: Shows what each rep actually did last month, calls, emails, meetings and tasks, next to the revenue
   they closed.
 description: >-

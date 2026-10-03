@@ -4,6 +4,7 @@ title: Expansion play on a usage spike
 slash_command: /usage-spike-expansion-play
 group: Journeys
 owner: intempt
+curator: somya
 summary: When an account outgrows its plan, tells the champion they are scaling, gives the budget holder
   the numbers, and hands the AE a briefed task.
 description: >-

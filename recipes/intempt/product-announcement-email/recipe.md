@@ -4,6 +4,7 @@ title: Product launch announcement email
 slash_command: /product-announcement-email
 group: Content
 owner: intempt
+curator: aurobind
 summary: Writes a launch-day email in your brand colors and fonts, with the product hero image and a subject
   line written for opens and clicks.
 description: >-

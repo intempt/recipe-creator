@@ -4,6 +4,7 @@ title: Paid users losing interest
 slash_command: /paid-users-low-engagement
 group: Segments
 owner: intempt
+curator: harish
 summary: Paying customers whose usage has dropped off in the last couple of weeks, early enough to fix
   before it turns into churn.
 description: >-

@@ -4,6 +4,7 @@ title: B2B contract renewal
 slash_command: /contract-renewal-b2b
 group: Journeys
 owner: intempt
+curator: somya
 summary: 'Works a renewal like a buying process: the champion at 90 days, the budget holder at 60, everyone
   at 30, with a health read behind each message.'
 description: >-

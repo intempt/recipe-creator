@@ -4,6 +4,7 @@ title: Accounts matching your ICP
 slash_command: /icp-match-accounts
 group: Segments
 owner: intempt
+curator: harish
 summary: Accounts that fit your ideal customer profile on size, industry, and country, as the base list
   for account-based targeting.
 description: >-

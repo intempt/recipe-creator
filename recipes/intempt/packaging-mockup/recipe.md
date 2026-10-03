@@ -4,6 +4,7 @@ title: Label wrapped on a package
 slash_command: /packaging-mockup
 group: Creative
 owner: intempt
+curator: aurobind
 summary: Wraps your flat label artwork photorealistically around a 3D can, bottle or box, with the label
   content unchanged.
 description: >-

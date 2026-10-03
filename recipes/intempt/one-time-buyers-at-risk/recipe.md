@@ -4,6 +4,7 @@ title: One-time buyers going cold
 slash_command: /one-time-buyers-at-risk
 group: Segments
 owner: intempt
+curator: harish
 summary: Customers who bought once, have not been back in two months, and are not trending well, so you
   can give them a reason to return.
 description: >-

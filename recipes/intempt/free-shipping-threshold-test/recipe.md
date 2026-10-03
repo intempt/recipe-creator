@@ -4,6 +4,7 @@ title: Free shipping threshold test
 slash_command: /free-shipping-threshold-test
 group: Experiments
 owner: intempt
+curator: rana
 summary: Finds which free shipping threshold (50, 75, 99 dollars, or none) earns the most revenue per
   session, served as a server-side flag.
 description: >-

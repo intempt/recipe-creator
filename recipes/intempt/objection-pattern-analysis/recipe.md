@@ -4,6 +4,7 @@ title: What buyers push back on
 slash_command: /objection-pattern-analysis
 group: Meetings
 owner: intempt
+curator: sid
 summary: Reads 90 days of call transcripts to rank the objections you hear most, weighted by the deal
   value behind them, with the buyer's own words attached.
 description: >-

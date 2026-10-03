@@ -4,6 +4,7 @@ title: Average order value trend
 slash_command: /average-order-value-trend
 group: Reports
 owner: intempt
+curator: aman
 summary: Tracks average order value weekly and splits the movement into how many items people buy versus
   what they pay per item, for new and returning customers.
 description: >-

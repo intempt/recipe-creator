@@ -4,6 +4,7 @@ title: Discount-only buyers
 slash_command: /discount-only-buyers
 group: Segments
 owner: intempt
+curator: harish
 summary: Customers who have never bought anything without a discount code, so you can keep them out of
   full-price campaigns and protect your margin.
 description: >-

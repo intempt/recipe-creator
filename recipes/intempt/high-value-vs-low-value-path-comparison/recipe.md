@@ -4,6 +4,7 @@ title: High value versus low value paths
 slash_command: /high-value-vs-low-value-path-comparison
 group: Reports
 owner: intempt
+curator: aman
 summary: Puts the journeys of big spenders next to the journeys of small spenders and non buyers, and
   names the steps that only show up on the profitable side.
 description: >-

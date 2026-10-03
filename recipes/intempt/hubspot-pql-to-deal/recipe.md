@@ -4,6 +4,7 @@ title: Product qualified signal to a HubSpot deal
 slash_command: /hubspot-pql-to-deal
 group: Workflows
 owner: intempt
+curator: trishik
 summary: Opens a HubSpot deal when an account's usage says they are ready to buy, so the pipeline reflects
   product evidence and not only outbound activity.
 description: >-

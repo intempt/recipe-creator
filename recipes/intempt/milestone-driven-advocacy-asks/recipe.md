@@ -4,6 +4,7 @@ title: Advocacy asks at the right moment
 slash_command: /milestone-driven-advocacy-asks
 group: Journeys
 owner: intempt
+curator: somya
 summary: Asks for a review, a referral or a case study just after a customer wins something, and never
   asks the same person twice inside 90 days.
 description: >-

@@ -4,6 +4,7 @@ title: Checkout flow length test
 slash_command: /checkout-flow-length-test
 group: Experiments
 owner: intempt
+curator: rana
 summary: Compares a one-page checkout against a three-step checkout, scored on orders completed within
   an hour of starting.
 description: >-

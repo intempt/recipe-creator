@@ -4,6 +4,7 @@ title: Revenue by marketing channel
 slash_command: /marketing-attribution-dashboard
 group: Dashboards
 owner: intempt
+curator: sid
 summary: Answers where revenue comes from across paid, organic, email and search. Return on ad spend and
   cost per acquisition need an ad-spend integration and are not included.
 description: >-

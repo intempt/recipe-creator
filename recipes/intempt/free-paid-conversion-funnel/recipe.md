@@ -4,6 +4,7 @@ title: Free to paid conversion
 slash_command: /free-paid-conversion-funnel
 group: Reports
 owner: intempt
+curator: aman
 summary: Shows how many trials go on to view pricing, start checkout and pay, and which plan loses people
   at which step.
 description: >-

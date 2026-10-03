@@ -4,6 +4,7 @@ title: Conversion optimization program
 slash_command: /cro-program
 group: Experiments
 owner: intempt
+curator: rana
 summary: 'Runs a full optimization cycle: find the worst drop-off, design the test, ship the variants,
   then kill or promote on the results.'
 description: >-

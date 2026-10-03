@@ -4,6 +4,7 @@ title: Marketing consent suppression list
 slash_command: /compliance-setup
 group: Segments
 owner: intempt
+curator: harish
 summary: A list of people who never gave marketing consent or have since opted out, so you can exclude
   them from every marketing send.
 description: >-

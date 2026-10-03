@@ -4,6 +4,7 @@ title: Weekly business review
 slash_command: /weekly-business-review-summary
 group: Reports
 owner: intempt
+curator: aman
 summary: 'One scorecard with the six numbers to look at every Monday: new signups, new paying customers,
   churn, revenue, net new customers and engagement.'
 description: >-

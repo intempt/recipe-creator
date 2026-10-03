@@ -4,6 +4,7 @@ title: Big basket buyers
 slash_command: /big-basket-buyers
 group: Segments
 owner: intempt
+curator: harish
 summary: Customers who spend heavily on every single order, so premium bundles and higher tiers go to
   people who already buy big.
 description: >-

@@ -4,6 +4,7 @@ title: Power users
 slash_command: /power-users
 group: Segments
 owner: intempt
+curator: harish
 summary: Your most active users over the last month, the people to ask for reviews, case studies, and
   beta feedback.
 description: >-

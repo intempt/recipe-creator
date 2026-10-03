@@ -4,6 +4,7 @@ title: Outreach on a funding round
 slash_command: /funding-event-triggered-outreach
 group: Workflows
 owner: intempt
+curator: trishik
 summary: Catches an account raising money, refreshes who works there now, drafts a congratulations with
   a budget angle, and asks the AE to act within a day.
 description: >-

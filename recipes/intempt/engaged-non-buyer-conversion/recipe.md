@@ -4,6 +4,7 @@ title: Engaged users who never buy
 slash_command: /engaged-non-buyer-conversion
 group: Journeys
 owner: intempt
+curator: somya
 summary: Finds free users who behave like paying customers, works out what is actually blocking them,
   and answers that instead of nagging them to upgrade.
 description: >-

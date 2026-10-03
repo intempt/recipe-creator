@@ -4,6 +4,7 @@ title: Seat expansion signal to AE
 slash_command: /seat-expansion-signal-to-ae-task
 group: Workflows
 owner: intempt
+curator: trishik
 summary: Tells the AE when a customer is running out of seats or people from their domain keep signing
   up, which is the clearest upsell signal there is.
 description: >-

@@ -66,6 +66,8 @@ def catalog_entry(front, _):
         "outputs": outputs,
         "outputCount": len(outputs),
     }
+    if front.get("curator"):
+        entry["curator"] = front["curator"]
     if front.get("prerequisites"):
         entry["prerequisites"] = front["prerequisites"]
     return entry

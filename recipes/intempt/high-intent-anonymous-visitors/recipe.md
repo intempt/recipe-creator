@@ -4,6 +4,7 @@ title: High-intent anonymous visitors
 slash_command: /high-intent-anonymous-visitors
 group: Segments
 owner: intempt
+curator: harish
 summary: Visitors you cannot email yet who keep coming back, so you can retarget them with ads or try
   to capture an address.
 description: >-

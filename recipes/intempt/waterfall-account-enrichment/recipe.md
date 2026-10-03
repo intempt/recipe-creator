@@ -4,6 +4,7 @@ title: Waterfall account enrichment
 slash_command: /waterfall-account-enrichment
 group: Workflows
 owner: intempt
+curator: trishik
 summary: Tries the cheap provider first and only pays for the expensive one when a field is still missing,
   with AI research as the last resort.
 description: >-

@@ -4,6 +4,7 @@ title: Discount impact on order value
 slash_command: /discount-impact-on-aov-and-margin
 group: Reports
 owner: intempt
+curator: aman
 summary: Shows whether your discount codes actually grow the basket or just hand money away, code by code.
 description: >-
   How discount usage affects AOV: surfaces whether discounts grow the basket or just shift demand to discounted

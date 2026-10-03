@@ -8,6 +8,10 @@ A step's `description` is the one instruction the engine runs (`llm-wrapper` `or
 `step_text()`). The step check reads it once and derives the command, the entity and the arguments
 (`step_check.py`). Nothing else in the file tells it what to do.
 
+[DETERMINISM.md](./DETERMINISM.md) is the reasoning behind this page: what the engine derives from a
+description, and the seven rules that make it derive the same thing every time. The page for each
+builder, with good and bad steps, is in [references/entities/](./references/entities/README.md).
+
 ## Every step names
 
 1. **Who.** Users or accounts. A segment without it is vague.

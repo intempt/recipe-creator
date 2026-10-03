@@ -4,6 +4,7 @@ title: Exit-intent offer test
 slash_command: /saas-exit-intent-offer-test
 group: Experiments
 owner: intempt
+curator: rana
 summary: 'Compares what to offer a visitor about to leave: a discount, a comparison guide, a content download,
   a survey, or nothing.'
 description: >-
@@ -75,7 +76,7 @@ steps:
        <h2>Wait: before you go</h2>
        <p>Get <strong>50% off your first month</strong> when you start a trial today.</p>
        <form class="discount-claim-form" id="exit-discount-form">
-       <input type="email" name="email" placeholder="your@email.com" required />
+       <input type="email" name="email" placeholder="you@example.com" required />
        <button type="submit" class="modal-cta" id="exit-modal-cta">Claim 50% off</button>
        </form>
        <p class="modal-disclaimer">Discount code emailed instantly. No credit card required.</p>

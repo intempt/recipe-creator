@@ -4,6 +4,7 @@ title: Email click follow up
 slash_command: /email-click-retargeting
 group: Journeys
 owner: intempt
+curator: somya
 summary: Treats a click on pricing, a feature page or a case study as interest and sends more on that
   exact topic, at most once a week.
 description: >-

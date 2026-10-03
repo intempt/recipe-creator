@@ -4,6 +4,7 @@ title: Meeting reminders before a call
 slash_command: /booking-confirmation-flow
 group: Workflows
 owner: intempt
+curator: trishik
 summary: Reminds the other side before a booked meeting at 48 hours, 24 hours and 2 hours, and shows what
   that does to your show rate.
 description: >-

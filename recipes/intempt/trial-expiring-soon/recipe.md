@@ -4,6 +4,7 @@ title: Trials expiring this week
 slash_command: /trial-expiring-soon
 group: Segments
 owner: intempt
+curator: harish
 summary: Trial users whose trial runs out within a week and who have not paid yet, your last chance to
   convert them.
 description: >-

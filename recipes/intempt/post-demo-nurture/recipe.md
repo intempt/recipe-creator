@@ -4,6 +4,7 @@ title: Post demo nurture
 slash_command: /post-demo-nurture
 group: Journeys
 owner: intempt
+curator: somya
 summary: Keeps a demo warm for 90 days with a playbook, a case study, an ROI calculator and a customer
   story, and pulls the AE in early if they bite.
 description: >-

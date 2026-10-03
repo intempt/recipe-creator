@@ -4,6 +4,7 @@ title: Content blocks by browsing behavior
 slash_command: /intent-data-content-personalization
 group: Personalizations
 owner: intempt
+curator: rana
 summary: 'What someone has been reading on your site decides what they see next: two pricing visits brings
   up the ROI calculator, a security page visit brings up the security case study.'
 description: >-

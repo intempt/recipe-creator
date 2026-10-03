@@ -4,6 +4,7 @@ title: Demo request fast path
 slash_command: /demo-request-fast-path
 group: Workflows
 owner: intempt
+curator: trishik
 summary: Enriches a demo request the moment it lands, puts a same day task on the right AE, and posts
   it to Slack, aiming for first contact inside an hour.
 description: >-

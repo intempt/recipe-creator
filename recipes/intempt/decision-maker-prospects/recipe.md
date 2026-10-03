@@ -4,6 +4,7 @@ title: Decision makers checking pricing
 slash_command: /decision-maker-prospects
 group: Segments
 owner: intempt
+curator: harish
 summary: Senior people who looked at your pricing in the last month, so AEs can talk to whoever actually
   holds the budget.
 description: >-

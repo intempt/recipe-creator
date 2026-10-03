@@ -4,6 +4,7 @@ title: Rep activity and coaching
 slash_command: /sales-activity-coaching-dashboard
 group: Dashboards
 owner: intempt
+curator: sid
 summary: Answers which reps need coaching and what separates the top performers, by setting call, email
   and meeting volume against the revenue it produced.
 description: >-

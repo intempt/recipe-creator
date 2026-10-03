@@ -4,6 +4,7 @@ title: Trial to paid activation
 slash_command: /trial-activation
 group: Journeys
 owner: intempt
+curator: somya
 summary: Scores how well each trial is going and sends different onboarding to the ones racing ahead,
   the ones drifting, and the ones at risk.
 description: >-

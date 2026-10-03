@@ -4,6 +4,7 @@ title: Enterprise signup to AE task
 slash_command: /enterprise-domain-signup-to-ae-task
 group: Workflows
 owner: intempt
+curator: trishik
 summary: Spots when a self serve signup comes from a large company, enriches it, and puts it in front
   of an AE instead of leaving it in the free funnel.
 description: >-

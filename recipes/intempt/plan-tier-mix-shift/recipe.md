@@ -4,6 +4,7 @@ title: Plan tier mix shift
 slash_command: /plan-tier-mix-shift
 group: Reports
 owner: intempt
+curator: aman
 summary: Shows how revenue and customer count are spread across plans over time, and whether the business
   is drifting up market or down.
 description: >-

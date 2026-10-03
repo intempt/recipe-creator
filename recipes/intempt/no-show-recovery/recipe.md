@@ -4,6 +4,7 @@ title: Meeting no show recovery
 slash_command: /no-show-recovery
 group: Journeys
 owner: intempt
+curator: somya
 summary: Assumes a diary clash rather than disinterest and offers an easy reschedule three times over
   a week, then hands the prospect to nurture.
 description: >-

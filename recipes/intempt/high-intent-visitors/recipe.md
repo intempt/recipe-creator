@@ -4,6 +4,7 @@ title: High-intent visitors
 slash_command: /high-intent-visitors
 group: Segments
 owner: intempt
+curator: harish
 summary: Free and unregistered users who read both your pricing and your docs in the last two weeks, the
   clearest sign somebody is close to buying.
 description: >-

@@ -4,6 +4,7 @@ title: Talking head from a portrait
 slash_command: /talking-avatar
 group: Creative
 owner: intempt
+curator: aurobind
 summary: Turns a portrait still into a 5 second talking-head loop with subtle lip movement and eye contact.
 description: >-
   Portrait still to spokesperson clip.

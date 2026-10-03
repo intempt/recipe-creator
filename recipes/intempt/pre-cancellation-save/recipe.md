@@ -4,6 +4,7 @@ title: Save them before they cancel
 slash_command: /pre-cancellation-save
 group: Journeys
 owner: intempt
+curator: somya
 summary: Catches people who open the cancel flow but have not finished it, and answers the reason they
   gave with a pause, a downgrade, a discount or a call.
 description: >-

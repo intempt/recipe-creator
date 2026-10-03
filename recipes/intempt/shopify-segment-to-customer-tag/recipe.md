@@ -4,6 +4,7 @@ title: Tag Shopify customers from a segment
 slash_command: /shopify-segment-to-customer-tag
 group: Workflows
 owner: intempt
+curator: trishik
 summary: Pushes a cohort computed here onto Shopify customers as a tag, so the store can merchandise against
   it.
 description: >-

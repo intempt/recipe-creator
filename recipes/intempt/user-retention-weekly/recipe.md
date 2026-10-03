@@ -4,6 +4,7 @@ title: Weekly user retention
 slash_command: /user-retention-weekly
 group: Reports
 owner: intempt
+curator: aman
 summary: Shows what share of each week's signups are still coming back at weeks 1, 4 and 12, and which
   acquisition sources hold up best.
 description: >-

@@ -4,6 +4,7 @@ title: Product qualified signal to a Salesforce lead
 slash_command: /salesforce-pql-to-lead
 group: Workflows
 owner: intempt
+curator: trishik
 summary: Creates a Salesforce lead the moment product usage says someone is ready, so a signal the product
   saw becomes a record a rep can work.
 description: >-

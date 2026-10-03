@@ -4,6 +4,7 @@ title: UGC selfie clip
 slash_command: /ugc-selfie-video
 group: Creative
 owner: intempt
+curator: aurobind
 summary: Turns a handheld selfie still into a 5 second candid clip with a subtle head turn and a natural
   smile.
 description: >-

@@ -4,6 +4,7 @@ title: Accounts at risk
 slash_command: /accounts-at-risk-count
 group: Reports
 owner: intempt
+curator: aman
 summary: Counts the accounts whose usage has dropped far enough to be a churn risk, tracks that count
   weekly, and puts a dollar figure on the revenue attached to them.
 description: >-

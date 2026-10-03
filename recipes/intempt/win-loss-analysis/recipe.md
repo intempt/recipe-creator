@@ -4,6 +4,7 @@ title: Win/loss patterns from closed deals
 slash_command: /win-loss-analysis
 group: Dashboards
 owner: intempt
+curator: sid
 summary: Reads your closed deals to show which competitors, objections and decision criteria separate
   the ones you win from the ones you lose.
 description: >-

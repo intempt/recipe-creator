@@ -4,6 +4,7 @@ title: Repeat purchase retention
 slash_command: /purchase-retention
 group: Reports
 owner: intempt
+curator: aman
 summary: Shows what share of first time buyers come back to buy again, by month and by the category they
   bought first.
 description: >-

@@ -26,7 +26,7 @@ title: Thank your best customers # a real name, never the id
 slash_command: /vip-thank-you    # unique across the repo
 group: Segments                  # one of the Marketplace groups
 owner: intempt                   # equals the partner folder: recipes/<owner>/
-curator: somya                   # optional, who on the owner's team stands behind it
+curator: somya                   # optional, kebab-case: who on the owner's team stands behind it
 summary: >-                      # PUBLIC. One sentence, under 200 characters
   Finds the customers who spent the most this quarter and sends them a thank-you email.
 description: >-                  # what the whole recipe is for, read by Blu when matching
@@ -72,6 +72,14 @@ outputs:
   - {key: top_spenders, producedByStep: s1, type: segment}
   - {key: thank_you_email, producedByStep: s2, type: email_html}
 ```
+
+## owner and curator
+
+`owner` is the company that submitted the recipe and equals its folder. `curator` is optional: the
+person on that company's team who stands behind it, in kebab-case. For `owner: intempt` the curator
+must be one of `INTEMPT_CURATORS` in `scripts/recipe_contract.py`, which also maps each Marketplace
+group to the curator who looks after it. The public catalog publishes `curator`, so the website can
+read the person from the repository instead of deriving one from the group.
 
 ## touches, inputs and does_not_claim
 

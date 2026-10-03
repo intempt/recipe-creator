@@ -4,6 +4,7 @@ title: Search ranking test
 slash_command: /search-results-ranking-test
 group: Experiments
 owner: intempt
+curator: rana
 summary: Compares ranking search results by text relevance, by sales velocity, or by profit margin, scored
   on revenue after a search.
 description: >-

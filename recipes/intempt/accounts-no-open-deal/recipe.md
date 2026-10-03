@@ -4,6 +4,7 @@ title: Healthy accounts with no open deal
 slash_command: /accounts-no-open-deal
 group: Segments
 owner: intempt
+curator: harish
 summary: Healthy customer accounts nobody is currently selling into, so AEs can see where the expansion
   room is.
 description: >-

@@ -4,6 +4,7 @@ title: Free to paid CSM kickoff
 slash_command: /free-to-paid-csm-kickoff
 group: Workflows
 owner: intempt
+curator: trishik
 summary: Every upgrade from free to paid creates a CSM kickoff task carrying the customer's whole free
   period history, due inside five working days.
 description: >-

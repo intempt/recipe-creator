@@ -4,6 +4,7 @@ title: Welcome series
 slash_command: /welcome-series
 group: Journeys
 owner: intempt
+curator: somya
 summary: Introduces your brand to new subscribers over their first week in four emails, and tests the
   subject lines and the opening offer.
 description: >-

@@ -4,6 +4,7 @@ title: Paths from a product page
 slash_command: /paths-from-product-detail-page
 group: Reports
 owner: intempt
+curator: aman
 summary: 'Shows what shoppers do after landing on a product page: add to cart, keep browsing, search again,
   or leave.'
 description: >-

@@ -4,6 +4,7 @@ title: Account engagement score trend
 slash_command: /account-engagement-score-trend
 group: Reports
 owner: intempt
+curator: aman
 summary: Scores each account on how many of its users are active and how much they do, weekly, so you
   can see which accounts are pulling away and which are going quiet.
 description: >-

@@ -4,6 +4,7 @@ title: Onboarding checklist length test
 slash_command: /onboarding-checklist-length
 group: Experiments
 owner: intempt
+curator: rana
 summary: Compares a 3, 5 and 7 step onboarding checklist for new signups, scored on activation within
   7 days.
 description: >-

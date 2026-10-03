@@ -27,12 +27,16 @@ curl -fsSL https://raw.githubusercontent.com/intempt/recipe-creator/main/<NAME>
 
 1. `START-HERE.md`: the order of work, the route question, the stops.
 2. `references/recipe-contract.md`: what a recipe file must contain.
-3. `references/entities.md`: what a step can build today, and what is coming.
+3. `references/entities.md`: what a step can build today, and what is coming. Then
+   `references/entities/README.md` and the one family page for each builder you use.
 4. `WRITING-STEPS.md`: how to write a step the engine can run.
-5. `NO-ENTITY-EXISTS.md`: the jobs the engine cannot build yet.
-6. The workflow for the route: `workflows/idea-to-recipe.md`, `workflows/workspace-to-recipe.md`
+5. `DETERMINISM.md`: what the engine derives from a step, and the rules that make it derive the
+   same thing for every installer.
+6. `NO-ENTITY-EXISTS.md`: the jobs the engine cannot build yet.
+7. The workflow for the route: `workflows/idea-to-recipe.md`, `workflows/workspace-to-recipe.md`
    or `workflows/existing-recipe.md`.
-7. `VALIDATION.md`, then `SUBMITTING.md`.
+8. `examples/README.md`, and the example closest to what you are writing.
+9. `VALIDATION.md`, then `SUBMITTING.md`.
 
 ## Three things worth knowing before writing a recipe
 
