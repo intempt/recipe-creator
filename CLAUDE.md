@@ -66,6 +66,7 @@ find recipes -name recipe.md | wc -l
 | `package_recipe.py` | contract + both scans, then writes the submission bundle: `recipe.md` and `manifest.json` |
 | `render_entities_doc.py` | regenerates `references/entities.md` and `references/entities/coming-soon.md` from the recipes |
 | `rebuild_bodies.py` | regenerates each body from its frontmatter |
+| `check_engine_entities.py` | fails when `BUILDABLE_ENTITIES` differs from llm-wrapper's `ALLOWED_ENTITIES`; CI fetches the engine file with `ENGINE_READ_TOKEN` |
 | `sync_marketplace.py` | sends the built catalog and every recipe.md to single-metadata on merge (`PUT /v1/marketplace/recipes`), the database the console and intempt.com read; refuses a public step that repeats its engine instruction |
 | `sync_plugin.py` | copies the root references and validator into the plugin; `--check` fails on drift |
 | `migrate_v2.py` | converts the v1 `intempt:` format; `--file <path> --owner <folder>` converts one file, see `workflows/existing-recipe.md` |

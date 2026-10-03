@@ -66,6 +66,21 @@ jobs:
         run: python3 scripts/tests/test_recipe_contract.py
       - name: Every script's tests pass
         run: for t in scripts/tests/test_*.py; do python3 "$t" || exit 1; done
+
+      - name: Our entity list matches what the engine can build
+        if: env.ENGINE_READ_TOKEN != ''
+        run: |
+          curl -fsSL -H "Authorization: Bearer ${ENGINE_READ_TOKEN}" -H "Accept: application/vnd.github.raw" \
+            "https://api.github.com/repos/intempt/llm-wrapper/contents/src/blu_chat/sevices/recipes/md_import.py?ref=main" -o /tmp/md_import.py
+          python3 scripts/check_engine_entities.py /tmp/md_import.py
+        env:
+          ENGINE_READ_TOKEN: ${{ secrets.ENGINE_READ_TOKEN }}
+
+      - name: Say the engine drift check is not configured
+        if: env.ENGINE_READ_TOKEN == ''
+        run: echo "::warning::ENGINE_READ_TOKEN is not set, so the entity list was not compared with llm-wrapper"
+        env:
+          ENGINE_READ_TOKEN: ${{ secrets.ENGINE_READ_TOKEN }}
       - name: No recipe or example carries prompt injection
         run: python3 scripts/injection.py recipes examples
       - name: No recipe or example carries a value that only exists in one workspace
