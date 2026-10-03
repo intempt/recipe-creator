@@ -19,6 +19,17 @@ classification:
   executionMode: live
   tags:
     - win-back
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new segment, from step 1 "Sort lapsed users by the gap"
+    - A new designed email, from step 2 "Write content per tier"
+    - A new journey, from step 3 "Escalate the offer by tier"
+    - A new report, from step 4 "Measure who comes back"
+    - A new A/B experiment, from step 5 "Test what brings them back"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Sort lapsed users by the gap
@@ -135,6 +146,24 @@ Sorts lapsed customers by how long they have been gone and escalates the offer w
 - **journey** (journey): Journey produced by this recipe.
 - **report** (report): Report produced by this recipe.
 - **experiment** (experiment): Experiment produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new segment, from step 1 "Sort lapsed users by the gap"
+- A new designed email, from step 2 "Write content per tier"
+- A new journey, from step 3 "Escalate the offer by tier"
+- A new report, from step 4 "Measure who comes back"
+- A new A/B experiment, from step 5 "Test what brings them back"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

@@ -33,6 +33,18 @@ prerequisites:
       severity: recommended
     - value: user_identified
       severity: recommended
+touches:
+  reads:
+    - The email_bounced event in your project
+    - The user_identified event in your project
+    - Your Slack connection
+  writes:
+    - A new attribute, from step 1 "Track the champion daily"
+    - A new segment, from step 2 "Find deals that lost theirs"
+    - A new workflow, from step 3 "Get the rep moving"
+    - A new dashboard, from step 4 "See the ARR behind the risk"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Track the champion daily
@@ -148,6 +160,25 @@ Notices when the person backing a deal goes quiet or leaves, names who could rep
 - **segment** (segment): Segment produced by this recipe.
 - **workflow** (workflow): Workflow produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- The email_bounced event in your project
+- The user_identified event in your project
+- Your Slack connection
+
+Writes:
+
+- A new attribute, from step 1 "Track the champion daily"
+- A new segment, from step 2 "Find deals that lost theirs"
+- A new workflow, from step 3 "Get the rep moving"
+- A new dashboard, from step 4 "See the ARR behind the risk"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

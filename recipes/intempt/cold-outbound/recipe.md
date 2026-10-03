@@ -19,6 +19,17 @@ classification:
   executionMode: live
   tags:
     - cold-outbound
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new segment, from step 1 "Build the target list"
+    - A new designed email, from step 2 "Write the outbound emails"
+    - A new journey, from step 3 "Run the touches, then break off"
+    - A meeting action, from step 4 "Set up the booking link"
+    - A new dashboard, from step 5 "Track replies and meetings"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the target list
@@ -133,6 +144,24 @@ Builds a target list from your ICP, runs a multi touch sequence with a booking l
 - **journey** (journey): Journey produced by this recipe.
 - **scheduling_link** (scheduling_link): Scheduling Link produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new segment, from step 1 "Build the target list"
+- A new designed email, from step 2 "Write the outbound emails"
+- A new journey, from step 3 "Run the touches, then break off"
+- A meeting action, from step 4 "Set up the booking link"
+- A new dashboard, from step 5 "Track replies and meetings"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

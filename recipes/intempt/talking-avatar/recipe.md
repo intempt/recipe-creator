@@ -20,6 +20,13 @@ classification:
     - video
     - avatar
     - talking-head
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new video, from step 1 "Animate the portrait"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Animate the portrait
@@ -53,6 +60,20 @@ Turns a portrait still into a 5 second talking-head loop with subtle lip movemen
 ## What you end up with
 
 - **video** (video): Talking avatar clip.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new video, from step 1 "Animate the portrait"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

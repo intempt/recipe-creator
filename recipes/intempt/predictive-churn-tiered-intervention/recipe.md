@@ -29,6 +29,20 @@ prerequisites:
       severity: blocking
     - value: feature_used
       severity: recommended
+touches:
+  reads:
+    - The session_start event in your project
+    - The feature_used event in your project
+  writes:
+    - A new attribute, from step 1 "Score churn risk daily"
+    - A new segment, from step 2 "Take everyone above 30"
+    - A new designed email, from step 3 "Write an email per band"
+    - A new landing page, from step 4 "Catch them when they log in"
+    - A new product recommendation, from step 5 "Recommend what keeps people"
+    - A new journey, from step 6 "Treat each band differently"
+    - A new dashboard, from step 7 "See if the bands hold up"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Score churn risk daily
@@ -233,6 +247,27 @@ Scores churn risk daily and treats each band differently: content at low risk, i
 - **recommendation** (recommendation): Recommendation Surface produced by this recipe.
 - **journey** (journey): Journey produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- The session_start event in your project
+- The feature_used event in your project
+
+Writes:
+
+- A new attribute, from step 1 "Score churn risk daily"
+- A new segment, from step 2 "Take everyone above 30"
+- A new designed email, from step 3 "Write an email per band"
+- A new landing page, from step 4 "Catch them when they log in"
+- A new product recommendation, from step 5 "Recommend what keeps people"
+- A new journey, from step 6 "Treat each band differently"
+- A new dashboard, from step 7 "See if the bands hold up"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

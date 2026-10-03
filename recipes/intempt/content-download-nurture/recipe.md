@@ -28,6 +28,16 @@ prerequisites:
   events:
     - value: form_submitted
       severity: blocking
+touches:
+  reads:
+    - The form_submitted event in your project
+  writes:
+    - A new segment, from step 1 "Find recent downloaders"
+    - A new designed email, from step 2 "Write three emails per topic"
+    - A new journey, from step 3 "Send on days 1, 7 and 14"
+    - A new dashboard, from step 4 "See which topics make pipeline"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Find recent downloaders
@@ -141,6 +151,23 @@ Follows a gated download with two more pieces on the same topic and a soft invit
 - **asset** (asset): Asset produced by this recipe.
 - **journey** (journey): Journey produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- The form_submitted event in your project
+
+Writes:
+
+- A new segment, from step 1 "Find recent downloaders"
+- A new designed email, from step 2 "Write three emails per topic"
+- A new journey, from step 3 "Send on days 1, 7 and 14"
+- A new dashboard, from step 4 "See which topics make pipeline"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

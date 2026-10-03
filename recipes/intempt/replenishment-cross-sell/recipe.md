@@ -19,6 +19,18 @@ classification:
   executionMode: live
   tags:
     - replenishment-cross-sell
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new segment, from step 1 "Work out when they run out"
+    - A new designed email, from step 2 "Write the reorder reminder"
+    - A new journey, from step 3 "Remind before they run dry"
+    - A new product recommendation, from step 4 "Pick what pairs with it"
+    - A new A/B experiment, from step 5 "Test when to cross sell"
+    - A new dashboard, from step 6 "Track reorders and attach rate"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Work out when they run out
@@ -158,6 +170,25 @@ Reminds people to reorder before they run out, at the pace they actually get thr
 - **recommendation** (recommendation): Recommendation produced by this recipe.
 - **experiment** (experiment): Experiment produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new segment, from step 1 "Work out when they run out"
+- A new designed email, from step 2 "Write the reorder reminder"
+- A new journey, from step 3 "Remind before they run dry"
+- A new product recommendation, from step 4 "Pick what pairs with it"
+- A new A/B experiment, from step 5 "Test when to cross sell"
+- A new dashboard, from step 6 "Track reorders and attach rate"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

@@ -28,6 +28,16 @@ prerequisites:
   integrations:
     - value: slack
       severity: recommended
+touches:
+  reads:
+    - Your Slack connection
+  writes:
+    - A new attribute, from step 1 "Rank every task by signal"
+    - A new report, from step 2 "Cut it to 25 a day"
+    - A new workflow, from step 3 "Deliver it at 8am"
+    - A new dashboard, from step 4 "Check the ranking is right"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Rank every task by signal
@@ -143,6 +153,23 @@ Ranks each SDR's open tasks by how strong and how fresh the signal is and sends 
 - **report** (report): Insights Report produced by this recipe.
 - **workflow** (workflow): Workflow produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Your Slack connection
+
+Writes:
+
+- A new attribute, from step 1 "Rank every task by signal"
+- A new report, from step 2 "Cut it to 25 a day"
+- A new workflow, from step 3 "Deliver it at 8am"
+- A new dashboard, from step 4 "Check the ranking is right"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

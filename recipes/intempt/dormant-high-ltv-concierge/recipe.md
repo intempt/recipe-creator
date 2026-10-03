@@ -30,6 +30,17 @@ prerequisites:
   events:
     - value: session_start
       severity: blocking
+touches:
+  reads:
+    - The session_start event in your project
+    - Your Slack connection
+  writes:
+    - A new attribute, from step 1 "Track dormancy and value"
+    - A new segment, from step 2 "Find the valuable ones gone quiet"
+    - A new workflow, from step 3 "Brief the CSM and escalate"
+    - A new dashboard, from step 4 "Prove the call is worth making"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Track dormancy and value
@@ -145,6 +156,24 @@ When one of your most valuable accounts stops showing up for a month, it briefs 
 - **segment** (segment): Segment produced by this recipe.
 - **workflow** (workflow): Workflow produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- The session_start event in your project
+- Your Slack connection
+
+Writes:
+
+- A new attribute, from step 1 "Track dormancy and value"
+- A new segment, from step 2 "Find the valuable ones gone quiet"
+- A new workflow, from step 3 "Brief the CSM and escalate"
+- A new dashboard, from step 4 "Prove the call is worth making"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

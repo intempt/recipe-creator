@@ -24,6 +24,15 @@ classification:
     - summary-recipe
     - discovery
     - qualification
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new meeting type, from step 1 "Check the Discovery meeting type"
+    - A meeting action, from step 2 "Set what discovery captures"
+    - A new dashboard, from step 3 "Check discovery quality by rep"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Check the Discovery meeting type
@@ -110,6 +119,22 @@ Tells the notetaker to pull the qualification story out of every discovery call:
 - **meeting_type** (meeting_type): Meeting Type produced by this recipe.
 - **meeting_summary_recipe** (meeting_summary_recipe): Meeting Summary Recipe produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new meeting type, from step 1 "Check the Discovery meeting type"
+- A meeting action, from step 2 "Set what discovery captures"
+- A new dashboard, from step 3 "Check discovery quality by rep"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

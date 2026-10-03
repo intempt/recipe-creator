@@ -20,6 +20,14 @@ classification:
   executionMode: live
   tags:
     - users-segment
+touches:
+  reads:
+    - The order_created event in your project
+    - The lifetime_value attribute on users
+  writes:
+    - A new segment, from step 1 "Build the repeat-spend list"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the repeat-spend list
@@ -27,12 +35,10 @@ steps:
       Users with 2 or more orders in the last 180 days and lifetime value of 200 or more.
     builds: segment
     description: |-
-      Create a segment called "Multi-Product Buyers".
-      Object: Users
-      Rules (all conditions joined by AND):
-      - Event: order_created occurred >= 2 times in last 180 days
-      - AND Attribute: lifetime_value >= 200
-      Description: Customers with multiple orders and meaningful spend. Cross-sell-ready cohort: broader product affinity than single-category buyers.
+      Build a segment of users named "Multi-Product Buyers".
+      A user is in the segment only when all of these are true:
+      - they did the order_created event 2 or more times in the last 180 days
+      - their lifetime_value attribute is 200 or more
 outputs:
   - key: segment
     producedByStep: s1
@@ -55,6 +61,21 @@ Customers who have bought more than once and spent a meaningful amount, so cross
 ## What you end up with
 
 - **segment** (segment): Segment created on /segments.
+
+## What this recipe touches
+
+Reads:
+
+- The order_created event in your project
+- The lifetime_value attribute on users
+
+Writes:
+
+- A new segment, from step 1 "Build the repeat-spend list"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

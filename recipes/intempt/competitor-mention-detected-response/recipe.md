@@ -31,6 +31,19 @@ prerequisites:
       severity: blocking
     - value: email_clicked
       severity: recommended
+touches:
+  reads:
+    - The page_viewed event in your project
+    - The email_clicked event in your project
+  writes:
+    - A new attribute, from step 1 "Spot competitor interest"
+    - A new segment, from step 2 "Group by what they intend"
+    - A new designed email, from step 3 "Write a reply per intent"
+    - A new product recommendation, from step 4 "Show what they are missing"
+    - A new journey, from step 5 "Respond within four hours"
+    - A new dashboard, from step 6 "See which rivals you lose to"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Spot competitor interest
@@ -211,6 +224,26 @@ Spots customers comparing you with a rival and answers within hours: a matched e
 - **recommendation** (recommendation): Recommendation Surface produced by this recipe.
 - **journey** (journey): Journey produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- The page_viewed event in your project
+- The email_clicked event in your project
+
+Writes:
+
+- A new attribute, from step 1 "Spot competitor interest"
+- A new segment, from step 2 "Group by what they intend"
+- A new designed email, from step 3 "Write a reply per intent"
+- A new product recommendation, from step 4 "Show what they are missing"
+- A new journey, from step 5 "Respond within four hours"
+- A new dashboard, from step 6 "See which rivals you lose to"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

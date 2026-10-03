@@ -19,6 +19,13 @@ classification:
   executionMode: live
   tags:
     - retention
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new report, from step 1 "Track first visit to first order"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Track first visit to first order
@@ -66,6 +73,20 @@ Measures how long first time visitors take to place an order, by acquisition sou
 ## What you end up with
 
 - **report** (report): Report produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new report, from step 1 "Track first visit to first order"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

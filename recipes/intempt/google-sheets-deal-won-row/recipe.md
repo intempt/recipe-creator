@@ -29,6 +29,14 @@ prerequisites:
   integrations:
     - value: google_sheets
       severity: blocking
+touches:
+  reads:
+    - The deal_stage_changed event in your project
+    - Your Google Sheets connection
+  writes:
+    - A new workflow, from step 1 "Append a row on every win"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Append a row on every win
@@ -66,6 +74,21 @@ Adds a row to a Google Sheet every time a deal is won, so finance and ops keep w
 ## What you end up with
 
 - **workflow** (workflow): Workflow produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- The deal_stage_changed event in your project
+- Your Google Sheets connection
+
+Writes:
+
+- A new workflow, from step 1 "Append a row on every win"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

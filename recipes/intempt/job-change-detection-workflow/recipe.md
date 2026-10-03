@@ -27,6 +27,21 @@ prerequisites:
   events:
     - value: external_signal_received
       severity: blocking
+touches:
+  reads:
+    - The external_signal_received event in your project
+  writes:
+    - A new workflow, from step 1 "Run both plays on a move"
+    - A new workflow, from step 2 "Scan champions every Monday"
+    - A new workflow, from step 3 "Refresh where they work"
+    - A new workflow, from step 4 "Split by kind of account"
+    - A new workflow, from step 5 "Find who replaces them"
+    - A new workflow, from step 6 "Tell the CSM or AE to act"
+    - A new workflow, from step 7 "Check if we know the new firm"
+    - A new workflow, from step 8 "Chase them at the new place"
+    - A new workflow, from step 9 "Publish and track both sides"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Run both plays on a move
@@ -216,6 +231,28 @@ Spots when a champion changes employer and runs both plays: protect the account 
 
 - **workflow** (workflow): Workflow produced by this recipe.
 - **step** (step): Workflow Step produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- The external_signal_received event in your project
+
+Writes:
+
+- A new workflow, from step 1 "Run both plays on a move"
+- A new workflow, from step 2 "Scan champions every Monday"
+- A new workflow, from step 3 "Refresh where they work"
+- A new workflow, from step 4 "Split by kind of account"
+- A new workflow, from step 5 "Find who replaces them"
+- A new workflow, from step 6 "Tell the CSM or AE to act"
+- A new workflow, from step 7 "Check if we know the new firm"
+- A new workflow, from step 8 "Chase them at the new place"
+- A new workflow, from step 9 "Publish and track both sides"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

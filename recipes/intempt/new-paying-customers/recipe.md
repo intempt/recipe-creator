@@ -20,6 +20,14 @@ classification:
   executionMode: live
   tags:
     - users-segment
+touches:
+  reads:
+    - The subscription_created event in your project
+    - The plan_name attribute on users
+  writes:
+    - A new segment, from step 1 "Build the new-customer list"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the new-customer list
@@ -27,13 +35,11 @@ steps:
       Users who created a subscription in the last 30 days and are on a plan other than free or trial.
     builds: segment
     description: |-
-      Create a segment called "New Paying Customers".
-      Object: Users
-      Rules (all conditions joined by AND):
-      - Event: subscription_created occurred >= 1 time in last 30 days
-      - AND Attribute: plan_name is not "free"
-      - AND Attribute: plan_name is not "trial"
-      Description: Users who converted to a paid plan in the last 30 days. The paid-onboarding cohort: distinct from recently-signed-up-users (which is account creation). The first 30 days post-paid-conversion is the highest-leverage retention window; trigger CSM kickoff, premium-feature discovery, and ROI-tracking content.
+      Build a segment of users named "New Paying Customers".
+      A user is in the segment only when all of these are true:
+      - they did the subscription_created event at least once in the last 30 days
+      - their plan_name attribute is not "free"
+      - their plan_name attribute is not "trial"
 outputs:
   - key: segment
     producedByStep: s1
@@ -56,6 +62,21 @@ Customers who started paying in the last month, the window where onboarding deci
 ## What you end up with
 
 - **segment** (segment): Segment created on /segments.
+
+## What this recipe touches
+
+Reads:
+
+- The subscription_created event in your project
+- The plan_name attribute on users
+
+Writes:
+
+- A new segment, from step 1 "Build the new-customer list"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

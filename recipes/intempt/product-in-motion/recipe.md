@@ -21,6 +21,13 @@ classification:
     - product
     - turntable
     - 360
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new video, from step 1 "Spin the product"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Spin the product
@@ -54,6 +61,20 @@ Turns a product packshot into a slow 360 degree turntable spin video on the same
 ## What you end up with
 
 - **video** (video): Product turntable video.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new video, from step 1 "Spin the product"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

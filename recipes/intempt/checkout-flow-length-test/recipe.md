@@ -25,6 +25,13 @@ prerequisites:
   integrations:
     - value: stripe
       severity: blocking
+touches:
+  reads:
+    - Your Stripe connection
+  writes:
+    - A new A/B experiment, from step 1 "Set up the checkout length test"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Set up the checkout length test
@@ -131,6 +138,20 @@ Compares a one-page checkout against a three-step checkout, scored on orders com
 ## What you end up with
 
 - **experiment** (experiment): Website experiment created on /experiences.
+
+## What this recipe touches
+
+Reads:
+
+- Your Stripe connection
+
+Writes:
+
+- A new A/B experiment, from step 1 "Set up the checkout length test"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

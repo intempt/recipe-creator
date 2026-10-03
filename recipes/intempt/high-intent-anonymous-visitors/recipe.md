@@ -22,6 +22,14 @@ classification:
   executionMode: live
   tags:
     - users-segment
+touches:
+  reads:
+    - The page_viewed and session_start events in your project
+    - The total_events and email attributes on users
+  writes:
+    - A new segment, from step 1 "Build the anonymous visitor list"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the anonymous visitor list
@@ -30,14 +38,12 @@ steps:
       more sessions in the last 7 days.
     builds: segment
     description: |-
-      Create a segment called "High-Intent Anonymous Visitors".
-      Object: Users
-      Rules (all conditions joined by AND):
-      - Attribute: total_events >= 5
-      - AND Attribute: email is empty
-      - AND Event: page_viewed occurred >= 3 times in last 7 days
-      - AND Event: session_start occurred >= 2 times in last 7 days
-      Description: Unidentified visitors with multiple sessions and substantial activity. Ad-retargeting cohort: also a candidate for an email-capture popup or content offer.
+      Build a segment of users named "High-Intent Anonymous Visitors".
+      A user is in the segment only when all of these are true:
+      - their total_events attribute is 5 or more
+      - their email attribute is empty
+      - they did the page_viewed event 3 or more times in the last 7 days
+      - they did the session_start event 2 or more times in the last 7 days
 outputs:
   - key: segment
     producedByStep: s1
@@ -60,6 +66,21 @@ Visitors you cannot email yet who keep coming back, so you can retarget them wit
 ## What you end up with
 
 - **segment** (segment): Segment created on /segments.
+
+## What this recipe touches
+
+Reads:
+
+- The page_viewed and session_start events in your project
+- The total_events and email attributes on users
+
+Writes:
+
+- A new segment, from step 1 "Build the anonymous visitor list"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

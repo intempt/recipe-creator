@@ -30,6 +30,17 @@ prerequisites:
       severity: blocking
     - value: meeting_scheduled
       severity: recommended
+touches:
+  reads:
+    - The meeting_completed event in your project
+    - The meeting_scheduled event in your project
+  writes:
+    - A new segment, from step 1 "Find who missed a meeting"
+    - A new designed email, from step 2 "Write three reschedule notes"
+    - A new journey, from step 3 "Send at 1 hour, 2 days, 5 days"
+    - A new dashboard, from step 4 "Watch the no show rate"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Find who missed a meeting
@@ -139,6 +150,24 @@ Assumes a diary clash rather than disinterest and offers an easy reschedule thre
 - **asset** (asset): Asset produced by this recipe.
 - **journey** (journey): Journey produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- The meeting_completed event in your project
+- The meeting_scheduled event in your project
+
+Writes:
+
+- A new segment, from step 1 "Find who missed a meeting"
+- A new designed email, from step 2 "Write three reschedule notes"
+- A new journey, from step 3 "Send at 1 hour, 2 days, 5 days"
+- A new dashboard, from step 4 "Watch the no show rate"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

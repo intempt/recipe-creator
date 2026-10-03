@@ -19,6 +19,17 @@ classification:
   executionMode: live
   tags:
     - trial-activation
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new attribute, from step 1 "Score how the trial is going"
+    - A new segment, from step 2 "Split trials into three tiers"
+    - A new designed email, from step 3 "Write onboarding per tier"
+    - A new journey, from step 4 "Route each tier differently"
+    - A new report, from step 5 "Track trial to paid"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Score how the trial is going
@@ -137,6 +148,24 @@ Scores how well each trial is going and sends different onboarding to the ones r
 - **asset** (asset): Asset produced by this recipe.
 - **journey** (journey): Journey produced by this recipe.
 - **report** (report): Report produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new attribute, from step 1 "Score how the trial is going"
+- A new segment, from step 2 "Split trials into three tiers"
+- A new designed email, from step 3 "Write onboarding per tier"
+- A new journey, from step 4 "Route each tier differently"
+- A new report, from step 5 "Track trial to paid"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

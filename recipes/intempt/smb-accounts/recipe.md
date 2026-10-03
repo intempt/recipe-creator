@@ -21,6 +21,13 @@ classification:
   executionMode: live
   tags:
     - accounts-segment
+touches:
+  reads:
+    - The employees attribute on accounts
+  writes:
+    - A new segment, from step 1 "Build the SMB list"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the SMB list
@@ -28,11 +35,9 @@ steps:
       Accounts with fewer than 100 employees.
     builds: segment
     description: |-
-      Create a segment called "SMB Accounts".
-      Object: Accounts
-      Rules:
-      - Attribute: employees < 100
-      Description: Small businesses with under 100 employees. Foundation for self-serve / low-touch routing: these accounts go through automated nurture flows, in-product upgrade prompts, and minimal direct sales engagement. The PLG sweet spot.
+      Build a segment of accounts named "SMB Accounts".
+      An account is in the segment only when all of these are true:
+      - its employees attribute is less than 100
 outputs:
   - key: segment
     producedByStep: s1
@@ -55,6 +60,20 @@ Companies under 100 employees, the list your self-serve nurture and in-product p
 ## What you end up with
 
 - **segment** (segment): Segment created on /segments.
+
+## What this recipe touches
+
+Reads:
+
+- The employees attribute on accounts
+
+Writes:
+
+- A new segment, from step 1 "Build the SMB list"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

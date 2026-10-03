@@ -19,6 +19,18 @@ classification:
   executionMode: live
   tags:
     - vip-loyalty
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new attribute, from step 1 "Rank customers by value"
+    - A new segment, from step 2 "Set the silver and gold lines"
+    - A new website personalization, from step 3 "Give each tier something"
+    - A new journey, from step 4 "Thank them, show the next tier"
+    - A new A/B experiment, from step 5 "Test which reward works"
+    - A new dashboard, from step 6 "Track retention by tier"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Rank customers by value
@@ -156,6 +168,25 @@ Ranks your best customers into tiers, gives each tier something worth having, an
 - **journey** (journey): Journey produced by this recipe.
 - **experiment** (experiment): Experiment produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new attribute, from step 1 "Rank customers by value"
+- A new segment, from step 2 "Set the silver and gold lines"
+- A new website personalization, from step 3 "Give each tier something"
+- A new journey, from step 4 "Thank them, show the next tier"
+- A new A/B experiment, from step 5 "Test which reward works"
+- A new dashboard, from step 6 "Track retention by tier"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

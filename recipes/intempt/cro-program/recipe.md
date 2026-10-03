@@ -19,6 +19,17 @@ classification:
   executionMode: live
   tags:
     - cro-program
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new report, from step 1 "Find the worst drop-off"
+    - A new A/B experiment, from step 2 "Design the test"
+    - A new website personalization, from step 3 "Target the right visitors"
+    - A new designed email, from step 4 "Write the variant content"
+    - A new dashboard, from step 5 "Build the results dashboard"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Find the worst drop-off
@@ -137,6 +148,24 @@ Runs a full optimization cycle: find the worst drop-off, design the test, ship t
 - **personalization** (personalization): Personalization produced by this recipe.
 - **asset** (asset): Asset produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new report, from step 1 "Find the worst drop-off"
+- A new A/B experiment, from step 2 "Design the test"
+- A new website personalization, from step 3 "Target the right visitors"
+- A new designed email, from step 4 "Write the variant content"
+- A new dashboard, from step 5 "Build the results dashboard"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

@@ -20,6 +20,13 @@ classification:
   executionMode: live
   tags:
     - retention
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new report, from step 1 "Track cohort revenue month by month"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Track cohort revenue month by month
@@ -73,6 +80,20 @@ Tracks what each monthly cohort of paying customers is worth over time once upgr
 ## What you end up with
 
 - **report** (report): Report produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new report, from step 1 "Track cohort revenue month by month"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

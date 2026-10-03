@@ -21,6 +21,13 @@ classification:
   executionMode: live
   tags:
     - users-segment
+touches:
+  reads:
+    - The first_seen_at attribute on users
+  writes:
+    - A new segment, from step 1 "Build the new signup list"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the new signup list
@@ -28,11 +35,9 @@ steps:
       Users first seen in the last 30 days.
     builds: segment
     description: |-
-      Create a segment called "Recently Signed-Up Users".
-      Object: Users
-      Rules:
-      - Attribute: first_seen_at is within last 30 days
-      Description: Onboarding cohort. Use as the audience for first-week activation campaigns, welcome journeys, and onboarding email sequences.
+      Build a segment of users named "Recently Signed-Up Users".
+      A user is in the segment only when all of these are true:
+      - their first_seen_at attribute is within the last 30 days
 outputs:
   - key: segment
     producedByStep: s1
@@ -55,6 +60,20 @@ Everyone who created an account in the last month, the audience for your welcome
 ## What you end up with
 
 - **segment** (segment): Segment created on /segments.
+
+## What this recipe touches
+
+Reads:
+
+- The first_seen_at attribute on users
+
+Writes:
+
+- A new segment, from step 1 "Build the new signup list"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

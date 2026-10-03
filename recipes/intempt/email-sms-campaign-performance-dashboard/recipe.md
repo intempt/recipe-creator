@@ -20,6 +20,13 @@ classification:
   executionMode: live
   tags:
     - dashboard
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new dashboard, from step 1 "Build the campaign leaderboard"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the campaign leaderboard
@@ -87,6 +94,20 @@ Ranks every email and SMS send by the revenue it produced, so you can see which 
 ## What you end up with
 
 - **dashboard** (dashboard): Dash board (composition canvas) produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new dashboard, from step 1 "Build the campaign leaderboard"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

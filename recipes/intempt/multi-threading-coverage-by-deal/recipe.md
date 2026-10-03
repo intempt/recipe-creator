@@ -20,6 +20,13 @@ classification:
   executionMode: live
   tags:
     - insights
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new report, from step 1 "Count contacts on each deal"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Count contacts on each deal
@@ -71,6 +78,20 @@ Shows how many people you are actually talking to inside each open deal, and how
 ## What you end up with
 
 - **report** (report): Report produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new report, from step 1 "Count contacts on each deal"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

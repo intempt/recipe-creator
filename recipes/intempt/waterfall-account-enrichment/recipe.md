@@ -30,6 +30,20 @@ prerequisites:
   integrations:
     - value: enrichment_provider
       severity: blocking
+touches:
+  reads:
+    - The account_created event in your project
+    - Your connected enrichment provider
+  writes:
+    - A new workflow, from step 1 "Fill the gaps at lowest cost"
+    - A new workflow, from step 2 "Try the cheap provider first"
+    - A new workflow, from step 3 "Stop if nothing is missing"
+    - A new workflow, from step 4 "Fall through to a specialist"
+    - A new workflow, from step 5 "Research the long tail"
+    - A new workflow, from step 6 "Record what it cost to find"
+    - A new workflow, from step 7 "Publish and watch the mix"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Fill the gaps at lowest cost
@@ -187,6 +201,27 @@ Tries the cheap provider first and only pays for the expensive one when a field 
 
 - **workflow** (workflow): Workflow produced by this recipe.
 - **step** (step): Workflow Step produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- The account_created event in your project
+- Your connected enrichment provider
+
+Writes:
+
+- A new workflow, from step 1 "Fill the gaps at lowest cost"
+- A new workflow, from step 2 "Try the cheap provider first"
+- A new workflow, from step 3 "Stop if nothing is missing"
+- A new workflow, from step 4 "Fall through to a specialist"
+- A new workflow, from step 5 "Research the long tail"
+- A new workflow, from step 6 "Record what it cost to find"
+- A new workflow, from step 7 "Publish and watch the mix"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

@@ -31,6 +31,15 @@ prerequisites:
     - value: stripe
       severity: blocking
       group: subscription-source
+touches:
+  reads:
+    - Your HubSpot connection
+    - Your Shopify connection
+    - Your Stripe connection
+  writes:
+    - A new report, from step 1 "Break MRR into its five parts"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Break MRR into its five parts
@@ -85,6 +94,22 @@ Breaks each month's recurring revenue change into new, expansion, contraction, c
 ## What you end up with
 
 - **report** (report): Report produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Your HubSpot connection
+- Your Shopify connection
+- Your Stripe connection
+
+Writes:
+
+- A new report, from step 1 "Break MRR into its five parts"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

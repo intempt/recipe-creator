@@ -21,6 +21,13 @@ classification:
     - video
     - cinemagraph
     - loop
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new video, from step 1 "Animate one element"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Animate one element
@@ -54,6 +61,20 @@ Turns a still photo into a looping clip where one element moves, such as steam o
 ## What you end up with
 
 - **video** (video): Cinemagraph loop.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new video, from step 1 "Animate one element"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

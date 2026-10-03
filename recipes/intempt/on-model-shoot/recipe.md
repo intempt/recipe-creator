@@ -22,6 +22,29 @@ classification:
     - product
     - avatar
     - on-model
+inputs:
+  - input: Product
+    what_the_installer_supplies: One product from your catalog
+    if_missing: The step is marked vague and waits until one is chosen.
+  - input: Avatar
+    what_the_installer_supplies: An identity-locked avatar from your Brand Kit
+    if_missing: The step is marked vague and waits until one is chosen.
+  - input: Scene
+    what_the_installer_supplies: A scene that sets background and lighting
+    if_missing: The step is marked vague and waits until one is chosen.
+  - input: Pose references
+    what_the_installer_supplies: Optional poses for the avatar
+    if_missing: The pose is decided when the step runs.
+touches:
+  reads:
+    - The product you supply when you run it
+    - The avatar you supply when you run it
+    - The scene you supply when you run it
+    - The pose references you supply when you run it
+  writes:
+    - A new image, from step 1 "Compose the on-model shot"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Compose the on-model shot
@@ -30,15 +53,10 @@ steps:
       same identity across every generation.
     builds: image
     description: |-
-      Generate an on-model lifestyle product photo.
-      Inputs:
-      - productId: catalog SKU
-      - modelId: identity-locked Avatar
-      - sceneId: background + lighting
-      - poseIds (optional): pose references
-      Pipeline: nano-banana-pro/edit with Avatar references
-      Runner: on-model (custom)
-      Produce a lifestyle shot with the identity-locked Avatar wearing or holding the product in the chosen scene. The Avatar's identity must remain consistent across generations.
+      Generate one lifestyle product photo.
+      Show the identity-locked avatar chosen for this run wearing or holding the catalog product chosen for this run, in the scene chosen for this run.
+      If pose references are chosen for this run, match the avatar's pose to them.
+      Keep the avatar's identity the same as in its earlier images.
 outputs:
   - key: image
     producedByStep: s1
@@ -61,6 +79,32 @@ Puts your identity-locked avatar in a scene wearing or holding a catalog product
 ## What you end up with
 
 - **image** (image): On-model lifestyle shot.
+
+## What this recipe touches
+
+Reads:
+
+- The product you supply when you run it
+- The avatar you supply when you run it
+- The scene you supply when you run it
+- The pose references you supply when you run it
+
+Writes:
+
+- A new image, from step 1 "Compose the on-model shot"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
+
+## Declared inputs
+
+| Input | What the installer supplies | If missing |
+|---|---|---|
+| Product | One product from your catalog | The step is marked vague and waits until one is chosen. |
+| Avatar | An identity-locked avatar from your Brand Kit | The step is marked vague and waits until one is chosen. |
+| Scene | A scene that sets background and lighting | The step is marked vague and waits until one is chosen. |
+| Pose references | Optional poses for the avatar | The pose is decided when the step runs. |
 
 ## Availability
 

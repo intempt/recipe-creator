@@ -20,6 +20,14 @@ classification:
   executionMode: live
   tags:
     - users-segment
+touches:
+  reads:
+    - The subscription_cancelled event in your project
+    - The lifetime_value attribute on users
+  writes:
+    - A new segment, from step 1 "Build the recent-cancel list"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the recent-cancel list
@@ -27,12 +35,10 @@ steps:
       Users with a subscription cancellation in the last 30 days and lifetime value above zero.
     builds: segment
     description: |-
-      Create a segment called "Recently Churned Users".
-      Object: Users
-      Rules (all conditions joined by AND):
-      - Event: subscription_cancelled occurred >= 1 time in last 30 days
-      - AND Attribute: lifetime_value > 0
-      Description: Users who cancelled in the last 30 days with prior paid history. Fast win-back cohort: easier to recover than older churned users while feedback is still fresh.
+      Build a segment of users named "Recently Churned Users".
+      A user is in the segment only when all of these are true:
+      - they did the subscription_cancelled event at least once in the last 30 days
+      - their lifetime_value attribute is more than 0
 outputs:
   - key: segment
     producedByStep: s1
@@ -55,6 +61,21 @@ Customers who cancelled in the last month, while the reason is fresh and a win-b
 ## What you end up with
 
 - **segment** (segment): Segment created on /segments.
+
+## What this recipe touches
+
+Reads:
+
+- The subscription_cancelled event in your project
+- The lifetime_value attribute on users
+
+Writes:
+
+- A new segment, from step 1 "Build the recent-cancel list"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

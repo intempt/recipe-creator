@@ -21,6 +21,13 @@ classification:
   executionMode: live
   tags:
     - users-segment
+touches:
+  reads:
+    - The order_created event in your project
+  writes:
+    - A new segment, from step 1 "Build the second-purchase list"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the second-purchase list
@@ -28,12 +35,10 @@ steps:
       Users with exactly 1 order all time, placed within the last 30 days.
     builds: segment
     description: |-
-      Create a segment called "Second-Purchase Window".
-      Object: Users
-      Rules (all conditions joined by AND):
-      - Event: order_created occurred = 1 time (all time)
-      - AND Event: order_created occurred >= 1 time in last 30 days
-      Description: Customers who just bought for the first time and are in the highest-conversion repurchase window. 50.3% of all repeat purchases happen in the first 30 days post-purchase, yet most brands suppress recent buyers from campaigns. This segment fixes that by giving you a clean cohort to target with personalized cross-sells, "complete-the-set" offers, and second-purchase nudges (not discount blasts: handwritten-style notes outperform).
+      Build a segment of users named "Second-Purchase Window".
+      A user is in the segment only when all of these are true:
+      - they did the order_created event exactly 1 time, at any time
+      - that order_created event happened in the last 30 days
 outputs:
   - key: segment
     producedByStep: s1
@@ -56,6 +61,20 @@ Customers who bought for the first time in the last month, the period when most 
 ## What you end up with
 
 - **segment** (segment): Segment created on /segments.
+
+## What this recipe touches
+
+Reads:
+
+- The order_created event in your project
+
+Writes:
+
+- A new segment, from step 1 "Build the second-purchase list"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

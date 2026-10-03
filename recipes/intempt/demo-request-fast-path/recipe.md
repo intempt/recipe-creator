@@ -31,6 +31,18 @@ prerequisites:
   integrations:
     - value: slack
       severity: recommended
+touches:
+  reads:
+    - The form_submitted event in your project
+    - The user_identified event in your project
+    - Your Slack connection
+  writes:
+    - A new segment, from step 1 "Find recent demo requests"
+    - A new Slack message, from step 2 "Write the triage card"
+    - A new workflow, from step 3 "Route it inside the hour"
+    - A new dashboard, from step 4 "Hold the response time"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Find recent demo requests
@@ -141,6 +153,25 @@ Enriches a demo request the moment it lands, puts a same day task on the right A
 - **asset** (asset): Asset produced by this recipe.
 - **workflow** (workflow): Workflow produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- The form_submitted event in your project
+- The user_identified event in your project
+- Your Slack connection
+
+Writes:
+
+- A new segment, from step 1 "Find recent demo requests"
+- A new Slack message, from step 2 "Write the triage card"
+- A new workflow, from step 3 "Route it inside the hour"
+- A new dashboard, from step 4 "Hold the response time"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

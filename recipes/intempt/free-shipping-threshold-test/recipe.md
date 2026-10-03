@@ -22,6 +22,13 @@ classification:
     - experiment
     - server
   experimentType: a-b
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new A/B experiment, from step 1 "Set up the threshold test"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Set up the threshold test
@@ -118,6 +125,20 @@ Finds which free shipping threshold (50, 75, 99 dollars, or none) earns the most
 ## What you end up with
 
 - **experiment** (experiment): Website experiment created on /experiences.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new A/B experiment, from step 1 "Set up the threshold test"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

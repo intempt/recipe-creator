@@ -21,6 +21,13 @@ classification:
     - video
     - dialogue
     - avatar
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new video, from step 1 "Make the portrait speak"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Make the portrait speak
@@ -58,6 +65,20 @@ Makes any portrait speak a script you write, in a voice you pick, with the face 
 ## What you end up with
 
 - **video** (video): Talking-portrait clip.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new video, from step 1 "Make the portrait speak"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

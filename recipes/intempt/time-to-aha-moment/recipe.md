@@ -20,6 +20,13 @@ classification:
   executionMode: live
   tags:
     - insights
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new report, from step 1 "Chart time from signup to first goal"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Chart time from signup to first goal
@@ -69,6 +76,20 @@ Shows how long new users take to reach their first activation goal, so you can t
 ## What you end up with
 
 - **report** (report): Report produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new report, from step 1 "Chart time from signup to first goal"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

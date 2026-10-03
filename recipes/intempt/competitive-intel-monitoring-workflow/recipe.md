@@ -29,6 +29,20 @@ prerequisites:
   integrations:
     - value: slack
       severity: recommended
+touches:
+  reads:
+    - Your Slack connection
+  writes:
+    - A new workflow, from step 1 "Replace the Monday check"
+    - A new workflow, from step 2 "Run it Monday at 7am"
+    - A new workflow, from step 3 "Go through each competitor"
+    - A new workflow, from step 4 "Read their public pages"
+    - A new workflow, from step 5 "Compare against last week"
+    - A new workflow, from step 6 "Write the briefing"
+    - A new workflow, from step 7 "Post it to the channel"
+    - A new workflow, from step 8 "Publish and spot check it"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Replace the Monday check
@@ -196,6 +210,27 @@ Checks your competitors' pricing, features, blog, changelog, hiring and reviews 
 
 - **workflow** (workflow): Workflow produced by this recipe.
 - **step** (step): Workflow Step produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Your Slack connection
+
+Writes:
+
+- A new workflow, from step 1 "Replace the Monday check"
+- A new workflow, from step 2 "Run it Monday at 7am"
+- A new workflow, from step 3 "Go through each competitor"
+- A new workflow, from step 4 "Read their public pages"
+- A new workflow, from step 5 "Compare against last week"
+- A new workflow, from step 6 "Write the briefing"
+- A new workflow, from step 7 "Post it to the channel"
+- A new workflow, from step 8 "Publish and spot check it"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

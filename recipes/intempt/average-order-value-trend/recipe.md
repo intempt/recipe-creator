@@ -23,6 +23,13 @@ prerequisites:
   integrations:
     - value: shopify
       severity: blocking
+touches:
+  reads:
+    - Your Shopify connection
+  writes:
+    - A new report, from step 1 "Break down AOV week by week"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Break down AOV week by week
@@ -71,6 +78,20 @@ Tracks average order value weekly and splits the movement into how many items pe
 ## What you end up with
 
 - **report** (report): Report produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Your Shopify connection
+
+Writes:
+
+- A new report, from step 1 "Break down AOV week by week"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

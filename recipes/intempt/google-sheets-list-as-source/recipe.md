@@ -26,6 +26,14 @@ prerequisites:
   integrations:
     - value: google_sheets
       severity: blocking
+touches:
+  reads:
+    - Your Google Sheets connection
+  writes:
+    - A new workflow, from step 1 "Import the rows on a schedule"
+    - A new segment, from step 2 "Turn them into an audience"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Import the rows on a schedule
@@ -82,6 +90,21 @@ Turns a sheet your team keeps by hand, target accounts or an event list or a sup
 
 - **workflow** (workflow): Workflow produced by this recipe.
 - **segment** (segment): Segment produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Your Google Sheets connection
+
+Writes:
+
+- A new workflow, from step 1 "Import the rows on a schedule"
+- A new segment, from step 2 "Turn them into an audience"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

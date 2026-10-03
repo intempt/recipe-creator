@@ -20,6 +20,14 @@ classification:
   executionMode: live
   tags:
     - users-segment
+touches:
+  reads:
+    - The order_created event in your project
+    - The lifetime_value attribute on users
+  writes:
+    - A new segment, from step 1 "Build the VIP list"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the VIP list
@@ -27,12 +35,10 @@ steps:
       Users with lifetime value of 1,000 or more and 2 or more orders.
     builds: segment
     description: |-
-      Create a segment called "VIP Customers".
-      Object: Users
-      Rules (all conditions joined by AND):
-      - Attribute: lifetime_value >= 1000
-      - AND Event: order_created occurred >= 2 times
-      Description: High lifetime-value customers with repeat purchase history. Foundation segment for VIP rewards, exclusive product access, and concierge support.
+      Build a segment of users named "VIP Customers".
+      A user is in the segment only when all of these are true:
+      - their lifetime_value attribute is 1000 or more
+      - they did the order_created event 2 or more times, at any time
 outputs:
   - key: segment
     producedByStep: s1
@@ -55,6 +61,21 @@ Customers who have spent 1,000 or more across repeat orders, the base list for r
 ## What you end up with
 
 - **segment** (segment): Segment created on /segments.
+
+## What this recipe touches
+
+Reads:
+
+- The order_created event in your project
+- The lifetime_value attribute on users
+
+Writes:
+
+- A new segment, from step 1 "Build the VIP list"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

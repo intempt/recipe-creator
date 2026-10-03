@@ -21,6 +21,13 @@ classification:
   executionMode: live
   tags:
     - users-segment
+touches:
+  reads:
+    - The order_created event in your project
+  writes:
+    - A new segment, from step 1 "Build the replenishment list"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the replenishment list
@@ -29,13 +36,10 @@ steps:
       last 30 days.
     builds: segment
     description: |-
-      Create a segment called "Replenishment-Ready".
-      Object: Users
-      Rules (all conditions joined by AND):
-      - Event: order_created occurred >= 1 time (all time)
-      - AND Event: order_created occurred 0 times in last 30 days
-      - AND Event: order_created occurred >= 1 time between 30 and 60 days ago
-      Description: Customers whose last purchase was 30-60 days ago and who are due for re-purchase based on typical consumption cycles. Trigger replenishment reminder ("Running low?") timed to product depletion. Replenishment messaging consistently outperforms generic promotion by 5-10x.
+      Build a segment of users named "Replenishment-Ready".
+      A user is in the segment only when all of these are true:
+      - they did the order_created event at least once between 30 and 60 days ago
+      - they did not do the order_created event in the last 30 days
 outputs:
   - key: segment
     producedByStep: s1
@@ -58,6 +62,20 @@ Customers whose last order was one to two months ago and who are about due for a
 ## What you end up with
 
 - **segment** (segment): Segment created on /segments.
+
+## What this recipe touches
+
+Reads:
+
+- The order_created event in your project
+
+Writes:
+
+- A new segment, from step 1 "Build the replenishment list"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

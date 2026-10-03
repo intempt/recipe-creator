@@ -23,6 +23,16 @@ classification:
     - break-up
     - cold-outreach
     - loop-closing
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new segment, from step 1 "Find prospects who went quiet"
+    - A new designed email, from step 2 "Write the closing the loop note"
+    - A new journey, from step 3 "Send it once, then stop"
+    - A new dashboard, from step 4 "See what the last email pulls"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Find prospects who went quiet
@@ -136,6 +146,23 @@ Sends one honest last email to prospects who never replied, which usually gets a
 - **asset** (asset): Asset produced by this recipe.
 - **journey** (journey): Journey produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new segment, from step 1 "Find prospects who went quiet"
+- A new designed email, from step 2 "Write the closing the loop note"
+- A new journey, from step 3 "Send it once, then stop"
+- A new dashboard, from step 4 "See what the last email pulls"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

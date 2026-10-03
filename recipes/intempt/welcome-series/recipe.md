@@ -19,6 +19,17 @@ classification:
   executionMode: live
   tags:
     - welcome-series
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new segment, from step 1 "Find new subscribers"
+    - A new designed email, from step 2 "Write the four emails"
+    - A new journey, from step 3 "Send across the first week"
+    - A new A/B experiment, from step 4 "Test subject lines and offer"
+    - A new dashboard, from step 5 "Track the first purchase"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Find new subscribers
@@ -132,6 +143,24 @@ Introduces your brand to new subscribers over their first week in four emails, a
 - **journey** (journey): Journey produced by this recipe.
 - **experiment** (experiment): Experiment produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new segment, from step 1 "Find new subscribers"
+- A new designed email, from step 2 "Write the four emails"
+- A new journey, from step 3 "Send across the first week"
+- A new A/B experiment, from step 4 "Test subject lines and offer"
+- A new dashboard, from step 5 "Track the first purchase"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

@@ -31,6 +31,21 @@ prerequisites:
   events:
     - value: external_signal_received
       severity: blocking
+touches:
+  reads:
+    - The external_signal_received event in your project
+    - Your Slack connection
+  writes:
+    - A new workflow, from step 1 "Watch for funding news"
+    - A new workflow, from step 2 "Accept the funding event"
+    - A new workflow, from step 3 "Match it to an account"
+    - A new workflow, from step 4 "Refresh who works there now"
+    - A new workflow, from step 5 "Draft the congratulations"
+    - A new workflow, from step 6 "Put it on an AE within a day"
+    - A new workflow, from step 7 "Announce it to the team"
+    - A new workflow, from step 8 "Publish and measure the lift"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Watch for funding news
@@ -199,6 +214,28 @@ Catches an account raising money, refreshes who works there now, drafts a congra
 
 - **workflow** (workflow): Workflow produced by this recipe.
 - **step** (step): Workflow Step produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- The external_signal_received event in your project
+- Your Slack connection
+
+Writes:
+
+- A new workflow, from step 1 "Watch for funding news"
+- A new workflow, from step 2 "Accept the funding event"
+- A new workflow, from step 3 "Match it to an account"
+- A new workflow, from step 4 "Refresh who works there now"
+- A new workflow, from step 5 "Draft the congratulations"
+- A new workflow, from step 6 "Put it on an AE within a day"
+- A new workflow, from step 7 "Announce it to the team"
+- A new workflow, from step 8 "Publish and measure the lift"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

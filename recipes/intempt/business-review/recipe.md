@@ -23,6 +23,15 @@ prerequisites:
   integrations:
     - value: slack
       severity: recommended
+touches:
+  reads:
+    - Your Slack connection
+  writes:
+    - A new dashboard, from step 1 "Build the headline scorecard"
+    - A new report, from step 2 "Write the period narrative"
+    - A new workflow, from step 3 "Send it to Slack on a cadence"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the headline scorecard
@@ -92,6 +101,22 @@ Builds the weekly scorecard, writes the narrative on what moved and why, and pos
 - **dashboard** (dashboard): Dashboard produced by this recipe.
 - **report** (report): Report produced by this recipe.
 - **workflow** (workflow): Workflow produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Your Slack connection
+
+Writes:
+
+- A new dashboard, from step 1 "Build the headline scorecard"
+- A new report, from step 2 "Write the period narrative"
+- A new workflow, from step 3 "Send it to Slack on a cadence"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

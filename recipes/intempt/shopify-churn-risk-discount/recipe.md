@@ -25,6 +25,14 @@ prerequisites:
   integrations:
     - value: shopify
       severity: blocking
+touches:
+  reads:
+    - Your Shopify connection
+  writes:
+    - A new segment, from step 1 "Spot a broken buying rhythm"
+    - A new workflow, from step 2 "Apply the code, state the size"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Spot a broken buying rhythm
@@ -82,6 +90,21 @@ Sends a Shopify discount to customers whose buying rhythm has broken, judged aga
 
 - **at_risk** (segment): Segment produced by this recipe.
 - **workflow** (workflow): Workflow produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Your Shopify connection
+
+Writes:
+
+- A new segment, from step 1 "Spot a broken buying rhythm"
+- A new workflow, from step 2 "Apply the code, state the size"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

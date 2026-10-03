@@ -27,6 +27,13 @@ prerequisites:
   integrations:
     - value: hubspot
       severity: blocking
+touches:
+  reads:
+    - Your HubSpot connection
+  writes:
+    - A new A/B experiment, from step 1 "Set up the form length test"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Set up the form length test
@@ -123,6 +130,20 @@ Compares a 3, 5 and 7 field demo request form, so you can see what each extra fi
 ## What you end up with
 
 - **experiment** (experiment): Website experiment created on /experiences.
+
+## What this recipe touches
+
+Reads:
+
+- Your HubSpot connection
+
+Writes:
+
+- A new A/B experiment, from step 1 "Set up the form length test"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

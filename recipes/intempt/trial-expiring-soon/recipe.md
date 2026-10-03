@@ -20,6 +20,14 @@ classification:
   executionMode: live
   tags:
     - users-segment
+touches:
+  reads:
+    - The subscription_created event in your project
+    - The plan_name and end_date attributes on users
+  writes:
+    - A new segment, from step 1 "Build the expiring-trial list"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the expiring-trial list
@@ -28,13 +36,11 @@ steps:
       in the last 14 days.
     builds: segment
     description: |-
-      Create a segment called "Trial Expiring Soon".
-      Object: Users
-      Rules (all conditions joined by AND):
-      - Attribute: plan_name = "trial"
-      - AND Attribute: end_date is within next 7 days
-      - AND Event: subscription_created has not occurred in last 14 days
-      Description: Trial users approaching expiry without paid conversion. Trigger a final-push email or in-app upgrade prompt.
+      Build a segment of users named "Trial Expiring Soon".
+      A user is in the segment only when all of these are true:
+      - their plan_name attribute is "trial"
+      - their end_date attribute is within the next 7 days
+      - they did not do the subscription_created event in the last 14 days
 outputs:
   - key: segment
     producedByStep: s1
@@ -57,6 +63,21 @@ Trial users whose trial runs out within a week and who have not paid yet, your l
 ## What you end up with
 
 - **segment** (segment): Segment created on /segments.
+
+## What this recipe touches
+
+Reads:
+
+- The subscription_created event in your project
+- The plan_name and end_date attributes on users
+
+Writes:
+
+- A new segment, from step 1 "Build the expiring-trial list"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

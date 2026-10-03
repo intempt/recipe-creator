@@ -20,6 +20,14 @@ classification:
   executionMode: live
   tags:
     - users-segment
+touches:
+  reads:
+    - The subscription_cancelled event in your project
+    - The lifetime_value and total_events attributes on users
+  writes:
+    - A new segment, from step 1 "Build the win-back list"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the win-back list
@@ -28,13 +36,11 @@ steps:
       more events on record.
     builds: segment
     description: |-
-      Create a segment called "Winnable Churned Users".
-      Object: Users
-      Rules (all conditions joined by AND):
-      - Event: subscription_cancelled occurred >= 1 time in last 60 days
-      - AND Attribute: lifetime_value > 0
-      - AND Attribute: total_events >= 50
-      Description: Recently churned users with prior engagement (positive lifetime value, meaningful event volume during their active period). Best candidates for a win-back offer.
+      Build a segment of users named "Winnable Churned Users".
+      A user is in the segment only when all of these are true:
+      - they did the subscription_cancelled event at least once in the last 60 days
+      - their lifetime_value attribute is more than 0
+      - their total_events attribute is 50 or more
 outputs:
   - key: segment
     producedByStep: s1
@@ -57,6 +63,21 @@ People who cancelled in the last two months but used the product heavily before 
 ## What you end up with
 
 - **segment** (segment): Segment created on /segments.
+
+## What this recipe touches
+
+Reads:
+
+- The subscription_cancelled event in your project
+- The lifetime_value and total_events attributes on users
+
+Writes:
+
+- A new segment, from step 1 "Build the win-back list"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

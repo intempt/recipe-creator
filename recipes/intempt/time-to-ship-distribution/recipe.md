@@ -19,6 +19,13 @@ classification:
   executionMode: live
   tags:
     - insights
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new report, from step 1 "Measure how fast orders ship"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Measure how fast orders ship
@@ -69,6 +76,20 @@ Shows how long orders take to ship, bucketed from same day out past two weeks, w
 ## What you end up with
 
 - **report** (report): Report produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new report, from step 1 "Measure how fast orders ship"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

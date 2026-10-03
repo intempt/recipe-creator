@@ -30,6 +30,18 @@ prerequisites:
   events:
     - value: meeting_completed
       severity: blocking
+touches:
+  reads:
+    - The meeting_completed event in your project
+    - Your Slack connection
+  writes:
+    - A new attribute, from step 1 "Pull the meeting apart"
+    - A new designed email, from step 2 "Write the recap email"
+    - A new workflow, from step 3 "File it and raise the tasks"
+    - A new journey, from step 4 "Send it within 30 minutes"
+    - A new dashboard, from step 5 "Check nothing goes unanswered"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Pull the meeting apart
@@ -170,6 +182,25 @@ Turns a finished call into a recap email, a set of tasks with owners and due dat
 - **workflow** (workflow): Workflow produced by this recipe.
 - **journey** (journey): Journey produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- The meeting_completed event in your project
+- Your Slack connection
+
+Writes:
+
+- A new attribute, from step 1 "Pull the meeting apart"
+- A new designed email, from step 2 "Write the recap email"
+- A new workflow, from step 3 "File it and raise the tasks"
+- A new journey, from step 4 "Send it within 30 minutes"
+- A new dashboard, from step 5 "Check nothing goes unanswered"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

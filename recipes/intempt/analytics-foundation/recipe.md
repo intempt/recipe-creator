@@ -27,6 +27,16 @@ prerequisites:
       severity: blocking
     - value: click_on
       severity: recommended
+touches:
+  reads:
+    - The session_start event in your project
+    - The page_viewed event in your project
+    - The click_on event in your project
+  writes:
+    - A new report, from step 1 "Build the core report set"
+    - A new dashboard, from step 2 "Compose the exec dashboard"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the core report set
@@ -78,6 +88,23 @@ Sets up your core analytics in one pass: the key metric, conversion, cohort and 
 
 - **report** (report): Report produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- The session_start event in your project
+- The page_viewed event in your project
+- The click_on event in your project
+
+Writes:
+
+- A new report, from step 1 "Build the core report set"
+- A new dashboard, from step 2 "Compose the exec dashboard"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

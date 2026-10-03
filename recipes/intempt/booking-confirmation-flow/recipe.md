@@ -30,6 +30,18 @@ prerequisites:
   events:
     - value: meeting_scheduled
       severity: blocking
+touches:
+  reads:
+    - The meeting_scheduled event in your project
+    - Your Slack connection
+  writes:
+    - A new designed email, from step 1 "Write the two reminder emails"
+    - A new SMS message, from step 2 "Write the two hour text"
+    - A new journey, from step 3 "Remind at 48, 24 and 2 hours"
+    - A new workflow, from step 4 "Tell the host, link the deal"
+    - A new dashboard, from step 5 "See what reminders are worth"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Write the two reminder emails
@@ -160,6 +172,25 @@ Reminds the other side before a booked meeting at 48 hours, 24 hours and 2 hours
 - **journey** (journey): Journey produced by this recipe.
 - **workflow** (workflow): Workflow produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- The meeting_scheduled event in your project
+- Your Slack connection
+
+Writes:
+
+- A new designed email, from step 1 "Write the two reminder emails"
+- A new SMS message, from step 2 "Write the two hour text"
+- A new journey, from step 3 "Remind at 48, 24 and 2 hours"
+- A new workflow, from step 4 "Tell the host, link the deal"
+- A new dashboard, from step 5 "See what reminders are worth"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

@@ -27,6 +27,19 @@ prerequisites:
   events:
     - value: feature_used
       severity: blocking
+touches:
+  reads:
+    - The feature_used event in your project
+  writes:
+    - A new attribute, from step 1 "Spot work done the hard way"
+    - A new segment, from step 2 "Find who could automate it"
+    - A new landing page, from step 3 "Nudge them mid task"
+    - A new product recommendation, from step 4 "List their power features"
+    - A new designed email, from step 5 "Ask adopters for a review"
+    - A new journey, from step 6 "Nudge, remind, then let it go"
+    - A new dashboard, from step 7 "See which features stay hidden"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Spot work done the hard way
@@ -227,6 +240,26 @@ Notices people doing a job by hand over and over, shows them the feature that au
 - **recommendation** (recommendation): Recommendation Surface produced by this recipe.
 - **journey** (journey): Journey produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- The feature_used event in your project
+
+Writes:
+
+- A new attribute, from step 1 "Spot work done the hard way"
+- A new segment, from step 2 "Find who could automate it"
+- A new landing page, from step 3 "Nudge them mid task"
+- A new product recommendation, from step 4 "List their power features"
+- A new designed email, from step 5 "Ask adopters for a review"
+- A new journey, from step 6 "Nudge, remind, then let it go"
+- A new dashboard, from step 7 "See which features stay hidden"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

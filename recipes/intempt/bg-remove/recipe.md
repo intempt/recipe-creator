@@ -21,6 +21,17 @@ classification:
     - image
     - background
     - remove
+inputs:
+  - input: Product image
+    what_the_installer_supplies: The product photo to cut out
+    if_missing: The step is marked vague and waits until one is attached.
+touches:
+  reads:
+    - The product image you supply when you run it
+  writes:
+    - A new image, from step 1 "Cut out the product"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Cut out the product
@@ -29,9 +40,9 @@ steps:
       position and is not re-rendered.
     builds: image
     description: |-
-      Remove the background from a product image.
-      Keep the SAME product in the SAME position. Replace the backdrop and shadow with transparency (alpha channel). Do not re-render or modify the product.
-      Pipeline: flux-pro/kontext (background isolation)
+      Edit the product image attached to this run.
+      Remove the backdrop and the shadow and replace them with a transparent background.
+      Keep the product in exactly the same position, and do not re-render or alter it.
 outputs:
   - key: image
     producedByStep: s1
@@ -54,6 +65,26 @@ Strips the backdrop and shadow from a product image and returns a transparent cu
 ## What you end up with
 
 - **image** (image): Product on transparent background.
+
+## What this recipe touches
+
+Reads:
+
+- The product image you supply when you run it
+
+Writes:
+
+- A new image, from step 1 "Cut out the product"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
+
+## Declared inputs
+
+| Input | What the installer supplies | If missing |
+|---|---|---|
+| Product image | The product photo to cut out | The step is marked vague and waits until one is attached. |
 
 ## Availability
 

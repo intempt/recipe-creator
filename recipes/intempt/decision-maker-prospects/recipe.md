@@ -21,6 +21,15 @@ classification:
   executionMode: live
   tags:
     - users-segment
+touches:
+  reads:
+    - The page_viewed event in your project
+    - The page_url property on those events
+    - The title and email attributes on users
+  writes:
+    - A new segment, from step 1 "Build the decision-maker list"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the decision-maker list
@@ -29,13 +38,11 @@ steps:
       who viewed a /pricing page in the last 30 days and have an email on file.
     builds: segment
     description: |-
-      Create a segment called "Decision-Maker Prospects".
-      Object: Users
-      Rules (all conditions joined by AND):
-      - Attribute: title contains any of ["CEO", "CTO", "CFO", "CMO", "COO", "VP", "Vice President", "Director", "Head of", "Chief"]
-      - AND Event: page_viewed where page_url contains "/pricing" occurred >= 1 time in last 30 days
-      - AND Attribute: email is not empty
-      Description: Senior-title users (C-level, VP, Director) who have visited pricing in the last 30 days. The economic-buyer signal: these are budget-holders actively researching. Highest priority for AE-led outreach, executive-sponsor engagement, and ROI-focused content delivery.
+      Build a segment of users named "Decision-Maker Prospects".
+      A user is in the segment only when all of these are true:
+      - their title attribute contains any of "CEO", "CTO", "CFO", "CMO", "COO", "VP", "Vice President", "Director", "Head of" or "Chief"
+      - they did the page_viewed event with a page_url that contains "/pricing" at least once in the last 30 days
+      - their email attribute is not empty
 outputs:
   - key: segment
     producedByStep: s1
@@ -58,6 +65,22 @@ Senior people who looked at your pricing in the last month, so AEs can talk to w
 ## What you end up with
 
 - **segment** (segment): Segment created on /segments.
+
+## What this recipe touches
+
+Reads:
+
+- The page_viewed event in your project
+- The page_url property on those events
+- The title and email attributes on users
+
+Writes:
+
+- A new segment, from step 1 "Build the decision-maker list"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

@@ -33,6 +33,17 @@ prerequisites:
       severity: recommended
     - value: gmail
       severity: recommended
+touches:
+  reads:
+    - The email_received event in your project
+    - Your Slack connection
+    - Your Gmail connection
+  writes:
+    - A new attribute, from step 1 "Gather the reply context"
+    - A new workflow, from step 2 "Draft it into the rep's outbox"
+    - A new dashboard, from step 3 "See how good the drafts are"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Gather the reply context
@@ -121,6 +132,24 @@ Drafts a reply to every inbound sales email using the thread, the deal stage and
 - **attribute** (attribute): AI-Derived Attribute produced by this recipe.
 - **workflow** (workflow): Workflow produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- The email_received event in your project
+- Your Slack connection
+- Your Gmail connection
+
+Writes:
+
+- A new attribute, from step 1 "Gather the reply context"
+- A new workflow, from step 2 "Draft it into the rep's outbox"
+- A new dashboard, from step 3 "See how good the drafts are"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

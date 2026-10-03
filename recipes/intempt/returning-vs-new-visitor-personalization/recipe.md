@@ -22,6 +22,13 @@ classification:
   tags:
     - personalization
     - client
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new website personalization, from step 1 "Set up the visitor-history heroes"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Set up the visitor-history heroes
@@ -127,6 +134,20 @@ First-time visitors get the value proposition. Returning visitors get picked up 
 ## What you end up with
 
 - **personalization** (personalization): Website personalization created on /experiences.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new website personalization, from step 1 "Set up the visitor-history heroes"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

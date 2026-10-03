@@ -28,6 +28,16 @@ prerequisites:
   integrations:
     - value: slack
       severity: recommended
+touches:
+  reads:
+    - Your Slack connection
+  writes:
+    - A new report, from step 1 "Snapshot the pipeline"
+    - A new designed email, from step 2 "Write the leadership email"
+    - A new workflow, from step 3 "Send it Monday at 7am"
+    - A new dashboard, from step 4 "Check who forecasts honestly"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Snapshot the pipeline
@@ -145,6 +155,23 @@ Freezes the pipeline every Monday, sends leadership the weighted forecast and wh
 - **asset** (asset): Asset produced by this recipe.
 - **workflow** (workflow): Workflow produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Your Slack connection
+
+Writes:
+
+- A new report, from step 1 "Snapshot the pipeline"
+- A new designed email, from step 2 "Write the leadership email"
+- A new workflow, from step 3 "Send it Monday at 7am"
+- A new dashboard, from step 4 "Check who forecasts honestly"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

@@ -19,6 +19,17 @@ classification:
   executionMode: live
   tags:
     - sunset-hygiene
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new segment, from step 1 "Find who stopped reading"
+    - A new designed email, from step 2 "Write the last chance email"
+    - A new journey, from step 3 "Send it, then wait 14 days"
+    - A new workflow, from step 4 "Suppress anyone who ignores it"
+    - A new dashboard, from step 5 "Watch your deliverability"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Find who stopped reading
@@ -133,6 +144,24 @@ Gives subscribers who have ignored six months of email one chance to say they st
 - **journey** (journey): Journey produced by this recipe.
 - **workflow** (workflow): Workflow produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new segment, from step 1 "Find who stopped reading"
+- A new designed email, from step 2 "Write the last chance email"
+- A new journey, from step 3 "Send it, then wait 14 days"
+- A new workflow, from step 4 "Suppress anyone who ignores it"
+- A new dashboard, from step 5 "Watch your deliverability"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

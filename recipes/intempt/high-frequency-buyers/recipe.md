@@ -20,6 +20,13 @@ classification:
   executionMode: live
   tags:
     - users-segment
+touches:
+  reads:
+    - The order_created event in your project
+  writes:
+    - A new segment, from step 1 "Build the frequent-buyer list"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the frequent-buyer list
@@ -27,11 +34,9 @@ steps:
       Users with 4 or more orders in the last 90 days.
     builds: segment
     description: |-
-      Create a segment called "High-Frequency Buyers".
-      Object: Users
-      Rules:
-      - Event: order_created occurred >= 4 times in last 90 days
-      Description: High-frequency buyers: the most loyal cohort. Priority for loyalty program enrollment, early access, and brand-ambassador outreach.
+      Build a segment of users named "High-Frequency Buyers".
+      A user is in the segment only when all of these are true:
+      - they did the order_created event 4 or more times in the last 90 days
 outputs:
   - key: segment
     producedByStep: s1
@@ -54,6 +59,20 @@ Customers who order at least four times a quarter, so loyalty perks and early ac
 ## What you end up with
 
 - **segment** (segment): Segment created on /segments.
+
+## What this recipe touches
+
+Reads:
+
+- The order_created event in your project
+
+Writes:
+
+- A new segment, from step 1 "Build the frequent-buyer list"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

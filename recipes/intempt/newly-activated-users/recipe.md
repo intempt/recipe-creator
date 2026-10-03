@@ -20,6 +20,19 @@ classification:
   executionMode: live
   tags:
     - users-segment
+inputs:
+  - input: Activation journey
+    what_the_installer_supplies: The journey whose goal marks a user as activated
+    if_missing: The step is marked vague and waits until one is chosen.
+touches:
+  reads:
+    - The goal_completed_in_journey event in your project
+    - The plan_name attribute on users
+    - The activation journey you supply when you run it
+  writes:
+    - A new segment, from step 1 "Build the newly-activated list"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the newly-activated list
@@ -27,12 +40,10 @@ steps:
       Users on a paid plan who completed the activation journey goal at least once in the last 7 days.
     builds: segment
     description: |-
-      Create a segment called "Newly Activated Users".
-      Object: Users
-      Rules (all conditions joined by AND):
-      - Event: goal_completed_in_journey where journey_id = <activation journey id> occurred >= 1 time in last 7 days
-      - AND Attribute: plan_name is not "free"
-      Description: Users who hit the activation milestone in the last 7 days. Warm cohort for expansion outreach, feature-discovery campaigns, and upgrade prompts.
+      Build a segment of users named "Newly Activated Users".
+      A user is in the segment only when all of these are true:
+      - they did the goal_completed_in_journey event at least once in the last 7 days, with a journey_id equal to the activation journey chosen for this run
+      - their plan_name attribute is not "free"
 outputs:
   - key: segment
     producedByStep: s1
@@ -55,6 +66,28 @@ Paying users who hit their activation milestone in the last week, while they are
 ## What you end up with
 
 - **segment** (segment): Segment created on /segments.
+
+## What this recipe touches
+
+Reads:
+
+- The goal_completed_in_journey event in your project
+- The plan_name attribute on users
+- The activation journey you supply when you run it
+
+Writes:
+
+- A new segment, from step 1 "Build the newly-activated list"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
+
+## Declared inputs
+
+| Input | What the installer supplies | If missing |
+|---|---|---|
+| Activation journey | The journey whose goal marks a user as activated | The step is marked vague and waits until one is chosen. |
 
 ## Availability
 

@@ -21,6 +21,23 @@ classification:
     - image
     - remix
     - reference
+inputs:
+  - input: References
+    what_the_installer_supplies: One to four images (a canvas snapshot, scene, avatar or upload), each
+      with a weight of Light, Medium or Strong
+    if_missing: The step is marked vague and waits until at least one is pinned.
+  - input: Number of variations
+    what_the_installer_supplies: How many variations to generate
+    if_missing: Four are generated.
+touches:
+  reads:
+    - The weight attribute on users
+    - The references you supply when you run it
+    - The number of variations you supply when you run it
+  writes:
+    - A new image, from step 1 "Pin references and fan out"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Pin references and fan out
@@ -29,13 +46,9 @@ steps:
       Medium or Strong. The weight decides how strongly that reference pulls the output.
     builds: image
     description: |-
-      Generate image variations from reference pins.
-      Inputs:
-      - references: 1: 4 reference images (canvas snapshot, scene, avatar, or upload) each with weight (Light/Medium/Strong)
-      - fanout: number of variations to generate (default: 4)
-      Pipeline: nano-banana-pro with reference_images[] and per-weight prompt directives
-      Runner: image-remix (custom)
-      Fan out on-brand variations anchored to the reference images. Each reference's weight controls how strongly it influences the output.
+      Generate four image variations from the reference images pinned to this run.
+      Use between one and four references, each with a weight of Light, Medium or Strong.
+      A Strong reference shapes each variation most, Medium less, and Light least.
 outputs:
   - key: image
     producedByStep: s1
@@ -58,6 +71,29 @@ Pin up to four reference images with a weight on each, and get back variations a
 ## What you end up with
 
 - **image** (image): Remixed image variations.
+
+## What this recipe touches
+
+Reads:
+
+- The weight attribute on users
+- The references you supply when you run it
+- The number of variations you supply when you run it
+
+Writes:
+
+- A new image, from step 1 "Pin references and fan out"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
+
+## Declared inputs
+
+| Input | What the installer supplies | If missing |
+|---|---|---|
+| References | One to four images (a canvas snapshot, scene, avatar or upload), each with a weight of Light, Medium or Strong | The step is marked vague and waits until at least one is pinned. |
+| Number of variations | How many variations to generate | Four are generated. |
 
 ## Availability
 

@@ -29,6 +29,21 @@ prerequisites:
   integrations:
     - value: slack
       severity: blocking
+touches:
+  reads:
+    - Your Slack connection
+  writes:
+    - A new workflow, from step 1 "Gate the risky AI actions"
+    - A new workflow, from step 2 "Let other workflows queue one"
+    - A new workflow, from step 3 "Send it to the right approver"
+    - A new workflow, from step 4 "Ask in Slack"
+    - A new workflow, from step 5 "Wait for an answer"
+    - A new workflow, from step 6 "Act on the decision"
+    - A new workflow, from step 7 "Tell the workflow to proceed"
+    - A new workflow, from step 8 "Log what humans reject"
+    - A new workflow, from step 9 "Publish and watch the queue"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Gate the risky AI actions
@@ -218,6 +233,28 @@ Holds the riskier things an AI workflow wants to do, such as a mass update or a 
 
 - **workflow** (workflow): Workflow produced by this recipe.
 - **step** (step): Workflow Step produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Your Slack connection
+
+Writes:
+
+- A new workflow, from step 1 "Gate the risky AI actions"
+- A new workflow, from step 2 "Let other workflows queue one"
+- A new workflow, from step 3 "Send it to the right approver"
+- A new workflow, from step 4 "Ask in Slack"
+- A new workflow, from step 5 "Wait for an answer"
+- A new workflow, from step 6 "Act on the decision"
+- A new workflow, from step 7 "Tell the workflow to proceed"
+- A new workflow, from step 8 "Log what humans reject"
+- A new workflow, from step 9 "Publish and watch the queue"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

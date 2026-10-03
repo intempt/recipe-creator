@@ -21,6 +21,13 @@ classification:
     - video
     - multi-shot
     - story
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new video, from step 1 "Render and join the shots"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Render and join the shots
@@ -58,6 +65,20 @@ Renders every shot in your shot list with one consistent look and joins them int
 ## What you end up with
 
 - **video** (video): Multi-shot reel.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new video, from step 1 "Render and join the shots"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

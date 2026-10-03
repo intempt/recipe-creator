@@ -19,6 +19,15 @@ classification:
   executionMode: live
   tags:
     - testing-retrospective
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new report, from step 1 "Compile the quarter's results"
+    - A new report, from step 2 "Find the patterns that repeat"
+    - A new dashboard, from step 3 "Track cadence and impact"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Compile the quarter's results
@@ -84,6 +93,22 @@ Pulls every experiment you ran last quarter into one review: what won, what lost
 
 - **report** (report): Reports produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new report, from step 1 "Compile the quarter's results"
+- A new report, from step 2 "Find the patterns that repeat"
+- A new dashboard, from step 3 "Track cadence and impact"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

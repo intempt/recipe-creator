@@ -32,6 +32,18 @@ prerequisites:
       severity: blocking
     - value: user_signed_up
       severity: recommended
+touches:
+  reads:
+    - The subscription_created event in your project
+    - The user_signed_up event in your project
+    - Your Slack connection
+  writes:
+    - A new segment, from step 1 "Find genuine upgrades"
+    - A new attribute, from step 2 "Write the pre call brief"
+    - A new workflow, from step 3 "Assign a CSM and kick off"
+    - A new dashboard, from step 4 "Prove the handoff matters"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Find genuine upgrades
@@ -144,6 +156,25 @@ Every upgrade from free to paid creates a CSM kickoff task carrying the customer
 - **attribute** (attribute): AI-Derived Attribute produced by this recipe.
 - **workflow** (workflow): Workflow produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- The subscription_created event in your project
+- The user_signed_up event in your project
+- Your Slack connection
+
+Writes:
+
+- A new segment, from step 1 "Find genuine upgrades"
+- A new attribute, from step 2 "Write the pre call brief"
+- A new workflow, from step 3 "Assign a CSM and kick off"
+- A new dashboard, from step 4 "Prove the handoff matters"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

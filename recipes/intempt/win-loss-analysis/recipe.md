@@ -20,6 +20,15 @@ classification:
   executionMode: oneshot
   tags:
     - win-loss-analysis
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new report, from step 1 "Compare won and lost deals"
+    - A new landing page, from step 2 "Write the battlecard"
+    - A new dashboard, from step 3 "Track the patterns over time"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Compare won and lost deals
@@ -92,6 +101,22 @@ Reads your closed deals to show which competitors, objections and decision crite
 - **report** (report): Report produced by this recipe.
 - **asset** (asset): Asset produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new report, from step 1 "Compare won and lost deals"
+- A new landing page, from step 2 "Write the battlecard"
+- A new dashboard, from step 3 "Track the patterns over time"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

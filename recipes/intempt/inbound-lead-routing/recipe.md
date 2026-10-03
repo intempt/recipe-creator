@@ -33,6 +33,17 @@ prerequisites:
       severity: blocking
     - value: user_signed_up
       severity: recommended
+touches:
+  reads:
+    - The form_submitted event in your project
+    - The user_signed_up event in your project
+    - Your Slack connection
+  writes:
+    - A new attribute, from step 1 "Score the lead out of 100"
+    - A new workflow, from step 2 "Assign it to the right rep"
+    - A new dashboard, from step 3 "Check the balance and the SLA"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Score the lead out of 100
@@ -124,6 +135,24 @@ Enriches and scores every inbound lead, then assigns it by named account, territ
 - **attribute** (attribute): AI-Derived Attribute produced by this recipe.
 - **workflow** (workflow): Workflow produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- The form_submitted event in your project
+- The user_signed_up event in your project
+- Your Slack connection
+
+Writes:
+
+- A new attribute, from step 1 "Score the lead out of 100"
+- A new workflow, from step 2 "Assign it to the right rep"
+- A new dashboard, from step 3 "Check the balance and the SLA"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

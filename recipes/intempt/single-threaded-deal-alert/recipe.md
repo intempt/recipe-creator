@@ -32,6 +32,18 @@ prerequisites:
       severity: recommended
     - value: meeting_completed
       severity: recommended
+touches:
+  reads:
+    - The deal_stage_changed event in your project
+    - The meeting_completed event in your project
+    - Your Slack connection
+  writes:
+    - A new attribute, from step 1 "Count who is actually engaged"
+    - A new segment, from step 2 "Find the risky ones"
+    - A new workflow, from step 3 "Give the rep three names"
+    - A new dashboard, from step 4 "See what threading is worth"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Count who is actually engaged
@@ -145,6 +157,25 @@ Finds late stage deals where only one person on the buyer's side is engaged and 
 - **segment** (segment): Segment produced by this recipe.
 - **workflow** (workflow): Workflow produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- The deal_stage_changed event in your project
+- The meeting_completed event in your project
+- Your Slack connection
+
+Writes:
+
+- A new attribute, from step 1 "Count who is actually engaged"
+- A new segment, from step 2 "Find the risky ones"
+- A new workflow, from step 3 "Give the rep three names"
+- A new dashboard, from step 4 "See what threading is worth"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

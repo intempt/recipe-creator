@@ -19,6 +19,13 @@ classification:
   executionMode: live
   tags:
     - insights
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new report, from step 1 "Measure the gap to order two"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Measure the gap to order two
@@ -67,6 +74,20 @@ Shows how long repeat buyers wait before ordering again, which is the number you
 ## What you end up with
 
 - **report** (report): Report produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new report, from step 1 "Measure the gap to order two"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

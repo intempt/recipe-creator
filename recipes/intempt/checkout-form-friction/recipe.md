@@ -28,6 +28,14 @@ prerequisites:
     - value: stripe
       severity: blocking
       group: checkout-source
+touches:
+  reads:
+    - Your Shopify connection
+    - Your Stripe connection
+  writes:
+    - A new report, from step 1 "Find the stalling checkout step"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Find the stalling checkout step
@@ -84,6 +92,21 @@ Shows which checkout step loses you orders, how long shoppers sit on each one, a
 ## What you end up with
 
 - **report** (report): Report produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Your Shopify connection
+- Your Stripe connection
+
+Writes:
+
+- A new report, from step 1 "Find the stalling checkout step"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

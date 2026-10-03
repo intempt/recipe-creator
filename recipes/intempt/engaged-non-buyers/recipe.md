@@ -20,6 +20,14 @@ classification:
   executionMode: live
   tags:
     - users-segment
+touches:
+  reads:
+    - The order_created event in your project
+    - The total_events, days_since_last_activity and email attributes on users
+  writes:
+    - A new segment, from step 1 "Build the non-buyer list"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the non-buyer list
@@ -28,14 +36,12 @@ steps:
       on file.
     builds: segment
     description: |-
-      Create a segment called "Engaged Non-Buyers".
-      Object: Users
-      Rules (all conditions joined by AND):
-      - Attribute: total_events >= 10
-      - AND Event: order_created occurred 0 times (all time)
-      - AND Attribute: days_since_last_activity <= 7
-      - AND Attribute: email is not empty
-      Description: Identified users who engage frequently but have never purchased. First-purchase incentive cohort: typically responds well to a first-order discount or product-discovery campaign.
+      Build a segment of users named "Engaged Non-Buyers".
+      A user is in the segment only when all of these are true:
+      - their total_events attribute is 10 or more
+      - they have never done the order_created event
+      - their days_since_last_activity attribute is 7 or less
+      - their email attribute is not empty
 outputs:
   - key: segment
     producedByStep: s1
@@ -58,6 +64,21 @@ People who use your site a lot but have never placed an order, so you can aim a 
 ## What you end up with
 
 - **segment** (segment): Segment created on /segments.
+
+## What this recipe touches
+
+Reads:
+
+- The order_created event in your project
+- The total_events, days_since_last_activity and email attributes on users
+
+Writes:
+
+- A new segment, from step 1 "Build the non-buyer list"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

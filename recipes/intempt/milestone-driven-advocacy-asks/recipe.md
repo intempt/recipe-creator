@@ -25,6 +25,18 @@ classification:
     - advocacy
     - lifecycle-marketing
     - referrals
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new attribute, from step 1 "Spot the goodwill moments"
+    - A new segment, from step 2 "Find who is ready to be asked"
+    - A new designed email, from step 3 "Write one ask per moment"
+    - A new product recommendation, from step 4 "Let them volunteer in the app"
+    - A new journey, from step 5 "Ask once, follow up once"
+    - A new dashboard, from step 6 "See which asks get a yes"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Spot the goodwill moments
@@ -207,6 +219,25 @@ Asks for a review, a referral or a case study just after a customer wins somethi
 - **recommendation** (recommendation): Recommendation Surface produced by this recipe.
 - **journey** (journey): Journey produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new attribute, from step 1 "Spot the goodwill moments"
+- A new segment, from step 2 "Find who is ready to be asked"
+- A new designed email, from step 3 "Write one ask per moment"
+- A new product recommendation, from step 4 "Let them volunteer in the app"
+- A new journey, from step 5 "Ask once, follow up once"
+- A new dashboard, from step 6 "See which asks get a yes"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

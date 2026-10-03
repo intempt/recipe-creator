@@ -29,6 +29,15 @@ prerequisites:
   integrations:
     - value: hubspot
       severity: blocking
+touches:
+  reads:
+    - The feature_used event in your project
+    - Your HubSpot connection
+  writes:
+    - A new segment, from step 1 "Define what ready to buy means"
+    - A new workflow, from step 2 "Open the deal, leave the rest"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Define what ready to buy means
@@ -84,6 +93,22 @@ Opens a HubSpot deal when an account's usage says they are ready to buy, so the 
 
 - **pql** (segment): Segment produced by this recipe.
 - **workflow** (workflow): Workflow produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- The feature_used event in your project
+- Your HubSpot connection
+
+Writes:
+
+- A new segment, from step 1 "Define what ready to buy means"
+- A new workflow, from step 2 "Open the deal, leave the rest"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

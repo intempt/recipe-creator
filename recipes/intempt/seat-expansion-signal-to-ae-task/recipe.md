@@ -30,6 +30,17 @@ prerequisites:
   events:
     - value: user_signed_up
       severity: blocking
+touches:
+  reads:
+    - The user_signed_up event in your project
+    - Your Slack connection
+  writes:
+    - A new attribute, from step 1 "Measure how full the plan is"
+    - A new segment, from step 2 "Find accounts near a limit"
+    - A new workflow, from step 3 "Raise the expansion task"
+    - A new dashboard, from step 4 "Track the expansion pipeline"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Measure how full the plan is
@@ -144,6 +155,24 @@ Tells the AE when a customer is running out of seats or people from their domain
 - **segment** (segment): Segment produced by this recipe.
 - **workflow** (workflow): Workflow produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- The user_signed_up event in your project
+- Your Slack connection
+
+Writes:
+
+- A new attribute, from step 1 "Measure how full the plan is"
+- A new segment, from step 2 "Find accounts near a limit"
+- A new workflow, from step 3 "Raise the expansion task"
+- A new dashboard, from step 4 "Track the expansion pipeline"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

@@ -22,6 +22,13 @@ classification:
     - experiment
     - client
   experimentType: a-b
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new A/B experiment, from step 1 "Set up the toggle default test"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Set up the toggle default test
@@ -109,6 +116,20 @@ Tests whether defaulting the pricing toggle to annual rather than monthly earns 
 ## What you end up with
 
 - **experiment** (experiment): Website experiment created on /experiences.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new A/B experiment, from step 1 "Set up the toggle default test"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

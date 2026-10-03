@@ -21,6 +21,13 @@ classification:
     - email
     - announcement
     - product-launch
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new content asset, from step 1 "Write the announcement email"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Write the announcement email
@@ -54,6 +61,20 @@ Writes a launch-day email in your brand colors and fonts, with the product hero 
 ## What you end up with
 
 - **content** (content): Product announcement email.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new content asset, from step 1 "Write the announcement email"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

@@ -20,6 +20,14 @@ classification:
   executionMode: live
   tags:
     - users-segment
+touches:
+  reads:
+    - The order_created event in your project
+    - The avg_order_value and lifetime_value attributes on users
+  writes:
+    - A new segment, from step 1 "Build the big-basket list"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the big-basket list
@@ -28,13 +36,11 @@ steps:
       of 300 or more.
     builds: segment
     description: |-
-      Create a segment called "Big-Basket Buyers".
-      Object: Users
-      Rules (all conditions joined by AND):
-      - Attribute: avg_order_value >= 150
-      - AND Event: order_created occurred >= 2 times (all time)
-      - AND Attribute: lifetime_value >= 300
-      Description: Customers who buy at higher AOV per order. Distinct from VIPs (which is by lifetime spend). Big-basket buyers may have fewer orders but consistently spend big on each: the right cohort for premium product launches, bundle offers, and "spend more, save more" tier promotions.
+      Build a segment of users named "Big-Basket Buyers".
+      A user is in the segment only when all of these are true:
+      - their avg_order_value attribute is 150 or more
+      - they did the order_created event 2 or more times, at any time
+      - their lifetime_value attribute is 300 or more
 outputs:
   - key: segment
     producedByStep: s1
@@ -57,6 +63,21 @@ Customers who spend heavily on every single order, so premium bundles and higher
 ## What you end up with
 
 - **segment** (segment): Segment created on /segments.
+
+## What this recipe touches
+
+Reads:
+
+- The order_created event in your project
+- The avg_order_value and lifetime_value attributes on users
+
+Writes:
+
+- A new segment, from step 1 "Build the big-basket list"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

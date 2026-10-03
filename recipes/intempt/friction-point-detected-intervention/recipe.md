@@ -29,6 +29,20 @@ prerequisites:
       severity: blocking
     - value: feature_used
       severity: blocking
+touches:
+  reads:
+    - The session_start event in your project
+    - The feature_used event in your project
+  writes:
+    - A new attribute, from step 1 "Detect where people get stuck"
+    - A new segment, from step 2 "Group by where they got stuck"
+    - A new landing page, from step 3 "Help them inside the app"
+    - A new designed email, from step 4 "Email the fix if that misses"
+    - A new custom agent, from step 5 "Offer to walk them through"
+    - A new journey, from step 6 "Escalate if they stay stuck"
+    - A new dashboard, from step 7 "See where the product traps people"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Detect where people get stuck
@@ -232,6 +246,27 @@ Catches people who are stuck, helps them in the app first, emails a fix if that 
 - **agent** (agent): AI Agent Scenario produced by this recipe.
 - **journey** (journey): Journey produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- The session_start event in your project
+- The feature_used event in your project
+
+Writes:
+
+- A new attribute, from step 1 "Detect where people get stuck"
+- A new segment, from step 2 "Group by where they got stuck"
+- A new landing page, from step 3 "Help them inside the app"
+- A new designed email, from step 4 "Email the fix if that misses"
+- A new custom agent, from step 5 "Offer to walk them through"
+- A new journey, from step 6 "Escalate if they stay stuck"
+- A new dashboard, from step 7 "See where the product traps people"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

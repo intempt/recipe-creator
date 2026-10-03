@@ -31,6 +31,17 @@ prerequisites:
   events:
     - value: user_signed_up
       severity: blocking
+touches:
+  reads:
+    - The user_signed_up event in your project
+    - Your Slack connection
+  writes:
+    - A new attribute, from step 1 "Work out the account tier"
+    - A new segment, from step 2 "Find enterprise signups with no AE"
+    - A new workflow, from step 3 "Hand it to the right AE"
+    - A new dashboard, from step 4 "Watch the response time"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Work out the account tier
@@ -147,6 +158,24 @@ Spots when a self serve signup comes from a large company, enriches it, and puts
 - **segment** (segment): Segment produced by this recipe.
 - **workflow** (workflow): Workflow produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- The user_signed_up event in your project
+- Your Slack connection
+
+Writes:
+
+- A new attribute, from step 1 "Work out the account tier"
+- A new segment, from step 2 "Find enterprise signups with no AE"
+- A new workflow, from step 3 "Hand it to the right AE"
+- A new dashboard, from step 4 "Watch the response time"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

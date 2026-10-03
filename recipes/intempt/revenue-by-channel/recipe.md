@@ -23,6 +23,13 @@ prerequisites:
   integrations:
     - value: shopify
       severity: blocking
+touches:
+  reads:
+    - Your Shopify connection
+  writes:
+    - A new report, from step 1 "Split revenue by channel"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Split revenue by channel
@@ -69,6 +76,20 @@ Shows which channels brought in revenue over the last 30 days, each channel's sh
 ## What you end up with
 
 - **report** (report): Report produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Your Shopify connection
+
+Writes:
+
+- A new report, from step 1 "Split revenue by channel"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

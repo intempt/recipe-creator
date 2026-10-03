@@ -20,6 +20,14 @@ classification:
   executionMode: live
   tags:
     - accounts-segment
+touches:
+  reads:
+    - The session_start and goal_completed_in_journey events in your project
+    - The users_count attribute on accounts
+  writes:
+    - A new segment, from step 1 "Build the team-trial list"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the team-trial list
@@ -28,13 +36,11 @@ steps:
       one journey goal in the last 14 days.
     builds: segment
     description: |-
-      Create a segment called "PQL: Multi-User Account".
-      Object: Accounts
-      Rules (all conditions joined by AND):
-      - Attribute: users_count >= 2
-      - AND Event (across users in account): session_start occurred >= 3 times in last 14 days
-      - AND Event (across users in account): goal_completed_in_journey occurred >= 1 time in last 14 days
-      Description: Accounts where 2+ users from the same company are actively engaged in trial or free plan. The enterprise PQL signal: distinguishes team-buying behavior from individual-trial signups. Highest-converting PQL cohort: when multiple stakeholders test the product, they convert at 2-3x the rate of individual-trial PQLs.
+      Build a segment of accounts named "PQL: Multi-User Account".
+      An account is in the segment only when all of these are true:
+      - its users_count attribute is 2 or more
+      - the users in the account together did the session_start event 3 or more times in the last 14 days
+      - the users in the account together did the goal_completed_in_journey event at least once in the last 14 days
 outputs:
   - key: segment
     producedByStep: s1
@@ -57,6 +63,21 @@ Free and trial accounts where two or more colleagues are both active, which conv
 ## What you end up with
 
 - **segment** (segment): Segment created on /segments.
+
+## What this recipe touches
+
+Reads:
+
+- The session_start and goal_completed_in_journey events in your project
+- The users_count attribute on accounts
+
+Writes:
+
+- A new segment, from step 1 "Build the team-trial list"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

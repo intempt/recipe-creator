@@ -27,6 +27,19 @@ prerequisites:
   events:
     - value: account_created
       severity: blocking
+touches:
+  reads:
+    - The account_created event in your project
+  writes:
+    - A new workflow, from step 1 "Stop enriching everything alike"
+    - A new workflow, from step 2 "Buy the cheapest look first"
+    - A new workflow, from step 3 "Sort into three tiers"
+    - A new workflow, from step 4 "Go deep on enterprise"
+    - A new workflow, from step 5 "Research the strategic angle"
+    - A new workflow, from step 6 "Keep mid market standard"
+    - A new workflow, from step 7 "Publish and track the saving"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Stop enriching everything alike
@@ -172,6 +185,26 @@ Spends enrichment credits in proportion to the account: everything on the enterp
 
 - **workflow** (workflow): Workflow produced by this recipe.
 - **step** (step): Workflow Step produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- The account_created event in your project
+
+Writes:
+
+- A new workflow, from step 1 "Stop enriching everything alike"
+- A new workflow, from step 2 "Buy the cheapest look first"
+- A new workflow, from step 3 "Sort into three tiers"
+- A new workflow, from step 4 "Go deep on enterprise"
+- A new workflow, from step 5 "Research the strategic angle"
+- A new workflow, from step 6 "Keep mid market standard"
+- A new workflow, from step 7 "Publish and track the saving"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

@@ -23,6 +23,15 @@ classification:
   tags:
     - meeting-hygiene
     - crm-sync
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A meeting action, from step 1 "Find meetings with no deal"
+    - A new workflow, from step 2 "Keep new meetings linked"
+    - A new dashboard, from step 3 "Track linking coverage"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Find meetings with no deal
@@ -108,6 +117,22 @@ Finds sales calls from the last 60 days with no deal attached, suggests the righ
 - **meeting_list** (meeting_list): Meeting List produced by this recipe.
 - **workflow** (workflow): Workflow produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A meeting action, from step 1 "Find meetings with no deal"
+- A new workflow, from step 2 "Keep new meetings linked"
+- A new dashboard, from step 3 "Track linking coverage"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

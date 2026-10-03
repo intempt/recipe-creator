@@ -20,6 +20,13 @@ classification:
   executionMode: live
   tags:
     - insights
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new report, from step 1 "Score account engagement weekly"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Score account engagement weekly
@@ -70,6 +77,20 @@ Scores each account on how many of its users are active and how much they do, we
 ## What you end up with
 
 - **report** (report): Report produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new report, from step 1 "Score account engagement weekly"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

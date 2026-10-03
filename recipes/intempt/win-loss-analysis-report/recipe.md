@@ -20,6 +20,13 @@ classification:
   executionMode: live
   tags:
     - insights
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new report, from step 1 "Break down wins against losses"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Break down wins against losses
@@ -74,6 +81,20 @@ Breaks closed deals into won and lost by lead source, deal size and the stage th
 ## What you end up with
 
 - **report** (report): Report produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new report, from step 1 "Break down wins against losses"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

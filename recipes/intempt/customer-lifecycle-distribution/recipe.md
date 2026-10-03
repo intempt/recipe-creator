@@ -20,6 +20,13 @@ classification:
   executionMode: live
   tags:
     - insights
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new report, from step 1 "Map customers to lifecycle stages"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Map customers to lifecycle stages
@@ -86,6 +93,20 @@ Shows how your customers are spread across the six lifecycle stages today, how m
 ## What you end up with
 
 - **report** (report): Report produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new report, from step 1 "Map customers to lifecycle stages"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

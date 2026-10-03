@@ -24,6 +24,24 @@ prerequisites:
   events:
     - value: subscription_created
       severity: blocking
+inputs:
+  - input: Billing page link
+    what_the_installer_supplies: The URL of the page where a trial user upgrades
+    if_missing: The step is marked vague and waits until one is given.
+does_not_claim:
+  - The 7-day and 14-day windows are the author's choice, not measured against your trial data.
+  - Nothing here checks that plan_name and end_date are kept up to date in your project.
+touches:
+  reads:
+    - The subscription_created event in your project
+    - The plan_name and end_date attributes on users
+    - The billing page link you supply when you run it
+  writes:
+    - A new segment, from step 1 "Find trials ending this week"
+    - A new designed email, from step 2 "Write the upgrade email"
+  never:
+    - Nothing runs until you approve the plan in Blu.
+    - It never sends the email. Sending is a separate choice you make in Intempt.
 steps:
   - id: s1
     title: Find trials ending this week
@@ -81,6 +99,35 @@ Finds trial users whose trial ends this week and who have not upgraded, then sen
 
 - **trials_ending** (segment): Trial users whose trial ends in the next 7 days.
 - **upgrade_email** (email_html): The upgrade email for that segment.
+
+## What this recipe touches
+
+Reads:
+
+- The subscription_created event in your project
+- The plan_name and end_date attributes on users
+- The billing page link you supply when you run it
+
+Writes:
+
+- A new segment, from step 1 "Find trials ending this week"
+- A new designed email, from step 2 "Write the upgrade email"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
+- It never sends the email. Sending is a separate choice you make in Intempt.
+
+## Declared inputs
+
+| Input | What the installer supplies | If missing |
+|---|---|---|
+| Billing page link | The URL of the page where a trial user upgrades | The step is marked vague and waits until one is given. |
+
+## What this recipe does not claim
+
+- The 7-day and 14-day windows are the author's choice, not measured against your trial data.
+- Nothing here checks that plan_name and end_date are kept up to date in your project.
 
 ## Availability
 

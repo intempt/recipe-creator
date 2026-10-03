@@ -19,6 +19,13 @@ classification:
   executionMode: live
   tags:
     - insights
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new report, from step 1 "Find the most refunded products"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Find the most refunded products
@@ -65,6 +72,20 @@ Shows which products get refunded most often and which ones are getting worse, o
 ## What you end up with
 
 - **report** (report): Report produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new report, from step 1 "Find the most refunded products"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

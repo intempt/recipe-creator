@@ -20,6 +20,14 @@ classification:
   executionMode: live
   tags:
     - users-segment
+touches:
+  reads:
+    - The goal_completed_in_journey event in your project
+    - The plan_name, end_date and engagement_score attributes on users
+  writes:
+    - A new segment, from step 1 "Build the strong-trial list"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the strong-trial list
@@ -28,14 +36,12 @@ steps:
       or more journey goals completed in the last 14 days.
     builds: segment
     description: |-
-      Create a segment called "Trial Users: High Engagement".
-      Object: Users
-      Rules (all conditions joined by AND):
-      - Attribute: plan_name = "trial"
-      - AND Attribute: end_date is within next 14 days
-      - AND Attribute: engagement_score = "High"
-      - AND Event: goal_completed_in_journey occurred >= 3 times in last 14 days
-      Description: Trial users with strong usage signals: most likely to convert. Trigger high-touch sales outreach or premium-feature unlock.
+      Build a segment of users named "Trial Users: High Engagement".
+      A user is in the segment only when all of these are true:
+      - their plan_name attribute is "trial"
+      - their end_date attribute is within the next 14 days
+      - their engagement_score attribute is "High"
+      - they did the goal_completed_in_journey event 3 or more times in the last 14 days
 outputs:
   - key: segment
     producedByStep: s1
@@ -58,6 +64,21 @@ Trial users who are using the product heavily with two weeks left to run, the on
 ## What you end up with
 
 - **segment** (segment): Segment created on /segments.
+
+## What this recipe touches
+
+Reads:
+
+- The goal_completed_in_journey event in your project
+- The plan_name, end_date and engagement_score attributes on users
+
+Writes:
+
+- A new segment, from step 1 "Build the strong-trial list"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

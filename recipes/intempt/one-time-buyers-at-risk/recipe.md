@@ -20,6 +20,14 @@ classification:
   executionMode: live
   tags:
     - users-segment
+touches:
+  reads:
+    - The order_created event in your project
+    - The days_since_last_activity and lifecycle_score attributes on users
+  writes:
+    - A new segment, from step 1 "Build the one-time-buyer list"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the one-time-buyer list
@@ -28,13 +36,11 @@ steps:
       than Regulars or Promising.
     builds: segment
     description: |-
-      Create a segment called "One-Time Buyers At Risk".
-      Object: Users
-      Rules (all conditions joined by AND):
-      - Event: order_created occurred = 1 time (all time)
-      - AND Attribute: days_since_last_activity >= 60
-      - AND Attribute: lifecycle_score is not in ["Regulars", "Promising"]
-      Description: Single-purchase customers who haven't returned in over 60 days and aren't on a healthy lifecycle trajectory. Re-engagement opportunity: second-purchase incentive recommended.
+      Build a segment of users named "One-Time Buyers At Risk".
+      A user is in the segment only when all of these are true:
+      - they did the order_created event exactly 1 time, at any time
+      - their days_since_last_activity attribute is 60 or more
+      - their lifecycle_score attribute is neither "Regulars" nor "Promising"
 outputs:
   - key: segment
     producedByStep: s1
@@ -57,6 +63,21 @@ Customers who bought once, have not been back in two months, and are not trendin
 ## What you end up with
 
 - **segment** (segment): Segment created on /segments.
+
+## What this recipe touches
+
+Reads:
+
+- The order_created event in your project
+- The days_since_last_activity and lifecycle_score attributes on users
+
+Writes:
+
+- A new segment, from step 1 "Build the one-time-buyer list"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

@@ -19,6 +19,17 @@ classification:
   executionMode: live
   tags:
     - customer-onboarding
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - An update to an account, from step 1 "Set up the account record"
+    - A new task, from step 2 "Give the CSM a checklist"
+    - A meeting action, from step 3 "Book the kickoff call"
+    - A new journey, from step 4 "Email through each milestone"
+    - A new report, from step 5 "Track progress to go live"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Set up the account record
@@ -133,6 +144,24 @@ Sets up a new account, gives the CSM a dated checklist, books the kickoff, and w
 - **meeting** (meeting): Meeting produced by this recipe.
 - **journey** (journey): Journey produced by this recipe.
 - **report** (report): Report produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- An update to an account, from step 1 "Set up the account record"
+- A new task, from step 2 "Give the CSM a checklist"
+- A meeting action, from step 3 "Book the kickoff call"
+- A new journey, from step 4 "Email through each milestone"
+- A new report, from step 5 "Track progress to go live"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

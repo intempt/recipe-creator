@@ -29,6 +29,15 @@ prerequisites:
   integrations:
     - value: salesforce
       severity: blocking
+touches:
+  reads:
+    - The feature_used event in your project
+    - Your Salesforce connection
+  writes:
+    - A new attribute, from step 1 "Describe usage for the forecast"
+    - A new workflow, from step 2 "Update the open opportunity"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Describe usage for the forecast
@@ -85,6 +94,22 @@ Keeps the usage fields on an open opportunity current, so the forecast reflects 
 
 - **usage_attrs** (attribute): AI-Derived Attribute produced by this recipe.
 - **workflow** (workflow): Workflow produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- The feature_used event in your project
+- Your Salesforce connection
+
+Writes:
+
+- A new attribute, from step 1 "Describe usage for the forecast"
+- A new workflow, from step 2 "Update the open opportunity"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

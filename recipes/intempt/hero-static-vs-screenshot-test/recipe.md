@@ -24,6 +24,13 @@ classification:
     - experiment
     - client
   experimentType: a-b
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new A/B experiment, from step 1 "Set up the hero image test"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Set up the hero image test
@@ -110,6 +117,20 @@ Compares your current hero image against a real product screenshot and a photo o
 ## What you end up with
 
 - **experiment** (experiment): Website experiment created on /experiences.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new A/B experiment, from step 1 "Set up the hero image test"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

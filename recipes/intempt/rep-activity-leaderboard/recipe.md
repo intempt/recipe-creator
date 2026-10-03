@@ -28,6 +28,14 @@ prerequisites:
     - value: salesforce
       severity: blocking
       group: crm
+touches:
+  reads:
+    - Your HubSpot connection
+    - Your Salesforce connection
+  writes:
+    - A new report, from step 1 "Tie rep activity to revenue"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Tie rep activity to revenue
@@ -95,6 +103,21 @@ Shows what each rep actually did last month, calls, emails, meetings and tasks, 
 ## What you end up with
 
 - **report** (report): Report produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Your HubSpot connection
+- Your Salesforce connection
+
+Writes:
+
+- A new report, from step 1 "Tie rep activity to revenue"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

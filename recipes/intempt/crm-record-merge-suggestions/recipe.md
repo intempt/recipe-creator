@@ -28,6 +28,20 @@ prerequisites:
   events:
     - value: account_created
       severity: blocking
+touches:
+  reads:
+    - The account_created event in your project
+  writes:
+    - A new workflow, from step 1 "Check at the moment of creation"
+    - A new workflow, from step 2 "Look for a match"
+    - A new workflow, from step 3 "Stop early if it is new"
+    - A new workflow, from step 4 "Score each pair"
+    - A new workflow, from step 5 "Act on the confidence"
+    - A new workflow, from step 6 "Merge into the older record"
+    - A new workflow, from step 7 "Queue the uncertain pairs"
+    - A new workflow, from step 8 "Publish and audit the merges"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Check at the moment of creation
@@ -194,6 +208,27 @@ Checks every new account or contact against what you already have, merges the ob
 
 - **workflow** (workflow): Workflow produced by this recipe.
 - **step** (step): Workflow Step produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- The account_created event in your project
+
+Writes:
+
+- A new workflow, from step 1 "Check at the moment of creation"
+- A new workflow, from step 2 "Look for a match"
+- A new workflow, from step 3 "Stop early if it is new"
+- A new workflow, from step 4 "Score each pair"
+- A new workflow, from step 5 "Act on the confidence"
+- A new workflow, from step 6 "Merge into the older record"
+- A new workflow, from step 7 "Queue the uncertain pairs"
+- A new workflow, from step 8 "Publish and audit the merges"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

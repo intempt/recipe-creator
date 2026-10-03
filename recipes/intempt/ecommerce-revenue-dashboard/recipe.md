@@ -19,6 +19,13 @@ classification:
   executionMode: live
   tags:
     - dashboard
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new dashboard, from step 1 "Build the revenue board"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the revenue board
@@ -77,6 +84,20 @@ Answers how much you are making, which channels and categories it comes from, an
 ## What you end up with
 
 - **dashboard** (dashboard): Dash board (composition canvas) produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new dashboard, from step 1 "Build the revenue board"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

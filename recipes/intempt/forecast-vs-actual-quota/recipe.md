@@ -28,6 +28,14 @@ prerequisites:
     - value: salesforce
       severity: blocking
       group: crm
+touches:
+  reads:
+    - Your HubSpot connection
+    - Your Salesforce connection
+  writes:
+    - A new report, from step 1 "Compare closed, forecast and quota"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Compare closed, forecast and quota
@@ -86,6 +94,21 @@ Puts closed revenue, weighted forecast and quota target side by side, with pipel
 ## What you end up with
 
 - **report** (report): Report produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Your HubSpot connection
+- Your Salesforce connection
+
+Writes:
+
+- A new report, from step 1 "Compare closed, forecast and quota"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

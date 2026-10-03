@@ -26,6 +26,14 @@ prerequisites:
   integrations:
     - value: hubspot
       severity: blocking
+touches:
+  reads:
+    - Your HubSpot connection
+  writes:
+    - A new attribute, from step 1 "Define the lifecycle honestly"
+    - A new workflow, from step 2 "Push it one way to HubSpot"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Define the lifecycle honestly
@@ -81,6 +89,21 @@ Pushes the lifecycle stage computed from real product and billing behaviour onto
 
 - **lifecycle** (attribute): AI-Derived Attribute produced by this recipe.
 - **workflow** (workflow): Workflow produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Your HubSpot connection
+
+Writes:
+
+- A new attribute, from step 1 "Define the lifecycle honestly"
+- A new workflow, from step 2 "Push it one way to HubSpot"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

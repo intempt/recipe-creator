@@ -21,6 +21,13 @@ classification:
     - reel
     - reformat
     - vertical
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new video, from step 1 "Reframe to 9:16"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Reframe to 9:16
@@ -54,6 +61,20 @@ Re-frames a 16:9 landscape shot as a 9:16 vertical reel, ready to post.
 ## What you end up with
 
 - **video** (video): Vertical reel cut.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new video, from step 1 "Reframe to 9:16"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

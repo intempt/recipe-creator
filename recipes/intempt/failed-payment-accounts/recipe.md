@@ -25,6 +25,14 @@ prerequisites:
   integrations:
     - value: stripe
       severity: blocking
+touches:
+  reads:
+    - Your Stripe connection
+    - The payment_failed, invoice_payment_failed, billing_failed and charge_failed events in your project
+  writes:
+    - A new segment, from step 1 "Build the failed-payment list"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the failed-payment list
@@ -33,14 +41,12 @@ steps:
       last 14 days.
     builds: segment
     description: |-
-      Create a segment called "Failed-Payment Users".
-      Object: Users
-      Rules (any condition matches: joined by OR):
-      - Event: payment_failed occurred >= 1 time in last 14 days
-      - OR Event: invoice_payment_failed occurred >= 1 time in last 14 days
-      - OR Event: billing_failed occurred >= 1 time in last 14 days
-      - OR Event: charge_failed occurred >= 1 time in last 14 days
-      Description: Users with one or more payment failures in the last 14 days. Dunning-recovery cohort with the highest immediate-revenue ROI of any segment. Trigger an automated card-update email sequence; for high-LTV failures, escalate to manual CSM/AE outreach with a personal touch.
+      Build a segment of users named "Failed-Payment Users".
+      A user is in the segment when any of these is true:
+      - they did the payment_failed event at least once in the last 14 days
+      - they did the invoice_payment_failed event at least once in the last 14 days
+      - they did the billing_failed event at least once in the last 14 days
+      - they did the charge_failed event at least once in the last 14 days
 outputs:
   - key: segment
     producedByStep: s1
@@ -63,6 +69,21 @@ Users whose payment was declined in the last two weeks, so you can recover the m
 ## What you end up with
 
 - **segment** (segment): Segment created on /segments.
+
+## What this recipe touches
+
+Reads:
+
+- Your Stripe connection
+- The payment_failed, invoice_payment_failed, billing_failed and charge_failed events in your project
+
+Writes:
+
+- A new segment, from step 1 "Build the failed-payment list"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

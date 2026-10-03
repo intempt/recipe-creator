@@ -21,6 +21,13 @@ classification:
     - push
     - cart-abandoned
     - win-back
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new content asset, from step 1 "Write the win-back push"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Write the win-back push
@@ -54,6 +61,20 @@ Writes a lockscreen push that brings shoppers back to an abandoned cart, naming 
 ## What you end up with
 
 - **content** (content): Re-engagement push notification.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new content asset, from step 1 "Write the win-back push"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

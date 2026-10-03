@@ -22,6 +22,13 @@ classification:
   tags:
     - personalization
     - client
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new website personalization, from step 1 "Set up the account variants"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Set up the account variants
@@ -124,6 +131,20 @@ Visitors from your target accounts see a hero built for their industry, with the
 ## What you end up with
 
 - **personalization** (personalization): Website personalization created on /experiences.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new website personalization, from step 1 "Set up the account variants"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

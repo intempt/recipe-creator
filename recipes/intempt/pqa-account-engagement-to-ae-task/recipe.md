@@ -33,6 +33,18 @@ prerequisites:
       severity: blocking
     - value: feature_used
       severity: blocking
+touches:
+  reads:
+    - The user_signed_up event in your project
+    - The feature_used event in your project
+    - Your Slack connection
+  writes:
+    - A new attribute, from step 1 "Score the whole account"
+    - A new segment, from step 2 "Find accounts crossing 70"
+    - A new workflow, from step 3 "Brief an AE to open a deal"
+    - A new dashboard, from step 4 "Compare against cold outbound"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Score the whole account
@@ -146,6 +158,25 @@ When several people from one company start using the product in the same fortnig
 - **segment** (segment): Segment produced by this recipe.
 - **workflow** (workflow): Workflow produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- The user_signed_up event in your project
+- The feature_used event in your project
+- Your Slack connection
+
+Writes:
+
+- A new attribute, from step 1 "Score the whole account"
+- A new segment, from step 2 "Find accounts crossing 70"
+- A new workflow, from step 3 "Brief an AE to open a deal"
+- A new dashboard, from step 4 "Compare against cold outbound"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

@@ -21,6 +21,13 @@ classification:
   executionMode: live
   tags:
     - accounts-segment
+touches:
+  reads:
+    - The employees, industry and country attributes on accounts
+  writes:
+    - A new segment, from step 1 "Build the ICP list"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the ICP list
@@ -29,13 +36,11 @@ steps:
       Canada, or Australia.
     builds: segment
     description: |-
-      Create a segment called "ICP Match Accounts".
-      Object: Accounts
-      Rules (all conditions joined by AND):
-      - Attribute: employees is between 50 and 500
-      - AND Attribute: industry is one of ["SaaS", "Technology", "Financial Services"]
-      - AND Attribute: country is one of ["US", "UK", "CA", "AU"]
-      Description: Accounts matching the ideal customer profile by size, industry, and geography. Foundation segment for ABM targeting.
+      Build a segment of accounts named "ICP Match Accounts".
+      An account is in the segment only when all of these are true:
+      - its employees attribute is between 50 and 500
+      - its industry attribute is one of "SaaS", "Technology" or "Financial Services"
+      - its country attribute is one of "US", "UK", "CA" or "AU"
 outputs:
   - key: segment
     producedByStep: s1
@@ -58,6 +63,20 @@ Accounts that fit your ideal customer profile on size, industry, and country, as
 ## What you end up with
 
 - **segment** (segment): Segment created on /segments.
+
+## What this recipe touches
+
+Reads:
+
+- The employees, industry and country attributes on accounts
+
+Writes:
+
+- A new segment, from step 1 "Build the ICP list"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

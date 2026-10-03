@@ -21,6 +21,13 @@ classification:
   executionMode: live
   tags:
     - accounts-segment
+touches:
+  reads:
+    - The account_health, has_renewal_deal, account_lifetime_value and users_count attributes on accounts
+  writes:
+    - A new segment, from step 1 "Build the at-risk account list"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the at-risk account list
@@ -29,14 +36,12 @@ steps:
       deal open. Updates as account health changes.
     builds: segment
     description: |-
-      Create a segment called "Accounts At Churn Risk".
-      Object: Accounts
-      Rules (all conditions joined by AND):
-      - Attribute: account_health = "at_risk"
-      - AND Attribute: has_renewal_deal = false
-      - AND Attribute: account_lifetime_value > 0
-      - AND Attribute: users_count >= 1
-      Description: Active accounts flagged at-risk by the platform's health-scoring with positive lifetime value (proven paid customer) and no active renewal deal in flight. CSM intervention priority: these are recoverable churn risks where someone has paid before and isn't currently in renewal motion.
+      Build a segment of accounts named "Accounts At Churn Risk".
+      An account is in the segment only when all of these are true:
+      - its account_health attribute is "at_risk"
+      - its has_renewal_deal attribute is false
+      - its account_lifetime_value attribute is more than 0
+      - its users_count attribute is 1 or more
 outputs:
   - key: segment
     producedByStep: s1
@@ -59,6 +64,20 @@ Paying accounts the health score has flagged as at risk, with no renewal deal in
 ## What you end up with
 
 - **segment** (segment): Segment created on /segments.
+
+## What this recipe touches
+
+Reads:
+
+- The account_health, has_renewal_deal, account_lifetime_value and users_count attributes on accounts
+
+Writes:
+
+- A new segment, from step 1 "Build the at-risk account list"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

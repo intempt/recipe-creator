@@ -21,6 +21,15 @@ classification:
   executionMode: live
   tags:
     - accounts-segment
+touches:
+  reads:
+    - The page_viewed event in your project
+    - The page_url property on those events
+    - The has_open_deal attribute on accounts
+  writes:
+    - A new segment, from step 1 "Build the pricing-surge list"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the pricing-surge list
@@ -29,12 +38,10 @@ steps:
       and no deal is currently open.
     builds: segment
     description: |-
-      Create a segment called "Active Research Surge Accounts".
-      Object: Accounts
-      Rules (all conditions joined by AND):
-      - Event (across users in account): page_viewed where page_url contains "/pricing" occurred >= 3 times in last 7 days
-      - AND Attribute: has_open_deal = false
-      Description: Accounts where users have visited the pricing page 3+ times in the last 7 days: the active-research-surge signal. Sharper than single-visit indicators; multi-visit pricing review within a tight window is one of the strongest predictors of an in-flight buying decision. Trigger AE personalized outreach within 24 hours.
+      Build a segment of accounts named "Active Research Surge Accounts".
+      An account is in the segment only when all of these are true:
+      - the users in the account together did the page_viewed event with a page_url that contains "/pricing" 3 or more times in the last 7 days
+      - its has_open_deal attribute is false
 outputs:
   - key: segment
     producedByStep: s1
@@ -57,6 +64,22 @@ Accounts whose people hit your pricing page three or more times in the past week
 ## What you end up with
 
 - **segment** (segment): Segment created on /segments.
+
+## What this recipe touches
+
+Reads:
+
+- The page_viewed event in your project
+- The page_url property on those events
+- The has_open_deal attribute on accounts
+
+Writes:
+
+- A new segment, from step 1 "Build the pricing-surge list"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

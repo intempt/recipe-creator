@@ -27,6 +27,19 @@ prerequisites:
   events:
     - value: account_created
       severity: blocking
+touches:
+  reads:
+    - The account_created event in your project
+  writes:
+    - A new workflow, from step 1 "Start on a high value account"
+    - A new workflow, from step 2 "Read their website"
+    - A new workflow, from step 3 "Summarise what they do"
+    - A new workflow, from step 4 "Score them against your ICP"
+    - A new workflow, from step 5 "Draft the opening line"
+    - A new workflow, from step 6 "Write it onto the account"
+    - A new workflow, from step 7 "Publish and check the picks"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Start on a high value account
@@ -182,6 +195,26 @@ Reads a target account's website, pulls out the decision makers, scores the fit 
 
 - **workflow** (workflow): Workflow produced by this recipe.
 - **step** (step): Workflow Step produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- The account_created event in your project
+
+Writes:
+
+- A new workflow, from step 1 "Start on a high value account"
+- A new workflow, from step 2 "Read their website"
+- A new workflow, from step 3 "Summarise what they do"
+- A new workflow, from step 4 "Score them against your ICP"
+- A new workflow, from step 5 "Draft the opening line"
+- A new workflow, from step 6 "Write it onto the account"
+- A new workflow, from step 7 "Publish and check the picks"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

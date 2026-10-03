@@ -24,6 +24,16 @@ classification:
     - transcript-analysis
     - objection-handling
     - enablement
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A meeting action, from step 1 "Cluster what gets discussed"
+    - A meeting action, from step 2 "Pull the buyer's own words"
+    - A new report, from step 3 "Rank objections by money at stake"
+    - A new dashboard, from step 4 "Watch objections month to month"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Cluster what gets discussed
@@ -132,6 +142,23 @@ Reads 90 days of call transcripts to rank the objections you hear most, weighted
 - **transcript_search_results** (transcript_search_results): Transcript Search Results produced by this recipe.
 - **report** (report): Insights Report produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A meeting action, from step 1 "Cluster what gets discussed"
+- A meeting action, from step 2 "Pull the buyer's own words"
+- A new report, from step 3 "Rank objections by money at stake"
+- A new dashboard, from step 4 "Watch objections month to month"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

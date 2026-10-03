@@ -32,6 +32,18 @@ prerequisites:
       severity: blocking
     - value: session_start
       severity: recommended
+touches:
+  reads:
+    - The feature_used event in your project
+    - The session_start event in your project
+    - Your Slack connection
+  writes:
+    - A new attribute, from step 1 "Score free users on behaviour"
+    - A new segment, from step 2 "Find free users crossing 70"
+    - A new workflow, from step 3 "Give the SDR the context"
+    - A new dashboard, from step 4 "Hold the 24 hour first touch"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Score free users on behaviour
@@ -144,6 +156,25 @@ When a free user's behaviour says they are ready for a conversation, it creates 
 - **segment** (segment): Segment produced by this recipe.
 - **workflow** (workflow): Workflow produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- The feature_used event in your project
+- The session_start event in your project
+- Your Slack connection
+
+Writes:
+
+- A new attribute, from step 1 "Score free users on behaviour"
+- A new segment, from step 2 "Find free users crossing 70"
+- A new workflow, from step 3 "Give the SDR the context"
+- A new dashboard, from step 4 "Hold the 24 hour first touch"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

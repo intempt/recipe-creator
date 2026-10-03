@@ -29,6 +29,18 @@ prerequisites:
   events:
     - value: meeting_scheduled
       severity: blocking
+touches:
+  reads:
+    - The meeting_scheduled event in your project
+    - Your Slack connection
+  writes:
+    - A new attribute, from step 1 "Assemble the brief"
+    - A new designed email, from step 2 "Lay it out to be skimmed"
+    - A new workflow, from step 3 "Send it a day before"
+    - A new journey, from step 4 "Deliver it to the host"
+    - A new dashboard, from step 5 "Check every meeting got one"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Assemble the brief
@@ -167,6 +179,25 @@ Sends the host a brief 24 hours before a meeting: who is coming, how the account
 - **workflow** (workflow): Workflow produced by this recipe.
 - **journey** (journey): Journey produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- The meeting_scheduled event in your project
+- Your Slack connection
+
+Writes:
+
+- A new attribute, from step 1 "Assemble the brief"
+- A new designed email, from step 2 "Lay it out to be skimmed"
+- A new workflow, from step 3 "Send it a day before"
+- A new journey, from step 4 "Deliver it to the host"
+- A new dashboard, from step 5 "Check every meeting got one"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

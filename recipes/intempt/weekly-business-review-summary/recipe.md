@@ -20,6 +20,13 @@ classification:
   executionMode: live
   tags:
     - insights
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new report, from step 1 "Build the Monday scorecard"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the Monday scorecard
@@ -72,6 +79,20 @@ One scorecard with the six numbers to look at every Monday: new signups, new pay
 ## What you end up with
 
 - **report** (report): Report produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new report, from step 1 "Build the Monday scorecard"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

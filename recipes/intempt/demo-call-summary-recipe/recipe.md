@@ -23,6 +23,15 @@ classification:
   tags:
     - summary-recipe
     - demo
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new meeting type, from step 1 "Check the Demo meeting type"
+    - A meeting action, from step 2 "Set what the demo summary captures"
+    - A new dashboard, from step 3 "Track what demos reveal"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Check the Demo meeting type
@@ -108,6 +117,22 @@ Tells the notetaker what to pull out of every demo: features shown, questions as
 - **meeting_type** (meeting_type): Meeting Type produced by this recipe.
 - **meeting_summary_recipe** (meeting_summary_recipe): Meeting Summary Recipe produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new meeting type, from step 1 "Check the Demo meeting type"
+- A meeting action, from step 2 "Set what the demo summary captures"
+- A new dashboard, from step 3 "Track what demos reveal"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

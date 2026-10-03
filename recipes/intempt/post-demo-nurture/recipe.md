@@ -28,6 +28,16 @@ prerequisites:
   events:
     - value: meeting_completed
       severity: blocking
+touches:
+  reads:
+    - The meeting_completed event in your project
+  writes:
+    - A new segment, from step 1 "Find recent demo attendees"
+    - A new designed email, from step 2 "Write five follow ups"
+    - A new journey, from step 3 "Send over 90 days"
+    - A new dashboard, from step 4 "Track demo to deal"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Find recent demo attendees
@@ -140,6 +150,23 @@ Keeps a demo warm for 90 days with a playbook, a case study, an ROI calculator a
 - **asset** (asset): Asset produced by this recipe.
 - **journey** (journey): Journey produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- The meeting_completed event in your project
+
+Writes:
+
+- A new segment, from step 1 "Find recent demo attendees"
+- A new designed email, from step 2 "Write five follow ups"
+- A new journey, from step 3 "Send over 90 days"
+- A new dashboard, from step 4 "Track demo to deal"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

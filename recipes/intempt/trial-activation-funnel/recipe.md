@@ -19,6 +19,13 @@ classification:
   executionMode: live
   tags:
     - funnel
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new report, from step 1 "Track trials through setup"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Track trials through setup
@@ -72,6 +79,20 @@ Shows how far trial users get through setup and core feature use before the tria
 ## What you end up with
 
 - **report** (report): Report produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new report, from step 1 "Track trials through setup"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

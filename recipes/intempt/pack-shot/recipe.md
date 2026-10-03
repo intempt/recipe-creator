@@ -20,6 +20,21 @@ classification:
     - image
     - product
     - pack-shot
+inputs:
+  - input: Product
+    what_the_installer_supplies: One product from your catalog
+    if_missing: The step is marked vague and waits until one is chosen.
+  - input: Scene
+    what_the_installer_supplies: A scene that sets background and lighting
+    if_missing: The step is marked vague and waits until one is chosen.
+touches:
+  reads:
+    - The product you supply when you run it
+    - The scene you supply when you run it
+  writes:
+    - A new image, from step 1 "Render the product"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Render the product
@@ -28,13 +43,8 @@ steps:
       studio shots: front, three-quarter, detail and lifestyle inserts.
     builds: image
     description: |-
-      Generate studio pack-shot images for the selected product.
-      Inputs:
-      - productId: catalog SKU to photograph
-      - sceneId: background + lighting preset
-      Pipeline: nano-banana-pro/edit
-      Runner: pack-shot (custom)
-      Produce a kit of clean studio shots (front, three-quarter, detail, lifestyle inserts) from the single catalog product using the chosen scene for background and lighting.
+      Generate four studio images of the catalog product chosen for this run: front, three-quarter, a detail close-up, and a lifestyle insert.
+      Use the background and lighting of the scene chosen for this run.
 outputs:
   - key: image
     producedByStep: s1
@@ -57,6 +67,28 @@ Generates clean studio stills of one catalog product, in a background and lighti
 ## What you end up with
 
 - **image** (image): Generated pack-shot image.
+
+## What this recipe touches
+
+Reads:
+
+- The product you supply when you run it
+- The scene you supply when you run it
+
+Writes:
+
+- A new image, from step 1 "Render the product"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
+
+## Declared inputs
+
+| Input | What the installer supplies | If missing |
+|---|---|---|
+| Product | One product from your catalog | The step is marked vague and waits until one is chosen. |
+| Scene | A scene that sets background and lighting | The step is marked vague and waits until one is chosen. |
 
 ## Availability
 

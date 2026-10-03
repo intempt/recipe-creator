@@ -28,6 +28,14 @@ prerequisites:
     - value: salesforce
       severity: blocking
       group: crm
+touches:
+  reads:
+    - Your HubSpot connection
+    - Your Salesforce connection
+  writes:
+    - A new report, from step 1 "Rank reps on quota hit"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Rank reps on quota hit
@@ -86,6 +94,21 @@ Ranks each rep on how much of their quota they closed, with pipeline coverage an
 ## What you end up with
 
 - **report** (report): Report produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Your HubSpot connection
+- Your Salesforce connection
+
+Writes:
+
+- A new report, from step 1 "Rank reps on quota hit"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

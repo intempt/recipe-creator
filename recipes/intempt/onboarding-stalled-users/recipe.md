@@ -20,6 +20,14 @@ classification:
   executionMode: live
   tags:
     - users-segment
+touches:
+  reads:
+    - The goal_completed_in_journey event in your project
+    - The first_seen_at and days_since_last_activity attributes on users
+  writes:
+    - A new segment, from step 1 "Build the stalled-onboarding list"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the stalled-onboarding list
@@ -28,13 +36,11 @@ steps:
       active within the past 14 days.
     builds: segment
     description: |-
-      Create a segment called "Onboarding-Stalled Users".
-      Object: Users
-      Rules (all conditions joined by AND):
-      - Attribute: first_seen_at is between 7 and 30 days ago
-      - AND Event: goal_completed_in_journey occurred 0 times since first_seen_at
-      - AND Attribute: days_since_last_activity <= 14
-      Description: Users who signed up 7-30 days ago, are still occasionally active, but have not completed any activation milestone. The activation-rescue cohort. Trigger guided onboarding outreach (in-app checklist, founder-style email, CSM check-in for high-value accounts).
+      Build a segment of users named "Onboarding-Stalled Users".
+      A user is in the segment only when all of these are true:
+      - their first_seen_at attribute is between 7 and 30 days ago
+      - they have not done the goal_completed_in_journey event since their first_seen_at date
+      - their days_since_last_activity attribute is 14 or less
 outputs:
   - key: segment
     producedByStep: s1
@@ -57,6 +63,21 @@ People who signed up a few weeks ago and still drop in now and then, but have ne
 ## What you end up with
 
 - **segment** (segment): Segment created on /segments.
+
+## What this recipe touches
+
+Reads:
+
+- The goal_completed_in_journey event in your project
+- The first_seen_at and days_since_last_activity attributes on users
+
+Writes:
+
+- A new segment, from step 1 "Build the stalled-onboarding list"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

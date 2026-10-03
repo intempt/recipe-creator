@@ -20,6 +20,14 @@ classification:
   executionMode: live
   tags:
     - users-segment
+touches:
+  reads:
+    - The cart_abandoned and order_created events in your project
+    - The total_amount property on those events
+  writes:
+    - A new segment, from step 1 "Build the big-cart list"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the big-cart list
@@ -28,12 +36,10 @@ steps:
       7 days.
     builds: segment
     description: |-
-      Create a segment called "High-Cart-Value Abandoners".
-      Object: Users
-      Rules (all conditions joined by AND):
-      - Event: cart_abandoned where total_amount >= 200 occurred >= 1 time in last 7 days
-      - AND Event: order_created occurred 0 times in last 7 days
-      Description: Cart abandoners whose abandoned cart value is high: priority recovery cohort. Worth more attention (and a potentially higher-effort intervention like a personal email or SMS) than low-cart-value abandoners. Distinct from repeat-cart-abandoners (which targets by frequency, not value).
+      Build a segment of users named "High-Cart-Value Abandoners".
+      A user is in the segment only when all of these are true:
+      - they did the cart_abandoned event with a total_amount of 200 or more at least once in the last 7 days
+      - they did not do the order_created event in the last 7 days
 outputs:
   - key: segment
     producedByStep: s1
@@ -56,6 +62,21 @@ People who walked away from an expensive cart in the last week and have not boug
 ## What you end up with
 
 - **segment** (segment): Segment created on /segments.
+
+## What this recipe touches
+
+Reads:
+
+- The cart_abandoned and order_created events in your project
+- The total_amount property on those events
+
+Writes:
+
+- A new segment, from step 1 "Build the big-cart list"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

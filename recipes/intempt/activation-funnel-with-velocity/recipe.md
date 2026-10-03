@@ -19,6 +19,13 @@ classification:
   executionMode: live
   tags:
     - funnel
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new report, from step 1 "Time each step to activation"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Time each step to activation
@@ -72,6 +79,20 @@ Shows where new users drop out of activation and, just as important, where they 
 ## What you end up with
 
 - **report** (report): Report produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new report, from step 1 "Time each step to activation"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

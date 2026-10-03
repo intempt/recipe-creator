@@ -20,6 +20,14 @@ classification:
   executionMode: live
   tags:
     - users-segment
+touches:
+  reads:
+    - The session_start event in your project
+    - The plan_name, engagement_score and days_since_last_activity attributes on users
+  writes:
+    - A new segment, from step 1 "Build the engaged free list"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the engaged free list
@@ -28,14 +36,12 @@ steps:
       in the last 14 days.
     builds: segment
     description: |-
-      Create a segment called "Engaged Free Users".
-      Object: Users
-      Rules (all conditions joined by AND):
-      - Attribute: plan_name = "free"
-      - AND Attribute: engagement_score = "High"
-      - AND Attribute: days_since_last_activity <= 7
-      - AND Event: session_start occurred >= 5 times in last 14 days
-      Description: Free users showing strong engagement and recent activity. Prime cohort for upgrade prompts, premium-feature trials, and account-expansion outreach.
+      Build a segment of users named "Engaged Free Users".
+      A user is in the segment only when all of these are true:
+      - their plan_name attribute is "free"
+      - their engagement_score attribute is "High"
+      - their days_since_last_activity attribute is 7 or less
+      - they did the session_start event 5 or more times in the last 14 days
 outputs:
   - key: segment
     producedByStep: s1
@@ -58,6 +64,21 @@ Free-plan users who are in the product often and recently, so upgrade prompts re
 ## What you end up with
 
 - **segment** (segment): Segment created on /segments.
+
+## What this recipe touches
+
+Reads:
+
+- The session_start event in your project
+- The plan_name, engagement_score and days_since_last_activity attributes on users
+
+Writes:
+
+- A new segment, from step 1 "Build the engaged free list"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

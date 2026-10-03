@@ -29,6 +29,15 @@ prerequisites:
   integrations:
     - value: salesforce
       severity: blocking
+touches:
+  reads:
+    - The feature_used event in your project
+    - Your Salesforce connection
+  writes:
+    - A new segment, from step 1 "Agree the qualifying signal"
+    - A new workflow, from step 2 "Upsert the lead, never double"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Agree the qualifying signal
@@ -89,6 +98,22 @@ Creates a Salesforce lead the moment product usage says someone is ready, so a s
 
 - **pql** (segment): Segment produced by this recipe.
 - **workflow** (workflow): Workflow produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- The feature_used event in your project
+- Your Salesforce connection
+
+Writes:
+
+- A new segment, from step 1 "Agree the qualifying signal"
+- A new workflow, from step 2 "Upsert the lead, never double"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

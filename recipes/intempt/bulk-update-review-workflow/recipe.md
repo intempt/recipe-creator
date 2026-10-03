@@ -28,6 +28,21 @@ prerequisites:
   integrations:
     - value: slack
       severity: recommended
+touches:
+  reads:
+    - Your Slack connection
+  writes:
+    - A new workflow, from step 1 "Gate the mass changes"
+    - A new workflow, from step 2 "Accept the operation"
+    - A new workflow, from step 3 "Build a sample of the diff"
+    - A new workflow, from step 4 "Rate how risky it is"
+    - A new workflow, from step 5 "Put the diff to a human"
+    - A new workflow, from step 6 "Wait for the decision"
+    - A new workflow, from step 7 "Apply all, some or nothing"
+    - A new workflow, from step 8 "Run it and keep the receipts"
+    - A new workflow, from step 9 "Publish and watch rollbacks"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Gate the mass changes
@@ -218,6 +233,28 @@ Stops a mass field change, merge or delete above the size you set, shows a sampl
 
 - **workflow** (workflow): Workflow produced by this recipe.
 - **step** (step): Workflow Step produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Your Slack connection
+
+Writes:
+
+- A new workflow, from step 1 "Gate the mass changes"
+- A new workflow, from step 2 "Accept the operation"
+- A new workflow, from step 3 "Build a sample of the diff"
+- A new workflow, from step 4 "Rate how risky it is"
+- A new workflow, from step 5 "Put the diff to a human"
+- A new workflow, from step 6 "Wait for the decision"
+- A new workflow, from step 7 "Apply all, some or nothing"
+- A new workflow, from step 8 "Run it and keep the receipts"
+- A new workflow, from step 9 "Publish and watch rollbacks"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

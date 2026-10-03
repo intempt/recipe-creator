@@ -26,6 +26,14 @@ prerequisites:
   integrations:
     - value: salesforce
       severity: blocking
+touches:
+  reads:
+    - Your Salesforce connection
+  writes:
+    - A new segment, from step 1 "Define the audience once"
+    - A new workflow, from step 2 "Add members without doubling"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Define the audience once
@@ -81,6 +89,21 @@ Puts a segment's members into a Salesforce campaign, which is how an audience bu
 
 - **audience** (segment): Segment produced by this recipe.
 - **workflow** (workflow): Workflow produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Your Salesforce connection
+
+Writes:
+
+- A new segment, from step 1 "Define the audience once"
+- A new workflow, from step 2 "Add members without doubling"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

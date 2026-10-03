@@ -25,6 +25,18 @@ classification:
     - account-engagement
     - b2b-tiering
     - account-as-unit
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new attribute, from step 1 "Score each account daily"
+    - A new segment, from step 2 "Group paying accounts by tier"
+    - A new designed email, from step 3 "Write an email per tier"
+    - A new website personalization, from step 4 "Change what the admin sees"
+    - A new journey, from step 5 "Run the play for each tier"
+    - A new dashboard, from step 6 "See where the book is heading"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Score each account daily
@@ -205,6 +217,25 @@ Scores each account from 0 to 100 on how its whole team uses the product, then r
 - **personalization** (personalization): Personalization produced by this recipe.
 - **journey** (journey): Journey produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new attribute, from step 1 "Score each account daily"
+- A new segment, from step 2 "Group paying accounts by tier"
+- A new designed email, from step 3 "Write an email per tier"
+- A new website personalization, from step 4 "Change what the admin sees"
+- A new journey, from step 5 "Run the play for each tier"
+- A new dashboard, from step 6 "See where the book is heading"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

@@ -31,6 +31,18 @@ prerequisites:
   events:
     - value: deal_stage_changed
       severity: recommended
+touches:
+  reads:
+    - The deal_stage_changed event in your project
+    - Your Slack connection
+  writes:
+    - A new attribute, from step 1 "Measure how long it has sat"
+    - A new segment, from step 2 "Find the genuinely stuck ones"
+    - A new designed email, from step 3 "Write a nudge per stage"
+    - A new workflow, from step 4 "Draft it and chase the rep"
+    - A new dashboard, from step 5 "See what is really dead"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Measure how long it has sat
@@ -175,6 +187,25 @@ Finds deals sitting in a stage far longer than usual with no activity, drafts a 
 - **asset** (asset): Asset produced by this recipe.
 - **workflow** (workflow): Workflow produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- The deal_stage_changed event in your project
+- Your Slack connection
+
+Writes:
+
+- A new attribute, from step 1 "Measure how long it has sat"
+- A new segment, from step 2 "Find the genuinely stuck ones"
+- A new designed email, from step 3 "Write a nudge per stage"
+- A new workflow, from step 4 "Draft it and chase the rep"
+- A new dashboard, from step 5 "See what is really dead"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

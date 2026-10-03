@@ -21,6 +21,13 @@ classification:
     - video
     - product
     - i2v
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new video, from step 1 "Animate the product"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Animate the product
@@ -59,6 +66,20 @@ Turns a static product image into a 5 second clip with a 360 spin, a dolly-in or
 ## What you end up with
 
 - **video** (video): Product shot video.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new video, from step 1 "Animate the product"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

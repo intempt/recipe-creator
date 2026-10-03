@@ -23,6 +23,18 @@ classification:
   tags:
     - meeting-types
     - taxonomy
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new meeting type, from step 1 "Audit the types you have"
+    - A new meeting type, from step 2 "Create the Discovery type"
+    - A new meeting type, from step 3 "Create the Demo type"
+    - A new meeting type, from step 4 "Create the Proposal type"
+    - A new meeting type, from step 5 "Create the Renewal type"
+    - A new meeting type, from step 6 "Create the Check-in type"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Audit the types you have
@@ -154,6 +166,25 @@ Sorts your calls into a clean set of types so summaries, coaching and reporting 
 
 - **meeting_type_inventory** (meeting_type_inventory): Meeting Type Inventory produced by this recipe.
 - **meeting_type** (meeting_type): Meeting Type produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new meeting type, from step 1 "Audit the types you have"
+- A new meeting type, from step 2 "Create the Discovery type"
+- A new meeting type, from step 3 "Create the Demo type"
+- A new meeting type, from step 4 "Create the Proposal type"
+- A new meeting type, from step 5 "Create the Renewal type"
+- A new meeting type, from step 6 "Create the Check-in type"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

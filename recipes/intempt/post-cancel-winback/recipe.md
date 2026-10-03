@@ -27,6 +27,16 @@ prerequisites:
   events:
     - value: subscription_canceled
       severity: blocking
+touches:
+  reads:
+    - The subscription_canceled event in your project
+  writes:
+    - A new segment, from step 1 "Find recent cancellations"
+    - A new designed email, from step 2 "Write three win back emails"
+    - A new journey, from step 3 "Send at 30, 60 and 90 days"
+    - A new dashboard, from step 4 "See who comes back"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Find recent cancellations
@@ -140,6 +150,23 @@ Goes back to people who cancelled at 30, 60 and 90 days with what has changed, a
 - **asset** (asset): Asset produced by this recipe.
 - **journey** (journey): Journey produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- The subscription_canceled event in your project
+
+Writes:
+
+- A new segment, from step 1 "Find recent cancellations"
+- A new designed email, from step 2 "Write three win back emails"
+- A new journey, from step 3 "Send at 30, 60 and 90 days"
+- A new dashboard, from step 4 "See who comes back"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

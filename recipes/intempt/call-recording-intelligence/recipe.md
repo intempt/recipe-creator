@@ -29,6 +29,17 @@ prerequisites:
   events:
     - value: call_recording_available
       severity: blocking
+touches:
+  reads:
+    - The call_recording_available event in your project
+    - Your Slack connection
+  writes:
+    - A new attribute, from step 1 "Read every call transcript"
+    - A new Slack message, from step 2 "Write the manager alert"
+    - A new workflow, from step 3 "File it and flag the bad ones"
+    - A new dashboard, from step 4 "Coach from the patterns"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Read every call transcript
@@ -144,6 +155,24 @@ Pulls the objections, the talk ratio, the sentiment and the buying signals out o
 - **asset** (asset): Asset produced by this recipe.
 - **workflow** (workflow): Workflow produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- The call_recording_available event in your project
+- Your Slack connection
+
+Writes:
+
+- A new attribute, from step 1 "Read every call transcript"
+- A new Slack message, from step 2 "Write the manager alert"
+- A new workflow, from step 3 "File it and flag the bad ones"
+- A new dashboard, from step 4 "Coach from the patterns"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

@@ -19,6 +19,18 @@ classification:
   executionMode: live
   tags:
     - b2b-nurture
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new attribute, from step 1 "Score every lead"
+    - A new segment, from step 2 "Split into hot, warm and cold"
+    - A new workflow, from step 3 "Hand hot leads to a rep"
+    - A new designed email, from step 4 "Write content for each bucket"
+    - A new journey, from step 5 "Nurture at the right pace"
+    - A new dashboard, from step 6 "Track handoffs and conversion"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Score every lead
@@ -161,6 +173,25 @@ Scores inbound leads, hands the sales ready ones to a rep with an owner and a ta
 - **asset** (asset): Asset produced by this recipe.
 - **journey** (journey): Journey produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new attribute, from step 1 "Score every lead"
+- A new segment, from step 2 "Split into hot, warm and cold"
+- A new workflow, from step 3 "Hand hot leads to a rep"
+- A new designed email, from step 4 "Write content for each bucket"
+- A new journey, from step 5 "Nurture at the right pace"
+- A new dashboard, from step 6 "Track handoffs and conversion"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

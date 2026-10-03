@@ -19,6 +19,13 @@ classification:
   executionMode: live
   tags:
     - path
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new report, from step 1 "Rank the signals before a cancel"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Rank the signals before a cancel
@@ -74,6 +81,20 @@ Shows what customers do in the month before they cancel, and which of those acti
 ## What you end up with
 
 - **report** (report): Report produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new report, from step 1 "Rank the signals before a cancel"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

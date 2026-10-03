@@ -26,6 +26,14 @@ prerequisites:
   integrations:
     - value: google_sheets
       severity: blocking
+touches:
+  reads:
+    - Your Google Sheets connection
+  writes:
+    - A new segment, from step 1 "Pick the audience to export"
+    - A new workflow, from step 2 "Refresh the sheet each week"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Pick the audience to export
@@ -83,6 +91,21 @@ Writes a segment into a Google Sheet every week, replacing the CSV someone downl
 
 - **segment** (segment): Segment produced by this recipe.
 - **workflow** (workflow): Workflow produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Your Google Sheets connection
+
+Writes:
+
+- A new segment, from step 1 "Pick the audience to export"
+- A new workflow, from step 2 "Refresh the sheet each week"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

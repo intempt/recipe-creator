@@ -27,6 +27,16 @@ prerequisites:
   events:
     - value: feature_first_used
       severity: blocking
+touches:
+  reads:
+    - The feature_first_used event in your project
+  writes:
+    - A new segment, from step 1 "Find people who just got value"
+    - A new designed email, from step 2 "Write three follow up emails"
+    - A new journey, from step 3 "Send on days 1, 5 and 10"
+    - A new dashboard, from step 4 "Track activation and retention"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Find people who just got value
@@ -141,6 +151,23 @@ Follows up right after someone hits the action that predicts retention, so the f
 - **asset** (asset): Asset produced by this recipe.
 - **journey** (journey): Journey produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- The feature_first_used event in your project
+
+Writes:
+
+- A new segment, from step 1 "Find people who just got value"
+- A new designed email, from step 2 "Write three follow up emails"
+- A new journey, from step 3 "Send on days 1, 5 and 10"
+- A new dashboard, from step 4 "Track activation and retention"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

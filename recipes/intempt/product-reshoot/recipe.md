@@ -21,6 +21,21 @@ classification:
     - image
     - product
     - lighting
+inputs:
+  - input: Product photo
+    what_the_installer_supplies: The product photo to relight
+    if_missing: The step is marked vague and waits until one is attached.
+  - input: Setting, lighting and angle
+    what_the_installer_supplies: The environment, the lighting direction and the camera angle
+    if_missing: The step is marked vague and waits until one is chosen.
+touches:
+  reads:
+    - The product photo you supply when you run it
+    - The setting, lighting and angle you supply when you run it
+  writes:
+    - A new image, from step 1 "Relight the product"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Relight the product
@@ -29,14 +44,9 @@ steps:
       accurate light falloff and the product itself is unchanged.
     builds: image
     description: |-
-      Re-shoot a product image with new lighting.
-      Inputs:
-      - productImage: uploaded product photo
-      - setting: environment preset
-      - lighting: lighting direction/style
-      - angle: camera angle
-      Pipeline: iclight-v2 relight to optional nano-banana-pro/edit
-      Re-light the product with physically-accurate light falloff. The product identity must remain unchanged.
+      Edit the product photo attached to this run.
+      Relight it with physically accurate light falloff, using the setting, lighting direction and camera angle chosen for this run.
+      Do not change the product itself.
 outputs:
   - key: image
     producedByStep: s1
@@ -59,6 +69,28 @@ Re-lights a product photo you already have, using a setting, lighting direction 
 ## What you end up with
 
 - **image** (image): Re-lit product image.
+
+## What this recipe touches
+
+Reads:
+
+- The product photo you supply when you run it
+- The setting, lighting and angle you supply when you run it
+
+Writes:
+
+- A new image, from step 1 "Relight the product"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
+
+## Declared inputs
+
+| Input | What the installer supplies | If missing |
+|---|---|---|
+| Product photo | The product photo to relight | The step is marked vague and waits until one is attached. |
+| Setting, lighting and angle | The environment, the lighting direction and the camera angle | The step is marked vague and waits until one is chosen. |
 
 ## Availability
 

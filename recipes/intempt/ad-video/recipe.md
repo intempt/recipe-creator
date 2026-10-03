@@ -21,6 +21,13 @@ classification:
     - video
     - ad
     - cinematic
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new video, from step 1 "Animate the product still"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Animate the product still
@@ -54,6 +61,20 @@ Turns one product still into a 5 second cinematic spot with slow camera drift an
 ## What you end up with
 
 - **video** (video): Cinematic ad video.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new video, from step 1 "Animate the product still"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

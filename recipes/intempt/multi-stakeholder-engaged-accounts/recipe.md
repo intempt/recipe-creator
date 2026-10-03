@@ -21,6 +21,14 @@ classification:
   executionMode: live
   tags:
     - accounts-segment
+touches:
+  reads:
+    - The session_start and page_viewed events in your project
+    - The users_count attribute on accounts
+  writes:
+    - A new segment, from step 1 "Build the multi-stakeholder list"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the multi-stakeholder list
@@ -29,13 +37,11 @@ steps:
       in the last 14 days.
     builds: segment
     description: |-
-      Create a segment called "Multi-Stakeholder Engaged Accounts".
-      Object: Accounts
-      Rules (all conditions joined by AND):
-      - Attribute: users_count >= 3
-      - AND Event (across users in account): session_start occurred >= 5 times in last 14 days
-      - AND Event (across users in account): page_viewed occurred >= 10 times in last 14 days
-      Description: Accounts where 3+ users have been actively engaged in the last 14 days. The buying-committee signal: Salesforce reports B2B deals now involve an average of 11 stakeholders, so multi-user engagement at the account level is one of the strongest forward-looking indicators of an active buying cycle. Foundation for AE multi-threading plays and ABM coordination.
+      Build a segment of accounts named "Multi-Stakeholder Engaged Accounts".
+      An account is in the segment only when all of these are true:
+      - its users_count attribute is 3 or more
+      - the users in the account together did the session_start event 5 or more times in the last 14 days
+      - the users in the account together did the page_viewed event 10 or more times in the last 14 days
 outputs:
   - key: segment
     producedByStep: s1
@@ -58,6 +64,21 @@ Accounts where three or more people have been using the product in the last two 
 ## What you end up with
 
 - **segment** (segment): Segment created on /segments.
+
+## What this recipe touches
+
+Reads:
+
+- The session_start and page_viewed events in your project
+- The users_count attribute on accounts
+
+Writes:
+
+- A new segment, from step 1 "Build the multi-stakeholder list"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

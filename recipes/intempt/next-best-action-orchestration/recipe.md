@@ -33,6 +33,21 @@ prerequisites:
       severity: recommended
     - value: session_start
       severity: recommended
+touches:
+  reads:
+    - The feature_used event in your project
+    - The session_start event in your project
+    - Your Slack connection
+  writes:
+    - A new attribute, from step 1 "Decide the next step per user"
+    - A new segment, from step 2 "Only route confident calls"
+    - A new designed email, from step 3 "Write an email per action"
+    - A new landing page, from step 4 "Write the in app versions"
+    - A new product recommendation, from step 5 "Build the recommendation set"
+    - A new journey, from step 6 "Re-read the signal at each gate"
+    - A new dashboard, from step 7 "Check the model against a control"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Decide the next step per user
@@ -233,6 +248,28 @@ Picks each person's next step from their live signal instead of a fixed cadence:
 - **recommendation** (recommendation): Recommendation Surface produced by this recipe.
 - **journey** (journey): Journey produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- The feature_used event in your project
+- The session_start event in your project
+- Your Slack connection
+
+Writes:
+
+- A new attribute, from step 1 "Decide the next step per user"
+- A new segment, from step 2 "Only route confident calls"
+- A new designed email, from step 3 "Write an email per action"
+- A new landing page, from step 4 "Write the in app versions"
+- A new product recommendation, from step 5 "Build the recommendation set"
+- A new journey, from step 6 "Re-read the signal at each gate"
+- A new dashboard, from step 7 "Check the model against a control"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

@@ -20,6 +20,14 @@ classification:
   executionMode: live
   tags:
     - users-segment
+touches:
+  reads:
+    - The session_start event in your project
+    - The plan_name attribute on users
+  writes:
+    - A new segment, from step 1 "Build the silent paid-user list"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the silent paid-user list
@@ -28,13 +36,11 @@ steps:
       none in the last 30 days.
     builds: segment
     description: |-
-      Create a segment called "Churn Risk Users".
-      Object: Users
-      Rules (all conditions joined by AND):
-      - Event: session_start occurred >= 5 times between 60 and 90 days ago
-      - AND Event: session_start occurred 0 times in last 30 days
-      - AND Attribute: plan_name is not "free"
-      Description: Previously active paid users who have gone silent. Trigger CSM outreach or save-offer journey before they churn.
+      Build a segment of users named "Churn Risk Users".
+      A user is in the segment only when all of these are true:
+      - they did the session_start event 5 or more times between 60 and 90 days ago
+      - they did not do the session_start event in the last 30 days
+      - their plan_name attribute is not "free"
 outputs:
   - key: segment
     producedByStep: s1
@@ -57,6 +63,21 @@ Paying users who used to log in regularly and have not shown up for a month, so 
 ## What you end up with
 
 - **segment** (segment): Segment created on /segments.
+
+## What this recipe touches
+
+Reads:
+
+- The session_start event in your project
+- The plan_name attribute on users
+
+Writes:
+
+- A new segment, from step 1 "Build the silent paid-user list"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

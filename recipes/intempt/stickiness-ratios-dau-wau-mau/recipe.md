@@ -19,6 +19,13 @@ classification:
   executionMode: live
   tags:
     - insights
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new report, from step 1 "Track daily against monthly use"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Track daily against monthly use
@@ -70,6 +77,20 @@ Shows daily, weekly and monthly active users together with the ratios between th
 ## What you end up with
 
 - **report** (report): Report produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new report, from step 1 "Track daily against monthly use"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

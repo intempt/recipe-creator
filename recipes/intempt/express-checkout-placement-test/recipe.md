@@ -30,6 +30,14 @@ prerequisites:
     - value: stripe
       severity: blocking
       group: checkout-source
+touches:
+  reads:
+    - Your Shopify connection
+    - Your Stripe connection
+  writes:
+    - A new A/B experiment, from step 1 "Set up the placement test"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Set up the placement test
@@ -126,6 +134,21 @@ Compares showing Apple Pay, Google Pay and Shop Pay on the product page, in the 
 ## What you end up with
 
 - **experiment** (experiment): Website experiment created on /experiences.
+
+## What this recipe touches
+
+Reads:
+
+- Your Shopify connection
+- Your Stripe connection
+
+Writes:
+
+- A new A/B experiment, from step 1 "Set up the placement test"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

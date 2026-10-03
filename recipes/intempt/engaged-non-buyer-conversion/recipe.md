@@ -29,6 +29,19 @@ prerequisites:
       severity: blocking
     - value: feature_used
       severity: blocking
+touches:
+  reads:
+    - The user_signed_up event in your project
+    - The feature_used event in your project
+  writes:
+    - A new attribute, from step 1 "Measure the gap"
+    - A new segment, from step 2 "Find engaged free users"
+    - A new designed email, from step 3 "Write one email per blocker"
+    - A new custom agent, from step 4 "Ask what is stopping them"
+    - A new journey, from step 5 "Diagnose, then bring a human in"
+    - A new dashboard, from step 6 "See which angle converts"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Measure the gap
@@ -206,6 +219,26 @@ Finds free users who behave like paying customers, works out what is actually bl
 - **agent** (agent): AI Agent Scenario produced by this recipe.
 - **journey** (journey): Journey produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- The user_signed_up event in your project
+- The feature_used event in your project
+
+Writes:
+
+- A new attribute, from step 1 "Measure the gap"
+- A new segment, from step 2 "Find engaged free users"
+- A new designed email, from step 3 "Write one email per blocker"
+- A new custom agent, from step 4 "Ask what is stopping them"
+- A new journey, from step 5 "Diagnose, then bring a human in"
+- A new dashboard, from step 6 "See which angle converts"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

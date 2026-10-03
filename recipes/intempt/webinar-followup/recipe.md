@@ -29,6 +29,18 @@ prerequisites:
       severity: blocking
     - value: webinar_attended
       severity: blocking
+touches:
+  reads:
+    - The webinar_completed event in your project
+    - The webinar_attended event in your project
+  writes:
+    - A new segment, from step 1 "Take everyone who registered"
+    - A new attribute, from step 2 "Record who actually turned up"
+    - A new designed email, from step 3 "Write both follow up paths"
+    - A new journey, from step 4 "Split on whether they showed"
+    - A new dashboard, from step 5 "See which webinars make deals"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Take everyone who registered
@@ -167,6 +179,25 @@ Sends attendees the recording and a next step, sends no shows the on demand link
 - **asset** (asset): Asset produced by this recipe.
 - **journey** (journey): Journey produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- The webinar_completed event in your project
+- The webinar_attended event in your project
+
+Writes:
+
+- A new segment, from step 1 "Take everyone who registered"
+- A new attribute, from step 2 "Record who actually turned up"
+- A new designed email, from step 3 "Write both follow up paths"
+- A new journey, from step 4 "Split on whether they showed"
+- A new dashboard, from step 5 "See which webinars make deals"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

@@ -19,6 +19,13 @@ classification:
   executionMode: live
   tags:
     - funnel
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new report, from step 1 "Follow trials through to payment"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Follow trials through to payment
@@ -72,6 +79,20 @@ Shows how many trials go on to view pricing, start checkout and pay, and which p
 ## What you end up with
 
 - **report** (report): Report produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new report, from step 1 "Follow trials through to payment"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

@@ -32,6 +32,22 @@ prerequisites:
   events:
     - value: conversation_received
       severity: blocking
+touches:
+  reads:
+    - The conversation_received event in your project
+    - Your Slack connection
+  writes:
+    - A new workflow, from step 1 "Catch every inbound message"
+    - A new workflow, from step 2 "Work out what they want"
+    - A new workflow, from step 3 "Send it to the right team"
+    - A new workflow, from step 4 "Match them to an account"
+    - A new workflow, from step 5 "Draft the first reply"
+    - A new workflow, from step 6 "Give the AE the whole picture"
+    - A new workflow, from step 7 "Queue the support questions"
+    - A new workflow, from step 8 "Ask a human when unsure"
+    - A new workflow, from step 9 "Publish and audit the calls"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Catch every inbound message
@@ -223,6 +239,29 @@ Reads every inbound message, works out whether it is sales, support, billing, pa
 
 - **workflow** (workflow): Workflow produced by this recipe.
 - **step** (step): Workflow Step produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- The conversation_received event in your project
+- Your Slack connection
+
+Writes:
+
+- A new workflow, from step 1 "Catch every inbound message"
+- A new workflow, from step 2 "Work out what they want"
+- A new workflow, from step 3 "Send it to the right team"
+- A new workflow, from step 4 "Match them to an account"
+- A new workflow, from step 5 "Draft the first reply"
+- A new workflow, from step 6 "Give the AE the whole picture"
+- A new workflow, from step 7 "Queue the support questions"
+- A new workflow, from step 8 "Ask a human when unsure"
+- A new workflow, from step 9 "Publish and audit the calls"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

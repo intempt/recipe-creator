@@ -28,6 +28,21 @@ prerequisites:
   integrations:
     - value: slack
       severity: recommended
+touches:
+  reads:
+    - Your Slack connection
+  writes:
+    - A new workflow, from step 1 "Turn cleanup into a routine"
+    - A new workflow, from step 2 "Run it on Sunday night"
+    - A new workflow, from step 3 "Find the duplicates"
+    - A new workflow, from step 4 "Find the stale records"
+    - A new workflow, from step 5 "Find the gaps"
+    - A new workflow, from step 6 "Propose the merges"
+    - A new workflow, from step 7 "Send the queue for approval"
+    - A new workflow, from step 8 "Report the week's hygiene"
+    - A new workflow, from step 9 "Publish and watch the trend"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Turn cleanup into a routine
@@ -220,6 +235,28 @@ Scans every Sunday for duplicates, stale records and missing fields, then hands 
 
 - **workflow** (workflow): Workflow produced by this recipe.
 - **step** (step): Workflow Step produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Your Slack connection
+
+Writes:
+
+- A new workflow, from step 1 "Turn cleanup into a routine"
+- A new workflow, from step 2 "Run it on Sunday night"
+- A new workflow, from step 3 "Find the duplicates"
+- A new workflow, from step 4 "Find the stale records"
+- A new workflow, from step 5 "Find the gaps"
+- A new workflow, from step 6 "Propose the merges"
+- A new workflow, from step 7 "Send the queue for approval"
+- A new workflow, from step 8 "Report the week's hygiene"
+- A new workflow, from step 9 "Publish and watch the trend"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

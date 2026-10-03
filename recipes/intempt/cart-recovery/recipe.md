@@ -20,6 +20,18 @@ classification:
   executionMode: live
   tags:
     - cart-recovery
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new segment, from step 1 "Find who abandoned a cart"
+    - A new designed email, from step 2 "Write the three emails"
+    - A new journey, from step 3 "Schedule the sequence"
+    - A new A/B experiment, from step 4 "Test subject lines and offers"
+    - A new dashboard, from step 5 "Track recovered revenue"
+    - A new workflow, from step 6 "Alert when it stops working"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Find who abandoned a cart
@@ -160,6 +172,25 @@ Emails shoppers who left items behind, three times over three days, and measures
 - **experiment** (experiment): Experiment produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
 - **workflow** (workflow): Workflow produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new segment, from step 1 "Find who abandoned a cart"
+- A new designed email, from step 2 "Write the three emails"
+- A new journey, from step 3 "Schedule the sequence"
+- A new A/B experiment, from step 4 "Test subject lines and offers"
+- A new dashboard, from step 5 "Track recovered revenue"
+- A new workflow, from step 6 "Alert when it stops working"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

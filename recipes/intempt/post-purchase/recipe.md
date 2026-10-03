@@ -19,6 +19,18 @@ classification:
   executionMode: live
   tags:
     - post-purchase
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new segment, from step 1 "Split first time from repeat"
+    - A new designed email, from step 2 "Write the five emails"
+    - A new journey, from step 3 "Send over the first month"
+    - A new product recommendation, from step 4 "Pick what goes with it"
+    - A new A/B experiment, from step 5 "Test when to ask for a review"
+    - A new dashboard, from step 6 "Track reviews and repeat orders"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Split first time from repeat
@@ -159,6 +171,25 @@ Thanks the buyer, shows them how to use what they bought, asks for a review, and
 - **recommendation** (recommendation): Recommendation produced by this recipe.
 - **experiment** (experiment): Experiment produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new segment, from step 1 "Split first time from repeat"
+- A new designed email, from step 2 "Write the five emails"
+- A new journey, from step 3 "Send over the first month"
+- A new product recommendation, from step 4 "Pick what goes with it"
+- A new A/B experiment, from step 5 "Test when to ask for a review"
+- A new dashboard, from step 6 "Track reviews and repeat orders"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

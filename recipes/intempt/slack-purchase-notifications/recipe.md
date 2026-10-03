@@ -35,6 +35,18 @@ prerequisites:
   integrations:
     - value: slack
       severity: blocking
+touches:
+  reads:
+    - The deal_won event in your project
+    - The subscription_created event in your project
+    - The order_placed event in your project
+    - Your Slack connection
+  writes:
+    - A new Slack message, from step 1 "Write the celebration posts"
+    - A new Slack message, from step 2 "Write the operational alerts"
+    - A new workflow, from step 3 "Route wins and problems apart"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Write the celebration posts
@@ -116,6 +128,25 @@ Posts the wins to one channel and the problems to another, with the person who n
 
 - **asset** (asset): Asset produced by this recipe.
 - **workflow** (workflow): Workflow produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- The deal_won event in your project
+- The subscription_created event in your project
+- The order_placed event in your project
+- Your Slack connection
+
+Writes:
+
+- A new Slack message, from step 1 "Write the celebration posts"
+- A new Slack message, from step 2 "Write the operational alerts"
+- A new workflow, from step 3 "Route wins and problems apart"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

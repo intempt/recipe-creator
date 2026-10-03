@@ -25,6 +25,17 @@ classification:
     - b2b-renewal
     - multi-stakeholder
     - enterprise
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new segment, from step 1 "Find renewals inside 90 days"
+    - A new attribute, from step 2 "Read the renewal health"
+    - A new designed email, from step 3 "Write one email per role"
+    - A new journey, from step 4 "Reach each stakeholder in turn"
+    - A new dashboard, from step 5 "Forecast the renewal book"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Find renewals inside 90 days
@@ -172,6 +183,24 @@ Works a renewal like a buying process: the champion at 90 days, the budget holde
 - **asset** (asset): Asset produced by this recipe.
 - **journey** (journey): Journey produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new segment, from step 1 "Find renewals inside 90 days"
+- A new attribute, from step 2 "Read the renewal health"
+- A new designed email, from step 3 "Write one email per role"
+- A new journey, from step 4 "Reach each stakeholder in turn"
+- A new dashboard, from step 5 "Forecast the renewal book"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

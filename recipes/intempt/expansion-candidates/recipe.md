@@ -20,6 +20,13 @@ classification:
   executionMode: live
   tags:
     - users-segment
+touches:
+  reads:
+    - The plan_name and usage_pct attributes on users
+  writes:
+    - A new segment, from step 1 "Build the near-limit list"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the near-limit list
@@ -27,12 +34,10 @@ steps:
       Users on any plan other than enterprise whose usage is at 80 percent or more of their limit.
     builds: segment
     description: |-
-      Create a segment called "Expansion Candidates".
-      Object: Users
-      Rules (all conditions joined by AND):
-      - Attribute: plan_name is not "enterprise"
-      - AND Attribute: usage_pct >= 80
-      Description: Users approaching plan limits: prime upgrade candidates. Trigger in-app upgrade prompt or AE outreach.
+      Build a segment of users named "Expansion Candidates".
+      A user is in the segment only when all of these are true:
+      - their plan_name attribute is not "enterprise"
+      - their usage_pct attribute is 80 or more
 outputs:
   - key: segment
     producedByStep: s1
@@ -55,6 +60,20 @@ Users who have used up most of their plan allowance, so you can start the upgrad
 ## What you end up with
 
 - **segment** (segment): Segment created on /segments.
+
+## What this recipe touches
+
+Reads:
+
+- The plan_name and usage_pct attributes on users
+
+Writes:
+
+- A new segment, from step 1 "Build the near-limit list"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

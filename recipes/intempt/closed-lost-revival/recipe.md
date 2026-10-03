@@ -27,6 +27,17 @@ prerequisites:
   events:
     - value: deal_lost
       severity: blocking
+touches:
+  reads:
+    - The deal_lost event in your project
+  writes:
+    - A new segment, from step 1 "Find losses worth revisiting"
+    - A new designed email, from step 2 "Write two revival emails"
+    - A new workflow, from step 3 "Check what changed first"
+    - A new journey, from step 4 "Send at day 0 and day 14"
+    - A new dashboard, from step 5 "See what comes back to life"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Find losses worth revisiting
@@ -166,6 +177,24 @@ Goes back to deals lost 90 days ago, checks what has changed at the account, and
 - **workflow** (workflow): Workflow produced by this recipe.
 - **journey** (journey): Journey produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- The deal_lost event in your project
+
+Writes:
+
+- A new segment, from step 1 "Find losses worth revisiting"
+- A new designed email, from step 2 "Write two revival emails"
+- A new workflow, from step 3 "Check what changed first"
+- A new journey, from step 4 "Send at day 0 and day 14"
+- A new dashboard, from step 5 "See what comes back to life"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

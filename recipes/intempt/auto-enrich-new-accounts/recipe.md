@@ -28,6 +28,16 @@ prerequisites:
   integrations:
     - value: slack
       severity: recommended
+touches:
+  reads:
+    - Your Slack connection
+  writes:
+    - A new attribute, from step 1 "Score the fit once enriched"
+    - A new segment, from step 2 "Find the accounts still blank"
+    - A new workflow, from step 3 "Enrich on creation, then daily"
+    - A new dashboard, from step 4 "Check coverage and fit mix"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Score the fit once enriched
@@ -141,6 +151,23 @@ Fills in industry, size, revenue and tech stack for every new account within min
 - **segment** (segment): Segment produced by this recipe.
 - **workflow** (workflow): Workflow produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Your Slack connection
+
+Writes:
+
+- A new attribute, from step 1 "Score the fit once enriched"
+- A new segment, from step 2 "Find the accounts still blank"
+- A new workflow, from step 3 "Enrich on creation, then daily"
+- A new dashboard, from step 4 "Check coverage and fit mix"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

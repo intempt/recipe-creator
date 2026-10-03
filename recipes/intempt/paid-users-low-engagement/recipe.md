@@ -20,6 +20,13 @@ classification:
   executionMode: live
   tags:
     - users-segment
+touches:
+  reads:
+    - The plan_name, days_since_last_activity and engagement_score attributes on users
+  writes:
+    - A new segment, from step 1 "Build the low-engagement list"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the low-engagement list
@@ -28,13 +35,11 @@ steps:
       21 days ago.
     builds: segment
     description: |-
-      Create a segment called "Paid Users: Low Engagement".
-      Object: Users
-      Rules (all conditions joined by AND):
-      - Attribute: plan_name is not in ["free", "trial"]
-      - AND Attribute: days_since_last_activity is between 7 and 21
-      - AND Attribute: engagement_score = "Low"
-      Description: Paid customers showing early disengagement before they become full churn risk. Trigger CSM check-in or feature-rediscovery campaign.
+      Build a segment of users named "Paid Users: Low Engagement".
+      A user is in the segment only when all of these are true:
+      - their plan_name attribute is neither "free" nor "trial"
+      - their days_since_last_activity attribute is between 7 and 21
+      - their engagement_score attribute is "Low"
 outputs:
   - key: segment
     producedByStep: s1
@@ -57,6 +62,20 @@ Paying customers whose usage has dropped off in the last couple of weeks, early 
 ## What you end up with
 
 - **segment** (segment): Segment created on /segments.
+
+## What this recipe touches
+
+Reads:
+
+- The plan_name, days_since_last_activity and engagement_score attributes on users
+
+Writes:
+
+- A new segment, from step 1 "Build the low-engagement list"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

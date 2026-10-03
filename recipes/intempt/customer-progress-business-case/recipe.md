@@ -26,6 +26,18 @@ classification:
     - customer-success
     - value-delivered
     - renewal-prep
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new attribute, from step 1 "Total up the quarter"
+    - A new segment, from step 2 "Pick who should get it"
+    - A new designed email, from step 3 "Write the quarter in numbers"
+    - A new website personalization, from step 4 "Show it in the app too"
+    - A new journey, from step 5 "Send three days after close"
+    - A new dashboard, from step 6 "See if the report earns renewals"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Total up the quarter
@@ -201,6 +213,25 @@ Sends each account a quarterly account of what they got out of the product, in t
 - **personalization** (personalization): Personalization produced by this recipe.
 - **journey** (journey): Journey produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new attribute, from step 1 "Total up the quarter"
+- A new segment, from step 2 "Pick who should get it"
+- A new designed email, from step 3 "Write the quarter in numbers"
+- A new website personalization, from step 4 "Show it in the app too"
+- A new journey, from step 5 "Send three days after close"
+- A new dashboard, from step 6 "See if the report earns renewals"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

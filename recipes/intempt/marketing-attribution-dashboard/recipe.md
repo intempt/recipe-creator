@@ -24,6 +24,13 @@ prerequisites:
   integrations:
     - value: shopify
       severity: blocking
+touches:
+  reads:
+    - Your Shopify connection
+  writes:
+    - A new dashboard, from step 1 "Build the attribution board"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the attribution board
@@ -85,6 +92,20 @@ Answers where revenue comes from across paid, organic, email and search. Return 
 ## What you end up with
 
 - **dashboard** (dashboard): Dash board (composition canvas) produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Your Shopify connection
+
+Writes:
+
+- A new dashboard, from step 1 "Build the attribution board"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

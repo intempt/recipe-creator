@@ -21,6 +21,14 @@ classification:
   executionMode: live
   tags:
     - accounts-segment
+touches:
+  reads:
+    - The session_start event in your project
+    - The has_open_deal, account_health and users_count attributes on accounts
+  writes:
+    - A new segment, from step 1 "Build the whitespace list"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the whitespace list
@@ -29,14 +37,12 @@ steps:
       users in the last 30 days.
     builds: segment
     description: |-
-      Create a segment called "Accounts With No Open Deal".
-      Object: Accounts
-      Rules (all conditions joined by AND):
-      - Attribute: has_open_deal = false
-      - AND Attribute: account_health = "healthy"
-      - AND Attribute: users_count >= 3
-      - AND Event: session_start (across users in account) occurred >= 5 times in last 30 days
-      Description: Healthy active accounts with no open deal: ready for expansion conversation. Trigger AE whitespace task or executive outreach.
+      Build a segment of accounts named "Accounts With No Open Deal".
+      An account is in the segment only when all of these are true:
+      - its has_open_deal attribute is false
+      - its account_health attribute is "healthy"
+      - its users_count attribute is 3 or more
+      - the users in the account together did the session_start event 5 or more times in the last 30 days
 outputs:
   - key: segment
     producedByStep: s1
@@ -59,6 +65,21 @@ Healthy customer accounts nobody is currently selling into, so AEs can see where
 ## What you end up with
 
 - **segment** (segment): Segment created on /segments.
+
+## What this recipe touches
+
+Reads:
+
+- The session_start event in your project
+- The has_open_deal, account_health and users_count attributes on accounts
+
+Writes:
+
+- A new segment, from step 1 "Build the whitespace list"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

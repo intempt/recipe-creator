@@ -19,6 +19,13 @@ classification:
   executionMode: live
   tags:
     - dashboard
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new dashboard, from step 1 "Build the operations board"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the operations board
@@ -81,6 +88,20 @@ Answers whether orders are shipping on time and where quality problems are hidin
 ## What you end up with
 
 - **dashboard** (dashboard): Dash board (composition canvas) produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new dashboard, from step 1 "Build the operations board"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

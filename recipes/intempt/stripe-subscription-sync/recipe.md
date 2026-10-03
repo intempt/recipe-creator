@@ -34,6 +34,18 @@ prerequisites:
   integrations:
     - value: stripe
       severity: blocking
+touches:
+  reads:
+    - The subscription_created event in your project
+    - The subscription_updated event in your project
+    - The subscription_canceled event in your project
+    - Your Stripe connection
+  writes:
+    - A new attribute, from step 1 "Hold the billing facts"
+    - A new workflow, from step 2 "Apply every Stripe event"
+    - A new dashboard, from step 3 "Prove the two agree"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Hold the billing facts
@@ -125,6 +137,25 @@ Keeps plan, status, revenue and renewal dates on every profile in step with Stri
 - **attribute** (attribute): AI-Derived Attribute produced by this recipe.
 - **workflow** (workflow): Workflow produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- The subscription_created event in your project
+- The subscription_updated event in your project
+- The subscription_canceled event in your project
+- Your Stripe connection
+
+Writes:
+
+- A new attribute, from step 1 "Hold the billing facts"
+- A new workflow, from step 2 "Apply every Stripe event"
+- A new dashboard, from step 3 "Prove the two agree"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

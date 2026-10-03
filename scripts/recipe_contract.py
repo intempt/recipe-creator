@@ -98,6 +98,10 @@ REQUIRED_STEP = ("id", "title", "summary", "builds", "description")
 SUMMARY_MAX = 200
 STEP_TITLE_MAX = 60
 
+TOUCHES_KEYS = ("reads", "writes", "never")
+INPUT_KEYS = ("input", "what_the_installer_supplies", "if_missing")
+DASHES = re.compile("[\u2013\u2014]")
+
 
 class RecipeError(Exception):
     pass
@@ -175,6 +179,8 @@ def validate(path, front):
             problems.append(f"{where}: unknown field {unknown!r}; command, entity, kind and arguments come from the step check, not the file")
         seen.append(sid)
 
+    problems += validate_declarations(front)
+
     keys = set()
     for o in front.get("outputs") or []:
         key = o.get("key")
@@ -186,6 +192,78 @@ def validate(path, front):
         if o.get("producedByStep") not in seen:
             problems.append(f"output {key!r}: producedByStep must name a step id (validate.py:260)")
     return problems
+
+
+def string_list_problems(value, label):
+    if not isinstance(value, list) or not value:
+        return [f"{label} must be a non-empty list"]
+    problems = []
+    for item in value:
+        if not isinstance(item, str) or not item.strip():
+            problems.append(f"{label} has an empty or non-text entry")
+        elif DASHES.search(item):
+            problems.append(f"{label} has an em-dash or en-dash")
+    return problems
+
+
+def validate_declarations(front):
+    problems = []
+    touches = front.get("touches")
+    if not isinstance(touches, dict):
+        problems.append("touches is required: reads, writes and never, each a list")
+    else:
+        for unknown in set(touches) - set(TOUCHES_KEYS):
+            problems.append(f"touches has unknown key {unknown!r}")
+        for key in TOUCHES_KEYS:
+            problems += string_list_problems(touches.get(key), f"touches.{key}")
+    if "does_not_claim" in front:
+        problems += string_list_problems(front.get("does_not_claim"), "does_not_claim")
+    if "inputs" in front:
+        inputs = front.get("inputs")
+        if not isinstance(inputs, list) or not inputs:
+            problems.append("inputs must be a non-empty list when present")
+        else:
+            for n, row in enumerate(inputs, start=1):
+                if not isinstance(row, dict):
+                    problems.append(f"inputs row {n} is not a mapping")
+                    continue
+                for unknown in set(row) - set(INPUT_KEYS):
+                    problems.append(f"inputs row {n} has unknown key {unknown!r}")
+                for key in INPUT_KEYS:
+                    value = row.get(key)
+                    if not isinstance(value, str) or not value.strip():
+                        problems.append(f"inputs row {n}: {key} is required")
+                    elif DASHES.search(value):
+                        problems.append(f"inputs row {n}: {key} has an em-dash or en-dash")
+    return problems
+
+
+def one_line(value):
+    return " ".join(str(value or "").split())
+
+
+def render_declarations(front):
+    lines = []
+    touches = front.get("touches") or {}
+    if touches:
+        lines += ["## What this recipe touches", ""]
+        for key in TOUCHES_KEYS:
+            lines += [f"{key.capitalize()}:", ""]
+            lines += [f"- {one_line(item)}" for item in touches.get(key) or []]
+            lines.append("")
+    inputs = front.get("inputs") or []
+    if inputs:
+        lines += ["## Declared inputs", "", "| Input | What the installer supplies | If missing |", "|---|---|---|"]
+        for row in inputs:
+            cells = [one_line(row.get(k)).replace("|", "\\|") for k in INPUT_KEYS]
+            lines.append("| " + " | ".join(cells) + " |")
+        lines.append("")
+    claims = front.get("does_not_claim") or []
+    if claims:
+        lines += ["## What this recipe does not claim", ""]
+        lines += [f"- {one_line(item)}" for item in claims]
+        lines.append("")
+    return lines
 
 
 BODY_MARKER = "<!-- generated from the frontmatter by scripts/rebuild_bodies.py; edit the frontmatter -->"
@@ -202,6 +280,7 @@ def render_body(front):
         for o in outputs:
             lines.append(f"- **{o.get('key')}** ({o.get('type')}): " + " ".join(str(o.get("description") or "").split()))
         lines.append("")
+    lines += render_declarations(front)
     lines += ["## Availability", ""]
     if status == "install_now":
         lines.append("Install now: every step builds something the engine supports today.")

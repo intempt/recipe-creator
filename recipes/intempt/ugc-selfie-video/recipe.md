@@ -22,6 +22,13 @@ classification:
     - ugc
     - selfie
     - candid
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new video, from step 1 "Animate the selfie"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Animate the selfie
@@ -55,6 +62,20 @@ Turns a handheld selfie still into a 5 second candid clip with a subtle head tur
 ## What you end up with
 
 - **video** (video): UGC selfie video clip.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new video, from step 1 "Animate the selfie"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

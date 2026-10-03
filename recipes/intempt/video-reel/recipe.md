@@ -22,6 +22,13 @@ classification:
     - reel
     - avatar
     - product
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new video, from step 1 "Generate the reel"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Generate the reel
@@ -64,6 +71,20 @@ Builds a 5 or 10 second reel from a script, using your avatar, a catalog product
 ## What you end up with
 
 - **video** (video): Generated reel.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new video, from step 1 "Generate the reel"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

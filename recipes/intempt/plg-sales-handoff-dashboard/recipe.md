@@ -19,6 +19,13 @@ classification:
   executionMode: live
   tags:
     - dashboard
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new dashboard, from step 1 "Build the PQL leaderboard"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the PQL leaderboard
@@ -80,6 +87,20 @@ Answers which free users are showing buying intent and which features push them 
 ## What you end up with
 
 - **dashboard** (dashboard): Dash board (composition canvas) produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new dashboard, from step 1 "Build the PQL leaderboard"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

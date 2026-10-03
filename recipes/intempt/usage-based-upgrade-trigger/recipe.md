@@ -27,6 +27,17 @@ prerequisites:
   events:
     - value: feature_used
       severity: blocking
+touches:
+  reads:
+    - The feature_used event in your project
+  writes:
+    - A new attribute, from step 1 "Find the bottleneck limit"
+    - A new segment, from step 2 "Find accounts near a limit"
+    - A new landing page, from step 3 "Write the in app prompt"
+    - A new workflow, from step 4 "Prompt, then call in an AE"
+    - A new dashboard, from step 5 "Compare prompt against AE"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Find the bottleneck limit
@@ -171,6 +182,24 @@ Catches an account nearing its plan limits, shows the decision maker an upgrade 
 - **asset** (asset): Asset produced by this recipe.
 - **workflow** (workflow): Workflow produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- The feature_used event in your project
+
+Writes:
+
+- A new attribute, from step 1 "Find the bottleneck limit"
+- A new segment, from step 2 "Find accounts near a limit"
+- A new landing page, from step 3 "Write the in app prompt"
+- A new workflow, from step 4 "Prompt, then call in an AE"
+- A new dashboard, from step 5 "Compare prompt against AE"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

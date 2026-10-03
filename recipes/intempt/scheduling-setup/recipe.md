@@ -19,6 +19,16 @@ classification:
   executionMode: live
   tags:
     - scheduling-setup
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A meeting action, from step 1 "Set up the booking link"
+    - A new workflow, from step 2 "Trigger follow-up on booking"
+    - A new journey, from step 3 "Send the confirmation email"
+    - A new dashboard, from step 4 "Track bookings and show rate"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Set up the booking link
@@ -115,6 +125,23 @@ Sets up your booking link, routes each request to the right host, confirms it by
 - **workflow** (workflow): Workflow produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
 - **journey** (journey): Journey produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A meeting action, from step 1 "Set up the booking link"
+- A new workflow, from step 2 "Trigger follow-up on booking"
+- A new journey, from step 3 "Send the confirmation email"
+- A new dashboard, from step 4 "Track bookings and show rate"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

@@ -20,6 +20,19 @@ classification:
   executionMode: live
   tags:
     - personalization-recs
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new product recommendation, from step 1 "Build the recommendation model"
+    - A new website personalization, from step 2 "Place them on each surface"
+    - A new segment, from step 3 "Split shoppers into cohorts"
+    - A new A/B experiment, from step 4 "Test against the alternatives"
+    - A new designed email, from step 5 "Build the email modules"
+    - A new journey, from step 6 "Follow up with high-intent browsers"
+    - A new dashboard, from step 7 "Track what recommendations earn"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the recommendation model
@@ -184,6 +197,26 @@ Puts product recommendations on your product pages, cart, post-purchase screens 
 - **asset** (asset): Asset produced by this recipe.
 - **journey** (journey): Journey produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new product recommendation, from step 1 "Build the recommendation model"
+- A new website personalization, from step 2 "Place them on each surface"
+- A new segment, from step 3 "Split shoppers into cohorts"
+- A new A/B experiment, from step 4 "Test against the alternatives"
+- A new designed email, from step 5 "Build the email modules"
+- A new journey, from step 6 "Follow up with high-intent browsers"
+- A new dashboard, from step 7 "Track what recommendations earn"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

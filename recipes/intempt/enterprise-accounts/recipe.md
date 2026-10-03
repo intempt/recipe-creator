@@ -20,6 +20,13 @@ classification:
   executionMode: live
   tags:
     - accounts-segment
+touches:
+  reads:
+    - The employees attribute on accounts
+  writes:
+    - A new segment, from step 1 "Build the enterprise list"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the enterprise list
@@ -27,11 +34,9 @@ steps:
       Accounts with 1,000 or more employees. Updates as company size data changes.
     builds: segment
     description: |-
-      Create a segment called "Enterprise Accounts".
-      Object: Accounts
-      Rules:
-      - Attribute: employees >= 1000
-      Description: Companies with 1000+ employees. Foundation for enterprise sales-motion routing: these accounts get AE white-glove engagement: dedicated account plans, executive-sponsor outreach, and quarterly business reviews. Universal B2B routing pattern.
+      Build a segment of accounts named "Enterprise Accounts".
+      An account is in the segment only when all of these are true:
+      - its employees attribute is 1000 or more
 outputs:
   - key: segment
     producedByStep: s1
@@ -54,6 +59,20 @@ Companies with 1,000 or more employees, so your enterprise sellers work from one
 ## What you end up with
 
 - **segment** (segment): Segment created on /segments.
+
+## What this recipe touches
+
+Reads:
+
+- The employees attribute on accounts
+
+Writes:
+
+- A new segment, from step 1 "Build the enterprise list"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

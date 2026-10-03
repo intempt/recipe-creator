@@ -21,6 +21,22 @@ classification:
     - image
     - material
     - swap
+inputs:
+  - input: Product image
+    what_the_installer_supplies: The product photo to change
+    if_missing: The step is marked vague and waits until one is attached.
+  - input: New material
+    what_the_installer_supplies: The material, finish or colour to change to, for example walnut instead
+      of oak
+    if_missing: The step is marked vague and waits until one is chosen.
+touches:
+  reads:
+    - The product image you supply when you run it
+    - The new material you supply when you run it
+  writes:
+    - A new image, from step 1 "Swap the material"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Swap the material
@@ -29,9 +45,9 @@ steps:
       Frame, pose, camera angle and shadow are identical.
     builds: image
     description: |-
-      Swap the material/finish on a product.
-      Keep the frame, pose, camera angle, and shadow identical. Only change the surface material (e.g., linen to bouclé, oak to walnut, matte to gloss).
-      Pipeline: flux-pro/kontext (material-targeted edit)
+      Edit the product image attached to this run.
+      Change only the product's surface material to the new material chosen for this run.
+      Keep the frame, the pose, the camera angle and the shadow identical.
 outputs:
   - key: image
     producedByStep: s1
@@ -54,6 +70,28 @@ Changes the material, finish or colour of a product while the shape, pose, camer
 ## What you end up with
 
 - **image** (image): Material-swapped product image.
+
+## What this recipe touches
+
+Reads:
+
+- The product image you supply when you run it
+- The new material you supply when you run it
+
+Writes:
+
+- A new image, from step 1 "Swap the material"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
+
+## Declared inputs
+
+| Input | What the installer supplies | If missing |
+|---|---|---|
+| Product image | The product photo to change | The step is marked vague and waits until one is attached. |
+| New material | The material, finish or colour to change to, for example walnut instead of oak | The step is marked vague and waits until one is chosen. |
 
 ## Availability
 

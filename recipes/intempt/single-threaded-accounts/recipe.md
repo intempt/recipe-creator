@@ -21,6 +21,13 @@ classification:
   executionMode: live
   tags:
     - accounts-segment
+touches:
+  reads:
+    - The employees, users_count and has_open_deal attributes on accounts
+  writes:
+    - A new segment, from step 1 "Build the single-threaded list"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the single-threaded list
@@ -28,13 +35,11 @@ steps:
       Accounts with more than 50 employees, exactly 1 engaged user, and a deal currently open.
     builds: segment
     description: |-
-      Create a segment called "Single-Threaded Accounts".
-      Object: Accounts
-      Rules (all conditions joined by AND):
-      - Attribute: employees > 50
-      - AND Attribute: users_count = 1
-      - AND Attribute: has_open_deal = true
-      Description: Multi-user-sized companies (50+ employees) where only one user is engaged with our product, AND there's an active deal. Critical multi-threading risk: single-threaded enterprise deals lose at 2-3x the rate of multi-threaded deals. Trigger AE plays to identify and engage 2-3 additional stakeholders before deal close.
+      Build a segment of accounts named "Single-Threaded Accounts".
+      An account is in the segment only when all of these are true:
+      - its employees attribute is more than 50
+      - its users_count attribute is exactly 1
+      - its has_open_deal attribute is true
 outputs:
   - key: segment
     producedByStep: s1
@@ -57,6 +62,20 @@ Open deals at larger companies where only one person is engaged, so an AE can br
 ## What you end up with
 
 - **segment** (segment): Segment created on /segments.
+
+## What this recipe touches
+
+Reads:
+
+- The employees, users_count and has_open_deal attributes on accounts
+
+Writes:
+
+- A new segment, from step 1 "Build the single-threaded list"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

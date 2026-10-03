@@ -23,6 +23,13 @@ prerequisites:
   integrations:
     - value: shopify
       severity: blocking
+touches:
+  reads:
+    - Your Shopify connection
+  writes:
+    - A new report, from step 1 "Test whether discounts grow baskets"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Test whether discounts grow baskets
@@ -75,6 +82,20 @@ Shows whether your discount codes actually grow the basket or just hand money aw
 ## What you end up with
 
 - **report** (report): Report produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Your Shopify connection
+
+Writes:
+
+- A new report, from step 1 "Test whether discounts grow baskets"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

@@ -21,6 +21,21 @@ classification:
     - image
     - lifestyle
     - product
+inputs:
+  - input: Packshot
+    what_the_installer_supplies: A studio photo of the product
+    if_missing: The step is marked vague and waits until one is attached.
+  - input: Setting
+    what_the_installer_supplies: The real-world setting, for example a kitchen, an office or outdoors
+    if_missing: A kitchen is used.
+touches:
+  reads:
+    - The packshot you supply when you run it
+    - The setting you supply when you run it
+  writes:
+    - A new image, from step 1 "Place the product in a scene"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Place the product in a scene
@@ -29,9 +44,9 @@ steps:
       of field. The product itself is unchanged.
     builds: image
     description: |-
-      Place a product in a lifestyle scene.
-      Take the studio packshot and re-render the product in a real-world environment (kitchen, office, outdoors, etc.). Product identity must remain unchanged. Apply natural ambient lighting and realistic depth of field.
-      Pipeline: flux-pro/kontext (scene replacement with product identity lock)
+      Edit the studio packshot attached to this run.
+      Re-render the product in a real-world kitchen, with natural ambient light and realistic depth of field.
+      Do not change the product itself.
 outputs:
   - key: image
     producedByStep: s1
@@ -54,6 +69,28 @@ Moves a studio packshot into a real-world setting such as a kitchen, office or o
 ## What you end up with
 
 - **image** (image): Lifestyle scene image.
+
+## What this recipe touches
+
+Reads:
+
+- The packshot you supply when you run it
+- The setting you supply when you run it
+
+Writes:
+
+- A new image, from step 1 "Place the product in a scene"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
+
+## Declared inputs
+
+| Input | What the installer supplies | If missing |
+|---|---|---|
+| Packshot | A studio photo of the product | The step is marked vague and waits until one is attached. |
+| Setting | The real-world setting, for example a kitchen, an office or outdoors | A kitchen is used. |
 
 ## Availability
 

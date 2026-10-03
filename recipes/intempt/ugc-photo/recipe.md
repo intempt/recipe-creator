@@ -20,6 +20,17 @@ classification:
     - image
     - ugc
     - candid
+inputs:
+  - input: Packshot
+    what_the_installer_supplies: A studio photo of the product
+    if_missing: The step is marked vague and waits until one is attached.
+touches:
+  reads:
+    - The packshot you supply when you run it
+  writes:
+    - A new image, from step 1 "Reshoot as a candid photo"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Reshoot as a candid photo
@@ -28,9 +39,9 @@ steps:
       or bathroom counter behind, real skin texture and slightly underexposed. Authentic rather than glamour.
     builds: image
     description: |-
-      Re-shoot a product as a candid UGC photo.
-      Take the same product and re-render as a candid handheld selfie: real person holding the product at arm's length, kitchen/bathroom counter behind, real skin texture, half-face cropped, slightly underexposed. Authentic, not glamour.
-      Pipeline: flux-pro/kontext (style transfer with product identity lock)
+      Edit the studio packshot attached to this run.
+      Re-render it as a candid handheld selfie: a real person holding the same product at arm's length, a kitchen or bathroom counter behind them, real skin texture, the face cropped at half, and slightly underexposed.
+      Make it look authentic, not glamorous, and do not change the product.
 outputs:
   - key: image
     producedByStep: s1
@@ -53,6 +64,26 @@ Re-shoots a studio packshot as a candid handheld phone photo of a real person ho
 ## What you end up with
 
 - **image** (image): UGC-style product photo.
+
+## What this recipe touches
+
+Reads:
+
+- The packshot you supply when you run it
+
+Writes:
+
+- A new image, from step 1 "Reshoot as a candid photo"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
+
+## Declared inputs
+
+| Input | What the installer supplies | If missing |
+|---|---|---|
+| Packshot | A studio photo of the product | The step is marked vague and waits until one is attached. |
 
 ## Availability
 

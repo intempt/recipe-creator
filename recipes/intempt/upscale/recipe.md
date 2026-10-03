@@ -21,6 +21,17 @@ classification:
     - image
     - upscale
     - enhance
+inputs:
+  - input: Image
+    what_the_installer_supplies: The image to enlarge
+    if_missing: The step is marked vague and waits until one is attached.
+touches:
+  reads:
+    - The image you supply when you run it
+  writes:
+    - A new image, from step 1 "Upscale to 4x"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Upscale to 4x
@@ -29,9 +40,8 @@ steps:
       and the subject is not re-rendered.
     builds: image
     description: |-
-      Upscale the image to 4× resolution.
-      Pure detail enhancement only. Same composition, same colors, same subject. Do not re-render or change the subject.
-      Pipeline: fal-ai/clarity-upscaler, scale: 4
+      Upscale the image attached to this run to 4 times its width and height.
+      Enhance detail only: keep the composition, colours and subject the same, and do not re-render the subject.
 outputs:
   - key: image
     producedByStep: s1
@@ -54,6 +64,26 @@ Enlarges a soft or low-resolution image to four times the size with sharper deta
 ## What you end up with
 
 - **image** (image): Upscaled image.
+
+## What this recipe touches
+
+Reads:
+
+- The image you supply when you run it
+
+Writes:
+
+- A new image, from step 1 "Upscale to 4x"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
+
+## Declared inputs
+
+| Input | What the installer supplies | If missing |
+|---|---|---|
+| Image | The image to enlarge | The step is marked vague and waits until one is attached. |
 
 ## Availability
 

@@ -21,6 +21,13 @@ classification:
   executionMode: live
   tags:
     - accounts-segment
+touches:
+  reads:
+    - The lifecycle_changed_at, account_lifecycle and has_open_deal attributes on accounts
+  writes:
+    - A new segment, from step 1 "Build the recently-won list"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the recently-won list
@@ -28,13 +35,11 @@ steps:
       Accounts whose lifecycle changed to customer within the last 90 days, with no deal currently open.
     builds: segment
     description: |-
-      Create a segment called "Recently-Won Accounts".
-      Object: Accounts
-      Rules (all conditions joined by AND):
-      - Attribute: lifecycle_changed_at is within last 90 days
-      - AND Attribute: account_lifecycle is "customer"
-      - AND Attribute: has_open_deal = false
-      Description: Accounts that became customers in the last 90 days: the post-deal-close onboarding cohort. Distinct from new-paying-customers (which is plan-tier-conversion at the User level). For B2B sales motion, the deal-close moment is the kickoff for CSM onboarding, implementation milestones, and time-to-value tracking.
+      Build a segment of accounts named "Recently-Won Accounts".
+      An account is in the segment only when all of these are true:
+      - its lifecycle_changed_at attribute is within the last 90 days
+      - its account_lifecycle attribute is "customer"
+      - its has_open_deal attribute is false
 outputs:
   - key: segment
     producedByStep: s1
@@ -57,6 +62,20 @@ Accounts that became customers in the last quarter, so onboarding and implementa
 ## What you end up with
 
 - **segment** (segment): Segment created on /segments.
+
+## What this recipe touches
+
+Reads:
+
+- The lifecycle_changed_at, account_lifecycle and has_open_deal attributes on accounts
+
+Writes:
+
+- A new segment, from step 1 "Build the recently-won list"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

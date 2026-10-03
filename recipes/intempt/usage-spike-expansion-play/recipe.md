@@ -31,6 +31,20 @@ prerequisites:
       severity: blocking
     - value: user_signed_up
       severity: recommended
+touches:
+  reads:
+    - The feature_used event in your project
+    - The user_signed_up event in your project
+  writes:
+    - A new attribute, from step 1 "Score the expansion signals"
+    - A new segment, from step 2 "Find accounts outgrowing the plan"
+    - A new designed email, from step 3 "Write to the champion"
+    - A new designed email, from step 4 "Write to the budget holder"
+    - A new product recommendation, from step 5 "Show the plan above theirs"
+    - A new journey, from step 6 "Work the account over two weeks"
+    - A new dashboard, from step 7 "Measure the expansion it makes"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Score the expansion signals
@@ -234,6 +248,27 @@ When an account outgrows its plan, tells the champion they are scaling, gives th
 - **recommendation** (recommendation): Recommendation Surface produced by this recipe.
 - **journey** (journey): Journey produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- The feature_used event in your project
+- The user_signed_up event in your project
+
+Writes:
+
+- A new attribute, from step 1 "Score the expansion signals"
+- A new segment, from step 2 "Find accounts outgrowing the plan"
+- A new designed email, from step 3 "Write to the champion"
+- A new designed email, from step 4 "Write to the budget holder"
+- A new product recommendation, from step 5 "Show the plan above theirs"
+- A new journey, from step 6 "Work the account over two weeks"
+- A new dashboard, from step 7 "Measure the expansion it makes"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

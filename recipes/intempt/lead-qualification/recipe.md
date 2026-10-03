@@ -19,6 +19,17 @@ classification:
   executionMode: live
   tags:
     - lead-qualification
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new attribute, from step 1 "Score every lead"
+    - A new segment, from step 2 "Split into hot, warm and cold"
+    - A new workflow, from step 3 "Route hot leads round robin"
+    - A new journey, from step 4 "Nurture warm and cold leads"
+    - A new dashboard, from step 5 "Track handoff to opportunity"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Score every lead
@@ -132,6 +143,24 @@ Scores inbound leads, sends the sales ready ones round robin to a rep with the c
 - **workflow** (workflow): Workflow produced by this recipe.
 - **journey** (journey): Journey produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new attribute, from step 1 "Score every lead"
+- A new segment, from step 2 "Split into hot, warm and cold"
+- A new workflow, from step 3 "Route hot leads round robin"
+- A new journey, from step 4 "Nurture warm and cold leads"
+- A new dashboard, from step 5 "Track handoff to opportunity"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

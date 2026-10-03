@@ -4,7 +4,7 @@ import sys
 import unittest
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
-from recipe_contract import availability, validate
+from recipe_contract import availability, render_body, validate
 
 PATH = pathlib.Path("recipes/intempt/vip-users/recipe.md")
 
@@ -24,6 +24,11 @@ def recipe(**overrides):
              "description": "Write a thank-you email to the users in Find VIP users.", "dependsOn": ["s1"]},
         ],
         "outputs": [{"key": "vips", "producedByStep": "s1", "type": "segment"}],
+        "touches": {
+            "reads": ["The order_completed event"],
+            "writes": ["A new segment", "A new email"],
+            "never": ["Nothing runs until you approve the plan in Blu."],
+        },
     }
     base.update(overrides)
     return base
@@ -78,6 +83,59 @@ class Contract(unittest.TestCase):
 
     def test_a_bad_slash_command_is_refused(self):
         self.assertTrue(any("slash_command" in p for p in validate(PATH, recipe(slash_command="VIP Users"))))
+
+    def test_touches_is_required(self):
+        r = recipe()
+        del r["touches"]
+        self.assertTrue(any("touches is required" in p for p in validate(PATH, r)))
+
+    def test_touches_needs_reads_writes_and_never(self):
+        r = recipe()
+        del r["touches"]["never"]
+        self.assertTrue(any("touches.never" in p for p in validate(PATH, r)))
+
+    def test_touches_refuses_an_unknown_key(self):
+        r = recipe()
+        r["touches"]["deletes"] = ["everything"]
+        self.assertTrue(any("unknown key 'deletes'" in p for p in validate(PATH, r)))
+
+    def test_an_empty_touches_list_is_refused(self):
+        r = recipe()
+        r["touches"]["reads"] = []
+        self.assertTrue(any("touches.reads must be a non-empty list" in p for p in validate(PATH, r)))
+
+    def test_an_input_row_needs_all_three_fields(self):
+        r = recipe(inputs=[{"input": "Spend threshold", "what_the_installer_supplies": "A number"}])
+        self.assertTrue(any("if_missing is required" in p for p in validate(PATH, r)))
+
+    def test_a_complete_input_row_and_claims_list_are_accepted(self):
+        r = recipe(
+            inputs=[{"input": "Spend threshold", "what_the_installer_supplies": "A number", "if_missing": "500 is used"}],
+            does_not_claim=["The 500 threshold comes from the author, not from your data."],
+        )
+        self.assertEqual(validate(PATH, r), [])
+
+    def test_an_em_dash_in_a_declaration_is_refused(self):
+        r = recipe(does_not_claim=["It works \u2014 always."])
+        self.assertTrue(any("em-dash" in p for p in validate(PATH, r)))
+
+    def test_the_body_renders_touches_inputs_and_claims(self):
+        r = recipe(
+            inputs=[{"input": "Spend threshold", "what_the_installer_supplies": "A number", "if_missing": "500 is used"}],
+            does_not_claim=["Nothing checks the threshold against your data."],
+        )
+        body = render_body(r)
+        self.assertIn("## What this recipe touches", body)
+        self.assertIn("- The order_completed event", body)
+        self.assertIn("Never:", body)
+        self.assertIn("| Spend threshold | A number | 500 is used |", body)
+        self.assertIn("## What this recipe does not claim", body)
+        self.assertLess(body.index("## What this recipe touches"), body.index("## Availability"))
+
+    def test_the_body_leaves_out_sections_that_were_not_declared(self):
+        body = render_body(recipe())
+        self.assertNotIn("## Declared inputs", body)
+        self.assertNotIn("## What this recipe does not claim", body)
 
 
 if __name__ == "__main__":

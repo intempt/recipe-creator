@@ -20,6 +20,13 @@ classification:
   executionMode: live
   tags:
     - dashboard
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new dashboard, from step 1 "Build the product health board"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the product health board
@@ -79,6 +86,20 @@ Answers whether the product is getting more or less engaging, which features peo
 ## What you end up with
 
 - **dashboard** (dashboard): Dash board (composition canvas) produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new dashboard, from step 1 "Build the product health board"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

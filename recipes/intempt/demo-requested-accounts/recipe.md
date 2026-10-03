@@ -21,6 +21,19 @@ classification:
   executionMode: live
   tags:
     - accounts-segment
+inputs:
+  - input: Demo request form
+    what_the_installer_supplies: The form people fill in to request a demo
+    if_missing: The step is marked vague and waits until one is chosen.
+touches:
+  reads:
+    - The submit_on event in your project
+    - The has_open_deal attribute on accounts
+    - The demo request form you supply when you run it
+  writes:
+    - A new segment, from step 1 "Build the demo-request list"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the demo-request list
@@ -29,12 +42,10 @@ steps:
       deal is currently open.
     builds: segment
     description: |-
-      Create a segment called "Demo-Requested Accounts".
-      Object: Accounts
-      Rules (all conditions joined by AND):
-      - Event (across users in account): submit_on a demo-request form occurred >= 1 time in last 30 days
-      - AND Attribute: has_open_deal = false
-      Description: Accounts where any user submitted a demo-request form in the last 30 days, with no existing open deal. Highest SDR-routing priority: research consistently shows 53% conversion rate for 1-hour response vs 17% after 24 hours. SLA: SDR contact within 1 hour, AE follow-up within 24 hours.
+      Build a segment of accounts named "Demo-Requested Accounts".
+      An account is in the segment only when all of these are true:
+      - the users in the account together did the submit_on event on the demo request form chosen for this run at least once in the last 30 days
+      - its has_open_deal attribute is false
 outputs:
   - key: segment
     producedByStep: s1
@@ -57,6 +68,28 @@ Accounts where somebody filled in your demo form in the last month and no deal i
 ## What you end up with
 
 - **segment** (segment): Segment created on /segments.
+
+## What this recipe touches
+
+Reads:
+
+- The submit_on event in your project
+- The has_open_deal attribute on accounts
+- The demo request form you supply when you run it
+
+Writes:
+
+- A new segment, from step 1 "Build the demo-request list"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
+
+## Declared inputs
+
+| Input | What the installer supplies | If missing |
+|---|---|---|
+| Demo request form | The form people fill in to request a demo | The step is marked vague and waits until one is chosen. |
 
 ## Availability
 

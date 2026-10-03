@@ -31,6 +31,16 @@ prerequisites:
   events:
     - value: pricing_page_viewed
       severity: blocking
+touches:
+  reads:
+    - The pricing_page_viewed event in your project
+    - Your Slack connection
+  writes:
+    - A new segment, from step 1 "Filter out the casual visits"
+    - A new workflow, from step 2 "Send the visit to a rep"
+    - A new dashboard, from step 3 "Compare against cold sourcing"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Filter out the casual visits
@@ -118,6 +128,23 @@ Treats a repeat pricing page visit, or one after real product use, as a buying s
 - **segment** (segment): Segment produced by this recipe.
 - **workflow** (workflow): Workflow produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- The pricing_page_viewed event in your project
+- Your Slack connection
+
+Writes:
+
+- A new segment, from step 1 "Filter out the casual visits"
+- A new workflow, from step 2 "Send the visit to a rep"
+- A new dashboard, from step 3 "Compare against cold sourcing"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

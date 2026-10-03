@@ -21,6 +21,17 @@ classification:
     - image
     - hands
     - in-use
+inputs:
+  - input: Hands-in-use image
+    what_the_installer_supplies: A photo of hands holding or using the product
+    if_missing: The step is marked vague and waits until one is attached.
+touches:
+  reads:
+    - The hands-in-use image you supply when you run it
+  writes:
+    - A new image, from step 1 "Shoot hands with the product"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Shoot hands with the product
@@ -29,9 +40,10 @@ steps:
       Lighting and angle are unchanged and no face is visible.
     builds: image
     description: |-
-      Generate a hands-in-use product shot.
-      Same hands, product, and surface. Add small complementary props (napkin, sprig, utensil). Identical lighting and angle. No face visible: only hands interacting with the product.
-      Pipeline: flux-pro/kontext (prop addition with identity lock)
+      Edit the hands-in-use product image attached to this run.
+      Add three small props around the product: a napkin, a sprig and a utensil.
+      Keep the same hands, product and surface, and keep the lighting and the camera angle identical.
+      No face may be visible: only hands interacting with the product.
 outputs:
   - key: image
     producedByStep: s1
@@ -54,6 +66,26 @@ Shows hands pouring, applying or holding your product, with no face in frame and
 ## What you end up with
 
 - **image** (image): Hands-in-use product image.
+
+## What this recipe touches
+
+Reads:
+
+- The hands-in-use image you supply when you run it
+
+Writes:
+
+- A new image, from step 1 "Shoot hands with the product"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
+
+## Declared inputs
+
+| Input | What the installer supplies | If missing |
+|---|---|---|
+| Hands-in-use image | A photo of hands holding or using the product | The step is marked vague and waits until one is attached. |
 
 ## Availability
 

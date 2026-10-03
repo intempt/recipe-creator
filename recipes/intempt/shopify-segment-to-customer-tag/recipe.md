@@ -26,6 +26,14 @@ prerequisites:
   integrations:
     - value: shopify
       severity: blocking
+touches:
+  reads:
+    - Your Shopify connection
+  writes:
+    - A new segment, from step 1 "Define the cohort to tag"
+    - A new workflow, from step 2 "Write the tag into Shopify"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Define the cohort to tag
@@ -81,6 +89,21 @@ Pushes a cohort computed here onto Shopify customers as a tag, so the store can 
 
 - **cohort** (segment): Segment produced by this recipe.
 - **workflow** (workflow): Workflow produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Your Shopify connection
+
+Writes:
+
+- A new segment, from step 1 "Define the cohort to tag"
+- A new workflow, from step 2 "Write the tag into Shopify"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

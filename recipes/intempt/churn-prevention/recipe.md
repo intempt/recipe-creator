@@ -23,6 +23,19 @@ prerequisites:
   integrations:
     - value: slack
       severity: recommended
+touches:
+  reads:
+    - Your Slack connection
+  writes:
+    - A new attribute, from step 1 "Score churn risk"
+    - A new segment, from step 2 "Split into low, medium and high"
+    - A new workflow, from step 3 "Tell the CSM about high risk"
+    - A new designed email, from step 4 "Write the win back emails"
+    - A new journey, from step 5 "Reach medium risk first"
+    - A new report, from step 6 "Compare churn by risk tier"
+    - A new dashboard, from step 7 "See if the saves are working"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Score churn risk
@@ -189,6 +202,26 @@ Flags customers who are drifting away, reaches them automatically while it is st
 - **journey** (journey): Journey produced by this recipe.
 - **report** (report): Report produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Your Slack connection
+
+Writes:
+
+- A new attribute, from step 1 "Score churn risk"
+- A new segment, from step 2 "Split into low, medium and high"
+- A new workflow, from step 3 "Tell the CSM about high risk"
+- A new designed email, from step 4 "Write the win back emails"
+- A new journey, from step 5 "Reach medium risk first"
+- A new report, from step 6 "Compare churn by risk tier"
+- A new dashboard, from step 7 "See if the saves are working"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

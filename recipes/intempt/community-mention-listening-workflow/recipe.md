@@ -30,6 +30,21 @@ prerequisites:
   integrations:
     - value: slack
       severity: recommended
+touches:
+  reads:
+    - Your Slack connection
+  writes:
+    - A new workflow, from step 1 "Watch where buyers talk"
+    - A new workflow, from step 2 "Check every 30 minutes"
+    - A new workflow, from step 3 "Pull the new posts"
+    - A new workflow, from step 4 "Keep only what matters"
+    - A new workflow, from step 5 "Judge intent and fit"
+    - A new workflow, from step 6 "Route by what it is"
+    - A new workflow, from step 7 "Ask a human to reply"
+    - A new workflow, from step 8 "Post the brand mentions"
+    - A new workflow, from step 9 "Publish with no auto replies"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Watch where buyers talk
@@ -218,6 +233,28 @@ Watches Reddit, forums and review sites for people shopping in your category or 
 
 - **workflow** (workflow): Workflow produced by this recipe.
 - **step** (step): Workflow Step produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Your Slack connection
+
+Writes:
+
+- A new workflow, from step 1 "Watch where buyers talk"
+- A new workflow, from step 2 "Check every 30 minutes"
+- A new workflow, from step 3 "Pull the new posts"
+- A new workflow, from step 4 "Keep only what matters"
+- A new workflow, from step 5 "Judge intent and fit"
+- A new workflow, from step 6 "Route by what it is"
+- A new workflow, from step 7 "Ask a human to reply"
+- A new workflow, from step 8 "Post the brand mentions"
+- A new workflow, from step 9 "Publish with no auto replies"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

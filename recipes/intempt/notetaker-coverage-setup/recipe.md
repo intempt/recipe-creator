@@ -22,6 +22,15 @@ classification:
   tags:
     - notetaker
     - meeting-capture
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new meeting type, from step 1 "Review your meeting types"
+    - A meeting action, from step 2 "Set the auto-join rules"
+    - A new dashboard, from step 3 "Track coverage and failures"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Review your meeting types
@@ -106,6 +115,22 @@ Sets the rules for when the notetaker joins, by meeting type, deal value and att
 - **meeting_type_inventory** (meeting_type_inventory): Meeting Type Inventory produced by this recipe.
 - **notetaker_config** (notetaker_config): Notetaker Config produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new meeting type, from step 1 "Review your meeting types"
+- A meeting action, from step 2 "Set the auto-join rules"
+- A new dashboard, from step 3 "Track coverage and failures"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

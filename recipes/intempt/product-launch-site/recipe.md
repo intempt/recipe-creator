@@ -21,6 +21,13 @@ classification:
     - site
     - landing-page
     - product-launch
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new content asset, from step 1 "Build the launch microsite"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the launch microsite
@@ -54,6 +61,20 @@ Builds a small launch site (hero, feature pages, call to action, footer) in your
 ## What you end up with
 
 - **content** (content): Product launch microsite.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new content asset, from step 1 "Build the launch microsite"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

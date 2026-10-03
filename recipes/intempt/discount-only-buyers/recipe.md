@@ -24,6 +24,15 @@ prerequisites:
   integrations:
     - value: stripe
       severity: blocking
+touches:
+  reads:
+    - Your Stripe connection
+    - The order_created event in your project
+    - The discount_codes property on those events
+  writes:
+    - A new segment, from step 1 "Build the discount-only list"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the discount-only list
@@ -31,12 +40,10 @@ steps:
       Customers with 2 or more orders that all carried a discount code, and zero orders without one.
     builds: segment
     description: |-
-      Create a segment called "Discount-Only Buyers".
-      Object: Users
-      Rules (all conditions joined by AND):
-      - Event: order_created where discount_codes is not empty occurred >= 2 times (all time)
-      - AND Event: order_created where discount_codes is empty occurred 0 times (all time)
-      Description: Customers whose every order has a discount code applied. Margin-protective suppression cohort: exclude from full-price campaigns and reserve for sale-only outreach. Pricing them at full price typically results in zero conversion; the bargain-hunting behavior is the buying signal.
+      Build a segment of users named "Discount-Only Buyers".
+      A user is in the segment only when all of these are true:
+      - they did the order_created event with a discount_codes value that is not empty 2 or more times, at any time
+      - they never did the order_created event with an empty discount_codes value
 outputs:
   - key: segment
     producedByStep: s1
@@ -59,6 +66,22 @@ Customers who have never bought anything without a discount code, so you can kee
 ## What you end up with
 
 - **segment** (segment): Segment created on /segments.
+
+## What this recipe touches
+
+Reads:
+
+- Your Stripe connection
+- The order_created event in your project
+- The discount_codes property on those events
+
+Writes:
+
+- A new segment, from step 1 "Build the discount-only list"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

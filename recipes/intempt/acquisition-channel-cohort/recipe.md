@@ -22,6 +22,20 @@ classification:
   executionMode: live
   tags:
     - users-segment
+inputs:
+  - input: Channel
+    what_the_installer_supplies: One utm_source and utm_medium pair, for example facebook and cpc
+    if_missing: google and cpc are used. To compare channels, install once per pair and change the segment
+      name and both values.
+touches:
+  reads:
+    - The order_created event in your project
+    - The utm_source and utm_medium attributes on users
+    - The channel you supply when you run it
+  writes:
+    - A new segment, from step 1 "Build the channel cohort"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the channel cohort
@@ -30,19 +44,11 @@ steps:
       least one order. Build one cohort per channel you want to compare.
     builds: segment
     description: |-
-      Create a segment called "Acquisition Channel: <Channel Name>".
-      Object: Users
-      Rules (all conditions joined by AND):
-      - Attribute: utm_source = "<source>" (e.g., "google", "facebook", "tiktok", "klaviyo", "newsletter")
-      - AND Attribute: utm_medium = "<medium>" (e.g., "cpc", "social", "email", "referral", "organic")
-      - AND Event: order_created occurred >= 1 time (all time)
-      Example concrete instances merchants typically build:
-      - "Paid Social Acquired": utm_source IN ["facebook", "instagram", "tiktok"] AND utm_medium IN ["cpc", "paid_social", "social"]
-      - "Google Paid Acquired": utm_source = "google" AND utm_medium = "cpc"
-      - "Organic Search Acquired": utm_source = "google" AND utm_medium = "organic"
-      - "Email/Newsletter Acquired": utm_medium = "email"
-      - "Referral Acquired": utm_medium IN ["referral", "affiliate"]
-      Description: Channel-specific cohorts for retention analysis and channel-quality measurement. Customers acquired through different channels behave differently: organic and referral acquisitions typically have 30-50% higher repeat purchase rates than paid-social acquisitions. Building these cohorts lets you measure channel ROI by retention (not just acquisition cost) and tune retention investment per channel.
+      Build a segment of users named "Google Paid Acquired".
+      A user is in the segment only when all of these are true:
+      - their utm_source attribute is "google"
+      - their utm_medium attribute is "cpc"
+      - they did the order_created event at least once, at any time
 outputs:
   - key: segment
     producedByStep: s1
@@ -65,6 +71,28 @@ Customers grouped by the channel that brought them in, so you can compare how we
 ## What you end up with
 
 - **segment** (segment): Segment created on /segments.
+
+## What this recipe touches
+
+Reads:
+
+- The order_created event in your project
+- The utm_source and utm_medium attributes on users
+- The channel you supply when you run it
+
+Writes:
+
+- A new segment, from step 1 "Build the channel cohort"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
+
+## Declared inputs
+
+| Input | What the installer supplies | If missing |
+|---|---|---|
+| Channel | One utm_source and utm_medium pair, for example facebook and cpc | google and cpc are used. To compare channels, install once per pair and change the segment name and both values. |
 
 ## Availability
 

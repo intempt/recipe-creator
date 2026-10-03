@@ -28,6 +28,17 @@ prerequisites:
   integrations:
     - value: slack
       severity: recommended
+touches:
+  reads:
+    - Your Slack connection
+  writes:
+    - A meeting action, from step 1 "Measure talk time per rep"
+    - A meeting action, from step 2 "Pull each rep's skill gaps"
+    - A meeting action, from step 3 "Rank the team"
+    - A new workflow, from step 4 "Send managers a Monday brief"
+    - A new dashboard, from step 5 "Track whether coaching lands"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Measure talk time per rep
@@ -162,6 +173,24 @@ Sends each manager a Monday brief on their reps: talk time against the healthy r
 - **leaderboard** (leaderboard): Meeting Leaderboard produced by this recipe.
 - **workflow** (workflow): Workflow produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Your Slack connection
+
+Writes:
+
+- A meeting action, from step 1 "Measure talk time per rep"
+- A meeting action, from step 2 "Pull each rep's skill gaps"
+- A meeting action, from step 3 "Rank the team"
+- A new workflow, from step 4 "Send managers a Monday brief"
+- A new dashboard, from step 5 "Track whether coaching lands"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

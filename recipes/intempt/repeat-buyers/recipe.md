@@ -20,6 +20,14 @@ classification:
   executionMode: live
   tags:
     - users-segment
+touches:
+  reads:
+    - The order_created event in your project
+    - The lifetime_value attribute on users
+  writes:
+    - A new segment, from step 1 "Build the repeat-buyer list"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the repeat-buyer list
@@ -27,12 +35,10 @@ steps:
       Users with 3 or more orders in the last 90 days and lifetime value of 100 or more.
     builds: segment
     description: |-
-      Create a segment called "Repeat Buyers".
-      Object: Users
-      Rules (all conditions joined by AND):
-      - Event: order_created occurred >= 3 times in last 90 days
-      - AND Attribute: lifetime_value >= 100
-      Description: Repeat customers with meaningful spend. Priority for loyalty rewards, replenishment campaigns, and review requests.
+      Build a segment of users named "Repeat Buyers".
+      A user is in the segment only when all of these are true:
+      - they did the order_created event 3 or more times in the last 90 days
+      - their lifetime_value attribute is 100 or more
 outputs:
   - key: segment
     producedByStep: s1
@@ -55,6 +61,21 @@ Customers who have ordered three or more times this quarter and spent real money
 ## What you end up with
 
 - **segment** (segment): Segment created on /segments.
+
+## What this recipe touches
+
+Reads:
+
+- The order_created event in your project
+- The lifetime_value attribute on users
+
+Writes:
+
+- A new segment, from step 1 "Build the repeat-buyer list"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

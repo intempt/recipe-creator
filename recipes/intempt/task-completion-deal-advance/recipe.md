@@ -31,6 +31,16 @@ prerequisites:
   events:
     - value: task_completed
       severity: blocking
+touches:
+  reads:
+    - The task_completed event in your project
+    - Your Slack connection
+  writes:
+    - A new attribute, from step 1 "Map tasks to the stage they gate"
+    - A new workflow, from step 2 "Move it forward, never back"
+    - A new dashboard, from step 3 "Audit the mapping"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Map tasks to the stage they gate
@@ -120,6 +130,23 @@ Moves a deal to the next stage when the task that gates it is completed, so the 
 - **attribute** (attribute): AI-Derived Attribute produced by this recipe.
 - **workflow** (workflow): Workflow produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- The task_completed event in your project
+- Your Slack connection
+
+Writes:
+
+- A new attribute, from step 1 "Map tasks to the stage they gate"
+- A new workflow, from step 2 "Move it forward, never back"
+- A new dashboard, from step 3 "Audit the mapping"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

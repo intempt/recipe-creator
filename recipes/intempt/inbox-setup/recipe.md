@@ -20,6 +20,16 @@ classification:
   executionMode: live
   tags:
     - inbox-setup
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new content snippet, from step 1 "Build the snippet library"
+    - A new content snippet, from step 2 "Add reply templates"
+    - A new dashboard, from step 3 "Track inbox performance"
+    - A new custom agent, from step 4 "Set the routing rules"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the snippet library
@@ -114,6 +124,23 @@ Sets up the shared inbox: reusable replies for the questions you get most, rules
 - **asset_2** (asset): Asset produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
 - **agent** (agent): Agent produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new content snippet, from step 1 "Build the snippet library"
+- A new content snippet, from step 2 "Add reply templates"
+- A new dashboard, from step 3 "Track inbox performance"
+- A new custom agent, from step 4 "Set the routing rules"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

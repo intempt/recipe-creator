@@ -20,6 +20,13 @@ classification:
   executionMode: live
   tags:
     - users-segment
+touches:
+  reads:
+    - The end_date and plan_name attributes on users
+  writes:
+    - A new segment, from step 1 "Build the renewal list"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the renewal list
@@ -28,13 +35,10 @@ steps:
       future.
     builds: segment
     description: |-
-      Create a segment called "Renewal Window: 90 Days".
-      Object: Users
-      Rules (all conditions joined by AND):
-      - Attribute: end_date is within next 90 days
-      - AND Attribute: end_date is in the future
-      - AND Attribute: plan_name is not "free"
-      Description: Users with active paid subscriptions ending in the next 90 days. The renewal-targeting cohort: foundation for QBR-style ROI emails, renewal-conversation triggers, and NRR-driven CSM outreach. NRR is the single most important SaaS metric in 2026; this segment makes the renewal pipeline actionable.
+      Build a segment of users named "Renewal Window: 90 Days".
+      A user is in the segment only when all of these are true:
+      - their end_date attribute is in the future and within the next 90 days
+      - their plan_name attribute is not "free"
 outputs:
   - key: segment
     producedByStep: s1
@@ -57,6 +61,20 @@ Paid subscriptions that end within the next three months, so renewal conversatio
 ## What you end up with
 
 - **segment** (segment): Segment created on /segments.
+
+## What this recipe touches
+
+Reads:
+
+- The end_date and plan_name attributes on users
+
+Writes:
+
+- A new segment, from step 1 "Build the renewal list"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

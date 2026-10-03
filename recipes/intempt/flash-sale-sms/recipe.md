@@ -21,6 +21,13 @@ classification:
     - sms
     - flash-sale
     - urgency
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new content asset, from step 1 "Write the flash sale SMS"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Write the flash sale SMS
@@ -54,6 +61,20 @@ Writes a short text message for a time-limited offer, inside SMS character limit
 ## What you end up with
 
 - **content** (content): Flash sale SMS message.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new content asset, from step 1 "Write the flash sale SMS"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

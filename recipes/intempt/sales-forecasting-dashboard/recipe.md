@@ -28,6 +28,14 @@ prerequisites:
     - value: salesforce
       severity: blocking
       group: crm
+touches:
+  reads:
+    - Your HubSpot connection
+    - Your Salesforce connection
+  writes:
+    - A new dashboard, from step 1 "Build the forecast board"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the forecast board
@@ -88,6 +96,21 @@ Answers whether the period will close on target and where the risk sits: pipelin
 ## What you end up with
 
 - **dashboard** (dashboard): Dash board (composition canvas) produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Your HubSpot connection
+- Your Salesforce connection
+
+Writes:
+
+- A new dashboard, from step 1 "Build the forecast board"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

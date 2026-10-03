@@ -28,6 +28,18 @@ prerequisites:
       severity: blocking
     - value: subscription_created
       severity: blocking
+touches:
+  reads:
+    - The feature_used event in your project
+    - The subscription_created event in your project
+  writes:
+    - A new attribute, from step 1 "Find features they never use"
+    - A new segment, from step 2 "Pick who is worth nudging"
+    - A new designed email, from step 3 "Write the nudge"
+    - A new journey, from step 4 "One feature every two weeks"
+    - A new dashboard, from step 5 "See what the nudges actually change"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Find features they never use
@@ -172,6 +184,25 @@ Shows paying customers the features they have never opened, one at a time, picke
 - **asset** (asset): Asset produced by this recipe.
 - **journey** (journey): Journey produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- The feature_used event in your project
+- The subscription_created event in your project
+
+Writes:
+
+- A new attribute, from step 1 "Find features they never use"
+- A new segment, from step 2 "Pick who is worth nudging"
+- A new designed email, from step 3 "Write the nudge"
+- A new journey, from step 4 "One feature every two weeks"
+- A new dashboard, from step 5 "See what the nudges actually change"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

@@ -20,6 +20,13 @@ classification:
   executionMode: live
   tags:
     - users-segment
+touches:
+  reads:
+    - The abandoned_checkout and order_created events in your project
+  writes:
+    - A new segment, from step 1 "Build the repeat-abandoner list"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the repeat-abandoner list
@@ -27,12 +34,10 @@ steps:
       Users who abandoned checkout 2 or more times in the last 30 days and placed no order in that period.
     builds: segment
     description: |-
-      Create a segment called "Repeat Cart Abandoners".
-      Object: Users
-      Rules (all conditions joined by AND):
-      - Event: abandoned_checkout occurred >= 2 times in last 30 days
-      - AND Event: order_created occurred 0 times in last 30 days
-      Description: Users who repeatedly abandon checkout: likely friction or price sensitivity. Trigger differentiated recovery offers (different from first-time abandoners).
+      Build a segment of users named "Repeat Cart Abandoners".
+      A user is in the segment only when all of these are true:
+      - they did the abandoned_checkout event 2 or more times in the last 30 days
+      - they did not do the order_created event in the last 30 days
 outputs:
   - key: segment
     producedByStep: s1
@@ -55,6 +60,20 @@ People who have walked away from checkout twice or more this month without buyin
 ## What you end up with
 
 - **segment** (segment): Segment created on /segments.
+
+## What this recipe touches
+
+Reads:
+
+- The abandoned_checkout and order_created events in your project
+
+Writes:
+
+- A new segment, from step 1 "Build the repeat-abandoner list"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

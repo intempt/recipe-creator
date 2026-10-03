@@ -28,6 +28,15 @@ prerequisites:
   integrations:
     - value: slack
       severity: recommended
+touches:
+  reads:
+    - Your Slack connection
+  writes:
+    - A new attribute, from step 1 "Recall why it stalled"
+    - A new workflow, from step 2 "Draft a nudge that names it"
+    - A new dashboard, from step 3 "Compare against a rep's own"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Recall why it stalled
@@ -118,6 +127,22 @@ Writes a re-engagement email that names the actual blocker from the last call in
 - **attribute** (attribute): AI-Derived Attribute produced by this recipe.
 - **workflow** (workflow): Workflow produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Your Slack connection
+
+Writes:
+
+- A new attribute, from step 1 "Recall why it stalled"
+- A new workflow, from step 2 "Draft a nudge that names it"
+- A new dashboard, from step 3 "Compare against a rep's own"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

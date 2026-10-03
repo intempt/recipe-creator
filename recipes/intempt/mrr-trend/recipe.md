@@ -23,6 +23,13 @@ prerequisites:
   integrations:
     - value: stripe
       severity: blocking
+touches:
+  reads:
+    - Your Stripe connection
+  writes:
+    - A new report, from step 1 "Chart MRR by plan each month"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Chart MRR by plan each month
@@ -74,6 +81,20 @@ Shows recurring revenue by plan over the last 12 months, with the month on month
 ## What you end up with
 
 - **report** (report): Report produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Your Stripe connection
+
+Writes:
+
+- A new report, from step 1 "Chart MRR by plan each month"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

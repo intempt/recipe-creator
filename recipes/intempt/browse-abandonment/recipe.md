@@ -19,6 +19,18 @@ classification:
   executionMode: live
   tags:
     - browse-abandonment
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new segment, from step 1 "Find people who only browsed"
+    - A new designed email, from step 2 "Write the browse reminder"
+    - A new journey, from step 3 "Send at 24 and 72 hours"
+    - A new product recommendation, from step 4 "Pick items for each shopper"
+    - A new A/B experiment, from step 5 "Test picks against best sellers"
+    - A new report, from step 6 "Follow browse through to sale"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Find people who only browsed
@@ -157,6 +169,25 @@ Reminds people who looked at products but never added anything to the cart, show
 - **recommendation** (recommendation): Recommendation produced by this recipe.
 - **experiment** (experiment): Experiment produced by this recipe.
 - **report** (report): Report produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new segment, from step 1 "Find people who only browsed"
+- A new designed email, from step 2 "Write the browse reminder"
+- A new journey, from step 3 "Send at 24 and 72 hours"
+- A new product recommendation, from step 4 "Pick items for each shopper"
+- A new A/B experiment, from step 5 "Test picks against best sellers"
+- A new report, from step 6 "Follow browse through to sale"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

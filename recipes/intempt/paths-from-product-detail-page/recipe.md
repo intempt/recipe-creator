@@ -20,6 +20,13 @@ classification:
   executionMode: live
   tags:
     - path
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new report, from step 1 "See what follows a product view"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: See what follows a product view
@@ -72,6 +79,20 @@ Shows what shoppers do after landing on a product page: add to cart, keep browsi
 ## What you end up with
 
 - **report** (report): Report produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new report, from step 1 "See what follows a product view"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

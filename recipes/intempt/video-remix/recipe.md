@@ -21,6 +21,13 @@ classification:
     - video
     - remix
     - reference
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new video, from step 1 "Pin clips and fan out"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Pin clips and fan out
@@ -58,6 +65,20 @@ Pin up to four video references and get back branded reel variants anchored to t
 ## What you end up with
 
 - **video** (video): Remixed video variations.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new video, from step 1 "Pin clips and fan out"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

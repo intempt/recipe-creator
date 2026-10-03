@@ -20,6 +20,13 @@ classification:
   executionMode: live
   tags:
     - insights
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new report, from step 1 "Rank features by paid conversion"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Rank features by paid conversion
@@ -75,6 +82,20 @@ Shows which features push free users to look at pricing and actually pay, so you
 ## What you end up with
 
 - **report** (report): Report produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new report, from step 1 "Rank features by paid conversion"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

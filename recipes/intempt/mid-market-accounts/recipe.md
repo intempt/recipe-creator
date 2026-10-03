@@ -20,6 +20,13 @@ classification:
   executionMode: live
   tags:
     - accounts-segment
+touches:
+  reads:
+    - The employees attribute on accounts
+  writes:
+    - A new segment, from step 1 "Build the mid-market list"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the mid-market list
@@ -27,12 +34,10 @@ steps:
       Accounts with 100 or more employees and fewer than 1,000.
     builds: segment
     description: |-
-      Create a segment called "Mid-Market Accounts".
-      Object: Accounts
-      Rules (all conditions joined by AND):
-      - Attribute: employees >= 100
-      - AND Attribute: employees < 1000
-      Description: Companies with 100-1000 employees. Foundation for inside-sales / scaled-AE routing: these accounts get standardized playbooks, semi-personalized campaigns, and shorter sales cycles than enterprise. Universal B2B routing pattern.
+      Build a segment of accounts named "Mid-Market Accounts".
+      An account is in the segment only when all of these are true:
+      - its employees attribute is 100 or more
+      - its employees attribute is less than 1000
 outputs:
   - key: segment
     producedByStep: s1
@@ -55,6 +60,20 @@ Companies with 100 to 1,000 employees, so your inside sales team works from one 
 ## What you end up with
 
 - **segment** (segment): Segment created on /segments.
+
+## What this recipe touches
+
+Reads:
+
+- The employees attribute on accounts
+
+Writes:
+
+- A new segment, from step 1 "Build the mid-market list"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

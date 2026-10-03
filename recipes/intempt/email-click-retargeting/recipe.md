@@ -28,6 +28,17 @@ prerequisites:
   events:
     - value: email_clicked
       severity: blocking
+touches:
+  reads:
+    - The email_clicked event in your project
+  writes:
+    - A new attribute, from step 1 "Log what they clicked"
+    - A new segment, from step 2 "Find the meaningful clicks"
+    - A new designed email, from step 3 "Write a reply per topic"
+    - A new journey, from step 4 "Follow up once, nudge once"
+    - A new dashboard, from step 5 "Compare against no follow up"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Log what they clicked
@@ -168,6 +179,24 @@ Treats a click on pricing, a feature page or a case study as interest and sends 
 - **asset** (asset): Asset produced by this recipe.
 - **journey** (journey): Journey produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- The email_clicked event in your project
+
+Writes:
+
+- A new attribute, from step 1 "Log what they clicked"
+- A new segment, from step 2 "Find the meaningful clicks"
+- A new designed email, from step 3 "Write a reply per topic"
+- A new journey, from step 4 "Follow up once, nudge once"
+- A new dashboard, from step 5 "Compare against no follow up"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

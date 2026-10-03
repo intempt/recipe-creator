@@ -20,6 +20,13 @@ classification:
   executionMode: live
   tags:
     - funnel
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new report, from step 1 "Follow searches through to orders"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Follow searches through to orders
@@ -72,6 +79,20 @@ Shows how many on site searches lead to a click, a cart and an order, and compar
 ## What you end up with
 
 - **report** (report): Report produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new report, from step 1 "Follow searches through to orders"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

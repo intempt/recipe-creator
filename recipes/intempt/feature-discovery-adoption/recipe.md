@@ -18,6 +18,13 @@ classification:
   executionMode: live
   tags:
     - funnel
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new report, from step 1 "Follow a feature from first look"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Follow a feature from first look
@@ -70,6 +77,20 @@ Shows how many people who find a feature go on to try it, use it repeatedly, and
 ## What you end up with
 
 - **report** (report): Report produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new report, from step 1 "Follow a feature from first look"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

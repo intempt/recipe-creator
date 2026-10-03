@@ -21,6 +21,14 @@ classification:
   executionMode: live
   tags:
     - users-segment
+touches:
+  reads:
+    - The order_created event in your project
+    - The lifetime_value and days_since_last_activity attributes on users
+  writes:
+    - A new segment, from step 1 "Build the at-risk VIP list"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the at-risk VIP list
@@ -29,14 +37,12 @@ steps:
       to 90 days ago and who have not ordered in 45 days.
     builds: segment
     description: |-
-      Create a segment called "At-Risk VIPs".
-      Object: Users
-      Rules (all conditions joined by AND):
-      - Attribute: lifetime_value >= 1000
-      - AND Attribute: days_since_last_activity is between 45 and 90
-      - AND Event: order_created occurred >= 2 times (all time)
-      - AND Event: order_created occurred 0 times in last 45 days
-      Description: High-LTV customers who are going quiet: the Klaviyo "Needs Attention" RFM cohort. Most expensive cohort to lose; strongest ROI for personalized win-back outreach (CSM-style email from a real person, not a discount blast).
+      Build a segment of users named "At-Risk VIPs".
+      A user is in the segment only when all of these are true:
+      - their lifetime_value attribute is 1000 or more
+      - their days_since_last_activity attribute is between 45 and 90
+      - they did the order_created event 2 or more times, at any time
+      - they did not do the order_created event in the last 45 days
 outputs:
   - key: segment
     producedByStep: s1
@@ -59,6 +65,21 @@ Your biggest spenders who have gone quiet for about six weeks, so you can reach 
 ## What you end up with
 
 - **segment** (segment): Segment created on /segments.
+
+## What this recipe touches
+
+Reads:
+
+- The order_created event in your project
+- The lifetime_value and days_since_last_activity attributes on users
+
+Writes:
+
+- A new segment, from step 1 "Build the at-risk VIP list"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

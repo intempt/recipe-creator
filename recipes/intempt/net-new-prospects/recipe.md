@@ -21,6 +21,13 @@ classification:
   executionMode: live
   tags:
     - accounts-segment
+touches:
+  reads:
+    - The created_at, total_events, account_lifecycle and has_open_deal attributes on accounts
+  writes:
+    - A new segment, from step 1 "Build the net-new account list"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the net-new account list
@@ -29,14 +36,12 @@ steps:
       deal. Updates as new accounts arrive.
     builds: segment
     description: |-
-      Create a segment called "Net-New Prospects".
-      Object: Accounts
-      Rules (all conditions joined by AND):
-      - Attribute: created_at is within last 7 days
-      - AND Attribute: total_events <= 5
-      - AND Attribute: account_lifecycle = "prospect"
-      - AND Attribute: has_open_deal = false
-      Description: Accounts identified in the last 7 days with minimal engagement so far. Foundation for SDR first-touch sequences: these are the freshest entries to your TAL or your inbound feed, deserving immediate qualification within ICP-fit and intent-strength frameworks.
+      Build a segment of accounts named "Net-New Prospects".
+      An account is in the segment only when all of these are true:
+      - its created_at attribute is within the last 7 days
+      - its total_events attribute is 5 or less
+      - its account_lifecycle attribute is "prospect"
+      - its has_open_deal attribute is false
 outputs:
   - key: segment
     producedByStep: s1
@@ -59,6 +64,20 @@ Accounts created in the last week that have barely done anything yet, so SDRs kn
 ## What you end up with
 
 - **segment** (segment): Segment created on /segments.
+
+## What this recipe touches
+
+Reads:
+
+- The created_at, total_events, account_lifecycle and has_open_deal attributes on accounts
+
+Writes:
+
+- A new segment, from step 1 "Build the net-new account list"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

@@ -22,6 +22,13 @@ classification:
   tags:
     - personalization
     - client
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new website personalization, from step 1 "Set up the behavior variants"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Set up the behavior variants
@@ -133,6 +140,20 @@ What someone has been reading on your site decides what they see next: two prici
 ## What you end up with
 
 - **personalization** (personalization): Website personalization created on /experiences.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new website personalization, from step 1 "Set up the behavior variants"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

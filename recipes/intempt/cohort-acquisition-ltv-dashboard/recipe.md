@@ -20,6 +20,13 @@ classification:
   executionMode: live
   tags:
     - dashboard
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new dashboard, from step 1 "Build the cohort LTV board"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Build the cohort LTV board
@@ -86,6 +93,20 @@ Shows which acquisition channels bring customers who keep buying, by tracking cu
 ## What you end up with
 
 - **dashboard** (dashboard): Dash board (composition canvas) produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new dashboard, from step 1 "Build the cohort LTV board"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

@@ -27,6 +27,17 @@ prerequisites:
   events:
     - value: page_viewed
       severity: blocking
+touches:
+  reads:
+    - The page_viewed event in your project
+  writes:
+    - A new attribute, from step 1 "Catch cancel intent live"
+    - A new segment, from step 2 "Find who is halfway out"
+    - A new designed email, from step 3 "Write one offer per reason"
+    - A new journey, from step 4 "Make one matched offer"
+    - A new dashboard, from step 5 "See which saves actually work"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Catch cancel intent live
@@ -175,6 +186,24 @@ Catches people who open the cancel flow but have not finished it, and answers th
 - **asset** (asset): Asset produced by this recipe.
 - **journey** (journey): Journey produced by this recipe.
 - **dashboard** (dashboard): Dashboard produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- The page_viewed event in your project
+
+Writes:
+
+- A new attribute, from step 1 "Catch cancel intent live"
+- A new segment, from step 2 "Find who is halfway out"
+- A new designed email, from step 3 "Write one offer per reason"
+- A new journey, from step 4 "Make one matched offer"
+- A new dashboard, from step 5 "See which saves actually work"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

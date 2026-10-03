@@ -19,6 +19,13 @@ classification:
   executionMode: live
   tags:
     - retention
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new report, from step 1 "Track weekly signup cohorts"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Track weekly signup cohorts
@@ -66,6 +73,20 @@ Shows what share of each week's signups are still coming back at weeks 1, 4 and 
 ## What you end up with
 
 - **report** (report): Report produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new report, from step 1 "Track weekly signup cohorts"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

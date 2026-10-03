@@ -20,6 +20,13 @@ classification:
   executionMode: live
   tags:
     - insights
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new report, from step 1 "Chart activity by user percentile"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Chart activity by user percentile
@@ -67,6 +74,20 @@ Shows how much of your total activity comes from the top 1%, 5% and 10% of users
 ## What you end up with
 
 - **report** (report): Report produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new report, from step 1 "Chart activity by user percentile"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 

@@ -21,6 +21,21 @@ classification:
     - image
     - product
     - swap
+inputs:
+  - input: Original image
+    what_the_installer_supplies: The shot that holds the product to replace
+    if_missing: The step is marked vague and waits until one is attached.
+  - input: New product
+    what_the_installer_supplies: The product to swap in
+    if_missing: The step is marked vague and waits until one is chosen.
+touches:
+  reads:
+    - The original image you supply when you run it
+    - The new product you supply when you run it
+  writes:
+    - A new image, from step 1 "Swap in the new product"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Swap in the new product
@@ -29,9 +44,9 @@ steps:
       and backdrop are unchanged.
     builds: image
     description: |-
-      Swap the product in an existing image.
-      Keep the scene, lighting, shadow, and backdrop unchanged. Replace only the product with the new SKU, maintaining identical size and position.
-      Pipeline: flux-pro/kontext (identity-locked swap)
+      Edit the image attached to this run.
+      Replace only the product with the new product chosen for this run, at identical size and position.
+      Keep the scene, lighting, shadow and backdrop unchanged.
 outputs:
   - key: image
     producedByStep: s1
@@ -54,6 +69,28 @@ Replaces the product in a shot you already have with a different one, keeping th
 ## What you end up with
 
 - **image** (image): Product-swapped image.
+
+## What this recipe touches
+
+Reads:
+
+- The original image you supply when you run it
+- The new product you supply when you run it
+
+Writes:
+
+- A new image, from step 1 "Swap in the new product"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
+
+## Declared inputs
+
+| Input | What the installer supplies | If missing |
+|---|---|---|
+| Original image | The shot that holds the product to replace | The step is marked vague and waits until one is attached. |
+| New product | The product to swap in | The step is marked vague and waits until one is chosen. |
 
 ## Availability
 

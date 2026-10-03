@@ -19,6 +19,13 @@ classification:
   executionMode: live
   tags:
     - retention
+touches:
+  reads:
+    - Only the events, attributes and items each step names, in your own project
+  writes:
+    - A new report, from step 1 "Compare adopters and non adopters"
+  never:
+    - Nothing runs until you approve the plan in Blu.
 steps:
   - id: s1
     title: Compare adopters and non adopters
@@ -74,6 +81,20 @@ Compares how long users stay when they adopt a given feature in their first week
 ## What you end up with
 
 - **report** (report): Report produced by this recipe.
+
+## What this recipe touches
+
+Reads:
+
+- Only the events, attributes and items each step names, in your own project
+
+Writes:
+
+- A new report, from step 1 "Compare adopters and non adopters"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
 
 ## Availability
 
