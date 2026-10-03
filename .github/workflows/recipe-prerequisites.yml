@@ -62,7 +62,15 @@ jobs:
       # here is a defect a customer reads.
       - name: The catalog builds and its customer-facing copy is clean
         run: python3 scripts/build_artifacts.py --out /tmp/catalog --check
-      - name: Ids and slash commands are unique, and ids match filenames
+      - name: The recipe.md contract tests pass
+        run: python3 scripts/tests/test_recipe_contract.py
+      - name: Every recipe.md meets the v2 contract the engine reads
+        run: python3 scripts/validate_recipes.py --lint
+      - name: The examples meet the contract too
+        run: python3 scripts/validate_recipes.py --recipes examples --lint && python3 scripts/rebuild_bodies.py --recipes examples --check
+      - name: references/entities.md matches the recipes
+        run: python3 scripts/render_entities_doc.py --check
+      - name: Ids and slash commands are unique, and ids match their folders
         run: python3 scripts/check_recipe_identity.py
       # The body is generated from the frontmatter, so a hand-edited one is drift
       # by definition. Rewriting the copy across 302 recipes left every body

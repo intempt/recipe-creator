@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Identity guard: an id is unique, matches its filename, and owns its slash command.
+"""Identity guard: an id is unique, matches its folder, and owns its slash command.
 
 Three failures this catches, all of which exist in the corpus today or have:
 
@@ -30,7 +30,7 @@ def main():
     ids = collections.defaultdict(list)
     slashes = collections.defaultdict(list)
 
-    for path in sorted(glob.glob("recipes/*/*.md")):
+    for path in sorted(glob.glob("recipes/*/*/recipe.md")):
         text = pathlib.Path(path).read_text(encoding="utf-8")
         match = FRONTMATTER.match(text)
         if not match:
@@ -42,18 +42,17 @@ def main():
             problems.append(f"{path}: unparseable frontmatter: {exc}")
             continue
 
-        intempt = front.get("intempt") or {}
-        rid = intempt.get("id")
+        rid = front.get("id")
         if not rid:
-            problems.append(f"{path}: intempt.id is missing")
+            problems.append(f"{path}: id is missing")
             continue
 
-        stem = pathlib.Path(path).name.removesuffix(".md").removesuffix("_recipe")
-        if stem != rid:
-            problems.append(f"{path}: id '{rid}' does not match filename stem '{stem}'")
+        folder = pathlib.Path(path).parent.name
+        if folder != rid:
+            problems.append(f"{path}: id '{rid}' does not match its folder '{folder}'")
 
         ids[rid].append(path)
-        slash = intempt.get("slashCommand")
+        slash = front.get("slash_command")
         if slash:
             slashes[slash].append(rid)
 
@@ -64,7 +63,7 @@ def main():
     for slash, owners in sorted(slashes.items()):
         if len(owners) > 1:
             problems.append(
-                f"duplicate slashCommand '{slash}' on {len(owners)} recipes: "
+                f"duplicate slash_command '{slash}' on {len(owners)} recipes: "
                 + ", ".join(sorted(owners)[:5])
                 + (" ..." if len(owners) > 5 else "")
             )
@@ -77,7 +76,7 @@ def main():
             print(f"  ... and {len(problems) - 40} more", file=sys.stderr)
         return 1
 
-    print(f"{len(ids)} recipes: ids unique, filenames match, slash commands unique")
+    print(f"{len(ids)} recipes: ids unique, folders match, slash commands unique")
     return 0
 
 
