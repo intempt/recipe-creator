@@ -22,11 +22,11 @@ Install is a separate job from doing the work. Send these as two messages:
 
 **Do not put this repository's URL in the second prompt.** A URL is an instruction to fetch. Given
 the link, an agent fetches these files and rebuilds the procedure from them instead of invoking the
-installed `intempt-recipe-author` skill, which is slower and worse than the skill it already has.
+installed `intempt-recipe-creator` skill, which is slower and worse than the skill it already has.
 Install first, then ask for the work.
 
 **If you are the agent reading this because you were handed the URL:** check whether
-`intempt-recipe-author` is available to you as a skill. If it is, invoke it and stop reading this
+`intempt-recipe-creator` is available to you as a skill. If it is, invoke it and stop reading this
 file. Only if it is genuinely unavailable do you continue here, and then read the other files **raw**:
 
 ```
@@ -39,9 +39,9 @@ Over HTTP a relative link resolves to nothing, so fetch each file by name when y
 
 | Host | Install |
 |---|---|
-| **Claude Code** | `/plugin marketplace add intempt/recipe-creator` then `/plugin install intempt-recipe-author@intempt-recipe-creator`, from inside Claude Code |
-| **Codex** | `codex plugin marketplace add intempt/recipe-creator`, then open **Plugins** and install **intempt-recipe-author** |
-| **Cursor** | Add `https://github.com/intempt/recipe-creator` as a plugin marketplace and install **intempt-recipe-author** |
+| **Claude Code** | `/plugin marketplace add intempt/recipe-creator` then `/plugin install intempt-recipe-creator@intempt-recipe-creator`, from inside Claude Code |
+| **Codex** | `codex plugin marketplace add intempt/recipe-creator`, then open **Plugins** and install **intempt-recipe-creator** |
+| **Cursor** | Add `https://github.com/intempt/recipe-creator` as a plugin marketplace and install **intempt-recipe-creator** |
 
 If the skill will not load by name after installing, restart the host. Some hosts register a new
 plugin only on start.

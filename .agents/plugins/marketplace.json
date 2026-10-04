@@ -5,7 +5,7 @@
   },
   "plugins": [
     {
-      "name": "intempt-recipe-author",
+      "name": "intempt-recipe-creator",
       "source": {
         "source": "local",
         "path": "./plugin"

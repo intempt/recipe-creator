@@ -8,12 +8,12 @@ maintaining this repository.
 ## Writing or editing a recipe
 
 Start at [START-HERE.md](./START-HERE.md). The schema lives in one place,
-[references/recipe-contract.md](./references/recipe-contract.md), and the `intempt-recipe-author`
+[references/recipe-contract.md](./references/recipe-contract.md), and the `intempt-recipe-creator`
 skill in `plugin/skills/` is the procedure. Do not restate either here.
 
 ## The plugin mirrors
 
-`plugin/skills/intempt-recipe-author/references/` and `scripts/` (with `scripts/fixtures/`) are
+`plugin/skills/intempt-recipe-creator/references/` and `scripts/` (with `scripts/fixtures/`) are
 copies of files at the repo root; `MIRRORS` in `scripts/sync_plugin.py` lists them. Edit the root
 file, then run `python3 scripts/sync_plugin.py`. CI runs `--check` and fails on drift. When the skill changes, bump `version` in all three `plugin/*/plugin.json` files and the
 announce line in the skill; the sync check fails if they disagree.

@@ -37,9 +37,9 @@ needs Python 3 and PyYAML.
 
 | Host | Install |
 |---|---|
-| **Claude Code** | `/plugin marketplace add intempt/recipe-creator` then `/plugin install intempt-recipe-author@intempt-recipe-creator` |
-| **Codex** | `codex plugin marketplace add intempt/recipe-creator`, then install **intempt-recipe-author** from Plugins |
-| **Cursor** | Add `https://github.com/intempt/recipe-creator` as a plugin marketplace, then install **intempt-recipe-author** |
+| **Claude Code** | `/plugin marketplace add intempt/recipe-creator` then `/plugin install intempt-recipe-creator@intempt-recipe-creator` |
+| **Codex** | `codex plugin marketplace add intempt/recipe-creator`, then install **intempt-recipe-creator** from Plugins |
+| **Cursor** | Add `https://github.com/intempt/recipe-creator` as a plugin marketplace, then install **intempt-recipe-creator** |
 
 ## Keeping the plugin current
 
@@ -49,7 +49,7 @@ in Claude Code:
 
 ```
 /plugin marketplace update intempt-recipe-creator
-/plugin install intempt-recipe-author@intempt-recipe-creator
+/plugin install intempt-recipe-creator@intempt-recipe-creator
 ```
 
 If that still installs an old copy, remove both caches and add the marketplace again:
@@ -62,5 +62,5 @@ rm -rf ~/.claude/plugins/cache/intempt-recipe-creator
 Read the installed version off disk, not off the announce line:
 
 ```
-grep -m1 -o 'intempt-recipe-author/[0-9.]*' ~/.claude/plugins/cache/intempt-recipe-creator/*/*/skills/intempt-recipe-author/SKILL.md
+grep -m1 -o 'intempt-recipe-creator/[0-9.]*' ~/.claude/plugins/cache/intempt-recipe-creator/*/*/skills/intempt-recipe-creator/SKILL.md
 ```

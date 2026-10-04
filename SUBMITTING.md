@@ -30,7 +30,7 @@ intempt recipe submit my-handle/my-recipe/recipe.md --name "Your Name" --email y
 Without `--yes`, nothing is sent. The command validates the file and prints a preview: the recipe's
 id, title, owner, steps, availability and checksum, your creator details, and the consent text. It
 also prints a **confirm token**, a random single-use value stored on your machine in
-`~/.local/state/intempt-recipe-author/`. The token is not computed from the request, so nothing that
+`~/.local/state/intempt-recipe-creator/`. The token is not computed from the request, so nothing that
 only controls the request can produce one.
 
 To send, run the command the preview prints:
@@ -99,6 +99,5 @@ Every submission, by either route, agrees to this text, version `intempt-recipes
 
 ## Licence
 
-The terms that apply to this repository are in [LICENSE](./LICENSE). They are under review as the
-repository becomes public. Partner revenue share, where it applies, is a separate written agreement;
-see [intempt.com/partner](https://intempt.com/partner#build) and the Intempt Collective Terms.
+MIT. See [LICENSE](./LICENSE). You keep the copyright in a recipe you submit; accepted recipes are
+published under MIT with your attribution preserved.

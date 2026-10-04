@@ -49,10 +49,10 @@ The rest is reference, in the order you will want it:
 
 ```
 /plugin marketplace add intempt/recipe-creator
-/plugin install intempt-recipe-author@intempt-recipe-creator
+/plugin install intempt-recipe-creator@intempt-recipe-creator
 ```
 
-The skill lives at [plugin/skills/intempt-recipe-author/](./plugin/skills/intempt-recipe-author/):
+The skill lives at [plugin/skills/intempt-recipe-creator/](./plugin/skills/intempt-recipe-creator/):
 the whole flow, its own validator and the worked example, so it runs with no network.
 
 ## Install now and Coming soon
@@ -101,6 +101,5 @@ it under `does_not_claim`. A recipe that declares nothing cannot be trusted or c
 
 ## Licence
 
-Source-available, not open source. See [LICENSE](./LICENSE) and [NOTICE](./NOTICE). The licence terms are under review as
-this repository becomes public under its new name; until they change, the LICENSE file as it stands
-applies.
+MIT. See [LICENSE](./LICENSE). You keep the copyright in a recipe you submit; accepted recipes are
+published under MIT with your attribution preserved.
