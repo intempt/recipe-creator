@@ -69,19 +69,19 @@ DELIVERY_ONLY = {"slack", "gmail", "sendgrid", "twilio"}
 # than a silent edit. Added 2026-08-10 after a review found the guard forcing
 # these six declarations, four of them blocking.
 EXEMPT: dict[tuple[str, str], str] = {
-    ("recipes/personalizations/abm-account-personalization_recipe.md", "stripe"):
+    ("recipes/intempt/abm-account-personalization/recipe.md", "stripe"):
         "customer logo in a social-proof hero variant, not a data source",
-    ("recipes/personalizations/intent-data-content-personalization_recipe.md", "salesforce"):
+    ("recipes/intempt/intent-data-content-personalization/recipe.md", "salesforce"):
         "logo in an 'integrations we support' marketing mockup",
-    ("recipes/personalizations/intent-data-content-personalization_recipe.md", "slack"):
+    ("recipes/intempt/intent-data-content-personalization/recipe.md", "slack"):
         "logo in the same marketing mockup",
-    ("recipes/segments/pql-multi-user-account_recipe.md", "slack"):
+    ("recipes/intempt/pql-multi-user-account/recipe.md", "slack"):
         "cited as a PLG company ('the canonical Slack/Dropbox/Figma pattern'), not the app",
-    ("recipes/segments/enterprise-accounts_recipe.md", "salesforce"):
+    ("recipes/intempt/enterprise-accounts/recipe.md", "salesforce"):
         "industry citation for the 1000-employee threshold",
-    ("recipes/segments/multi-stakeholder-engaged-accounts_recipe.md", "salesforce"):
+    ("recipes/intempt/multi-stakeholder-engaged-accounts/recipe.md", "salesforce"):
         "cited as the source of the 11-stakeholder statistic",
-    ("recipes/workflows/enterprise-domain-signup-to-ae-task_recipe.md", "gmail"):
+    ("recipes/intempt/enterprise-domain-signup-to-ae-task/recipe.md", "gmail"):
         "an example of a generic email domain being classified, not a mailbox",
 }
 

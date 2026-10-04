@@ -1,0 +1,17 @@
+{
+  "name": "intempt-recipe-author",
+  "version": "1.1.0",
+  "description": "Create an Intempt recipe in Codex",
+  "author": {
+    "name": "Intempt"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Intempt recipe author",
+    "shortDescription": "Write an Intempt recipe and submit it to the Intempt Collective Marketplace",
+    "capabilities": [
+      "Read",
+      "Write"
+    ]
+  }
+}

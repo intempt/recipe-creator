@@ -1,0 +1,112 @@
+{
+  "version": "intempt-recipe-injection/1.0.0",
+  "about": "The prompt-injection patterns injection.py scans a recipe.md for. The patterns are data so they can be diffed, hashed and tested; SUITE_SHA256 pins this file and injection.py refuses to run when the two disagree. Every regex runs case-insensitive and multiline. A recipe instructs Blu inside an installer's project, so text aimed at the agent, the engine or the reviewer has no legitimate place in it.",
+  "flags": ["IGNORECASE", "MULTILINE"],
+  "scopes": {
+    "all": "every frontmatter text value and the body",
+    "frontmatter": "every frontmatter text value",
+    "body": "the markdown body under the frontmatter",
+    "descriptions": "the top-level description and every step description"
+  },
+  "patterns": [
+    {
+      "id": "ignore_prior_instructions",
+      "severity": "block",
+      "scope": "all",
+      "label": "override of earlier instructions",
+      "regex": "\\b(?:ignore|disregard|forget|override)\\s+(?:any\\s+|all\\s+|the\\s+)?(?:previous|prior|earlier|above|preceding|other|system)\\s+(?:instruction|direction|rule|guidance|prompt|message)s?",
+      "message": "A recipe describes its own steps. It never tells the reader to set aside instructions it cannot see. Remove the sentence."
+    },
+    {
+      "id": "role_reassignment",
+      "severity": "block",
+      "scope": "all",
+      "label": "gives the agent a new identity",
+      "regex": "\\byou\\s+are\\s+now\\b|\\bfrom\\s+now\\s+on\\s+you\\s+(?:are|will)\\b|\\bpretend\\s+(?:to\\s+be|you\\s+are)\\b|\\bact\\s+as\\s+(?:an?\\s+)?(?:unrestricted|jailbroken|different|new)\\b|\\bnew\\s+(?:system\\s+)?persona\\b",
+      "message": "A step says what to build, not who Blu is. Remove the sentence that assigns a role."
+    },
+    {
+      "id": "system_prompt_marker",
+      "severity": "block",
+      "scope": "all",
+      "label": "system-prompt or chat-template marker",
+      "regex": "<\\|?\\s*(?:system|assistant|im_start|im_end|endoftext)\\s*\\|?>|\\[/?INST\\]|<</?SYS>>|^\\s*#{1,6}\\s*(?:system|developer)\\s*(?:prompt|message)?\\s*:?\\s*$|\\bsystem\\s+prompt\\b|\\bdeveloper\\s+message\\b",
+      "message": "This looks like a chat-template or system-prompt marker. A recipe is plain instructions; remove it."
+    },
+    {
+      "id": "reviewer_addressed",
+      "severity": "block",
+      "scope": "all",
+      "label": "text aimed at the reviewer or a scanner",
+      "regex": "\\b(?:note\\s+(?:to|for)\\s+(?:the\\s+)?|dear\\s+|attention\\s+)(?:reviewer|review\\s+team|moderator|scanner|validator)s?\\b|\\b(?:reviewer|review\\s+team|moderator|scanner|validator)s?\\s*[:,]\\s*(?:please\\s+)?(?:approve|accept|pass|ignore|skip)\\b|\\balready\\s+been\\s+(?:approved|reviewed|vetted)\\b|\\bpre-?approved\\b|\\bskip\\s+(?:the\\s+)?review\\b|\\b(?:marketplace|intempt)\\s+review(?:er|ers|\\s+team)?\\s+(?:should|must|will|can)\\b",
+      "message": "A recipe addresses the person installing it. It has no reason to address a reviewer or a scanner; remove the text."
+    },
+    {
+      "id": "approval_bypass",
+      "severity": "block",
+      "scope": "all",
+      "label": "tells the engine to run without the installer's approval",
+      "regex": "\\bwithout\\s+(?:asking\\s+for\\s+|waiting\\s+for\\s+|any\\s+|the\\s+user'?s?\\s+|their\\s+)?(?:approval|confirmation|consent)\\b|\\b(?:skip|bypass)\\s+(?:the\\s+)?(?:approval|confirmation|plan)\\b|\\bdo\\s+not\\s+ask\\s+(?:for\\s+)?(?:approval|confirmation|permission)\\b|\\bauto-?approve\\b",
+      "message": "Blu shows the plan and waits for one approval before anything runs. A recipe cannot opt out of that; remove the sentence."
+    },
+    {
+      "id": "concealment",
+      "severity": "block",
+      "scope": "all",
+      "label": "hides what runs from the installer",
+      "regex": "\\b(?:do\\s+not|don'?t|never)\\s+(?:tell|inform|notify|mention|show|disclose|reveal)\\b[^.\\n]{0,30}\\b(?:the\\s+)?(?:user|installer|owner|customer|them|anyone)\\b|\\b(?:do\\s+this|run\\s+this|act)\\s+silently\\b|\\bwithout\\s+(?:telling|informing|notifying)\\b",
+      "message": "Everything a recipe does is shown to the installer. Remove the instruction to keep something from them."
+    },
+    {
+      "id": "credential_solicitation",
+      "severity": "block",
+      "scope": "all",
+      "label": "asks for a credential",
+      "regex": "\\b(?:ask|have|request|prompt|get|tell)\\b[^.\\n]{0,40}\\b(?:paste|enter|type|share|provide|send|give)\\b[^.\\n]{0,60}\\b(?:api[ _-]?key|password|secret|access[ _-]?token|credential|private[ _-]?key)s?\\b|\\b(?:paste|enter|type)\\b[^.\\n]{0,60}\\b(?:api[ _-]?key|password|credential)s?\\b[^.\\n]{0,40}\\b(?:in|into)\\s+(?:the\\s+)?(?:chat|conversation|message|prompt)\\b",
+      "message": "A recipe runs on the installer's own connected accounts. It never asks anyone for a key or password; remove the request."
+    },
+    {
+      "id": "invisible_character",
+      "severity": "block",
+      "scope": "all",
+      "label": "invisible or direction-changing character",
+      "regex": "[\\u00ad\\u180e\\u200b-\\u200f\\u202a-\\u202e\\u2060-\\u2064\\u2066-\\u2069\\ufeff]|[\\U000e0000-\\U000e007f]",
+      "message": "The text carries a character a reader cannot see. Retype the line without it."
+    },
+    {
+      "id": "base64_blob",
+      "severity": "block",
+      "scope": "all",
+      "label": "encoded blob",
+      "regex": "(?<![A-Za-z0-9+/=_-])(?=[A-Za-z0-9+/]*[0-9+/])(?=[A-Za-z0-9+/]*[A-Za-z])[A-Za-z0-9+/]{40,}={0,2}(?![A-Za-z0-9+/=_-])",
+      "message": "A long encoded string cannot be read by the installer or the reviewer. Write the content out in plain words."
+    },
+    {
+      "id": "hidden_comment",
+      "severity": "block",
+      "scope": "body",
+      "label": "HTML comment in the body",
+      "comment": true,
+      "allow": ["<!-- generated from the frontmatter by scripts/rebuild_bodies.py; edit the frontmatter -->"],
+      "message": "An HTML comment does not render, so nobody reading the recipe sees it. The body is generated from the frontmatter; remove the comment and regenerate the body."
+    },
+    {
+      "id": "comment_directive",
+      "severity": "block",
+      "scope": "frontmatter",
+      "label": "HTML comment carrying an instruction",
+      "comment": true,
+      "directive": "\\b(?:approve|assign|score|recommend|ignore|skip|clear|bypass|disregard|forget|override|do\\s+not\\s+read|instruction|system)\\b",
+      "message": "An HTML comment inside a step carries an instruction. Write the instruction in the step itself, or remove it."
+    },
+    {
+      "id": "foreign_url",
+      "severity": "block",
+      "scope": "descriptions",
+      "label": "link to a host outside intempt.com",
+      "url": true,
+      "allowed_hosts": ["intempt.com"],
+      "message": "A step description links outside intempt.com. Blu does not fetch instructions from the web; describe the content in the step, or make the link an inputs row the installer supplies."
+    }
+  ]
+}

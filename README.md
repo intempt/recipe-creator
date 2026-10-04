@@ -1,125 +1,106 @@
-# Intempt Recipes
+# Intempt recipe creator
 
-Pre-built automations for the [Intempt](https://intempt.com) platform. Each recipe is a
-markdown file that Blu, Intempt's agent, executes on your behalf: build a segment, run a
-journey, compose a dashboard, generate creative.
+Write a recipe for the [Intempt](https://intempt.com) platform and submit it to the Intempt
+Collective Marketplace.
 
-**302 recipes** across 12 groups. Anyone can propose one.
+A recipe is one markdown file, `recipe.md`. Its frontmatter lists steps; each step's `description`
+is the instruction Blu, Intempt's agent, runs inside a customer's project with that person's own
+access: build a segment, write an email, generate an image. A recipe that only works in your project
+is not a recipe, it is a note to yourself, so everything the installer supplies is declared as an
+input.
 
-```
-recipes/
-  agents/                1
-  content/               4
-  creative/             32
-  dashboards/           21
-  experiments/          24
-  journeys/             35
-  meetings/              9
-  personalizations/      9
-  recommendations/       1
-  reports/              71
-  segments/             47
-  workflows/            48
-```
+## Four ways in
 
-## What a recipe is
-
-A recipe is a template, not a script you run yourself. It describes an outcome in
-steps, and Blu carries the steps out inside your project using your own access.
-Nothing in a recipe can do more than you can.
-
-Recipes in this repository are **global**: identical for every customer, read-only,
-and published to a catalog that the Intempt website and console both read.
-
-When you use one, Intempt makes a **copy in your project**. That copy is yours to
-edit and it never changes underneath you when the original is updated.
-
-## Anatomy
-
-Every recipe is one `.md` file with YAML frontmatter.
-
-```yaml
----
-name: cart-recovery
-description: |
-  Use when a user mentions "abandoned cart", "cart recovery", or asks for related help.
-arguments: []
-intempt:
-  id: cart-recovery
-  title: Abandoned cart recovery
-  version: 1.0.0
-  slashCommand: /cart-recovery
-  group: Journeys
-  shortDescription: Emails shoppers who left items behind, three times over three days.
-  classification:
-    product: [marketing]
-    agent: journey-builder
-    mode: [ecommerce]
-    complexity: advanced
-    executionMode: live
-    tags: [cart, recovery]
-  prerequisites:
-    integrations:
-      - { value: shopify, severity: blocking }
-  procedure:
-    - step: 1
-      title: Find who abandoned a cart
-      command: create_segment
-      produces: segment
-      bindsAs: cart_abandoners
-      description: >
-        Shoppers with a cart_abandoned event in the last 30 days who never
-        placed an order for that cart.
-      prompt: |
-        Create a segment called "Cart Abandoners" ...
-  outputs:
-    - { name: segment, type: segment, cardinality: single, description: "The audience." }
----
-Markdown body: the human-readable walkthrough.
-```
-
-Two fields do different jobs and are easy to confuse:
-
-| Field | Read by | Written for |
+| | Start from | Use when |
 |---|---|---|
-| `description` | Blu, to decide when a recipe is relevant | intent matching, not customers |
-| `shortDescription` | customers, on the website and in the console | one plain sentence, what they get |
+| **I have an idea** | a conversation | nothing is built yet |
+| **From my Intempt workspace** | a segment or attribute you already built | it works in your project and you want others to install it. Read only |
+| **I have a recipe.md** | a file you already have | it is written; you want it validated and submitted, or converted from the v1 format |
+| **Something else** | tell the agent | it picks the closest route and says which |
 
-## Writing a good one
+All of them end the same way: a `recipe.md` you review, then you choose how it goes. Upload it at
+[intempt.com/recipes/submit](https://intempt.com/recipes/submit), or have the agent send it with
+`intempt recipe submit`, which previews first and cannot send without your explicit yes.
 
-The bar is that a customer who has never seen your recipe understands what it does
-before they run it.
+## Start here
 
-- **`title`** is a real name. "Abandoned cart recovery", not `cart-recovery`.
-- **`shortDescription`** says what the customer gets, in one sentence, under 200
-  characters. Never list the objects it builds: "segment, content, journey,
-  dashboard" is our vocabulary, not theirs.
-- **Step `title`** names the action, not the object type. "Find who abandoned a
-  cart", not "Build Segment". Keep it under about 40 characters so it fits a
-  canvas node.
-- **Step `description`** carries the real rule: the threshold, the timing, the exit
-  condition. If it could describe any recipe, it is not specific enough.
-- **No em-dashes and no arrow glyphs.** Use a colon, a full stop, or a comma.
-- **Declare every integration you mention** under `prerequisites.integrations`, or
-  CI will fail the pull request.
+**[START-HERE.md](./START-HERE.md)**: install, then create the recipe. If you are pasting a link to
+someone, paste that one.
 
-## Contributing
+The rest is reference, in the order you will want it:
 
-1. Fork, branch, add or edit a file under `recipes/<group>/`.
-2. Open a pull request **against `staging`**. Not `main`.
-3. CI checks prerequisites, id and slash-command uniqueness, and the copy rules.
-4. A maintainer reviews. Recipes are executed inside customer projects, so review
-   is about safety as much as quality.
-5. Merged to `staging`, your recipe is live for internal testing. It reaches
-   customers when `staging` is promoted to `main`.
+1. [PREREQUISITES.md](./PREREQUISITES.md): the Intempt CLI, signing in, the plugin.
+2. Your route: [workflows/idea-to-recipe.md](./workflows/idea-to-recipe.md),
+   [workflows/workspace-to-recipe.md](./workflows/workspace-to-recipe.md) or
+   [workflows/existing-recipe.md](./workflows/existing-recipe.md).
+3. [WRITING-STEPS.md](./WRITING-STEPS.md): read this before writing any step. The test, the vague
+   rule, and before and after examples from this repository. [DETERMINISM.md](./DETERMINISM.md) is
+   the reasoning behind it: what the engine derives from a step, and the seven rules that pin it.
+4. [NO-ENTITY-EXISTS.md](./NO-ENTITY-EXISTS.md): read this while you are still talking. The jobs the
+   engine cannot build yet, and how they become Coming soon instead of being faked.
+5. [references/recipe-contract.md](./references/recipe-contract.md): what the file must contain.
+6. [references/entities.md](./references/entities.md): what a step can build, generated from the recipes,
+   and [references/entities/](./references/entities/README.md): one page per builder, with good and bad
+   steps.
+7. [RECIPE-TEMPLATE.md](./RECIPE-TEMPLATE.md) and [PACKAGE-LAYOUT.md](./PACKAGE-LAYOUT.md).
+8. [VALIDATION.md](./VALIDATION.md), then [SUBMITTING.md](./SUBMITTING.md).
 
-`main` is fast-forward only from `staging`. There are no pull requests to `main`.
+**This repository is an installable plugin.** In Claude Code:
+
+```
+/plugin marketplace add intempt/recipe-creator
+/plugin install intempt-recipe-author@intempt-recipe-creator
+```
+
+The skill lives at [plugin/skills/intempt-recipe-author/](./plugin/skills/intempt-recipe-author/):
+the whole flow, its own validator and the worked example, so it runs with no network.
+
+## Install now and Coming soon
+
+Every step declares what it `builds`. A recipe whose steps all build something the engine supports
+today is **Install now**; the rest are **Coming soon**, and the catalog says which builder each is
+waiting on. The counts are in [references/entities.md](./references/entities.md), generated from
+the recipes.
+
+## Where finished recipes live
+
+- **[examples/](./examples/README.md)** is a curated set to copy from, chosen because it meets the
+  bar. Its README says what each one teaches.
+- **`recipes/<author>/<recipe-id>/recipe.md`** holds published recipes. A folder there is written
+  only when a submission is approved. `recipes/intempt/` holds the recipes the Intempt team
+  publishes.
+
+When a customer installs a recipe, Intempt makes a copy in their project. That copy is theirs to
+edit and never changes underneath them.
+
+## If your agent cannot read this repository
+
+Some sandboxes cannot fetch a GitHub page. Tell the agent to fetch the raw file instead:
+
+```
+curl -fsSL https://raw.githubusercontent.com/intempt/recipe-creator/main/START-HERE.md
+```
+
+If that also returns nothing, the sandbox has no network at all. Install the plugin instead: it
+carries this procedure, the validator and the example, and loads from disk.
+
+**The tell that your agent gave up and improvised:** it names no files from this repository. Ask
+which files it read.
+
+## Three things that will save you a rejected submission
+
+**Your project's names do not travel.** A journey id, a form, a list, a value only your project
+holds: each becomes an `inputs` row the installer supplies, with what happens when it is missing.
+
+**Every step says who, what and when.** Users or accounts, the exact event or attribute, every
+threshold and window written out. A step the engine finds vague does not run; it waits for someone
+to clarify it. [WRITING-STEPS.md](./WRITING-STEPS.md) is the bar.
+
+**Say what you did not check.** If a threshold is your judgment rather than something measured, put
+it under `does_not_claim`. A recipe that declares nothing cannot be trusted or corrected.
 
 ## Licence
 
-Source-available, not open source. You may read these, run them on Intempt, and
-contribute. You may not redistribute them or use them to build a competing
-product. See [LICENSE](./LICENSE).
-
-Contributing grants Intempt a licence to publish your contribution. Partner
-revenue share, where it applies, is a separate written agreement.
+Source-available, not open source. See [LICENSE](./LICENSE) and [NOTICE](./NOTICE). The licence terms are under review as
+this repository becomes public under its new name; until they change, the LICENSE file as it stands
+applies.

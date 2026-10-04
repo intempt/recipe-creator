@@ -23,49 +23,8 @@ import sys
 import yaml
 
 FRONTMATTER = re.compile(r"^(---\n.*?\n---\n)(.*)$", re.S)
-MARKER = "<!-- generated from the frontmatter by scripts/rebuild_bodies.py -->"
-
-
-def body_for(intempt):
-    title = intempt.get("title") or intempt.get("id")
-    lines = [MARKER, "", f"# {title}", ""]
-
-    summary = (intempt.get("shortDescription") or "").strip()
-    if summary:
-        lines += [summary, ""]
-
-    prereqs = intempt.get("prerequisites") or {}
-    integrations = [p.get("value") for p in (prereqs.get("integrations") or []) if p.get("value")]
-    events = [p.get("value") for p in (prereqs.get("events") or []) if p.get("value")]
-    if integrations or events:
-        lines += ["## Before you run it", ""]
-        for value in integrations:
-            lines.append(f"- Connect {value}")
-        for value in events:
-            lines.append(f"- Send the `{value}` event")
-        lines.append("")
-
-    procedure = intempt.get("procedure") or []
-    if procedure:
-        lines += ["## What it does", ""]
-        for step in procedure:
-            step_title = (step.get("title") or "").strip()
-            description = " ".join((step.get("description") or "").split())
-            command = step.get("command") or ""
-            lines.append(f"{step.get('step')}. **{step_title}** (`{command}`)")
-            if description:
-                lines += ["", f"   {description}"]
-            lines.append("")
-
-    outputs = intempt.get("outputs") or []
-    if outputs:
-        lines += ["## What you end up with", ""]
-        for output in outputs:
-            description = " ".join((output.get("description") or "").split())
-            lines.append(f"- **{output.get('name')}** ({output.get('type')}): {description}")
-        lines.append("")
-
-    return "\n".join(lines).rstrip() + "\n"
+sys.path.insert(0, str(pathlib.Path(__file__).parent))
+from recipe_contract import recipe_paths, render_body
 
 
 def main():
@@ -77,7 +36,7 @@ def main():
     stale = []
     written = 0
 
-    for path in sorted(args.recipes.glob("*/*.md")):
+    for path in recipe_paths(args.recipes):
         text = path.read_text(encoding="utf-8")
         match = FRONTMATTER.match(text)
         if not match:
@@ -90,7 +49,7 @@ def main():
             print(f"error: {path}: {exc}", file=sys.stderr)
             return 2
 
-        wanted = body_for(front.get("intempt") or {})
+        wanted = render_body(front)
         if current == wanted:
             continue
         if args.check:

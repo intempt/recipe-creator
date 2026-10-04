@@ -1,0 +1,19 @@
+{
+  "name": "intempt-recipe-creator",
+  "interface": {
+    "displayName": "Intempt recipe creator"
+  },
+  "plugins": [
+    {
+      "name": "intempt-recipe-author",
+      "source": {
+        "source": "local",
+        "path": "./plugin"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      }
+    }
+  ]
+}

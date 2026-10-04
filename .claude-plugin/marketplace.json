@@ -1,0 +1,16 @@
+{
+  "name": "intempt-recipe-creator",
+  "owner": {
+    "name": "Intempt"
+  },
+  "metadata": {
+    "description": "Create an Intempt recipe in Claude Code"
+  },
+  "plugins": [
+    {
+      "name": "intempt-recipe-author",
+      "source": "./plugin",
+      "description": "Create an Intempt recipe in Claude Code"
+    }
+  ]
+}

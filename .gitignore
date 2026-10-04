@@ -1,2 +1,10 @@
 __pycache__/
 *.pyc
+.DS_Store
+
+# Submission state. `intempt recipe submit` keeps its confirm token and receipt in
+# ~/.local/state/intempt-recipe-author/, outside any working tree. These lines catch a copy that
+# lands here anyway: a receipt identifies a submission and a confirm token authorizes a send.
+.submit-confirm-*.json
+*.receipt.json
+receipt-*.json

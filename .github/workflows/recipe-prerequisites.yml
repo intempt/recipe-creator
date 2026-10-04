@@ -62,10 +62,47 @@ jobs:
       # here is a defect a customer reads.
       - name: The catalog builds and its customer-facing copy is clean
         run: python3 scripts/build_artifacts.py --out /tmp/catalog --check
-      - name: Ids and slash commands are unique, and ids match filenames
+      - name: The recipe.md contract tests pass
+        run: python3 scripts/tests/test_recipe_contract.py
+      - name: Every script's tests pass
+        run: for t in scripts/tests/test_*.py; do python3 "$t" || exit 1; done
+
+      - name: Our entity list matches what the engine can build
+        if: env.ENGINE_READ_TOKEN != ''
+        run: |
+          curl -fsSL -H "Authorization: Bearer ${ENGINE_READ_TOKEN}" -H "Accept: application/vnd.github.raw" \
+            "https://api.github.com/repos/intempt/llm-wrapper/contents/src/blu_chat/sevices/recipes/md_import.py?ref=main" -o /tmp/md_import.py
+          python3 scripts/check_engine_entities.py /tmp/md_import.py
+        env:
+          ENGINE_READ_TOKEN: ${{ secrets.ENGINE_READ_TOKEN }}
+
+      - name: Say the engine drift check is not configured
+        if: env.ENGINE_READ_TOKEN == ''
+        run: echo "::warning::ENGINE_READ_TOKEN is not set, so the entity list was not compared with llm-wrapper"
+        env:
+          ENGINE_READ_TOKEN: ${{ secrets.ENGINE_READ_TOKEN }}
+      - name: No recipe or example carries prompt injection
+        run: python3 scripts/injection.py recipes examples
+      - name: No recipe or example carries a value that only exists in one workspace
+        run: python3 scripts/portability.py recipes examples
+      - name: Every recipe and example is normalised
+        run: python3 scripts/normalise_recipe.py --check recipes examples
+      - name: Every recipe.md meets the v2 contract the engine reads
+        run: python3 scripts/validate_recipes.py --lint
+      - name: The examples meet the contract too
+        run: python3 scripts/validate_recipes.py --recipes examples --lint && python3 scripts/rebuild_bodies.py --recipes examples --check
+      - name: references/entities.md matches the recipes
+        run: python3 scripts/render_entities_doc.py --check
+      - name: Ids and slash commands are unique, and ids match their folders
         run: python3 scripts/check_recipe_identity.py
       # The body is generated from the frontmatter, so a hand-edited one is drift
       # by definition. Rewriting the copy across 302 recipes left every body
       # quoting step titles that no longer existed.
       - name: Every markdown body matches its frontmatter
         run: python3 scripts/rebuild_bodies.py --check
+      - name: The plugin's copies of the references and validator match the root
+        run: python3 scripts/sync_plugin.py --check
+      - name: The plugin's bundled validator runs on its bundled examples
+        run: python3 plugin/skills/intempt-recipe-author/scripts/validate_recipes.py --lint --recipes plugin/skills/intempt-recipe-author/references/examples
+      - name: The plugin's bundled scans run on its bundled examples
+        run: python3 plugin/skills/intempt-recipe-author/scripts/injection.py plugin/skills/intempt-recipe-author/references/examples && python3 plugin/skills/intempt-recipe-author/scripts/portability.py plugin/skills/intempt-recipe-author/references/examples

@@ -13,78 +13,70 @@ executes, not customer copy.
 import argparse
 import json
 import pathlib
-import re
 import sys
 
-import yaml
 
-FRONTMATTER = re.compile(r"^---\n(.*?)\n---\n?(.*)$", re.S)
-
-
-class RecipeError(Exception):
-    pass
+sys.path.insert(0, str(pathlib.Path(__file__).parent))
+from recipe_contract import RecipeError, availability, read, recipe_paths, validate
 
 
 def read_recipes(recipes_dir):
     recipes = []
-    for path in sorted(recipes_dir.glob("*/*.md")):
-        text = path.read_text(encoding="utf-8")
-        match = FRONTMATTER.match(text)
-        if not match:
-            raise RecipeError(f"{path}: no YAML frontmatter")
-        try:
-            front = yaml.safe_load(match.group(1)) or {}
-        except yaml.YAMLError as exc:
-            raise RecipeError(f"{path}: {exc}") from exc
-        intempt = front.get("intempt") or {}
-        if not intempt.get("id"):
-            raise RecipeError(f"{path}: intempt.id is required")
-        recipes.append((path, front, intempt))
+    for path in recipe_paths(recipes_dir):
+        front, _ = read(path)
+        if not front.get("id"):
+            raise RecipeError(f"{path}: id is required")
+        recipes.append((path, front, front))
     return recipes
-
-
-PUBLIC_STEP_FIELDS = ("step", "title", "command", "produces", "bindsAs", "dependsOn", "description")
-
-
-def public_step(step):
-    """bindsAs and dependsOn stay because they are the edges the recipe graph is
-    drawn from. prompt is dropped: it is the instruction Blu executes, it is the
-    bulk of the payload, and this file is served publicly."""
-    return {k: step[k] for k in PUBLIC_STEP_FIELDS if k in step}
 
 
 SHORT_DESCRIPTION_MAX = 200
 STEP_TITLE_MAX = 40
 
 
-def is_public(intempt):
-    return (intempt.get("scope") or "") == "global" and (intempt.get("visibility") or "") == "published"
+def is_public(front):
+    return (front.get("visibility") or "published") == "published"
 
 
-def catalog_entry(front, intempt):
-    outputs = intempt.get("outputs") or []
-    """description is deliberately absent. That field is Blu's intent-matching
-    string ("Use when a user mentions ..."), written to route an AI, and the
-    console was rendering it to customers as though it were copy. Leaving it out
-    of the public catalog means no surface can make that mistake again."""
+def public_step(n, step):
+    entry = {"step": n, "title": step.get("title") or "", "description": step.get("summary") or "", "produces": step.get("builds")}
+    if step.get("dependsOn"):
+        entry["dependsOn"] = step["dependsOn"]
+    return entry
+
+
+def full_classification(front):
+    steps = len(front.get("steps") or [])
+    derived = "quick" if steps <= 1 else "standard" if steps <= 3 else "advanced"
+    given = front.get("classification") or {}
+    return {"product": [], "mode": [], "tags": [], "complexity": derived, **given}
+
+
+def catalog_entry(front, _):
+    outputs = [
+        {"name": o.get("key"), "type": o.get("type"), **({"description": o["description"]} if o.get("description") else {})}
+        for o in front.get("outputs") or []
+    ]
+    status, waiting = availability(front)
     entry = {
-        "slug": intempt["id"],
-        "name": front.get("name") or intempt["id"],
-        "title": intempt.get("title") or "",
-        "group": intempt.get("group") or "",
-        "shortDescription": intempt.get("shortDescription") or "",
-        "classification": intempt.get("classification") or {},
-        "procedure": [public_step(s) for s in (intempt.get("procedure") or [])],
+        "slug": front["id"],
+        "name": front["id"],
+        "title": front.get("title") or "",
+        "group": front.get("group") or "",
+        "owner": front.get("owner") or "",
+        "shortDescription": front.get("summary") or "",
+        "classification": full_classification(front),
+        "availability": status,
+        "waitingOn": waiting,
+        "slashCommand": front.get("slash_command") or "",
+        "procedure": [public_step(n, s) for n, s in enumerate(front.get("steps") or [], start=1)],
         "outputs": outputs,
         "outputCount": len(outputs),
     }
-    # Prerequisites gate the Run affordance (BC-RCP-010): Blu disables Run and
-    # offers Connect when a blocking integration is missing. Leaving them out of
-    # the catalog would show an enabled Run on a recipe that dies at the connector,
-    # which is the defect the repo's prerequisites guard exists to prevent.
-    prerequisites = intempt.get("prerequisites")
-    if prerequisites:
-        entry["prerequisites"] = prerequisites
+    if front.get("curator"):
+        entry["curator"] = front["curator"]
+    if front.get("prerequisites"):
+        entry["prerequisites"] = front["prerequisites"]
     return entry
 
 
@@ -115,6 +107,10 @@ def main():
     ids = [i["id"] for _, _, i in recipes]
     for dup in sorted({i for i in ids if ids.count(i) > 1}):
         problems.append(f"duplicate recipe id: {dup}")
+
+    for path, front, _ in recipes:
+        for problem in validate(path, front):
+            problems.append(f"{path}: {problem}")
 
     public = []
     for path, front, intempt in recipes:
@@ -155,10 +151,11 @@ def main():
             problems.append(f"{path}: group is empty")
         public.append(entry)
 
+    instructions = {front["id"]: {s.get("description") for s in front.get("steps") or []} for _, front, _ in recipes}
     leaked = [e["slug"] for e in public
-              if any("prompt" in step for step in e["procedure"])]
+              if any(step["description"] in instructions[e["slug"]] and step["description"] for step in e["procedure"])]
     for slug in leaked:
-        problems.append(f"{slug}: a step prompt reached the public catalog")
+        problems.append(f"{slug}: a step instruction reached the public catalog")
 
     if problems:
         print(f"{len(problems)} problem(s) in the recipe sources:", file=sys.stderr)
