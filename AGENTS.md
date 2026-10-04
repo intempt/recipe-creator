@@ -4,7 +4,7 @@ This tree is the kit for writing an Intempt recipe and submitting it to the Inte
 Marketplace. **`START-HERE.md` is the entry point.** This file only carries what an agent cannot
 infer from the tree, and points at the pages that say the rest.
 
-## If the `intempt-recipe-author` skill is loaded, follow it and stop reading here
+## If the `intempt-recipe-creator` skill is loaded, follow it and stop reading here
 
 That skill is this kit's procedure. When it is available, installed as a plugin or invoked by name,
 it is the authority on what happens next. Re-deriving the steps from these files produces a slower

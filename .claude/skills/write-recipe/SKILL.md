@@ -5,7 +5,7 @@ description: Use when writing, editing, converting, or reviewing an Intempt reci
 
 # Writing an Intempt recipe
 
-For creating a recipe to submit, use the `intempt-recipe-author` plugin skill in
+For creating a recipe to submit, use the `intempt-recipe-creator` plugin skill in
 `plugin/skills/`. This skill is for maintaining the recipes already in this repository.
 
 A recipe is a template Blu runs inside a customer's workspace, using **their** access. Two

@@ -7,7 +7,7 @@ import re
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
-SKILL = pathlib.Path("plugin/skills/intempt-recipe-author")
+SKILL = pathlib.Path("plugin/skills/intempt-recipe-creator")
 
 MIRRORS = {
     "references/recipe-contract.md": "references/recipe-contract.md",
@@ -87,7 +87,7 @@ def version_problems():
     if len(set(versions.values())) != 1:
         problems.append("plugin manifests disagree on version: " + ", ".join(f"{k} {v}" for k, v in versions.items()))
     skill = (ROOT / SKILL / "SKILL.md").read_text(encoding="utf-8")
-    announced = re.search(r"intempt-recipe-author/([0-9.]+)", skill)
+    announced = re.search(r"intempt-recipe-creator/([0-9.]+)", skill)
     declared = next(iter(versions.values()))
     if not announced or announced.group(1) != declared:
         problems.append(f"SKILL.md announces {announced.group(1) if announced else 'no version'}, manifests declare {declared}")

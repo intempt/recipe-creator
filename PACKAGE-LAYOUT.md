@@ -35,7 +35,7 @@ DETERMINISM.md                            what the engine derives from a step, a
 references/                               the contract and the entity list
 references/entities/                      one page per builder family, with good and bad steps
 workflows/                                the three routes in
-plugin/                                   the intempt-recipe-author plugin
+plugin/                                   the intempt-recipe-creator plugin
 scripts/                                  the validator, the scans, the catalog build and the guards CI runs
 scripts/fixtures/                         the injection patterns, pinned by SUITE_SHA256
 NOTICE, LICENSE                           what licence covers what

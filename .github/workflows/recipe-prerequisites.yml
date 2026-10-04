@@ -103,6 +103,6 @@ jobs:
       - name: The plugin's copies of the references and validator match the root
         run: python3 scripts/sync_plugin.py --check
       - name: The plugin's bundled validator runs on its bundled examples
-        run: python3 plugin/skills/intempt-recipe-author/scripts/validate_recipes.py --lint --recipes plugin/skills/intempt-recipe-author/references/examples
+        run: python3 plugin/skills/intempt-recipe-creator/scripts/validate_recipes.py --lint --recipes plugin/skills/intempt-recipe-creator/references/examples
       - name: The plugin's bundled scans run on its bundled examples
-        run: python3 plugin/skills/intempt-recipe-author/scripts/injection.py plugin/skills/intempt-recipe-author/references/examples && python3 plugin/skills/intempt-recipe-author/scripts/portability.py plugin/skills/intempt-recipe-author/references/examples
+        run: python3 plugin/skills/intempt-recipe-creator/scripts/injection.py plugin/skills/intempt-recipe-creator/references/examples && python3 plugin/skills/intempt-recipe-creator/scripts/portability.py plugin/skills/intempt-recipe-creator/references/examples

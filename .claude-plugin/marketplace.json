@@ -8,7 +8,7 @@
   },
   "plugins": [
     {
-      "name": "intempt-recipe-author",
+      "name": "intempt-recipe-creator",
       "source": "./plugin",
       "description": "Create an Intempt recipe in Claude Code"
     }

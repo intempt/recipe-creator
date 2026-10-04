@@ -1,5 +1,5 @@
 ---
-name: intempt-recipe-author
+name: intempt-recipe-creator
 description: |
   Create an Intempt recipe: turn an idea, a segment or attribute you already built in Intempt, or a
   recipe.md you already have, into a recipe.md the Intempt engine can run, then submit it to the
@@ -29,7 +29,7 @@ could not settle.** People correct a document far better than they answer questi
 First line of output, before anything else:
 
 ```
-intempt-recipe-author/1.1.0 · loaded from <absolute path to this SKILL.md>
+intempt-recipe-creator/1.1.0 · loaded from <absolute path to this SKILL.md>
 ```
 
 Keep that absolute path. Every relative path below (`references/...`, `scripts/...`) resolves
@@ -58,7 +58,7 @@ Read `version` from it. Read your own version off this file on disk, never off t
 and never off the install path:
 
 ```
-grep -m1 -o 'intempt-recipe-author/[0-9.]*' "$SKILL_DIR/SKILL.md"
+grep -m1 -o 'intempt-recipe-creator/[0-9.]*' "$SKILL_DIR/SKILL.md"
 ```
 
 Compare the two **numerically, field by field**: `1.9.0` is older than `1.10.0`. A version that will
@@ -74,10 +74,10 @@ To switch, take the whole skill tree, never this file alone, so the scripts and 
 procedure that is running:
 
 ```
-LIVE_DIR="$(mktemp -d)/intempt-recipe-author"
+LIVE_DIR="$(mktemp -d)/intempt-recipe-creator"
 mkdir -p "$LIVE_DIR"
 curl -fsSL --max-time 60 https://codeload.github.com/intempt/recipe-creator/tar.gz/main \
-  | tar xz -C "$LIVE_DIR" --strip-components=4 'recipe-creator-main/plugin/skills/intempt-recipe-author'
+  | tar xz -C "$LIVE_DIR" --strip-components=4 'recipe-creator-main/plugin/skills/intempt-recipe-creator'
 ```
 
 Keep that member path literal; a glob extracts nothing on GNU tar. Verify before trusting it:
