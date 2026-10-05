@@ -5,10 +5,11 @@ slash_command: /testing-retrospective
 group: Dashboards
 owner: intempt
 curator: sid
-summary: 'Pulls every experiment you ran last quarter into one review: what won, what lost, what the results
-  have in common, and what to test next.'
+summary: >-
+  Builds a quarterly retrospective dashboard tracking exposure events, conversion metrics, and engagement
+  trends across your testing periods.
 description: >-
-  Quarterly experiment review and roadmap for next testing cycle.
+  Quarterly retrospective dashboard tracking conversion events and engagement trends across testing periods.
 version: 2.0.0
 classification:
   product:
@@ -74,7 +75,7 @@ outputs:
 
 # Quarterly experiment retrospective
 
-Pulls every experiment you ran last quarter into one review: what won, what lost, what the results have in common, and what to test next.
+Builds a quarterly retrospective dashboard tracking exposure events, conversion metrics, and engagement trends across your testing periods.
 
 ## Steps
 

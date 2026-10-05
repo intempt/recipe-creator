@@ -5,12 +5,13 @@ slash_command: /friction-point-detected-intervention
 group: Journeys
 owner: intempt
 curator: somya
-summary: Catches people who are stuck, helps them in the app first, emails a fix if that misses, and brings
-  in an agent or a human if they are still stuck.
+summary: >-
+  Detects friction from behavioral signals, segments those users, and sends email, SMS, push, or Slack follow-
+  ups through a journey. Reply-agent adds 3-way sentiment tags to replies for triage.
 description: >-
-  When behavioral signals detect friction (setup abandoned, repeated failed actions, error encountered,
-  drop-off at conversion step) fire a graduated intervention: in-app contextual help first, escalate to
-  email tutorial, escalate to human/agent if friction persists. Catches users before they give up.
+  When behavioral signals detect friction (setup abandoned, repeated failed actions, error encountered, drop-
+  off at conversion step), segment the affected users and run a journey that sends email, SMS, push, or Slack.
+  Use reply-agent to tag replies as positive, neutral, or negative sentiment. Dashboard tracks the cohort.
 version: 2.0.0
 classification:
   product:
@@ -207,7 +208,7 @@ outputs:
 
 # Friction rescue
 
-Catches people who are stuck, helps them in the app first, emails a fix if that misses, and brings in an agent or a human if they are still stuck.
+Detects friction from behavioral signals, segments those users, and sends email, SMS, push, or Slack follow- ups through a journey. Reply-agent adds 3-way sentiment tags to replies for triage.
 
 ## Steps
 

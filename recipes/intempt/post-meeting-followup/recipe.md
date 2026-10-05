@@ -5,11 +5,13 @@ slash_command: /post-meeting-followup
 group: Workflows
 owner: intempt
 curator: trishik
-summary: Turns a finished call into a recap email, a set of tasks with owners and due dates, and an updated
-  deal, inside half an hour.
+summary: >-
+  Builds a post-meeting follow-up journey that creates tasks with owners and due dates from action items you
+  provide, and can send a structured follow-up email to attendees.
 description: >-
-  When a meeting completes, auto-extract AI summary + action items, update the linked deal with decisions/next-steps/objections,
-  create tasks for each action item, and send a structured follow-up email to attendees within minutes.
+  When a meeting completes, use the workflow and journey to turn action items you supply into assigned tasks
+  with due dates, send a follow-up email, and track progress on a dashboard. It does not generate meeting
+  summaries from transcripts.
 version: 2.0.0
 classification:
   product:
@@ -152,7 +154,7 @@ outputs:
 
 # Post meeting follow up
 
-Turns a finished call into a recap email, a set of tasks with owners and due dates, and an updated deal, inside half an hour.
+Builds a post-meeting follow-up journey that creates tasks with owners and due dates from action items you provide, and can send a structured follow-up email to attendees.
 
 ## Steps
 

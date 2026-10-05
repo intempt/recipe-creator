@@ -5,10 +5,12 @@ slash_command: /pql-multi-user-account
 group: Segments
 owner: intempt
 curator: harish
-summary: Free and trial accounts where two or more colleagues are both active, which converts better than
-  one person trying it alone.
+summary: >-
+  Identify product-qualified leads by segmenting free and trial users who log multiple sessions and complete
+  key activation goals.
 description: >-
-  Free/trial accounts with 2+ engaged users from same company) enterprise PQL signal.
+  Segment individual free or trial users meeting session and goal-completion activity thresholds to flag
+  qualified leads for outreach.
 version: 2.0.0
 classification:
   product:
@@ -53,7 +55,7 @@ outputs:
 
 # Free accounts with a team trying it
 
-Free and trial accounts where two or more colleagues are both active, which converts better than one person trying it alone.
+Identify product-qualified leads by segmenting free and trial users who log multiple sessions and complete key activation goals.
 
 ## Steps
 

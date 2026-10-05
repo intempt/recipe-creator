@@ -5,10 +5,10 @@ slash_command: /feature-adoption-by-plan
 group: Reports
 owner: intempt
 curator: aman
-summary: Shows which features each plan tier actually uses, as a share of that tier's active users, and
-  whether adoption is rising or falling.
+summary: >-
+  Shows feature adoption across plan tiers using a breakdown of active users.
 description: >-
-  Feature adoption by plan tier with adoption-rate trend and tier-specific feature affinity.
+  Breaks down feature adoption by plan tier. No heatmap chart is provided.
 version: 2.0.0
 classification:
   product:
@@ -64,7 +64,7 @@ outputs:
 
 # Feature adoption by plan
 
-Shows which features each plan tier actually uses, as a share of that tier's active users, and whether adoption is rising or falling.
+Shows feature adoption across plan tiers using a breakdown of active users.
 
 ## Steps
 

@@ -5,10 +5,10 @@ slash_command: /video-remix
 group: Creative
 owner: intempt
 curator: aurobind
-summary: Pin up to four video references and get back branded reel variants anchored to them (four by
-  default).
+summary: >-
+  Pin one image reference and get back a branded reel variant anchored to it.
 description: >-
-  Four references in, your branded reel out.
+  One image reference in, a branded reel out via Kling v3 image-to-video.
 version: 2.0.0
 classification:
   product:
@@ -55,7 +55,7 @@ outputs:
 
 # Reference-anchored video remix
 
-Pin up to four video references and get back branded reel variants anchored to them (four by default).
+Pin one image reference and get back a branded reel variant anchored to it.
 
 ## Steps
 

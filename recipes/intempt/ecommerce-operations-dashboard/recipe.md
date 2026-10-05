@@ -5,10 +5,12 @@ slash_command: /ecommerce-operations-dashboard
 group: Dashboards
 owner: intempt
 curator: sid
-summary: Answers whether orders are shipping on time and where quality problems are hiding, by tracking
-  fulfillment rate, returns and refunds down to the product.
+summary: >-
+  Answers whether orders are shipping on time and where return spikes occur by tracking fulfillment rates,
+  returns, and refunds by product.
 description: >-
-  Ops / fulfillment view: order flow, fulfillment rate, returns, refunds, and quality issues by product.
+  Ops and fulfillment dashboard: monitor order flow, fulfillment rate, return volumes, and refunds broken down
+  by product.
 version: 2.0.0
 classification:
   product:
@@ -78,7 +80,7 @@ outputs:
 
 # Fulfillment, returns and refunds
 
-Answers whether orders are shipping on time and where quality problems are hiding, by tracking fulfillment rate, returns and refunds down to the product.
+Answers whether orders are shipping on time and where return spikes occur by tracking fulfillment rates, returns, and refunds by product.
 
 ## Steps
 

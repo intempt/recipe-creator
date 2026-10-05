@@ -5,10 +5,11 @@ slash_command: /saas-growth-command-center
 group: Dashboards
 owner: intempt
 curator: sid
-summary: 'Answers whether you are growing and whether the growth is healthy, on one canvas: weekly actives,
-  MRR, trial conversion, activation, retention and feature adoption.'
+summary: >-
+  Shows whether you are growing and whether growth is healthy on one dashboard: weekly actives, MRR, trial
+  conversion, activation, retention and feature adoption.
 description: >-
-  Founder-level SaaS growth view: WAU, MRR, trial conversion, retention, activation, and feature adoption
+  Founder-level SaaS growth dashboard: WAU, MRR, trial conversion, retention, activation, and feature adoption
   on one canvas.
 version: 2.0.0
 classification:
@@ -77,7 +78,7 @@ outputs:
 
 # SaaS growth command center
 
-Answers whether you are growing and whether the growth is healthy, on one canvas: weekly actives, MRR, trial conversion, activation, retention and feature adoption.
+Shows whether you are growing and whether growth is healthy on one dashboard: weekly actives, MRR, trial conversion, activation, retention and feature adoption.
 
 ## Steps
 

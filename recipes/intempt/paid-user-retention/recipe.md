@@ -5,10 +5,10 @@ slash_command: /paid-user-retention
 group: Reports
 owner: intempt
 curator: aman
-summary: Shows whether paying customers keep logging in and keep paying, tracked separately, month by
-  month and by plan.
+summary: >-
+  See whether paying customers continue logging in, tracked month by month and compared by plan.
 description: >-
-  Monthly paid retention with logo and revenue retention separately, plus plan-tier comparison.
+  Monthly logo retention for paid customers, with plan-tier comparisons.
 version: 2.0.0
 classification:
   product:
@@ -70,7 +70,7 @@ outputs:
 
 # Paid user retention
 
-Shows whether paying customers keep logging in and keep paying, tracked separately, month by month and by plan.
+See whether paying customers continue logging in, tracked month by month and compared by plan.
 
 ## Steps
 

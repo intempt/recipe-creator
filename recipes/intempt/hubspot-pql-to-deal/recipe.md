@@ -5,11 +5,12 @@ slash_command: /hubspot-pql-to-deal
 group: Workflows
 owner: intempt
 curator: trishik
-summary: Opens a HubSpot deal when an account's usage says they are ready to buy, so the pipeline reflects
-  product evidence and not only outbound activity.
+summary: >-
+  Update a HubSpot property, add a contact to a list, or create a HubSpot task when product usage signals
+  readiness, so HubSpot reflects product evidence.
 description: >-
-  Create a HubSpot deal from a product-qualified signal, so the pipeline reflects product evidence and
-  not only outbound activity.
+  Use a product-qualified signal from usage to update a HubSpot property, add the record to a HubSpot list, or
+  create a HubSpot task. This keeps HubSpot aligned with product evidence.
 version: 2.0.0
 classification:
   product:
@@ -78,7 +79,7 @@ outputs:
 
 # Product qualified signal to a HubSpot deal
 
-Opens a HubSpot deal when an account's usage says they are ready to buy, so the pipeline reflects product evidence and not only outbound activity.
+Update a HubSpot property, add a contact to a list, or create a HubSpot task when product usage signals readiness, so HubSpot reflects product evidence.
 
 ## Steps
 

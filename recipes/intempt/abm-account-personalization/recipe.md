@@ -5,11 +5,12 @@ slash_command: /abm-account-personalization
 group: Personalizations
 owner: intempt
 curator: rana
-summary: Visitors from your target accounts see a hero built for their industry, with their company name
-  and relevant customer logos. Everyone else sees the standard hero.
+summary: >-
+  Personalize the homepage hero with industry-specific messaging for visitor segments you define. The
+  personalization engine serves the variant, using audience data you supply.
 description: >-
-  Personalize homepage hero (logo, industry-specific messaging) per identified target account. The canonical
-  Mutiny/Demandbase pattern. Requires firmographic enrichment.
+  Use the personalization engine to serve a homepage hero variant by audience segment. You provide the segment
+  rules and content; no automatic firmographic or reverse-IP company detection.
 version: 2.0.0
 classification:
   product:
@@ -121,7 +122,7 @@ outputs:
 
 # Named-account homepage hero
 
-Visitors from your target accounts see a hero built for their industry, with their company name and relevant customer logos. Everyone else sees the standard hero.
+Personalize the homepage hero with industry-specific messaging for visitor segments you define. The personalization engine serves the variant, using audience data you supply.
 
 ## Steps
 

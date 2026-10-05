@@ -5,10 +5,11 @@ slash_command: /power-users
 group: Segments
 owner: intempt
 curator: harish
-summary: Your most active users over the last month, the people to ask for reviews, case studies, and
-  beta feedback.
+summary: >-
+  Segment your most active users based on frequent sessions and high activity thresholds over the last 30
+  days.
 description: >-
-  Highly engaged users with frequent sessions and high activity score in the last 30 days.
+  Identifies highly engaged users using session frequency and activity count thresholds over the past 30 days.
 version: 2.0.0
 classification:
   product:
@@ -54,7 +55,7 @@ outputs:
 
 # Power users
 
-Your most active users over the last month, the people to ask for reviews, case studies, and beta feedback.
+Segment your most active users based on frequent sessions and high activity thresholds over the last 30 days.
 
 ## Steps
 

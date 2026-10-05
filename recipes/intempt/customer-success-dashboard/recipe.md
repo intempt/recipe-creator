@@ -5,10 +5,10 @@ slash_command: /customer-success-dashboard
 group: Dashboards
 owner: intempt
 curator: sid
-summary: Answers which accounts need attention this week and whether the customer base is healthy, using
-  engagement scores, retention, net revenue retention and NPS.
+summary: >-
+  Shows account health and customer base health using return-rate retention and NPS.
 description: >-
-  CS Lead / CSM view: account health, expansion signals, NRR, NPS, and at-risk account intelligence.
+  CS Lead / CSM view: return-rate retention and NPS for account health checks.
 version: 2.0.0
 classification:
   product:
@@ -77,7 +77,7 @@ outputs:
 
 # Account health and churn risk
 
-Answers which accounts need attention this week and whether the customer base is healthy, using engagement scores, retention, net revenue retention and NPS.
+Shows account health and customer base health using return-rate retention and NPS.
 
 ## Steps
 

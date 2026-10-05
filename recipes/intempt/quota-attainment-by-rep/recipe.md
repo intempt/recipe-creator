@@ -5,11 +5,10 @@ slash_command: /quota-attainment-by-rep
 group: Reports
 owner: intempt
 curator: aman
-summary: Ranks each rep on how much of their quota they closed, with pipeline coverage and a rolling 12
-  month view so one bad quarter does not read as a trend.
+summary: >-
+  See revenue by rep to compare each rep's closed revenue over the selected period.
 description: >-
-  Per-rep quota attainment (% of target hit) with trend, coverage ratio, and ranking: the headline sales-manager
-  metric.
+  A per-rep view of closed revenue for comparing sales results.
 version: 2.0.0
 classification:
   product:
@@ -84,7 +83,7 @@ outputs:
 
 # Quota attainment by rep
 
-Ranks each rep on how much of their quota they closed, with pipeline coverage and a rolling 12 month view so one bad quarter does not read as a trend.
+See revenue by rep to compare each rep's closed revenue over the selected period.
 
 ## Steps
 

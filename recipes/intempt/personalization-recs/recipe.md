@@ -5,10 +5,11 @@ slash_command: /personalization-recs
 group: Recommendations
 owner: intempt
 curator: rana
-summary: Puts product recommendations on your product pages, cart, post-purchase screens and emails, tuned
-  to how the shopper behaves, and measures what they earn.
+summary: >-
+  Generates catalog-aware product recommendations tailored to user cohorts and evaluates their performance
+  with A/B experiments.
 description: >-
-  Catalog-aware recommendations across web, email, and app surfaces.
+  Catalog recommendations engine with cohort targeting and A/B testing.
 version: 2.0.0
 classification:
   product:
@@ -157,7 +158,7 @@ outputs:
 
 # Product recommendations across channels
 
-Puts product recommendations on your product pages, cart, post-purchase screens and emails, tuned to how the shopper behaves, and measures what they earn.
+Generates catalog-aware product recommendations tailored to user cohorts and evaluates their performance with A/B experiments.
 
 ## Steps
 

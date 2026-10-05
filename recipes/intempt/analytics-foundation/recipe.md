@@ -5,10 +5,11 @@ slash_command: /analytics-foundation
 group: Reports
 owner: intempt
 curator: aman
-summary: 'Sets up your core analytics in one pass: the key metric, conversion, cohort and user flow reports,
-  then an executive dashboard that pulls the headline numbers together.'
+summary: >-
+  Set up core analytics from your events: Insights, Funnels, and Retention reports, plus an executive
+  dashboard for headline numbers.
 description: >-
-  Map events, build core reports (Insights, Funnels, Retention, Paths), compose executive dashboard.
+  Map events, build Insights, Funnels, and Retention reports, then compose an executive dashboard.
 version: 2.0.0
 classification:
   product:
@@ -73,7 +74,7 @@ outputs:
 
 # Analytics foundation
 
-Sets up your core analytics in one pass: the key metric, conversion, cohort and user flow reports, then an executive dashboard that pulls the headline numbers together.
+Set up core analytics from your events: Insights, Funnels, and Retention reports, plus an executive dashboard for headline numbers.
 
 ## Steps
 

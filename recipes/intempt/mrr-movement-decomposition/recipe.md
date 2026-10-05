@@ -5,11 +5,12 @@ slash_command: /mrr-movement-decomposition
 group: Reports
 owner: intempt
 curator: aman
-summary: Breaks each month's recurring revenue change into new, expansion, contraction, churn and reactivation,
-  so you can see what is really driving growth.
+summary: >-
+  Reports monthly recurring revenue movement by summing new and churned MRR from subscription data. Shows
+  gross additions and losses by month.
 description: >-
-  The canonical SaaS MRR waterfall: new, expansion, contraction, churn, reactivation per month. Requires
-  subscription_updated delta-computation.
+  Use a report over subscription records to calculate monthly new MRR and churned MRR sums. Tracks gross
+  additions and losses by month.
 version: 2.0.0
 classification:
   product:
@@ -84,7 +85,7 @@ outputs:
 
 # MRR movement waterfall
 
-Breaks each month's recurring revenue change into new, expansion, contraction, churn and reactivation, so you can see what is really driving growth.
+Reports monthly recurring revenue movement by summing new and churned MRR from subscription data. Shows gross additions and losses by month.
 
 ## Steps
 

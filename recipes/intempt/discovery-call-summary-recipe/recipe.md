@@ -5,12 +5,12 @@ slash_command: /discovery-call-summary-recipe
 group: Meetings
 owner: intempt
 curator: sid
-summary: 'Tells the notetaker to pull the qualification story out of every discovery call: champion, pain,
-  current tool, decision criteria, timeline and budget.'
+summary: >-
+  Generates an AI summary for Discovery calls from meeting data using the qualification framework in the
+  summary recipe.
 description: >-
-  Customize how the AI summarizes Discovery calls, extracting the qualification framework explicitly (champion,
-  pain, current solution, decision criteria, timeline, budget) so the summary feeds directly into deal
-  qualification scoring.
+  Generate an AI summary for Discovery calls from meeting data. The summary uses the qualification framework
+  fields from the recipe.
 version: 2.0.0
 classification:
   product:
@@ -99,7 +99,7 @@ outputs:
 
 # Discovery call qualification fields
 
-Tells the notetaker to pull the qualification story out of every discovery call: champion, pain, current tool, decision criteria, timeline and budget.
+Generates an AI summary for Discovery calls from meeting data using the qualification framework in the summary recipe.
 
 ## Steps
 

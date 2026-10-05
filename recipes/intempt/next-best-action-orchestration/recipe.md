@@ -5,12 +5,13 @@ slash_command: /next-best-action-orchestration
 group: Journeys
 owner: intempt
 curator: somya
-summary: 'Picks each person''s next step from their live signal instead of a fixed cadence: teach, nurture,
-  offer, nudge a feature, recommend, hand off, or wait.'
+summary: >-
+  A rules-based journey that routes each person to a next step from a candidate set using attributes and
+  segment membership at branch points.
 description: >-
-  AI-decisioning journey where the next step is selected per-user from a candidate set (content / offer
-  / feature-nudge / human-touch / recommendation surface) based on a live AI attribute, replaces fixed
-  cadences with adaptive paths that match each user's signal at decision time.
+  Build a journey with triggers, conditions, branches, and waits. Branch on attributes or segment membership
+  to send email, show a page, surface a recommendation, or wait before the next step, then track outcomes in
+  dashboards.
 version: 2.0.0
 classification:
   product:
@@ -209,7 +210,7 @@ outputs:
 
 # Next best action orchestration
 
-Picks each person's next step from their live signal instead of a fixed cadence: teach, nurture, offer, nudge a feature, recommend, hand off, or wait.
+A rules-based journey that routes each person to a next step from a candidate set using attributes and segment membership at branch points.
 
 ## Steps
 

@@ -5,10 +5,11 @@ slash_command: /support-tickets-vs-churn-correlation
 group: Reports
 owner: intempt
 curator: aman
-summary: Puts weekly ticket volume next to cancellations to show whether support spikes tend to come before
-  churn, and by how long.
+summary: >-
+  Compare weekly support ticket volume with weekly subscription cancellations to see how the counts change
+  over time.
 description: >-
-  Dual-axis support ticket volume vs subscription cancellations with priority decomposition and lead-lag.
+  A report showing weekly counts of support tickets and subscription cancellations.
 version: 2.0.0
 classification:
   product:
@@ -63,7 +64,7 @@ outputs:
 
 # Support volume versus churn
 
-Puts weekly ticket volume next to cancellations to show whether support spikes tend to come before churn, and by how long.
+Compare weekly support ticket volume with weekly subscription cancellations to see how the counts change over time.
 
 ## Steps
 

@@ -5,10 +5,12 @@ slash_command: /accounts-no-open-deal
 group: Segments
 owner: intempt
 curator: harish
-summary: Healthy customer accounts nobody is currently selling into, so AEs can see where the expansion
-  room is.
+summary: >-
+  Customer accounts with no open deal and account-level health attributes, plus per-user recent session
+  activity, so AEs can review expansion whitespace.
 description: >-
-  Healthy customer accounts with no current open deal: whitespace expansion opportunity.
+  Accounts filtered by account attributes such as customer status, health, and no open deal, with per-user
+  event conditions for recent session_start. No cross-user event rollup.
 version: 2.0.0
 classification:
   product:
@@ -55,7 +57,7 @@ outputs:
 
 # Healthy accounts with no open deal
 
-Healthy customer accounts nobody is currently selling into, so AEs can see where the expansion room is.
+Customer accounts with no open deal and account-level health attributes, plus per-user recent session activity, so AEs can review expansion whitespace.
 
 ## Steps
 

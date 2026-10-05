@@ -5,12 +5,12 @@ slash_command: /ai-stalled-deal-nudge
 group: Workflows
 owner: intempt
 curator: trishik
-summary: Writes a re-engagement email that names the actual blocker from the last call instead of just
-  checking in, and leaves it for the rep to send.
+summary: >-
+  Drafts a personalized re-engagement email for stalled deals using CRM deal context, leaving it for the rep
+  to review and send.
 description: >-
-  When a deal is detected as stalled, generate a personalized AI-drafted re-engagement message that references
-  the specific blocker, last meeting context, and an offered next step, rep reviews and sends. Higher
-  revival rate than generic 'just checking in' messages.
+  When a deal is detected as stalled, generate an AI-drafted re-engagement message referencing deal history
+  and an offered next step. The rep reviews and sends, avoiding generic check-in messages.
 version: 2.0.0
 classification:
   product:
@@ -107,7 +107,7 @@ outputs:
 
 # AI nudge for a stalled deal
 
-Writes a re-engagement email that names the actual blocker from the last call instead of just checking in, and leaves it for the rep to send.
+Drafts a personalized re-engagement email for stalled deals using CRM deal context, leaving it for the rep to review and send.
 
 ## Steps
 

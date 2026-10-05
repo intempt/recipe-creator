@@ -5,11 +5,10 @@ slash_command: /forecast-vs-actual-quota
 group: Reports
 owner: intempt
 curator: aman
-summary: Puts closed revenue, weighted forecast and quota target side by side, with pipeline coverage
-  and what is likely to close in the next 30 days.
+summary: >-
+  Shows period closed-won revenue alongside pipeline coverage.
 description: >-
-  Period-level revenue forecast vs. actual closed-won vs. quota target with pipeline coverage ratio and
-  projected close.
+  Report comparing period closed-won revenue with pipeline coverage ratio.
 version: 2.0.0
 classification:
   product:
@@ -84,7 +83,7 @@ outputs:
 
 # Forecast versus quota
 
-Puts closed revenue, weighted forecast and quota target side by side, with pipeline coverage and what is likely to close in the next 30 days.
+Shows period closed-won revenue alongside pipeline coverage.
 
 ## Steps
 

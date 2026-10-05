@@ -5,11 +5,11 @@ slash_command: /express-checkout-placement-test
 group: Experiments
 owner: intempt
 curator: rana
-summary: Compares showing Apple Pay, Google Pay and Shop Pay on the product page, in the cart drawer,
-  in both, or only at checkout.
+summary: >-
+  Tests different express checkout button configurations on the product page against a standard checkout flow.
 description: >-
-  Test express-checkout button placement on PDP, cart, and checkout. "Highest-impact payment additions"
-  eliminating card-entry friction; major mobile conversion factor.
+  A/B test express checkout buttons such as Apple Pay and Google Pay directly on product pages to reduce
+  purchase friction. Evaluates mobile conversion uplift across variants targeting the same page audience.
 version: 2.0.0
 classification:
   product:
@@ -124,7 +124,7 @@ outputs:
 
 # Express checkout placement test
 
-Compares showing Apple Pay, Google Pay and Shop Pay on the product page, in the cart drawer, in both, or only at checkout.
+Tests different express checkout button configurations on the product page against a standard checkout flow.
 
 ## Steps
 

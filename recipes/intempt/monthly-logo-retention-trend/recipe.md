@@ -5,11 +5,12 @@ slash_command: /monthly-logo-retention-trend
 group: Reports
 owner: intempt
 curator: aman
-summary: Shows what share of your customers were still subscribed at the end of each month, as a monthly
-  rate and a smoother 3 month average.
+summary: >-
+  Shows a single trailing logo-retention rate: the share of customers still subscribed at the end of the
+  current period. Uses subscription status data for the current period.
 description: >-
-  Single trailing logo-retention rate over time: the headline number that pairs with NRR but answers a
-  simpler question.
+  Single trailing logo-retention rate for the current period. It reports the share of customers still
+  subscribed at period end, without historical monthly reconstruction or a rolling average.
 version: 2.0.0
 classification:
   product:
@@ -69,7 +70,7 @@ outputs:
 
 # Monthly logo retention
 
-Shows what share of your customers were still subscribed at the end of each month, as a monthly rate and a smoother 3 month average.
+Shows a single trailing logo-retention rate: the share of customers still subscribed at the end of the current period. Uses subscription status data for the current period.
 
 ## Steps
 

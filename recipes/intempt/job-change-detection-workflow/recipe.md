@@ -5,12 +5,13 @@ slash_command: /job-change-detection-workflow
 group: Workflows
 owner: intempt
 curator: trishik
-summary: 'Spots when a champion changes employer and runs both plays: protect the account they left, and
-  chase the one they joined.'
+summary: >-
+  Given a known contact job change, routes two task plays: an AE task to protect the old account and an SDR
+  task to pursue the new account.
 description: >-
-  Detect when a decision-maker at a customer account changes jobs (via enrichment refresh or LinkedIn
-  signal). Branches into two plays, (a) re-establish at old account (find replacement, AE task) and (b)
-  pursue at new account (warm intro opportunity, SDR task). The classic 'follow your champion' play.
+  Buildable with workflow routing and tasks. When a contact job change is known, branch into two plays: (a) AE
+  task to re-establish at the old account and identify a replacement, (b) SDR task to pursue at the new
+  account. It does not detect job changes or scrape LinkedIn.
 version: 2.0.0
 classification:
   product:
@@ -188,7 +189,7 @@ outputs:
 
 # Follow a champion who moves
 
-Spots when a champion changes employer and runs both plays: protect the account they left, and chase the one they joined.
+Given a known contact job change, routes two task plays: an AE task to protect the old account and an SDR task to pursue the new account.
 
 ## Steps
 

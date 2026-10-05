@@ -5,10 +5,12 @@ slash_command: /account-expansion-funnel
 group: Reports
 owner: intempt
 curator: aman
-summary: Tracks how many customers go from viewing pricing to clicking upgrade, starting checkout and
-  landing on a higher plan, and how long each step takes.
+summary: >-
+  Tracks subscription amount increases as a signal of account expansion. Uses subscription state changes and
+  amount deltas to identify potential upgrades.
 description: >-
-  Plan-limit-to-upgrade funnel built from real subscription state-change events with per-step time-to-convert.
+  Report on subscription amount increases inferred from state-change data. Upgrade detection is based on
+  amount deltas, not a native higher-tier event filter.
 version: 2.0.0
 classification:
   product:
@@ -66,7 +68,7 @@ outputs:
 
 # Account expansion funnel
 
-Tracks how many customers go from viewing pricing to clicking upgrade, starting checkout and landing on a higher plan, and how long each step takes.
+Tracks subscription amount increases as a signal of account expansion. Uses subscription state changes and amount deltas to identify potential upgrades.
 
 ## Steps
 

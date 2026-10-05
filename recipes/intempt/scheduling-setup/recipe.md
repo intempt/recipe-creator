@@ -5,10 +5,10 @@ slash_command: /scheduling-setup
 group: Meetings
 owner: intempt
 curator: sid
-summary: Sets up your booking link, routes each request to the right host, confirms it by email, and tracks
-  how many of the people who booked actually show up.
+summary: >-
+  Creates a booking link, routes requests to the right host, and supports post-booking journeys and workflows.
 description: >-
-  Booking types, availability, routing rules, post-booking automation.
+  Configure booking types, availability, host routing, and post-booking journeys or workflows.
 version: 2.0.0
 classification:
   product:
@@ -100,7 +100,7 @@ outputs:
 
 # Meeting booking and follow-up
 
-Sets up your booking link, routes each request to the right host, confirms it by email, and tracks how many of the people who booked actually show up.
+Creates a booking link, routes requests to the right host, and supports post-booking journeys and workflows.
 
 ## Steps
 

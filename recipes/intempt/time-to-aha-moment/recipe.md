@@ -5,11 +5,12 @@ slash_command: /time-to-aha-moment
 group: Reports
 owner: intempt
 curator: aman
-summary: Shows how long new users take to reach their first activation goal, so you can tell whether onboarding
-  works in minutes or in days.
+summary: >-
+  Measure the median time for new users to reach their first activation goal. Use funnel percentiles to assess
+  how quickly users activate.
 description: >-
-  Histogram of time from user_created to first activation goal: surfaces whether users hit aha in 5 min,
-  5 hours, or 5 days.
+  Use a funnel from user creation to the first activation goal to measure median time and percentiles. This
+  shows how long users take to activate without a histogram.
 version: 2.0.0
 classification:
   product:
@@ -66,7 +67,7 @@ outputs:
 
 # Time to first value
 
-Shows how long new users take to reach their first activation goal, so you can tell whether onboarding works in minutes or in days.
+Measure the median time for new users to reach their first activation goal. Use funnel percentiles to assess how quickly users activate.
 
 ## Steps
 

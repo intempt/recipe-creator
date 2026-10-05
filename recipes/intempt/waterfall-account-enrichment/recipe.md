@@ -5,12 +5,11 @@ slash_command: /waterfall-account-enrichment
 group: Workflows
 owner: intempt
 curator: trishik
-summary: Tries the cheap provider first and only pays for the expensive one when a field is still missing,
-  with AI research as the last resort.
+summary: >-
+  Enriches an account with a single provider. Returns a no-data status when the provider has no match.
 description: >-
-  Multi-source enrichment cascade, try primary provider, if it misses fall through to secondary, then
-  tertiary, then AI-research fallback for unstructured discovery. Maximizes coverage while minimizing
-  per-record cost. The Clay-style waterfall pattern.
+  Single-provider account enrichment workflow. It calls one enrichment provider and returns a clear no-data
+  status if no record is found. It does not cascade across providers or track per-record cost.
 version: 2.0.0
 classification:
   product:
@@ -166,7 +165,7 @@ outputs:
 
 # Waterfall account enrichment
 
-Tries the cheap provider first and only pays for the expensive one when a field is still missing, with AI research as the last resort.
+Enriches an account with a single provider. Returns a no-data status when the provider has no match.
 
 ## Steps
 

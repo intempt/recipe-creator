@@ -5,10 +5,10 @@ slash_command: /pipeline-value-snapshot
 group: Reports
 owner: intempt
 curator: aman
-summary: Shows what your open pipeline is worth today, stage by stage, alongside a forecast weighted by
-  how often each stage actually closes.
+summary: >-
+  Shows the value of your open pipeline today by summing your deal events, broken out by stage.
 description: >-
-  Current open-pipeline value with stage decomposition, weighted forecast, and concentration risk surfacing.
+  Open pipeline value built from summed deal events, with a stage breakdown.
 version: 2.0.0
 classification:
   product:
@@ -66,7 +66,7 @@ outputs:
 
 # Pipeline value snapshot
 
-Shows what your open pipeline is worth today, stage by stage, alongside a forecast weighted by how often each stage actually closes.
+Shows the value of your open pipeline today by summing your deal events, broken out by stage.
 
 ## Steps
 

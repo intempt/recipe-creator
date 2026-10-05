@@ -5,11 +5,12 @@ slash_command: /notetaker-coverage-setup
 group: Meetings
 owner: intempt
 curator: sid
-summary: Sets the rules for when the notetaker joins, by meeting type, deal value and attendee opt-out,
-  so coverage is consistent without toggling it call by call.
+summary: >-
+  Configures the Blu notetaker auto-join setting using one of five coarse modes. It sets broad meeting
+  coverage, not opt-out or deal value rules.
 description: >-
-  Configure which meetings the Blu notetaker auto-joins, by meeting type, host seniority, deal stage,
-  and account tier. Set the rules once, get consistent coverage without per-meeting toggles.
+  Choose one of five coarse auto-join modes for the Blu notetaker. The recipe controls broad meeting coverage
+  only. It does not include attendee opt-out, deal value thresholds, or a meeting dashboard.
 version: 2.0.0
 classification:
   product:
@@ -95,7 +96,7 @@ outputs:
 
 # Decide which calls get recorded
 
-Sets the rules for when the notetaker joins, by meeting type, deal value and attendee opt-out, so coverage is consistent without toggling it call by call.
+Configures the Blu notetaker auto-join setting using one of five coarse modes. It sets broad meeting coverage, not opt-out or deal value rules.
 
 ## Steps
 

@@ -5,12 +5,11 @@ slash_command: /demo-call-summary-recipe
 group: Meetings
 owner: intempt
 curator: sid
-summary: 'Tells the notetaker what to pull out of every demo: features shown, questions asked, objections
-  raised, who from the buying side attended, and the agreed next step.'
+summary: >-
+  Built in Demo call summary recipe: one of nine fixed recipes that summarizes demo meetings.
 description: >-
-  Customize how the AI summarizes Demo calls (extract features shown, questions asked, objections raised,
-  technical concerns flagged, and the proposed follow-up) so demo data feeds into product feedback, sales
-  coaching, and deal-stage progression in parallel.
+  Generates a summary for demo calls using the built in Demo summary recipe. It is one of nine fixed meeting
+  summary recipes and does not include custom capture or a demo dashboard.
 version: 2.0.0
 classification:
   product:
@@ -97,7 +96,7 @@ outputs:
 
 # Demo call summary fields
 
-Tells the notetaker what to pull out of every demo: features shown, questions asked, objections raised, who from the buying side attended, and the agreed next step.
+Built in Demo call summary recipe: one of nine fixed recipes that summarizes demo meetings.
 
 ## Steps
 

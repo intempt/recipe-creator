@@ -5,12 +5,12 @@ slash_command: /ai-draft-sales-reply
 group: Workflows
 owner: intempt
 curator: trishik
-summary: Drafts a reply to every inbound sales email using the thread, the deal stage and the buyer's
-  recent product use, and leaves it in the rep's drafts.
+summary: >-
+  Drafts a Gmail reply for a sales email thread using the thread, deal stage, and recent product activity,
+  leaving it in the rep's drafts for review and send.
 description: >-
-  When a new email arrives in the shared sales inbox (or in an active deal conversation), AI-draft a personalized
-  reply based on prior conversation context + deal stage + recent product activity, presented to the rep
-  for one-click review-and-send.
+  Creates a Gmail draft reply for an active sales conversation using available conversation context, deal
+  stage, and recent product activity. The rep reviews and sends the draft from Gmail.
 version: 2.0.0
 classification:
   product:
@@ -112,7 +112,7 @@ outputs:
 
 # AI drafted sales replies
 
-Drafts a reply to every inbound sales email using the thread, the deal stage and the buyer's recent product use, and leaves it in the rep's drafts.
+Drafts a Gmail reply for a sales email thread using the thread, deal stage, and recent product activity, leaving it in the rep's drafts for review and send.
 
 ## Steps
 

@@ -5,10 +5,10 @@ slash_command: /plg-sales-handoff-dashboard
 group: Dashboards
 owner: intempt
 curator: sid
-summary: Answers which free users are showing buying intent and which features push them toward paid,
-  so sales knows who to reach out to.
+summary: >-
+  Shows paywall conversion and the free-to-paid funnel so teams can see where free users convert to paid.
 description: >-
-  PLG sales view: PQL leaderboard, account-level PQA signals, paywall conversion, and free-to-paid funnel.
+  PLG sales view: paywall conversion and free-to-paid funnel.
 version: 2.0.0
 classification:
   product:
@@ -77,7 +77,7 @@ outputs:
 
 # Free users worth calling
 
-Answers which free users are showing buying intent and which features push them toward paid, so sales knows who to reach out to.
+Shows paywall conversion and the free-to-paid funnel so teams can see where free users convert to paid.
 
 ## Steps
 

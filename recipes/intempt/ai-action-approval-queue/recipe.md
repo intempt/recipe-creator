@@ -5,12 +5,13 @@ slash_command: /ai-action-approval-queue
 group: Workflows
 owner: intempt
 curator: trishik
-summary: Holds the riskier things an AI workflow wants to do, such as a mass update or a send to a big
-  account, for a yes or no in Slack.
+summary: >-
+  Holds riskier actions an AI workflow wants to take, such as a mass update or a send to a big account, in an
+  approval gate and queue for human review before execution.
 description: >-
-  High-value AI-suggested actions (auto-email to high-ARR account, mass account update, large segment
-  send, AI-classified routing decisions) pause for human approval before execution. Slack-based approval.
-  The Relay-style HITL pattern that combines AI scale with human judgment.
+  High-value AI-suggested actions (auto-email to a high-ARR account, mass account update, large segment send,
+  AI-classified routing decisions) pause at a native human-in-the-loop approval gate. Reviewed actions wait in
+  a queue before execution.
 version: 2.0.0
 classification:
   product:
@@ -190,7 +191,7 @@ outputs:
 
 # Human approval for AI actions
 
-Holds the riskier things an AI workflow wants to do, such as a mass update or a send to a big account, for a yes or no in Slack.
+Holds riskier actions an AI workflow wants to take, such as a mass update or a send to a big account, in an approval gate and queue for human review before execution.
 
 ## Steps
 

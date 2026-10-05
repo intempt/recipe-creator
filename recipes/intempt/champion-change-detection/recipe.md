@@ -5,12 +5,12 @@ slash_command: /champion-change-detection
 group: Workflows
 owner: intempt
 curator: trishik
-summary: Notices when the person backing a deal goes quiet or leaves, names who could replace them, and
-  gets the rep moving before the deal dies quietly.
+summary: >-
+  Flags when a deal contact goes quiet using engagement recency, and triggers a rep re-engagement workflow
+  before the deal stalls.
 description: >-
-  Detect when a deal's identified champion changes role, departs the company, or stops responding, the
-  highest-leverage early-warning signal for stalled deals. Trigger stakeholder re-engagement workflow
-  before the deal silently dies.
+  Use engagement recency to identify contacts on open deals who have stopped responding. Segment those
+  contacts, launch a re-engagement workflow for the rep, and track activity in a dashboard.
 version: 2.0.0
 classification:
   product:
@@ -135,7 +135,7 @@ outputs:
 
 # Champion change detection
 
-Notices when the person backing a deal goes quiet or leaves, names who could replace them, and gets the rep moving before the deal dies quietly.
+Flags when a deal contact goes quiet using engagement recency, and triggers a rep re-engagement workflow before the deal stalls.
 
 ## Steps
 

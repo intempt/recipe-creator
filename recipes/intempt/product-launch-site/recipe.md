@@ -5,10 +5,11 @@ slash_command: /product-launch-site
 group: Content
 owner: intempt
 curator: aurobind
-summary: Builds a small launch site (hero, feature pages, call to action, footer) in your brand styling,
-  ready to publish in one click.
+summary: >-
+  Generates a product launch page artifact with hero, feature, call to action, and footer content in your
+  brand styling.
 description: >-
-  One or more pages, deploy in a click.
+  Creates one launch page artifact from your content. Multi-page deployment is handled by Site Builder.
 version: 2.0.0
 classification:
   product:
@@ -51,7 +52,7 @@ outputs:
 
 # Product launch microsite
 
-Builds a small launch site (hero, feature pages, call to action, footer) in your brand styling, ready to publish in one click.
+Generates a product launch page artifact with hero, feature, call to action, and footer content in your brand styling.
 
 ## Steps
 

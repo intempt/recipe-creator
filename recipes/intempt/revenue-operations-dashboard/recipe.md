@@ -5,11 +5,12 @@ slash_command: /revenue-operations-dashboard
 group: Dashboards
 owner: intempt
 curator: sid
-summary: Answers where the go-to-market machine leaks over a trailing 90 days, by source and cohort rather
-  than by rep, so you can move spend and fix process.
+summary: >-
+  Answers where the go-to-market machine leaks over a trailing 90 days, by source and cohort rather than by
+  rep, so you can move spend and fix process.
 description: >-
-  RevOps / CRO strategic view: trailing GTM health, funnel attribution by source, win-loss patterns, and
-  NRR trends.
+  RevOps and CRO view of trailing GTM health: funnel attribution by source, win-loss patterns, and leak
+  detection by source and cohort. NRR curves are a subscription page metric, not a retention board widget.
 version: 2.0.0
 classification:
   product:

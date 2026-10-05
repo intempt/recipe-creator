@@ -5,10 +5,12 @@ slash_command: /multi-shot
 group: Creative
 owner: intempt
 curator: aurobind
-summary: Renders every shot in your shot list with one consistent look and joins them into a single reel,
-  with no editor involved.
+summary: >-
+  Generates each shot in your shot list as a separate Kling v3 text-to-video clip. Use the merge-video
+  workflow node to join clips into one reel.
 description: >-
-  Tell a story in six shots without an editor.
+  Create multiple shots as separate Kling v3 text-to-video clips, then join them with the merge-video workflow
+  node.
 version: 2.0.0
 classification:
   product:
@@ -55,7 +57,7 @@ outputs:
 
 # Multi-shot video from a shot list
 
-Renders every shot in your shot list with one consistent look and joins them into a single reel, with no editor involved.
+Generates each shot in your shot list as a separate Kling v3 text-to-video clip. Use the merge-video workflow node to join clips into one reel.
 
 ## Steps
 

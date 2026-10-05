@@ -5,10 +5,11 @@ slash_command: /time-to-ship-distribution
 group: Reports
 owner: intempt
 curator: aman
-summary: Shows how long orders take to ship, bucketed from same day out past two weeks, with median, 75th
-  and 95th percentile callouts.
+summary: >-
+  Shows order fulfillment time from order creation to fulfillment, with median, 75th, and 95th percentile
+  callouts.
 description: >-
-  Histogram of fulfillment time per order with median/p75/p95 callouts and bucket-level operational benchmarks.
+  A funnel report of fulfillment time per order, with p50, p75, and p95 callouts.
 version: 2.0.0
 classification:
   product:
@@ -66,7 +67,7 @@ outputs:
 
 # Time to ship
 
-Shows how long orders take to ship, bucketed from same day out past two weeks, with median, 75th and 95th percentile callouts.
+Shows order fulfillment time from order creation to fulfillment, with median, 75th, and 95th percentile callouts.
 
 ## Steps
 

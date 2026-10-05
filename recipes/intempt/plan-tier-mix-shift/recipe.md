@@ -5,10 +5,11 @@ slash_command: /plan-tier-mix-shift
 group: Reports
 owner: intempt
 curator: aman
-summary: Shows how revenue and customer count are spread across plans over time, and whether the business
-  is drifting up market or down.
+summary: >-
+  Shows how revenue is spread across plans over time and whether revenue mix is drifting up market or down
+  market.
 description: >-
-  % of revenue and % of customers per plan over time, surfacing up-market vs down-market drift.
+  Percent of revenue per plan over time, based on summed revenue, surfacing revenue mix drift.
 version: 2.0.0
 classification:
   product:
@@ -65,7 +66,7 @@ outputs:
 
 # Plan tier mix shift
 
-Shows how revenue and customer count are spread across plans over time, and whether the business is drifting up market or down.
+Shows how revenue is spread across plans over time and whether revenue mix is drifting up market or down market.
 
 ## Steps
 

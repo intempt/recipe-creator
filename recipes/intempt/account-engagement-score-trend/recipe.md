@@ -5,11 +5,12 @@ slash_command: /account-engagement-score-trend
 group: Reports
 owner: intempt
 curator: aman
-summary: Scores each account on how many of its users are active and how much they do, weekly, so you
-  can see which accounts are pulling away and which are going quiet.
+summary: >-
+  Builds a report that calculates a custom weighted engagement score for each account from user activity and
+  click data. The weighting is arbitrary and not a native product score.
 description: >-
-  Account-level engagement (rolled up from all users on the account) tracked over time: identifies expansion
-  vs. churn-risk accounts.
+  A report that rolls up user activity and clicks into a custom weighted per-account score. The score is
+  defined by the recipe and is not a native product metric.
 version: 2.0.0
 classification:
   product:
@@ -67,7 +68,7 @@ outputs:
 
 # Account engagement score trend
 
-Scores each account on how many of its users are active and how much they do, weekly, so you can see which accounts are pulling away and which are going quiet.
+Builds a report that calculates a custom weighted engagement score for each account from user activity and click data. The weighting is arbitrary and not a native product score.
 
 ## Steps
 

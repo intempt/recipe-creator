@@ -5,10 +5,11 @@ slash_command: /active-research-surge-accounts
 group: Segments
 owner: intempt
 curator: harish
-summary: Accounts whose people hit your pricing page three or more times in the past week and have no
-  deal open yet, so an AE can reach out while they are still looking.
+summary: >-
+  Users who viewed your pricing page 3 or more times in the past 7 days, so an AE can reach out while they are
+  still looking.
 description: >-
-  Accounts with 3+ pricing-page visits in last 7 days: active buying-cycle signal.
+  A user segment based on per-user event conditions: 3+ pricing page views in the last 7 days.
 version: 2.0.0
 classification:
   product:
@@ -54,7 +55,7 @@ outputs:
 
 # Accounts researching pricing now
 
-Accounts whose people hit your pricing page three or more times in the past week and have no deal open yet, so an AE can reach out while they are still looking.
+Users who viewed your pricing page 3 or more times in the past 7 days, so an AE can reach out while they are still looking.
 
 ## Steps
 

@@ -5,11 +5,10 @@ slash_command: /multi-threading-coverage-by-deal
 group: Reports
 owner: intempt
 curator: aman
-summary: Shows how many people you are actually talking to inside each open deal, and how win rates compare
-  between single threaded and multi threaded deals.
+summary: >-
+  Shows distinct stakeholders engaged per open deal from deal and contact data.
 description: >-
-  Number of distinct stakeholders engaged per deal: single-threaded deals close at materially lower rates
-  per Gartner.
+  Counts distinct stakeholders engaged in each open deal. Does not group deals or compare win rates.
 version: 2.0.0
 classification:
   product:
@@ -68,7 +67,7 @@ outputs:
 
 # Multi threading coverage
 
-Shows how many people you are actually talking to inside each open deal, and how win rates compare between single threaded and multi threaded deals.
+Shows distinct stakeholders engaged per open deal from deal and contact data.
 
 ## Steps
 

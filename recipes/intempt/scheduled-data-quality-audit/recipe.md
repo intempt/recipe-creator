@@ -5,12 +5,13 @@ slash_command: /scheduled-data-quality-audit
 group: Workflows
 owner: intempt
 curator: trishik
-summary: Scans every Sunday for duplicates, stale records and missing fields, then hands RevOps a reviewed
-  cleanup queue on Monday morning.
+summary: >-
+  Runs weekly filter queries across account and user records to surface stale records, missing required
+  fields, and abandoned data for RevOps review.
 description: >-
-  Weekly: scan for duplicate accounts/users, stale records, missing required fields, and abandoned data
-  to AI-suggests merges and cleanups to batch into approval queue for RevOps review. Replaces the manual
-  'when did we last clean the CRM?' problem with a continuous hygiene program.
+  Weekly: use filter queries to find stale records, missing required fields, and abandoned data. Batch results
+  into an approval queue for RevOps to review and clean up manually. Does not perform fuzzy duplicate
+  detection or merge execution.
 version: 2.0.0
 classification:
   product:
@@ -192,7 +193,7 @@ outputs:
 
 # Weekly CRM hygiene audit
 
-Scans every Sunday for duplicates, stale records and missing fields, then hands RevOps a reviewed cleanup queue on Monday morning.
+Runs weekly filter queries across account and user records to surface stale records, missing required fields, and abandoned data for RevOps review.
 
 ## Steps
 

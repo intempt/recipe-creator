@@ -5,12 +5,12 @@ slash_command: /competitor-mention-detected-response
 group: Journeys
 owner: intempt
 curator: somya
-summary: 'Spots customers comparing you with a rival and answers within hours: a matched email, the capabilities
-  they have not tried, and a briefed CSM.'
+summary: >-
+  Uses AI attribute scores from first-party events to spot competitive intent and trigger a personalized email
+  plus a CSM follow-up task.
 description: >-
-  Behavioral signal detection, visited competitor comparison page, mentioned competitor in support conversation,
-  clicked competitor-keyword email content, fires personalized competitive content + AE/CSM task with
-  intel + recommendation surface highlighting differentiators. Modern B2B savvy.
+  Scores competitive intent from first-party event data, segments high-intent accounts, sends a matched email,
+  and creates a CSM task with a recommendation surface. No third-party review-site ingestion.
 version: 2.0.0
 classification:
   product:
@@ -189,7 +189,7 @@ outputs:
 
 # Competitor signal response
 
-Spots customers comparing you with a rival and answers within hours: a matched email, the capabilities they have not tried, and a briefed CSM.
+Uses AI attribute scores from first-party events to spot competitive intent and trigger a personalized email plus a CSM follow-up task.
 
 ## Steps
 

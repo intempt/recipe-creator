@@ -5,10 +5,11 @@ slash_command: /engaged-free-users
 group: Segments
 owner: intempt
 curator: harish
-summary: Free-plan users who are in the product often and recently, so upgrade prompts reach the people
-  already getting value.
+summary: >-
+  Identify free-plan users using their computed engagement_score to help prioritize upgrade outreach. The
+  score is a number, not a High-tier match.
 description: >-
-  Free-plan users with high engagement: prime upgrade-targeting cohort.
+  Free-plan users evaluated using their computed engagement_score for upgrade targeting.
 version: 2.0.0
 classification:
   product:
@@ -54,7 +55,7 @@ outputs:
 
 # Engaged free users
 
-Free-plan users who are in the product often and recently, so upgrade prompts reach the people already getting value.
+Identify free-plan users using their computed engagement_score to help prioritize upgrade outreach. The score is a number, not a High-tier match.
 
 ## Steps
 

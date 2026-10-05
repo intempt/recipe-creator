@@ -5,10 +5,11 @@ slash_command: /first-purchase-cohort-ltv-curve
 group: Reports
 owner: intempt
 curator: aman
-summary: Shows cumulative revenue per customer for each monthly cohort as it ages, so you can see which
-  acquisition months and channels pay back.
+summary: >-
+  Compare revenue trends across monthly customer cohorts over calendar time. Use the report to see how cohort
+  revenue changes as calendar dates progress.
 description: >-
-  Cumulative revenue per cohort member by cohort age: the textbook DTC LTV view.
+  A calendar-time view of revenue by monthly cohort, not cumulative revenue per customer by cohort age.
 version: 2.0.0
 classification:
   product:
@@ -62,7 +63,7 @@ outputs:
 
 # First purchase LTV curve
 
-Shows cumulative revenue per customer for each monthly cohort as it ages, so you can see which acquisition months and channels pay back.
+Compare revenue trends across monthly customer cohorts over calendar time. Use the report to see how cohort revenue changes as calendar dates progress.
 
 ## Steps
 
