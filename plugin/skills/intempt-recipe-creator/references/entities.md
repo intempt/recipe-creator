@@ -31,21 +31,21 @@ Recipes waiting: recipes in this repo that need the builder. Only blocker for: r
 
 | builds | What it makes | Recipes waiting | Only blocker for |
 |---|---|---|---|
-| `dashboard` | a dashboard | 89 | 18 |
-| `report` | an insights, funnel, retention or paths report | 83 | 70 |
-| `workflow` | a workflow and its steps | 57 | 23 |
+| `dashboard` | a dashboard | 84 | 16 |
+| `report` | an insights, funnel, retention or paths report | 74 | 62 |
+| `workflow` | a workflow and its steps | 54 | 21 |
 | `journey` | a journey (turned off in the engine on 2026-09-21) | 41 | 0 |
 | `experiment` | an A/B experiment | 32 | 23 |
 | `personalization` | a website personalization | 14 | 9 |
 | `video` | a video | 11 | 11 |
-| `meeting` | a meeting action | 10 | 0 |
 | `recommendation` | a product recommendation | 10 | 0 |
+| `meeting` | a meeting action | 8 | 0 |
 | `page` | a landing page | 6 | 0 |
 | `meeting_type` | a meeting type | 5 | 1 |
 | `content` | a generic content asset | 4 | 4 |
-| `agent` | a custom agent | 3 | 0 |
+| `agent` | a custom agent | 2 | 0 |
 | `account` | an account update | 1 | 0 |
-| `snippet` | a reusable content snippet | 1 | 0 |
 | `task` | a task | 1 | 0 |
+| `snippet` | a reusable content snippet | 0 | 0 |
 
 When the engine adds a builder, move its row from `COMING_SOON_ENTITIES` to `BUILDABLE_ENTITIES` in `scripts/recipe_contract.py` and re-run this script. Recipes waiting only on it become Install now on the next catalog build.
