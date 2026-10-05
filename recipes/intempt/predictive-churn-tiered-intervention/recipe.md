@@ -31,6 +31,9 @@ prerequisites:
       severity: blocking
     - value: feature_used
       severity: recommended
+  integrations:
+    - value: slack
+      severity: recommended
 touches:
   reads:
     - The session_start event in your project
