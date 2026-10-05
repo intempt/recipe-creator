@@ -5,10 +5,10 @@ slash_command: /demo-requested-accounts
 group: Segments
 owner: intempt
 curator: harish
-summary: Accounts where somebody filled in your demo form in the last month and no deal is open yet, so
-  an SDR can call them back the same hour.
+summary: >-
+  People who submitted a demo form in the last 30 days, so an SDR can follow up the same hour.
 description: >-
-  Accounts where any user submitted a demo form in last 30 days: top SDR-routing priority.
+  People whose own demo form submission happened in the last 30 days: top SDR-routing priority.
 version: 2.0.0
 classification:
   product:
@@ -58,7 +58,7 @@ outputs:
 
 # Accounts that asked for a demo
 
-Accounts where somebody filled in your demo form in the last month and no deal is open yet, so an SDR can call them back the same hour.
+People who submitted a demo form in the last 30 days, so an SDR can follow up the same hour.
 
 ## Steps
 
