@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /compound-funnel-activated-and-paying
   group: Reports
-  shortDescription: "PLG funnel where success = activated AND paying, separating real activation from vanity activation."
+  shortDescription: "Build a funnel report tracking users from signup and activation journey completion to habitual use and paid subscription."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

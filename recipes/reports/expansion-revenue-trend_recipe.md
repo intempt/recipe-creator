@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /expansion-revenue-trend
   group: Reports
-  shortDescription: "Expansion revenue derived from subscription_updated change-events with quality-of-MRR-growth surfacing."
+  shortDescription: "Produce an 'Expansion Revenue Trend' Insights report summing positive subscription_updated amount deltas for plan upgrades per subscription_id."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

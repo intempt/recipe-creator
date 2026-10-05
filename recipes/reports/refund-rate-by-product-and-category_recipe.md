@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /refund-rate-by-product-and-category
   group: Reports
-  shortDescription: "Refund rate by product (from order line items) with previous-period comparison and quality-issue flagging."
+  shortDescription: "Produces an Insights bar-chart report of refund rate per product_id (order_refunded count / order_created count × 100) for last 90 days with prior-period comparison."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

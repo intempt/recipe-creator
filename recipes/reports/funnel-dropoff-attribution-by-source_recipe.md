@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /funnel-dropoff-attribution-by-source
   group: Reports
-  shortDescription: "Same funnel run separately by Users.utm_source — surfaces which acquisition channels actually convert."
+  shortDescription: "Produce a funnel report segmented by Users.utm_source showing conversion from user_created through goal_completed_in_journey to subscription_created/order_created and 30-day retention."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

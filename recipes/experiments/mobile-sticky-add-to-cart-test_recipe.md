@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /experiment-recipe
   group: Experiments
-  shortDescription: "Test whether a sticky add-to-cart bar on mobile improves conversion. Client experiment, mobile-only."
+  shortDescription: "Create a mobile-only client experiment on /experiences comparing standard add-to-cart vs two sticky bottom bar variants."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [experiences]

@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /browse-purchase-funnel
   group: Reports
-  shortDescription: "Browse-to-purchase funnel using canonical page_viewed/cart/order events with device-comparison conversion."
+  shortDescription: "Create a Funnel report named 'Browse to Purchase' with five ordered page/event steps and a 7-day conversion window."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /segment-recipe
   group: Segments
-  shortDescription: "Accounts that closed a deal in last 90 days — onboarding cohort distinct from new-paying-customers."
+  shortDescription: "Create a 'Recently-Won Accounts' segment on Accounts where lifecycle_changed_at is within 90 days, account_lifecycle is customer, and has_open_deal is false."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /experiment-recipe
   group: Experiments
-  shortDescription: "Test landing page hero image: abstract illustration vs. real product screenshot vs. customer/team photo. Distinct from product-page-layout (ecom) and onboarding-flow (post-signup)."
+  shortDescription: "Create a landing page A/B/C experiment comparing a static illustration, product screenshot, and customer photo."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [experiences]

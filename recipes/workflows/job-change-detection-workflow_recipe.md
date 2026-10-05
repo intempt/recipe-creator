@@ -7,7 +7,8 @@ intempt:
   version: 1.0.0
   slashCommand: /job-change-detection-workflow
   group: Workflows
-  shortDescription: "Detect when a decision-maker at a customer account changes jobs (via enrichment refresh or LinkedIn signal). Branches into two plays — (a) re-establish at old account (find replacement, AE task) and (b) pursue at new account (warm intro opportunity, SDR task). The classic 'follow your champion' play."
+  shortDescription: "Create a workflow that detects a champion or economic-buyer contact changing employer via enrichment refresh, then branches to create AE and SDR tasks for the old and new accounts."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]

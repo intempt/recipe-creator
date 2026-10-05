@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /talking-avatar
   group: Creative
-  shortDescription: "Portrait still → spokesperson clip."
+  shortDescription: "Generate a 5-second fixed-camera talking-head video clip from a still portrait."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]

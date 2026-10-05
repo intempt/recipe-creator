@@ -8,7 +8,8 @@ intempt:
   version: 1.0.1
   slashCommand: /experiment-recipe
   group: Experiments
-  shortDescription: "Test when to show the save-your-cart popup: exit-intent vs. delay vs. no popup. Client experiment."
+  shortDescription: "Create a client experiment on /experiences comparing exit-intent, 30-second delay, and no popup, reporting cart recovery conversion."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [experiences]

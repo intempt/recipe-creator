@@ -8,7 +8,8 @@ intempt:
   version: 1.0.1
   slashCommand: /testing-retrospective
   group: Dashboards
-  shortDescription: "Quarterly experiment review and roadmap for next testing cycle."
+  shortDescription: "Create a quarterly testing retrospective report and dashboard summarizing experiment winners, losers, win rate, cadence, and revenue impact."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [marketing]

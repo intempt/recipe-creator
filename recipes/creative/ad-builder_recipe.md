@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /ad-builder
   group: Creative
-  shortDescription: "One-click on-brand ad from product + concept."
+  shortDescription: "Generate a finished on-brand ad image from a product SKU, headline concept, and Brand Kit ad recipe."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]

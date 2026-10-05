@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /customer-360-dashboard
   group: Dashboards
-  shortDescription: "CRM / Lifecycle view: lifecycle stage distribution, repeat-purchase mechanics, LTV by acquisition cohort."
+  shortDescription: "Build a Customer 360 dashboard canvas with lifecycle stage distribution, repeat-purchase, and LTV by acquisition cohort cards."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

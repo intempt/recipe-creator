@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /material-swap
   group: Creative
-  shortDescription: "Re-cover, re-finish, re-colour."
+  shortDescription: "Generate a single material-swapped product image that changes the product's surface material or finish while preserving its original form."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]

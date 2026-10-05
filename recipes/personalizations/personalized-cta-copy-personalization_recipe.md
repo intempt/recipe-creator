@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /personalization-recipe
   group: Personalizations
-  shortDescription: "Show personalized CTA copy per audience segment (first-time: \"Start your free trial\"; returning: \"Continue where you left off\"; existing customer: \"Upgrade to Pro\"). 202% lift cited."
+  shortDescription: "Create a /experiences client personalization with lifecycle-segmented CTA copy variants for first-time, returning, and existing customers."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [experiences]

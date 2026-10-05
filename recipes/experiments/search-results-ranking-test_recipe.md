@@ -8,7 +8,8 @@ intempt:
   version: 1.0.1
   slashCommand: /experiment-recipe
   group: Experiments
-  shortDescription: "Optimize product search ranking — relevance vs. popularity-weighted vs. margin-weighted. Server experiment with JSON payload controlling search backend."
+  shortDescription: "Create a server-side experiment on /experiences testing search ranking strategies via feature flag payloads."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [experiences]

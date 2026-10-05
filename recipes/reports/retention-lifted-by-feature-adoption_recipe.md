@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /retention-lifted-by-feature-adoption
   group: Reports
-  shortDescription: "Side-by-side cohort retention curves for users who adopted a target feature in week 1 vs those who didn't."
+  shortDescription: "Produce a Retention report comparing week-1 feature adopters vs non-adopters with side-by-side retention curves."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

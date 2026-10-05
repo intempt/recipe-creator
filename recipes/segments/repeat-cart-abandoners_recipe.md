@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /segment-recipe
   group: Segments
-  shortDescription: "Users who have abandoned checkout 2+ times in the last 30 days without purchasing."
+  shortDescription: "Create a user segment identifying visitors who abandoned checkout at least twice in the past 30 days without completing an order."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

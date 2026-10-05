@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /personalization-recipe
   group: Personalizations
-  shortDescription: "Show different homepage hero, social proof, and messaging based on the visitor's detected industry (4-5 segments). Demandbase pattern; distinct from per-account ABM."
+  shortDescription: "Create a client personalization experience on /experiences with 4-5 industry-segment variants changing homepage hero, social proof, and messaging."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [experiences]

@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /product-in-motion
   group: Creative
-  shortDescription: "Packshot → turntable spin."
+  shortDescription: "Generate an AI 360-degree turntable rotation video of a product packshot."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]

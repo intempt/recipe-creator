@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /segment-recipe
   group: Segments
-  shortDescription: "Trial users approaching expiry who haven't converted to paid."
+  shortDescription: "Creates a Users segment named 'Trial Expiring Soon' for plan_name=trial with end_date within 7 days and no subscription_created in the last 14 days."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

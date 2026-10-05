@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /browse-abandonment
   group: Journeys
-  shortDescription: "Re-engage users who browsed products without adding to cart \u2014 earlier-funnel than cart abandonment."
+  shortDescription: "Produce a product_viewed-without-cart_added segment, browse-recovery email asset, and 24h/72h journey."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [marketing]

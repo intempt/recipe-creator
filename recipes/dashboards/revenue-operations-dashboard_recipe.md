@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /revenue-operations-dashboard
   group: Dashboards
-  shortDescription: "RevOps / CRO strategic view: trailing GTM health, funnel attribution by source, win-loss patterns, and NRR trends."
+  shortDescription: "Produce a Revenue Operations dashboard showing trailing 90-day GTM health, source attribution, win-loss patterns, and NRR trends."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

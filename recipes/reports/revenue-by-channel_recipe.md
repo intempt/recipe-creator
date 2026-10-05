@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /revenue-by-channel
   group: Reports
-  shortDescription: "Revenue by acquisition channel with share-of-revenue, period comparison, and channel mix shift."
+  shortDescription: "Produce an Insights report of order_created total_price by User.utm_source for last 30 days, with share-of-revenue and prior-period comparison."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

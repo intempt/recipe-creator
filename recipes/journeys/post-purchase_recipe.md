@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /post-purchase
   group: Journeys
-  shortDescription: "Thank-you, review request, brand education, and cross-sell for first-time buyers."
+  shortDescription: "Creates a recent buyer segment, multi-touch post-purchase email content, and an automated nurture journey."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [marketing]

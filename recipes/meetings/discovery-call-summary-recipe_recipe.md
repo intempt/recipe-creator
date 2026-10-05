@@ -7,7 +7,8 @@ intempt:
   version: 1.0.0
   slashCommand: /discovery-call-summary-recipe
   group: Meetings
-  shortDescription: "Customize how the AI summarizes Discovery calls — extracting the qualification framework explicitly (champion, pain, current solution, decision criteria, timeline, budget) so the summary feeds directly into deal qualification scoring."
+  shortDescription: "Configures the Discovery meeting type's AI summary recipe to output champion, pain, current solution, decision criteria, timeline, and budget fields."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]

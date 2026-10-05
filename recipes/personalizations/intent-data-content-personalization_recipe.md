@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /personalization-recipe
   group: Personalizations
-  shortDescription: "Show different content blocks based on the visitor's recent on-site behavioral signals (viewed pricing 2x → ROI calculator; downloaded security paper → security case study). Behavior-driven, not firmographic."
+  shortDescription: "Create a behavioral website personalization on /experiences that shows an ROI calculator to pricing-repeat visitors and a security case study to security-paper downloaders."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [experiences]

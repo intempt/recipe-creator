@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /personalization-recipe
   group: Personalizations
-  shortDescription: "Match landing page hero / messaging to the ad source the visitor came from (utm_source, utm_campaign, referrer). Cited as \"the simplest high-impact personalization implementation.\""
+  shortDescription: "Create a /experiences client personalization that swaps hero content per utm_source, utm_campaign, and referrer."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [experiences]

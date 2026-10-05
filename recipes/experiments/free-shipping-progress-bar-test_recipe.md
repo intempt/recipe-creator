@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /experiment-recipe
   group: Experiments
-  shortDescription: "Test cart-page free-shipping progress bar (e.g., \"$12 away from free shipping\") vs. no progress bar. Top-cited AOV-lifting test in 2026 CRO content."
+  shortDescription: "Create a client experiment on /experiences comparing the cart page with no progress bar vs a dynamic free-shipping progress bar."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [experiences]

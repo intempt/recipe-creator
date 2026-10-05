@@ -8,7 +8,8 @@ intempt:
   version: 1.0.1
   slashCommand: /experiment-recipe
   group: Experiments
-  shortDescription: "Test which recommendation engine drives more cross-sell revenue: collaborative filtering vs. session-based vs. popularity. Server experiment with JSON payload."
+  shortDescription: "Create a server experiment on /experiences with flag recommendation_algorithm splitting traffic across three recommendation-engine variants to measure cross-sell revenue."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [experiences]

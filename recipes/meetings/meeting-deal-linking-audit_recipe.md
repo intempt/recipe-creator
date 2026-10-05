@@ -7,7 +7,8 @@ intempt:
   version: 1.0.0
   slashCommand: /meeting-deal-linking-audit
   group: Meetings
-  shortDescription: "Find meetings not linked to a deal but that should be (account has an open deal, meeting type is revenue-impacting), AI-suggest the right deal, and batch-link via review. Closes a chronic gap that makes meeting analytics unreliable."
+  shortDescription: "Produces a reviewed list of unlinked revenue-impacting meetings plus a daily workflow that suggests and links the correct open deal."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]

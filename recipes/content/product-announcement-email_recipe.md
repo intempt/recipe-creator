@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /product-announcement-email
   group: Content
-  shortDescription: "Launch-day email with hero."
+  shortDescription: "Generate a branded product announcement email using project brand tokens and a product hero."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [content]

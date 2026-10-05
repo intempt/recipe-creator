@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /image-to-dialogue
   group: Creative
-  shortDescription: "Make any portrait speak your script."
+  shortDescription: "Animate a portrait image into a lip-synced talking video speaking your script using text-to-speech."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]

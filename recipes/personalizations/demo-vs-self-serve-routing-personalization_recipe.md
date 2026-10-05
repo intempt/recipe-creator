@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /personalization-recipe
   group: Personalizations
-  shortDescription: "Show enterprise visitors a demo CTA, smaller-company visitors a self-serve CTA. Client personalization with firmographic audience targeting (no random split)."
+  shortDescription: "Create a client website personalization on /experiences that routes enterprise visitors to a demo CTA and smaller-company visitors to a self-serve CTA."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [experiences]

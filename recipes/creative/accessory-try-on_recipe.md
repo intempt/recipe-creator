@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /accessory-try-on
   group: Creative
-  shortDescription: "Eyewear, jewelry, watches on model."
+  shortDescription: "Generates a realistic image of an AI model wearing a specified eyewear, jewelry, or watch accessory from a packshot."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]

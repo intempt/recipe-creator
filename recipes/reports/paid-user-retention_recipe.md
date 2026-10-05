@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /paid-user-retention
   group: Reports
-  shortDescription: "Monthly paid retention with logo and revenue retention separately, plus plan-tier comparison."
+  shortDescription: "Produce a monthly cohort retention report for paid signups showing logo vs revenue retention curves broken down by plan_name over the last 6 months."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /segment-recipe
   group: Segments
-  shortDescription: "Highest-value customers by lifetime spend. Concrete numeric threshold (no percentile placeholder)."
+  shortDescription: "Creates a Users segment named 'VIP Customers' with lifetime_value >= 1000 AND order_created >= 2."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

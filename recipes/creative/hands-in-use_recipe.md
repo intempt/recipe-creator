@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /hands-in-use
   group: Creative
-  shortDescription: "Pouring, applying, holding — no face."
+  shortDescription: "Generate a single product image showing hands using the product, with no face visible."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]

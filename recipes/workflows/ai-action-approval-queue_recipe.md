@@ -7,7 +7,8 @@ intempt:
   version: 1.0.0
   slashCommand: /ai-action-approval-queue
   group: Workflows
-  shortDescription: "High-value AI-suggested actions (auto-email to high-ARR account, mass account update, large segment send, AI-classified routing decisions) pause for human approval before execution. Slack-based approval. The Relay-style HITL pattern that combines AI scale with human judgment."
+  shortDescription: "Create a workflow that queues high-value AI actions via webhook, routes them to Slack for human approval, then branches to execute or reject."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales, marketing]

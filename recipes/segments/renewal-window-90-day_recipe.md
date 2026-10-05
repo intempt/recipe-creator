@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /segment-recipe
   group: Segments
-  shortDescription: "Subscriptions ending in next 90 days — foundation for renewal-flow journeys and NRR plays."
+  shortDescription: "Create a Users segment 'Renewal Window — 90 Days' where end_date is within the next 90 days, end_date is in the future, and plan_name is not 'free'."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

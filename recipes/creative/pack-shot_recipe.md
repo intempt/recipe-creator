@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /pack-shot
   group: Creative
-  shortDescription: "Studio-clean product stills from one SKU."
+  shortDescription: "Generate one studio-clean product image from a catalog SKU and selected scene preset."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]

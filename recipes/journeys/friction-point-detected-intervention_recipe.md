@@ -7,7 +7,8 @@ intempt:
   version: 1.0.0
   slashCommand: /friction-point-detected-intervention
   group: Journeys
-  shortDescription: "'When behavioral signals detect friction — setup abandoned, repeated failed actions, error encountered, drop-off at conversion step — fire a graduated intervention: in-app contextual help first, escalate to email tutorial, escalate to human/agent if friction persists. Catches users before they give up.'"
+  shortDescription: "Produces a real-time friction-signal user attribute, a high-friction segment, and a journey sending in-app help then email tutorials on detected drop-off."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [marketing]

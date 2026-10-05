@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /ecommerce-operations-dashboard
   group: Dashboards
-  shortDescription: "Ops / fulfillment view: order flow, fulfillment rate, returns, refunds, and quality issues by product."
+  shortDescription: "Create an e-commerce operations dashboard tracking post-purchase order flow, fulfillment rates, returns, and refunds."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

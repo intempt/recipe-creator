@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /sunset-hygiene
   group: Journeys
-  shortDescription: "Re-engage long-unengaged users, then suppress them for deliverability protection."
+  shortDescription: "Create a 180-day inactive subscriber segment, final-attempt re-engagement email, 2-touch journey, and suppression workflow for non-responders after 14 days."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]

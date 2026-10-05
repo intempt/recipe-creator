@@ -7,7 +7,8 @@ intempt:
   version: 1.0.0
   slashCommand: /slack-purchase-notifications
   group: Workflows
-  shortDescription: "Post celebration-grade Slack messages on key revenue events (deal_won, new subscription, expansion) and operational Slack messages on at-risk events (payment_failed, churn). Single configurable workflow handling the Slack revenue-notifications surface."
+  shortDescription: "Build Slack message content and configure an event-triggered workflow to alert teams on deal wins, subscriptions, and payment failures."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]

@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /order-status-flow
   group: Reports
-  shortDescription: "Order distribution across created/fulfilled/refunded/cancelled states over time — the operational pulse of order flow."
+  shortDescription: "Produce an Insights report charting counts of order_created, order_fulfilled, order_refunded, and order_cancelled over time, plus computed fulfillment and refund rate series."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

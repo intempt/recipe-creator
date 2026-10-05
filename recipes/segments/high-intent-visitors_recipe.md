@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /segment-recipe
   group: Segments
-  shortDescription: "Non-customers who viewed both pricing and documentation in the last 14 days — strong buying signals."
+  shortDescription: "Creates a user segment of non-customers who viewed both pricing and documentation pages within the last 14 days."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

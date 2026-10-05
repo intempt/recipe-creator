@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /experiment-recipe
   group: Experiments
-  shortDescription: "Test which CTA button copy drives more trial signups on a landing page. Client experiment with random traffic split."
+  shortDescription: "Create a client experiment on /experiences that randomly splits landing-page traffic across three CTA copy variants and measures trial signups."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [experiences]

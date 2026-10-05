@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /segment-recipe
   group: Segments
-  shortDescription: "High-lifetime-value customers showing recency decay — Klaviyo's Needs Attention cohort. Distinct from generic churn risk."
+  shortDescription: "Create a Users segment named At-Risk VIPs where lifetime_value >= 1000, days_since_last_activity is 45-90, order_created >= 2 all time, and order_created = 0 in last 45 days."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /mockup
   group: Creative
-  shortDescription: "Apparel, print, packaging — mockup in one click."
+  shortDescription: "Generate a realistic product mockup compositing artwork onto apparel, packaging, or print items."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]

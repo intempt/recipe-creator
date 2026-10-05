@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /paths-around-power-feature
   group: Reports
-  shortDescription: "Bidirectional path bracketing a high-value feature interaction — surfaces what leads to discovery and what users do after."
+  shortDescription: "Creates a two-direction Path report bracketing a target feature with 5-step backward and forward paths over 30-minute windows."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

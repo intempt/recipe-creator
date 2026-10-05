@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /segment-recipe
   group: Segments
-  shortDescription: "First-time buyers in the critical 1-30 day window after their first order. 50% of all repeat purchases happen here."
+  shortDescription: "Creates a Users segment 'Second-Purchase Window' of customers with order_created = 1 time all-time AND >= 1 time in the last 30 days."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

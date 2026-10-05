@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /segment-recipe
   group: Segments
-  shortDescription: "Previously active paid users who have gone silent in the last month."
+  shortDescription: "Creates a Users segment named 'Churn Risk Users' for paid users with at least 5 session_start events 60-90 days ago and 0 in the last 30 days."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

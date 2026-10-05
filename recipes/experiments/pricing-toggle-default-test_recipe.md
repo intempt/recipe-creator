@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /experiment-recipe
   group: Experiments
-  shortDescription: "Default to annual vs. monthly billing on the pricing toggle. Direct revenue impact (annual default → higher LTV). Distinct from pricing-page-layout-test."
+  shortDescription: "Creates a client experiment on /experiences with control, annual-default, and third-variant pricing toggle configurations."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [experiences]

@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /packaging-mockup
   group: Creative
-  shortDescription: "Flat label → wrapped on 3D pack."
+  shortDescription: "Generate a 3D packaging mockup image by wrapping the provided flat label artwork onto a package render."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]

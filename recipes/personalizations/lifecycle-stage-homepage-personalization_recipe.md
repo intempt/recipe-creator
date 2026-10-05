@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /personalization-recipe
   group: Personalizations
-  shortDescription: "Show different homepage hero content based on the visitor's canonical lifecycle_score (At risk, Champions, etc.). Client personalization for ecommerce."
+  shortDescription: "Create a client website personalization that displays tailored homepage hero content based on visitor lifecycle stage attributes."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [experiences]

@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /account-expansion-funnel
   group: Reports
-  shortDescription: "Plan-limit-to-upgrade funnel built from real subscription state-change events with per-step time-to-convert."
+  shortDescription: "Produces a single Funnel report for pricing views → upgrade clicks → checkout starts → subscription upgrades, with per-step conversion and time-to-convert."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

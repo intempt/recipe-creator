@@ -7,7 +7,8 @@ intempt:
   version: 1.0.0
   slashCommand: /post-meeting-followup
   group: Workflows
-  shortDescription: "When a meeting completes, auto-extract AI summary + action items, update the linked deal with decisions/next-steps/objections, create tasks for each action item, and send a structured follow-up email to attendees within minutes."
+  shortDescription: "When a Meeting completes, generate a 'meeting_summary' AI attribute (executive summary, decisions, action items with assignee/due, objections, sentiment, next step) and render it into a follow-up email to attendees."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]

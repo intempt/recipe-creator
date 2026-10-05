@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /ugc-selfie-video
   group: Creative
-  shortDescription: "Handheld selfie still → candid clip."
+  shortDescription: "Generate a 5-second handheld selfie-style UGC video from a user-provided still image."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]

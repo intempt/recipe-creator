@@ -7,7 +7,8 @@ intempt:
   version: 1.0.0
   slashCommand: /funding-event-triggered-outreach
   group: Workflows
-  shortDescription: "When an account in your CRM raises new funding (detected via web monitoring or webhook from a signal provider), enrich the account, identify newly-empowered decision-makers, AI-draft a congratulatory outreach with budget angle, and create an AE task. Signal-qualified prospecting drives 4-7x higher conversion than cold."
+  shortDescription: "A workflow triggered by a funding-webhook that enriches the account, drafts AI outreach, and creates an AE task."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]

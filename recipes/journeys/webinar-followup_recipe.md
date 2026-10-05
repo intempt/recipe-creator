@@ -7,7 +7,8 @@ intempt:
   version: 1.0.0
   slashCommand: /webinar-followup
   group: Journeys
-  shortDescription: "'When a webinar ends, fire branched follow-ups: attendees get the recording + next-step CTA + thank-you, no-shows get the on-demand link + objection-handling content — both feeding into a unified post-webinar conversion dashboard.'"
+  shortDescription: "Builds a segmented, branched post-webinar email journey for attendees and no-shows paired with a conversion dashboard."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [marketing]

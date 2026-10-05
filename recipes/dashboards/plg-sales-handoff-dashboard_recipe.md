@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /plg-sales-handoff-dashboard
   group: Dashboards
-  shortDescription: "PLG sales view: PQL leaderboard, account-level PQA signals, paywall conversion, and free-to-paid funnel."
+  shortDescription: "Create a 12-column 'PLG Sales Handoff' dashboard with PQL leaderboard, account PQA signals, paywall conversion, and free-to-paid funnel cards."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

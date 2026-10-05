@@ -8,7 +8,8 @@ intempt:
   version: 1.0.1
   slashCommand: /personalization-recipe
   group: Personalizations
-  shortDescription: "Show new visitors a value proposition; show returning visitors continuation cues (recently viewed, abandoned cart). Client personalization based on prior session history."
+  shortDescription: "Creates a client personalization on /experiences showing first-time visitors a value proposition and returning visitors recently viewed/abandoned-cart cues."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [experiences]

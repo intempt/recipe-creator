@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /experiment-recipe
   group: Experiments
-  shortDescription: "Test express-checkout button placement on PDP, cart, and checkout. \"Highest-impact payment additions\" eliminating card-entry friction; major mobile conversion factor."
+  shortDescription: "Create a client experiment on /experiences titled 'Express Checkout Placement' with control and variants testing Apple Pay, Google Pay, and Shop Pay button placement across PDP, cart, and checkout."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [experiences]

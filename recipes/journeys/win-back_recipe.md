@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /win-back
   group: Journeys
-  shortDescription: "Tiered re-engagement for lapsed users \u2014 segment by recency, content per tier, journey, retention measurement."
+  shortDescription: "Build tiered win-back email segments and a multi-step re-engagement journey with retention tracking."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [marketing]

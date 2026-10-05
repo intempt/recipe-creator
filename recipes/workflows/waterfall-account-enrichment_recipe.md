@@ -7,7 +7,8 @@ intempt:
   version: 1.0.0
   slashCommand: /waterfall-account-enrichment
   group: Workflows
-  shortDescription: "Multi-source enrichment cascade — try primary provider, if it misses fall through to secondary, then tertiary, then AI-research fallback for unstructured discovery. Maximizes coverage while minimizing per-record cost. The Clay-style waterfall pattern."
+  shortDescription: "Produce a published waterfall enrichment workflow that cascades accounts through primary, secondary, tertiary providers, then AI-research fallback, writing filled attributes back to the account."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]

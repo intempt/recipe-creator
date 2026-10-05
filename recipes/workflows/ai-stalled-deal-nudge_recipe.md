@@ -7,7 +7,8 @@ intempt:
   version: 1.0.0
   slashCommand: /ai-stalled-deal-nudge
   group: Workflows
-  shortDescription: "When a deal is detected as stalled, generate a personalized AI-drafted re-engagement message that references the specific blocker, last meeting context, and an offered next step — rep reviews and sends. Higher revival rate than generic 'just checking in' messages."
+  shortDescription: "Creates an AI-derived Deal attribute 'nudge_context' and a workflow that drafts a rep-reviewed re-engagement message from stall stage, last meeting next step, recent objection, and timeline."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]

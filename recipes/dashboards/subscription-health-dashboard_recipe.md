@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /subscription-health-dashboard
   group: Dashboards
-  shortDescription: "Finance / RevOps view: MRR movement, churn cohorts, payment recovery, NRR — the monthly board-review subscription metrics."
+  shortDescription: "Produce a 12-column 'Subscription Health' dashboard canvas linking MRR, churn-cohort, payment-recovery and NRR report cards for finance/RevOps monthly review."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

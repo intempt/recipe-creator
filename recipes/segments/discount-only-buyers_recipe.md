@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /segment-recipe
   group: Segments
-  shortDescription: "Customers who only purchase when a discount is applied — suppression cohort for full-price campaigns."
+  shortDescription: "Create a Users segment 'Discount-Only Buyers' for users with >=2 order_created events with discount_codes and zero order_created events without discount_codes."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

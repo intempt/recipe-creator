@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /personalization-recipe
   group: Personalizations
-  shortDescription: "Show different homepage offers based on visitor's geography (country, region) — different shipping promotions, currency display, and local promotions. Client personalization."
+  shortDescription: "Create a client personalization on /experiences with geographic audience variants that serve different homepage shipping offers and currency displays."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [experiences]

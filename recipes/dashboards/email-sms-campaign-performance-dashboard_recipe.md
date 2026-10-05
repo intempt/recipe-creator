@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /email-sms-campaign-performance-dashboard
   group: Dashboards
-  shortDescription: "Lifecycle marketer view: campaign-level leaderboard with sends, opens, clicks, conversions, revenue per send — the canonical Klaviyo-style view."
+  shortDescription: "Build a single 12-column dashboard with linked campaign-performance cards showing sends, opens, clicks, conversions, and revenue per send."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

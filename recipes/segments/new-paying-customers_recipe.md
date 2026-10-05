@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /segment-recipe
   group: Segments
-  shortDescription: "First 30 days post-subscription — paid-onboarding cohort distinct from generic recently-signed-up."
+  shortDescription: "Create a Users segment named 'New Paying Customers' for users with subscription_created in the last 30 days and plan_name not free or trial."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

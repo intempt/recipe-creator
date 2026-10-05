@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /pql-leaderboard
   group: Reports
-  shortDescription: "Sortable list of free users hitting configurable PQL thresholds — the canonical PLG sales-handoff report."
+  shortDescription: "A single Insights report listing free/trial users who hit configurable PQL event thresholds in a 14-day window, sorted by intent score."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

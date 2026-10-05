@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /ugc-photo
   group: Creative
-  shortDescription: "Studio packshot → candid handheld."
+  shortDescription: "Generate an authentic, handheld UGC-style product image from an existing studio packshot."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]

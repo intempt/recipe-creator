@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /segment-recipe
   group: Segments
-  shortDescription: "Recently signed up but no activation milestone in last 14 days — activation-rescue cohort."
+  shortDescription: "Create a Users segment named 'Onboarding-Stalled Users' for users first seen 7–30 days ago, no goal_completed_in_journey since first_seen_at, and days_since_last_activity ≤ 14."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

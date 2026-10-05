@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /segment-recipe
   group: Segments
-  shortDescription: "Mid-sized companies (100-1000 employees) — inside-sales / scaled-AE routing."
+  shortDescription: "Create a segment 'Mid-Market Accounts' on Accounts where employees >= 100 and < 1000 for scaled-AE routing."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

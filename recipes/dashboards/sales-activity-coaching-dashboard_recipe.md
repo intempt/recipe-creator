@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /sales-activity-coaching-dashboard
   group: Dashboards
-  shortDescription: "Sales Manager view: rep activity (calls/emails/meetings), revenue-per-call efficiency, win-loss patterns — the canonical coaching artifact."
+  shortDescription: "A single sales manager dashboard canvas showing per-rep calls/emails/meetings, revenue-per-call efficiency, and win-loss patterns."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

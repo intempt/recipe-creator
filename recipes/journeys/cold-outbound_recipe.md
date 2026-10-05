@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /cold-outbound
   group: Journeys
-  shortDescription: "Target list, multi-touch sequence, tailored content, deliverability protection."
+  shortDescription: "Build a cold-outbound sequence with an ICP segment, personalized email assets, and a multi-touch journey."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]

@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /beauty-close-up
   group: Creative
-  shortDescription: "Plain bottle → branded bottle close-up."
+  shortDescription: "Generate a branded close-up beauty image of the product while preserving the original model, skin, and composition."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]

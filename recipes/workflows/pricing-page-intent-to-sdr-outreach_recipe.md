@@ -7,7 +7,8 @@ intempt:
   version: 1.0.0
   slashCommand: /pricing-page-intent-to-sdr-outreach
   group: Workflows
-  shortDescription: "When a known user (or identified account) visits the pricing page repeatedly or after a deep product evaluation, fire an SDR task with the visit context — pricing-page visits are some of the strongest revenue intent signals."
+  shortDescription: "Create a 'Pricing-page intent - last 7 days' segment for identified users with repeat pricing_page_viewed or 5+ minutes session time, for SDR follow-up."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]

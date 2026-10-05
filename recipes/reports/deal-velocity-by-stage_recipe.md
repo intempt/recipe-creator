@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /deal-velocity-by-stage
   group: Reports
-  shortDescription: "Median time spent in each deal stage with bottleneck-stage identification and won/lost velocity comparison."
+  shortDescription: "Create an insights report measuring average, median, and 75th percentile time spent in each deal stage."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

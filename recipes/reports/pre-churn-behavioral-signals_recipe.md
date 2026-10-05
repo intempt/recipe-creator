@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /pre-churn-behavioral-signals
   group: Reports
-  shortDescription: "Path to subscription_cancelled with precursor-event ranking by lift over baseline."
+  shortDescription: "Generate a saved Path report for subscription_cancelled showing backward 7-step/30-day precursor events ranked by lift over baseline."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /lifestyle-scene
   group: Creative
-  shortDescription: "Product in a real-world setting."
+  shortDescription: "Generate one lifestyle scene image that places the provided product packshot into a real-world environment while preserving product identity."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]

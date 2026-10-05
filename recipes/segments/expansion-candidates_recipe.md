@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /segment-recipe
   group: Segments
-  shortDescription: "Users approaching their plan limit who are ready for an upgrade conversation."
+  shortDescription: "Create a Users segment named 'Expansion Candidates' for plan_name not enterprise AND usage_pct >= 80."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

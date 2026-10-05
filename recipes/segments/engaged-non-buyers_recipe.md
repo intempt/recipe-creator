@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /segment-recipe
   group: Segments
-  shortDescription: "Highly engaged visitors who have never made a purchase — first-purchase targeting cohort."
+  shortDescription: "Create a Users segment named Engaged Non-Buyers with total_events >= 10, no order_created ever, days_since_last_activity <= 7, and non-empty email."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /business-review
   group: Dashboards
-  shortDescription: "Headline metrics, week-over-week deltas, wins, concerns, recommended actions, scheduled Slack digest."
+  shortDescription: "Produces a business review dashboard with headline KPIs and WoW deltas, a narrative report, and a scheduled Slack digest workflow."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

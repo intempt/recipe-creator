@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /segment-recipe
   group: Segments
-  shortDescription: "Multi-user companies where only 1 user is engaged — multi-threading risk for enterprise SaaS."
+  shortDescription: "Create an Accounts segment for 50+ employee companies with exactly one engaged user and an open deal."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

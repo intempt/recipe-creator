@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /editorial-model
   group: Creative
-  shortDescription: "Full-body model, on location."
+  shortDescription: "Generate one full-body editorial fashion lookbook image of a model on location with varied lighting and mood."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]

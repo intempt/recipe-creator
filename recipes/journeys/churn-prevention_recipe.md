@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /churn-prevention
   group: Journeys
-  shortDescription: "AI-derived risk scoring, CSM alerts, automated re-engagement, and retention measurement."
+  shortDescription: "Create a churn_risk_score attribute from engagement, support sentiment, and feature usage, then segment high-risk users for CSM alerts."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [marketing]

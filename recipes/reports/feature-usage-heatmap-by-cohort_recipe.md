@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /feature-usage-heatmap-by-cohort
   group: Reports
-  shortDescription: "Feature usage by signup cohort with sticky-feature identification and cohort-onboarding regression detection."
+  shortDescription: "Materialize an Insights report showing adoption rate of each target_id feature as Count Unique Users divided by cohort size, broken down by feature and monthly first_seen_at cohort over the last 90 days."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

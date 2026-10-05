@@ -8,7 +8,8 @@ intempt:
   version: 1.0.1
   slashCommand: /analytics-foundation
   group: Reports
-  shortDescription: "Map events, build core reports (Insights, Funnels, Retention, Paths), compose executive dashboard."
+  shortDescription: "Produce the core report set (Insights, Funnels, Retention, Paths) plus one executive dashboard of headline metrics."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

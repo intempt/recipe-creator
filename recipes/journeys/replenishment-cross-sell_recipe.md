@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /replenishment-cross-sell
   group: Journeys
-  shortDescription: "Reorder reminders for consumable products + cross-sell complementary items + referral nudges."
+  shortDescription: "Build a reorder-reminder segment, email asset, and journey for consumables, plus complementary-product recommendations when recommendation commands ship."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [marketing]

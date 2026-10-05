@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /segment-recipe
   group: Segments
-  shortDescription: "Customers who have purchased across multiple distinct products — cross-sell-ready cohort."
+  shortDescription: "Creates a Users segment named 'Multi-Product Buyers' for users with at least 2 order_created events in the last 180 days and lifetime_value >= 200."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

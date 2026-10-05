@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /power-user-concentration
   group: Reports
-  shortDescription: "Pareto chart of top 1% / 5% / 10% of users by event volume vs share of total events."
+  shortDescription: "Create an Insights report charting top 1%, 5%, 10%, 25%, and 50% of users by event volume against their share of total events over 30 days."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

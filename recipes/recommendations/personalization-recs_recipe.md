@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /personalization-recs
   group: Recommendations
-  shortDescription: "Catalog-aware recommendations across web, email, and app surfaces."
+  shortDescription: "Produces a catalog-aware product recommendation, matching personalization rule, and recommendation cohort segment."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [marketing, sales]

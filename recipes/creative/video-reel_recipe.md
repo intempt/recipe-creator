@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /video-reel
   group: Creative
-  shortDescription: "Script + Avatar + product = posted-ready reel."
+  shortDescription: "Generate a single 5–10 second avatar-and-product reel video from a written script using Kling i2v and ElevenLabs TTS."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]

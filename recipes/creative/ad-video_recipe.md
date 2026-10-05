@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /ad-video
   group: Creative
-  shortDescription: "Product still → cinematic spot."
+  shortDescription: "Generate a 5-second cinematic ad video from a product still using image-to-video."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]

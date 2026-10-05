@@ -7,7 +7,8 @@ intempt:
   version: 1.0.0
   slashCommand: /conditional-enrichment-by-tier
   group: Workflows
-  shortDescription: "Multi-split enrichment by ICP tier — premium accounts get the full enrichment cascade (multiple providers + AI research), mid-market gets standard enrichment (single provider), low-fit accounts get basic firmographic only. Saves 60-80% on enrichment credits versus blanket enrichment."
+  shortDescription: "Build an account_created-triggered workflow that splits accounts by ICP tier into cheap firmographic, single-provider, or full multi-provider-plus-AI enrichment branches."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]

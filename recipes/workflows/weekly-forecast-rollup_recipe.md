@@ -7,7 +7,8 @@ intempt:
   version: 1.0.0
   slashCommand: /weekly-forecast-rollup
   group: Workflows
-  shortDescription: "Every Monday morning, snapshot the pipeline (deals by stage, weighted forecast, committed pipeline, forecast-vs-actual variance for trailing periods), deliver to sales leadership via email + Slack, and freeze the snapshot for historical comparison."
+  shortDescription: "Create a weekly pipeline forecast snapshot report with stage ARR, weighted forecast, commit-category breakdown, WoW movement, and forecast-vs-actual variance, then email/Slack and freeze it for comparison."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]

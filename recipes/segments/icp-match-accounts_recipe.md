@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /segment-recipe
   group: Segments
-  shortDescription: "Accounts matching ideal customer profile by company size, industry, and geography."
+  shortDescription: "Create a single Accounts segment named 'ICP Match Accounts' where employees is 50-500 AND industry is SaaS/Technology/Financial Services AND country is US/UK/CA/AU."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

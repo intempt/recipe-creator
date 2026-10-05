@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /segment-recipe
   group: Segments
-  shortDescription: "Highly engaged users with frequent sessions and high activity score in the last 30 days."
+  shortDescription: "Create a Users segment named 'Power Users' with session_start, click_on, engagement_score, and last_seen_at filters."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

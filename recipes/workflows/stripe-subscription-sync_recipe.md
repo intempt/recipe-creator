@@ -7,7 +7,8 @@ intempt:
   version: 1.0.0
   slashCommand: /stripe-subscription-sync
   group: Workflows
-  shortDescription: "When Stripe sends a subscription_created / updated / cancelled / payment_failed event, sync the state to the user profile + account lifecycle stage, so segmentation, retention, and reporting always reflect actual billing reality."
+  shortDescription: "Create User attributes (subscription_status, plan_tier, mrr, renewal dates, has_payment_failure) and a Stripe-webhook workflow that keeps them synced for lifecycle segmentation."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]

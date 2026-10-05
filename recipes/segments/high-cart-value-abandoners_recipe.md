@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /segment-recipe
   group: Segments
-  shortDescription: "Cart abandoners with high cart value — priority recovery cohort distinct from frequency-based abandoners."
+  shortDescription: "Create a Users segment for cart_abandoned with total_amount >= 200 in the last 7 days and no order_created in that period."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

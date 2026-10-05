@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /b2b-nurture
   group: Journeys
-  shortDescription: "Score leads, segment by readiness, route hot leads to sales, nurture the rest."
+  shortDescription: "Produce a qualification score attribute, hot/warm/cold readiness segment, and a routing workflow assigning hot leads to sales owners."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [marketing]

@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /exit-paths-pre-cancellation
   group: Reports
-  shortDescription: "Forward path from a /cancel page visit — surfaces what saves vs. kills retention attempts in the cancellation moment."
+  shortDescription: "Creates a forward Path report for /cancel page visitors showing 5-step sequences split by plan and saved vs cancelled outcomes."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

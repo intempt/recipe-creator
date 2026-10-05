@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /flatlay
   group: Creative
-  shortDescription: "Top-down styled composition."
+  shortDescription: "Generate a single top-down styled flatlay product image with complementary props around a fixed product."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]

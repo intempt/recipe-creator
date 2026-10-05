@@ -8,7 +8,8 @@ intempt:
   version: 1.0.1
   slashCommand: /customer-onboarding
   group: Journeys
-  shortDescription: "Account setup, kickoff tasks, calendar coordination, onboarding journey, completion funnel."
+  shortDescription: "Create an onboarding task checklist and milestone email journey for a new account."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]

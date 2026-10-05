@@ -7,7 +7,8 @@ intempt:
   version: 1.0.0
   slashCommand: /ai-inbox-triage-agent-workflow
   group: Workflows
-  shortDescription: "Inbound conversations (email, chat, form) hit an AI triage agent that classifies intent (sales / support / billing / partnership / spam) and routes via multi-split to the right team + drafts an appropriate first response. Replaces the manual 'who handles this?' loop."
+  shortDescription: "A workflow that classifies inbound email/chat/form messages into sales/support/billing/partnership/spam and routes them with an AI-drafted reply."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales, marketing]

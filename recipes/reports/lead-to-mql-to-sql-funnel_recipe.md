@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /lead-to-mql-to-sql-funnel
   group: Reports
-  shortDescription: "Qualification funnel built on lead_stage_changed transitions with per-stage velocity."
+  shortDescription: "Create a Funnel report named 'Lead Qualification Funnel' showing Lead Created → Reached MQL → SQL Created → Meeting Scheduled conversion with per-stage velocity."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

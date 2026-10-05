@@ -8,7 +8,8 @@ intempt:
   version: 1.0.1
   slashCommand: /cro-program
   group: Experiments
-  shortDescription: "Find drop-off, design experiment, ship variants, analyze, kill or promote."
+  shortDescription: "Generates a CRO funnel drop-off report, experiment plan, personalization rule, email variants, and results dashboard."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [marketing]

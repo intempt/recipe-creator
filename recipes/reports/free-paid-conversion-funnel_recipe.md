@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /free-paid-conversion-funnel
   group: Reports
-  shortDescription: "Trial-to-paid funnel using subscription_created (trial mode), pricing page views, and checkout_created."
+  shortDescription: "Create a Funnel report named 'Free to Paid Conversion' with steps Started Trial, Viewed Pricing, Started Checkout, and Subscribed Paid."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

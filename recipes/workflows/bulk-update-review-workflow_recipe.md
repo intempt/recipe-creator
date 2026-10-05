@@ -7,7 +7,8 @@ intempt:
   version: 1.0.0
   slashCommand: /bulk-update-review-workflow
   group: Workflows
-  shortDescription: "Mass field updates, record merges, or segment moves over a threshold pause for human review before execution. Shows the diff preview, allows partial approval (apply to subset), prevents the 'mass update went wrong' nightmare every RevOps team has seen."
+  shortDescription: "Produces a workflow with steps that gate bulk field updates, merges, or segment moves over a threshold through human diff-preview and partial approval."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]

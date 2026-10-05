@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /time-to-ship-distribution
   group: Reports
-  shortDescription: "Histogram of fulfillment time per order with median/p75/p95 callouts and bucket-level operational benchmarks."
+  shortDescription: "An Insights report histogram of order fulfillment time over the last 30 days, split into duration buckets with median/p75/p95 and cumulative percentage callouts."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

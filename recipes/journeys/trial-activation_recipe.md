@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /trial-activation
   group: Journeys
-  shortDescription: "Drive trial users to paid conversion via scoring, segmentation, onboarding journey, and funnel measurement."
+  shortDescription: "Create a trial_health_score attribute, risk-tier trial segment, tier-specific onboarding emails, and a conversion journey with funnel reporting."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [marketing]

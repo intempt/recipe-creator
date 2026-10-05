@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /cart-recovery
   group: Journeys
-  shortDescription: "Recover abandoned carts with a 3-touch sequence \u2014 segment, content, journey, A/B variants, dashboard, alert workflow."
+  shortDescription: "Create a cart-abandoners segment, 3 cart-recovery emails, and a 3-touch journey at 1h, 24h, and 72h after abandonment."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [marketing]

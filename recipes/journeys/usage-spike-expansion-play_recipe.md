@@ -7,7 +7,8 @@ intempt:
   version: 1.0.0
   slashCommand: /usage-spike-expansion-play
   group: Journeys
-  shortDescription: "'When existing paying customers cross usage thresholds — fast user-growth on the account, feature-depth expansion, multi-team usage — fire a multi-stakeholder expansion journey: champion gets ''you''re scaling'' content, economic buyer gets upgrade-options content, recommendation surface highlights expansion features.'"
+  shortDescription: "Create an Account expansion_signal_score AI attribute from usage growth, feature depth, multi-team adoption, cap proximity, and integrations, then trigger a multi-stakeholder journey with segment, email, and recommendation steps."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales, marketing]

@@ -7,7 +7,8 @@ intempt:
   version: 1.0.0
   slashCommand: /notetaker-coverage-setup
   group: Meetings
-  shortDescription: "Configure which meetings the Blu notetaker auto-joins — by meeting type, host seniority, deal stage, and account tier. Set the rules once, get consistent coverage without per-meeting toggles."
+  shortDescription: "Configure project notetaker autojoin rules by meeting type, host seniority, deal stage, and account tier, producing a meeting type inventory and notetaker config."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]

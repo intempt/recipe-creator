@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /plan-tier-mix-shift
   group: Reports
-  shortDescription: "% of revenue and % of customers per plan over time, surfacing up-market vs down-market drift."
+  shortDescription: "Produces a monthly Insights report showing revenue share and customer share by plan tier to reveal up-market or down-market drift."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

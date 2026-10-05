@@ -8,7 +8,8 @@ intempt:
   version: 1.0.1
   slashCommand: /scheduling-setup
   group: Meetings
-  shortDescription: "Booking types, availability, routing rules, post-booking automation."
+  shortDescription: "Set up a meeting booking link, post-booking workflow, and confirmation journey with performance tracking."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]

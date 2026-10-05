@@ -7,7 +7,8 @@ intempt:
   version: 1.0.0
   slashCommand: /objection-pattern-analysis
   group: Meetings
-  shortDescription: "'Run cross-corpus analysis on meeting transcripts: surface the most-frequent objections in the last 90 days, cluster them by theme, and produce a report ranking objections by frequency × deal value at stake. Feeds enablement and product feedback loops.'"
+  shortDescription: "Produce a ranked report of top objection themes from last-90-day Discovery, Demo, and Proposal meeting transcripts by frequency and deal value."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]

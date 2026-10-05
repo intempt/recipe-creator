@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /upscale
   group: Creative
-  shortDescription: "Soft input → razor-sharp output."
+  shortDescription: "Upscale the input image 4× to a higher-resolution output using fal-ai/clarity-upscaler."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]

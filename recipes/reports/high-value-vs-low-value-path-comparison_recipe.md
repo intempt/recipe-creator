@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /high-value-vs-low-value-path-comparison
   group: Reports
-  shortDescription: "Two Path reports side-by-side: paths taken by users who placed >$X orders vs <$X or non-converters."
+  shortDescription: "A single report with two side-by-side Path analyses: paths for users with >$X orders versus paths for <$X/non-converters."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

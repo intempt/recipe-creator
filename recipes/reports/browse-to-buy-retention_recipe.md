@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /browse-to-buy-retention
   group: Reports
-  shortDescription: "First-visit-to-purchase retention with W1/W4/W12 benchmarks and channel-source comparison."
+  shortDescription: "Produce a weekly first-session-to-purchase retention report by utm_source with W1/W2/W4/W8/W12 cohorts and prior-period comparison."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

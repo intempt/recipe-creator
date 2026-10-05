@@ -7,7 +7,8 @@ intempt:
   version: 1.0.0
   slashCommand: /meeting-types-taxonomy
   group: Meetings
-  shortDescription: "Establish a clean meeting-type catalog — Discovery, Demo, Proposal, Close, Onboarding, QBR, Renewal, Customer Success, Internal — so every downstream recipe (summaries, coaching, reporting) can target the right call type without ambiguity."
+  shortDescription: "Audit existing meeting categories and establish a standardized meeting-type catalog for downstream reporting and coaching."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]

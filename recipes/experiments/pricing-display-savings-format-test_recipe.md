@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /experiment-recipe
   group: Experiments
-  shortDescription: "Test how savings are displayed on pricing pages: dollar amount ($24 off) vs. percentage (20% off) vs. compare-at framing ($120 → $96). Universally cited as one of the highest-impact pricing tests."
+  shortDescription: "Creates a client experiment on /experiences splitting pricing-page traffic across control, dollar-off ($24), and percentage-off (20%) savings framings."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [experiences]

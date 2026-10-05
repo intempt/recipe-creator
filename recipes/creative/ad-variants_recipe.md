@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /ad-variants
   group: Creative
-  shortDescription: "One ad in, six tested variants out."
+  shortDescription: "Generate six image ad variants from one uploaded ad by fanning out swaps across headline, palette, background, model, CTA, and aspect ratio."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]

@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /product-launch-site
   group: Content
-  shortDescription: "One or more pages, deploy in a click."
+  shortDescription: "Build and deploy a product launch landing page or microsite using the content builder."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [content]

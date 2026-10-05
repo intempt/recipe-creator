@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /product-reshoot
   group: Creative
-  shortDescription: "Re-light any product without booking a studio."
+  shortDescription: "Generate a single re-lit product image by applying specified studio lighting, setting, and angle while preserving product identity."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]

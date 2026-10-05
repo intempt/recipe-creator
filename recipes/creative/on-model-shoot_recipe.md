@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /on-model
   group: Creative
-  shortDescription: "Avatar wearing or holding your product in a scene."
+  shortDescription: "Generates an on-model lifestyle product image featuring an AI avatar wearing or holding a catalog product."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]

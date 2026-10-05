@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /segment-recipe
   group: Segments
-  shortDescription: "Users who cancelled their subscription in the last 30 days — fast win-back cohort."
+  shortDescription: "Create a Users segment named 'Recently Churned Users' where subscription_cancelled occurred in the last 30 days and lifetime_value > 0."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

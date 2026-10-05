@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /experiment-recipe
   group: Experiments
-  shortDescription: "Test where to show the post-purchase upsell on the order confirmation page (above order details, below order details, or as inline modal). Website-only — email and push variants are out of scope."
+  shortDescription: "Create a website experiment on /experiences testing post-purchase upsell placement above order details, below order details, or as an inline modal on the order confirmation page."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [experiences]

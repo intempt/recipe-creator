@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /cinemagraph
   group: Creative
-  shortDescription: "Still photo, one element moves."
+  shortDescription: "Generates a seamless-loop cinemagraph video where one element of a still photo animates while the rest stays frozen."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]

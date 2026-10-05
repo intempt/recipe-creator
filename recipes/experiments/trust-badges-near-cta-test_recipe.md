@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /experiment-recipe
   group: Experiments
-  shortDescription: "Test placement and selection of trust badges (security, money-back guarantee, payment methods, accreditations) near the primary CTA. Cited 102% lift when integrated correctly."
+  shortDescription: "Create a client experiment on /experiences comparing control vs. security, guarantee, and combined trust-badge variants near the primary CTA."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [experiences]

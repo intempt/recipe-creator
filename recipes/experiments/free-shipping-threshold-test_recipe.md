@@ -8,7 +8,8 @@ intempt:
   version: 1.0.1
   slashCommand: /experiment-recipe
   group: Experiments
-  shortDescription: "Find the optimal free shipping threshold ($50, $75, $99, or no free shipping) that maximizes revenue per session. Server experiment with JSON payload."
+  shortDescription: "Create a server experiment on /experiences titled 'Free Shipping Threshold' with four equal variants testing $50, $75, $99, and no free shipping via JSON payload."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [experiences]

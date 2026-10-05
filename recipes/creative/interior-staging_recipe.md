@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /interior-staging
   group: Creative
-  shortDescription: "Empty room, finished room."
+  shortDescription: "Generate a single virtual staging image that adds furniture and decor to an empty room while preserving its geometry and lighting."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]

@@ -7,7 +7,8 @@ intempt:
   version: 1.0.0
   slashCommand: /post-cancel-winback
   group: Journeys
-  shortDescription: "After a user cancels, fire a 30/60/90-day winback sequence — staggered re-engagement at increasing intervals with product updates, win-back incentives, and a final 'one last try' message — to recover formerly-paying customers."
+  shortDescription: "Creates a recently-cancelled segment, three winback emails, and a 30/60/90-day journey to re-engage and recover users."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [marketing]

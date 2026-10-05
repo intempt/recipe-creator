@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /segment-recipe
   group: Segments
-  shortDescription: "Customers approaching their typical re-order cycle. 8-15% conversion on replenishment reminders vs 1-3% on general promos."
+  shortDescription: "Creates a Users segment named 'Replenishment-Ready' for users with order_created 30-60 days ago and no order_created in the last 30 days."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

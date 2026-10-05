@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /segment-recipe
   group: Segments
-  shortDescription: "Customers who purchase 4+ times per quarter — most loyal cohort."
+  shortDescription: "Creates a Users segment named High-Frequency Buyers containing users with at least 4 order_created events in the last 90 days."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

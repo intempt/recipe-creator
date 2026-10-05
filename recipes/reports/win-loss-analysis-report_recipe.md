@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /win-loss-analysis-report
   group: Reports
-  shortDescription: "Won vs. lost deals broken down by lead source, deal size, and stage at loss — surfaces patterns in what's working."
+  shortDescription: "Produces a single Insights report 'Win-Loss Analysis' with won/lost counts, win rate %, revenue won/lost, broken down by utm_source."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

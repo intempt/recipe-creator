@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /marketing-attribution-dashboard
   group: Dashboards
-  shortDescription: "Marketing Lead view: revenue by channel, email-driven revenue, search-driven revenue, and category-level marketing performance. Note: ROAS/CAC require ad-spend integration not in canonical taxonomy."
+  shortDescription: "Creates a marketing attribution dashboard tracking revenue across marketing channels, email, and search touchpoints."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /cart-abandonment-rate
   group: Reports
-  shortDescription: "Cart abandonment rate by device with previous-period comparison and a 70% benchmark line."
+  shortDescription: "An Insights report named Cart Abandonment Rate showing weekly abandonment rate by device with prior-period comparison and a 70% benchmark line."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

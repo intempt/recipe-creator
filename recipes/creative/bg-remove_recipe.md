@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /bg-remove
   group: Creative
-  shortDescription: "Clean alpha, ready to drop in."
+  shortDescription: "Produces a single PNG image of the product isolated on a transparent background using generate_image."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]

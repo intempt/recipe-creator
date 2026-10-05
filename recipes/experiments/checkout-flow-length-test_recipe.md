@@ -8,7 +8,8 @@ intempt:
   version: 1.0.1
   slashCommand: /experiment-recipe
   group: Experiments
-  shortDescription: "Test whether single-page or multi-step checkout reduces abandonment. Client experiment."
+  shortDescription: "Create a client experiment on /experiences comparing single-page checkout vs 3-step checkout to measure abandonment."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [experiences]

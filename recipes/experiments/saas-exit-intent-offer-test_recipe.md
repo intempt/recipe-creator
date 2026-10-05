@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /experiment-recipe
   group: Experiments
-  shortDescription: "Test what to OFFER on exit-intent for SaaS visitors (discount vs. comparison guide vs. content download vs. survey). 5x conversion vs. time-based popup cited."
+  shortDescription: "Create a client experiment on /experiences for a SaaS exit-intent popup testing discount, comparison guide, download, and survey variants against control."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [experiences]

@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /trial-activation-funnel
   group: Reports
-  shortDescription: "Trial milestone funnel using subscription_created (trial), session_start, and journey-goal events."
+  shortDescription: "Produce a single Trial Activation Funnel report with ordered steps from trial subscription_created to session_start and journey goal_completed events."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

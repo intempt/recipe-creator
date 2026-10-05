@@ -7,7 +7,8 @@ intempt:
   version: 1.0.0
   slashCommand: /task-completion-deal-advance
   group: Workflows
-  shortDescription: "When a task on a deal is completed (proposal sent, contract delivered, demo done), conditionally advance the deal's stage and notify stakeholders — removes the 'forgot to move the deal stage' problem that breaks every pipeline report."
+  shortDescription: "Creates a task 'advances_deal_to_stage' attribute and a task_completed workflow that conditionally advances the deal stage and notifies stakeholders."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]

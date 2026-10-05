@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /video-remix
   group: Creative
-  shortDescription: "Four references in, your branded reel out."
+  shortDescription: "Generate branded video variations from 1-4 pinned reference clips via multi-reference image-to-video."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]

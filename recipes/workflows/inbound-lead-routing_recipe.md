@@ -7,7 +7,8 @@ intempt:
   version: 1.0.0
   slashCommand: /inbound-lead-routing
   group: Workflows
-  shortDescription: "When a new inbound lead arrives (form submission, demo request, signup), enrich + score + assign to the right rep based on territory / round-robin / named-account rules — the unglamorous workflow that prevents leads from rotting in unassigned queues."
+  shortDescription: "Create a 'lead_score' AI attribute on User plus a form-triggered routing workflow that assigns new inbound leads to reps by territory/round-robin rules, surfaced in a routing dashboard."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]

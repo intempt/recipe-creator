@@ -7,7 +7,8 @@ intempt:
   version: 1.0.0
   slashCommand: /meeting-prep-brief
   group: Workflows
-  shortDescription: "When a meeting is scheduled, auto-generate an AE prep brief 24 hours before the meeting — stakeholder map, prior touches, account health, suggested talking points — delivered to the host via email or Slack."
+  shortDescription: "Auto-generate an AI-derived prep brief attribute and deliver it to account executives via email before scheduled meetings."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]

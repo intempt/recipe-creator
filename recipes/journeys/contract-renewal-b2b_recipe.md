@@ -7,7 +7,8 @@ intempt:
   version: 1.0.0
   slashCommand: /contract-renewal-b2b
   group: Journeys
-  shortDescription: "For B2B accounts approaching contract end (90/60/30 days before), fire a multi-stakeholder renewal journey reaching the buyer, the user-champion, and the economic-buyer with appropriate messaging per role — renewal is a buying process, not a single email."
+  shortDescription: "Build a segment of active enterprise/mid-market accounts renewing in 30-90 days and trigger a multi-step email journey to their contacts."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales, marketing]

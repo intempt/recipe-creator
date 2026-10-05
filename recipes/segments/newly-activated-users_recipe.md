@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /segment-recipe
   group: Segments
-  shortDescription: "Users who completed activation in the last 7 days — warm and ready to expand."
+  shortDescription: "Create a Users segment 'Newly Activated Users' where goal_completed_in_journey fired ≥1× in 7 days AND plan_name is not 'free'."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

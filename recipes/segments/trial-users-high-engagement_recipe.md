@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /segment-recipe
   group: Segments
-  shortDescription: "Trial users with strong usage signals who are likely to convert. Engagement bucketed enum."
+  shortDescription: "Creates the /segments segment 'Trial Users — High Engagement' for trial-plan users with end_date within 14 days, engagement_score High, and at least 3 goal_completed_in_journey events in the last 14 days."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

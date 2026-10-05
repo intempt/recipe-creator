@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /vip-loyalty
   group: Journeys
-  shortDescription: "Identify VIPs, exclusive experiences, retention experiments, and program performance dashboards."
+  shortDescription: "Build a VIP loyalty playbook that computes customer_value_tier, creates silver/gold/platinum segments, and launches a VIP journey."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [marketing]

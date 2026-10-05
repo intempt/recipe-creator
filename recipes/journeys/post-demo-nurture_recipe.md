@@ -7,7 +7,8 @@ intempt:
   version: 1.0.0
   slashCommand: /post-demo-nurture
   group: Journeys
-  shortDescription: "After a demo meeting completes, fire a multi-touch nurture cadence over 90 days — value content at Day 7, case study at Day 14, ROI calculator at Day 30, customer story at Day 60, decision-stage check-in at Day 90 — branching on engagement signals."
+  shortDescription: "Produce a 'Recent demo attendees - last 90 days' segment plus a 5-touch email asset and a journey firing Day 7/14/30/60/90 touches branching on engagement."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales, marketing]

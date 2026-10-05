@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /monthly-logo-retention-trend
   group: Reports
-  shortDescription: "Single trailing logo-retention rate over time — the headline number that pairs with NRR but answers a simpler question."
+  shortDescription: "Create an Insights report tracking the monthly logo retention rate over time using computed subscription event series."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /flash-sale-sms
   group: Content
-  shortDescription: "Urgency-driven short copy."
+  shortDescription: "Generate urgency-driven flash sale SMS copy tailored for character limits and quick conversions."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [content]

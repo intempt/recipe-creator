@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /segment-recipe
   group: Segments
-  shortDescription: "Customers who have made 3+ purchases in the last 90 days with meaningful spend."
+  shortDescription: "Create a segment of repeat buyers who made at least three purchases in the last 90 days."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

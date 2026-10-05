@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /user-retention-weekly
   group: Reports
-  shortDescription: "Weekly cohort retention with W1/W4/W12 benchmarks and acquisition-source comparison."
+  shortDescription: "Materialize a weekly cohort retention report (anchor user_created, return session_start) for the last 12 weeks, broken down by utm_source, with W1/W4/W12 benchmarks and prior-period comparison."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

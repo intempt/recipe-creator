@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /customer-lifecycle-distribution
   group: Reports
-  shortDescription: "Distribution of customers across the canonical lifecycle stages (At risk, Needs attention, New customers, Promising, Regulars, Champions) with month-over-month migration tracking."
+  shortDescription: "Produce an Insights report counting unique users by Users.lifecycle_score with LTV sum and share per stage."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

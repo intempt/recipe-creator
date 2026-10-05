@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /segment-recipe
   group: Segments
-  shortDescription: "Senior-title users (C-level, VP, Director) showing intent — priority routing for AE outreach."
+  shortDescription: "Creates a user segment identifying senior decision-makers who visited pricing pages in the last 30 days."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

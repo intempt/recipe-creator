@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /ecommerce-revenue-dashboard
   group: Dashboards
-  shortDescription: "Founder / CMO revenue overview: top-line revenue, AOV, channel, conversion, and category performance."
+  shortDescription: "Creates a 12-column e-commerce revenue dashboard with linked cards for revenue, AOV, channel, conversion, and category performance."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

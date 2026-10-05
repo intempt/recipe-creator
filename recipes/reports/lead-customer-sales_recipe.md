@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /lead-customer-sales
   group: Reports
-  shortDescription: "Sales pipeline funnel using deal_stage_changed and meeting events with stage velocity and forecasted revenue."
+  shortDescription: "Produce a Funnel report named 'Lead to Customer' tracking demo requests, scheduled/completed meetings, and deal-stage progression."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

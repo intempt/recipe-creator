@@ -7,7 +7,8 @@ intempt:
   version: 1.0.0
   slashCommand: /renewal-call-summary-recipe
   group: Meetings
-  shortDescription: "Customize how the AI summarizes Renewal calls — capture usage patterns mentioned, expansion signals, contraction risks, stakeholder confirmation, and contract-term changes — feeding directly into renewal forecasting and CSM motion."
+  shortDescription: "Configures the Renewal meeting type's AI summary to extract usage, expansion, contraction, stakeholder, and contract-term signals."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]

@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /support-tickets-vs-churn-correlation
   group: Reports
-  shortDescription: "Dual-axis support ticket volume vs subscription cancellations with priority decomposition and lead-lag."
+  shortDescription: "Generate an insights report comparing weekly support ticket creation against subscription cancellations broken down by priority and reason."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

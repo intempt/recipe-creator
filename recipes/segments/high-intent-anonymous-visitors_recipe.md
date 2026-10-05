@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /segment-recipe
   group: Segments
-  shortDescription: "Unidentified visitors with strong engagement signals — ad retargeting cohort."
+  shortDescription: "Creates a user segment filtering for anonymous visitors with high recent session and page view counts."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

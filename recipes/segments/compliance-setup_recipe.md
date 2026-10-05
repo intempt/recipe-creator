@@ -8,7 +8,8 @@ intempt:
   version: 1.0.1
   slashCommand: /compliance-setup
   group: Segments
-  shortDescription: "Build a marketing-consent suppression segment from consent_granted/consent_revoked events. Excludes opted-out users from marketing journeys for GDPR/CAN-SPAM compliance."
+  shortDescription: "Create a suppression segment of users whose latest consent_revoked event supersedes consent_granted, for exclusion from marketing journeys."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [marketing, sales]

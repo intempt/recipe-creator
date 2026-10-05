@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /feature-discovery-adoption
   group: Reports
-  shortDescription: "4-step funnel from first feature exposure to repeated use, using canonical click_on patterns."
+  shortDescription: "Create a single Funnel report named 'Feature Discovery to Adoption' with ordered steps from feature page_viewed/click_on exposure to first click_on and 3+ same-user click_on within 21 days."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

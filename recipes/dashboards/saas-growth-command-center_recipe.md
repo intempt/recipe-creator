@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /saas-growth-command-center
   group: Dashboards
-  shortDescription: "Founder-level SaaS growth view: WAU, MRR, trial conversion, retention, activation, and feature adoption on one canvas."
+  shortDescription: "Create a 12-column 'SaaS Growth Command Center' dashboard canvas with linked cards for WAU, MRR, trial conversion, retention, activation, and feature adoption."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

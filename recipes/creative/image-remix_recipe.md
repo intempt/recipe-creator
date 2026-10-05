@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /image-remix
   group: Creative
-  shortDescription: "Reference-anchored variations from your pinboard."
+  shortDescription: "Generate a list of image variations anchored to 1–4 reference images with Light/Medium/Strong weights."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]

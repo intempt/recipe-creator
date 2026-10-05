@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /segment-recipe
   group: Segments
-  shortDescription: "Customers with high average order value — premium-bundle and upsell-targeting cohort."
+  shortDescription: "Create a Users segment named 'Big-Basket Buyers' with avg_order_value >= 150, order_created >= 2, and lifetime_value >= 300."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

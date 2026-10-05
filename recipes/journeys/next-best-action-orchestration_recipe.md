@@ -7,7 +7,8 @@ intempt:
   version: 1.0.0
   slashCommand: /next-best-action-orchestration
   group: Journeys
-  shortDescription: "AI-decisioning journey where the next step is selected per-user from a candidate set (content / offer / feature-nudge / human-touch / recommendation surface) based on a live AI attribute — replaces fixed cadences with adaptive paths that match each user's signal at decision time."
+  shortDescription: "Produce a daily-refreshed next_best_action user attribute and use it to branch a journey across educate/offer/feature/recommendation/handoff paths."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [marketing]

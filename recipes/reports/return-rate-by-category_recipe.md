@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /return-rate-by-category
   group: Reports
-  shortDescription: "Return rate by product category with previous-period comparison and rising-rate flagging."
+  shortDescription: "A bar-chart Insights report showing return rate by product category over the last 90 days versus the prior 90 days, with rising categories flagged."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

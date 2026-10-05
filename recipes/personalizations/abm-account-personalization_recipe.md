@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /personalization-recipe
   group: Personalizations
-  shortDescription: "Personalize homepage hero (logo, industry-specific messaging) per identified target account. The canonical Mutiny/Demandbase pattern. Requires firmographic enrichment."
+  shortDescription: "Create an audience-driven website personalization on /experiences whose target-account variants swap the homepage hero logo and industry messaging."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [experiences]

@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /mrr-trend
   group: Reports
-  shortDescription: "MRR over time by plan with month-over-month growth rate and net-new MRR overlay."
+  shortDescription: "Creates an Insights report titled 'Monthly Recurring Revenue Trend' with MRR by plan, month-over-month growth, and net-new MRR overlay."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

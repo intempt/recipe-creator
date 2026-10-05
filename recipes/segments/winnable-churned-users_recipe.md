@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /segment-recipe
   group: Segments
-  shortDescription: "Recently churned users who showed engagement before churn — best win-back candidates."
+  shortDescription: "Creates a Users segment named 'Winnable Churned Users' for users who cancelled in the last 60 days with lifetime_value > 0 and total_events >= 50."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

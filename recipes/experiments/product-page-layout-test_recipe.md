@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /experiment-recipe
   group: Experiments
-  shortDescription: "Test which PDP layout drives the highest add-to-cart rate. Client experiment with three layouts."
+  shortDescription: "Create a client-side website experiment on /experiences with control plus two PDP layout variants, measuring add-to-cart rate."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [experiences]

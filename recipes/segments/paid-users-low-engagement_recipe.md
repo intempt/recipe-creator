@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /segment-recipe
   group: Segments
-  shortDescription: "Paying customers showing early disengagement signals. Engagement bucketed enum."
+  shortDescription: "Creates a segment filtering paid users with low activity and engagement scores."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

@@ -7,7 +7,8 @@ intempt:
   version: 1.0.0
   slashCommand: /call-recording-intelligence
   group: Workflows
-  shortDescription: "When a call recording becomes available, run AI extraction for objections + talk-listen ratio + sentiment + next-step signals, log to the linked deal, and alert managers on at-risk calls."
+  shortDescription: "Create a Meeting call_insights AI attribute with objections, talk-listen ratio, sentiment, and buying signals, then Slack-alert managers on at-risk calls."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]

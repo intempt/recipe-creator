@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /product-health-dashboard
   group: Dashboards
-  shortDescription: "PM view: stickiness, feature adoption depth, retention by feature, NPS, and the active vs. passive user split."
+  shortDescription: "Produce a Product Health dashboard with stickiness, feature adoption depth, retention by feature, NPS, and active vs passive user split."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

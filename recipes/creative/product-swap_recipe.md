@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /product-swap
   group: Creative
-  shortDescription: "Same scene, new product."
+  shortDescription: "Generate a single image where the specified new product replaces the original product while preserving the scene, lighting, shadow, and backdrop."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]

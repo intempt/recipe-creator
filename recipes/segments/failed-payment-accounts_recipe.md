@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /segment-recipe
   group: Segments
-  shortDescription: "Users with payment failure in last 14 days — dunning/recovery cohort."
+  shortDescription: "Create a segment named 'Failed-Payment Users' for users with any of four payment-failure events in the last 14 days."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

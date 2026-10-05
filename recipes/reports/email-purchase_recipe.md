@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /email-purchase
   group: Reports
-  shortDescription: "Email-to-purchase funnel using canonical email events with campaign comparison and revenue-per-email."
+  shortDescription: "Materialize a Funnel report 'Email to Purchase' of email_opened → email_clicked → product page_viewed → order_created over a 7-day window, broken down by campaign_id."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

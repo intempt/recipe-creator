@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /lead-qualification
   group: Journeys
-  shortDescription: "Score leads, segment, route hot leads to sales, nurture the rest."
+  shortDescription: "Produce a lead qualification score attribute, hot/warm/cold segment, sales routing workflow with tasks, and nurture journey for warm/cold leads."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]

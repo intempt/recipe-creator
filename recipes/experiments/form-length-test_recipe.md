@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /experiment-recipe
   group: Experiments
-  shortDescription: "Test 3-field vs. 5-field vs. 7-field demo-request form. Universal CRO test; 10-15% conversion drop per added field cited."
+  shortDescription: "Create a client experiment on /experiences comparing 3-, 5-, and 7-field demo-request forms by conversion rate."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [experiences]

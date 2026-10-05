@@ -7,7 +7,8 @@ intempt:
   version: 1.0.0
   slashCommand: /feature-discovery-for-paid-users
   group: Journeys
-  shortDescription: "For paid users who haven't touched key features after 30+ days, fire a feature-discovery nudge journey — one feature at a time, contextually relevant to their use case — preventing retention erosion from underutilization."
+  shortDescription: "Create a weekly AI-derived User attribute ranking top 3 unused plan features, then enroll 30+ day inactive paid users in a one-feature email journey."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [marketing]

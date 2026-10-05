@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /cart-abandoned-push
   group: Content
-  shortDescription: "Win-back lockscreen notification."
+  shortDescription: "Generate one iOS lockscreen-style win-back push notification copy block for cart recovery."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [content]

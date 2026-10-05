@@ -7,7 +7,8 @@ intempt:
   version: 1.0.0
   slashCommand: /breakup-sequence
   group: Journeys
-  shortDescription: "For cold prospects who have gone completely silent after 5+ outreach attempts, send a final 'closing the loop' break-up email — honest, low-pressure, often surprisingly effective at unsticking conversations that otherwise die in silence."
+  shortDescription: "Create a segment of silent leads and send a final low-pressure break-up email via a journey."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]

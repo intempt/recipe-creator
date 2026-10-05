@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /search-conversion
   group: Reports
-  shortDescription: "Search-to-purchase funnel using page_viewed.query patterns with no-results surfacing and search-vs-browse comparison."
+  shortDescription: "Builds a funnel report tracking user progression from search page views to product clicks, cart additions, and purchases."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /product-category-performance
   group: Reports
-  shortDescription: "Revenue + units by category with period comparison and category-level momentum scoring."
+  shortDescription: "Create an Insights report of revenue, units, and AOV by product category with period-over-period comparison."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /experiment-recipe
   group: Experiments
-  shortDescription: "Test whether shorter or longer in-app onboarding checklists improve 7-day activation. Client experiment."
+  shortDescription: "Create a client experiment on /experiences with 3-step, 5-step, and 7-step onboarding checklist variants, measuring 7-day activation."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [experiences]

@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /campaign-performance-leaderboard
   group: Reports
-  shortDescription: "Per-campaign email/SMS performance: sent, opened, clicked, converted, revenue, revenue-per-send — the canonical Klaviyo-style view."
+  shortDescription: "An Insights report ranking campaigns by email sends, unique opens, unique clicks, conversions, revenue, and revenue per send."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

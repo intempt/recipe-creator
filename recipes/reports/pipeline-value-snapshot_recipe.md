@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /pipeline-value-snapshot
   group: Reports
-  shortDescription: "Current open-pipeline value with stage decomposition, weighted forecast, and concentration risk surfacing."
+  shortDescription: "An Insights report showing open pipeline value by stage, weighted forecast, and top-deal concentration."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

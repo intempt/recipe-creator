@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /weekly-business-review-summary
   group: Reports
-  shortDescription: "Single dashboard with the 6 KPIs every founder/exec wants every Monday — new customers, churn, revenue, MRR/ARR, retention, top engagement."
+  shortDescription: "Produces a single Insights scorecard report showing weekly new signups, paid conversions, churn, revenue, MRR/ARR, retention, and top engagement."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

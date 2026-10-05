@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /segment-recipe
   group: Segments
-  shortDescription: "Small businesses (under 100 employees) — self-serve / low-touch routing."
+  shortDescription: "Creates an account segment filtering for companies with fewer than 100 employees."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

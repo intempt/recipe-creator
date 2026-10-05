@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /segment-recipe
   group: Segments
-  shortDescription: "Recently identified accounts with minimal engagement — SDR first-touch foundation."
+  shortDescription: "Create a /segments account segment named 'Net-New Prospects' for accounts created in the last 7 days with ≤5 events, lifecycle prospect, and no open deal."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

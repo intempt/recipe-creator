@@ -7,7 +7,8 @@ intempt:
   version: 1.0.0
   slashCommand: /single-threaded-deal-alert
   group: Workflows
-  shortDescription: "Detect deals where only one contact from the buyer side is engaged — single-threaded deals lose 3x more often when the lone champion leaves or doesn't have authority. Surface them with a multi-threading task and a recommended contact list."
+  shortDescription: "Create a Deal threading_depth AI attribute and a segment of open mid/late-stage deals with exactly one engaged buyer contact, then trigger a multi-threading task workflow."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]

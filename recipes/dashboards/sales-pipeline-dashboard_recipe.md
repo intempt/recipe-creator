@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /sales-pipeline-dashboard
   group: Dashboards
-  shortDescription: "AE / Sales Manager operational view: open pipeline, deal velocity, multi-threading risk, and account engagement on active deals."
+  shortDescription: "A Sales Pipeline dashboard canvas with linked cards for open deals, deal velocity, multi-threading risk, and account engagement."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

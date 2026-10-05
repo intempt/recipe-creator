@@ -8,7 +8,8 @@ intempt:
   version: 1.0.1
   slashCommand: /win-loss-analysis
   group: Dashboards
-  shortDescription: "Patterns across won vs lost deals \u2014 competitive intelligence, objection themes, battlecard."
+  shortDescription: "Generate a win/loss report, battlecard content asset, and dashboard analyzing won vs lost deals by competitor, objection theme, and deal size."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales, analytics]

@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /payment-failure-recovery-funnel
   group: Reports
-  shortDescription: "Dunning recovery funnel using canonical billing events with per-attempt success rate and revenue-at-risk."
+  shortDescription: "Create a Funnel report 'Payment Recovery Funnel' with invoice_payment_failed → dunning email_opened → billing page_viewed → invoice_paid within 14 days."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /signup-activation-funnel
   group: Reports
-  shortDescription: "Signup-to-activation funnel using user_created and goal_completed_in_journey with per-step time-to-convert."
+  shortDescription: "Produce a Funnel report named 'Signup to Activation' tracking user_created, session_start within 24h, and goal_completed_in_journey activation steps with per-step time-to-convert."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

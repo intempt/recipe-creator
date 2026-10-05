@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /segment-recipe
   group: Segments
-  shortDescription: "Large companies (1000+ employees) — AE white-glove sales-motion routing."
+  shortDescription: "Create an Accounts segment named 'Enterprise Accounts' where employees >= 1000 on /segments."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

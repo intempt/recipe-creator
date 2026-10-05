@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /trial-to-paid-conversion-rate
   group: Reports
-  shortDescription: "Weekly trial-to-paid conversion using subscription_created.trial_end semantics with 18% benchmark."
+  shortDescription: "Produce a weekly Insights report counting unique trial-start users and their trial-to-paid conversion rate versus an 18% benchmark."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /cinematic-studio
   group: Creative
-  shortDescription: "Nine cinematic looks from one frame."
+  shortDescription: "Generate a 3x3 board of nine cinematic color-graded restyles from one input image."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]

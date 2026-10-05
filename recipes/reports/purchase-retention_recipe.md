@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /purchase-retention
   group: Reports
-  shortDescription: "Repeat-purchase retention with cohort-level second-purchase rates and time-to-2nd-purchase distribution."
+  shortDescription: "Monthly cohort retention report on order_created showing repeat-purchase rates and time-to-second-order distribution by first-purchase category."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

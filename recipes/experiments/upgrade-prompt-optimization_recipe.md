@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /experiment-recipe
   group: Experiments
-  shortDescription: "Combined test of upgrade prompt placement (where) and timing (when) for free SaaS users. Two creation flows: client variants for placement, server payload for timing."
+  shortDescription: "Create a website experiment on /experiences that tests upgrade-prompt placement via client variants and timing via audience segment targeting."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [experiences]

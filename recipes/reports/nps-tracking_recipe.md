@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /nps-tracking
   group: Reports
-  shortDescription: "NPS score over time from feedback_submitted with promoter/passive/detractor decomposition and trend."
+  shortDescription: "Create an Insights report showing NPS over time from feedback_submitted, split into Promoters, Passives, Detractors, and computed NPS trend."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

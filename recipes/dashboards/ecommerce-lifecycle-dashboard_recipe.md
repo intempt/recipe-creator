@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /ecommerce-lifecycle-dashboard
   group: Dashboards
-  shortDescription: "CRM / retention view: lifecycle distribution + migration, replenishment timing, discount cannibalization, and post-purchase paths."
+  shortDescription: "A single 'Ecommerce Lifecycle' dashboard canvas with cards for lifecycle distribution, migration, replenishment timing, discount cannibalization, and post-purchase paths."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

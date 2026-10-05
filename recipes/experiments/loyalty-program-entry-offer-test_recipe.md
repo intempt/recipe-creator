@@ -8,7 +8,8 @@ intempt:
   version: 1.0.1
   slashCommand: /experiment-recipe
   group: Experiments
-  shortDescription: "Test the best entry offer to drive loyalty programme sign-ups at checkout. Client experiment with random split."
+  shortDescription: "Creates a client-side website experiment on /experiences with four equal 25% split checkout loyalty entry-offer variants."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [experiences]

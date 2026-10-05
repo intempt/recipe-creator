@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /active-vs-passive-users
   group: Reports
-  shortDescription: "Three-way split: producers (frequent click_on), consumers (only page_viewed/session_start), and inactive — the hidden segment most teams miss."
+  shortDescription: "Creates a trailing-30-day Insights report classifying each user as Producer, Consumer, Lurker, or Inactive by event thresholds."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

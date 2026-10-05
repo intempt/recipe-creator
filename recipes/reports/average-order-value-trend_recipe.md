@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /average-order-value-trend
   group: Reports
-  shortDescription: "AOV over time with units-per-order vs price-per-unit decomposition and new-vs-returning comparison."
+  shortDescription: "Builds a weekly Insights report of average order value, units per order, average price per unit, and new-vs-returning customer breakdown over the last 12 weeks."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /paths-from-product-detail-page
   group: Reports
-  shortDescription: "Forward path from PDP page_viewed surfacing whether users add to cart, browse similar, search again, or exit."
+  shortDescription: "Produce a forward Path report anchored on /products/ page_viewed showing top 5-step paths and the share ending in cart_created, broken down by device_type."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

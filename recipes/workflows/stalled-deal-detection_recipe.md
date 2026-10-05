@@ -7,7 +7,8 @@ intempt:
   version: 1.0.0
   slashCommand: /stalled-deal-detection
   group: Workflows
-  shortDescription: "Detect deals stuck in a stage longer than typical for that stage's median age, with no recent activity, and surface them with AI-drafted re-engagement nudges so reps can either revive or honestly close-lost (no more pipeline lying)."
+  shortDescription: "Create a daily 'Stalled deals' segment for open deals with top-quartile days_in_current_stage and no recent activity, then generate AI re-engagement email content for reps."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]

@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /win-rate-trend
   group: Reports
-  shortDescription: "Win rate over time as a single tracking metric — surfaces GTM health trajectory without the breakdown overhead of win-loss-analysis."
+  shortDescription: "Produces an Insights report of monthly win rate and 90-day rolling win rate by utm_source from deal_won/deal_lost counts over 18 months."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]

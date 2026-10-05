@@ -7,7 +7,8 @@ intempt:
   version: 1.0.0
   slashCommand: /enterprise-domain-signup-to-ae-task
   group: Workflows
-  shortDescription: "When a self-serve signup comes from an enterprise-tier domain (Fortune 500, target-account list, or domain matching ICP), immediately create an AE task with full account enrichment — don't let an enterprise lead languish in the standard free-tier funnel."
+  shortDescription: "Creates an account_tier AI attribute and enterprise-signup segment, then a workflow opens an AE task for enriched enterprise-domain accounts."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [sales]

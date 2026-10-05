@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /segment-recipe
   group: Segments
-  shortDescription: "Users who created an account in the last 30 days — onboarding cohort."
+  shortDescription: "Create a Users segment named Recently Signed-Up Users where first_seen_at is within the last 30 days."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

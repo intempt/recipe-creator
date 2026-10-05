@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /experiment-recipe
   group: Experiments
-  shortDescription: "Test whether a guided wizard or self-serve checklist or video-first onboarding produces faster time-to-value. Client experiment."
+  shortDescription: "Create an A/B client experiment testing guided wizard, self-serve checklist, and video-first onboarding flows for time-to-value."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [experiences]

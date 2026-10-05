@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /segment-recipe
   group: Segments
-  shortDescription: "Free-plan users with high engagement — prime upgrade-targeting cohort."
+  shortDescription: "Creates a single Users segment named 'Engaged Free Users' for free-plan users with high engagement, activity within 7 days, and 5+ session_start events in 14 days."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [segments]

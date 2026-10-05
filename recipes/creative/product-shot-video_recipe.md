@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /product-shot-video
   group: Creative
-  shortDescription: "Every SKU becomes a thumb-stopping clip."
+  shortDescription: "Generate a 5-second animated product video clip from a static product image with a chosen motion style and music bed."
+  availability: available
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [design]

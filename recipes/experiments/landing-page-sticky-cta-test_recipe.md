@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /experiment-recipe
   group: Experiments
-  shortDescription: "Test sticky CTA bar on SaaS marketing pages: always-visible vs. fade-in-on-scroll vs. no sticky. 8-15% lift cited; distinct from mobile-sticky-add-to-cart (ecom PDP)."
+  shortDescription: "Create a website experiment on /experiences comparing no sticky CTA, always-visible sticky CTA, and fade-in-on-scroll sticky CTA."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [experiences]

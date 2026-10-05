@@ -8,7 +8,8 @@ intempt:
   version: 1.0.0
   slashCommand: /feature-adoption-by-plan
   group: Reports
-  shortDescription: "Feature adoption by plan tier with adoption-rate trend and tier-specific feature affinity."
+  shortDescription: "Produces an Insights report of unique users clicking each feature target_id, broken down by plan_name, with computed adoption rate percentages per plan tier."
+  availability: coming-soon
   author: { type: intempt, name: "Intempt" }
   classification:
     product: [analytics]
