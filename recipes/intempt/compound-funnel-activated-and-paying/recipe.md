@@ -5,10 +5,12 @@ slash_command: /compound-funnel-activated-and-paying
 group: Reports
 owner: intempt
 curator: aman
-summary: Counts only the signups who both use the product habitually and pay for it, so your activation
-  number cannot flatter you.
+summary: >-
+  Reports signups with activation and payment events so you can compare activated and paying groups. It does
+  not filter for habitual use or a combined activated-and-paying condition.
 description: >-
-  PLG funnel where success = activated AND paying, separating real activation from vanity activation.
+  A report that surfaces signup records with activation events and payment events. Use it to compare activated
+  and paying signups separately, since the product does not support frequency filters or compound AND steps.
 version: 2.0.0
 classification:
   product:
@@ -67,7 +69,7 @@ outputs:
 
 # Activated and paying
 
-Counts only the signups who both use the product habitually and pay for it, so your activation number cannot flatter you.
+Reports signups with activation and payment events so you can compare activated and paying groups. It does not filter for habitual use or a combined activated-and-paying condition.
 
 ## Steps
 

@@ -5,10 +5,10 @@ slash_command: /product-category-performance
 group: Reports
 owner: intempt
 curator: aman
-summary: Shows revenue and units by product category for the last 30 days, against both the previous month
-  and the same month last year.
+summary: >-
+  Shows revenue by product category using native bar or pie charts.
 description: >-
-  Revenue + units by category with period comparison and category-level momentum scoring.
+  Revenue by product category displayed as native bar or pie charts.
 version: 2.0.0
 classification:
   product:
@@ -63,7 +63,7 @@ outputs:
 
 # Category performance
 
-Shows revenue and units by product category for the last 30 days, against both the previous month and the same month last year.
+Shows revenue by product category using native bar or pie charts.
 
 ## Steps
 

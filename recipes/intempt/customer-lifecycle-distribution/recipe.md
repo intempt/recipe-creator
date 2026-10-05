@@ -5,11 +5,11 @@ slash_command: /customer-lifecycle-distribution
 group: Reports
 owner: intempt
 curator: aman
-summary: Shows how your customers are spread across the six lifecycle stages today, how much revenue sits
-  in each, and who moved between stages in the last month.
+summary: >-
+  See how your customers are distributed across the six lifecycle stages today, with revenue in each stage.
 description: >-
-  Distribution of customers across the canonical lifecycle stages (At risk, Needs attention, New customers,
-  Promising, Regulars, Champions) with month-over-month migration tracking.
+  A report showing customer counts and revenue across At risk, Needs attention, New customers, Promising,
+  Regulars, and Champions.
 version: 2.0.0
 classification:
   product:
@@ -83,7 +83,7 @@ outputs:
 
 # Customer lifecycle distribution
 
-Shows how your customers are spread across the six lifecycle stages today, how much revenue sits in each, and who moved between stages in the last month.
+See how your customers are distributed across the six lifecycle stages today, with revenue in each stage.
 
 ## Steps
 

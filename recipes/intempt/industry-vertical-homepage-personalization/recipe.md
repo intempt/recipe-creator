@@ -5,11 +5,13 @@ slash_command: /industry-vertical-homepage-personalization
 group: Personalizations
 owner: intempt
 curator: rana
-summary: Technology, financial services, healthcare and manufacturing visitors each see a hero and proof
-  points for their industry. Visitors you cannot identify see the generic one.
+summary: >-
+  Visitors you can identify, such as known accounts or logged in users, see a homepage hero and proof points
+  matched to their segment. Unidentified visitors see the generic one.
 description: >-
-  Show different homepage hero, social proof, and messaging based on the visitor's detected industry (4-5
-  segments). Demandbase pattern; distinct from per-account ABM.
+  Personalize the homepage hero, social proof, and messaging for visitor segments you can already identify
+  from known firmographic data, such as matched accounts or form fills. Firmographic industry enrichment for
+  anonymous visitors is not available, so unmatched traffic gets the generic hero.
 version: 2.0.0
 classification:
   product:
@@ -108,7 +110,7 @@ outputs:
 
 # Homepage by visitor industry
 
-Technology, financial services, healthcare and manufacturing visitors each see a hero and proof points for their industry. Visitors you cannot identify see the generic one.
+Visitors you can identify, such as known accounts or logged in users, see a homepage hero and proof points matched to their segment. Unidentified visitors see the generic one.
 
 ## Steps
 

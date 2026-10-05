@@ -5,12 +5,12 @@ slash_command: /engaged-non-buyer-conversion
 group: Journeys
 owner: intempt
 curator: somya
-summary: Finds free users who behave like paying customers, works out what is actually blocking them,
-  and answers that instead of nagging them to upgrade.
+summary: >-
+  Identifies highly engaged free users who have not converted, sending targeted email check-ins and routing
+  replies using sentiment analysis.
 description: >-
-  Free/trial users who consistently engage with the product (multiple sessions, deep feature use, opens
-  marketing emails) but haven't converted after 30+ days get a diagnostic intervention, personalized offer
-  + AE/human touch option + agent handoff. NOT generic upgrade nag.
+  Segments active free users past 30 days without upgrading. Triggers a diagnostic email with AE outreach,
+  classifying incoming email replies by sentiment to direct follow-up.
 version: 2.0.0
 classification:
   product:
@@ -184,7 +184,7 @@ outputs:
 
 # Engaged users who never buy
 
-Finds free users who behave like paying customers, works out what is actually blocking them, and answers that instead of nagging them to upgrade.
+Identifies highly engaged free users who have not converted, sending targeted email check-ins and routing replies using sentiment analysis.
 
 ## Steps
 

@@ -5,11 +5,12 @@ slash_command: /sales-activity-coaching-dashboard
 group: Dashboards
 owner: intempt
 curator: sid
-summary: Answers which reps need coaching and what separates the top performers, by setting call, email
-  and meeting volume against the revenue it produced.
+summary: >-
+  Shows sales rep activity volume for calls, emails and meetings alongside the revenue it produced, so
+  managers can identify coaching needs and performance differences.
 description: >-
-  Sales Manager view: rep activity (calls/emails/meetings), revenue-per-call efficiency, win-loss patterns:
-  the canonical coaching artifact.
+  Sales Manager dashboard: rep calls, emails and meetings, revenue per call efficiency, and win-loss patterns.
+  A coaching view built from activity and revenue data.
 version: 2.0.0
 classification:
   product:
@@ -80,7 +81,7 @@ outputs:
 
 # Rep activity and coaching
 
-Answers which reps need coaching and what separates the top performers, by setting call, email and meeting volume against the revenue it produced.
+Shows sales rep activity volume for calls, emails and meetings alongside the revenue it produced, so managers can identify coaching needs and performance differences.
 
 ## Steps
 

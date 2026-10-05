@@ -5,11 +5,12 @@ slash_command: /email-sms-campaign-performance-dashboard
 group: Dashboards
 owner: intempt
 curator: sid
-summary: Ranks every email and SMS send by the revenue it produced, so you can see which subject lines,
-  offers and content earn their place.
+summary: >-
+  Ranks every email and SMS send by the revenue it produced, so you can see which subject lines, offers and
+  content earn their place.
 description: >-
-  Lifecycle marketer view: campaign-level leaderboard with sends, opens, clicks, conversions, revenue
-  per send: the canonical Klaviyo-style view.
+  Lifecycle marketer view: campaign-level leaderboard with sends, opens, clicks, conversions and revenue per
+  send, shown in a standard dashboard chart set.
 version: 2.0.0
 classification:
   product:

@@ -5,11 +5,10 @@ slash_command: /net-revenue-retention-by-cohort
 group: Reports
 owner: intempt
 curator: aman
-summary: Tracks what each monthly cohort of paying customers is worth over time once upgrades, downgrades,
-  churn and reactivations are all counted.
+summary: >-
+  Tracks monthly cohort retention rates over time to measure ongoing customer and user engagement.
 description: >-
-  Proper NRR per cohort: starting MRR + expansion + reactivation − contraction − churn. Requires subscription_updated
-  delta-computation.
+  Build a cohort retention report tracking unique customer retention rates over successive months.
 version: 2.0.0
 classification:
   product:
@@ -70,7 +69,7 @@ outputs:
 
 # Net revenue retention by cohort
 
-Tracks what each monthly cohort of paying customers is worth over time once upgrades, downgrades, churn and reactivations are all counted.
+Tracks monthly cohort retention rates over time to measure ongoing customer and user engagement.
 
 ## Steps
 

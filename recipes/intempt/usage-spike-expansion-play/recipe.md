@@ -5,12 +5,14 @@ slash_command: /usage-spike-expansion-play
 group: Journeys
 owner: intempt
 curator: somya
-summary: When an account outgrows its plan, tells the champion they are scaling, gives the budget holder
-  the numbers, and hands the AE a briefed task.
+summary: >-
+  When an existing paying account crosses usage thresholds, enroll the contact in an expansion journey and
+  send upgrade-focused messages to that same profile. Report journey activity in dashboards.
 description: >-
-  When existing paying customers cross usage thresholds (fast user-growth on the account, feature-depth
-  expansion, multi-team usage) fire a multi-stakeholder expansion journey: champion gets 'you're scaling'
-  content, economic buyer gets upgrade-options content, recommendation surface highlights expansion features.
+  Detect existing paying customers crossing usage thresholds such as fast user growth, feature depth
+  expansion, or multi-team usage. Enroll the contact profile in an expansion journey, send upgrade-focused
+  messages only to that enrolled profile, and track the journey in dashboards. No per-touch stakeholder
+  switching.
 version: 2.0.0
 classification:
   product:
@@ -209,7 +211,7 @@ outputs:
 
 # Expansion play on a usage spike
 
-When an account outgrows its plan, tells the champion they are scaling, gives the budget holder the numbers, and hands the AE a briefed task.
+When an existing paying account crosses usage thresholds, enroll the contact in an expansion journey and send upgrade-focused messages to that same profile. Report journey activity in dashboards.
 
 ## Steps
 

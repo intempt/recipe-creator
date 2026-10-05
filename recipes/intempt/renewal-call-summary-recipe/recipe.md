@@ -5,12 +5,12 @@ slash_command: /renewal-call-summary-recipe
 group: Meetings
 owner: intempt
 curator: sid
-summary: 'Tells the notetaker what to pull out of every renewal call: how the customer is using the product,
-  expansion interest, churn signals and contract changes.'
+summary: >-
+  Customizes AI summaries for Renewal calls, extracting usage patterns, expansion signals, churn risks,
+  stakeholder confirmation and contract changes.
 description: >-
-  Customize how the AI summarizes Renewal calls, capture usage patterns mentioned, expansion signals,
-  contraction risks, stakeholder confirmation, and contract-term changes, feeding directly into renewal
-  forecasting and CSM motion.
+  A Renewal call summary recipe that extracts usage patterns, expansion signals, contraction risks,
+  stakeholder confirmation and contract-term changes from the meeting.
 version: 2.0.0
 classification:
   product:
@@ -99,7 +99,7 @@ outputs:
 
 # Renewal call summary fields
 
-Tells the notetaker what to pull out of every renewal call: how the customer is using the product, expansion interest, churn signals and contract changes.
+Customizes AI summaries for Renewal calls, extracting usage patterns, expansion signals, churn risks, stakeholder confirmation and contract changes.
 
 ## Steps
 

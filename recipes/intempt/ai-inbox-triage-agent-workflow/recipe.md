@@ -5,12 +5,13 @@ slash_command: /ai-inbox-triage-agent-workflow
 group: Workflows
 owner: intempt
 curator: trishik
-summary: Reads every inbound message, works out whether it is sales, support, billing, partnership or
-  spam, and gets it to the right person inside five minutes.
+summary: >-
+  Classifies inbound messages received through a webhook by intent, such as sales, support, billing,
+  partnership, or spam. Routes each message to the appropriate team and can create a follow-up task.
 description: >-
-  Inbound conversations (email, chat, form) hit an AI triage agent that classifies intent (sales / support
-  / billing / partnership / spam) and routes via multi-split to the right team + drafts an appropriate
-  first response. Replaces the manual 'who handles this?' loop.
+  Send inbound message data to the workflow through a webhook. The workflow classifies its intent, routes it
+  to the appropriate team, and can create a follow-up task. It does not provide a unified inbox or native
+  email, chat, form, or social message triggers.
 version: 2.0.0
 classification:
   product:
@@ -196,7 +197,7 @@ outputs:
 
 # AI inbox triage
 
-Reads every inbound message, works out whether it is sales, support, billing, partnership or spam, and gets it to the right person inside five minutes.
+Classifies inbound messages received through a webhook by intent, such as sales, support, billing, partnership, or spam. Routes each message to the appropriate team and can create a follow-up task.
 
 ## Steps
 

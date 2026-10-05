@@ -5,11 +5,13 @@ slash_command: /marketing-attribution-dashboard
 group: Dashboards
 owner: intempt
 curator: sid
-summary: Answers where revenue comes from across paid, organic, email and search. Return on ad spend and
-  cost per acquisition need an ad-spend integration and are not included.
+summary: >-
+  Answers where revenue comes from across paid, organic, email and search. ROAS and CAC need an ad-spend
+  integration and are not included.
 description: >-
   Marketing Lead view: revenue by channel, email-driven revenue, search-driven revenue, and category-level
-  marketing performance. Note: ROAS/CAC require ad-spend integration not in canonical taxonomy.
+  marketing performance. Note: ROAS/CAC require ad-spend integration not in canonical taxonomy. No LTV-by-
+  channel line is produced.
 version: 2.0.0
 classification:
   product:
@@ -82,7 +84,7 @@ outputs:
 
 # Revenue by marketing channel
 
-Answers where revenue comes from across paid, organic, email and search. Return on ad spend and cost per acquisition need an ad-spend integration and are not included.
+Answers where revenue comes from across paid, organic, email and search. ROAS and CAC need an ad-spend integration and are not included.
 
 ## Steps
 

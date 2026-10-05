@@ -5,12 +5,12 @@ slash_command: /conditional-enrichment-by-tier
 group: Workflows
 owner: intempt
 curator: trishik
-summary: 'Spends enrichment credits in proportion to the account: everything on the enterprise ones, a
-  standard package mid market, and nothing more on poor fits.'
+summary: >-
+  Routes accounts by ICP tier and runs enrichment only on the tiers you choose. Provider selection stays the
+  same across all branches.
 description: >-
-  Multi-split enrichment by ICP tier, premium accounts get the full enrichment cascade (multiple providers
-  + AI research), mid-market gets standard enrichment (single provider), low-fit accounts get basic firmographic
-  only. Saves 60-80% on enrichment credits versus blanket enrichment.
+  Use branch routing to separate accounts by ICP tier. Enrichment can be included or skipped per branch, so
+  low-fit accounts are not enriched. The enrichment provider is global, not tier-specific.
 version: 2.0.0
 classification:
   product:
@@ -150,7 +150,7 @@ outputs:
 
 # Enrich by account tier
 
-Spends enrichment credits in proportion to the account: everything on the enterprise ones, a standard package mid market, and nothing more on poor fits.
+Routes accounts by ICP tier and runs enrichment only on the tiers you choose. Provider selection stays the same across all branches.
 
 ## Steps
 

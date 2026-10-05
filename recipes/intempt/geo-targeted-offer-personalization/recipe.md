@@ -5,11 +5,12 @@ slash_command: /geo-targeted-offer-personalization
 group: Personalizations
 owner: intempt
 curator: rana
-summary: US, UK and EU, and APAC visitors each see the shipping threshold, currency and promotion for
-  their region instead of one global message.
+summary: >-
+  Visitors from the US, UK and EU, and APAC see region-specific homepage offer content instead of one global
+  message. The recipe uses visitor geography to swap promotion copy.
 description: >-
-  Show different homepage offers based on visitor's geography (country, region): different shipping promotions,
-  currency display, and local promotions. Client personalization.
+  Show different homepage promotion content based on visitor geography such as country or region. The recipe
+  swaps offer copy only, not currency pricing or payment methods.
 version: 2.0.0
 classification:
   product:
@@ -101,7 +102,7 @@ outputs:
 
 # Offers by visitor country
 
-US, UK and EU, and APAC visitors each see the shipping threshold, currency and promotion for their region instead of one global message.
+Visitors from the US, UK and EU, and APAC see region-specific homepage offer content instead of one global message. The recipe uses visitor geography to swap promotion copy.
 
 ## Steps
 

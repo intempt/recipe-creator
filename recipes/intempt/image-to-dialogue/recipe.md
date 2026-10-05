@@ -5,10 +5,11 @@ slash_command: /image-to-dialogue
 group: Creative
 owner: intempt
 curator: aurobind
-summary: Makes any portrait speak a script you write, in a voice you pick, with the face lip-synced to
-  the audio.
+summary: >-
+  Generates spoken audio from your script and animates a portrait with subtle motion to accompany the
+  voiceover.
 description: >-
-  Make any portrait speak your script.
+  Animate a portrait with subtle motion alongside voiceover generated from your script.
 version: 2.0.0
 classification:
   product:
@@ -55,7 +56,7 @@ outputs:
 
 # Talking portrait
 
-Makes any portrait speak a script you write, in a voice you pick, with the face lip-synced to the audio.
+Generates spoken audio from your script and animates a portrait with subtle motion to accompany the voiceover.
 
 ## Steps
 

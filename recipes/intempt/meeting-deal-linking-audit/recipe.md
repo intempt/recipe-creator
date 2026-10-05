@@ -5,12 +5,11 @@ slash_command: /meeting-deal-linking-audit
 group: Meetings
 owner: intempt
 curator: sid
-summary: Finds sales calls from the last 60 days with no deal attached, suggests the right one, and keeps
-  new meetings linked automatically from then on.
+summary: >-
+  Displays meetings in widgets so teams can review meeting activity in one place.
 description: >-
-  Find meetings not linked to a deal but that should be (account has an open deal, meeting type is revenue-impacting),
-  AI-suggest the right deal, and batch-link via review. Closes a chronic gap that makes meeting analytics
-  unreliable.
+  Use meeting widgets to view meetings. Unlinked-deal detection, deal linking, and coverage dashboards are not
+  included.
 version: 2.0.0
 classification:
   product:
@@ -97,7 +96,7 @@ outputs:
 
 # Link meetings to the right deal
 
-Finds sales calls from the last 60 days with no deal attached, suggests the right one, and keeps new meetings linked automatically from then on.
+Displays meetings in widgets so teams can review meeting activity in one place.
 
 ## Steps
 

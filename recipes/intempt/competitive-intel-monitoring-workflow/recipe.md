@@ -5,12 +5,13 @@ slash_command: /competitive-intel-monitoring-workflow
 group: Workflows
 owner: intempt
 curator: trishik
-summary: Checks your competitors' pricing, features, blog, changelog, hiring and reviews every Monday
-  and posts what actually changed to Slack.
+summary: >-
+  Weekly scheduled AI agent scrapes competitor websites, review sites, social, and news, then posts a
+  summarized competitive intel briefing to Slack.
 description: >-
-  Weekly scheduled AI agent monitors competitor websites, review sites, social, and news for material
-  moves (pricing change, feature launch, big customer win, leadership change). Summarizes into a structured
-  competitive intel briefing posted to Slack for product + sales teams.
+  A weekly scheduled AI agent gathers public information from competitor websites, review sites, social, and
+  news, then summarizes it into a structured competitive intel briefing posted to Slack for product and sales
+  teams.
 version: 2.0.0
 classification:
   product:
@@ -171,7 +172,7 @@ outputs:
 
 # Weekly competitive intel briefing
 
-Checks your competitors' pricing, features, blog, changelog, hiring and reviews every Monday and posts what actually changed to Slack.
+Weekly scheduled AI agent scrapes competitor websites, review sites, social, and news, then posts a summarized competitive intel briefing to Slack.
 
 ## Steps
 

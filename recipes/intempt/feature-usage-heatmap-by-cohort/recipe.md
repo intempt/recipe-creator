@@ -5,10 +5,10 @@ slash_command: /feature-usage-heatmap-by-cohort
 group: Reports
 owner: intempt
 curator: aman
-summary: Shows whether newer signups adopt each feature as well as older ones did, which is how you catch
-  an onboarding change that quietly broke something.
+summary: >-
+  Compare feature usage across signup cohorts to see how adoption differs between groups.
 description: >-
-  Feature usage by signup cohort with sticky-feature identification and cohort-onboarding regression detection.
+  Breakdown of feature usage by signup cohort.
 version: 2.0.0
 classification:
   product:
@@ -62,7 +62,7 @@ outputs:
 
 # Feature usage by signup cohort
 
-Shows whether newer signups adopt each feature as well as older ones did, which is how you catch an onboarding change that quietly broke something.
+Compare feature usage across signup cohorts to see how adoption differs between groups.
 
 ## Steps
 

@@ -5,10 +5,10 @@ slash_command: /ad-video
 group: Creative
 owner: intempt
 curator: aurobind
-summary: Turns one product still into a 5 second cinematic spot with slow camera drift and soft particles,
-  no text or logo.
+summary: >-
+  Turns one product still into a 5 second cinematic spot using Kling image to video, with no text or logo.
 description: >-
-  Product still to cinematic spot.
+  Product still to cinematic spot with Kling image to video.
 version: 2.0.0
 classification:
   product:
@@ -51,7 +51,7 @@ outputs:
 
 # Cinematic ad spot
 
-Turns one product still into a 5 second cinematic spot with slow camera drift and soft particles, no text or logo.
+Turns one product still into a 5 second cinematic spot using Kling image to video, with no text or logo.
 
 ## Steps
 

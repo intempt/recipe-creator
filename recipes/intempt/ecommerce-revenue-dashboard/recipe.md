@@ -5,10 +5,10 @@ slash_command: /ecommerce-revenue-dashboard
 group: Dashboards
 owner: intempt
 curator: sid
-summary: Answers how much you are making, which channels and categories it comes from, and whether the
-  trend is holding.
+summary: >-
+  Answers how much you are making, which channels drive it, and whether the trend is holding.
 description: >-
-  Founder / CMO revenue overview: top-line revenue, AOV, channel, conversion, and category performance.
+  Founder and CMO revenue overview: top-line revenue, AOV, channel, and conversion performance.
 version: 2.0.0
 classification:
   product:
@@ -74,7 +74,7 @@ outputs:
 
 # Ecommerce revenue overview
 
-Answers how much you are making, which channels and categories it comes from, and whether the trend is holding.
+Answers how much you are making, which channels drive it, and whether the trend is holding.
 
 ## Steps
 

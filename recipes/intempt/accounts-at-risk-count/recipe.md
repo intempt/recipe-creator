@@ -5,11 +5,12 @@ slash_command: /accounts-at-risk-count
 group: Reports
 owner: intempt
 curator: aman
-summary: Counts the accounts whose usage has dropped far enough to be a churn risk, tracks that count
-  weekly, and puts a dollar figure on the revenue attached to them.
+summary: >-
+  Counts accounts in predefined engagement-decline segments and tracks the weekly total. Uses fixed segments
+  as an approximate at-risk signal.
 description: >-
-  Count and trend of accounts whose engagement has declined materially: the canonical CS early-warning
-  headline metric.
+  Weekly count and trend for accounts placed in fixed low-engagement or decline segments. This approximates
+  at-risk accounts without custom per-account scoring or revenue impact.
 version: 2.0.0
 classification:
   product:
@@ -73,7 +74,7 @@ outputs:
 
 # Accounts at risk
 
-Counts the accounts whose usage has dropped far enough to be a churn risk, tracks that count weekly, and puts a dollar figure on the revenue attached to them.
+Counts accounts in predefined engagement-decline segments and tracks the weekly total. Uses fixed segments as an approximate at-risk signal.
 
 ## Steps
 

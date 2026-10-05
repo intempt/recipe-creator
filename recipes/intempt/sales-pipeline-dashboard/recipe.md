@@ -5,11 +5,12 @@ slash_command: /sales-pipeline-dashboard
 group: Dashboards
 owner: intempt
 curator: sid
-summary: Answers which open deals need attention now, flagging the ones that have stalled and the ones
-  where only a single contact is engaged.
+summary: >-
+  Answers which open deals need attention now using weighted forecast and risk or engagement scores on active
+  pipeline.
 description: >-
-  AE / Sales Manager operational view: open pipeline, deal velocity, multi-threading risk, and account
-  engagement on active deals.
+  AE / Sales Manager operational view: open pipeline with weighted forecast and risk or engagement scoring on
+  active deals.
 version: 2.0.0
 classification:
   product:
@@ -76,7 +77,7 @@ outputs:
 
 # Deals to work this week
 
-Answers which open deals need attention now, flagging the ones that have stalled and the ones where only a single contact is engaged.
+Answers which open deals need attention now using weighted forecast and risk or engagement scores on active pipeline.
 
 ## Steps
 

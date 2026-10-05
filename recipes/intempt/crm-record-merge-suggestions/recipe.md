@@ -5,12 +5,13 @@ slash_command: /crm-record-merge-suggestions
 group: Workflows
 owner: intempt
 curator: trishik
-summary: Checks every new account or contact against what you already have, merges the obvious duplicates,
-  and queues the doubtful ones for a person to judge.
+summary: >-
+  On new account or contact creation, checks existing CRM records with exact-match filters and creates a
+  review task when a possible duplicate is found.
 description: >-
-  Real-time on record creation: find similar existing records, AI computes match confidence, high-confidence
-  pairs auto-merge, medium-confidence flag for review, low-confidence ignore. Prevents duplicates entering
-  the CRM rather than cleaning them up later.
+  Runs on record creation: search existing accounts or contacts using exact filters. If a possible duplicate
+  appears, flag it and create a task for manual review. It does not auto-merge, choose a survivor, or redirect
+  records.
 version: 2.0.0
 classification:
   product:
@@ -169,7 +170,7 @@ outputs:
 
 # Catch duplicates as they arrive
 
-Checks every new account or contact against what you already have, merges the obvious duplicates, and queues the doubtful ones for a person to judge.
+On new account or contact creation, checks existing CRM records with exact-match filters and creates a review task when a possible duplicate is found.
 
 ## Steps
 

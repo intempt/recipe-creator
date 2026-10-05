@@ -5,9 +5,11 @@ slash_command: /feature-discovery-adoption
 group: Reports
 owner: intempt
 curator: aman
-summary: Shows how many people who find a feature go on to try it, use it repeatedly, and make it a habit.
+summary: >-
+  Shows how many people encounter a feature and go on to try it for the first time, using feature interaction
+  events.
 description: >-
-  4-step funnel from first feature exposure to repeated use, using canonical click_on patterns.
+  Builds a funnel from feature exposure to first-time use using canonical click_on event patterns.
 version: 2.0.0
 classification:
   product:
@@ -67,7 +69,7 @@ outputs:
 
 # Feature discovery to adoption
 
-Shows how many people who find a feature go on to try it, use it repeatedly, and make it a habit.
+Shows how many people encounter a feature and go on to try it for the first time, using feature interaction events.
 
 ## Steps
 

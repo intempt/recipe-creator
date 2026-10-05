@@ -5,10 +5,11 @@ slash_command: /expansion-candidates
 group: Segments
 owner: intempt
 curator: harish
-summary: Users who have used up most of their plan allowance, so you can start the upgrade conversation
-  before they hit the ceiling.
+summary: >-
+  Users grouped by plan_name for plan-based upgrade targeting.
 description: >-
-  Users approaching their plan limit who are ready for an upgrade conversation.
+  Segment users by plan_name. Use it to review which plans are candidates for upgrade outreach, based only on
+  the available plan name data.
 version: 2.0.0
 classification:
   product:
@@ -50,7 +51,7 @@ outputs:
 
 # Users close to their plan limit
 
-Users who have used up most of their plan allowance, so you can start the upgrade conversation before they hit the ceiling.
+Users grouped by plan_name for plan-based upgrade targeting.
 
 ## Steps
 

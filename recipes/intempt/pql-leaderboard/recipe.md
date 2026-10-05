@@ -5,10 +5,10 @@ slash_command: /pql-leaderboard
 group: Reports
 owner: intempt
 curator: aman
-summary: Ranks the free users showing the strongest buying signals, with a score and contact details,
-  so sales knows who to call first.
+summary: >-
+  Scores free users with a custom formula and includes contact details, so sales can prioritize outreach.
 description: >-
-  Sortable list of free users hitting configurable PQL thresholds: the canonical PLG sales-handoff report.
+  Report of free users with an arbitrary-formula score and contact details for sales prioritization.
 version: 2.0.0
 classification:
   product:
@@ -78,7 +78,7 @@ outputs:
 
 # Product qualified lead leaderboard
 
-Ranks the free users showing the strongest buying signals, with a score and contact details, so sales knows who to call first.
+Scores free users with a custom formula and includes contact details, so sales can prioritize outreach.
 
 ## Steps
 

@@ -5,10 +5,12 @@ slash_command: /customer-360-dashboard
 group: Dashboards
 owner: intempt
 curator: sid
-summary: Answers where your customers sit across the six lifecycle stages, how many moved stage this month,
-  and which acquisition cohorts produce the highest lifetime value.
+summary: >-
+  Displays the breakdown of customers across lifecycle stages and tracks repeat-purchase metrics on a
+  centralized dashboard.
 description: >-
-  CRM / Lifecycle view: lifecycle stage distribution, repeat-purchase mechanics, LTV by acquisition cohort.
+  CRM and lifecycle overview: customer distribution across defined lifecycle segments and repeat-purchase
+  performance.
 version: 2.0.0
 classification:
   product:
@@ -76,7 +78,7 @@ outputs:
 
 # Customer lifecycle overview
 
-Answers where your customers sit across the six lifecycle stages, how many moved stage this month, and which acquisition cohorts produce the highest lifetime value.
+Displays the breakdown of customers across lifecycle stages and tracks repeat-purchase metrics on a centralized dashboard.
 
 ## Steps
 

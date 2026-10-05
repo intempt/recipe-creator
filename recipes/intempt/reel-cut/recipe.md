@@ -5,9 +5,11 @@ slash_command: /reel-cut
 group: Creative
 owner: intempt
 curator: aurobind
-summary: Re-frames a 16:9 landscape shot as a 9:16 vertical reel, ready to post.
+summary: >-
+  Generate a new 9:16 vertical clip for a reel. This creates a vertical video rather than reframing an
+  existing landscape clip.
 description: >-
-  16:9 spot to 9:16 vertical.
+  Generate a 9:16 vertical clip.
 version: 2.0.0
 classification:
   product:
@@ -51,7 +53,7 @@ outputs:
 
 # Vertical reel cut
 
-Re-frames a 16:9 landscape shot as a 9:16 vertical reel, ready to post.
+Generate a new 9:16 vertical clip for a reel. This creates a vertical video rather than reframing an existing landscape clip.
 
 ## Steps
 

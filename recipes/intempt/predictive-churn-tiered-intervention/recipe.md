@@ -5,12 +5,13 @@ slash_command: /predictive-churn-tiered-intervention
 group: Journeys
 owner: intempt
 curator: somya
-summary: 'Scores churn risk daily and treats each band differently: content at low risk, in app help at
-  medium, a CSM at high, a founder''s email at critical.'
+summary: >-
+  Scores churn risk daily and routes each band to email, SMS, push, or Slack: nurture content at low risk,
+  personalized messages at medium, and CSM or founder outreach at high and critical.
 description: >-
-  Predictive churn-risk AI attribute with nuanced scores routes users to one of four intervention tiers,
-  low gets nurture content, medium gets personalized in-app + email, high gets CSM task + recommendation
-  surface, critical gets agent handoff + exec-sponsor task, the CleverTap-style differentiated churn rescue.
+  Predictive churn-risk AI attribute scores users daily and assigns one of four intervention tiers. Low risk
+  gets nurture content; medium gets personalized email, SMS, or push; high gets a CSM Slack task; critical
+  gets a founder email or exec-sponsor Slack task. All outreach uses email, SMS, push, or Slack only.
 version: 2.0.0
 classification:
   product:
@@ -208,7 +209,7 @@ outputs:
 
 # Tiered churn intervention
 
-Scores churn risk daily and treats each band differently: content at low risk, in app help at medium, a CSM at high, a founder's email at critical.
+Scores churn risk daily and routes each band to email, SMS, push, or Slack: nurture content at low risk, personalized messages at medium, and CSM or founder outreach at high and critical.
 
 ## Steps
 

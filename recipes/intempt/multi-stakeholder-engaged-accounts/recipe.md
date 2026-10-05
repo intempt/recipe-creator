@@ -5,10 +5,12 @@ slash_command: /multi-stakeholder-engaged-accounts
 group: Segments
 owner: intempt
 curator: harish
-summary: Accounts where three or more people have been using the product in the last two weeks, usually
-  the sign a buying group has formed.
+summary: >-
+  Individual users who logged 5 or more session_start and 10 or more page_viewed events in the last 14 days, a
+  high-engagement segment per user.
 description: >-
-  Accounts where 3+ users have been active in last 14 days: buying-committee signal for B2B.
+  Per-user segment: each user did 5+ session_start and 10+ page_viewed events in the last 14 days. Builds a
+  high-engagement user list, not an account-level rollup.
 version: 2.0.0
 classification:
   product:
@@ -54,7 +56,7 @@ outputs:
 
 # Accounts with a buying group active
 
-Accounts where three or more people have been using the product in the last two weeks, usually the sign a buying group has formed.
+Individual users who logged 5 or more session_start and 10 or more page_viewed events in the last 14 days, a high-engagement segment per user.
 
 ## Steps
 

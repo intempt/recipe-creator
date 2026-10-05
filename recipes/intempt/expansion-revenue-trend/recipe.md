@@ -5,10 +5,12 @@ slash_command: /expansion-revenue-trend
 group: Reports
 owner: intempt
 curator: aman
-summary: Shows how much new revenue comes from existing customers upgrading or adding seats each month,
-  and how that compares with revenue from new customers.
+summary: >-
+  Shows month over month MRR change per subscription from subscription_updated change events, comparing each
+  subscription's amount before and after the update.
 description: >-
-  Expansion revenue derived from subscription_updated change-events with quality-of-MRR-growth surfacing.
+  Per-subscription MRR delta tracking built from subscription_updated change events: each subscription's
+  amount is compared before and after the update rather than aggregated into a native expansion total.
 version: 2.0.0
 classification:
   product:
@@ -66,7 +68,7 @@ outputs:
 
 # Expansion revenue trend
 
-Shows how much new revenue comes from existing customers upgrading or adding seats each month, and how that compares with revenue from new customers.
+Shows month over month MRR change per subscription from subscription_updated change events, comparing each subscription's amount before and after the update.
 
 ## Steps
 

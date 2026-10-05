@@ -5,11 +5,12 @@ slash_command: /active-vs-passive-users
 group: Reports
 owner: intempt
 curator: aman
-summary: Splits your users into producers, consumers, lurkers and inactive each week, so you can see how
-  much of your base is actually doing something.
+summary: >-
+  Classifies each user with custom multi-threshold rules on their event activity, and outputs a report for
+  segmenting active and passive users.
 description: >-
-  passive users", or asks for related help. Three-way split: producers (frequent click_on), consumers
-  (only page_viewed/session_start), and inactive: the hidden segment most teams miss.
+  Applies custom multi-threshold rules to each user's event activity to produce per-user classifications in a
+  report. Use it to compare more active and less active users without relying on an Insights aggregate.
 version: 2.0.0
 classification:
   product:
@@ -72,7 +73,7 @@ outputs:
 
 # Active versus passive users
 
-Splits your users into producers, consumers, lurkers and inactive each week, so you can see how much of your base is actually doing something.
+Classifies each user with custom multi-threshold rules on their event activity, and outputs a report for segmenting active and passive users.
 
 ## Steps
 

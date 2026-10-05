@@ -5,12 +5,11 @@ slash_command: /daily-sdr-task-queue
 group: Workflows
 owner: intempt
 curator: trishik
-summary: Ranks each SDR's open tasks by how strong and how fresh the signal is and sends them the top
-  25 every morning, instead of a chronological list.
+summary: >-
+  Build a prioritized report of each SDR's open tasks, ranked by signal strength and recency.
 description: >-
-  Every morning, build each SDR a prioritized daily task queue, ranked by signal strength (PQL / PQA /
-  pricing-page intent / target-account match) and recency, capped at a manageable daily volume, so SDRs
-  work the highest-value signals first instead of working their queue chronologically.
+  Use PQL, PQA, pricing-page intent, and target-account match signals to rank open SDR tasks by strength and
+  recency, helping teams focus on higher-value work first.
 version: 2.0.0
 classification:
   product:
@@ -128,7 +127,7 @@ outputs:
 
 # Daily SDR task queue
 
-Ranks each SDR's open tasks by how strong and how fresh the signal is and sends them the top 25 every morning, instead of a chronological list.
+Build a prioritized report of each SDR's open tasks, ranked by signal strength and recency.
 
 ## Steps
 

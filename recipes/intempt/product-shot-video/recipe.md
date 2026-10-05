@@ -5,10 +5,10 @@ slash_command: /product-shot-video
 group: Creative
 owner: intempt
 curator: aurobind
-summary: Turns a static product image into a 5 second clip with a 360 spin, a dolly-in or a floating reveal,
-  plus an optional music bed.
+summary: >-
+  Turn a static product image into a 5-second video clip with a 360 spin, dolly-in, or floating reveal.
 description: >-
-  Every SKU becomes a thumb-stopping clip.
+  Create a short product video from a static image.
 version: 2.0.0
 classification:
   product:
@@ -56,7 +56,7 @@ outputs:
 
 # Product clip from a still
 
-Turns a static product image into a 5 second clip with a 360 spin, a dolly-in or a floating reveal, plus an optional music bed.
+Turn a static product image into a 5-second video clip with a 360 spin, dolly-in, or floating reveal.
 
 ## Steps
 

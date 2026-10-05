@@ -5,11 +5,12 @@ slash_command: /campaign-performance-leaderboard
 group: Reports
 owner: intempt
 curator: aman
-summary: Ranks every email and SMS campaign of the last 90 days by revenue, with sends, opens, clicks,
-  conversions, open rate, click rate and revenue per send.
+summary: >-
+  Reports on email and SMS campaign performance over the last 90 days, ranking campaigns by attributed revenue
+  alongside sends, clicks, and conversions.
 description: >-
-  Per-campaign email/SMS performance: sent, opened, clicked, converted, revenue, revenue-per-send: the
-  canonical Klaviyo-style view.
+  Track campaign performance metrics including sends, clicks, conversions, and revenue in a leaderboard table
+  report.
 version: 2.0.0
 classification:
   product:
@@ -84,7 +85,7 @@ outputs:
 
 # Campaign performance leaderboard
 
-Ranks every email and SMS campaign of the last 90 days by revenue, with sends, opens, clicks, conversions, open rate, click rate and revenue per send.
+Reports on email and SMS campaign performance over the last 90 days, ranking campaigns by attributed revenue alongside sends, clicks, and conversions.
 
 ## Steps
 

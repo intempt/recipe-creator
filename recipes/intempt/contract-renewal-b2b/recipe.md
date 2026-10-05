@@ -5,12 +5,13 @@ slash_command: /contract-renewal-b2b
 group: Journeys
 owner: intempt
 curator: somya
-summary: 'Works a renewal like a buying process: the champion at 90 days, the budget holder at 60, everyone
-  at 30, with a health read behind each message.'
+summary: >-
+  For B2B accounts approaching contract end, run a renewal journey at 90, 60, and 30 days to the enrolled
+  profile.
 description: >-
-  For B2B accounts approaching contract end (90/60/30 days before), fire a multi-stakeholder renewal journey
-  reaching the buyer, the user-champion, and the economic-buyer with appropriate messaging per role, renewal
-  is a buying process, not a single email.
+  For B2B accounts approaching contract end, enroll a profile and send renewal emails at 90, 60, and 30 days
+  before expiration. Tailor content using account and role attributes, and track engagement and health in a
+  dashboard. The journey messages one enrolled profile; it does not switch recipients per touch.
 version: 2.0.0
 classification:
   product:
@@ -153,7 +154,7 @@ outputs:
 
 # B2B contract renewal
 
-Works a renewal like a buying process: the champion at 90 days, the budget holder at 60, everyone at 30, with a health read behind each message.
+For B2B accounts approaching contract end, run a renewal journey at 90, 60, and 30 days to the enrolled profile.
 
 ## Steps
 

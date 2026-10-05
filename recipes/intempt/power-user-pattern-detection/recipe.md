@@ -5,12 +5,13 @@ slash_command: /power-user-pattern-detection
 group: Journeys
 owner: intempt
 curator: somya
-summary: Notices people doing a job by hand over and over, shows them the feature that automates it at
-  that exact moment, and asks for a review if it lands.
+summary: >-
+  Detects users with daily or batch patterns of repeated manual work: 5+ same task in 7 days, one-at-a-time
+  batch operations, or repeat exports.
 description: >-
-  Detect users repeatedly performing manual workflows that the product can automate (5+ same task in 7
-  days, batch operations being done one-at-a-time, repeat exports) to surface the relevant power-feature
-  contextually via in-app + recommendation surface, then invite to advocacy program if adopted.
+  Attribute repeated manual-work patterns at daily or batch cadence. Segment users matching 5+ same task in 7
+  days, one-at-a-time batch operations, or repeat exports. Send the relevant power-feature recommendation and
+  follow-up by email. No mid-session in-app overlay.
 version: 2.0.0
 classification:
   product:
@@ -201,7 +202,7 @@ outputs:
 
 # Power user pattern detection
 
-Notices people doing a job by hand over and over, shows them the feature that automates it at that exact moment, and asks for a review if it lands.
+Detects users with daily or batch patterns of repeated manual work: 5+ same task in 7 days, one-at-a-time batch operations, or repeat exports.
 
 ## Steps
 

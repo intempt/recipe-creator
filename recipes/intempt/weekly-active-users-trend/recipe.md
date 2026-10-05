@@ -5,10 +5,11 @@ slash_command: /weekly-active-users-trend
 group: Reports
 owner: intempt
 curator: aman
-summary: Shows weekly active users next to monthly, and the ratio between them, which tells you whether
-  growth is real engagement or just signups.
+summary: >-
+  Shows weekly active users and monthly active users, plus the WAU to MAU ratio, to indicate engagement
+  stickiness.
 description: >-
-  WAU trend with WAU/MAU stickiness ratio: the standard PLG engagement view.
+  WAU and MAU engagement view with stickiness ratio, using standard monthly active users.
 version: 2.0.0
 classification:
   product:
@@ -66,7 +67,7 @@ outputs:
 
 # Weekly active users
 
-Shows weekly active users next to monthly, and the ratio between them, which tells you whether growth is real engagement or just signups.
+Shows weekly active users and monthly active users, plus the WAU to MAU ratio, to indicate engagement stickiness.
 
 ## Steps
 

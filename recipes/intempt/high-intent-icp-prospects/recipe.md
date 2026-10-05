@@ -5,10 +5,11 @@ slash_command: /high-intent-icp-prospects
 group: Segments
 owner: intempt
 curator: harish
-summary: Accounts that fit your ideal profile and read both your pricing and your docs this week, with
-  no deal open yet.
+summary: >-
+  Accounts that match your ideal customer profile by account attributes and have no open deal yet.
 description: >-
-  ICP-matching accounts with active intent signals (pricing + docs visited recently).
+  Segment accounts using ICP-matching account attributes and open-deal status. The segment relies on account
+  attributes, not cross-user page-view rollups.
 version: 2.0.0
 classification:
   product:
@@ -57,7 +58,7 @@ outputs:
 
 # ICP accounts showing intent
 
-Accounts that fit your ideal profile and read both your pricing and your docs this week, with no deal open yet.
+Accounts that match your ideal customer profile by account attributes and have no open deal yet.
 
 ## Steps
 

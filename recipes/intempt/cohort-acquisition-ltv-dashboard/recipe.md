@@ -5,11 +5,12 @@ slash_command: /cohort-acquisition-ltv-dashboard
 group: Dashboards
 owner: intempt
 curator: sid
-summary: Shows which acquisition channels bring customers who keep buying, by tracking cumulative revenue
-  per cohort over 12 months against repeat-purchase rate and time to second order.
+summary: >-
+  Monitor acquisition performance with line plots of selected metrics over calendar time. Use the trends to
+  see how measures such as revenue or repeat purchases change over time.
 description: >-
-  Performance Marketer / DTC Founder view: cohort LTV curves by acquisition channel, repeat-purchase mechanics,
-  second-order velocity: the #1 dashboard for $20M+ DTC brands.
+  A dashboard for tracking acquisition-related metrics over calendar time with Insights line plots. It shows
+  trends, not cumulative revenue by cohort age.
 version: 2.0.0
 classification:
   product:
@@ -83,7 +84,7 @@ outputs:
 
 # Cohort LTV by acquisition channel
 
-Shows which acquisition channels bring customers who keep buying, by tracking cumulative revenue per cohort over 12 months against repeat-purchase rate and time to second order.
+Monitor acquisition performance with line plots of selected metrics over calendar time. Use the trends to see how measures such as revenue or repeat purchases change over time.
 
 ## Steps
 

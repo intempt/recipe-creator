@@ -5,12 +5,12 @@ slash_command: /meeting-types-taxonomy
 group: Meetings
 owner: intempt
 curator: sid
-summary: Sorts your calls into a clean set of types so summaries, coaching and reporting all target the
-  right kind of call instead of guessing.
+summary: >-
+  Organizes calls with the notetaker's built in All, My, and Shared views so downstream summaries and
+  reporting pull from the right call set.
 description: >-
-  Establish a clean meeting-type catalog (Discovery, Demo, Proposal, Close, Onboarding, QBR, Renewal,
-  Customer Success, Internal) so every downstream recipe (summaries, coaching, reporting) can target the
-  right call type without ambiguity.
+  Use the notetaker's All, My, and Shared views as the call groupings. Downstream recipes reference these
+  views instead of assuming a sales stage catalog or per type autojoin.
 version: 2.0.0
 classification:
   product:
@@ -135,7 +135,7 @@ outputs:
 
 # Set up your meeting types
 
-Sorts your calls into a clean set of types so summaries, coaching and reporting all target the right kind of call instead of guessing.
+Organizes calls with the notetaker's built in All, My, and Shared views so downstream summaries and reporting pull from the right call set.
 
 ## Steps
 

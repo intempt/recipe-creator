@@ -5,11 +5,12 @@ slash_command: /subscription-health-dashboard
 group: Dashboards
 owner: intempt
 curator: sid
-summary: 'Answers whether subscription revenue is compounding or eroding each month and where the leakage
-  is: MRR movement, churn cohorts, failed payments and NRR.'
+summary: >-
+  Review subscription revenue compounding or erosion using the subscription page's fixed NRR curve and MRR
+  movement waterfall.
 description: >-
-  Finance / RevOps view: MRR movement, churn cohorts, payment recovery, NRR: the monthly board-review
-  subscription metrics.
+  Finance / RevOps view: the subscription page provides a fixed NRR curve and MRR movement waterfall. These
+  are built-in features, not composable dashboard widgets.
 version: 2.0.0
 classification:
   product:
@@ -79,7 +80,7 @@ outputs:
 
 # Subscription revenue health
 
-Answers whether subscription revenue is compounding or eroding each month and where the leakage is: MRR movement, churn cohorts, failed payments and NRR.
+Review subscription revenue compounding or erosion using the subscription page's fixed NRR curve and MRR movement waterfall.
 
 ## Steps
 

@@ -5,10 +5,10 @@ slash_command: /activation-funnel-with-velocity
 group: Reports
 owner: intempt
 curator: aman
-summary: Shows where new users drop out of activation and, just as important, where they stall, with median
-  and 75th percentile timings for every step.
+summary: >-
+  Shows where new users drop out across key onboarding steps to pinpoint activation bottlenecks.
 description: >-
-  Activation funnel with median + p75 step velocity: surfaces where users stall, not just where they drop.
+  Activation funnel report: identifies conversion drop-offs across onboarding milestones.
 version: 2.0.0
 classification:
   product:
@@ -69,7 +69,7 @@ outputs:
 
 # Activation funnel with velocity
 
-Shows where new users drop out of activation and, just as important, where they stall, with median and 75th percentile timings for every step.
+Shows where new users drop out across key onboarding steps to pinpoint activation bottlenecks.
 
 ## Steps
 

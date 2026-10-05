@@ -5,11 +5,12 @@ slash_command: /demo-vs-self-serve-routing-personalization
 group: Personalizations
 owner: intempt
 curator: rana
-summary: Visitors from companies over 200 people see a book-a-demo button. Smaller returning companies
-  see a self-serve sign-up with social proof. Nobody is split at random.
+summary: >-
+  Use the personalization engine to show different CTAs to visitor audiences you define. It does not use
+  firmographic company-size data.
 description: >-
-  Show enterprise visitors a demo CTA, smaller-company visitors a self-serve CTA. Client personalization
-  with firmographic audience targeting (no random split).
+  Personalize CTAs for visitor audiences with the shipped personalization engine. Firmographic company-size
+  enrichment is not included.
 version: 2.0.0
 classification:
   product:
@@ -99,7 +100,7 @@ outputs:
 
 # Demo or self-serve CTA by company size
 
-Visitors from companies over 200 people see a book-a-demo button. Smaller returning companies see a self-serve sign-up with social proof. Nobody is split at random.
+Use the personalization engine to show different CTAs to visitor audiences you define. It does not use firmographic company-size data.
 
 ## Steps
 

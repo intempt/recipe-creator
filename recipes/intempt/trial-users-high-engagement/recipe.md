@@ -5,10 +5,11 @@ slash_command: /trial-users-high-engagement
 group: Segments
 owner: intempt
 curator: harish
-summary: Trial users who are using the product heavily with two weeks left to run, the ones worth a sales
-  call.
+summary: >-
+  Trial users with high numeric engagement scores and two weeks remaining in their trial period.
 description: >-
-  Trial users with strong usage signals who are likely to convert. Engagement bucketed enum.
+  Segment trial users exceeding a numeric engagement score threshold with two weeks left before trial
+  expiration.
 version: 2.0.0
 classification:
   product:
@@ -54,7 +55,7 @@ outputs:
 
 # Trials most likely to convert
 
-Trial users who are using the product heavily with two weeks left to run, the ones worth a sales call.
+Trial users with high numeric engagement scores and two weeks remaining in their trial period.
 
 ## Steps
 

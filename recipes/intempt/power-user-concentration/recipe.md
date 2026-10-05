@@ -5,10 +5,10 @@ slash_command: /power-user-concentration
 group: Reports
 owner: intempt
 curator: aman
-summary: Shows how much of your total activity comes from the top 1%, 5% and 10% of users, and how much
-  comes from everyone else.
+summary: >-
+  Ranks users by event volume and shows each user's share of total events.
 description: >-
-  Pareto chart of top 1% / 5% / 10% of users by event volume vs share of total events.
+  Report of users ranked by event volume with their share of total events.
 version: 2.0.0
 classification:
   product:
@@ -64,7 +64,7 @@ outputs:
 
 # Power user concentration
 
-Shows how much of your total activity comes from the top 1%, 5% and 10% of users, and how much comes from everyone else.
+Ranks users by event volume and shows each user's share of total events.
 
 ## Steps
 

@@ -5,12 +5,12 @@ slash_command: /bulk-update-review-workflow
 group: Workflows
 owner: intempt
 curator: trishik
-summary: Stops a mass field change, merge or delete above the size you set, shows a sample of before and
-  after, and lets a reviewer approve all, some or none.
+summary: >-
+  Pauses mass field changes, merges, or deletes above a set size for human review before execution. The recipe
+  creates the approval gate and routes the queued change to a reviewer.
 description: >-
-  Mass field updates, record merges, or segment moves over a threshold pause for human review before execution.
-  Shows the diff preview, allows partial approval (apply to subset), prevents the 'mass update went wrong'
-  nightmare every RevOps team has seen.
+  Mass field updates, record merges, or segment moves over a threshold pause for human review before
+  execution. The recipe provides the approval gate and waits for a reviewer decision.
 version: 2.0.0
 classification:
   product:
@@ -190,7 +190,7 @@ outputs:
 
 # Review gate for bulk updates
 
-Stops a mass field change, merge or delete above the size you set, shows a sample of before and after, and lets a reviewer approve all, some or none.
+Pauses mass field changes, merges, or deletes above a set size for human review before execution. The recipe creates the approval gate and routes the queued change to a reviewer.
 
 ## Steps
 

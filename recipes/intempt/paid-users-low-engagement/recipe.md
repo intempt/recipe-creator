@@ -5,10 +5,10 @@ slash_command: /paid-users-low-engagement
 group: Segments
 owner: intempt
 curator: harish
-summary: Paying customers whose usage has dropped off in the last couple of weeks, early enough to fix
-  before it turns into churn.
+summary: >-
+  Paying customers with lower numeric engagement scores, useful for early retention outreach.
 description: >-
-  Paying customers showing early disengagement signals. Engagement bucketed enum.
+  Segment paying customers by numeric engagement score to identify possible early disengagement.
 version: 2.0.0
 classification:
   product:
@@ -52,7 +52,7 @@ outputs:
 
 # Paid users losing interest
 
-Paying customers whose usage has dropped off in the last couple of weeks, early enough to fix before it turns into churn.
+Paying customers with lower numeric engagement scores, useful for early retention outreach.
 
 ## Steps
 

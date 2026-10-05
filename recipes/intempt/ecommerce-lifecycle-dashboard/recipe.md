@@ -5,11 +5,10 @@ slash_command: /ecommerce-lifecycle-dashboard
 group: Dashboards
 owner: intempt
 curator: sid
-summary: Answers how shoppers move between lifecycle stages, when they reorder, and whether your discount
-  codes are adding revenue or eating into it.
+summary: >-
+  Shows lifecycle distribution, when shoppers reorder, and whether discount codes add revenue or eat into it.
 description: >-
-  CRM / retention view: lifecycle distribution + migration, replenishment timing, discount cannibalization,
-  and post-purchase paths.
+  CRM / retention dashboard: lifecycle distribution, replenishment timing, and discount cannibalization.
 version: 2.0.0
 classification:
   product:
@@ -77,7 +76,7 @@ outputs:
 
 # Ecommerce lifecycle and retention
 
-Answers how shoppers move between lifecycle stages, when they reorder, and whether your discount codes are adding revenue or eating into it.
+Shows lifecycle distribution, when shoppers reorder, and whether discount codes add revenue or eat into it.
 
 ## Steps
 

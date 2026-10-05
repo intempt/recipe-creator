@@ -5,11 +5,12 @@ slash_command: /feature-paywall-conversion
 group: Reports
 owner: intempt
 curator: aman
-summary: Shows which features push free users to look at pricing and actually pay, so you know what is
-  worth putting behind the paywall.
+summary: >-
+  Reports per-feature engagement among free users and their pricing page views, to inform feature-gating
+  strategy. It does not sequence feature use to payment or show quadrants.
 description: >-
-  Per-feature: % of free users who interact with it and subsequently view pricing AND subscribe: informs
-  feature-gating strategy.
+  Per-feature: free-user interactions and pricing views, to inform feature gating. Feature-to-payment sequence
+  belongs in funnels, not this report.
 version: 2.0.0
 classification:
   product:
@@ -72,7 +73,7 @@ outputs:
 
 # Feature to paywall conversion
 
-Shows which features push free users to look at pricing and actually pay, so you know what is worth putting behind the paywall.
+Reports per-feature engagement among free users and their pricing page views, to inform feature-gating strategy. It does not sequence feature use to payment or show quadrants.
 
 ## Steps
 

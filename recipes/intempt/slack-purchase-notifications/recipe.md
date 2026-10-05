@@ -5,12 +5,12 @@ slash_command: /slack-purchase-notifications
 group: Workflows
 owner: intempt
 curator: trishik
-summary: Posts the wins to one channel and the problems to another, with the person who needs to act tagged,
-  and stays quiet outside working hours.
+summary: >-
+  Posts revenue wins to one Slack channel and at-risk events to another through a configurable workflow.
+  Notifications are static channel posts, with no dynamic owner mentions or DMs.
 description: >-
-  Post celebration-grade Slack messages on key revenue events (deal_won, new subscription, expansion)
-  and operational Slack messages on at-risk events (payment_failed, churn). Single configurable workflow
-  handling the Slack revenue-notifications surface.
+  Configurable workflow sends Slack messages for revenue wins (deal_won, new subscription, expansion) to one
+  channel and at-risk events (payment_failed, churn) to another. It delivers static channel posts.
 version: 2.0.0
 classification:
   product:
@@ -109,7 +109,7 @@ outputs:
 
 # Revenue notifications in Slack
 
-Posts the wins to one channel and the problems to another, with the person who needs to act tagged, and stays quiet outside working hours.
+Posts revenue wins to one Slack channel and at-risk events to another through a configurable workflow. Notifications are static channel posts, with no dynamic owner mentions or DMs.
 
 ## Steps
 

@@ -5,10 +5,11 @@ slash_command: /post-purchase-second-order-velocity
 group: Reports
 owner: intempt
 curator: aman
-summary: Shows how long repeat buyers wait before ordering again, which is the number you set replenishment
-  reminders against.
+summary: >-
+  Measure the time from a customer's first order to their second order. Use the median and conversion
+  percentages to guide when to send replenishment reminders.
 description: >-
-  Histogram of days from 1st to 2nd order_created: informs the right delay for replenishment journey triggers.
+  Funnel time-to-convert from first to second order, showing median time and conversion percentages.
 version: 2.0.0
 classification:
   product:
@@ -64,7 +65,7 @@ outputs:
 
 # Time to second purchase
 
-Shows how long repeat buyers wait before ordering again, which is the number you set replenishment reminders against.
+Measure the time from a customer's first order to their second order. Use the median and conversion percentages to guide when to send replenishment reminders.
 
 ## Steps
 

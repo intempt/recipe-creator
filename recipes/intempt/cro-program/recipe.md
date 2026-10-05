@@ -5,10 +5,12 @@ slash_command: /cro-program
 group: Experiments
 owner: intempt
 curator: rana
-summary: 'Runs a full optimization cycle: find the worst drop-off, design the test, ship the variants,
-  then kill or promote on the results.'
+summary: >-
+  Find the worst drop-off, run an A/B experiment with random variant assignment, and review lift and
+  significance on the Result tab. Use Personalization separately for per-variant targeting.
 description: >-
-  Find drop-off, design experiment, ship variants, analyze, kill or promote.
+  Find drop-off, design the test, ship variants, analyze lift and significance on the Result tab. A/B
+  assignment is random; per-variant targeting is handled by Personalization, not the experiment.
 version: 2.0.0
 classification:
   product:
@@ -118,7 +120,7 @@ outputs:
 
 # Conversion optimization program
 
-Runs a full optimization cycle: find the worst drop-off, design the test, ship the variants, then kill or promote on the results.
+Find the worst drop-off, run an A/B experiment with random variant assignment, and review lift and significance on the Result tab. Use Personalization separately for per-variant targeting.
 
 ## Steps
 

@@ -5,11 +5,12 @@ slash_command: /product-health-dashboard
 group: Dashboards
 owner: intempt
 curator: sid
-summary: Answers whether the product is getting more or less engaging, which features people keep coming
-  back to, and how users say they feel about it.
+summary: >-
+  Answers whether the product is getting more or less engaging, which features users return to, and how users
+  say they feel. The cohort heatmap output is in Retention, not Insights.
 description: >-
-  PM view: stickiness, feature adoption depth, retention by feature, NPS, and the active vs. passive user
-  split.
+  PM view: stickiness, feature adoption depth, retention by feature, NPS, and the active vs passive user
+  split. Cohort heatmap is available under Retention.
 version: 2.0.0
 classification:
   product:
@@ -76,7 +77,7 @@ outputs:
 
 # Product engagement and adoption
 
-Answers whether the product is getting more or less engaging, which features people keep coming back to, and how users say they feel about it.
+Answers whether the product is getting more or less engaging, which features users return to, and how users say they feel. The cohort heatmap output is in Retention, not Insights.
 
 ## Steps
 
