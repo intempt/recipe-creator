@@ -16,6 +16,11 @@ classification:
   agent: journey-builder
   mode:
     - ecommerce
+  industry:
+    - ecommerce
+    - social
+  vertical:
+    - subscription
   complexity: advanced
   executionMode: live
   tags:

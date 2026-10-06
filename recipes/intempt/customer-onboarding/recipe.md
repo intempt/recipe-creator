@@ -16,6 +16,9 @@ classification:
   agent: revops-automator
   mode:
     - b2b
+  industry:
+    - b2b-saas
+  vertical: []
   complexity: advanced
   executionMode: live
   tags:

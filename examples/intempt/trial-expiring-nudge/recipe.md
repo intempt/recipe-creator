@@ -17,6 +17,13 @@ classification:
     - marketing
   mode:
     - saas
+  industry:
+    - ai
+    - b2b-saas
+    - finance
+    - media
+  vertical:
+    - plg
   complexity: quick
   tags:
     - trial

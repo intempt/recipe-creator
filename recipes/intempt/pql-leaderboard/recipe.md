@@ -16,6 +16,12 @@ classification:
   agent: data-analyst
   mode:
     - saas
+  industry:
+    - ai
+    - b2b-saas
+    - ecommerce
+  vertical:
+    - plg
   complexity: quick
   executionMode: live
   tags:

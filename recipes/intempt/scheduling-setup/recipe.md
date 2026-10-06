@@ -16,6 +16,9 @@ classification:
   agent: scheduling-assistant
   mode:
     - b2b
+  industry:
+    - b2b-saas
+  vertical: []
   complexity: standard
   executionMode: live
   tags:

@@ -17,6 +17,13 @@ classification:
   mode:
     - saas
     - ecommerce
+  industry:
+    - ai
+    - b2b-saas
+    - ecommerce
+    - finance
+  vertical:
+    - payments
   object: users
   complexity: standard
   executionMode: live

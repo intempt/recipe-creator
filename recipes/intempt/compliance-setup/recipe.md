@@ -18,6 +18,12 @@ classification:
   agent: revops-automator
   mode:
     - all
+  industry:
+    - ai
+    - b2b-saas
+    - ecommerce
+    - finance
+  vertical: []
   complexity: standard
   executionMode: oneshot
   tags:

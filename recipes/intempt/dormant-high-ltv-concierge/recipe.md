@@ -18,6 +18,13 @@ classification:
   mode:
     - saas
     - ecommerce
+  industry:
+    - ai
+    - b2b-saas
+    - ecommerce
+    - finance
+    - media
+  vertical: []
   complexity: standard
   executionMode: live
   tags:

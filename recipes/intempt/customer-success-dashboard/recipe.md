@@ -17,6 +17,12 @@ classification:
   mode:
     - b2b
     - saas
+  industry:
+    - ai
+    - b2b-saas
+    - media
+    - social
+  vertical: []
   complexity: standard
   executionMode: live
   tags:

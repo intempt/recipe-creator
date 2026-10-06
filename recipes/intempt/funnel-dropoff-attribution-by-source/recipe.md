@@ -16,6 +16,13 @@ classification:
   agent: data-analyst
   mode:
     - all
+  industry:
+    - ai
+    - b2b-saas
+    - ecommerce
+    - finance
+    - media
+  vertical: []
   complexity: quick
   executionMode: live
   tags:

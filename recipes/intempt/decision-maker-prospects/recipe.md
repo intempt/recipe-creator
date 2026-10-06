@@ -17,6 +17,11 @@ classification:
   mode:
     - b2b
     - saas
+  industry:
+    - ai
+    - b2b-saas
+  vertical:
+    - sales-led
   object: users
   complexity: standard
   executionMode: live

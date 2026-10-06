@@ -17,6 +17,11 @@ classification:
   agent: experiment-strategist
   mode:
     - saas
+  industry:
+    - ai
+    - b2b-saas
+  vertical:
+    - plg
   complexity: standard
   executionMode: live
   tags:

@@ -16,6 +16,10 @@ classification:
   agent: segment-architect
   mode:
     - ecommerce
+  industry:
+    - ecommerce
+    - finance
+  vertical: []
   object: users
   complexity: standard
   executionMode: live

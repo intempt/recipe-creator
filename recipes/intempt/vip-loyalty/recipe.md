@@ -16,6 +16,10 @@ classification:
   agent: experience-optimizer
   mode:
     - ecommerce
+  industry:
+    - ecommerce
+    - media
+  vertical: []
   complexity: advanced
   executionMode: live
   tags:

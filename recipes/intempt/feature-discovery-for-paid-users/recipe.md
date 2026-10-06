@@ -17,6 +17,11 @@ classification:
   agent: journey-builder
   mode:
     - saas
+  industry:
+    - ai
+    - b2b-saas
+    - media
+  vertical: []
   complexity: advanced
   executionMode: live
   tags:

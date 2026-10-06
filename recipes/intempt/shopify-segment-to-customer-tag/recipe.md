@@ -17,6 +17,11 @@ classification:
   agent: revops-automator
   mode:
     - ecommerce
+  industry:
+    - b2b-saas
+    - ecommerce
+    - media
+  vertical: []
   complexity: standard
   executionMode: live
   tags:
