@@ -1,0 +1,29 @@
+name: recipe-git-validate
+
+# Every recipe.md a pull request adds or changes is sent to llm-wrapper's
+# POST /v1/recipes/git_validate: markdown → steps, then the per-step check with
+# no tenant (steps read earlier outputs correctly; no step is vague). Any failing
+# step fails the job, listed per step.
+#
+# No `paths:` filter, for the reason recipe-prerequisites.yml records: a required
+# check skipped by a filter never reports. A PR touching no recipe exits 0 at once.
+
+on:
+  pull_request:
+    branches: [staging]
+
+jobs:
+  git-validate:
+    runs-on: intempt-ubuntu-github-runner
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Every changed recipe passes the engine's per-step check
+        run: python3 scripts/git_validate_recipes.py --base "origin/${{ github.base_ref }}"
+        env:
+          RECIPE_GIT_VALIDATE_URL: ${{ secrets.RECIPE_GIT_VALIDATE_URL }}
+          RECIPE_GIT_VALIDATE_SECRET: ${{ secrets.RECIPE_GIT_VALIDATE_SECRET }}
