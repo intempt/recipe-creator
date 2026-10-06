@@ -74,7 +74,7 @@ def report(path: str, status: int, body: dict) -> bool:
         title = step.get("title") or step.get("id") or f"step {step.get('position')}"
         for e in step.get("errors") or []:
             msg = e.get("message") if isinstance(e, dict) else e
-            code = e.get("code") if isinstance(e, dict) else ""
+            code = e.get("kind") if isinstance(e, dict) else ""
             print(f"        - {title}: [{code}] {msg}")
     return False
 
