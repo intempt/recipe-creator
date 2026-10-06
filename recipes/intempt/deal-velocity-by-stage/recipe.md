@@ -16,6 +16,9 @@ classification:
   agent: data-analyst
   mode:
     - b2b
+  industry:
+    - b2b-saas
+  vertical: []
   complexity: quick
   executionMode: live
   tags:

@@ -17,6 +17,11 @@ classification:
   agent: experiment-strategist
   mode:
     - ecommerce
+  industry:
+    - ai
+    - ecommerce
+    - finance
+  vertical: []
   complexity: standard
   executionMode: live
   tags:

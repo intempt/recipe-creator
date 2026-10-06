@@ -17,6 +17,11 @@ classification:
   agent: revops-automator
   mode:
     - all
+  industry:
+    - ai
+    - b2b-saas
+    - finance
+  vertical: []
   complexity: starter
   executionMode: live
   tags:

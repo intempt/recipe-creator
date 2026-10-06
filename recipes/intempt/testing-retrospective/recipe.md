@@ -17,6 +17,13 @@ classification:
   agent: experience-optimizer
   mode:
     - all
+  industry:
+    - ai
+    - b2b-saas
+    - ecommerce
+    - finance
+    - media
+  vertical: []
   complexity: standard
   executionMode: live
   tags:

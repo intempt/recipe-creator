@@ -18,6 +18,13 @@ classification:
   agent: revops-automator
   mode:
     - saas
+  industry:
+    - ai
+    - b2b-saas
+    - ecommerce
+  vertical:
+    - plg
+    - sales-led
   complexity: advanced
   executionMode: live
   tags:

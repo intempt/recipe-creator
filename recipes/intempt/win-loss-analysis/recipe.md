@@ -17,6 +17,9 @@ classification:
   agent: meeting-notetaker
   mode:
     - b2b
+  industry:
+    - b2b-saas
+  vertical: []
   complexity: standard
   executionMode: oneshot
   tags:

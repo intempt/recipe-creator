@@ -17,6 +17,13 @@ classification:
   agent: revops-automator
   mode:
     - saas
+  industry:
+    - ai
+    - b2b-saas
+    - ecommerce
+    - finance
+  vertical:
+    - payments
   complexity: standard
   executionMode: live
   tags:

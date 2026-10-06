@@ -21,6 +21,13 @@ classification:
   mode:
     - b2b
     - saas
+  industry:
+    - ai
+    - b2b-saas
+    - finance
+  vertical:
+    - ai-agents
+    - payments
   complexity: advanced
   executionMode: live
   tags:

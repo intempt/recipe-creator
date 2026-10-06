@@ -16,6 +16,11 @@ classification:
   agent: outreach-rep
   mode:
     - b2b
+  industry:
+    - b2b-saas
+    - media
+  vertical:
+    - sales-led
   complexity: advanced
   executionMode: live
   tags:

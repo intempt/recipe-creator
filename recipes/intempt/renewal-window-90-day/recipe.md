@@ -16,6 +16,12 @@ classification:
   agent: segment-architect
   mode:
     - saas
+  industry:
+    - ai
+    - b2b-saas
+    - finance
+    - media
+  vertical: []
   object: users
   complexity: standard
   executionMode: live

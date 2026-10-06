@@ -20,6 +20,14 @@ classification:
     - b2b
     - saas
     - ecommerce
+  industry:
+    - ai
+    - b2b-saas
+    - ecommerce
+    - finance
+    - media
+  vertical:
+    - subscription
   complexity: standard
   executionMode: live
   tags:

@@ -15,6 +15,12 @@ classification:
   agent: creative-assistant
   mode:
     - all
+  industry:
+    - b2b-saas
+    - ecommerce
+    - media
+    - social
+  vertical: []
   complexity: quick
   executionMode: oneshot
   tags:

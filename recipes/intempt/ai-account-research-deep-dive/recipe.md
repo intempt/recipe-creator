@@ -18,6 +18,13 @@ classification:
   agent: workflow-builder
   mode:
     - b2b
+  industry:
+    - ai
+    - b2b-saas
+    - ecommerce
+  vertical:
+    - ai-agents
+    - sales-led
   complexity: advanced
   executionMode: live
   tags:

@@ -17,6 +17,12 @@ classification:
   agent: experiment-strategist
   mode:
     - saas
+  industry:
+    - ai
+    - b2b-saas
+    - finance
+  vertical:
+    - payments
   complexity: standard
   executionMode: live
   tags:

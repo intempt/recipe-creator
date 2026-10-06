@@ -18,6 +18,10 @@ classification:
   agent: data-analyst
   mode:
     - b2b
+  industry:
+    - b2b-saas
+    - finance
+  vertical: []
   complexity: standard
   executionMode: live
   tags:

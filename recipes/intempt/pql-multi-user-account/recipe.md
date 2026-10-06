@@ -18,6 +18,12 @@ classification:
   agent: segment-architect
   mode:
     - saas
+  industry:
+    - ai
+    - b2b-saas
+    - ecommerce
+  vertical:
+    - plg
   object: accounts
   complexity: standard
   executionMode: live

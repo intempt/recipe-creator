@@ -15,6 +15,9 @@ classification:
   agent: data-analyst
   mode:
     - ecommerce
+  industry:
+    - ecommerce
+  vertical: []
   complexity: quick
   executionMode: live
   tags:
