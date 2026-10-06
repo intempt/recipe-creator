@@ -5,6 +5,11 @@ name: recipe-git-validate
 # no tenant (steps read earlier outputs correctly; no step is vague). Any failing
 # step fails the job, listed per step.
 #
+# Job 2 then runs the real Validate of each recipe job 1 passed, on the recipe
+# object job 1 got back (the artifact — never re-read), in the CI project named
+# by secrets. Every step executes; the entities it creates stay in that project.
+# It is skipped when job 1 passed no recipe — a skipped job still reports.
+#
 # No `paths:` filter, for the reason recipe-prerequisites.yml records: a required
 # check skipped by a filter never reports. A PR touching no recipe exits 0 at once.
 
@@ -15,6 +20,8 @@ on:
 jobs:
   git-validate:
     runs-on: intempt-ubuntu-github-runner
+    outputs:
+      passed: ${{ steps.check.outputs.passed }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -23,7 +30,39 @@ jobs:
         with:
           python-version: "3.12"
       - name: Every changed recipe passes the engine's per-step check
-        run: python3 scripts/git_validate_recipes.py --base "origin/${{ github.base_ref }}"
+        id: check
+        run: |
+          python3 scripts/git_validate_recipes.py --base "origin/${{ github.base_ref }}" --out checked
+          echo "passed=$(ls checked/*.json 2>/dev/null | wc -l)" >> "$GITHUB_OUTPUT"
         env:
           RECIPE_GIT_VALIDATE_URL: ${{ secrets.RECIPE_GIT_VALIDATE_URL }}
           RECIPE_GIT_VALIDATE_SECRET: ${{ secrets.RECIPE_GIT_VALIDATE_SECRET }}
+      - uses: actions/upload-artifact@v4
+        if: steps.check.outputs.passed != '0'
+        with:
+          name: checked-recipes
+          path: checked/
+          retention-days: 7
+
+  git-validate-run:
+    needs: git-validate
+    if: needs.git-validate.outputs.passed != '0'
+    runs-on: intempt-ubuntu-github-runner
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/download-artifact@v4
+        with:
+          name: checked-recipes
+          path: checked
+      - name: Every checked recipe validates when it really runs
+        run: python3 scripts/git_validate_run_recipes.py checked
+        env:
+          RECIPE_GIT_VALIDATE_URL: ${{ secrets.RECIPE_GIT_VALIDATE_URL }}
+          RECIPE_GIT_VALIDATE_SECRET: ${{ secrets.RECIPE_GIT_VALIDATE_SECRET }}
+          RECIPE_GIT_RUN_ORG_ID: ${{ secrets.RECIPE_GIT_RUN_ORG_ID }}
+          RECIPE_GIT_RUN_PROJECT_ID: ${{ secrets.RECIPE_GIT_RUN_PROJECT_ID }}
+          RECIPE_GIT_RUN_PERSON_ID: ${{ secrets.RECIPE_GIT_RUN_PERSON_ID }}

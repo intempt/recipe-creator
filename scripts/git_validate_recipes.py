@@ -16,6 +16,8 @@ recipe-prerequisites.yml for why).
 Usage:
   git_validate_recipes.py --base <ref> [--url URL]       # changed since merge-base
   git_validate_recipes.py path/to/recipe.md ...          # explicit files
+  --out DIR   writes each passing answer to DIR/<f_id>.json — the recipe object
+              job 2 (git_validate_run_recipes.py) runs, so it is never re-read.
 Env: RECIPE_GIT_VALIDATE_URL, RECIPE_GIT_VALIDATE_SECRET.
 """
 from __future__ import annotations
@@ -23,6 +25,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import subprocess
 import sys
 import time
@@ -79,11 +82,19 @@ def report(path: str, status: int, body: dict) -> bool:
     return False
 
 
+def save(out_dir: str, body: dict) -> None:
+    os.makedirs(out_dir, exist_ok=True)
+    name = re.sub(r"[^A-Za-z0-9._-]", "_", str(body.get("f_id") or "recipe"))
+    with open(os.path.join(out_dir, f"{name}.json"), "w", encoding="utf-8") as fh:
+        json.dump(body, fh, ensure_ascii=False)
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("files", nargs="*")
     ap.add_argument("--base", help="git ref to diff against (merge-base)")
     ap.add_argument("--url", default=os.environ.get("RECIPE_GIT_VALIDATE_URL", ""))
+    ap.add_argument("--out", help="directory for each passing answer, <f_id>.json")
     args = ap.parse_args()
 
     files = args.files or (changed_recipes(args.base) if args.base else [])
@@ -103,7 +114,10 @@ def main() -> int:
         if status == 503:
             time.sleep(5)
             status, body = post(args.url, secret, markdown)
-        ok = report(path, status, body) and ok
+        passed = report(path, status, body)
+        if passed and args.out:
+            save(args.out, body)
+        ok = passed and ok
     print(f"\n{len(files)} recipe(s) checked.")
     return 0 if ok else 1
 
