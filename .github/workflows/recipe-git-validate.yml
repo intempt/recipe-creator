@@ -10,15 +10,24 @@ name: recipe-git-validate
 # by secrets. Every step executes; the entities it creates stay in that project.
 # It is skipped when job 1 passed no recipe — a skipped job still reports.
 #
-# No `paths:` filter, for the reason recipe-prerequisites.yml records: a required
-# check skipped by a filter never reports. A PR touching no recipe exits 0 at once.
+# OPT-IN: nothing runs unless the PR carries the `validate-recipes` label —
+# adding the label starts it, and each push while the label stays reruns it.
+# A PR without the label gets no model calls and creates no entities; both jobs
+# show as skipped, so this must not be a required check.
+#
+# No `paths:` filter: a labelled PR touching no recipe exits 0 at once.
 
 on:
   pull_request:
     branches: [staging]
+    types: [opened, synchronize, reopened, labeled]
 
 jobs:
   git-validate:
+    # `labeled` fires for every label; only this one should start a run.
+    if: >-
+      contains(github.event.pull_request.labels.*.name, 'validate-recipes') &&
+      (github.event.action != 'labeled' || github.event.label.name == 'validate-recipes')
     runs-on: intempt-ubuntu-github-runner
     outputs:
       passed: ${{ steps.check.outputs.passed }}
