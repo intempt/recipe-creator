@@ -1,24 +1,29 @@
 #!/usr/bin/env python3
 """
-Send every recipe.md a pull request changed to llm-wrapper's
-`POST /v1/recipes/git_validate`, and fail when any of them does not pass.
+Send every draft a pull request added or changed (`draft/**/*.md`, the draft/ flow,
+R-RG4-6) to llm-wrapper's `POST /v1/recipes/git_validate`, and fail when any of
+them does not pass.
 
 The route turns the markdown into steps and runs the per-step check with no
 tenant: each step must read earlier outputs correctly and must not be vague.
 A 422 is a recipe problem (CI red, errors printed per step); a 503 is the model
 failing, retried once before it counts as a failure.
 
-Only changed recipes are sent — each one costs one model call to read and one
-per step — and a pull request that touches no recipe exits 0 in about a second,
+A new draft has no `frontmatter_id` yet and LM refuses one without it, so it is sent
+with a TEMPORARY key (recipe_draft.temp_key, `draft-<file name>`); the real key is
+chosen by the write-back (job 3). A draft that names one (an edit, D3) is sent as is.
+
+Only changed drafts are sent — each one costs one model call to read and one
+per step — and a pull request that touches no draft exits 0 in about a second,
 because this runs as a check with no `paths:` filter (see
 recipe-prerequisites.yml for why).
 
 Usage:
-  git_validate_recipes.py --base <ref> [--url URL]       # changed since merge-base
-  git_validate_recipes.py path/to/recipe.md ...          # explicit files
+  git_validate_recipes.py --base <ref> [--url URL]       # drafts changed since merge-base
+  git_validate_recipes.py draft/x.md ...                 # explicit files
   --out DIR   writes each passing answer to DIR/<frontmatter_id>.json — the recipe object
               job 2 (git_validate_run_recipes.py) runs, so it is never re-read —
-              and the recipe.md it came from to DIR/<frontmatter_id>.path (job 3's key).
+              and the draft it came from to DIR/<frontmatter_id>.path (job 3's key).
 URL: .github/recipe-git-validate.json (git_validate_config.py). Env: RECIPE_GIT_VALIDATE_SECRET.
 """
 from __future__ import annotations
@@ -34,16 +39,20 @@ import urllib.error
 import urllib.request
 
 import git_validate_config
+import recipe_draft
 
 HEADER = "x-recipe-validate-secret"
 TIMEOUT_S = 300
 
 
-def changed_recipes(base: str) -> list[str]:
+def changed_drafts(base: str) -> list[str]:
     out = subprocess.run(
-        ["git", "diff", "--name-only", "--diff-filter=AM", f"{base}...HEAD", "--", "recipes/"],
+        # --no-renames: a draft renamed or copied from another reads as R/C, which
+        # --diff-filter=AM would drop — and that draft would never be validated.
+        ["git", "diff", "--name-only", "--no-renames", "--diff-filter=AM", f"{base}...HEAD", "--",
+         recipe_draft.DRAFT_DIR + "/"],
         check=True, capture_output=True, text=True).stdout
-    return sorted(p for p in out.splitlines() if p.endswith("/recipe.md"))
+    return sorted(p for p in out.splitlines() if recipe_draft.is_draft(p))
 
 
 def post(url: str, secret: str, markdown: str) -> tuple[int, dict]:
@@ -104,9 +113,9 @@ def main() -> int:
     ap.add_argument("--out", help="directory for each passing answer, <frontmatter_id>.json")
     args = ap.parse_args()
 
-    files = args.files or (changed_recipes(args.base) if args.base else [])
+    files = args.files or (changed_drafts(args.base) if args.base else [])
     if not files:
-        print("No recipe.md changed — nothing to validate.")
+        print("No draft changed — nothing to validate.")
         return 0
     secret = os.environ.get("RECIPE_GIT_VALIDATE_SECRET", "")
     if not args.url or not secret:
@@ -116,7 +125,13 @@ def main() -> int:
     ok = True
     for path in files:
         with open(path, encoding="utf-8") as fh:
-            markdown = fh.read()
+            text = fh.read()
+        try:
+            markdown = recipe_draft.with_key(text, recipe_draft.temp_key(path))
+        except recipe_draft.DraftError as e:
+            print(f"FAIL  {path}  {e}")
+            ok = False
+            continue
         status, body = post(args.url, secret, markdown)
         if status == 503:
             time.sleep(5)

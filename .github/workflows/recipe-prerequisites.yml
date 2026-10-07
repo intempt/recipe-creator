@@ -95,6 +95,8 @@ jobs:
         run: python3 scripts/render_entities_doc.py --check
       - name: Ids and slash commands are unique, and ids match their folders
         run: python3 scripts/check_recipe_identity.py
+      - name: Every git-format recipe.md agrees with its recipe.json
+        run: python3 scripts/check_recipe_consistency.py
       # The body is generated from the frontmatter, so a hand-edited one is drift
       # by definition. Rewriting the copy across 302 recipes left every body
       # quoting step titles that no longer existed.

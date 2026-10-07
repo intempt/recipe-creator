@@ -22,6 +22,10 @@ import sys
 
 import yaml
 
+from recipe_contract import git_front
+
+AUTHOR_REQUIRED = ("name", "last_name")  # llm-wrapper git_validate.AUTHOR_REQUIRED
+
 FRONTMATTER = re.compile(r"^---\n(.*?)\n---", re.S)
 
 
@@ -34,6 +38,28 @@ def main():
     deploy_keys = collections.defaultdict(list)
 
     for path in sorted(glob.glob("recipes/*/*/recipe.md")):
+        git = git_front(path)
+        if git is not None:
+            # Git-validated format: folder = frontmatter_id, an author, and a deploy key
+            # no other recipe uses. The rest is llm-wrapper's git_validate check.
+            key = str(git["frontmatter_id"])
+            folder = pathlib.Path(path).parent.name
+            if folder != key:
+                problems.append(f"{path}: frontmatter_id '{key}' does not match its folder '{folder}'")
+            author = git.get("author")
+            missing = [k for k in AUTHOR_REQUIRED if not (isinstance(author, dict) and str(author.get(k) or "").strip())]
+            if missing:
+                problems.append(f"{path}: author is missing {', '.join(missing)}")
+            # The draft/ flow writes recipes/<author.org_name>/<frontmatter_id>/ (R-RG4-7/9).
+            owner = str(author.get("org_name") or "").strip() if isinstance(author, dict) else ""
+            held_by = pathlib.Path(path).parent.parent.name
+            if owner != held_by:
+                problems.append(f"{path}: author.org_name '{owner}' does not match its owner folder '{held_by}'")
+            deploy_keys[key].append(path)
+            slash = git.get("slash_command")
+            if slash:
+                slashes[slash].append(key)
+            continue
         text = pathlib.Path(path).read_text(encoding="utf-8")
         match = FRONTMATTER.match(text)
         if not match:

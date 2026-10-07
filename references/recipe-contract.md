@@ -139,3 +139,30 @@ When the engine gains a builder, move it into `BUILDABLE_ENTITIES` in
 The public catalog (`scripts/build_artifacts.py`) carries `summary`, step `title` and step
 `summary`. It never carries a step `description`: that is the instruction Blu runs, and the
 build fails if one leaks.
+
+## Git-format recipes: the draft/ flow
+
+A second format lives beside the contract above. Its author writes free prose in
+`draft/<any-name>.md` (format: [draft/README.md](../draft/README.md)) and CI writes the recipe;
+nobody writes it under `recipes/` by hand, and the `recipe-label` check fails a pull request
+whose commits do.
+
+What CI writes, in one `github-actions[bot]` commit that also deletes the draft:
+
+| File | Content |
+|---|---|
+| `recipes/<owner>/<frontmatter_id>/recipe.md` | front matter `frontmatter_id`, `slash_command`, `description`, `author` (with `org_name`), then the draft's prose unchanged |
+| `recipes/<owner>/<frontmatter_id>/recipe.json` | llm-wrapper's `git_validate` answer: `frontmatter_id`, `title`, `slash_command`, `description`, `markdown`, `classification`, `complexity`, `author`, `steps`. This is what the deploy tags send |
+
+| Rule | Where |
+|---|---|
+| owner = `author.org_name`, else `intempt` | `scripts/recipe_draft.py` `owner_of` |
+| a new key = the slash command without `/`, `-2`, `-3`… on a clash with any recipe of any owner; the slash command takes the same suffix | `recipe_draft.py` `taken`, `new_key` |
+| a draft carrying `frontmatter_id` edits that recipe: key, folder and slash command stay | `scripts/git_validate_writeback.py` |
+| an author's `description` is kept as written | llm-wrapper `git_validate.description_of` |
+| recipe.md and recipe.json agree, and the folder is `recipes/<author.org_name>/<frontmatter_id>/` | `scripts/check_recipe_consistency.py` |
+| folder = `frontmatter_id`, author `name` + `last_name`, owner folder = `org_name`, key unique | `scripts/check_recipe_identity.py` |
+
+The contract checks above (`validate_recipes.py`, the catalog build) skip this format: a
+recipe.md whose front matter has `frontmatter_id` and no `id` is checked by llm-wrapper's
+`git_validate` instead. It is not in the public catalog yet.

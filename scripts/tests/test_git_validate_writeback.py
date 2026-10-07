@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""git_validate_writeback.py: recipe.json beside each validated recipe.md, and a
-`description:` line inserted into the md ONLY when its frontmatter has none —
-a line insert, so everything else stays byte-identical (RG1 §51.3a, §55, §57)."""
+"""git_validate_writeback.py — job 3 of the draft/ flow (R-RG4-6): each validated
+draft becomes recipes/<owner>/<frontmatter_id>/recipe.md + recipe.json and is deleted.
+Owner D1, key D2, edit D3; one problem and nothing is written."""
 import json
 import pathlib
 import shutil
@@ -10,155 +10,220 @@ import tempfile
 import unittest
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
-from support import ROOT
+from support import ROOT  # noqa: F401  (puts scripts/ on sys.path)
 
+import check_recipe_consistency
 import git_validate_writeback as wb
+import recipe_draft
 
-WITHOUT = (
-    "---\n"
-    "id: accounts-at-risk-count\n"
-    "title: Accounts at risk\n"
-    "slash_command: /accounts-at-risk-count\n"
-    "# a comment the author kept\n"
-    "summary: >-\n"
-    "  Counts accounts in predefined engagement-decline segments and tracks the weekly total. Uses fixed segments\n"
-    "  as an approximate at-risk signal.\n"
-    "version: 2.0.0\n"
-    "---\n"
-    "\n"
-    "## Steps\n"
-    "description: this line is body, not frontmatter\n"
-)
-WITH = WITHOUT.replace("title: Accounts at risk\n",
-                       "title: Accounts at risk\ndescription: >-\n  Written by the author.\n", 1)
+FIXTURES = pathlib.Path(__file__).resolve().parent / "fixtures" / "drafts"
+CONTRACT = "---\nid: {id}\ntitle: T\nslash_command: {slash}\n---\nbody\n"
 
 
-class Insert(unittest.TestCase):
-    def test_absent_inserts_one_line_right_after_title(self):
-        out = wb.insert_description(WITHOUT, "Weekly count: accounts at risk.")
-        self.assertEqual(out, WITHOUT.replace(
-            "title: Accounts at risk\n",
-            'title: Accounts at risk\ndescription: "Weekly count: accounts at risk."\n', 1))
-
-    def test_inserted_value_parses_back_as_the_description(self):
-        import yaml
-        out = wb.insert_description(WITHOUT, 'Has "quotes", a # and: colons')
-        meta = yaml.safe_load(out.split("---\n")[1])
-        self.assertEqual(meta["description"], 'Has "quotes", a # and: colons')
-        self.assertEqual(meta["summary"].split()[0], "Counts")
-
-    def test_present_is_byte_identical(self):
-        self.assertIs(wb.insert_description(WITH, "Generated."), WITH)
-
-    def test_present_but_empty_is_still_left_alone(self):
-        text = WITHOUT.replace("version: 2.0.0\n", "description:\nversion: 2.0.0\n")
-        self.assertEqual(wb.insert_description(text, "Generated."), text)
-
-    def test_body_and_folded_block_untouched(self):
-        out = wb.insert_description(WITHOUT, "Generated.")
-        head, body = out.split("---\n\n", 1)
-        self.assertEqual(body, WITHOUT.split("---\n\n", 1)[1])
-        self.assertIn("summary: >-\n  Counts accounts", head)
-        self.assertIn("# a comment the author kept\n", head)
-        self.assertEqual(out.replace('description: "Generated."\n', "", 1), WITHOUT)
-
-    def test_title_with_continuation_inserts_after_the_whole_entry(self):
-        text = WITHOUT.replace("title: Accounts at risk\n", "title: >-\n  Accounts\n  at risk\n")
-        out = wb.insert_description(text, "D.")
-        self.assertIn("title: >-\n  Accounts\n  at risk\ndescription: \"D.\"\nslash_command:", out)
-
-    def test_crlf_file_gets_a_crlf_line(self):
-        text = WITHOUT.replace("\n", "\r\n")
-        out = wb.insert_description(text, "D.")
-        self.assertIn('title: Accounts at risk\r\ndescription: "D."\r\nslash_command', out)
-
-    def test_every_corpus_recipe_already_has_one_so_is_unchanged(self):
-        paths = sorted((ROOT / "recipes").glob("*/*/recipe.md"))
-        self.assertGreater(len(paths), 200)
-        for p in paths:
-            text = p.read_bytes().decode("utf-8")
-            self.assertIs(wb.insert_description(text, "Generated."), text, p)
-
-    def test_corpus_md_with_its_description_removed_round_trips(self):
-        p = ROOT / "recipes" / "intempt" / "accounts-at-risk-count" / "recipe.md"
-        text = p.read_text(encoding="utf-8")
-        start = text.index("\ndescription: >-\n") + 1
-        end = text.index("\nversion:", start) + 1
-        stripped = text[:start] + text[end:]
-        out = wb.insert_description(stripped, "New.")
-        self.assertEqual(out.replace('description: "New."\n', "", 1), stripped)
-        self.assertLess(out.index('description: "New."'), out.index("slash_command:"))
-
-    def test_no_frontmatter_or_empty_description_is_unchanged(self):
-        self.assertEqual(wb.insert_description("# no frontmatter\n", "D."), "# no frontmatter\n")
-        self.assertIs(wb.insert_description(WITHOUT, "  "), WITHOUT)
+def answer(**over):
+    a = {"frontmatter_id": "draft-form-abandonment-nudge", "title": "Form Abandonment Nudge",
+         "slash_command": "/form-abandonment-nudge", "description": "Nudges form abandoners.",
+         "markdown": "# Form Abandonment Nudge\n", "classification": {"industry": ["ecommerce"]},
+         "complexity": "medium", "author": {"name": "Beso", "last_name": "Gugushvili"},
+         "steps": [{"id": "s1"}, {"id": "s2"}, {"id": "s3"}]}
+    a.update(over)
+    return a
 
 
-class WriteBack(unittest.TestCase):
+class Base(unittest.TestCase):
     def setUp(self):
         self.root = pathlib.Path(tempfile.mkdtemp())
         self.addCleanup(shutil.rmtree, self.root, ignore_errors=True)
+        (self.root / "draft").mkdir()
+        (self.root / "recipes").mkdir()
 
-    def md(self, slug, text):
-        p = self.root / "recipes" / "intempt" / slug / "recipe.md"
-        p.parent.mkdir(parents=True)
-        p.write_text(text, encoding="utf-8")
-        return str(p)
+    def draft(self, name, text=None, fixture=None):
+        p = self.root / "draft" / name
+        p.write_text(text if text is not None else (FIXTURES / fixture).read_text(encoding="utf-8"),
+                     encoding="utf-8")
+        return f"draft/{name}"
 
-    def test_writes_json_verbatim_and_inserts_missing_description(self):
-        md = self.md("accounts-at-risk-count", WITHOUT)
-        answer = {"frontmatter_id": "accounts-at-risk-count", "description": "Gen.", "steps": [{"id": "s1"}]}
-        written, problems = wb.write_back([(answer, md)])
+    def recipe(self, owner, key, md, record=None):
+        d = self.root / "recipes" / owner / key
+        d.mkdir(parents=True)
+        (d / "recipe.md").write_text(md, encoding="utf-8")
+        if record is not None:
+            (d / "recipe.json").write_text(json.dumps(record), encoding="utf-8")
+        return d
+
+    def run_plan(self, pairs):
+        plans, problems = wb.plan(pairs, str(self.root))
+        if not problems:
+            wb.apply(plans, str(self.root))
+        return plans, problems
+
+    def written(self, owner, key):
+        d = self.root / "recipes" / owner / key
+        md = (d / "recipe.md").read_text(encoding="utf-8")
+        return d, recipe_draft.split(md), json.loads((d / "recipe.json").read_text(encoding="utf-8"))
+
+
+class NewRecipe(Base):
+    def test_a_new_draft_becomes_md_and_json_and_is_deleted(self):
+        draft = self.draft("form-abandonment-nudge.md", fixture="form-abandonment-nudge.md")
+        _, problems = self.run_plan([(answer(), draft)])
         self.assertEqual(problems, [])
-        out = pathlib.Path(md).with_name("recipe.json")
-        self.assertEqual(json.loads(out.read_text()), answer)
-        self.assertEqual(written, [str(out), md])
-        self.assertIn('description: "Gen."', pathlib.Path(md).read_text())
+        d, (front, body), record = self.written("intempt", "form-abandonment-nudge")
+        self.assertFalse((self.root / draft).exists())
+        self.assertEqual(list(front), ["frontmatter_id", "slash_command", "description", "author"])
+        self.assertEqual(front["frontmatter_id"], "form-abandonment-nudge")
+        self.assertEqual(front["slash_command"], "/form-abandonment-nudge")
+        self.assertEqual(front["author"], {"name": "Beso", "last_name": "Gugushvili", "org_name": "intempt"})
+        _, draft_body = recipe_draft.split((FIXTURES / "form-abandonment-nudge.md").read_text(encoding="utf-8"))
+        self.assertEqual(body.lstrip("\n"), draft_body.lstrip("\n"))
+        self.assertEqual(record["frontmatter_id"], "form-abandonment-nudge")
+        self.assertEqual(record["author"]["org_name"], "intempt")
+        self.assertEqual(record["steps"], answer()["steps"])
+        self.assertEqual(check_recipe_consistency.check(str(d)), [])
 
-    def test_present_description_md_not_rewritten(self):
-        md = self.md("accounts-at-risk-count", WITH)
-        written, _ = wb.write_back([({"frontmatter_id": "accounts-at-risk-count", "description": "Gen."}, md)])
-        self.assertEqual(written, [str(pathlib.Path(md).with_name("recipe.json"))])
-        self.assertEqual(pathlib.Path(md).read_text(), WITH)
-
-    def test_matched_by_path_not_by_frontmatter_id(self):
-        # The md's id differs from the answer's frontmatter_id: the path job 1 recorded decides.
-        md = self.md("x", WITHOUT)
-        _, problems = wb.write_back([({"frontmatter_id": "something-else", "description": "D."}, md)])
+    def test_the_second_fixture_with_leading_blank_lines(self):
+        draft = self.draft("whatever.md", fixture="email-nonopener-reengagement.md")
+        a = answer(frontmatter_id="draft-whatever", title="Email Non-Opener Re-Engagement",
+                   slash_command="/email-nonopener-reengagement")
+        _, problems = self.run_plan([(a, draft)])
         self.assertEqual(problems, [])
-        self.assertTrue(pathlib.Path(md).with_name("recipe.json").exists())
+        d, (front, body), _ = self.written("intempt", "email-nonopener-reengagement")
+        self.assertTrue(body.lstrip("\n").startswith("# Email Non-Opener Re-Engagement\n"))
+        self.assertEqual(check_recipe_consistency.check(str(d)), [])
 
-    def test_leading_blank_lines_and_bom_before_frontmatter(self):
-        # LM's git_validate._FRONTMATTER accepts these; the write-back must too.
-        for prefix in ("\n\n", "\ufeff", "\ufeff\n  \n"):
-            md = self.md("blank-" + str(len(prefix)) + str(ord(prefix[0])), prefix + WITHOUT)
-            _, problems = wb.write_back([({"frontmatter_id": "a", "description": "Gen."}, md)])
-            self.assertEqual(problems, [], repr(prefix))
-            text = pathlib.Path(md).read_text(encoding="utf-8")
-            self.assertTrue(text.startswith(prefix), repr(prefix))
-            self.assertLess(text.index('description: "Gen."'), text.index("slash_command:"))
+    def test_d1_missing_org_name_is_intempt(self):
+        text = (FIXTURES / "form-abandonment-nudge.md").read_text(encoding="utf-8").replace("  org_name: intempt\n", "")
+        _, problems = self.run_plan([(answer(), self.draft("f.md", text))])
+        self.assertEqual(problems, [])
+        self.assertEqual(self.written("intempt", "form-abandonment-nudge")[2]["author"]["org_name"], "intempt")
 
-    def test_no_description_or_no_frontmatter_is_a_problem_and_writes_nothing(self):
-        a = self.md("a", WITHOUT)
-        b = self.md("b", "# no frontmatter\n")
-        _, problems = wb.write_back([({"frontmatter_id": "a"}, a), ({"frontmatter_id": "b", "description": "D."}, b)])
-        self.assertEqual(len(problems), 2)
-        self.assertIn("no description", problems[0])
-        self.assertIn("no frontmatter", problems[1])
-        for slug in ("a", "b"):
-            self.assertFalse((self.root / "recipes" / "intempt" / slug / "recipe.json").exists())
-        self.assertEqual(pathlib.Path(a).read_text(), WITHOUT)
+    def test_another_org_name_is_the_owner_folder(self):
+        text = (FIXTURES / "form-abandonment-nudge.md").read_text(encoding="utf-8").replace("org_name: intempt", "org_name: acme")
+        _, problems = self.run_plan([(answer(), self.draft("f.md", text))])
+        self.assertEqual(problems, [])
+        self.assertTrue((self.root / "recipes" / "acme" / "form-abandonment-nudge" / "recipe.json").exists())
 
-    def test_load_pairs_each_answer_with_its_recorded_path(self):
+    def test_d2_a_clash_with_any_owner_gets_dash_2_and_the_slash_follows(self):
+        self.recipe("acme", "form-abandonment-nudge", CONTRACT.format(id="form-abandonment-nudge", slash="/x"))
+        _, problems = self.run_plan([(answer(), self.draft("f.md", fixture="form-abandonment-nudge.md"))])
+        self.assertEqual(problems, [])
+        _, (front, _), record = self.written("intempt", "form-abandonment-nudge-2")
+        self.assertEqual(front["slash_command"], "/form-abandonment-nudge-2")
+        self.assertEqual(record["slash_command"], "/form-abandonment-nudge-2")
+
+    def test_d2_a_contract_recipe_s_slash_command_is_a_clash_too(self):
+        self.recipe("intempt", "other", CONTRACT.format(id="other", slash="/form-abandonment-nudge"))
+        self.run_plan([(answer(), self.draft("f.md", fixture="form-abandonment-nudge.md"))])
+        self.assertTrue((self.root / "recipes" / "intempt" / "form-abandonment-nudge-2").is_dir())
+
+    def test_d2_counts_past_2_and_two_drafts_in_one_run_do_not_collide(self):
+        self.recipe("intempt", "form-abandonment-nudge", CONTRACT.format(id="form-abandonment-nudge", slash="/a"))
+        self.recipe("intempt", "form-abandonment-nudge-2", CONTRACT.format(id="form-abandonment-nudge-2", slash="/b"))
+        a = self.draft("a.md", fixture="form-abandonment-nudge.md")
+        b = self.draft("b.md", fixture="form-abandonment-nudge.md")
+        _, problems = self.run_plan([(answer(), a), (answer(), b)])
+        self.assertEqual(problems, [])
+        for key in ("form-abandonment-nudge-3", "form-abandonment-nudge-4"):
+            self.assertTrue((self.root / "recipes" / "intempt" / key / "recipe.json").exists(), key)
+
+    def test_no_slash_command_falls_back_to_the_title(self):
+        self.run_plan([(answer(slash_command=None), self.draft("f.md", fixture="form-abandonment-nudge.md"))])
+        self.assertTrue((self.root / "recipes" / "intempt" / "form-abandonment-nudge").is_dir())
+
+    def test_an_author_description_is_what_both_files_carry(self):
+        text = (FIXTURES / "form-abandonment-nudge.md").read_text(encoding="utf-8").replace(
+            "---\nauthor:", '---\ndescription: "Written by Beso."\nauthor:', 1)
+        # LM keeps a front-matter description (git_validate.description_of), so its answer carries it.
+        self.run_plan([(answer(description="Written by Beso."), self.draft("f.md", text))])
+        _, (front, _), record = self.written("intempt", "form-abandonment-nudge")
+        self.assertEqual(front["description"], "Written by Beso.")
+        self.assertEqual(record["description"], "Written by Beso.")
+
+
+class Edit(Base):
+    def existing(self, owner="intempt"):
+        md = ("---\nfrontmatter_id: form-abandonment-nudge\nslash_command: /nudge\ndescription: Old.\n"
+              f"author:\n  name: Beso\n  last_name: Gugushvili\n  org_name: {owner}\n---\n# Old\n")
+        return self.recipe(owner, "form-abandonment-nudge", md,
+                           {"frontmatter_id": "form-abandonment-nudge", "slash_command": "/nudge"})
+
+    def edit_draft(self, owner="intempt"):
+        text = (FIXTURES / "form-abandonment-nudge.md").read_text(encoding="utf-8").replace(
+            "---\nauthor:", "---\nfrontmatter_id: form-abandonment-nudge\nauthor:", 1)
+        return self.draft("edit.md", text.replace("org_name: intempt", f"org_name: {owner}"))
+
+    def test_d3_keeps_key_folder_and_slash_command(self):
+        self.existing()
+        draft = self.edit_draft()
+        _, problems = self.run_plan([(answer(frontmatter_id="form-abandonment-nudge",
+                                             slash_command="/something-else"), draft)])
+        self.assertEqual(problems, [])
+        d, (front, body), record = self.written("intempt", "form-abandonment-nudge")
+        self.assertEqual(front["slash_command"], "/nudge")
+        self.assertEqual(record["slash_command"], "/nudge")
+        self.assertIn("## Step 1: Create Form Abandoners Segment", body)
+        self.assertFalse((self.root / draft).exists())
+        self.assertEqual(sorted(p.name for p in (self.root / "recipes" / "intempt").iterdir()),
+                         ["form-abandonment-nudge"])
+        self.assertEqual(check_recipe_consistency.check(str(d)), [])
+
+    def test_an_edit_of_an_unknown_key_is_refused(self):
+        _, problems = self.run_plan([(answer(frontmatter_id="form-abandonment-nudge"), self.edit_draft())])
+        self.assertIn("names no recipe to edit", problems[0])
+
+    def test_an_edit_under_another_owner_is_refused(self):
+        self.existing(owner="acme")
+        _, problems = self.run_plan([(answer(frontmatter_id="form-abandonment-nudge"), self.edit_draft())])
+        self.assertIn("belongs to 'acme'", problems[0])
+
+    def test_an_edit_of_a_contract_recipe_is_refused(self):
+        self.recipe("intempt", "form-abandonment-nudge", CONTRACT.format(id="form-abandonment-nudge", slash="/x"))
+        _, problems = self.run_plan([(answer(frontmatter_id="form-abandonment-nudge"), self.edit_draft())])
+        self.assertIn("contract recipe", problems[0])
+
+
+class Refusals(Base):
+    def test_one_problem_and_nothing_is_written(self):
+        good = self.draft("good.md", fixture="form-abandonment-nudge.md")
+        bad_text = (FIXTURES / "form-abandonment-nudge.md").read_text(encoding="utf-8").replace("org_name: intempt", "org_name: Acme Inc")
+        bad = self.draft("bad.md", bad_text)
+        out = self.root / "checked"
+        out.mkdir()
+        for name, path in (("a", good), ("b", bad)):
+            (out / f"{name}.json").write_text(json.dumps(answer()))
+            (out / f"{name}.path").write_text(path + "\n")
+        self.assertEqual(wb.main([str(out), "--root", str(self.root)]), 1)
+        self.assertEqual(list((self.root / "recipes").iterdir()), [])
+        self.assertTrue((self.root / good).exists())
+
+    def test_no_description_or_author_is_a_problem(self):
+        d = self.draft("f.md", fixture="form-abandonment-nudge.md")
+        self.assertIn("no description", wb.plan([(answer(description=""), d)], str(self.root))[1][0])
+        self.assertIn("no author", wb.plan([(answer(author={"name": "B"}), d)], str(self.root))[1][0])
+
+    def test_load_wants_a_recorded_draft_path(self):
         out = self.root / "checked"
         out.mkdir()
         (out / "a.json").write_text(json.dumps({"frontmatter_id": "a"}))
-        (out / "a.path").write_text("recipes/intempt/a/recipe.md\n")
+        (out / "a.path").write_text("draft/a.md\n")
         (out / "b.json").write_text(json.dumps({"frontmatter_id": "b"}))
+        (out / "c.json").write_text(json.dumps({"frontmatter_id": "c"}))
+        (out / "c.path").write_text("recipes/intempt/c/recipe.md\n")
         pairs, problems = wb.load(str(out))
-        self.assertEqual(pairs, [({"frontmatter_id": "a"}, "recipes/intempt/a/recipe.md")])
-        self.assertEqual(len(problems), 1)
-        self.assertIn("b.json", problems[0])
+        self.assertEqual(pairs, [({"frontmatter_id": "a"}, "draft/a.md")])
+        self.assertEqual(len(problems), 2)
+
+    def test_main_end_to_end_from_job_1_s_directory(self):
+        draft = self.draft("form-abandonment-nudge.md", fixture="form-abandonment-nudge.md")
+        out = self.root / "checked"
+        out.mkdir()
+        (out / "draft-form-abandonment-nudge.json").write_text(json.dumps(answer()))
+        (out / "draft-form-abandonment-nudge.path").write_text(draft + "\n")
+        self.assertEqual(wb.main([str(out), "--root", str(self.root)]), 0)
+        self.assertFalse((self.root / draft).exists())
+        self.assertEqual(check_recipe_consistency.check(
+            str(self.root / "recipes" / "intempt" / "form-abandonment-nudge")), [])
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=1)

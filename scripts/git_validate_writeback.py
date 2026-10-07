@@ -1,35 +1,36 @@
 #!/usr/bin/env python3
 """
-After a pull request's git Validate passes (job 1 checked, job 2 ran), write
-what it produced back beside each recipe, for the PR head branch to commit:
+Job 3 of recipe-git-validate.yml, after job 1 checked and job 2 ran each changed
+draft (the draft/ flow, R-RG4-6). For every draft it writes, for the PR head branch
+to commit in ONE bot commit:
 
-  recipes/<category>/<slug>/recipe.json   job 1's answer, verbatim — the object
-                                           job 2 ran and the deploy tags send
-                                           to SM (recipe_deploy.py)
-  recipes/<category>/<slug>/recipe.md      ONLY when its frontmatter has no
-                                           `description:` — one line
-                                           `description: "<generated>"` is
-                                           inserted after the `title:` entry
+  recipes/<owner>/<frontmatter_id>/recipe.md    front matter `frontmatter_id`,
+                                                `slash_command`, `description`,
+                                                `author` (with `org_name`), then the
+                                                draft's prose, byte for byte
+  recipes/<owner>/<frontmatter_id>/recipe.json  job 1's answer — the object job 2
+                                                ran — with the real key, the real
+                                                slash_command and `author.org_name`
+                                                put back (LM drops unknown author keys)
+  draft/<…>.md                                  deleted
 
-The description ends up in BOTH files (Beso 2026-10-07): an answer with no
-description, or an md whose frontmatter cannot take one, is a failure, and
-neither file is written for that recipe.
+  owner           the draft's `author.org_name`, else `intempt` (D1)
+  frontmatter_id  new draft: LM's slash_command without `/`, made unique across ALL
+                  recipes (`-2`, `-3`…), and slash_command = `/<frontmatter_id>` (D2).
+                  Draft naming `frontmatter_id:` = an edit of that recipe: key, folder
+                  and slash_command are kept (D3); the owner must be the same.
+  description     the answer's — LM keeps the one the author wrote, else generates
+                  one (RG2 §6: an author's description is never overwritten)
 
-The md edit is a line insert, never a YAML re-dump: key order, comments,
-folded `>-` blocks and the body stay byte-for-byte as they were. A
-`description:` the author set — any value, even empty — is never touched.
-`classification.industry` is returned by validation only; it is not written
-into the md (RG1 §57).
-
-Which recipe.md an answer belongs to is NOT read from the md: job 1 writes
-DIR/<frontmatter_id>.path, the file it sent. The frontmatter is located the way LM's
-git_validate._FRONTMATTER locates it — an optional BOM and blank lines may
-come before the opening `---` — so a file LM accepted is a file this edits.
+Which draft an answer belongs to is the path job 1 recorded (<key>.path), never
+re-derived. Every draft is planned before anything is written: one problem and
+nothing is written. What was written is then checked (check_recipe_consistency)
+and any mismatch fails the job, so nothing is committed.
 
 Usage:
-  git_validate_writeback.py DIR      # DIR = job 1's --out directory
-Prints each file it wrote; exit 0 done (also when nothing to write), 1 when
-any recipe could not be written back.
+  git_validate_writeback.py DIR [--root .]     # DIR = job 1's --out directory
+Prints each path it wrote or deleted; exit 0 done (also when nothing to write),
+1 when any draft could not be written back.
 """
 from __future__ import annotations
 
@@ -37,100 +38,105 @@ import argparse
 import glob
 import json
 import os
-import re
 import sys
 
-FENCE = re.compile(r"^---\s*$")
-TOP_KEY = re.compile(r"^([A-Za-z_][\w-]*)\s*:")
+import yaml
+
+import check_recipe_consistency
+import recipe_draft
+from recipe_contract import git_front
 
 
-def _frontmatter_span(lines: list[str]) -> tuple[int, int] | None:
-    """(index of the opening `---`, index of the closing one), or None.
-    A BOM and blank lines before the opening fence are skipped, as LM's
-    git_validate._FRONTMATTER skips them."""
-    lines = [lines[0].lstrip("\ufeff")] + lines[1:] if lines else lines
-    i = 0
-    while i < len(lines) and not lines[i].strip():
-        i += 1
-    if i == len(lines) or not FENCE.match(lines[i]):
-        return None
-    for j in range(i + 1, len(lines)):
-        if FENCE.match(lines[j]):
-            return i, j
-    return None
+def _md(front: dict, body: str) -> str:
+    head = yaml.safe_dump(front, sort_keys=False, allow_unicode=True, width=1000)
+    return "---\n" + head + "---\n" + (body if body.startswith("\n") else "\n" + body)
 
 
-def has_description(text: str) -> bool:
-    """True when the frontmatter has a top-level `description:` key, whatever its value."""
-    lines = text.splitlines(keepends=True)
-    span = _frontmatter_span(lines)
-    if span is None:
-        return False
-    return any((m := TOP_KEY.match(ln)) and m.group(1) == "description"
-               for ln in lines[span[0] + 1:span[1]])
+def _edit_target(meta: dict, answer: dict, owner: str, root: str) -> tuple[str, str]:
+    """D3: (folder, slash_command) of the recipe the draft edits. Raises DraftError."""
+    key = str(meta.get("frontmatter_id")).strip()
+    folder = recipe_draft.find_recipe(key, root)
+    if folder is None:
+        raise recipe_draft.DraftError(f"frontmatter_id {key!r} names no recipe to edit — "
+                                      "leave frontmatter_id out for a new recipe")
+    if git_front(os.path.join(root, folder, "recipe.md")) is None:
+        raise recipe_draft.DraftError(f"{folder} is a contract recipe, not one the draft flow wrote")
+    held_by = folder.split(os.sep)[1]
+    if held_by != owner:
+        raise recipe_draft.DraftError(f"{folder} belongs to {held_by!r}, the draft says org_name "
+                                      f"{owner!r} — set author.org_name to the recipe's owner")
+    if str(answer.get("frontmatter_id") or "") != key:
+        raise recipe_draft.DraftError(f"the answer is for {answer.get('frontmatter_id')!r}, not {key!r}")
+    try:
+        with open(os.path.join(root, folder, "recipe.json"), encoding="utf-8") as fh:
+            slash = str(json.load(fh).get("slash_command") or "")
+    except (OSError, ValueError):
+        slash = ""
+    return folder, slash or "/" + key
 
 
-def insert_description(text: str, description: str) -> str:
-    """`text` with `description: "<description>"` inserted after the frontmatter's
-    `title:` entry (its line and any indented continuation). Unchanged — the
-    same string — when a description is already there, when there is no
-    frontmatter, or when the description is empty. No `title:` → inserted
-    just before the closing `---`."""
-    description = " ".join(str(description or "").split())
-    if not description or has_description(text):
-        return text
-    lines = text.splitlines(keepends=True)
-    span = _frontmatter_span(lines)
-    if span is None:
-        return text
-    start, end = span
-    at = end
-    for i in range(start + 1, end):
-        m = TOP_KEY.match(lines[i])
-        if m and m.group(1) == "title":
-            at = i + 1
-            while at < end and lines[at][:1] in (" ", "\t"):
-                at += 1
-            break
-    newline = "\r\n" if lines[start].endswith("\r\n") else "\n"
-    entry = "description: " + json.dumps(description, ensure_ascii=False) + newline
-    return "".join(lines[:at]) + entry + "".join(lines[at:])
-
-
-def write_back(pairs: list[tuple[dict, str]]) -> tuple[list[str], list[str]]:
-    """Write recipe.json (+ the md description when absent) for each
-    (answer, recipe.md path). Returns (files written, problems)."""
-    written, problems = [], []
-    for answer, md in pairs:
-        frontmatter_id = str(answer.get("frontmatter_id") or "(no frontmatter_id)")
-        description = " ".join(str(answer.get("description") or "").split())
-        if not description:
-            problems.append(f"{frontmatter_id}: the answer has no description ({md})")
-            continue
+def plan(pairs: list[tuple[dict, str]], root: str = ".") -> tuple[list[dict], list[str]]:
+    """Each (answer, draft path) → {draft, folder, md, json}. Returns (plans, problems)."""
+    used = set(recipe_draft.taken(root))
+    plans, problems = [], []
+    for answer, draft in pairs:
         try:
-            with open(md, encoding="utf-8", newline="") as fh:
-                text = fh.read()
+            with open(os.path.join(root, draft), encoding="utf-8") as fh:
+                meta, body = recipe_draft.split(fh.read())
+            owner = recipe_draft.owner_of(meta)
+            description = " ".join(str(answer.get("description") or "").split())
+            if not description:
+                raise recipe_draft.DraftError("the answer has no description")
+            author = answer.get("author")
+            if not isinstance(author, dict) or not author.get("name") or not author.get("last_name"):
+                raise recipe_draft.DraftError("the answer has no author name and last_name")
+            if str(meta.get("frontmatter_id") or "").strip():
+                folder, slash = _edit_target(meta, answer, owner, root)
+                key = os.path.basename(folder)
+            else:
+                stem = os.path.splitext(os.path.basename(draft))[0]
+                base = (recipe_draft.slugify(answer.get("slash_command"))
+                        or recipe_draft.slugify(answer.get("title")) or recipe_draft.slugify(stem))
+                if not base:
+                    raise recipe_draft.DraftError("no slash_command, title or file name to make a key from")
+                key = recipe_draft.new_key(base, used)
+                used.add(key)
+                folder, slash = os.path.join("recipes", owner, key), "/" + key
         except OSError as e:
-            problems.append(f"{frontmatter_id}: cannot read {md} ({e.strerror})")
+            problems.append(f"{draft}: cannot read the draft ({e.strerror})")
             continue
-        new = insert_description(text, description)
-        if new == text and not has_description(text):
-            problems.append(f"{frontmatter_id}: no frontmatter in {md} to put the description in")
+        except recipe_draft.DraftError as e:
+            problems.append(f"{draft}: {e}")
             continue
-        out = os.path.join(os.path.dirname(md), "recipe.json")
-        with open(out, "w", encoding="utf-8", newline="\n") as fh:
-            json.dump(answer, fh, ensure_ascii=False, indent=2)
+
+        author = {**{k: v for k, v in author.items() if k != "org_name"}, "org_name": owner}
+        record = {**answer, "frontmatter_id": key, "slash_command": slash,
+                  "description": description, "author": author}
+        front = {"frontmatter_id": key, "slash_command": slash,
+                 "description": description, "author": author}
+        plans.append({"draft": draft, "folder": folder, "md": _md(front, body), "json": record})
+    return plans, problems
+
+
+def apply(plans: list[dict], root: str = ".") -> list[str]:
+    """Write each plan's two files and delete its draft. Returns the lines to print."""
+    lines = []
+    for p in plans:
+        folder = os.path.join(root, p["folder"])
+        os.makedirs(folder, exist_ok=True)
+        with open(os.path.join(folder, "recipe.md"), "w", encoding="utf-8", newline="\n") as fh:
+            fh.write(p["md"])
+        with open(os.path.join(folder, "recipe.json"), "w", encoding="utf-8", newline="\n") as fh:
+            json.dump(p["json"], fh, ensure_ascii=False, indent=2)
             fh.write("\n")
-        written.append(out)
-        if new != text:
-            with open(md, "w", encoding="utf-8", newline="") as fh:
-                fh.write(new)
-            written.append(md)
-    return written, problems
+        os.remove(os.path.join(root, p["draft"]))
+        lines += [f"WROTE   {p['folder']}/recipe.md", f"WROTE   {p['folder']}/recipe.json",
+                  f"DELETED {p['draft']}"]
+    return lines
 
 
 def load(out_dir: str) -> tuple[list[tuple[dict, str]], list[str]]:
-    """Job 1's DIR: each <frontmatter_id>.json with the md path in its <frontmatter_id>.path."""
+    """Job 1's DIR: each <key>.json with the draft path in its <key>.path."""
     pairs, problems = [], []
     for path in sorted(glob.glob(os.path.join(out_dir, "*.json"))):
         with open(path, encoding="utf-8") as fh:
@@ -138,32 +144,42 @@ def load(out_dir: str) -> tuple[list[tuple[dict, str]], list[str]]:
         side = path[:-len(".json")] + ".path"
         try:
             with open(side, encoding="utf-8") as fh:
-                md = fh.read().strip()
+                draft = fh.read().strip()
         except FileNotFoundError:
-            md = ""
-        if not md:
-            problems.append(f"{os.path.basename(path)}: job 1 recorded no recipe.md path")
+            draft = ""
+        if not draft:
+            problems.append(f"{os.path.basename(path)}: job 1 recorded no draft path")
             continue
-        pairs.append((answer, md))
+        if not recipe_draft.is_draft(draft):
+            problems.append(f"{os.path.basename(path)}: {draft} is not a draft/*.md")
+            continue
+        pairs.append((answer, draft))
     return pairs, problems
 
 
-def main() -> int:
+def main(argv=None) -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("dir", help="job 1's --out directory (<frontmatter_id>.json + <frontmatter_id>.path per passing recipe)")
-    args = ap.parse_args()
+    ap.add_argument("dir", help="job 1's --out directory (<key>.json + <key>.path per passing draft)")
+    ap.add_argument("--root", default=".", help="the repo checkout (default: the current directory)")
+    args = ap.parse_args(argv)
 
     pairs, problems = load(args.dir)
     if not pairs and not problems:
-        print("No validated recipe — nothing to write back.")
+        print("No validated draft — nothing to write back.")
         return 0
-    written, more = write_back(pairs)
+    plans, more = plan(pairs, args.root)
     problems += more
-    for path in written:
-        print(f"WROTE {path}")
-    for p in problems:
-        print(f"FAIL  {p}")
-    return 1 if problems else 0
+    if problems:
+        for p in problems:
+            print(f"FAIL  {p}")
+        print("Nothing written.")
+        return 1
+    for line in apply(plans, args.root):
+        print(line)
+    bad = [m for p in plans for m in check_recipe_consistency.check(os.path.join(args.root, p["folder"]))]
+    for m in bad:
+        print(f"FAIL  {m}")
+    return 1 if bad else 0
 
 
 if __name__ == "__main__":

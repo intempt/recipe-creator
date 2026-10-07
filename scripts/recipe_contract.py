@@ -123,8 +123,33 @@ class RecipeError(Exception):
     pass
 
 
+# A git-validated recipe: free prose under a front matter that carries `frontmatter_id`
+# and no `id`. llm-wrapper's git_validate checks it (recipe-git-validate.yml), not this
+# contract, so the contract loaders below leave it out. Its front matter may start after
+# a BOM or blank lines, as llm-wrapper accepts.
+GIT_FRONTMATTER = re.compile(r"^\ufeff?(?:[ \t]*\r?\n)*---\r?\n(.*?)\r?\n---", re.S)
+
+
+def git_front(path):
+    """The front matter of a git-validated recipe.md, else None."""
+    try:
+        text = pathlib.Path(path).read_text(encoding="utf-8")
+    except OSError:
+        return None
+    match = GIT_FRONTMATTER.match(text)
+    if not match:
+        return None
+    try:
+        front = yaml.safe_load(match.group(1))
+    except yaml.YAMLError:
+        return None
+    if isinstance(front, dict) and front.get("frontmatter_id") and not front.get("id"):
+        return front
+    return None
+
+
 def recipe_paths(recipes_dir):
-    return sorted(pathlib.Path(recipes_dir).glob("*/*/recipe.md"))
+    return sorted(p for p in pathlib.Path(recipes_dir).glob("*/*/recipe.md") if git_front(p) is None)
 
 
 def read(path):
@@ -163,7 +188,7 @@ def recipe_files(paths):
     for path in paths:
         path = pathlib.Path(path)
         found += sorted(path.glob("**/recipe.md")) if path.is_dir() else [path]
-    return found
+    return [p for p in found if git_front(p) is None]
 
 
 def availability(front):
