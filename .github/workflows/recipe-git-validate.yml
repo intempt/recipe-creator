@@ -54,6 +54,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: Install the YAML parser the scripts need
+        run: pip install --quiet pyyaml
       - name: Only the write-back bot changes recipes/, and no draft is waiting
         run: python3 scripts/recipe_label_gate.py --base "origin/${{ github.base_ref }}" --labels "$LABELS"
         env:
@@ -74,6 +76,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: Install the YAML parser the scripts need
+        run: pip install --quiet pyyaml
       - name: Every changed draft passes the engine's per-step check
         id: check
         run: |
