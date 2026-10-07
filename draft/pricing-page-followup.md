@@ -8,7 +8,7 @@ author:
 
 ## Step 1: Create Pricing Page Visitors Segment
 
-Create a segment called "Visited Pricing Page" for users. Base it on the "page_viewed" event — pick it from the existing event list, do not assume it's there, since it depends on an integration or API being connected. Add one condition group: triggered page_viewed within the last 3 days, where the page_url property contains "pricing".
+Create a segment called "Visited Pricing Page" for users. Base it on the "View page" event — pick it from the existing event list, do not assume it's there, since it depends on an integration or API being connected. Add one condition group: triggered "View page" within the last 3 days, where the page_url property contains "pricing".
 
 ## Step 2: Generate Follow-Up Banner Image
 
