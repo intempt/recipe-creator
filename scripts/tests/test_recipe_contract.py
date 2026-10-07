@@ -38,6 +38,11 @@ class Contract(unittest.TestCase):
     def test_a_well_formed_recipe_has_no_problems(self):
         self.assertEqual(validate(PATH, recipe()), [])
 
+    def test_frontmatter_id_is_optional_and_must_be_kebab_case(self):
+        self.assertEqual(validate(PATH, recipe(frontmatter_id="vip-users-global")), [])
+        for bad in ("VIP Users", "", 7):
+            self.assertIn(f"frontmatter_id {bad!r} must be kebab-case", validate(PATH, recipe(frontmatter_id=bad)))
+
     def test_a_recipe_whose_steps_all_build_engine_entities_is_install_now(self):
         self.assertEqual(availability(recipe()), ("install_now", []))
 

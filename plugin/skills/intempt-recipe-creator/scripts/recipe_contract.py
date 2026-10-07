@@ -123,8 +123,33 @@ class RecipeError(Exception):
     pass
 
 
+# A git-validated recipe: free prose under a front matter that carries `frontmatter_id`
+# and no `id`. llm-wrapper's git_validate checks it (recipe-git-validate.yml), not this
+# contract, so the contract loaders below leave it out. Its front matter may start after
+# a BOM or blank lines, as llm-wrapper accepts.
+GIT_FRONTMATTER = re.compile(r"^\ufeff?(?:[ \t]*\r?\n)*---\r?\n(.*?)\r?\n---", re.S)
+
+
+def git_front(path):
+    """The front matter of a git-validated recipe.md, else None."""
+    try:
+        text = pathlib.Path(path).read_text(encoding="utf-8")
+    except OSError:
+        return None
+    match = GIT_FRONTMATTER.match(text)
+    if not match:
+        return None
+    try:
+        front = yaml.safe_load(match.group(1))
+    except yaml.YAMLError:
+        return None
+    if isinstance(front, dict) and front.get("frontmatter_id") and not front.get("id"):
+        return front
+    return None
+
+
 def recipe_paths(recipes_dir):
-    return sorted(pathlib.Path(recipes_dir).glob("*/*/recipe.md"))
+    return sorted(p for p in pathlib.Path(recipes_dir).glob("*/*/recipe.md") if git_front(p) is None)
 
 
 def read(path):
@@ -163,7 +188,7 @@ def recipe_files(paths):
     for path in paths:
         path = pathlib.Path(path)
         found += sorted(path.glob("**/recipe.md")) if path.is_dir() else [path]
-    return found
+    return [p for p in found if git_front(p) is None]
 
 
 def availability(front):
@@ -182,6 +207,11 @@ def validate(path, front):
         problems.append(f"id {rid!r} must be kebab-case")
     if rid and p.parent.name != rid:
         problems.append(f"folder {p.parent.name!r} must equal id {rid!r}")
+    if "frontmatter_id" in front:
+        # The deploy key (recipe-deploy.yml tags). Optional: absent, the deploy key is `id`.
+        fmid = front.get("frontmatter_id")
+        if not isinstance(fmid, str) or not ID_PATTERN.match(fmid):
+            problems.append(f"frontmatter_id {fmid!r} must be kebab-case")
     owner = front.get("owner") or ""
     if owner and p.parent.parent.name != owner:
         problems.append(f"owner {owner!r} must equal the partner folder {p.parent.parent.name!r}")

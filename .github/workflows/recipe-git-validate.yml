@@ -1,0 +1,189 @@
+name: recipe-git-validate
+
+# The draft/ flow (R-RG4-6). An author's pull request adds or changes only
+# draft/<any-name>.md — free prose under a small front matter. How to write one, and
+# how to validate, deploy, update and delete a recipe: USAGE.md.
+# CI turns each draft into recipes/<owner>/<frontmatter_id>/recipe.md + recipe.json.
+#
+# recipe-label (every PR): fails when a person's commit touches recipes/, or while a
+# draft is in the tree — "add the label" without `validate-recipes`, "being
+# validated" with it (scripts/recipe_label_gate.py).
+#
+# Job 1 sends each changed draft to llm-wrapper's POST /v1/recipes/git_validate:
+# markdown → steps, then the per-step check with no tenant. A new draft carries no
+# frontmatter_id yet, so it is sent with a temporary one (R-RG4-10: no LM change).
+# Any failing step fails the job, listed per step.
+#
+# Job 2 runs the real Validate of each draft job 1 passed, on the recipe object
+# job 1 got back (the artifact — never re-read), in the CI project named in
+# .github/recipe-git-validate.json. Every step executes; the entities it creates
+# stay in that project. Skipped when job 1 passed nothing.
+#
+# Job 3, after job 2 passes (scripts/git_validate_writeback.py): owner =
+# author.org_name else intempt (D1); key = slash_command without `/`, unique across
+# all recipes with -2, -3… (D2), or the draft's own frontmatter_id for an edit (D3).
+# It writes recipe.md + recipe.json, deletes the draft, runs every prerequisites
+# step on the result (scripts/prerequisites_gate.sh), commits as github-actions[bot]
+# and pushes to the PR head branch. A GITHUB_TOKEN push starts no workflow, so the
+# job then reports the required checks green on its own commit itself — it has just
+# run them. A fork PR gets no write token, so job 3 skips it with a notice.
+#
+# OPT-IN: jobs 1-3 run only while the PR carries the `validate-recipes` label —
+# adding it starts them, and each push while it stays reruns them. recipe-label is
+# the check to require; the git-validate jobs show as skipped without the label.
+#
+# URL and the CI project (org/project/person) are config, not secrets:
+# .github/recipe-git-validate.json. The only secret is RECIPE_GIT_VALIDATE_SECRET.
+#
+# No `paths:` filter: a labelled PR touching no draft exits 0 at once.
+
+on:
+  pull_request:
+    branches: [staging]
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+
+jobs:
+  # Runs on EVERY pull request to staging, label or not (see the header). It stays
+  # red while a draft is in the tree; job 3's write-back reports it green on the
+  # commit that deletes the draft.
+  recipe-label:
+    runs-on: intempt-ubuntu-github-runner
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install the YAML parser the scripts need
+        run: pip install --quiet pyyaml
+      - name: Only the write-back bot changes recipes/, and no draft is waiting
+        run: python3 scripts/recipe_label_gate.py --base "origin/${{ github.base_ref }}" --labels "$LABELS"
+        env:
+          LABELS: ${{ toJSON(github.event.pull_request.labels.*.name) }}
+
+  git-validate:
+    # `labeled` fires for every label; only this one should start a run.
+    if: >-
+      contains(github.event.pull_request.labels.*.name, 'validate-recipes') &&
+      (github.event.action != 'labeled' || github.event.label.name == 'validate-recipes')
+    runs-on: intempt-ubuntu-github-runner
+    outputs:
+      passed: ${{ steps.check.outputs.passed }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install the YAML parser the scripts need
+        run: pip install --quiet pyyaml
+      - name: Every changed draft passes the engine's per-step check
+        id: check
+        run: |
+          python3 scripts/git_validate_recipes.py --base "origin/${{ github.base_ref }}" --out checked
+          echo "passed=$(ls checked/*.json 2>/dev/null | wc -l)" >> "$GITHUB_OUTPUT"
+        env:
+          RECIPE_GIT_VALIDATE_SECRET: ${{ secrets.RECIPE_GIT_VALIDATE_SECRET }}
+      - uses: actions/upload-artifact@v4
+        if: steps.check.outputs.passed != '0'
+        with:
+          name: checked-recipes
+          path: checked/
+          retention-days: 7
+
+  git-validate-run:
+    needs: git-validate
+    if: needs.git-validate.outputs.passed != '0'
+    runs-on: intempt-ubuntu-github-runner
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/download-artifact@v4
+        with:
+          name: checked-recipes
+          path: checked
+      - name: Every checked draft validates when it really runs
+        run: python3 scripts/git_validate_run_recipes.py checked
+        env:
+          RECIPE_GIT_VALIDATE_SECRET: ${{ secrets.RECIPE_GIT_VALIDATE_SECRET }}
+
+  git-validate-writeback:
+    needs: [git-validate, git-validate-run]
+    runs-on: intempt-ubuntu-github-runner
+    permissions:
+      contents: write
+      statuses: write
+    env:
+      HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+      HEAD_REF: ${{ github.head_ref }}
+      HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+      # The checks branch protection requires on staging. The bot's commit starts no
+      # workflow, so this job reports them itself after running them on that tree.
+      REQUIRED_CONTEXTS: "prerequisites recipe-label"
+    steps:
+      - name: A fork PR cannot be written back
+        id: where
+        run: |
+          if [ "$HEAD_REPO" != "$GITHUB_REPOSITORY" ]; then
+            echo "::notice::Fork PR ($HEAD_REPO): no write token, so the draft is not turned into recipes/. Re-open it from a branch of $GITHUB_REPOSITORY."
+            echo "fork=true" >> "$GITHUB_OUTPUT"
+          fi
+      - uses: actions/checkout@v4
+        if: steps.where.outputs.fork != 'true'
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        if: steps.where.outputs.fork != 'true'
+        with:
+          python-version: "3.12"
+      - name: Install the YAML parser the scripts need
+        if: steps.where.outputs.fork != 'true'
+        run: pip install --quiet pyyaml
+      - uses: actions/download-artifact@v4
+        if: steps.where.outputs.fork != 'true'
+        with:
+          name: checked-recipes
+          path: ${{ runner.temp }}/checked
+      - name: Write recipe.md + recipe.json for each draft, and delete the draft
+        if: steps.where.outputs.fork != 'true'
+        run: python3 scripts/git_validate_writeback.py "$RUNNER_TEMP/checked"
+      - name: Every prerequisites step passes on the written tree
+        if: steps.where.outputs.fork != 'true'
+        run: scripts/prerequisites_gate.sh
+      - name: Commit to the PR head branch
+        id: push
+        if: steps.where.outputs.fork != 'true'
+        run: |
+          git add -A -- recipes/ draft/
+          if git diff --cached --quiet; then echo "Nothing changed."; exit 0; fi
+          git -c user.name="github-actions[bot]" \
+              -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+              commit -q -m "recipes: write validated drafts to recipes/ (git validate)"
+          if ! git push origin "HEAD:refs/heads/$HEAD_REF"; then
+            if [ "$(git ls-remote origin "refs/heads/$HEAD_REF" | cut -f1)" != "$HEAD_SHA" ]; then
+              echo "::warning::$HEAD_REF moved since this run started; the newer push's run writes back."
+              exit 0
+            fi
+            exit 1
+          fi
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+      - name: Report the required checks green on the write-back commit
+        if: steps.push.outputs.sha != ''
+        env:
+          TOKEN: ${{ github.token }}
+          NEW_SHA: ${{ steps.push.outputs.sha }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          for context in $REQUIRED_CONTEXTS; do
+            curl -fsS -X POST -o /dev/null \
+              -H "Authorization: Bearer $TOKEN" -H "Accept: application/vnd.github+json" \
+              "$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/statuses/$NEW_SHA" \
+              -d "{\"state\":\"success\",\"context\":\"$context\",\"target_url\":\"$RUN_URL\",\"description\":\"Run by the write-back job on this commit's tree\"}"
+            echo "$context = success on $NEW_SHA"
+          done

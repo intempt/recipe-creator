@@ -1,0 +1,42 @@
+name: recipe-deploy
+
+# Create, update or delete one global recipe in SM by pushing a tag on main
+# (RG1 §50):
+#
+#   git tag create/<person_id>/<frontmatter_id> && git push origin create/<person_id>/<frontmatter_id>
+#   git tag update/<frontmatter_id>             && git push origin update/<frontmatter_id>
+#   git tag delete/<frontmatter_id>             && git push origin delete/<frontmatter_id>
+#
+# create/update send the recipes/*/*/recipe.json whose frontmatter_id is the tag's — the
+# record the PR's git Validate wrote back (recipe-git-validate.yml job 3). The
+# tagged commit must be on main; nothing else is checked here (RG1 §17).
+# SM URL: `deploy_url` in .github/recipe-git-validate.json. The only secret is
+# RECIPE_GIT_VALIDATE_SECRET (the same one SM and llm-wrapper check).
+#
+# The tag is deleted at the end, pass or fail, so the same name can be pushed
+# again. All logic is in scripts/recipe_deploy.py.
+
+on:
+  push:
+    tags: ['create/**', 'update/**', 'delete/**']
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: intempt-ubuntu-github-runner
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Deploy the tagged recipe to SM
+        run: python3 scripts/recipe_deploy.py "$GITHUB_REF_NAME" --main origin/main
+        env:
+          RECIPE_GIT_VALIDATE_SECRET: ${{ secrets.RECIPE_GIT_VALIDATE_SECRET }}
+      - name: Delete the tag so it can be reused
+        if: always()
+        run: git push origin ":refs/tags/$GITHUB_REF_NAME"

@@ -24,17 +24,26 @@ name: recipe-prerequisites
 # recorded run was a push to main or the promotion PR. A guard on the wrong branch
 # reports green by never running.
 #
-# Deliberately NO `paths:` filter, even though that would skip runs on PRs that
-# touch no recipe. This check is a required status check in branch protection,
-# and a required check that is skipped never reports at all — GitHub leaves the
-# PR stuck on "Expected — waiting for status" forever. A path filter here would
-# block every PR that does not happen to touch a recipe. The script reads 302
-# markdown files and finishes in about a second, so running it always is
-# cheaper than the failure mode of running it sometimes.
+# PULL REQUESTS run this only when they touch recipe content — recipes/, draft/,
+# examples/ (Beso 2026-10-07: "shouldn't run for regular PRs which are not for new
+# recipes"). Pushes to staging and main still run it on every push, so a merged
+# change is always checked.
+#
+# Two costs of that filter, accepted:
+#   - A PR that changes only scripts/ or the workflows gets no CI run of these checks
+#     or the script tests; run `scripts/prerequisites_gate.sh` locally before merging.
+#   - Branch protection must NOT list `prerequisites` as a required check while this
+#     filter is here: GitHub reports no status for a workflow a `paths:` filter
+#     skipped, so every PR outside these paths would sit at "Expected" forever.
+#     (staging has no required checks on 2026-10-07.)
 
 on:
   pull_request:
     branches: [staging, main]
+    paths:
+      - "recipes/**"
+      - "draft/**"
+      - "examples/**"
   push:
     branches: [staging, main]
 
@@ -95,6 +104,8 @@ jobs:
         run: python3 scripts/render_entities_doc.py --check
       - name: Ids and slash commands are unique, and ids match their folders
         run: python3 scripts/check_recipe_identity.py
+      - name: Every git-format recipe.md agrees with its recipe.json
+        run: python3 scripts/check_recipe_consistency.py
       # The body is generated from the frontmatter, so a hand-edited one is drift
       # by definition. Rewriting the copy across 302 recipes left every body
       # quoting step titles that no longer existed.
