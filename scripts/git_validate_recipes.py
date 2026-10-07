@@ -17,7 +17,8 @@ Usage:
   git_validate_recipes.py --base <ref> [--url URL]       # changed since merge-base
   git_validate_recipes.py path/to/recipe.md ...          # explicit files
   --out DIR   writes each passing answer to DIR/<f_id>.json — the recipe object
-              job 2 (git_validate_run_recipes.py) runs, so it is never re-read.
+              job 2 (git_validate_run_recipes.py) runs, so it is never re-read —
+              and the recipe.md it came from to DIR/<f_id>.path (job 3's key).
 URL: .github/recipe-git-validate.json (git_validate_config.py). Env: RECIPE_GIT_VALIDATE_SECRET.
 """
 from __future__ import annotations
@@ -84,11 +85,15 @@ def report(path: str, status: int, body: dict) -> bool:
     return False
 
 
-def save(out_dir: str, body: dict) -> None:
+def save(out_dir: str, body: dict, path: str) -> None:
+    """DIR/<f_id>.json is the answer, verbatim; DIR/<f_id>.path names the
+    recipe.md it came from, so the write-back never has to re-read the md."""
     os.makedirs(out_dir, exist_ok=True)
     name = re.sub(r"[^A-Za-z0-9._-]", "_", str(body.get("f_id") or "recipe"))
     with open(os.path.join(out_dir, f"{name}.json"), "w", encoding="utf-8") as fh:
         json.dump(body, fh, ensure_ascii=False)
+    with open(os.path.join(out_dir, f"{name}.path"), "w", encoding="utf-8") as fh:
+        fh.write(path + "\n")
 
 
 def main() -> int:
@@ -118,7 +123,7 @@ def main() -> int:
             status, body = post(args.url, secret, markdown)
         passed = report(path, status, body)
         if passed and args.out:
-            save(args.out, body)
+            save(args.out, body, path)
         ok = passed and ok
     print(f"\n{len(files)} recipe(s) checked.")
     return 0 if ok else 1

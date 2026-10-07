@@ -16,6 +16,8 @@ name: recipe-git-validate
 # object job 2 ran — what the main-tag deploy sends, recipe-deploy.yml), and a
 # `description:` line in that recipe.md ONLY when its frontmatter has none. A
 # description the author set is never touched; industry is not written to the md.
+# Which md an answer belongs to is the path job 1 recorded (<f_id>.path), never
+# re-read from the md.
 # A GITHUB_TOKEN commit does not retrigger workflows. A fork PR gets no write
 # token, so job 3 skips it with a notice.
 #
@@ -92,7 +94,6 @@ jobs:
       HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
       HEAD_REF: ${{ github.head_ref }}
       HEAD_SHA: ${{ github.event.pull_request.head.sha }}
-      BASE_REF: ${{ github.base_ref }}
     steps:
       - name: A fork PR cannot be written back
         id: where
@@ -117,9 +118,7 @@ jobs:
           path: ${{ runner.temp }}/checked
       - name: Write recipe.json (and a missing description) beside each validated recipe
         if: steps.where.outputs.fork != 'true'
-        run: |
-          pip install --quiet pyyaml
-          python3 scripts/git_validate_writeback.py "$RUNNER_TEMP/checked" --base "origin/$BASE_REF"
+        run: python3 scripts/git_validate_writeback.py "$RUNNER_TEMP/checked"
       - name: Commit to the PR head branch
         if: steps.where.outputs.fork != 'true'
         run: |
