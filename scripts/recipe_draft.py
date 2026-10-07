@@ -21,7 +21,6 @@ import re
 import yaml
 
 DRAFT_DIR = "draft"
-DRAFT_README = "draft/README.md"
 DEFAULT_OWNER = "intempt"
 # The write-back job commits as this identity; the PR gate lets only it touch recipes/.
 BOT_NAME = "github-actions[bot]"
@@ -38,8 +37,8 @@ class DraftError(Exception):
 
 
 def is_draft(path: str) -> bool:
-    """A draft is any .md under draft/ except its README."""
-    return path.startswith(DRAFT_DIR + "/") and path.endswith(".md") and path != DRAFT_README
+    """A draft is any .md under draft/. draft/ holds nothing else (USAGE.md)."""
+    return path.startswith(DRAFT_DIR + "/") and path.endswith(".md")
 
 
 def split(text: str) -> tuple[dict, str]:

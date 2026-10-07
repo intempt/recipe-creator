@@ -22,6 +22,13 @@ All of them end the same way: a `recipe.md` you review, then you choose how it g
 [intempt.com/recipes/submit](https://intempt.com/recipes/submit), or have the agent send it with
 `intempt recipe submit`, which previews first and cannot send without your explicit yes.
 
+## Adding a recipe to this repository
+
+Put a draft in `draft/<any-name>.md` and open a pull request to `staging`. You never write
+under `recipes/`: CI checks the draft, runs it, and commits
+`recipes/<owner>/<frontmatter_id>/recipe.md` + `recipe.json` in its place. Deploys, updates
+and deletes are tags on `main`. **[USAGE.md](./USAGE.md)** has every rule and command.
+
 ## Start here
 
 **[START-HERE.md](./START-HERE.md)**: install, then create the recipe. If you are pasting a link to
@@ -66,9 +73,12 @@ the recipes.
 
 - **[examples/](./examples/README.md)** is a curated set to copy from, chosen because it meets the
   bar. Its README says what each one teaches.
-- **`recipes/<author>/<recipe-id>/recipe.md`** holds published recipes. A folder there is written
-  only when a submission is approved. `recipes/intempt/` holds the recipes the Intempt team
-  publishes.
+- **`recipes/<owner>/<id>/`** holds published recipes. `recipes/intempt/` holds the recipes the
+  Intempt team publishes. New ones arrive through `draft/` and are written by CI, never by hand
+  ([USAGE.md](./USAGE.md)); the original hand-written ones follow
+  [references/recipe-contract.md](./references/recipe-contract.md).
+- **`draft/`** holds drafts waiting in an open pull request, and nothing else. It is empty on
+  `staging` and `main`.
 
 When a customer installs a recipe, Intempt makes a copy in their project. That copy is theirs to
 edit and never changes underneath them.

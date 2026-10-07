@@ -1,7 +1,8 @@
 name: recipe-git-validate
 
 # The draft/ flow (R-RG4-6). An author's pull request adds or changes only
-# draft/<any-name>.md — free prose under a small front matter (draft/README.md).
+# draft/<any-name>.md — free prose under a small front matter. How to write one, and
+# how to validate, deploy, update and delete a recipe: USAGE.md.
 # CI turns each draft into recipes/<owner>/<frontmatter_id>/recipe.md + recipe.json.
 #
 # recipe-label (every PR): fails when a person's commit touches recipes/, or while a

@@ -6,7 +6,8 @@ An author's PR adds or changes only `draft/*.md`; CI writes recipes/ for them. S
   1. A commit in the PR that touches recipes/ must be the write-back bot's
      (recipe_draft.BOT_EMAIL as author AND committer). A person's commit there fails:
      recipes/ is generated, and a hand edit would skip the step check and the run.
-  2. A draft in the tree fails. Without the `validate-recipes` label the message says
+  2. Anything in draft/ that is not a `.md` draft fails: draft/ holds new recipes only.
+  3. A draft in the tree fails. Without the `validate-recipes` label the message says
      a reviewer adds it; with the label the git Validate jobs are running, and their
      write-back deletes the draft and posts this check green on its own commit.
 
@@ -14,7 +15,7 @@ Merge commits are not counted (a merge of staging brings staging's own recipes/)
 
 Usage:
   recipe_label_gate.py --base origin/staging --labels '["a","b"]'
-Exit 0 = pass; 1 = a person touched recipes/, or a draft is waiting.
+Exit 0 = pass; 1 = a person touched recipes/, draft/ holds a non-draft file, or a draft is waiting.
 """
 from __future__ import annotations
 
@@ -44,17 +45,23 @@ def person_commits(base: str) -> list[str]:
     return found
 
 
-def drafts_in_tree() -> list[str]:
-    return sorted(p for p in _git("ls-files", "--", recipe_draft.DRAFT_DIR + "/").splitlines()
-                  if recipe_draft.is_draft(p))
+def draft_files() -> list[str]:
+    """Every tracked file under draft/."""
+    return sorted(p for p in _git("ls-files", "--", recipe_draft.DRAFT_DIR + "/").splitlines() if p)
 
 
-def verdict(people: list[str], drafts: list[str], labels: list[str]) -> tuple[int, str]:
+def verdict(people: list[str], files: list[str], labels: list[str]) -> tuple[int, str]:
+    drafts = [p for p in files if recipe_draft.is_draft(p)]
+    strays = [p for p in files if not recipe_draft.is_draft(p)]
     problems = []
     if people:
         problems.append(
             f"{len(people)} commit(s) by a person change recipes/, which CI writes from draft/. "
-            "Put the recipe in draft/<name>.md instead (draft/README.md):\n  " + "\n  ".join(people))
+            "Put the recipe in draft/<name>.md instead (USAGE.md):\n  " + "\n  ".join(people))
+    if strays:
+        problems.append(
+            f"{len(strays)} file(s) in draft/ are not a recipe draft. draft/ holds only "
+            "draft/<name>.md files, one per new or edited recipe (USAGE.md):\n  " + "\n  ".join(strays))
     if drafts and LABEL not in labels:
         problems.append(
             f"{len(drafts)} draft(s) wait for git Validate. A reviewer adds the {LABEL!r} label "
@@ -73,7 +80,7 @@ def main(argv=None) -> int:
     ap.add_argument("--base", required=True)
     ap.add_argument("--labels", default="[]", help="JSON list of the PR's label names")
     args = ap.parse_args(argv)
-    code, message = verdict(person_commits(args.base), drafts_in_tree(), json.loads(args.labels or "[]"))
+    code, message = verdict(person_commits(args.base), draft_files(), json.loads(args.labels or "[]"))
     print(message, file=sys.stderr if code else sys.stdout)
     return code
 

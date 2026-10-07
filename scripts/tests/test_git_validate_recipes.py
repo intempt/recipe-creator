@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """git_validate_recipes.py — job 1 of the draft/ flow: it sends each changed draft
-(never draft/README.md, never recipes/) to LM, a new draft with a temporary key, and
+(never a non-.md file, never recipes/) to LM, a new draft with a temporary key, and
 records each passing answer with the draft it came from."""
 import contextlib
 import io
@@ -46,11 +46,11 @@ class Job1(unittest.TestCase):
         os.chdir(self.repo)
         self.addCleanup(os.chdir, self.cwd)
         self.git("init", "-q", "-b", "staging")
-        self.put({"draft/README.md": "how\n", "draft/old.md": DRAFT, "recipes/intempt/a/recipe.md": "a\n"})
+        self.put({"draft/old.md": DRAFT, "recipes/intempt/a/recipe.md": "a\n"})
         self.git("commit", "-qm", "base")
         self.git("branch", "base")
         self.put({"draft/new.md": DRAFT, "draft/team/edit.md": DRAFT.replace("---\nauthor", "---\nfrontmatter_id: a\nauthor"),
-                  "draft/README.md": "more\n", "recipes/intempt/a/recipe.md": "b\n", "draft/notes.txt": "x\n"})
+                  "recipes/intempt/a/recipe.md": "b\n", "draft/notes.txt": "x\n"})
         self.git("rm", "-q", "draft/old.md")
         self.git("commit", "-qm", "change")
 

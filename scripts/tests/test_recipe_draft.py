@@ -49,7 +49,7 @@ class Names(unittest.TestCase):
     def test_is_draft(self):
         self.assertTrue(rd.is_draft("draft/x.md"))
         self.assertTrue(rd.is_draft("draft/team/x.md"))
-        self.assertFalse(rd.is_draft("draft/README.md"))
+        self.assertTrue(rd.is_draft("draft/README.md"))  # draft/ holds drafts only; the gate fails anything else
         self.assertFalse(rd.is_draft("draft/x.txt"))
         self.assertFalse(rd.is_draft("recipes/intempt/x/recipe.md"))
 

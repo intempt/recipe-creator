@@ -44,7 +44,7 @@ class InARepo(unittest.TestCase):
         os.chdir(self.repo)
         self.addCleanup(os.chdir, self.cwd)
         self.git("init", "-q", "-b", "staging")
-        self.commit("base", {"recipes/intempt/a/recipe.md": "a\n", "draft/README.md": "how\n"},
+        self.commit("base", {"recipes/intempt/a/recipe.md": "a\n"},
                     "Base", "base@example.com")
         self.git("branch", "base")
 
@@ -103,9 +103,15 @@ class InARepo(unittest.TestCase):
         self.assertEqual(gate.person_commits("staging"), [])
         self.assertEqual(gate.main(["--base", "staging", "--labels", "[]"]), 0)
 
-    def test_the_draft_readme_and_other_paths_need_nothing(self):
-        self.commit("docs", {"draft/README.md": "more\n", "scripts/x.py": "x\n"}, "Beso", "beso@intempt.com")
+    def test_other_paths_need_nothing(self):
+        self.commit("code", {"scripts/x.py": "x\n", "USAGE.md": "how\n"}, "Beso", "beso@intempt.com")
         self.assertEqual(self.run_gate(), 0)
+
+    def test_anything_but_a_draft_in_draft_fails(self):
+        self.commit("stray", {"draft/notes.txt": "x\n"}, "Beso", "beso@intempt.com")
+        self.assertEqual(self.run_gate(f'["{LABEL}"]'), 1)
+        code, message = verdict([], ["draft/notes.txt"], [LABEL])
+        self.assertIn("not a recipe draft", message)
 
 
 if __name__ == "__main__":
