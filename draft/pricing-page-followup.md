@@ -2,7 +2,7 @@
 author:
   name: Beso
   last_name: Gugushvili
-  org_name: intempt
+  org_name: intempt-internal-use-only
 ---
 # Pricing Page Follow-Up
 
