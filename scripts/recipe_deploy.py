@@ -16,9 +16,11 @@ origin/main). Nothing else is checked here (RG1 §17); SM refuses what it
 refuses (409 duplicate frontmatter_id, 404 unknown frontmatter_id, 404 wrong secret).
 
 The workflow deletes the tag afterwards, so the same tag can be pushed again.
+A manual run (workflow_dispatch) has no tag: it passes the same name built from its
+inputs plus `--ref HEAD`, with `main` checked out, so the same gate applies.
 
 Usage:
-  recipe_deploy.py <tag> [--main origin/main] [--url URL]
+  recipe_deploy.py <tag> [--ref REF] [--main origin/main] [--url URL]
 Config: `deploy_url` in .github/recipe-git-validate.json (git_validate_config.py,
 env RECIPE_DEPLOY_URL overrides). Env: RECIPE_GIT_VALIDATE_SECRET.
 Exit 0 deployed; 1 refused (tag, not on main, no recipe.json, SM said no);
@@ -115,6 +117,7 @@ def call(method: str, url: str, secret: str, body: dict | None) -> tuple[int, st
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("tag", help="the pushed tag name, e.g. update/<frontmatter_id>")
+    ap.add_argument("--ref", help="the commit to deploy from; default refs/tags/<tag> (a manual run passes HEAD)")
     ap.add_argument("--main", default="origin/main", help="the branch the tagged commit must be on")
     ap.add_argument("--url", default=git_validate_config.load()["deploy_url"])
     ap.add_argument("--root", default=".", help="repo root holding recipes/")
@@ -127,8 +130,9 @@ def main() -> int:
         return 2
     try:
         tag = parse_tag(args.tag)
-        if not on_main(f"refs/tags/{args.tag.removeprefix('refs/tags/')}", args.main, args.root):
-            raise Refused(f"tag {args.tag!r} is not on {args.main} — only commits on main deploy")
+        ref = args.ref or f"refs/tags/{args.tag.removeprefix('refs/tags/')}"
+        if not on_main(ref, args.main, args.root):
+            raise Refused(f"{args.tag!r} ({ref}) is not on {args.main} — only commits on main deploy")
         record = None
         if tag["action"] != "delete":
             path, record = find_recipe_json(args.root, tag["frontmatter_id"])

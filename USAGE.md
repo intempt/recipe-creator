@@ -117,6 +117,14 @@ git tag create/<person_id>/<frontmatter_id> origin/main
 git push origin create/<person_id>/<frontmatter_id>
 ```
 
+Or, with no tag, run the deploy by hand. It always deploys from `main`:
+
+```bash
+gh workflow run recipe-deploy -R intempt/recipe-creator -f action=create -f frontmatter_id=<frontmatter_id> -f person_id=<person_id>
+gh workflow run recipe-deploy -R intempt/recipe-creator -f action=update -f frontmatter_id=<frontmatter_id>
+gh run list -R intempt/recipe-creator --workflow recipe-deploy -L 1   # watch it
+```
+
 `<person_id>` is the Intempt user the recipe is created by. The deploy fails when:
 - the commit is not on `main`
 - no `recipes/*/*/recipe.json` has that `frontmatter_id`

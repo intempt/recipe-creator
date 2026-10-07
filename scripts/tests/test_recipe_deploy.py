@@ -91,5 +91,48 @@ class OnMain(unittest.TestCase):
         self.assertFalse(rd.on_main("refs/tags/update/missing", "main", d))
 
 
+class MainRef(unittest.TestCase):
+    """`--ref` (the manual run): the on-main gate reads that commit, not refs/tags/<name>."""
+
+    def run_main(self, d, *argv):
+        import contextlib, io, os
+        out = io.StringIO()
+        old = sys.argv, os.environ.get("RECIPE_GIT_VALIDATE_SECRET")
+        sys.argv = ["recipe_deploy.py", *argv, "--main", "main", "--url", "https://sm.invalid", "--root", d]
+        os.environ["RECIPE_GIT_VALIDATE_SECRET"] = "x"
+        try:
+            with contextlib.redirect_stdout(out):
+                rc = rd.main()
+        finally:
+            sys.argv = old[0]
+            if old[1] is None:
+                os.environ.pop("RECIPE_GIT_VALIDATE_SECRET", None)
+            else:
+                os.environ["RECIPE_GIT_VALIDATE_SECRET"] = old[1]
+        return rc, out.getvalue()
+
+    def test_ref_head_is_gated_without_a_tag(self):
+        d = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, d, ignore_errors=True)
+        git = lambda *a: subprocess.run(["git", "-C", d, "-c", "user.name=t", "-c", "user.email=t@t",
+                                         *a], check=True, capture_output=True)
+        git("init", "-q", "-b", "main")
+        git("commit", "-q", "--allow-empty", "-m", "one")
+        # No tag exists: on main, HEAD passes the gate and the run stops at the missing recipe.json.
+        rc, out = self.run_main(d, "update/x", "--ref", "HEAD")
+        self.assertEqual(rc, 1)
+        self.assertIn("no recipes", out)
+        self.assertNotIn("is not on", out)
+        # Without --ref the same name is looked up as a tag, which does not exist.
+        rc, out = self.run_main(d, "update/x")
+        self.assertIn("is not on main", out)
+        # Off main, HEAD is refused.
+        git("checkout", "-q", "-b", "side")
+        git("commit", "-q", "--allow-empty", "-m", "two")
+        rc, out = self.run_main(d, "update/x", "--ref", "HEAD")
+        self.assertEqual(rc, 1)
+        self.assertIn("is not on main", out)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=1)

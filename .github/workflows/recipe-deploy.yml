@@ -15,10 +15,34 @@ name: recipe-deploy
 #
 # The tag is deleted at the end, pass or fail, so the same name can be pushed
 # again. All logic is in scripts/recipe_deploy.py.
+#
+# Or run it by hand, no tag (Beso 2026-10-07):
+#
+#   gh workflow run recipe-deploy -R intempt/recipe-creator -f action=create -f frontmatter_id=<id> -f person_id=<person_id>
+#   gh workflow run recipe-deploy -R intempt/recipe-creator -f action=update -f frontmatter_id=<id>
+#
+# A manual run checks out main (the default branch is staging) and builds the same
+# create/<person_id>/<id> | update/<id> | delete/<id> name from its inputs, so the
+# script and its on-main gate are unchanged.
 
 on:
   push:
     tags: ['create/**', 'update/**', 'delete/**']
+  workflow_dispatch:
+    inputs:
+      action:
+        description: create, update or delete
+        type: choice
+        options: [create, update, delete]
+        required: true
+      frontmatter_id:
+        description: the recipe's frontmatter_id (recipes/*/*/recipe.json)
+        type: string
+        required: true
+      person_id:
+        description: the Intempt user the recipe is created by (create only)
+        type: string
+        required: false
 
 permissions:
   contents: write
@@ -30,13 +54,23 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: ${{ github.event_name == 'workflow_dispatch' && 'main' || github.ref }}
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Deploy the tagged recipe to SM
-        run: python3 scripts/recipe_deploy.py "$GITHUB_REF_NAME" --main origin/main
+      - name: Deploy the recipe to SM
+        run: |
+          if [ "$GITHUB_EVENT_NAME" = workflow_dispatch ]; then
+            if [ "$ACTION" = create ]; then name="create/$PERSON_ID/$FRONTMATTER_ID"; else name="$ACTION/$FRONTMATTER_ID"; fi
+            python3 scripts/recipe_deploy.py "$name" --ref HEAD --main origin/main
+          else
+            python3 scripts/recipe_deploy.py "$GITHUB_REF_NAME" --main origin/main
+          fi
         env:
           RECIPE_GIT_VALIDATE_SECRET: ${{ secrets.RECIPE_GIT_VALIDATE_SECRET }}
+          ACTION: ${{ inputs.action }}
+          FRONTMATTER_ID: ${{ inputs.frontmatter_id }}
+          PERSON_ID: ${{ inputs.person_id }}
       - name: Delete the tag so it can be reused
-        if: always()
+        if: always() && github.event_name == 'push'
         run: git push origin ":refs/tags/$GITHUB_REF_NAME"
