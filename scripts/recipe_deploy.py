@@ -16,9 +16,18 @@ origin/main). Nothing else is checked here (RG1 §17); SM refuses what it
 refuses (409 duplicate frontmatter_id, 404 unknown frontmatter_id, 404 wrong secret).
 
 The workflow deletes the tag afterwards, so the same tag can be pushed again.
+A manual run (workflow_dispatch) has no tag: it passes the same name built from its
+inputs plus `--ref HEAD`, with `main` checked out, so the same gate applies.
+
+A manual run also passes `--skip-unchanged` (Beso 2026-10-07: no new commit on main → do
+nothing). `deployed/<frontmatter_id>` is the tag the workflow moves to the deployed commit
+after each successful create/update and deletes after a successful delete. With the flag:
+create/update send nothing when that marker exists and recipe.json is the same at `--ref`;
+delete sends nothing when there is no marker. Either way the exit is 0 and stdout starts
+with UNCHANGED / NOT DEPLOYED, which the workflow reads to leave the marker alone.
 
 Usage:
-  recipe_deploy.py <tag> [--main origin/main] [--url URL]
+  recipe_deploy.py <tag> [--ref REF] [--skip-unchanged] [--main origin/main] [--url URL]
 Config: `deploy_url` in .github/recipe-git-validate.json (git_validate_config.py,
 env RECIPE_DEPLOY_URL overrides). Env: RECIPE_GIT_VALIDATE_SECRET.
 Exit 0 deployed; 1 refused (tag, not on main, no recipe.json, SM said no);
@@ -112,10 +121,34 @@ def call(method: str, url: str, secret: str, body: dict | None) -> tuple[int, st
         return 0, str(err)
 
 
+MARKER = "deployed/{}"  # tag the workflow moves to the commit last deployed for a frontmatter_id
+
+
+def has_marker(root: str, frontmatter_id: str) -> bool:
+    """True when `deployed/<frontmatter_id>` exists, i.e. the recipe is deployed."""
+    return subprocess.run(["git", "rev-parse", "--verify", "-q",
+                           f"refs/tags/{MARKER.format(frontmatter_id)}^{{commit}}"], cwd=root,
+                          capture_output=True).returncode == 0
+
+
+def unchanged_since_deploy(root: str, frontmatter_id: str, path: str, ref: str) -> bool:
+    """True when `deployed/<frontmatter_id>` exists and the recipe.json at `ref` is the same
+    as at that marker — nothing new on main for this recipe (Beso 2026-10-07)."""
+    marker = f"refs/tags/{MARKER.format(frontmatter_id)}"
+    if not has_marker(root, frontmatter_id):
+        return False
+    rel = os.path.relpath(path, root)
+    return subprocess.run(["git", "diff", "--quiet", marker, ref, "--", rel], cwd=root,
+                          capture_output=True).returncode == 0
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("tag", help="the pushed tag name, e.g. update/<frontmatter_id>")
+    ap.add_argument("--ref", help="the commit to deploy from; default refs/tags/<tag> (a manual run passes HEAD)")
     ap.add_argument("--main", default="origin/main", help="the branch the tagged commit must be on")
+    ap.add_argument("--skip-unchanged", action="store_true",
+                    help="create/update: do nothing when recipe.json is unchanged since deployed/<frontmatter_id>")
     ap.add_argument("--url", default=git_validate_config.load()["deploy_url"])
     ap.add_argument("--root", default=".", help="repo root holding recipes/")
     args = ap.parse_args()
@@ -127,12 +160,20 @@ def main() -> int:
         return 2
     try:
         tag = parse_tag(args.tag)
-        if not on_main(f"refs/tags/{args.tag.removeprefix('refs/tags/')}", args.main, args.root):
-            raise Refused(f"tag {args.tag!r} is not on {args.main} — only commits on main deploy")
+        ref = args.ref or f"refs/tags/{args.tag.removeprefix('refs/tags/')}"
+        if not on_main(ref, args.main, args.root):
+            raise Refused(f"{args.tag!r} ({ref}) is not on {args.main} — only commits on main deploy")
         record = None
+        if tag["action"] == "delete" and args.skip_unchanged and not has_marker(args.root, tag["frontmatter_id"]):
+            print(f"NOT DEPLOYED  {tag['frontmatter_id']}: no {MARKER.format(tag['frontmatter_id'])} — nothing to delete")
+            return 0
         if tag["action"] != "delete":
             path, record = find_recipe_json(args.root, tag["frontmatter_id"])
             print(f"recipe {os.path.relpath(path, args.root)}")
+            if args.skip_unchanged and unchanged_since_deploy(args.root, tag["frontmatter_id"], path, ref):
+                print(f"UNCHANGED  {tag['frontmatter_id']}: no new commit on main for it since "
+                      f"{MARKER.format(tag['frontmatter_id'])} — nothing to deploy")
+                return 0
     except Refused as err:
         print(f"REFUSED  {err}")
         return 1

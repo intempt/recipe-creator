@@ -57,11 +57,11 @@ def verdict(people: list[str], files: list[str], labels: list[str]) -> tuple[int
     if people:
         problems.append(
             f"{len(people)} commit(s) by a person change recipes/, which CI writes from draft/. "
-            "Put the recipe in draft/<name>.md instead (USAGE.md):\n  " + "\n  ".join(people))
+            "Put the recipe in draft/<name>.md instead (README.md):\n  " + "\n  ".join(people))
     if strays:
         problems.append(
             f"{len(strays)} file(s) in draft/ are not a recipe draft. draft/ holds only "
-            "draft/<name>.md files, one per new or edited recipe (USAGE.md):\n  " + "\n  ".join(strays))
+            "draft/<name>.md files, one per new or edited recipe (README.md):\n  " + "\n  ".join(strays))
     if drafts and LABEL not in labels:
         problems.append(
             f"{len(drafts)} draft(s) wait for git Validate. A reviewer adds the {LABEL!r} label "

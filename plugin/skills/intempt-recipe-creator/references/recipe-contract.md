@@ -143,7 +143,7 @@ build fails if one leaks.
 ## Git-format recipes: the draft/ flow
 
 A second format lives beside the contract above. Its author writes free prose in
-`draft/<any-name>.md` (format and the whole lifecycle: [USAGE.md](https://github.com/intempt/recipe-creator/blob/main/USAGE.md)) and CI writes the recipe;
+`draft/<any-name>.md` (format and the whole lifecycle: [README.md](https://github.com/intempt/recipe-creator/blob/main/README.md#adding-a-recipe-to-this-repository)) and CI writes the recipe;
 nobody writes it under `recipes/` by hand, and the `recipe-label` check fails a pull request
 whose commits do.
 
