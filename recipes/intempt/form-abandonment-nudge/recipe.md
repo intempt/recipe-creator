@@ -1,9 +1,13 @@
 ---
+frontmatter_id: form-abandonment-nudge
+slash_command: /form-abandonment-nudge
+description: This recipe helps marketers automatically re-engage people who started filling out a form on the website but left without submitting it, nudging them to come back and finish.
 author:
   name: Beso
   last_name: Gugushvili
   org_name: intempt
 ---
+
 # Form Abandonment Nudge
 
 ## Step 1: Create Form Abandoners Segment

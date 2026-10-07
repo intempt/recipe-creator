@@ -1,0 +1,52 @@
+{
+  "frontmatter_id": "form-abandonment-nudge",
+  "title": "Form Abandonment Nudge",
+  "slash_command": "/form-abandonment-nudge",
+  "description": "This recipe helps marketers automatically re-engage people who started filling out a form on the website but left without submitting it, nudging them to come back and finish.",
+  "markdown": "# Form Abandonment Nudge\n\n## Description\n\nThis recipe helps marketers automatically re-engage people who started filling out a form on the website but left without submitting it, nudging them to come back and finish.\n\n## Why this works\n\nIt first identifies the right audience by watching for people who interacted with a form but did not submit it within a few days, then creates a visual that matches a friendly, non-urgent tone, and finally combines both into a short email that speaks directly to that audience using the generated image, so the whole sequence moves from audience definition to creative to a ready-to-send message.\n\n## Steps\n\n### Step 1: Create Form Abandoners Segment\n\nCreate a segment called \"Form Abandoners\" for users. Base it on the \"Change on\" event — the default autotracked event that fires when someone interacts with a form field, no integration needed. Add one group with two conditions: triggered \"Change on\" within the last 3 days, AND did NOT trigger \"Submit on\" in that same 3-day window.\n\n### Step 2: Generate Nudge Banner Image\n\nGenerate a friendly, low-pressure \"still there?\" banner image — simple and clean, a small progress-bar or checkmark icon, warm color palette, no urgency red or orange tones.\n\n### Step 3: Generate Nudge Email\n\nWrite a short, friendly nudge email for the \"{{steps.s1.output}}\" segment created in Step 1, using the {{steps.s2.output}}. Remind them they started filling something out, reassure them it only takes a minute to finish, and close with one clear button linking back to where they left off.\n",
+  "classification": {
+    "industry": [
+      "ecommerce",
+      "b2b-saas"
+    ]
+  },
+  "complexity": "standard",
+  "author": {
+    "name": "Beso",
+    "last_name": "Gugushvili",
+    "org_name": "intempt"
+  },
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Create Form Abandoners Segment",
+      "description": "Create a segment called \"Form Abandoners\" for users. Base it on the \"Change on\" event — the default autotracked event that fires when someone interacts with a form field, no integration needed. Add one group with two conditions: triggered \"Change on\" within the last 3 days, AND did NOT trigger \"Submit on\" in that same 3-day window.",
+      "command": "create_segment",
+      "entity": "segment",
+      "kind": "static",
+      "modelConfig": []
+    },
+    {
+      "id": "s2",
+      "title": "Generate Nudge Banner Image",
+      "description": "Generate a friendly, low-pressure \"still there?\" banner image — simple and clean, a small progress-bar or checkmark icon, warm color palette, no urgency red or orange tones.",
+      "command": "generate_image",
+      "entity": "image",
+      "kind": "dynamic",
+      "modelConfig": []
+    },
+    {
+      "id": "s3",
+      "title": "Generate Nudge Email",
+      "description": "Write a short, friendly nudge email for the \"{{steps.s1.output}}\" segment created in Step 1, using the {{steps.s2.output}}. Remind them they started filling something out, reassure them it only takes a minute to finish, and close with one clear button linking back to where they left off.",
+      "dependsOn": [
+        "s1",
+        "s2"
+      ],
+      "command": "draft_email",
+      "entity": "email_html",
+      "kind": "dynamic",
+      "modelConfig": []
+    }
+  ]
+}
