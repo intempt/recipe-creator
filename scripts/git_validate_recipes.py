@@ -16,9 +16,9 @@ recipe-prerequisites.yml for why).
 Usage:
   git_validate_recipes.py --base <ref> [--url URL]       # changed since merge-base
   git_validate_recipes.py path/to/recipe.md ...          # explicit files
-  --out DIR   writes each passing answer to DIR/<f_id>.json — the recipe object
+  --out DIR   writes each passing answer to DIR/<frontmatter_id>.json — the recipe object
               job 2 (git_validate_run_recipes.py) runs, so it is never re-read —
-              and the recipe.md it came from to DIR/<f_id>.path (job 3's key).
+              and the recipe.md it came from to DIR/<frontmatter_id>.path (job 3's key).
 URL: .github/recipe-git-validate.json (git_validate_config.py). Env: RECIPE_GIT_VALIDATE_SECRET.
 """
 from __future__ import annotations
@@ -63,7 +63,7 @@ def post(url: str, secret: str, markdown: str) -> tuple[int, dict]:
 
 def report(path: str, status: int, body: dict) -> bool:
     if status == 200:
-        print(f"PASS  {path}  ({body.get('f_id')}, {len(body.get('steps') or [])} steps)")
+        print(f"PASS  {path}  ({body.get('frontmatter_id')}, {len(body.get('steps') or [])} steps)")
         return True
     detail = body.get("detail", body)
     if status == 404:
@@ -86,10 +86,10 @@ def report(path: str, status: int, body: dict) -> bool:
 
 
 def save(out_dir: str, body: dict, path: str) -> None:
-    """DIR/<f_id>.json is the answer, verbatim; DIR/<f_id>.path names the
+    """DIR/<frontmatter_id>.json is the answer, verbatim; DIR/<frontmatter_id>.path names the
     recipe.md it came from, so the write-back never has to re-read the md."""
     os.makedirs(out_dir, exist_ok=True)
-    name = re.sub(r"[^A-Za-z0-9._-]", "_", str(body.get("f_id") or "recipe"))
+    name = re.sub(r"[^A-Za-z0-9._-]", "_", str(body.get("frontmatter_id") or "recipe"))
     with open(os.path.join(out_dir, f"{name}.json"), "w", encoding="utf-8") as fh:
         json.dump(body, fh, ensure_ascii=False)
     with open(os.path.join(out_dir, f"{name}.path"), "w", encoding="utf-8") as fh:
@@ -101,7 +101,7 @@ def main() -> int:
     ap.add_argument("files", nargs="*")
     ap.add_argument("--base", help="git ref to diff against (merge-base)")
     ap.add_argument("--url", default=git_validate_config.load()["url"])
-    ap.add_argument("--out", help="directory for each passing answer, <f_id>.json")
+    ap.add_argument("--out", help="directory for each passing answer, <frontmatter_id>.json")
     args = ap.parse_args()
 
     files = args.files or (changed_recipes(args.base) if args.base else [])

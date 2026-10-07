@@ -107,7 +107,7 @@ class WriteBack(unittest.TestCase):
 
     def test_writes_json_verbatim_and_inserts_missing_description(self):
         md = self.md("accounts-at-risk-count", WITHOUT)
-        answer = {"f_id": "accounts-at-risk-count", "description": "Gen.", "steps": [{"id": "s1"}]}
+        answer = {"frontmatter_id": "accounts-at-risk-count", "description": "Gen.", "steps": [{"id": "s1"}]}
         written, problems = wb.write_back([(answer, md)])
         self.assertEqual(problems, [])
         out = pathlib.Path(md).with_name("recipe.json")
@@ -117,14 +117,14 @@ class WriteBack(unittest.TestCase):
 
     def test_present_description_md_not_rewritten(self):
         md = self.md("accounts-at-risk-count", WITH)
-        written, _ = wb.write_back([({"f_id": "accounts-at-risk-count", "description": "Gen."}, md)])
+        written, _ = wb.write_back([({"frontmatter_id": "accounts-at-risk-count", "description": "Gen."}, md)])
         self.assertEqual(written, [str(pathlib.Path(md).with_name("recipe.json"))])
         self.assertEqual(pathlib.Path(md).read_text(), WITH)
 
     def test_matched_by_path_not_by_frontmatter_id(self):
-        # The md's id differs from the answer's f_id: the path job 1 recorded decides.
+        # The md's id differs from the answer's frontmatter_id: the path job 1 recorded decides.
         md = self.md("x", WITHOUT)
-        _, problems = wb.write_back([({"f_id": "something-else", "description": "D."}, md)])
+        _, problems = wb.write_back([({"frontmatter_id": "something-else", "description": "D."}, md)])
         self.assertEqual(problems, [])
         self.assertTrue(pathlib.Path(md).with_name("recipe.json").exists())
 
@@ -132,7 +132,7 @@ class WriteBack(unittest.TestCase):
         # LM's git_validate._FRONTMATTER accepts these; the write-back must too.
         for prefix in ("\n\n", "\ufeff", "\ufeff\n  \n"):
             md = self.md("blank-" + str(len(prefix)) + str(ord(prefix[0])), prefix + WITHOUT)
-            _, problems = wb.write_back([({"f_id": "a", "description": "Gen."}, md)])
+            _, problems = wb.write_back([({"frontmatter_id": "a", "description": "Gen."}, md)])
             self.assertEqual(problems, [], repr(prefix))
             text = pathlib.Path(md).read_text(encoding="utf-8")
             self.assertTrue(text.startswith(prefix), repr(prefix))
@@ -141,7 +141,7 @@ class WriteBack(unittest.TestCase):
     def test_no_description_or_no_frontmatter_is_a_problem_and_writes_nothing(self):
         a = self.md("a", WITHOUT)
         b = self.md("b", "# no frontmatter\n")
-        _, problems = wb.write_back([({"f_id": "a"}, a), ({"f_id": "b", "description": "D."}, b)])
+        _, problems = wb.write_back([({"frontmatter_id": "a"}, a), ({"frontmatter_id": "b", "description": "D."}, b)])
         self.assertEqual(len(problems), 2)
         self.assertIn("no description", problems[0])
         self.assertIn("no frontmatter", problems[1])
@@ -152,11 +152,11 @@ class WriteBack(unittest.TestCase):
     def test_load_pairs_each_answer_with_its_recorded_path(self):
         out = self.root / "checked"
         out.mkdir()
-        (out / "a.json").write_text(json.dumps({"f_id": "a"}))
+        (out / "a.json").write_text(json.dumps({"frontmatter_id": "a"}))
         (out / "a.path").write_text("recipes/intempt/a/recipe.md\n")
-        (out / "b.json").write_text(json.dumps({"f_id": "b"}))
+        (out / "b.json").write_text(json.dumps({"frontmatter_id": "b"}))
         pairs, problems = wb.load(str(out))
-        self.assertEqual(pairs, [({"f_id": "a"}, "recipes/intempt/a/recipe.md")])
+        self.assertEqual(pairs, [({"frontmatter_id": "a"}, "recipes/intempt/a/recipe.md")])
         self.assertEqual(len(problems), 1)
         self.assertIn("b.json", problems[0])
 

@@ -22,7 +22,7 @@ folded `>-` blocks and the body stay byte-for-byte as they were. A
 into the md (RG1 §57).
 
 Which recipe.md an answer belongs to is NOT read from the md: job 1 writes
-DIR/<f_id>.path, the file it sent. The frontmatter is located the way LM's
+DIR/<frontmatter_id>.path, the file it sent. The frontmatter is located the way LM's
 git_validate._FRONTMATTER locates it — an optional BOM and blank lines may
 come before the opening `---` — so a file LM accepted is a file this edits.
 
@@ -102,20 +102,20 @@ def write_back(pairs: list[tuple[dict, str]]) -> tuple[list[str], list[str]]:
     (answer, recipe.md path). Returns (files written, problems)."""
     written, problems = [], []
     for answer, md in pairs:
-        f_id = str(answer.get("f_id") or "(no f_id)")
+        frontmatter_id = str(answer.get("frontmatter_id") or "(no frontmatter_id)")
         description = " ".join(str(answer.get("description") or "").split())
         if not description:
-            problems.append(f"{f_id}: the answer has no description ({md})")
+            problems.append(f"{frontmatter_id}: the answer has no description ({md})")
             continue
         try:
             with open(md, encoding="utf-8", newline="") as fh:
                 text = fh.read()
         except OSError as e:
-            problems.append(f"{f_id}: cannot read {md} ({e.strerror})")
+            problems.append(f"{frontmatter_id}: cannot read {md} ({e.strerror})")
             continue
         new = insert_description(text, description)
         if new == text and not has_description(text):
-            problems.append(f"{f_id}: no frontmatter in {md} to put the description in")
+            problems.append(f"{frontmatter_id}: no frontmatter in {md} to put the description in")
             continue
         out = os.path.join(os.path.dirname(md), "recipe.json")
         with open(out, "w", encoding="utf-8", newline="\n") as fh:
@@ -130,7 +130,7 @@ def write_back(pairs: list[tuple[dict, str]]) -> tuple[list[str], list[str]]:
 
 
 def load(out_dir: str) -> tuple[list[tuple[dict, str]], list[str]]:
-    """Job 1's DIR: each <f_id>.json with the md path in its <f_id>.path."""
+    """Job 1's DIR: each <frontmatter_id>.json with the md path in its <frontmatter_id>.path."""
     pairs, problems = [], []
     for path in sorted(glob.glob(os.path.join(out_dir, "*.json"))):
         with open(path, encoding="utf-8") as fh:
@@ -150,7 +150,7 @@ def load(out_dir: str) -> tuple[list[tuple[dict, str]], list[str]]:
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("dir", help="job 1's --out directory (<f_id>.json + <f_id>.path per passing recipe)")
+    ap.add_argument("dir", help="job 1's --out directory (<frontmatter_id>.json + <frontmatter_id>.path per passing recipe)")
     args = ap.parse_args()
 
     pairs, problems = load(args.dir)

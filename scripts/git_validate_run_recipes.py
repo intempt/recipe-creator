@@ -3,10 +3,10 @@
 Run the real Validate of every recipe job 1 passed, in the CI project, and fail
 when any run does not validate.
 
-Job 1 (git_validate_recipes.py --out DIR) leaves one `<f_id>.json` per passing
+Job 1 (git_validate_recipes.py --out DIR) leaves one `<frontmatter_id>.json` per passing
 recipe: the step check's answer, i.e. the recipe object. Each one is sent as-is
 to llm-wrapper's `POST /v1/recipes/git_validate_run` — never re-read from the
-markdown — and `GET /v1/recipes/git_validate_run/{f_id}/{chain_id}` is polled
+markdown — and `GET /v1/recipes/git_validate_run/{frontmatter_id}/{chain_id}` is polled
 until the run finishes. The steps really run, so the entities they create stay
 in that project.
 
@@ -106,7 +106,7 @@ def main() -> int:
     for path in files:
         with open(path, encoding="utf-8") as fh:
             recipe = json.load(fh)
-        name = recipe.get("f_id") or os.path.basename(path)
+        name = recipe.get("frontmatter_id") or os.path.basename(path)
         status, body = call("POST", args.url, secret, {"recipe": recipe, **where})
         if status == 200 and body.get("chain_id"):
             print(f"START {name}  {body['chain_id']}")

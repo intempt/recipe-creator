@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""recipe_deploy.py: tag parsing, f_id → recipe.json lookup, the on-main gate,
+"""recipe_deploy.py: tag parsing, frontmatter_id → recipe.json lookup, the on-main gate,
 and the request each action sends to SM (RG1 §50/§51.3b)."""
 import json
 import pathlib
@@ -18,11 +18,11 @@ import recipe_deploy as rd
 class ParseTag(unittest.TestCase):
     def test_create(self):
         self.assertEqual(rd.parse_tag("create/10499/email-nonopener"),
-                         {"action": "create", "person_id": 10499, "f_id": "email-nonopener"})
+                         {"action": "create", "person_id": 10499, "frontmatter_id": "email-nonopener"})
 
     def test_update_and_delete(self):
-        self.assertEqual(rd.parse_tag("update/abc"), {"action": "update", "f_id": "abc"})
-        self.assertEqual(rd.parse_tag("refs/tags/delete/abc"), {"action": "delete", "f_id": "abc"})
+        self.assertEqual(rd.parse_tag("update/abc"), {"action": "update", "frontmatter_id": "abc"})
+        self.assertEqual(rd.parse_tag("refs/tags/delete/abc"), {"action": "delete", "frontmatter_id": "abc"})
 
     def test_malformed_is_refused(self):
         for bad in ("create/abc", "create/x1/abc", "create/1/", "create/1/a/b", "update/",
@@ -43,20 +43,20 @@ class FindRecipeJson(unittest.TestCase):
         return p
 
     def test_found(self):
-        self.put("a", {"f_id": "a-id", "steps": []})
-        p = self.put("b", {"f_id": "b-id", "steps": [1]})
+        self.put("a", {"frontmatter_id": "a-id", "steps": []})
+        p = self.put("b", {"frontmatter_id": "b-id", "steps": [1]})
         self.put("broken", None, raw="{not json")
         path, record = rd.find_recipe_json(str(self.root), "b-id")
-        self.assertEqual((path, record), (str(p), {"f_id": "b-id", "steps": [1]}))
+        self.assertEqual((path, record), (str(p), {"frontmatter_id": "b-id", "steps": [1]}))
 
     def test_not_found(self):
-        self.put("a", {"f_id": "a-id"})
+        self.put("a", {"frontmatter_id": "a-id"})
         with self.assertRaisesRegex(rd.Refused, "no recipes"):
             rd.find_recipe_json(str(self.root), "b-id")
 
     def test_duplicate(self):
-        self.put("a", {"f_id": "same"})
-        self.put("b", {"f_id": "same"})
+        self.put("a", {"frontmatter_id": "same"})
+        self.put("b", {"frontmatter_id": "same"})
         with self.assertRaisesRegex(rd.Refused, "in 2 recipe.json"):
             rd.find_recipe_json(str(self.root), "same")
 
@@ -65,13 +65,13 @@ class Request(unittest.TestCase):
     URL = "https://sm.example/v1/recipes"
 
     def test_each_action(self):
-        r = {"f_id": "a b"}
-        self.assertEqual(rd.request({"action": "create", "person_id": 7, "f_id": "a b"}, self.URL, r),
+        r = {"frontmatter_id": "a b"}
+        self.assertEqual(rd.request({"action": "create", "person_id": 7, "frontmatter_id": "a b"}, self.URL, r),
                          ("POST", self.URL, {"person_id": 7, "recipe": r}))
-        self.assertEqual(rd.request({"action": "update", "f_id": "a b"}, self.URL, r),
+        self.assertEqual(rd.request({"action": "update", "frontmatter_id": "a b"}, self.URL, r),
                          ("PUT", self.URL, {"recipe": r}))
-        self.assertEqual(rd.request({"action": "delete", "f_id": "a b"}, self.URL, None),
-                         ("DELETE", self.URL, {"f_id": "a b"}))
+        self.assertEqual(rd.request({"action": "delete", "frontmatter_id": "a b"}, self.URL, None),
+                         ("DELETE", self.URL, {"frontmatter_id": "a b"}))
 
 
 class OnMain(unittest.TestCase):

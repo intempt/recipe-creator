@@ -16,7 +16,7 @@ name: recipe-git-validate
 # object job 2 ran — what the main-tag deploy sends, recipe-deploy.yml), and a
 # `description:` line in that recipe.md ONLY when its frontmatter has none. A
 # description the author set is never touched; industry is not written to the md.
-# Which md an answer belongs to is the path job 1 recorded (<f_id>.path), never
+# Which md an answer belongs to is the path job 1 recorded (<frontmatter_id>.path), never
 # re-read from the md.
 # A GITHUB_TOKEN commit does not retrigger workflows. A fork PR gets no write
 # token, so job 3 skips it with a notice.

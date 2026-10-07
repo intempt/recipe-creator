@@ -29,6 +29,9 @@ def main():
     problems = []
     ids = collections.defaultdict(list)
     slashes = collections.defaultdict(list)
+    # The deploy key: `frontmatter_id`, else `id` (llm-wrapper git_validate reads it the same
+    # way). SM keeps it UNIQUE, so two recipes sharing one could never both deploy.
+    deploy_keys = collections.defaultdict(list)
 
     for path in sorted(glob.glob("recipes/*/*/recipe.md")):
         text = pathlib.Path(path).read_text(encoding="utf-8")
@@ -52,6 +55,7 @@ def main():
             problems.append(f"{path}: id '{rid}' does not match its folder '{folder}'")
 
         ids[rid].append(path)
+        deploy_keys[front.get("frontmatter_id") or rid].append(path)
         slash = front.get("slash_command")
         if slash:
             slashes[slash].append(rid)
@@ -59,6 +63,10 @@ def main():
     for rid, paths in sorted(ids.items()):
         if len(paths) > 1:
             problems.append(f"duplicate id '{rid}': {', '.join(paths)}")
+
+    for key, paths in sorted(deploy_keys.items()):
+        if len(paths) > 1:
+            problems.append(f"duplicate deploy key (frontmatter_id, else id) '{key}': {', '.join(paths)}")
 
     for slash, owners in sorted(slashes.items()):
         if len(owners) > 1:
@@ -76,7 +84,7 @@ def main():
             print(f"  ... and {len(problems) - 40} more", file=sys.stderr)
         return 1
 
-    print(f"{len(ids)} recipes: ids unique, folders match, slash commands unique")
+    print(f"{len(ids)} recipes: ids unique, folders match, deploy keys unique, slash commands unique")
     return 0
 
 

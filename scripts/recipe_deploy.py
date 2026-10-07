@@ -2,18 +2,18 @@
 """
 Deploy one recipe to SM from a tag pushed on `main` (RG1 §50):
 
-  create/<person_id>/<f_id>   POST   <deploy_url>          {person_id, recipe}
-  update/<f_id>               PUT    <deploy_url>          {recipe}   (recipe.f_id names it)
-  delete/<f_id>               DELETE <deploy_url>          {f_id}
+  create/<person_id>/<frontmatter_id>   POST   <deploy_url>          {person_id, recipe}
+  update/<frontmatter_id>               PUT    <deploy_url>          {recipe}   (recipe.frontmatter_id names it)
+  delete/<frontmatter_id>               DELETE <deploy_url>          {frontmatter_id}
 
-`recipe` is the `recipes/*/*/recipe.json` whose `f_id` is the tag's — the
+`recipe` is the `recipes/*/*/recipe.json` whose `frontmatter_id` is the tag's — the
 object the PR's git Validate checked and ran, committed back by
 git_validate_writeback.py. It is sent as-is. A delete needs no file, so a
 recipe whose folder is already gone from `main` can still be deleted.
 
 The one gate is that the tagged commit is on `main` (an ancestor of
 origin/main). Nothing else is checked here (RG1 §17); SM refuses what it
-refuses (409 duplicate f_id, 404 unknown f_id, 404 wrong secret).
+refuses (409 duplicate frontmatter_id, 404 unknown frontmatter_id, 404 wrong secret).
 
 The workflow deletes the tag afterwards, so the same tag can be pushed again.
 
@@ -47,20 +47,20 @@ class Refused(Exception):
 
 
 def parse_tag(tag: str) -> dict:
-    """`create/<person_id>/<f_id>` | `update/<f_id>` | `delete/<f_id>` →
-    {action, f_id, person_id (create only, int)}. Anything else → Refused."""
+    """`create/<person_id>/<frontmatter_id>` | `update/<frontmatter_id>` | `delete/<frontmatter_id>` →
+    {action, frontmatter_id, person_id (create only, int)}. Anything else → Refused."""
     tag = tag.removeprefix("refs/tags/")
     parts = tag.split("/")
     action = parts[0]
     if action == "create" and len(parts) == 3 and parts[1].isdigit() and parts[2]:
-        return {"action": action, "person_id": int(parts[1]), "f_id": parts[2]}
+        return {"action": action, "person_id": int(parts[1]), "frontmatter_id": parts[2]}
     if action in ("update", "delete") and len(parts) == 2 and parts[1]:
-        return {"action": action, "f_id": parts[1]}
-    raise Refused(f"tag {tag!r} is not create/<person_id>/<f_id>, update/<f_id> or delete/<f_id>")
+        return {"action": action, "frontmatter_id": parts[1]}
+    raise Refused(f"tag {tag!r} is not create/<person_id>/<frontmatter_id>, update/<frontmatter_id> or delete/<frontmatter_id>")
 
 
-def find_recipe_json(root: str, f_id: str) -> tuple[str, dict]:
-    """The one recipes/*/*/recipe.json whose `f_id` is f_id → (path, record)."""
+def find_recipe_json(root: str, frontmatter_id: str) -> tuple[str, dict]:
+    """The one recipes/*/*/recipe.json whose `frontmatter_id` is frontmatter_id → (path, record)."""
     hits = []
     for path in sorted(glob.glob(os.path.join(root, "recipes", "*", "*", "recipe.json"))):
         try:
@@ -68,12 +68,12 @@ def find_recipe_json(root: str, f_id: str) -> tuple[str, dict]:
                 record = json.load(fh)
         except (OSError, ValueError):
             continue
-        if isinstance(record, dict) and str(record.get("f_id") or "") == f_id:
+        if isinstance(record, dict) and str(record.get("frontmatter_id") or "") == frontmatter_id:
             hits.append((path, record))
     if not hits:
-        raise Refused(f"no recipes/*/*/recipe.json has f_id {f_id!r}")
+        raise Refused(f"no recipes/*/*/recipe.json has frontmatter_id {frontmatter_id!r}")
     if len(hits) > 1:
-        raise Refused(f"f_id {f_id!r} is in {len(hits)} recipe.json files: "
+        raise Refused(f"frontmatter_id {frontmatter_id!r} is in {len(hits)} recipe.json files: "
                       + ", ".join(os.path.relpath(p, root) for p, _ in hits))
     return hits[0]
 
@@ -89,13 +89,13 @@ def on_main(ref: str, main: str, cwd: str | None = None) -> bool:
 
 
 def request(tag: dict, base_url: str, record: dict | None) -> tuple[str, str, dict | None]:
-    """(method, url, body) for the parsed tag. All three hit the one route; the f_id rides
+    """(method, url, body) for the parsed tag. All three hit the one route; the frontmatter_id rides
     in the body (RG1 §60)."""
     if tag["action"] == "create":
         return "POST", base_url, {"person_id": tag["person_id"], "recipe": record}
     if tag["action"] == "update":
         return "PUT", base_url, {"recipe": record}
-    return "DELETE", base_url, {"f_id": tag["f_id"]}
+    return "DELETE", base_url, {"frontmatter_id": tag["frontmatter_id"]}
 
 
 def call(method: str, url: str, secret: str, body: dict | None) -> tuple[int, str]:
@@ -114,7 +114,7 @@ def call(method: str, url: str, secret: str, body: dict | None) -> tuple[int, st
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("tag", help="the pushed tag name, e.g. update/<f_id>")
+    ap.add_argument("tag", help="the pushed tag name, e.g. update/<frontmatter_id>")
     ap.add_argument("--main", default="origin/main", help="the branch the tagged commit must be on")
     ap.add_argument("--url", default=git_validate_config.load()["deploy_url"])
     ap.add_argument("--root", default=".", help="repo root holding recipes/")
@@ -131,7 +131,7 @@ def main() -> int:
             raise Refused(f"tag {args.tag!r} is not on {args.main} — only commits on main deploy")
         record = None
         if tag["action"] != "delete":
-            path, record = find_recipe_json(args.root, tag["f_id"])
+            path, record = find_recipe_json(args.root, tag["frontmatter_id"])
             print(f"recipe {os.path.relpath(path, args.root)}")
     except Refused as err:
         print(f"REFUSED  {err}")
@@ -140,10 +140,10 @@ def main() -> int:
     method, url, body = request(tag, args.url, record)
     status, text = call(method, url, secret, body)
     if status in EXPECTED[tag["action"]]:
-        print(f"DEPLOYED  {tag['action']} {tag['f_id']}  ({method} {url} → {status})")
+        print(f"DEPLOYED  {tag['action']} {tag['frontmatter_id']}  ({method} {url} → {status})")
         return 0
-    hint = " — wrong URL, unknown f_id, or the secret is unset/wrong on either side" if status == 404 else ""
-    print(f"FAIL  {tag['action']} {tag['f_id']}  {method} {url} → {status}{hint}\n        {text}")
+    hint = " — wrong URL, unknown frontmatter_id, or the secret is unset/wrong on either side" if status == 404 else ""
+    print(f"FAIL  {tag['action']} {tag['frontmatter_id']}  {method} {url} → {status}{hint}\n        {text}")
     return 1
 
 

@@ -3,11 +3,11 @@ name: recipe-deploy
 # Create, update or delete one global recipe in SM by pushing a tag on main
 # (RG1 §50):
 #
-#   git tag create/<person_id>/<f_id> && git push origin create/<person_id>/<f_id>
-#   git tag update/<f_id>             && git push origin update/<f_id>
-#   git tag delete/<f_id>             && git push origin delete/<f_id>
+#   git tag create/<person_id>/<frontmatter_id> && git push origin create/<person_id>/<frontmatter_id>
+#   git tag update/<frontmatter_id>             && git push origin update/<frontmatter_id>
+#   git tag delete/<frontmatter_id>             && git push origin delete/<frontmatter_id>
 #
-# create/update send the recipes/*/*/recipe.json whose f_id is the tag's — the
+# create/update send the recipes/*/*/recipe.json whose frontmatter_id is the tag's — the
 # record the PR's git Validate wrote back (recipe-git-validate.yml job 3). The
 # tagged commit must be on main; nothing else is checked here (RG1 §17).
 # SM URL: `deploy_url` in .github/recipe-git-validate.json. The only secret is

@@ -22,6 +22,7 @@ Where each rule comes from, so nobody has to take this file's word for it:
 
 ```yaml
 id: vip-thank-you                # kebab-case, equals the folder name
+frontmatter_id: vip-thank-you    # optional, kebab-case: the deploy key; absent = id. Unique across the repo
 title: Thank your best customers # a real name, never the id
 slash_command: /vip-thank-you    # unique across the repo
 group: Segments                  # one of the Marketplace groups

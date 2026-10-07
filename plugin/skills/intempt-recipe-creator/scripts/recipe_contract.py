@@ -182,6 +182,11 @@ def validate(path, front):
         problems.append(f"id {rid!r} must be kebab-case")
     if rid and p.parent.name != rid:
         problems.append(f"folder {p.parent.name!r} must equal id {rid!r}")
+    if "frontmatter_id" in front:
+        # The deploy key (recipe-deploy.yml tags). Optional: absent, the deploy key is `id`.
+        fmid = front.get("frontmatter_id")
+        if not isinstance(fmid, str) or not ID_PATTERN.match(fmid):
+            problems.append(f"frontmatter_id {fmid!r} must be kebab-case")
     owner = front.get("owner") or ""
     if owner and p.parent.parent.name != owner:
         problems.append(f"owner {owner!r} must equal the partner folder {p.parent.parent.name!r}")
