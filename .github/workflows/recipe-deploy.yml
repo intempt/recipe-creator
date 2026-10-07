@@ -18,12 +18,13 @@ name: recipe-deploy
 #
 # Or run it by hand, no tag (Beso 2026-10-07):
 #
-#   gh workflow run recipe-deploy -R intempt/recipe-creator -f action=create -f frontmatter_id=<id> -f person_id=<person_id>
-#   gh workflow run recipe-deploy -R intempt/recipe-creator -f action=update -f frontmatter_id=<id>
+#   gh workflow run recipe-deploy -R intempt/recipe-creator --ref main -f action=create -f frontmatter_id=<id> -f person_id=<person_id>
+#   gh workflow run recipe-deploy -R intempt/recipe-creator --ref main -f action=update -f frontmatter_id=<id>
 #
-# A manual run checks out main (the default branch is staging) and builds the same
-# create/<person_id>/<id> | update/<id> | delete/<id> name from its inputs, so the
-# script and its on-main gate are unchanged.
+# A manual run is accepted ONLY from main (`--ref main`); from any other branch —
+# including staging, the default branch `gh` picks without --ref — the first step
+# fails. It builds the same create/<person_id>/<id> | update/<id> | delete/<id> name
+# from its inputs, so the script and its on-main gate are unchanged.
 
 on:
   push:
@@ -51,10 +52,14 @@ jobs:
   deploy:
     runs-on: intempt-ubuntu-github-runner
     steps:
+      - name: A manual run deploys only from main
+        if: github.event_name == 'workflow_dispatch' && github.ref != 'refs/heads/main'
+        run: |
+          echo "::error::run it from main: gh workflow run recipe-deploy --ref main … (got $GITHUB_REF)"
+          exit 1
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          ref: ${{ github.event_name == 'workflow_dispatch' && 'main' || github.ref }}
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
