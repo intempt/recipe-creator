@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import json
+import os
 import pathlib
 import shutil
 import subprocess
@@ -78,7 +79,10 @@ class SyncMarketplace(unittest.TestCase):
         result = subprocess.run(
             [sys.executable, str(SCRIPTS / "sync_marketplace.py"), "--catalog", str(self.catalog),
              "--recipes", str(self.recipes), "--url", "http://127.0.0.1:9/v1/marketplace/recipes"],
-            capture_output=True, text=True, env={"PATH": "/usr/bin:/bin"},
+            # No secret in the env. LD_LIBRARY_PATH stays: setup-python's interpreter on the
+            # self-hosted runner cannot load libpython without it (exit 127).
+            capture_output=True, text=True,
+            env={"PATH": "/usr/bin:/bin", **{k: os.environ[k] for k in ("LD_LIBRARY_PATH",) if k in os.environ}},
         )
         self.assertEqual(result.returncode, 2)
         self.assertIn("MARKETPLACE_SYNC_SECRET", result.stderr)
