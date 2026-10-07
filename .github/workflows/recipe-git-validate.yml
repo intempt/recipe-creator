@@ -42,7 +42,7 @@ jobs:
     if: >-
       contains(github.event.pull_request.labels.*.name, 'validate-recipes') &&
       (github.event.action != 'labeled' || github.event.label.name == 'validate-recipes')
-    runs-on: ubuntu-latest
+    runs-on: intempt-ubuntu-github-runner
     outputs:
       passed: ${{ steps.check.outputs.passed }}
     steps:
@@ -69,7 +69,7 @@ jobs:
   git-validate-run:
     needs: git-validate
     if: needs.git-validate.outputs.passed != '0'
-    runs-on: ubuntu-latest
+    runs-on: intempt-ubuntu-github-runner
     timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
@@ -87,7 +87,7 @@ jobs:
 
   git-validate-writeback:
     needs: [git-validate, git-validate-run]
-    runs-on: ubuntu-latest
+    runs-on: intempt-ubuntu-github-runner
     permissions:
       contents: write
     env:
