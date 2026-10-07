@@ -7,13 +7,17 @@ name: recipe-git-validate
 #
 # Job 2 then runs the real Validate of each recipe job 1 passed, on the recipe
 # object job 1 got back (the artifact — never re-read), in the CI project named
-# by secrets. Every step executes; the entities it creates stay in that project.
+# in .github/recipe-git-validate.json. Every step executes; the entities it
+# creates stay in that project.
 # It is skipped when job 1 passed no recipe — a skipped job still reports.
 #
 # OPT-IN: nothing runs unless the PR carries the `validate-recipes` label —
 # adding the label starts it, and each push while the label stays reruns it.
 # A PR without the label gets no model calls and creates no entities; both jobs
 # show as skipped, so this must not be a required check.
+#
+# URL and the CI project (org/project/person) are config, not secrets:
+# .github/recipe-git-validate.json. The only secret is RECIPE_GIT_VALIDATE_SECRET.
 #
 # No `paths:` filter: a labelled PR touching no recipe exits 0 at once.
 
@@ -44,7 +48,6 @@ jobs:
           python3 scripts/git_validate_recipes.py --base "origin/${{ github.base_ref }}" --out checked
           echo "passed=$(ls checked/*.json 2>/dev/null | wc -l)" >> "$GITHUB_OUTPUT"
         env:
-          RECIPE_GIT_VALIDATE_URL: ${{ secrets.RECIPE_GIT_VALIDATE_URL }}
           RECIPE_GIT_VALIDATE_SECRET: ${{ secrets.RECIPE_GIT_VALIDATE_SECRET }}
       - uses: actions/upload-artifact@v4
         if: steps.check.outputs.passed != '0'
@@ -70,8 +73,4 @@ jobs:
       - name: Every checked recipe validates when it really runs
         run: python3 scripts/git_validate_run_recipes.py checked
         env:
-          RECIPE_GIT_VALIDATE_URL: ${{ secrets.RECIPE_GIT_VALIDATE_URL }}
           RECIPE_GIT_VALIDATE_SECRET: ${{ secrets.RECIPE_GIT_VALIDATE_SECRET }}
-          RECIPE_GIT_RUN_ORG_ID: ${{ secrets.RECIPE_GIT_RUN_ORG_ID }}
-          RECIPE_GIT_RUN_PROJECT_ID: ${{ secrets.RECIPE_GIT_RUN_PROJECT_ID }}
-          RECIPE_GIT_RUN_PERSON_ID: ${{ secrets.RECIPE_GIT_RUN_PERSON_ID }}

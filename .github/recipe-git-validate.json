@@ -1,0 +1,8 @@
+{
+  "url": "https://api.intempt.com/v1/recipes/git_validate",
+  "run": {
+    "org_id": 1000,
+    "project_id": 6298,
+    "person_id": 10499
+  }
+}

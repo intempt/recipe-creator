@@ -15,9 +15,9 @@ and polled together.
 
 Usage:
   git_validate_run_recipes.py DIR [--url URL]
-Env: RECIPE_GIT_VALIDATE_URL (job 1's URL; `_run` is appended unless
-     RECIPE_GIT_VALIDATE_RUN_URL is set), RECIPE_GIT_VALIDATE_SECRET,
-     RECIPE_GIT_RUN_ORG_ID, RECIPE_GIT_RUN_PROJECT_ID, RECIPE_GIT_RUN_PERSON_ID.
+Config: .github/recipe-git-validate.json (git_validate_config.py) — job 1's
+     url (`_run` is appended unless RECIPE_GIT_VALIDATE_RUN_URL is set) and the
+     run's org_id, project_id, person_id. Env: RECIPE_GIT_VALIDATE_SECRET.
 """
 from __future__ import annotations
 
@@ -30,6 +30,8 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
+
+import git_validate_config
 
 HEADER = "x-recipe-validate-secret"
 TIMEOUT_S = 60
@@ -84,9 +86,9 @@ def report(name: str, s: dict) -> bool:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("dir", help="job 1's --out directory")
+    cfg = git_validate_config.load()
     ap.add_argument("--url", default=os.environ.get("RECIPE_GIT_VALIDATE_RUN_URL")
-                    or (os.environ.get("RECIPE_GIT_VALIDATE_URL", "") + "_run"
-                        if os.environ.get("RECIPE_GIT_VALIDATE_URL") else ""))
+                    or (cfg["url"] + "_run" if cfg["url"] else ""))
     args = ap.parse_args()
 
     files = sorted(glob.glob(os.path.join(args.dir, "*.json")))
@@ -94,11 +96,10 @@ def main() -> int:
         print("No recipe passed job 1's check — nothing to run.")
         return 0
     secret = os.environ.get("RECIPE_GIT_VALIDATE_SECRET", "")
-    where = {k: os.environ.get(f"RECIPE_GIT_RUN_{k.upper()}", "")
-             for k in ("org_id", "project_id", "person_id")}
+    where = {k: cfg[k] for k in ("org_id", "project_id", "person_id")}
     if not args.url or not secret or not all(where.values()):
-        print("RECIPE_GIT_VALIDATE_URL / RECIPE_GIT_VALIDATE_SECRET / RECIPE_GIT_RUN_ORG_ID / "
-              "RECIPE_GIT_RUN_PROJECT_ID / RECIPE_GIT_RUN_PERSON_ID not set.", file=sys.stderr)
+        print("url / org_id / project_id / person_id (.github/recipe-git-validate.json) / "
+              "RECIPE_GIT_VALIDATE_SECRET not set.", file=sys.stderr)
         return 2
 
     ok, running = True, {}

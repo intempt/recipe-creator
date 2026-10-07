@@ -18,7 +18,7 @@ Usage:
   git_validate_recipes.py path/to/recipe.md ...          # explicit files
   --out DIR   writes each passing answer to DIR/<f_id>.json — the recipe object
               job 2 (git_validate_run_recipes.py) runs, so it is never re-read.
-Env: RECIPE_GIT_VALIDATE_URL, RECIPE_GIT_VALIDATE_SECRET.
+URL: .github/recipe-git-validate.json (git_validate_config.py). Env: RECIPE_GIT_VALIDATE_SECRET.
 """
 from __future__ import annotations
 
@@ -31,6 +31,8 @@ import sys
 import time
 import urllib.error
 import urllib.request
+
+import git_validate_config
 
 HEADER = "x-recipe-validate-secret"
 TIMEOUT_S = 300
@@ -93,7 +95,7 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("files", nargs="*")
     ap.add_argument("--base", help="git ref to diff against (merge-base)")
-    ap.add_argument("--url", default=os.environ.get("RECIPE_GIT_VALIDATE_URL", ""))
+    ap.add_argument("--url", default=git_validate_config.load()["url"])
     ap.add_argument("--out", help="directory for each passing answer, <f_id>.json")
     args = ap.parse_args()
 
@@ -103,7 +105,7 @@ def main() -> int:
         return 0
     secret = os.environ.get("RECIPE_GIT_VALIDATE_SECRET", "")
     if not args.url or not secret:
-        print("RECIPE_GIT_VALIDATE_URL / RECIPE_GIT_VALIDATE_SECRET not set.", file=sys.stderr)
+        print("url (.github/recipe-git-validate.json) / RECIPE_GIT_VALIDATE_SECRET not set.", file=sys.stderr)
         return 2
 
     ok = True
