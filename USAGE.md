@@ -126,6 +126,12 @@ gh workflow run recipe-deploy -R intempt/recipe-creator --ref main -f action=upd
 gh run list -R intempt/recipe-creator --workflow recipe-deploy -L 1   # watch it
 ```
 
+A manual run with nothing new on `main` for that recipe does nothing and ends green. Each
+successful deploy (tag or manual) moves the tag `deployed/<frontmatter_id>` to the deployed
+commit, and a delete removes it. So `create` and `update` skip when the recipe's
+`recipe.json` is unchanged since that tag, and `delete` skips when there is no such tag. Tag
+pushes are never skipped.
+
 `<person_id>` is the Intempt user the recipe is created by. The deploy fails when:
 - the commit is not on `main`
 - no `recipes/*/*/recipe.json` has that `frontmatter_id`

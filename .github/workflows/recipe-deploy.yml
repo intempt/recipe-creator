@@ -25,6 +25,10 @@ name: recipe-deploy
 # including staging, the default branch `gh` picks without --ref — the first step
 # fails. It builds the same create/<person_id>/<id> | update/<id> | delete/<id> name
 # from its inputs, so the script and its on-main gate are unchanged.
+#
+# A manual run with no new commit on main for that recipe does nothing (Beso 2026-10-07):
+# create/update skip when recipe.json is unchanged since tag deployed/<id>; delete skips
+# when there is no deployed/<id>. Every real deploy (tag or manual) moves/removes it.
 
 on:
   push:
@@ -67,15 +71,38 @@ jobs:
         run: |
           if [ "$GITHUB_EVENT_NAME" = workflow_dispatch ]; then
             if [ "$ACTION" = create ]; then name="create/$PERSON_ID/$FRONTMATTER_ID"; else name="$ACTION/$FRONTMATTER_ID"; fi
-            python3 scripts/recipe_deploy.py "$name" --ref HEAD --main origin/main
+            python3 scripts/recipe_deploy.py "$name" --ref HEAD --skip-unchanged --main origin/main | tee deploy.out
           else
-            python3 scripts/recipe_deploy.py "$GITHUB_REF_NAME" --main origin/main
+            name="$GITHUB_REF_NAME"
+            python3 scripts/recipe_deploy.py "$name" --main origin/main | tee deploy.out
           fi
+          rc=${PIPESTATUS[0]}
+          echo "name=$name" >> "$GITHUB_OUTPUT"
+          exit $rc
+        id: deploy
+        shell: bash
         env:
           RECIPE_GIT_VALIDATE_SECRET: ${{ secrets.RECIPE_GIT_VALIDATE_SECRET }}
           ACTION: ${{ inputs.action }}
           FRONTMATTER_ID: ${{ inputs.frontmatter_id }}
           PERSON_ID: ${{ inputs.person_id }}
+      # deployed/<frontmatter_id> marks the commit last deployed, so a manual run with no
+      # new commit for that recipe does nothing (--skip-unchanged). Moved only on a real
+      # DEPLOYED; an UNCHANGED / NOT DEPLOYED run leaves it. deployed/** starts no workflow.
+      - name: Move the deployed/<frontmatter_id> marker
+        if: success()
+        shell: bash
+        env:
+          NAME: ${{ steps.deploy.outputs.name }}
+        run: |
+          grep -q '^DEPLOYED ' deploy.out || { echo "nothing deployed — marker unchanged"; exit 0; }
+          action="${NAME%%/*}"; id="${NAME##*/}"
+          if [ "$action" = delete ]; then
+            git push origin ":refs/tags/deployed/$id" || true
+          else
+            git tag -f "deployed/$id" HEAD
+            git push -f origin "refs/tags/deployed/$id"
+          fi
       - name: Delete the tag so it can be reused
         if: always() && github.event_name == 'push'
         run: git push origin ":refs/tags/$GITHUB_REF_NAME"

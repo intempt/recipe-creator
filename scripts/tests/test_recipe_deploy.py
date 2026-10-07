@@ -134,5 +134,56 @@ class MainRef(unittest.TestCase):
         self.assertIn("is not on main", out)
 
 
+class SkipUnchanged(MainRef):
+    """`--skip-unchanged` (manual run): create/update need a change since deployed/<id>;
+    delete needs deployed/<id> to exist. A skip exits 0 without calling SM."""
+
+    def setUp(self):
+        self.d = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, self.d, ignore_errors=True)
+        self.git("init", "-q", "-b", "main")
+        self.rj = pathlib.Path(self.d, "recipes", "o", "a", "recipe.json")
+        self.rj.parent.mkdir(parents=True)
+        self.commit({"frontmatter_id": "a-id", "steps": [1]}, "one")
+
+    def git(self, *a):
+        return subprocess.run(["git", "-C", self.d, "-c", "user.name=t", "-c", "user.email=t@t", *a],
+                              check=True, capture_output=True)
+
+    def commit(self, record, msg):
+        self.rj.write_text(json.dumps(record), encoding="utf-8")
+        self.git("add", "-A")
+        self.git("commit", "-q", "-m", msg)
+
+    def test_update_and_create_skip_when_unchanged(self):
+        self.git("tag", "deployed/a-id")
+        self.git("commit", "-q", "--allow-empty", "-m", "unrelated commit on main")
+        for name in ("update/a-id", "create/7/a-id"):
+            with self.subTest(name=name):
+                rc, out = self.run_main(self.d, name, "--ref", "HEAD", "--skip-unchanged")
+                self.assertEqual(rc, 0)
+                self.assertIn("UNCHANGED  a-id", out)
+
+    def test_changed_or_never_deployed_is_not_skipped(self):
+        path = str(self.rj)
+        self.assertFalse(rd.unchanged_since_deploy(self.d, "a-id", path, "HEAD"))  # no marker yet
+        self.git("tag", "deployed/a-id")
+        self.assertTrue(rd.unchanged_since_deploy(self.d, "a-id", path, "HEAD"))
+        self.commit({"frontmatter_id": "a-id", "steps": [1, 2]}, "edit the recipe")
+        self.assertFalse(rd.unchanged_since_deploy(self.d, "a-id", path, "HEAD"))
+
+    def test_delete_skips_only_without_a_marker(self):
+        rc, out = self.run_main(self.d, "delete/a-id", "--ref", "HEAD", "--skip-unchanged")
+        self.assertEqual(rc, 0)
+        self.assertIn("NOT DEPLOYED  a-id", out)
+        self.git("tag", "deployed/a-id")
+        self.assertTrue(rd.has_marker(self.d, "a-id"))
+
+    def test_without_the_flag_nothing_is_skipped(self):
+        self.git("tag", "deployed/a-id")
+        rc, out = self.run_main(self.d, "update/x-missing", "--ref", "HEAD")
+        self.assertNotIn("UNCHANGED", out)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=1)
