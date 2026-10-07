@@ -11,6 +11,14 @@ name: recipe-git-validate
 # creates stay in that project.
 # It is skipped when job 1 passed no recipe — a skipped job still reports.
 #
+# Job 3, after job 2 passes, commits back to the PR head branch (RG1 §51.3a,
+# §55, §57): recipe.json beside each validated recipe.md (job 1's answer, the
+# object job 2 ran — what the main-tag deploy sends, recipe-deploy.yml), and a
+# `description:` line in that recipe.md ONLY when its frontmatter has none. A
+# description the author set is never touched; industry is not written to the md.
+# A GITHUB_TOKEN commit does not retrigger workflows. A fork PR gets no write
+# token, so job 3 skips it with a notice.
+#
 # OPT-IN: nothing runs unless the PR carries the `validate-recipes` label —
 # adding the label starts it, and each push while the label stays reruns it.
 # A PR without the label gets no model calls and creates no entities; both jobs
@@ -74,3 +82,56 @@ jobs:
         run: python3 scripts/git_validate_run_recipes.py checked
         env:
           RECIPE_GIT_VALIDATE_SECRET: ${{ secrets.RECIPE_GIT_VALIDATE_SECRET }}
+
+  git-validate-writeback:
+    needs: [git-validate, git-validate-run]
+    runs-on: intempt-ubuntu-github-runner
+    permissions:
+      contents: write
+    env:
+      HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+      HEAD_REF: ${{ github.head_ref }}
+      HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+      BASE_REF: ${{ github.base_ref }}
+    steps:
+      - name: A fork PR cannot be written back
+        id: where
+        run: |
+          if [ "$HEAD_REPO" != "$GITHUB_REPOSITORY" ]; then
+            echo "::notice::Fork PR ($HEAD_REPO): no write token, so recipe.json and the description are not committed back. Add them by hand or re-open from a branch of $GITHUB_REPOSITORY."
+            echo "fork=true" >> "$GITHUB_OUTPUT"
+          fi
+      - uses: actions/checkout@v4
+        if: steps.where.outputs.fork != 'true'
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        if: steps.where.outputs.fork != 'true'
+        with:
+          python-version: "3.12"
+      - uses: actions/download-artifact@v4
+        if: steps.where.outputs.fork != 'true'
+        with:
+          name: checked-recipes
+          path: ${{ runner.temp }}/checked
+      - name: Write recipe.json (and a missing description) beside each validated recipe
+        if: steps.where.outputs.fork != 'true'
+        run: |
+          pip install --quiet pyyaml
+          python3 scripts/git_validate_writeback.py "$RUNNER_TEMP/checked" --base "origin/$BASE_REF"
+      - name: Commit to the PR head branch
+        if: steps.where.outputs.fork != 'true'
+        run: |
+          git add -- recipes/
+          if git diff --cached --quiet; then echo "Nothing changed."; exit 0; fi
+          git -c user.name="github-actions[bot]" \
+              -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+              commit -q -m "recipes: recipe.json + description from git validate"
+          if ! git push origin "HEAD:refs/heads/$HEAD_REF"; then
+            if [ "$(git ls-remote origin "refs/heads/$HEAD_REF" | cut -f1)" != "$HEAD_SHA" ]; then
+              echo "::warning::$HEAD_REF moved since this run started; the newer push's run writes back."
+              exit 0
+            fi
+            exit 1
+          fi

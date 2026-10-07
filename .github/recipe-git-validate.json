@@ -1,5 +1,6 @@
 {
   "url": "https://api.intempt.com/v1/recipes/git_validate",
+  "deploy_url": "https://api.intempt.com/v1/recipes",
   "run": {
     "org_id": 1000,
     "project_id": 6298,
