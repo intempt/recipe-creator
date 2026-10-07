@@ -37,7 +37,7 @@ class DraftError(Exception):
 
 
 def is_draft(path: str) -> bool:
-    """A draft is any .md under draft/. draft/ holds nothing else (USAGE.md)."""
+    """A draft is any .md under draft/. draft/ holds nothing else (README.md)."""
     return path.startswith(DRAFT_DIR + "/") and path.endswith(".md")
 
 
