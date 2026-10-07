@@ -1,0 +1,32 @@
+{
+  "frontmatter_id": "recent-page-viewers-segment",
+  "title": "Recent Page Viewers Segment",
+  "slash_command": "/recent-page-viewers-segment",
+  "description": "This recipe helps marketers automatically identify and group users who have viewed any page on their site or app within the past week, making it easy to target recently active visitors.",
+  "markdown": "# Recent Page Viewers Segment\n\n## Description\n\nThis recipe helps marketers automatically identify and group users who have viewed any page on their site or app within the past week, making it easy to target recently active visitors.\n\n## Why this works\n\nUsing the default page view event ensures the segment captures activity from every page load without needing custom tracking setup, and the 7 day window keeps the audience focused on recently active users for timely engagement.\n\n## Steps\n\n### Step 1: Create Recent Page Viewers Segment\n\nCreate a segment called \"Recent Page Viewers\" for users. Base it on the \"View page\" event — the default autotracked event that fires on every page load. Add one group with one condition: triggered \"View page\" at least once in the last 7 days.\n",
+  "classification": {
+    "industry": [
+      "b2b-saas",
+      "ecommerce",
+      "media",
+      "social"
+    ]
+  },
+  "complexity": "quick",
+  "author": {
+    "name": "Beso",
+    "last_name": "Gugushvili",
+    "org_name": "intempt-internal-use-only"
+  },
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Create Recent Page Viewers Segment",
+      "description": "Create a segment called \"Recent Page Viewers\" for users. Base it on the \"View page\" event — the default autotracked event that fires on every page load. Add one group with one condition: triggered \"View page\" at least once in the last 7 days.",
+      "command": "create_segment",
+      "entity": "segment",
+      "kind": "static",
+      "modelConfig": []
+    }
+  ]
+}
