@@ -1,0 +1,43 @@
+name: recipe-archive-delete
+
+# A recipe archived on main is deleted from SM (Beso 2026-10-08). recipe-deploy's `delete`
+# action only opens the archive PR (recipes/<owner>/<slug>/ → archived/<owner>/<slug>/); this
+# runs when such a move lands on main and sends DELETE <deploy_url> {frontmatter_id} for every
+# archived/*/*/recipe.json the push added, then removes its deployed/<frontmatter_id> marker.
+# A recipe with no marker was never deployed and is not sent. Logic: scripts/recipe_archive.py.
+
+on:
+  push:
+    branches: [main]
+    paths: ['archived/**']
+
+permissions:
+  contents: write
+
+jobs:
+  delete:
+    runs-on: intempt-ubuntu-github-runner
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Delete the archived recipes from SM
+        shell: bash
+        env:
+          RECIPE_GIT_VALIDATE_SECRET: ${{ secrets.RECIPE_GIT_VALIDATE_SECRET }}
+          BEFORE: ${{ github.event.before }}
+        run: |
+          git fetch -q --tags origin
+          python3 scripts/recipe_archive.py delete-merged "$BEFORE" "$GITHUB_SHA" | tee delete.out
+          exit ${PIPESTATUS[0]}
+      - name: Remove the deployed/<frontmatter_id> markers
+        if: always()
+        shell: bash
+        run: |
+          [ -f delete.out ] || exit 0
+          for id in $(awk '/^DELETED /{print $2}' delete.out); do
+            git push origin ":refs/tags/deployed/$id" || true
+          done

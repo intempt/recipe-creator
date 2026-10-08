@@ -1,11 +1,17 @@
 name: recipe-deploy
 
-# Create, update or delete one global recipe in SM by pushing a tag on main
+# Create or update one global recipe in SM, or archive one, by pushing a tag on main
 # (RG1 §50):
 #
 #   git tag create/<person_id>/<frontmatter_id> && git push origin create/<person_id>/<frontmatter_id>
 #   git tag update/<frontmatter_id>             && git push origin update/<frontmatter_id>
 #   git tag delete/<frontmatter_id>             && git push origin delete/<frontmatter_id>
+#
+# delete does NOT touch SM (Beso 2026-10-08): it moves recipes/<owner>/<slug>/ to
+# archived/<owner>/<slug>/ on a branch archive/<frontmatter_id> and opens a PR into staging
+# (scripts/recipe_archive.py move). When that PR reaches main, recipe-archive-delete.yml
+# deletes the recipe from SM. main and staging are protected, so the move cannot be pushed
+# without a PR.
 #
 # create/update send the recipes/*/*/recipe.json whose frontmatter_id is the tag's — the
 # record the PR's git Validate wrote back (recipe-git-validate.yml job 3). The
@@ -20,6 +26,7 @@ name: recipe-deploy
 #
 #   gh workflow run recipe-deploy -R intempt/recipe-creator --ref main -f action=create -f frontmatter_id=<id> -f person_id=<person_id>
 #   gh workflow run recipe-deploy -R intempt/recipe-creator --ref main -f action=update -f frontmatter_id=<id>
+#   gh workflow run recipe-deploy -R intempt/recipe-creator --ref main -f action=delete -f frontmatter_id=<id>
 #
 # A manual run is accepted ONLY from main (`--ref main`); from any other branch —
 # including staging, the default branch `gh` picks without --ref — the first step
@@ -27,8 +34,8 @@ name: recipe-deploy
 # from its inputs, so the script and its on-main gate are unchanged.
 #
 # A manual run with no new commit on main for that recipe does nothing (Beso 2026-10-07):
-# create/update skip when recipe.json is unchanged since tag deployed/<id>; delete skips
-# when there is no deployed/<id>. Every real deploy (tag or manual) moves/removes it.
+# create/update skip when recipe.json is unchanged since tag deployed/<id>. Every real deploy
+# (tag or manual) moves it; recipe-archive-delete.yml removes it.
 
 on:
   push:
@@ -36,7 +43,7 @@ on:
   workflow_dispatch:
     inputs:
       action:
-        description: create, update or delete
+        description: create, update, or delete (= archive PR; SM delete on merge to main)
         type: choice
         options: [create, update, delete]
         required: true
@@ -51,6 +58,7 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   deploy:
@@ -67,7 +75,20 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: Archive the recipe (delete)
+        id: archive
+        if: (github.event_name == 'workflow_dispatch' && inputs.action == 'delete') || startsWith(github.ref_name, 'delete/')
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          FRONTMATTER_ID: ${{ inputs.frontmatter_id }}
+        run: |
+          id="${FRONTMATTER_ID:-${GITHUB_REF_NAME#delete/}}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          python3 scripts/recipe_archive.py move "$id" --base origin/staging
       - name: Deploy the recipe to SM
+        if: steps.archive.conclusion == 'skipped'
         run: |
           if [ "$GITHUB_EVENT_NAME" = workflow_dispatch ]; then
             if [ "$ACTION" = create ]; then name="create/$PERSON_ID/$FRONTMATTER_ID"; else name="$ACTION/$FRONTMATTER_ID"; fi
@@ -90,19 +111,15 @@ jobs:
       # new commit for that recipe does nothing (--skip-unchanged). Moved only on a real
       # DEPLOYED; an UNCHANGED / NOT DEPLOYED run leaves it. deployed/** starts no workflow.
       - name: Move the deployed/<frontmatter_id> marker
-        if: success()
+        if: success() && steps.deploy.conclusion == 'success'
         shell: bash
         env:
           NAME: ${{ steps.deploy.outputs.name }}
         run: |
           grep -q '^DEPLOYED ' deploy.out || { echo "nothing deployed — marker unchanged"; exit 0; }
-          action="${NAME%%/*}"; id="${NAME##*/}"
-          if [ "$action" = delete ]; then
-            git push origin ":refs/tags/deployed/$id" || true
-          else
-            git tag -f "deployed/$id" HEAD
-            git push -f origin "refs/tags/deployed/$id"
-          fi
+          id="${NAME##*/}"
+          git tag -f "deployed/$id" HEAD
+          git push -f origin "refs/tags/deployed/$id"
       - name: Delete the tag so it can be reused
         if: always() && github.event_name == 'push'
         run: git push origin ":refs/tags/$GITHUB_REF_NAME"

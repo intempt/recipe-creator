@@ -30,7 +30,8 @@ you. Everything else is pull requests, two labels and one command run from `main
 ```
 draft/<any-name>.md ──PR into staging──▶ label validate-recipes ──▶ CI checks, runs, writes
 recipes/<owner>/<frontmatter_id>/ ──merge──▶ staging ──promotion PR + label ff-merge──▶ main
-main ──gh workflow run recipe-deploy (create | update | delete)──▶ the platform
+main ──gh workflow run recipe-deploy (create | update)──▶ the platform
+main ──gh workflow run recipe-deploy (delete)──▶ archive PR into staging ──▶ main ──▶ removed from the platform
 ```
 
 A published recipe is two files, and **CI writes both; you never do**:
@@ -40,18 +41,22 @@ recipes/<owner>/<frontmatter_id>/recipe.md     your prose, under a small front m
 recipes/<owner>/<frontmatter_id>/recipe.json   the checked recipe the deploy sends
 ```
 
+A deleted recipe is not removed from the repo: it moves to `archived/<owner>/<frontmatter_id>/`
+(see "Removing a recipe"). Nothing reads `archived/`; it is the record of what was deleted.
+
 ### The rules
 
 1. **`draft/` holds new or edited recipes only:** one `draft/<any-name>.md` per recipe. Any
    other file in `draft/` fails the `recipe-label` check.
 2. **Never commit under `recipes/` yourself.** A pull request with a commit by a person
-   that touches `recipes/` fails `recipe-label`. Only the write-back commit
-   (`github-actions[bot]`) may change it.
+   that touches `recipes/` fails `recipe-label`. Only `github-actions[bot]` may change it: the
+   write-back commit, and the archive commit a **Delete** makes.
 3. **Pull requests go to `staging`.** A draft is checked only when the `validate-recipes`
    label is on the pull request.
 4. **`frontmatter_id` is unique across the whole repo,** for every owner. It is the recipe's key
    for create, update and delete.
-5. **Create, update and delete run from `main` only.**
+5. **Create, update and delete run from `main` only.** Delete never touches the platform
+   directly: it opens an archive pull request, and merging that to `main` removes the recipe.
 
 ### 1. Write the draft
 
@@ -169,21 +174,21 @@ branch, including `staging`, it fails at once.
 |---|---|---|
 | **Create** | `gh workflow run recipe-deploy -R intempt/recipe-creator --ref main -f action=create -f frontmatter_id=<frontmatter_id> -f person_id=<person_id>` | The recipe is new on `main` |
 | **Update** | `gh workflow run recipe-deploy -R intempt/recipe-creator --ref main -f action=update -f frontmatter_id=<frontmatter_id>` | An edited recipe reached `main` (see "Changing a recipe" below) |
-| **Delete** | `gh workflow run recipe-deploy -R intempt/recipe-creator --ref main -f action=delete -f frontmatter_id=<frontmatter_id>` | The recipe should leave the platform |
+| **Delete** | `gh workflow run recipe-deploy -R intempt/recipe-creator --ref main -f action=delete -f frontmatter_id=<frontmatter_id>` | The recipe should leave the platform. Opens an archive PR; the platform delete happens when it reaches `main` (see "Removing a recipe") |
 
 Watch it: `gh run list -R intempt/recipe-creator --workflow recipe-deploy -L 1`.
 
 - `<person_id>` is the Intempt user the recipe is created by.
 - **Nothing new, nothing happens.** Each successful create or update moves the tag
-  `deployed/<frontmatter_id>` to the deployed commit, and a successful delete removes it. So
-  `create` and `update` do nothing (green, `UNCHANGED`) when the recipe's `recipe.json` has not
-  changed since that tag, and `delete` does nothing (green, `NOT DEPLOYED`) when there is no
-  such tag.
+  `deployed/<frontmatter_id>` to the deployed commit, and a successful platform delete removes
+  it. So `create` and `update` do nothing (green, `UNCHANGED`) when the recipe's `recipe.json`
+  has not changed since that tag.
 - It fails when no `recipes/*/*/recipe.json` has that `frontmatter_id`, or when the platform
   already has that `frontmatter_id` on a `create` (409): use `update` instead.
 
-The same three actions also run by pushing a tag on `main`. The workflow deletes the tag
-afterwards so the name can be reused, and a tag push is never skipped:
+The same three actions also run by pushing a tag on `main` (`delete/<frontmatter_id>` opens the
+archive pull request, exactly like **Delete**). The workflow deletes the tag afterwards so the
+name can be reused, and a tag push is never skipped:
 
 ```bash
 git fetch origin main
@@ -216,10 +221,19 @@ git tag delete/<frontmatter_id> origin/main             && git push origin delet
 
 ### Removing a recipe
 
-Run **Delete** from step 5. It needs no file, so it works even after the folder is gone.
-**Removing the folder from the repo cannot go through a pull request today,** because a
-person's commit under `recipes/` fails `recipe-label`. Ask a maintainer until a delete path is
-decided.
+Deleting is two steps, so the repo and the platform never disagree:
+
+1. Run **Delete** from step 5. It does not touch the platform. It moves
+   `recipes/<owner>/<slug>/` to `archived/<owner>/<slug>/` on a branch
+   `archive/<frontmatter_id>` (a `github-actions[bot]` commit, so `recipe-label` accepts it) and
+   opens a pull request into `staging`. `main` and `staging` are protected, so the move needs
+   that pull request.
+2. Approve and merge it. When it reaches `main`, `recipe-archive-delete` deletes every recipe
+   the push moved into `archived/` from the platform and removes its `deployed/<frontmatter_id>`
+   tag. A recipe with no such tag was never deployed and is only archived (`NOT DEPLOYED`).
+
+`archived/` keeps every deleted recipe. Nothing reads it: create and update look in `recipes/`
+only.
 
 ### Labels
 
@@ -235,6 +249,13 @@ with or without labels. You cannot add it; it tells you whether `validate-recipe
 |---|---|---|---|
 | `validate-recipes` | A reviewer or the author, on a pull request into `staging` | `.github/workflows/recipe-git-validate.yml` (`pull_request`, on `opened` with the label or `labeled`): `git-validate` → `git-validate-run` → `git-validate-writeback` | Creates entities in the CI project (org 1000 / project 6298) by really running the recipe, then pushes a `github-actions[bot]` commit to the PR branch that writes `recipes/<owner>/<frontmatter_id>/recipe.md` + `recipe.json` and deletes the draft |
 | `ff-merge` | A person with write access, on the promotion pull request (`staging` → `main`, "Merge Staging into Main") | `.github/workflows/ff-merge.yml` (`pull_request_target`, on `labeled`), which calls `intempt/.github/.github/workflows/ff-merge.yml@main` | Fast-forwards `main` to the pull request's `staging` head, pushed by the ff-merge bot app. No merge commit |
+
+**The archive pull request needs no label.** A **Delete** (`recipe-deploy`) opens it as
+`github-actions[bot]`: `archive: <frontmatter_id>`, branch `archive/<frontmatter_id>` into
+`staging`, moving `recipes/<owner>/<slug>/` to `archived/<owner>/<slug>/`. It is opened with the
+workflow token, so no check starts on it. When it reaches `main`,
+`.github/workflows/recipe-archive-delete.yml` (`push` to `main`, paths `archived/**`) deletes
+the recipe from the platform and removes `deployed/<frontmatter_id>`.
 
 **`validate-recipes`, in more detail.**
 - Only pull requests into `staging` run it; the workflow has no other branch.
