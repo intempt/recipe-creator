@@ -1,123 +1,27 @@
 ---
-id: hubspot-pql-to-deal
-title: Product qualified signal to a HubSpot deal
-slash_command: /hubspot-pql-to-deal
-group: Workflows
-owner: intempt
-curator: trishik
-summary: >-
-  Update a HubSpot property, add a contact to a list, or create a HubSpot task when product usage signals
-  readiness, so HubSpot reflects product evidence.
-description: >-
-  Use a product-qualified signal from usage to update a HubSpot property, add the record to a HubSpot list, or
-  create a HubSpot task. This keeps HubSpot aligned with product evidence.
-version: 2.0.0
+description: Update a HubSpot property, add a contact to a list, or create a HubSpot task when product usage signals readiness, so HubSpot reflects product evidence.
+author:
+  first_name: Trishik
+  last_name: Shrestha
+  job_title: Growth Marketer
+  avatar: https://cdn.intempt.com/assets/author-profile-pics/trishik.png
+  company: Intempt
+org_name: intempt
 classification:
-  product:
-    - sales
-  agent: revops-automator
-  mode:
-    - saas
   industry:
-    - ai
-    - b2b-saas
-    - ecommerce
-  vertical:
-    - plg
-  complexity: standard
-  executionMode: live
-  tags:
-    - hubspot
-    - pql
-    - deal-creation
-prerequisites:
-  events:
-    - value: feature_used
-      severity: recommended
-  integrations:
-    - value: hubspot
-      severity: blocking
-touches:
-  reads:
-    - The feature_used event in your project
-    - Your HubSpot connection
-  writes:
-    - A new segment, from step 1 "Define what ready to buy means"
-    - A new workflow, from step 2 "Open the deal, leave the rest"
-  never:
-    - Nothing runs until you approve the plan in Blu.
-steps:
-  - id: s1
-    title: Define what ready to buy means
-    summary: >-
-      A segment describing the product qualified account: the usage that means someone is ready to buy,
-      agreed once and reused.
-    builds: segment
-    description: >-
-      Create the segment describing the product-qualified account: the usage that means someone is ready
-      to buy, agreed once and reused.
-  - id: s2
-    title: Open the deal, leave the rest
-    summary: >-
-      A HubSpot deal is created for each qualifying account, matched on a key so a second signal updates
-      that deal rather than opening a duplicate. Only the fields Intempt owns are set: the source, the
-      signal that triggered it and the score. Stage and amount are left to the rep.
-    builds: workflow
-    description: >-
-      Create a workflow that creates a HubSpot deal for each qualifying account, matched on a key so a
-      second signal updates the deal instead of opening a duplicate. Set only the fields Intempt owns
-      (source, the signal that triggered it, the score) and leave stage and amount to the rep. Use the
-      result of "Define what ready to buy means".
-    dependsOn:
-      - s1
-outputs:
-  - key: pql
-    producedByStep: s1
-    type: segment
-    description: Segment produced by this recipe.
-  - key: workflow
-    producedByStep: s2
-    type: workflow
-    description: Workflow produced by this recipe.
+  - ai
+  - b2b-saas
+  - ecommerce
 ---
-
-<!-- generated from the frontmatter by scripts/rebuild_bodies.py; edit the frontmatter -->
 
 # Product qualified signal to a HubSpot deal
 
-Update a HubSpot property, add a contact to a list, or create a HubSpot task when product usage signals readiness, so HubSpot reflects product evidence.
+Slash command: /hubspot-pql-to-deal
 
-## Steps
+## Step 1: Define what ready to buy means
 
-1. **Define what ready to buy means** (builds segment)
+Create the segment describing the product-qualified account: the usage that means someone is ready to buy, agreed once and reused.
 
-   A segment describing the product qualified account: the usage that means someone is ready to buy, agreed once and reused.
+## Step 2: Open the deal, leave the rest
 
-2. **Open the deal, leave the rest** (builds workflow)
-
-   A HubSpot deal is created for each qualifying account, matched on a key so a second signal updates that deal rather than opening a duplicate. Only the fields Intempt owns are set: the source, the signal that triggered it and the score. Stage and amount are left to the rep.
-
-## What you end up with
-
-- **pql** (segment): Segment produced by this recipe.
-- **workflow** (workflow): Workflow produced by this recipe.
-
-## What this recipe touches
-
-Reads:
-
-- The feature_used event in your project
-- Your HubSpot connection
-
-Writes:
-
-- A new segment, from step 1 "Define what ready to buy means"
-- A new workflow, from step 2 "Open the deal, leave the rest"
-
-Never:
-
-- Nothing runs until you approve the plan in Blu.
-
-## Availability
-
-Coming soon: waiting on the engine to build workflow.
+Create a workflow that creates a HubSpot deal for each qualifying account, matched on a key so a second signal updates the deal instead of opening a duplicate. Set only the fields Intempt owns (source, the signal that triggered it, the score) and leave stage and amount to the rep. Use the result of "Define what ready to buy means".
