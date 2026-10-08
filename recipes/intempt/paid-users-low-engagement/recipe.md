@@ -1,27 +1,88 @@
 ---
-description: Paying customers with lower numeric engagement scores, useful for early retention outreach.
-author:
-  first_name: Harish
-  last_name: Kumar
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
-  company: Intempt
-  org_name: intempt
+id: paid-users-low-engagement
+title: Paid users losing interest
+slash_command: /paid-users-low-engagement
+group: Segments
+owner: intempt
+curator: harish
+summary: >-
+  Paying customers with lower numeric engagement scores, useful for early retention outreach.
+description: >-
+  Segment paying customers by numeric engagement score to identify possible early disengagement.
+version: 2.0.0
 classification:
+  product:
+    - segments
+  agent: segment-architect
+  mode:
+    - saas
   industry:
-  - ai
-  - b2b-saas
-  - media
+    - ai
+    - b2b-saas
+    - media
+  vertical: []
+  object: users
+  complexity: standard
+  executionMode: live
+  tags:
+    - users-segment
+touches:
+  reads:
+    - The plan_name, days_since_last_activity and engagement_score attributes on users
+  writes:
+    - A new segment, from step 1 "Build the low-engagement list"
+  never:
+    - Nothing runs until you approve the plan in Blu.
+steps:
+  - id: s1
+    title: Build the low-engagement list
+    summary: >-
+      Users on a paid plan (not free or trial) with a Low engagement score whose last activity was 7 to
+      21 days ago.
+    builds: segment
+    description: |-
+      Build a segment of users named "Paid Users: Low Engagement".
+      A user is in the segment only when all of these are true:
+      - their plan_name attribute is neither "free" nor "trial"
+      - their days_since_last_activity attribute is between 7 and 21
+      - their engagement_score attribute is "Low"
+outputs:
+  - key: segment
+    producedByStep: s1
+    type: segment
+    description: Segment created on /segments.
 ---
+
+<!-- generated from the frontmatter by scripts/rebuild_bodies.py; edit the frontmatter -->
 
 # Paid users losing interest
 
-Slash command: /paid-users-low-engagement
+Paying customers with lower numeric engagement scores, useful for early retention outreach.
 
-## Step 1: Build the low-engagement list
+## Steps
 
-Build a segment of users named "Paid Users: Low Engagement".
-A user is in the segment only when all of these are true:
-- their plan_name attribute is neither "free" nor "trial"
-- their days_since_last_activity attribute is between 7 and 21
-- their engagement_score attribute is "Low"
+1. **Build the low-engagement list** (builds segment)
+
+   Users on a paid plan (not free or trial) with a Low engagement score whose last activity was 7 to 21 days ago.
+
+## What you end up with
+
+- **segment** (segment): Segment created on /segments.
+
+## What this recipe touches
+
+Reads:
+
+- The plan_name, days_since_last_activity and engagement_score attributes on users
+
+Writes:
+
+- A new segment, from step 1 "Build the low-engagement list"
+
+Never:
+
+- Nothing runs until you approve the plan in Blu.
+
+## Availability
+
+Install now: every step builds something the engine supports today.
