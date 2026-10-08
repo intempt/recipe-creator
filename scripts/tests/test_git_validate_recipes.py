@@ -24,11 +24,19 @@ DRAFT = "---\nauthor:\n  name: Beso\n  last_name: Gugushvili\n---\n# Nudge\n\n##
 
 class FakeLM(BaseHTTPRequestHandler):
     sent: list = []
+    refuse: set = set()    # temporary keys answered 422
 
     def do_POST(self):
         md = json.loads(self.rfile.read(int(self.headers["Content-Length"])))["markdown"]
         FakeLM.sent.append((md, self.headers.get(job1.HEADER)))
         meta, _ = recipe_draft.split(md)
+        if meta["frontmatter_id"] in FakeLM.refuse:
+            out = json.dumps({"detail": {"code": "steps_failed", "message": "Some steps did not pass.",
+                                         "steps": [{"title": "X", "errors": [{"kind": "vague", "message": "too vague"}]}]}}).encode()
+            self.send_response(422)
+            self.end_headers()
+            self.wfile.write(out)
+            return
         out = json.dumps({"frontmatter_id": meta["frontmatter_id"], "steps": [{"id": "s1"}]}).encode()
         self.send_response(200)
         self.end_headers()
@@ -86,6 +94,35 @@ class Job1(unittest.TestCase):
         self.assertEqual({secret for _, secret in FakeLM.sent}, {"s"})
         self.assertEqual((out / "draft-new.path").read_text().strip(), "draft/new.md")
         self.assertEqual((out / "a.path").read_text().strip(), "draft/team/edit.md")
+
+    def _run(self, refuse):
+        server = HTTPServer(("127.0.0.1", 0), FakeLM)
+        threading.Thread(target=server.serve_forever, daemon=True).start()
+        self.addCleanup(server.shutdown)
+        FakeLM.sent, FakeLM.refuse = [], set(refuse)
+        self.addCleanup(setattr, FakeLM, "refuse", set())
+        out = self.repo / "checked"
+        url = f"http://127.0.0.1:{server.server_port}/v1/recipes/git_validate"
+        os.environ["RECIPE_GIT_VALIDATE_SECRET"] = "s"
+        self.addCleanup(os.environ.pop, "RECIPE_GIT_VALIDATE_SECRET", None)
+        sys.argv = ["job1", "--base", "base", "--url", url, "--out", str(out)]
+        with contextlib.redirect_stdout(io.StringIO()) as log:
+            code = job1.main()
+        return code, out, log.getvalue()
+
+    def test_a_partial_pass_is_green_and_keeps_only_what_passed(self):
+        code, out, log = self._run({"draft-new"})
+        self.assertEqual(code, 0)
+        self.assertEqual(sorted(p.name for p in out.iterdir()), ["a.json", "a.path"])
+        self.assertIn("1 passed, 1 failed", log)
+        self.assertIn("FAILED  draft/new.md  422 steps_failed", log)
+        self.assertIn("::warning", log)
+
+    def test_every_draft_failing_fails_the_job(self):
+        code, out, log = self._run({"draft-new", "a"})
+        self.assertEqual(code, 1)
+        self.assertFalse(out.exists())
+        self.assertIn("0 passed, 2 failed", log)
 
     def test_a_draft_with_broken_yaml_fails_without_a_call(self):
         bad = self.repo / "draft" / "bad.md"

@@ -1,4 +1,4 @@
-# CODEOWNERS — who approves a PR in this repo.
+# CODEOWNERS: who approves a PR in this repo.
 #
 # Generated from The Merge Gate §02 (rev 2), the reviewed per-repo merge policy.
 # Repo write access does NOT equal merge rights. This file decides who approves.
@@ -6,11 +6,12 @@
 #   lane      auto if clean
 #   approvals 1
 #   primary   @sidchaudhary
-#   backup    — none named yet; see Merge Gate §04 open item 5
+#   backup    @beska0013
 #
-# This repo has one owner. Under §03 it can never auto-merge — a single owner
-# means auto-merge would mean nobody ever reads the code. Naming a backup is
-# what changes that, not a policy exception.
+# The default recipe paths below have two owners, so a clean recipe PR can
+# auto-merge on one approval from either owner. The licence, CI and
+# authoring-skill paths stay single-owner and never auto-merge, because
+# changing them changes what a contributor agreed to or what runs on merge.
 #
 # The repository is public and accepts external contributions. A contributor's
 # recipe is executed by an agent inside customer projects, so every pull request
@@ -18,7 +19,7 @@
 # merge rights and forks cannot approve themselves.
 
 # Default owner for every path.
-*                       @sidchaudhary
+*                       @sidchaudhary @beska0013
 
 # CI and release surface. Changing what runs on merge changes the gate itself,
 # so it is listed explicitly rather than inherited from the default line.
@@ -31,4 +32,3 @@
 
 # The authoring skill is the contract contributors are told to follow.
 /.claude/               @sidchaudhary
-

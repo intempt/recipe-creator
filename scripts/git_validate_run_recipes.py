@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """
-Run the real Validate of every recipe job 1 passed, in the CI project, and fail
-when any run does not validate.
+Run the real Validate of every recipe job 1 passed, in the CI project. Each recipe
+stands on its own: the ones that validate are copied to OUT (answer + draft path) for
+job 3 to write back; the ones that do not are listed with their reason. The job fails
+only when every run failed (git_validate_summary).
 
 Job 1 (git_validate_recipes.py --out DIR) leaves one `<frontmatter_id>.json` per passing
 recipe: the step check's answer, i.e. the recipe object. Each one is sent as-is
@@ -14,7 +16,7 @@ A run takes minutes (every step executes), so the recipes are started together
 and polled together.
 
 Usage:
-  git_validate_run_recipes.py DIR [--url URL]
+  git_validate_run_recipes.py DIR [--out OUT] [--url URL]
 Config: .github/recipe-git-validate.json (git_validate_config.py) — job 1's
      url (`_run` is appended unless RECIPE_GIT_VALIDATE_RUN_URL is set) and the
      run's org_id, project_id, person_id. Env: RECIPE_GIT_VALIDATE_SECRET.
@@ -23,6 +25,7 @@ from __future__ import annotations
 
 import argparse
 import glob
+import shutil
 import json
 import os
 import sys
@@ -32,6 +35,7 @@ import urllib.parse
 import urllib.request
 
 import git_validate_config
+import git_validate_summary
 
 HEADER = "x-recipe-validate-secret"
 TIMEOUT_S = 60
@@ -57,22 +61,27 @@ def call(method: str, url: str, secret: str, body: dict | None = None) -> tuple[
         return 0, {"raw": str(err)}
 
 
-def refused(name: str, status: int, body: dict) -> None:
+def refused(name: str, status: int, body: dict) -> str:
+    """Print why the run could not start or be read. Returns the one-line reason."""
     if status == 404:
-        print(f"FAIL  {name}  404 — wrong URL, or the secret is unset/wrong on either side")
-        return
-    detail = body.get("detail", body)
-    if isinstance(detail, dict) and detail.get("code"):
-        print(f"FAIL  {name}  {status} {detail['code']}: {detail.get('message')}")
+        why = "404 — wrong URL, or the secret is unset/wrong on either side"
     else:
-        print(f"FAIL  {name}  {status}: {detail}")
+        detail = body.get("detail", body)
+        if isinstance(detail, dict) and detail.get("code"):
+            why = f"{status} {detail['code']}: {detail.get('message')}"
+        else:
+            why = f"{status}: {detail}"
+    print(f"FAIL  {name}  {why}")
+    return why
 
 
-def report(name: str, s: dict) -> bool:
+def report(name: str, s: dict) -> str | None:
+    """Print a finished run's verdict. Returns None when it validated, else the reason."""
     if s.get("validated"):
         print(f"PASS  {name}  ({len(s.get('verdicts') or [])} steps ran)")
-        return True
-    print(f"FAIL  {name}  failed at {s.get('failed_step_id')}: {s.get('message')}")
+        return None
+    why = f"failed at {s.get('failed_step_id')}: {s.get('message')}"
+    print(f"FAIL  {name}  {why}")
     for c in s.get("checks") or []:
         for issue in c.get("issues") or []:
             msg = issue.get("message") if isinstance(issue, dict) else issue
@@ -80,12 +89,22 @@ def report(name: str, s: dict) -> bool:
     for v in s.get("verdicts") or []:
         if not v.get("passed"):
             print(f"        - {v.get('step_id')} run {v.get('run_id')}: {v.get('reason')}")
-    return False
+    return why
+
+
+def keep(path: str, out: str) -> None:
+    """Copy a validated recipe's answer and its draft path (job 1's pair) into OUT."""
+    os.makedirs(out, exist_ok=True)
+    side = path[:-len(".json")] + ".path"
+    for p in (path, side):
+        if os.path.exists(p):
+            shutil.copy(p, out)
 
 
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("dir", help="job 1's --out directory")
+    ap.add_argument("--out", help="directory for each recipe that validated (job 3's input)")
     cfg = git_validate_config.load()
     ap.add_argument("--url", default=os.environ.get("RECIPE_GIT_VALIDATE_RUN_URL")
                     or (cfg["url"] + "_run" if cfg["url"] else ""))
@@ -102,18 +121,18 @@ def main() -> int:
               "RECIPE_GIT_VALIDATE_SECRET not set.", file=sys.stderr)
         return 2
 
-    ok, running = True, {}
+    passed, failed, running, paths = [], [], {}, {}
     for path in files:
         with open(path, encoding="utf-8") as fh:
             recipe = json.load(fh)
         name = recipe.get("frontmatter_id") or os.path.basename(path)
+        paths[name] = path
         status, body = call("POST", args.url, secret, {"recipe": recipe, **where})
         if status == 200 and body.get("chain_id"):
             print(f"START {name}  {body['chain_id']}")
             running[name] = body["chain_id"]
         else:
-            refused(name, status, body)
-            ok = False
+            failed.append((name, refused(name, status, body)))
 
     query = urllib.parse.urlencode(where)
     deadline = time.monotonic() + DEADLINE_S
@@ -123,19 +142,23 @@ def main() -> int:
             url = f"{args.url}/{urllib.parse.quote(name, safe='')}/{chain_id}?{query}"
             status, s = call("GET", url, secret)
             if status == 200 and s.get("finished"):
-                ok = report(name, s) and ok
+                why = report(name, s)
+                if why is None:
+                    passed.append(name)
+                    if args.out:
+                        keep(paths[name], args.out)
+                else:
+                    failed.append((name, why))
                 del running[name]
             elif status not in (0, 200, 502, 503, 504):
-                refused(name, status, s)
-                ok = False
+                failed.append((name, refused(name, status, s)))
                 del running[name]
     for name, chain_id in running.items():
-        print(f"FAIL  {name}  {chain_id} did not finish in {DEADLINE_S // 60} min")
-        ok = False
+        why = f"{chain_id} did not finish in {DEADLINE_S // 60} min"
+        print(f"FAIL  {name}  {why}")
+        failed.append((name, why))
 
-    print(f"\n{len(files)} recipe(s) run.")
-    return 0 if ok else 1
-
+    return git_validate_summary.finish("git-validate-run (real Validate)", passed, failed)
 
 if __name__ == "__main__":
     sys.exit(main())
