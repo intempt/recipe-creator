@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """
 Send every draft a pull request added or changed (`draft/**/*.md`, the draft/ flow,
-R-RG4-6) to llm-wrapper's `POST /v1/recipes/git_validate`, and fail when any of
-them does not pass.
+R-RG4-6) to llm-wrapper's `POST /v1/recipes/git_validate`. Each draft stands on its
+own: the ones that pass go on to job 2, the ones that fail are listed with their reason
+and stay in draft/. The job fails only when every draft failed (git_validate_summary).
 
 The route turns the markdown into steps and runs the per-step check with no
 tenant: each step must read earlier outputs correctly and must not be vague.
-A 422 is a recipe problem (CI red, errors printed per step); a 503 is the model
+A 422 is a recipe problem (errors printed per step); a 503 is the model
 failing, retried once before it counts as a failure.
 
 A new draft has no `frontmatter_id` yet and LM refuses one without it, so it is sent
@@ -39,6 +40,7 @@ import urllib.error
 import urllib.request
 
 import git_validate_config
+import git_validate_summary
 import recipe_draft
 
 HEADER = "x-recipe-validate-secret"
@@ -70,28 +72,34 @@ def post(url: str, secret: str, markdown: str) -> tuple[int, dict]:
             return err.code, {"raw": body.decode("utf-8", "replace")[:500]}
 
 
-def report(path: str, status: int, body: dict) -> bool:
+def report(path: str, status: int, body: dict) -> str | None:
+    """Print the verdict for one draft. Returns None when it passed, else the one-line reason."""
     if status == 200:
         print(f"PASS  {path}  ({body.get('frontmatter_id')}, {len(body.get('steps') or [])} steps)")
-        return True
+        return None
     detail = body.get("detail", body)
     if status == 404:
-        print(f"FAIL  {path}  404 — wrong URL, or the secret is unset/wrong on either side")
-        return False
+        why = "404 — wrong URL, or the secret is unset/wrong on either side"
+        print(f"FAIL  {path}  {why}")
+        return why
     if not isinstance(detail, dict):
-        print(f"FAIL  {path}  {status}: {detail}")
-        return False
-    print(f"FAIL  {path}  {status} {detail.get('code')}: {detail.get('message')}")
+        why = f"{status}: {detail}"
+        print(f"FAIL  {path}  {why}")
+        return why
+    why = f"{status} {detail.get('code')}: {detail.get('message')}"
+    print(f"FAIL  {path}  {why}")
     for key in ("missing",):
         if detail.get(key):
             print(f"        {key}: {', '.join(detail[key])}")
+    titles = []
     for step in detail.get("steps") or []:
         title = step.get("title") or step.get("id") or f"step {step.get('position')}"
+        titles.append(str(title))
         for e in step.get("errors") or []:
             msg = e.get("message") if isinstance(e, dict) else e
             code = e.get("kind") if isinstance(e, dict) else ""
             print(f"        - {title}: [{code}] {msg}")
-    return False
+    return why + (f" ({', '.join(titles)})" if titles else "")
 
 
 def save(out_dir: str, body: dict, path: str) -> None:
@@ -122,7 +130,7 @@ def main() -> int:
         print("url (.github/recipe-git-validate.json) / RECIPE_GIT_VALIDATE_SECRET not set.", file=sys.stderr)
         return 2
 
-    ok = True
+    passed, failed = [], []
     for path in files:
         with open(path, encoding="utf-8") as fh:
             text = fh.read()
@@ -130,19 +138,20 @@ def main() -> int:
             markdown = recipe_draft.with_key(text, recipe_draft.temp_key(path))
         except recipe_draft.DraftError as e:
             print(f"FAIL  {path}  {e}")
-            ok = False
+            failed.append((path, str(e)))
             continue
         status, body = post(args.url, secret, markdown)
         if status == 503:
             time.sleep(5)
             status, body = post(args.url, secret, markdown)
-        passed = report(path, status, body)
-        if passed and args.out:
+        why = report(path, status, body)
+        if why is not None:
+            failed.append((path, why))
+            continue
+        passed.append(path)
+        if args.out:
             save(args.out, body, path)
-        ok = passed and ok
-    print(f"\n{len(files)} recipe(s) checked.")
-    return 0 if ok else 1
-
+    return git_validate_summary.finish("git-validate (step check)", passed, failed)
 
 if __name__ == "__main__":
     sys.exit(main())

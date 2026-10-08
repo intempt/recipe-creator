@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """git_validate_writeback.py — job 3 of the draft/ flow (R-RG4-6): each validated
 draft becomes recipes/<owner>/<frontmatter_id>/recipe.md + recipe.json and is deleted.
-Owner D1, key D2, edit D3; one problem and nothing is written."""
+Owner D1, key D2, edit D3; each draft stands on its own (a problem leaves only that draft)."""
+import contextlib
+import io
 import json
 import pathlib
 import shutil
@@ -183,18 +185,56 @@ class Edit(Base):
 
 
 class Refusals(Base):
-    def test_one_problem_and_nothing_is_written(self):
+    def _job1_dir(self, pairs):
+        out = self.root / "checked"
+        out.mkdir()
+        for name, path, ans in pairs:
+            (out / f"{name}.json").write_text(json.dumps(ans))
+            (out / f"{name}.path").write_text(path + "\n")
+        return out
+
+    def test_one_problem_leaves_that_draft_and_writes_the_others(self):
         good = self.draft("good.md", fixture="form-abandonment-nudge.md")
         bad_text = (FIXTURES / "form-abandonment-nudge.md").read_text(encoding="utf-8").replace("org_name: intempt", "org_name: Acme Inc")
         bad = self.draft("bad.md", bad_text)
-        out = self.root / "checked"
-        out.mkdir()
-        for name, path in (("a", good), ("b", bad)):
-            (out / f"{name}.json").write_text(json.dumps(answer()))
-            (out / f"{name}.path").write_text(path + "\n")
-        self.assertEqual(wb.main([str(out), "--root", str(self.root)]), 1)
+        out = self._job1_dir([("a", good, answer()), ("b", bad, answer())])
+        with contextlib.redirect_stdout(io.StringIO()) as log:
+            self.assertEqual(wb.main([str(out), "--root", str(self.root)]), 0)
+        self.assertFalse((self.root / good).exists())
+        self.assertTrue((self.root / bad).exists())
+        self.assertEqual(check_recipe_consistency.check(
+            str(self.root / "recipes" / "intempt" / "form-abandonment-nudge")), [])
+        self.assertIn("PASSED  draft/good.md", log.getvalue())
+        self.assertIn("FAILED  draft/bad.md", log.getvalue())
+        self.assertIn("::warning", log.getvalue())
+
+    def test_every_draft_failing_fails_and_writes_nothing(self):
+        d = self.draft("f.md", fixture="form-abandonment-nudge.md")
+        out = self._job1_dir([("a", d, answer(description=""))])
+        with contextlib.redirect_stdout(io.StringIO()) as log:
+            self.assertEqual(wb.main([str(out), "--root", str(self.root)]), 1)
         self.assertEqual(list((self.root / "recipes").iterdir()), [])
-        self.assertTrue((self.root / good).exists())
+        self.assertTrue((self.root / d).exists())
+        self.assertIn("0 passed, 1 failed", log.getvalue())
+        self.assertNotIn("::warning", log.getvalue())
+
+    def test_an_inconsistent_result_is_put_back_alone(self):
+        good = self.draft("good.md", fixture="form-abandonment-nudge.md")
+        other = self.draft("other.md", fixture="form-abandonment-nudge.md")
+        plans, problems = wb.plan([(answer(), good), (answer(), other)], str(self.root))
+        self.assertEqual(problems, [])
+        real = check_recipe_consistency.check
+        bad_folder = plans[1]["folder"]
+        check_recipe_consistency.check = (
+            lambda folder: ["mismatch"] if folder.endswith(bad_folder) else real(folder))
+        self.addCleanup(setattr, check_recipe_consistency, "check", real)
+        with contextlib.redirect_stdout(io.StringIO()):
+            written, failed = wb.apply_each(plans, str(self.root))
+        self.assertEqual(written, [good])
+        self.assertEqual([d for d, _ in failed], [other])
+        self.assertTrue((self.root / other).exists())
+        self.assertFalse((self.root / bad_folder).exists())
+        self.assertFalse((self.root / good).exists())
 
     def test_no_description_or_author_is_a_problem(self):
         d = self.draft("f.md", fixture="form-abandonment-nudge.md")

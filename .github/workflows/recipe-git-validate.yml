@@ -12,14 +12,22 @@ name: recipe-git-validate
 # Job 1 sends each changed draft to llm-wrapper's POST /v1/recipes/git_validate:
 # markdown → steps, then the per-step check with no tenant. A new draft carries no
 # frontmatter_id yet, so it is sent with a temporary one (R-RG4-10: no LM change).
-# Any failing step fails the job, listed per step.
+# A draft with a failing step is listed per step and goes no further.
 #
 # Job 2 runs the real Validate of each draft job 1 passed, on the recipe object
 # job 1 got back (the artifact — never re-read), in the CI project named in
 # .github/recipe-git-validate.json. Every step executes; the entities it creates
 # stay in that project. Skipped when job 1 passed nothing.
 #
-# Job 3, after job 2 passes (scripts/git_validate_writeback.py): owner =
+# EACH DRAFT STANDS ON ITS OWN. A PR may carry many drafts, so each job hands only
+# what passed to the next one (job 2 → artifact `validated-recipes`), and job 3 writes
+# back only those. A job fails only when EVERY recipe it was given failed; a partial
+# result is green, with a ::warning:: per failure and a passed/failed list in the job
+# summary (scripts/git_validate_summary.py). A failed draft stays in draft/, so
+# recipe-label stays red until it is fixed (the next push re-runs only what is left in
+# draft/) or removed.
+#
+# Job 3, after job 2 (scripts/git_validate_writeback.py): owner =
 # author.org_name else intempt (D1); key = slash_command without `/`, unique across
 # all recipes with -2, -3… (D2), or the draft's own frontmatter_id for an edit (D3).
 # It writes recipe.md + recipe.json, deletes the draft, runs every prerequisites
@@ -107,10 +115,16 @@ jobs:
         with:
           name: checked-recipes
           path: checked
-      - name: Every checked draft validates when it really runs
-        run: python3 scripts/git_validate_run_recipes.py checked
+      - name: Each checked draft validates when it really runs
+        run: python3 scripts/git_validate_run_recipes.py checked --out validated
         env:
           RECIPE_GIT_VALIDATE_SECRET: ${{ secrets.RECIPE_GIT_VALIDATE_SECRET }}
+      # Only the recipes that validated go to job 3.
+      - uses: actions/upload-artifact@v4
+        with:
+          name: validated-recipes
+          path: validated/
+          retention-days: 7
 
   git-validate-writeback:
     needs: [git-validate, git-validate-run]
@@ -148,11 +162,11 @@ jobs:
       - uses: actions/download-artifact@v4
         if: steps.where.outputs.fork != 'true'
         with:
-          name: checked-recipes
-          path: ${{ runner.temp }}/checked
-      - name: Write recipe.md + recipe.json for each draft, and delete the draft
+          name: validated-recipes
+          path: ${{ runner.temp }}/validated
+      - name: Write recipe.md + recipe.json for each validated draft, and delete the draft
         if: steps.where.outputs.fork != 'true'
-        run: python3 scripts/git_validate_writeback.py "$RUNNER_TEMP/checked"
+        run: python3 scripts/git_validate_writeback.py "$RUNNER_TEMP/validated"
       - name: Every prerequisites step passes on the written tree
         if: steps.where.outputs.fork != 'true'
         run: scripts/prerequisites_gate.sh
@@ -173,17 +187,26 @@ jobs:
             exit 1
           fi
           echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
-      - name: Report the required checks green on the write-back commit
+      # recipe-label is green only when no draft is left: a draft that failed job 1, 2
+      # or 3 is still in draft/, and the PR must not merge with it.
+      - name: Report the required checks on the write-back commit
         if: steps.push.outputs.sha != ''
         env:
           TOKEN: ${{ github.token }}
           NEW_SHA: ${{ steps.push.outputs.sha }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
+          left=$(git ls-files -- draft/ | grep -c '\.md$' || true)
           for context in $REQUIRED_CONTEXTS; do
+            state=success
+            description="Run by the write-back job on this commit's tree"
+            if [ "$context" = recipe-label ] && [ "$left" != 0 ]; then
+              state=failure
+              description="$left draft(s) failed git Validate and are still in draft/ - fix or remove them"
+            fi
             curl -fsS -X POST -o /dev/null \
               -H "Authorization: Bearer $TOKEN" -H "Accept: application/vnd.github+json" \
               "$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/statuses/$NEW_SHA" \
-              -d "{\"state\":\"success\",\"context\":\"$context\",\"target_url\":\"$RUN_URL\",\"description\":\"Run by the write-back job on this commit's tree\"}"
-            echo "$context = success on $NEW_SHA"
+              -d "{\"state\":\"$state\",\"context\":\"$context\",\"target_url\":\"$RUN_URL\",\"description\":\"$description\"}"
+            echo "$context = $state on $NEW_SHA"
           done

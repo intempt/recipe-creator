@@ -68,8 +68,9 @@ def verdict(people: list[str], files: list[str], labels: list[str]) -> tuple[int
             "to run it:\n  " + "\n  ".join(drafts))
     elif drafts:
         problems.append(
-            f"{len(drafts)} draft(s) are being validated. The write-back commit deletes them, "
-            "writes recipes/, and reports this check green on its own commit:\n  " + "\n  ".join(drafts))
+            f"{len(drafts)} draft(s) are being validated. The write-back commit deletes each one "
+            "that passes and writes recipes/; one that fails stays here until it is fixed or "
+            "removed, and this check is green only once none is left:\n  " + "\n  ".join(drafts))
     if problems:
         return 1, "\n".join(problems)
     return 0, "No draft waiting, and only the write-back bot changed recipes/."
