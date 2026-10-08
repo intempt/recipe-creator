@@ -1,90 +1,25 @@
 ---
-id: reel-cut
-title: Vertical reel cut
-slash_command: /reel-cut
-group: Creative
-owner: intempt
-curator: aurobind
-summary: >-
-  Generate a new 9:16 vertical clip for a reel. This creates a vertical video rather than reframing an
-  existing landscape clip.
-description: >-
-  Generate a 9:16 vertical clip.
-version: 2.0.0
+description: Generate a new 9:16 vertical clip for a reel. This creates a vertical video rather than reframing an existing landscape clip.
+author:
+  first_name: Aurobind
+  last_name: Venu
+  job_title: Creative Director
+  company: Intempt
+  org_name: intempt
 classification:
-  product:
-    - design
-  agent: creative-assistant
-  mode:
-    - all
   industry:
-    - b2b-saas
-    - ecommerce
-    - media
-    - social
-  vertical: []
-  complexity: standard
-  executionMode: oneshot
-  tags:
-    - video
-    - reel
-    - reformat
-    - vertical
-touches:
-  reads:
-    - Only the events, attributes and items each step names, in your own project
-  writes:
-    - A new video, from step 1 "Reframe to 9:16"
-  never:
-    - Nothing runs until you approve the plan in Blu.
-steps:
-  - id: s1
-    title: Reframe to 9:16
-    summary: >-
-      Re-frames the subject for vertical and adds a subtle Ken Burns push with drifting motion particles,
-      in a social-ready short format.
-    builds: video
-    description: |-
-      Reformat a landscape still/clip to a 9:16 vertical reel.
-      Subject re-framed vertical with subtle Ken Burns push and drifting motion particles. Social-ready short format.
-      Pipeline: image to video at 9:16
-outputs:
-  - key: video
-    producedByStep: s1
-    type: video
-    description: Vertical reel cut.
+  - b2b-saas
+  - ecommerce
+  - media
+  - social
 ---
-
-<!-- generated from the frontmatter by scripts/rebuild_bodies.py; edit the frontmatter -->
 
 # Vertical reel cut
 
-Generate a new 9:16 vertical clip for a reel. This creates a vertical video rather than reframing an existing landscape clip.
+Slash command: /reel-cut
 
-## Steps
+## Step 1: Reframe to 9:16
 
-1. **Reframe to 9:16** (builds video)
-
-   Re-frames the subject for vertical and adds a subtle Ken Burns push with drifting motion particles, in a social-ready short format.
-
-## What you end up with
-
-- **video** (video): Vertical reel cut.
-
-## What this recipe touches
-
-Reads:
-
-- Only the events, attributes and items each step names, in your own project
-
-Writes:
-
-- A new video, from step 1 "Reframe to 9:16"
-
-Never:
-
-- Nothing runs until you approve the plan in Blu.
-
-## Availability
-
-Coming soon: waiting on the engine to build video.
+Reformat a landscape still/clip to a 9:16 vertical reel.
+Subject re-framed vertical with subtle Ken Burns push and drifting motion particles. Social-ready short format.
+Pipeline: image to video at 9:16

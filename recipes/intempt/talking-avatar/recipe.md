@@ -1,87 +1,25 @@
 ---
-id: talking-avatar
-title: Talking head from a portrait
-slash_command: /talking-avatar
-group: Creative
-owner: intempt
-curator: aurobind
-summary: Turns a portrait still into a 5 second talking-head loop with subtle lip movement and eye contact.
-description: >-
-  Portrait still to spokesperson clip.
-version: 2.0.0
+description: Turns a portrait still into a 5 second talking-head loop with subtle lip movement and eye contact.
+author:
+  first_name: Aurobind
+  last_name: Venu
+  job_title: Creative Director
+  company: Intempt
+  org_name: intempt
 classification:
-  product:
-    - design
-  agent: creative-assistant
-  mode:
-    - all
   industry:
-    - b2b-saas
-    - ecommerce
-    - media
-    - social
-  vertical: []
-  complexity: standard
-  executionMode: oneshot
-  tags:
-    - video
-    - avatar
-    - talking-head
-touches:
-  reads:
-    - Only the events, attributes and items each step names, in your own project
-  writes:
-    - A new video, from step 1 "Animate the portrait"
-  never:
-    - Nothing runs until you approve the plan in Blu.
-steps:
-  - id: s1
-    title: Animate the portrait
-    summary: >-
-      Holds the camera fixed and produces a 5 second natural loop with subtle lip movement, gentle eye
-      contact and a single blink. Identity is preserved exactly.
-    builds: video
-    description: |-
-      Generate a talking avatar video from a portrait still.
-      Camera fixed. 5s natural talking-head loop: subtle lip movement, gentle eye contact, single blink. Identity preserved exactly.
-      Pipeline: image to video (camera-fixed, talking-head)
-outputs:
-  - key: video
-    producedByStep: s1
-    type: video
-    description: Talking avatar clip.
+  - b2b-saas
+  - ecommerce
+  - media
+  - social
 ---
-
-<!-- generated from the frontmatter by scripts/rebuild_bodies.py; edit the frontmatter -->
 
 # Talking head from a portrait
 
-Turns a portrait still into a 5 second talking-head loop with subtle lip movement and eye contact.
+Slash command: /talking-avatar
 
-## Steps
+## Step 1: Animate the portrait
 
-1. **Animate the portrait** (builds video)
-
-   Holds the camera fixed and produces a 5 second natural loop with subtle lip movement, gentle eye contact and a single blink. Identity is preserved exactly.
-
-## What you end up with
-
-- **video** (video): Talking avatar clip.
-
-## What this recipe touches
-
-Reads:
-
-- Only the events, attributes and items each step names, in your own project
-
-Writes:
-
-- A new video, from step 1 "Animate the portrait"
-
-Never:
-
-- Nothing runs until you approve the plan in Blu.
-
-## Availability
-
-Coming soon: waiting on the engine to build video.
+Generate a talking avatar video from a portrait still.
+Camera fixed. 5s natural talking-head loop: subtle lip movement, gentle eye contact, single blink. Identity preserved exactly.
+Pipeline: image to video (camera-fixed, talking-head)
