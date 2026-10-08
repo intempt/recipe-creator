@@ -1,88 +1,25 @@
 ---
-id: ad-video
-title: Cinematic ad spot
-slash_command: /ad-video
-group: Creative
-owner: intempt
-curator: aurobind
-summary: >-
-  Turns one product still into a 5 second cinematic spot using Kling image to video, with no text or logo.
-description: >-
-  Product still to cinematic spot with Kling image to video.
-version: 2.0.0
+description: Turns one product still into a 5 second cinematic spot using Kling image to video, with no text or logo.
+author:
+  first_name: Aurobind
+  last_name: Venu
+  job_title: Creative Director
+  company: Intempt
+org_name: intempt
 classification:
-  product:
-    - design
-  agent: creative-assistant
-  mode:
-    - all
   industry:
-    - b2b-saas
-    - ecommerce
-    - media
-    - social
-  vertical: []
-  complexity: standard
-  executionMode: oneshot
-  tags:
-    - video
-    - ad
-    - cinematic
-touches:
-  reads:
-    - Only the events, attributes and items each step names, in your own project
-  writes:
-    - A new video, from step 1 "Animate the product still"
-  never:
-    - Nothing runs until you approve the plan in Blu.
-steps:
-  - id: s1
-    title: Animate the product still
-    summary: >-
-      Uses the product still as the seed and produces a 5 second spot with smooth camera drift, soft dust
-      particles and the same backdrop. No text or logo overlay is added.
-    builds: video
-    description: |-
-      Generate a cinematic ad video from a product still.
-      Seed on the product still. Produce a cinematic 5s product spot with smooth subtle camera drift, soft dust particles, same backdrop. No text, no logo overlay.
-      Pipeline: image to video (kling/seedance)
-outputs:
-  - key: video
-    producedByStep: s1
-    type: video
-    description: Cinematic ad video.
+  - b2b-saas
+  - ecommerce
+  - media
+  - social
 ---
-
-<!-- generated from the frontmatter by scripts/rebuild_bodies.py; edit the frontmatter -->
 
 # Cinematic ad spot
 
-Turns one product still into a 5 second cinematic spot using Kling image to video, with no text or logo.
+Slash command: /ad-video
 
-## Steps
+## Step 1: Animate the product still
 
-1. **Animate the product still** (builds video)
-
-   Uses the product still as the seed and produces a 5 second spot with smooth camera drift, soft dust particles and the same backdrop. No text or logo overlay is added.
-
-## What you end up with
-
-- **video** (video): Cinematic ad video.
-
-## What this recipe touches
-
-Reads:
-
-- Only the events, attributes and items each step names, in your own project
-
-Writes:
-
-- A new video, from step 1 "Animate the product still"
-
-Never:
-
-- Nothing runs until you approve the plan in Blu.
-
-## Availability
-
-Coming soon: waiting on the engine to build video.
+Generate a cinematic ad video from a product still.
+Seed on the product still. Produce a cinematic 5s product spot with smooth subtle camera drift, soft dust particles, same backdrop. No text, no logo overlay.
+Pipeline: image to video (kling/seedance)

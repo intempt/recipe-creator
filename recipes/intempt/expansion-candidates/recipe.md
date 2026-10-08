@@ -1,87 +1,26 @@
 ---
-id: expansion-candidates
-title: Users close to their plan limit
-slash_command: /expansion-candidates
-group: Segments
-owner: intempt
-curator: harish
-summary: >-
-  Users grouped by plan_name for plan-based upgrade targeting.
-description: >-
-  Segment users by plan_name. Use it to review which plans are candidates for upgrade outreach, based only on
-  the available plan name data.
-version: 2.0.0
+description: Users grouped by plan_name for plan-based upgrade targeting.
+author:
+  first_name: Harish
+  last_name: Kumar
+  job_title: Growth Marketer
+  avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
+  company: Intempt
+org_name: intempt
 classification:
-  product:
-    - segments
-  agent: segment-architect
-  mode:
-    - saas
   industry:
-    - ai
-    - b2b-saas
-    - social
-  vertical: []
-  object: users
-  complexity: standard
-  executionMode: live
-  tags:
-    - users-segment
-touches:
-  reads:
-    - The plan_name and usage_pct attributes on users
-  writes:
-    - A new segment, from step 1 "Build the near-limit list"
-  never:
-    - Nothing runs until you approve the plan in Blu.
-steps:
-  - id: s1
-    title: Build the near-limit list
-    summary: >-
-      Users on any plan other than enterprise whose usage is at 80 percent or more of their limit.
-    builds: segment
-    description: |-
-      Build a segment of users named "Expansion Candidates".
-      A user is in the segment only when all of these are true:
-      - their plan_name attribute is not "enterprise"
-      - their usage_pct attribute is 80 or more
-outputs:
-  - key: segment
-    producedByStep: s1
-    type: segment
-    description: Segment created on /segments.
+  - ai
+  - b2b-saas
+  - social
 ---
-
-<!-- generated from the frontmatter by scripts/rebuild_bodies.py; edit the frontmatter -->
 
 # Users close to their plan limit
 
-Users grouped by plan_name for plan-based upgrade targeting.
+Slash command: /expansion-candidates
 
-## Steps
+## Step 1: Build the near-limit list
 
-1. **Build the near-limit list** (builds segment)
-
-   Users on any plan other than enterprise whose usage is at 80 percent or more of their limit.
-
-## What you end up with
-
-- **segment** (segment): Segment created on /segments.
-
-## What this recipe touches
-
-Reads:
-
-- The plan_name and usage_pct attributes on users
-
-Writes:
-
-- A new segment, from step 1 "Build the near-limit list"
-
-Never:
-
-- Nothing runs until you approve the plan in Blu.
-
-## Availability
-
-Install now: every step builds something the engine supports today.
+Build a segment of users named "Expansion Candidates".
+A user is in the segment only when all of these are true:
+- their plan_name attribute is not "enterprise"
+- their usage_pct attribute is 80 or more
