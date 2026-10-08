@@ -23,14 +23,15 @@ to commit in ONE bot commit:
                   one (RG2 §6: an author's description is never overwritten)
 
 Which draft an answer belongs to is the path job 1 recorded (<key>.path), never
-re-derived. Every draft is planned before anything is written: one problem and
-nothing is written. What was written is then checked (check_recipe_consistency)
-and any mismatch fails the job, so nothing is committed.
+re-derived. Each draft stands on its own: one that cannot be planned is listed and left
+in draft/, and one whose written result fails check_recipe_consistency is put back (its
+files restored, its draft returned). The others are written. The job fails only when no
+draft could be written (git_validate_summary).
 
 Usage:
   git_validate_writeback.py DIR [--root .]     # DIR = job 1's --out directory
-Prints each path it wrote or deleted; exit 0 done (also when nothing to write),
-1 when any draft could not be written back.
+Prints each path it wrote or deleted; exit 0 when at least one draft was written (or
+there was nothing to write), 1 when drafts were given and none could be written back.
 """
 from __future__ import annotations
 
@@ -43,6 +44,7 @@ import sys
 import yaml
 
 import check_recipe_consistency
+import git_validate_summary
 import recipe_draft
 from recipe_contract import git_front
 
@@ -122,17 +124,71 @@ def apply(plans: list[dict], root: str = ".") -> list[str]:
     """Write each plan's two files and delete its draft. Returns the lines to print."""
     lines = []
     for p in plans:
-        folder = os.path.join(root, p["folder"])
-        os.makedirs(folder, exist_ok=True)
-        with open(os.path.join(folder, "recipe.md"), "w", encoding="utf-8", newline="\n") as fh:
-            fh.write(p["md"])
-        with open(os.path.join(folder, "recipe.json"), "w", encoding="utf-8", newline="\n") as fh:
-            json.dump(p["json"], fh, ensure_ascii=False, indent=2)
-            fh.write("\n")
-        os.remove(os.path.join(root, p["draft"]))
-        lines += [f"WROTE   {p['folder']}/recipe.md", f"WROTE   {p['folder']}/recipe.json",
-                  f"DELETED {p['draft']}"]
+        lines += _write(p, root)
     return lines
+
+
+def _write(p: dict, root: str) -> list[str]:
+    folder = os.path.join(root, p["folder"])
+    os.makedirs(folder, exist_ok=True)
+    with open(os.path.join(folder, "recipe.md"), "w", encoding="utf-8", newline="\n") as fh:
+        fh.write(p["md"])
+    with open(os.path.join(folder, "recipe.json"), "w", encoding="utf-8", newline="\n") as fh:
+        json.dump(p["json"], fh, ensure_ascii=False, indent=2)
+        fh.write("\n")
+    os.remove(os.path.join(root, p["draft"]))
+    return [f"WROTE   {p['folder']}/recipe.md", f"WROTE   {p['folder']}/recipe.json",
+            f"DELETED {p['draft']}"]
+
+
+def _snapshot(p: dict, root: str) -> dict:
+    """The bytes _write is about to replace or delete, so one recipe can be put back."""
+    paths = [os.path.join(root, p["folder"], n) for n in ("recipe.md", "recipe.json")]
+    paths.append(os.path.join(root, p["draft"]))
+    snap = {}
+    for path in paths:
+        try:
+            with open(path, "rb") as fh:
+                snap[path] = fh.read()
+        except FileNotFoundError:
+            snap[path] = None
+    return snap
+
+
+def _restore(snap: dict, folder: str) -> None:
+    for path, data in snap.items():
+        if data is None:
+            if os.path.exists(path):
+                os.remove(path)
+        else:
+            os.makedirs(os.path.dirname(path), exist_ok=True)
+            with open(path, "wb") as fh:
+                fh.write(data)
+    if os.path.isdir(folder) and not os.listdir(folder):
+        os.rmdir(folder)
+
+
+def apply_each(plans: list[dict], root: str = ".") -> tuple[list[str], list[tuple[str, str]]]:
+    """Write each plan on its own and check it (check_recipe_consistency). A plan whose
+    result is inconsistent is put back — its files restored, its draft returned — so it
+    fails alone. Returns (the drafts written, [(draft, reason)] for the ones put back)."""
+    written, failed = [], []
+    for p in plans:
+        snap = _snapshot(p, root)
+        lines = _write(p, root)
+        folder = os.path.join(root, p["folder"])
+        bad = check_recipe_consistency.check(folder)
+        if bad:
+            _restore(snap, folder)
+            print(f"FAIL  {p['draft']}  written, then put back:")
+            for m in bad:
+                print(f"        - {m}")
+            failed.append((p["draft"], "; ".join(bad)))
+            continue
+        for line in lines:
+            print(line)
+        written.append(p["draft"])
+    return written, failed
 
 
 def load(out_dir: str) -> tuple[list[tuple[dict, str]], list[str]]:
@@ -169,18 +225,13 @@ def main(argv=None) -> int:
         return 0
     plans, more = plan(pairs, args.root)
     problems += more
-    if problems:
-        for p in problems:
-            print(f"FAIL  {p}")
-        print("Nothing written.")
-        return 1
-    for line in apply(plans, args.root):
-        print(line)
-    bad = [m for p in plans for m in check_recipe_consistency.check(os.path.join(args.root, p["folder"]))]
-    for m in bad:
-        print(f"FAIL  {m}")
-    return 1 if bad else 0
-
+    failed = []
+    for p in problems:
+        print(f"FAIL  {p}")
+        name, _, why = p.partition(": ")
+        failed.append((name, why or p))
+    written, put_back = apply_each(plans, args.root)
+    return git_validate_summary.finish("git-validate-writeback", written, failed + put_back)
 
 if __name__ == "__main__":
     sys.exit(main())
