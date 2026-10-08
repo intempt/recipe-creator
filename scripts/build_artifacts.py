@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 """Build the public recipe catalog from the recipe .md sources.
 
-This repo is the source of truth. CI publishes the catalog to cdn.intempt.com
-and the website and console both read it from there, so neither holds a copy
-and the two lists cannot describe the same recipe differently.
+This repo is the source of truth. CI writes the catalog into the
+single-metadata recipe database (scripts/sync_marketplace.py), and the website
+and console both read it from there (the website via GET /v1/recipes), so
+neither holds a copy and the two lists cannot describe the same recipe
+differently. The cdn.intempt.com publish was removed on 2026-10-08.
 
 The catalog is PUBLIC. It carries only scope: global, visibility: published
 recipes, and it never carries step prompts: those are the instructions Blu

@@ -1,26 +1,20 @@
 name: publish-catalog
 
-# Publishes the public recipe catalog to cdn.intempt.com.
+# Builds the recipe catalog and writes it into the single-metadata recipe
+# database, which is what the console and intempt.com read.
 #
-# The catalog is the ONE artifact both surfaces read. The website renders it and
-# the console lists from it, so neither holds a copy and the two cannot describe
-# the same recipe differently. That was the failure this replaces: three
-# hand-maintained copies that drifted to 302 / 292 / 292, with ten integration
-# recipes live in this repo and invisible on both surfaces for weeks.
-#
-# Two objects, because a recipe change must not reach customers unreviewed:
-#
-#   staging branch -> recipes/staging.json         internal testing
-#   main branch    -> recipes/v/<sha>.json         immutable, and
-#                     recipes/latest.json          the pointer customers follow
+#   staging branch -> the staging recipe database   internal testing
+#   main branch    -> the production recipe database  what customers see
 #
 # The QA gate is the staging to main promotion this org already runs on every
 # repo, not a new mechanism.
 #
-# Versioned paths are not decoration. A project copy pins the catalog version it
-# forked from, so overwriting one object in place would make that pin unresolvable
-# and "is my copy out of date" unanswerable. Only the pointer is mutable, and only
-# the pointer is invalidated.
+# CDN publish removed 2026-10-08. This workflow used to also upload the catalog
+# to S3 behind cdn.intempt.com (recipes/staging.json, recipes/v/<sha>.json,
+# recipes/latest.json and their -groups twins) and invalidate CloudFront. The
+# website no longer reads that catalog: it reads GET /v1/recipes from
+# llm-wrapper, which is served from the database the sync step below writes.
+# Objects already uploaded to the bucket were left in place, not deleted.
 
 on:
   push:
@@ -28,14 +22,13 @@ on:
   workflow_dispatch:
 
 concurrency:
-  # One publish at a time per branch. Two racing runs could leave the pointer
-  # referencing a version the other overwrote.
+  # One publish at a time per branch, so two racing runs cannot write the
+  # database out of order.
   group: publish-catalog-${{ github.ref }}
   cancel-in-progress: false
 
 permissions:
   contents: read
-  id-token: write
 
 jobs:
   publish:
@@ -74,61 +67,10 @@ jobs:
         env:
           SYNC_URL: ${{ github.ref == 'refs/heads/main' && secrets.MARKETPLACE_SYNC_URL_PRODUCTION || secrets.MARKETPLACE_SYNC_URL_STAGING }}
 
-      - uses: aws-actions/configure-aws-credentials@v4
-        with:
-          # A role scoped to the recipes/* prefix of this bucket and nothing else.
-          # The bucket also serves the desktop auto-updater manifest and the JS
-          # SDK, so a broad write credential here would be a supply-chain hole in
-          # two shipped products, not just in recipes.
-          role-to-assume: ${{ secrets.RECIPES_CDN_ROLE_ARN }}
-          aws-region: us-east-1
-
-      - name: Publish the staging catalog
-        if: github.ref == 'refs/heads/staging'
-        run: |
-          aws s3 cp dist/recipes.json "s3://${BUCKET}/recipes/staging.json" \
-            --content-type application/json \
-            --cache-control 'public, max-age=60'
-          aws s3 cp dist/groups.json "s3://${BUCKET}/recipes/staging-groups.json" \
-            --content-type application/json \
-            --cache-control 'public, max-age=60'
-          aws cloudfront create-invalidation \
-            --distribution-id "${DISTRIBUTION_ID}" \
-            --paths '/recipes/staging.json' '/recipes/staging-groups.json'
-        env:
-          BUCKET: ${{ secrets.RECIPES_CDN_BUCKET }}
-          DISTRIBUTION_ID: ${{ secrets.RECIPES_CDN_DISTRIBUTION_ID }}
-
-      - name: Publish the production catalog
-        if: github.ref == 'refs/heads/main'
-        run: |
-          # The versioned object is immutable and cached for a year: a pinned
-          # version must stay fetchable forever, and it never changes under a
-          # pin because its key contains the commit.
-          aws s3 cp dist/recipes.json "s3://${BUCKET}/recipes/v/${GITHUB_SHA}.json" \
-            --content-type application/json \
-            --cache-control 'public, max-age=31536000, immutable'
-          aws s3 cp dist/groups.json "s3://${BUCKET}/recipes/v/${GITHUB_SHA}-groups.json" \
-            --content-type application/json \
-            --cache-control 'public, max-age=31536000, immutable'
-          # The pointer is the only mutable object and the only one invalidated.
-          aws s3 cp dist/recipes.json "s3://${BUCKET}/recipes/latest.json" \
-            --content-type application/json \
-            --cache-control 'public, max-age=60'
-          aws s3 cp dist/groups.json "s3://${BUCKET}/recipes/latest-groups.json" \
-            --content-type application/json \
-            --cache-control 'public, max-age=60'
-          aws cloudfront create-invalidation \
-            --distribution-id "${DISTRIBUTION_ID}" \
-            --paths '/recipes/latest.json' '/recipes/latest-groups.json'
-        env:
-          BUCKET: ${{ secrets.RECIPES_CDN_BUCKET }}
-          DISTRIBUTION_ID: ${{ secrets.RECIPES_CDN_DISTRIBUTION_ID }}
-
       - name: Say what was published
         run: |
           COUNT=$(python3 -c "import json;print(json.load(open('dist/recipes.json'))['count'])")
-          echo "### Catalog published" >> "$GITHUB_STEP_SUMMARY"
+          echo "### Catalog built" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
           echo "| | |" >> "$GITHUB_STEP_SUMMARY"
           echo "|---|---|" >> "$GITHUB_STEP_SUMMARY"
