@@ -112,12 +112,11 @@ Until the label is on, `recipe-label` stays red and says so. Then these jobs run
 | Job | What it does | When it fails |
 |---|---|---|
 | `git-validate` | Reads your steps and checks each one against the engine (no workspace) | A step is vague, or uses a later step's output. The errors are listed per step |
-| `git-validate-run` | Really runs the recipe in the CI project (org 1000 / project 6298). The entities it creates stay there | A step does not validate when it runs |
 | `git-validate-writeback` | Writes `recipe.md` + `recipe.json`, deletes your draft, runs every prerequisites check on the result, commits as `github-actions[bot]`, and reports `recipe-label` and `prerequisites` green on that commit | The two files would disagree, or a check fails. Nothing is committed |
 
 When a job fails, fix the draft and push again. The jobs run again while the label stays on.
 The bot's commit starts one more short round on its own; it finds no draft, so
-`git-validate-run` and `git-validate-writeback` are skipped. That round is expected.
+`git-validate-writeback` is skipped. That round is expected.
 
 **How the key is chosen.**
 - **Owner:** `author.org_name`, else `intempt`.
@@ -247,7 +246,7 @@ with or without labels. You cannot add it; it tells you whether `validate-recipe
 
 | Label | Added by | Starts | What it changes |
 |---|---|---|---|
-| `validate-recipes` | A reviewer or the author, on a pull request into `staging` | `.github/workflows/recipe-git-validate.yml` (`pull_request`, on `opened` with the label or `labeled`): `git-validate` → `git-validate-run` → `git-validate-writeback` | Creates entities in the CI project (org 1000 / project 6298) by really running the recipe, then pushes a `github-actions[bot]` commit to the PR branch that writes `recipes/<owner>/<frontmatter_id>/recipe.md` + `recipe.json` and deletes the draft |
+| `validate-recipes` | A reviewer or the author, on a pull request into `staging` | `.github/workflows/recipe-git-validate.yml` (`pull_request`, on `opened` with the label or `labeled`): `git-validate` → `git-validate-writeback` | Pushes a `github-actions[bot]` commit to the PR branch that writes `recipes/<owner>/<frontmatter_id>/recipe.md` + `recipe.json` and deletes the draft |
 | `ff-merge` | A person with write access, on the promotion pull request (`staging` → `main`, "Merge Staging into Main") | `.github/workflows/ff-merge.yml` (`pull_request_target`, on `labeled`), which calls `intempt/.github/.github/workflows/ff-merge.yml@main` | Fast-forwards `main` to the pull request's `staging` head, pushed by the ff-merge bot app. No merge commit |
 
 **The archive pull request needs no label.** A **Delete** (`recipe-deploy`) opens it as
@@ -259,7 +258,7 @@ the recipe from the platform and removes `deployed/<frontmatter_id>`.
 
 **`validate-recipes`, in more detail.**
 - Only pull requests into `staging` run it; the workflow has no other branch.
-- While it stays on, every push reruns the three jobs.
+- While it stays on, every push reruns `git-validate` and `git-validate-writeback`.
 - Removing it stops the git Validate jobs on later pushes. `recipe-label` reruns, and stays
   red while a draft is still in the tree. Once the write-back has landed, removing it changes
   nothing.

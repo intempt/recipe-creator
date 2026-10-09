@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Job 3 of recipe-git-validate.yml, after job 1 checked and job 2 ran each changed
+Job 3 of recipe-git-validate.yml, after job 1 checked each changed
 draft (the draft/ flow, R-RG4-6). For every draft it writes, for the PR head branch
 to commit in ONE bot commit:
 
@@ -8,8 +8,8 @@ to commit in ONE bot commit:
                                                 `slash_command`, `description`,
                                                 `author` (with `org_name`), then the
                                                 draft's prose, byte for byte
-  recipes/<owner>/<frontmatter_id>/recipe.json  job 1's answer — the object job 2
-                                                ran — with the real key, the real
+  recipes/<owner>/<frontmatter_id>/recipe.json  job 1's answer — the object job 1
+                                                got back — with the real key, the real
                                                 slash_command and `author.org_name`
                                                 put back (LM drops unknown author keys)
   draft/<…>.md                                  deleted
