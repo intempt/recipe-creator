@@ -30,14 +30,14 @@ name: recipe-git-validate
 # all recipes with -2, -3… (D2), or the draft's own frontmatter_id for an edit (D3).
 # It writes recipe.md + recipe.json, deletes the draft, runs every prerequisites
 # step on the result (scripts/prerequisites_gate.sh), commits as github-actions[bot]
-# and pushes to the PR head branch. A GITHUB_TOKEN push starts no workflow, so the
-# job then reports the required checks green on its own commit itself — it has just
-# run them. A fork PR gets no write token, so job 3 skips it with a notice. Skipped
+# and pushes to the PR head branch. No check is required on staging or main, so the
+# bot commit (a GITHUB_TOKEN push starts no workflow) needs no status of its own.
+# A fork PR gets no write token, so job 3 skips it with a notice. Skipped
 # when job 1 passed nothing.
 #
 # OPT-IN: jobs 1 and 3 run only while the PR carries the `validate-recipes` label —
-# adding it starts them, and each push while it stays reruns them. recipe-label is
-# the check to require; the git-validate jobs show as skipped without the label.
+# adding it starts them, and each push while it stays reruns them. No check is
+# required to merge; the git-validate jobs show as skipped without the label.
 #
 # The URLs are config, not secrets: .github/recipe-git-validate.json. The only secret is RECIPE_GIT_VALIDATE_SECRET.
 #
@@ -50,8 +50,7 @@ on:
 
 jobs:
   # Runs on EVERY pull request to staging, label or not (see the header). It stays
-  # red while a draft is in the tree; job 3's write-back reports it green on the
-  # commit that deletes the draft.
+  # red while a draft is in the tree. It is advisory: no ruleset requires it.
   recipe-label:
     runs-on: intempt-ubuntu-github-runner
     steps:
@@ -105,14 +104,10 @@ jobs:
     runs-on: intempt-ubuntu-github-runner
     permissions:
       contents: write
-      statuses: write
     env:
       HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
       HEAD_REF: ${{ github.head_ref }}
       HEAD_SHA: ${{ github.event.pull_request.head.sha }}
-      # The checks branch protection requires on staging. The bot's commit starts no
-      # workflow, so this job reports them itself after running them on that tree.
-      REQUIRED_CONTEXTS: "prerequisites recipe-label"
     steps:
       - name: A fork PR cannot be written back
         id: where
@@ -161,26 +156,3 @@ jobs:
             exit 1
           fi
           echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
-      # recipe-label is green only when no draft is left: a draft that failed job 1
-      # or 3 is still in draft/, and the PR must not merge with it.
-      - name: Report the required checks on the write-back commit
-        if: steps.push.outputs.sha != ''
-        env:
-          TOKEN: ${{ github.token }}
-          NEW_SHA: ${{ steps.push.outputs.sha }}
-          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        run: |
-          left=$(git ls-files -- draft/ | grep -c '\.md$' || true)
-          for context in $REQUIRED_CONTEXTS; do
-            state=success
-            description="Run by the write-back job on this commit's tree"
-            if [ "$context" = recipe-label ] && [ "$left" != 0 ]; then
-              state=failure
-              description="$left draft(s) failed git Validate and are still in draft/ - fix or remove them"
-            fi
-            curl -fsS -X POST -o /dev/null \
-              -H "Authorization: Bearer $TOKEN" -H "Accept: application/vnd.github+json" \
-              "$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/statuses/$NEW_SHA" \
-              -d "{\"state\":\"$state\",\"context\":\"$context\",\"target_url\":\"$RUN_URL\",\"description\":\"$description\"}"
-            echo "$context = $state on $NEW_SHA"
-          done
