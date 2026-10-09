@@ -39,7 +39,7 @@ intempt:
       produces: segment
       bindsAs: segment
       description: "Anyone who submitted a demo request form in the last 7 days. They are held out of the normal nurture journeys while the fast path runs."
-      prompt: Build a segment 'Demo Requesters - last 7 days' capturing users with form_submitted event where form_type = demo_request in the last 7 days. Used by the routing workflow to identify which users should hit the fast-path and excluded from standard nurture journeys for the duration of the fast-path window.
+      prompt: Build a segment 'Demo Requesters - last 7 days' capturing users with the Form submitted event where form type = demo request in the last 7 days. Used by the routing workflow to identify which users should hit the fast-path and excluded from standard nurture journeys for the duration of the fast-path window.
     - step: 2
       title: "Write the triage card"
       command: create_slack_content
@@ -55,7 +55,7 @@ intempt:
       bindsAs: workflow
       dependsOn: [segment, asset]
       description: "On a demo request it enriches the account if needed and scores the ICP fit. At 70 or above it creates a high priority AE task due the same day, with the contact details, the account context and the form answers attached, then posts the card to Slack. Low fit requests go into self serve nurture instead."
-      prompt: 'Create a workflow firing on form_submitted where form_type = demo_request. Step sequence: (1) enrich account via firmographic lookup if not already enriched; (2) compute ICP fit score and store as user attribute; (3) for high-fit ICPs (score >= 70), create a high-priority AE task due same-day with the prospect''s contact info, account context, and form responses pre-attached; (4) post the alert content to Slack #demo-requests. For low-fit ICPs, drop into self-serve nurture journey instead.'
+      prompt: 'Create a workflow firing on Form submitted where form type = demo request. Step sequence: (1) enrich account via firmographic lookup if not already enriched; (2) compute ICP fit score and store as user attribute; (3) for high-fit ICPs (score >= 70), create a high-priority AE task due same-day with the prospect''s contact info, account context, and form responses pre-attached; (4) post the alert content to Slack #demo-requests. For low-fit ICPs, drop into self-serve nurture journey instead.'
     - step: 4
       title: "Hold the response time"
       command: create_dashboard
@@ -63,7 +63,7 @@ intempt:
       bindsAs: dashboard
       dependsOn: [segment, asset, workflow]
       description: "The funnel from form to task created, task done and meeting booked, with the median and 75th percentile time from form to first contact against a 60 minute target in business hours, split by fit tier and AE, and a card for any request open more than two hours."
-      prompt: 'Compose a dashboard tracking the demo-request response funnel: form_submitted to task_created to task_completed to meeting_scheduled. Surface median + p75 time from form_submitted to AE first-touch (SLA metric: target: under 60 minutes during business hours). Break down by ICP fit tier (high/med/low) and by AE owner. Add a card flagging any demo request open >2 hours without a task completion.'
+      prompt: 'Compose a dashboard tracking the demo-request response funnel: Form submitted to Task created to Task completed to Meeting scheduled. Surface median + p75 time from Form submitted to AE first-touch (SLA metric: target: under 60 minutes during business hours). Break down by ICP fit tier (high/med/low) and by AE owner. Add a card flagging any demo request open >2 hours without a task completion.'
   outputs:
     - { name: segment, type: segment, cardinality: single, description: "Segment produced by this recipe." }
     - { name: asset, type: asset, cardinality: single, description: "Asset produced by this recipe." }

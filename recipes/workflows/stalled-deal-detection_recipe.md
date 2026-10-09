@@ -39,7 +39,7 @@ intempt:
       produces: attribute
       bindsAs: stage_age
       description: "Refreshed daily: the days since the deal last changed stage, and where that sits against the historical median for that stage among similar deals by size, segment and rep. Anything in the top quartile is flagged, alongside the days since any meeting, email reply or completed task."
-      prompt: 'Create an AI-derived attribute ''days_in_current_stage'' on the Deal object, refreshed daily. Compute: (a) calendar days since the deal last changed stage; (b) percentile of this age within the stage''s historical median for similar deals (size, segment, rep). Flag deals where age is in the top quartile (75th+ percentile) for that stage. Also compute ''days_since_last_activity'' (any meeting / email reply / task completion on the deal).'
+      prompt: 'Create an AI-derived attribute ''days in current stage'' on the Deal object, refreshed daily. Compute: (a) calendar days since the deal last changed stage; (b) percentile of this age within the stage''s historical median for similar deals (size, segment, rep). Flag deals where age is in the top quartile (75th+ percentile) for that stage. Also compute ''days since last activity'' (any meeting / email reply / task completion on the deal).'
     - step: 2
       title: "Find the genuinely stuck ones"
       command: create_segment
@@ -48,7 +48,7 @@ intempt:
       dependsOn:
       - stage_age
       description: "Open deals in the top quartile for time in stage with no activity for 14 days or more. Deals a rep has deliberately paused, for a restart next quarter or similar, are left out. Refreshed daily."
-      prompt: Build a segment 'Stalled deals' capturing open deals where (a) days_in_current_stage is in the top quartile for that stage AND (b) days_since_last_activity >= 14 days. Excludes deals where the rep has manually set a 'paused' flag (legitimate pause, coming back next quarter, etc.). Refreshed daily.
+      prompt: Build a segment 'Stalled deals' capturing open deals where (a) days in current stage is in the top quartile for that stage AND (b) days since last activity >= 14 days. Excludes deals where the rep has manually set a 'paused' flag (legitimate pause, coming back next quarter, etc.). Refreshed daily.
     - step: 3
       title: "Write a nudge per stage"
       command: create_email_content

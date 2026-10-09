@@ -37,12 +37,12 @@ intempt:
       prompt: |
         Create an Insights report called "Monthly Recurring Revenue Trend".
 
-        Series A: Event "revenue_completed" where type indicates a recurring payment (or "invoice_paid" if invoice_paid is the canonical recurring revenue marker in this workspace), aggregation: Sum of "amount" property, unit: $, label: "MRR"
-          - For revenue_completed, filter by type indicating subscription/recurring revenue.
-          - For invoice_paid as fallback, aggregate amount_paid_cents and divide by 100 to get $.
+        Series A: Revenue completed events where the revenue type indicates a recurring payment (or Invoice paid if that is the recurring revenue marker in this workspace), aggregation: Sum of the payment amount, unit: $, label: "MRR"
+          - For Revenue completed, filter by the revenue type indicating subscription/recurring revenue.
+          - For Invoice paid as fallback, aggregate the amount paid in cents and divide by 100 to get $.
         Series B: Computed: month-over-month MRR delta (current month MRR − previous month MRR), unit: $, label: "Net New MRR"
         Time granularity: Monthly
-        Breakdown for Series A: By plan_name: for revenue_completed users, the plan_name comes from their subscription_created event (most recent active subscription). Render as stacked area.
+        Breakdown for Series A: By Plan: for users with recurring revenue, the plan comes from their Subscription started event (most recent active subscription). Render as stacked area.
         Time range: Last 12 months
         Compare: Year-over-year (same month previous year, dotted overlay)
         Chart type: Stacked area chart for Series A with Series B as a secondary line
@@ -53,11 +53,9 @@ intempt:
         - Flag any month where net new MRR went negative (contraction).
         - Highlight any plan tier whose share of MRR shifted by more than 5 percentage points YoY.
 
-        Taxonomy notes:
-        - revenue_completed has amount, customer_id, type, source: use type to filter for recurring revenue.
-        - invoice_paid (Stripe) has amount_paid_cents: use as primary if revenue_completed type-discrimination is not configured.
-        - plan_name comes from subscription_created: join to user's most-recent active subscription to attribute the MRR.
-        - "subscription_payment" as an event does not exist in the canonical taxonomy.
+        Attributing revenue:
+        - Use the revenue type to filter Revenue completed down to recurring revenue; if your workspace does not discriminate revenue type, use Invoice paid as the primary recurring marker instead.
+        - Attribute each customer's MRR to the Plan on their most-recent active subscription.
   outputs:
     - { name: report, type: report, cardinality: single, description: "Report produced by this recipe." }
 ---

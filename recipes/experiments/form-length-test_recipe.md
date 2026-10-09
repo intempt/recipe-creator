@@ -53,11 +53,11 @@ intempt:
         - Audience: all visitors who reach the form
         - Display frequency: always
 
-        Primary metric: goal_completed_in_experience where experience_id = <this> (goal: form_submitted on the demo form within session of exposure)
+        Primary metric: Completed an experience goal for this experience (goal: Form submitted on the demo form within session of exposure)
         Secondary metrics:
-        - form_submitted rate per variant (the headline number: drop-off per added field)
+        - Form submitted rate per variant (the headline number: drop-off per added field)
         - Per-field abandonment rate (which field do visitors abandon at?)
-        - Lead quality downstream (SQL rate per variant (does the longer form give better-qualified leads?)) measured at deal_created or opportunity_created within 14 days
+        - Lead quality downstream (SQL rate per variant (does the longer form give better-qualified leads?)) measured at Deal created or Opportunity created within 14 days
 
         Guardrail: SQL rate must not drop more than the inverse of the conversion lift. Example: if Variant A has 25% conversion at 60% SQL rate, and Variant B has 18% conversion at 80% SQL rate, Variant B's net qualified-lead rate is similar: no guardrail violation. Document the tradeoff.
 
@@ -106,14 +106,7 @@ intempt:
             <button type="submit" class="form-submit-cta" id="demo-form-submit">Book a demo</button>
           </form>
 
-        The Visual Editor allows the user to adjust field labels, helper text, validation messages, and input styling. Ensure the form submission event (submit_on the form_id) fires consistently across all variants for measurement.
-
-        Taxonomy notes:
-        - This recipe assumes the workspace has a configurable demo-request form. The form's underlying handler (Hubspot, Marketo, custom) doesn't matter for the experiment: what changes is the visible field count.
-        - submit_on with the form's id captures form submissions; goal_completed_in_experience fires when this event occurs after exposure.
-        - The lead-quality-downstream measurement is the most important secondary signal. A 25% conversion at 50% SQL rate (3-field) vs. 18% at 80% SQL rate (7-field) might yield similar net pipeline. Don't ship the higher-conversion variant blindly without checking lead quality.
-        - Progressive profiling alternative: instead of adding all fields at once, the form could ask 3 fields first, then ask additional fields after submission. That's a separate test (out of scope for this recipe).
-        - Mobile note: shorter forms always win on mobile: consider mobile-only variant overrides.
+        The Visual Editor allows the user to adjust field labels, helper text, validation messages, and input styling. Ensure the form submission event (Submit on the form id) fires consistently across all variants for measurement. Shorter forms tend to win on mobile, so consider mobile-only variant overrides.
   outputs:
     - { name: experiment, type: experiment, cardinality: single, description: "Website experiment created on /experiences." }
 ---

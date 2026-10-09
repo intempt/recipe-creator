@@ -34,14 +34,14 @@ intempt:
       prompt: |
         Create an Insights report called "Monthly Logo Retention Trend".
 
-        Series A: For each calendar month M, count the unique customers who had an active subscription at the START of month M (no subscription_cancelled or subscription_expired before M-start)
-        Series B: For the same cohort, count those who STILL have an active subscription at the END of month M (no subscription_cancelled or subscription_expired during M)
+        Series A: For each calendar month M, count the unique customers who had an active subscription at the START of month M (no Subscription canceled or Subscription expired before M-start)
+        Series B: For the same cohort, count those who STILL have an active subscription at the END of month M (no Subscription canceled or Subscription expired during M)
         Series C: Computed: Series B / Series A × 100, unit: %, label: "Monthly Logo Retention Rate"
         Series D: Trailing 3-month rolling average of Series C (smoother trend), label: "Logo Retention (3-mo rolling)"
 
         Time granularity: Monthly
         Time range: Last 12 months
-        Breakdown: By plan_name (resolved from each user's subscription_created.plan_name at the START of month M)
+        Breakdown: By Plan (resolved from each user's active subscription at the START of month M)
         Compare: Year-over-year (same month previous year, dotted overlay)
         Chart type: Line chart with Series C and Series D as primary lines, plus a small-multiple of Series C per plan tier
 
@@ -54,10 +54,9 @@ intempt:
 
         Use case: the trend version of paid-user-retention's headline number. Where paid-user-retention shows the cohort table (deep dive), this recipe shows the single-line trend (headline metric for monthly review). Both are useful; this one is the dashboard-friendly version.
 
-        Taxonomy notes:
-        - subscription_created marks active subscription start (with plan_name, amount, trial_end). Filter for trial_end null to scope to paid (not trial) subscriptions.
-        - subscription_cancelled and subscription_expired mark subscription end. subscription_paused is NOT counted as churn (paused subscriptions can resume).
-        - "Active at start of month" computed by Lovable: subscription_created exists prior to month-start, with no terminal event before month-start.
+        Scope rules:
+        - Count a subscription as active only when it is a paid (non-trial) subscription.
+        - A paused subscription is NOT counted as churn, because paused subscriptions can resume.
   outputs:
     - { name: report, type: report, cardinality: single, description: "Report produced by this recipe." }
 ---

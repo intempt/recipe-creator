@@ -39,7 +39,7 @@ intempt:
       produces: attribute
       bindsAs: pql_score
       description: "A 0 to 100 score weighting the high value activation events most heavily, then depth, meaning sessions in the last 14 days, features touched and time in the product, then how many other people from the same domain are active. 70 and above counts as qualified, refreshed daily and whenever a feature is used."
-      prompt: 'Create an AI-derived attribute ''pql_score'' on the User object. Composite signal: (a) high-value feature usage (key activation events) weighted highest; (b) usage depth (sessions in last 14 days, features touched, time-in-product); (c) account-level density (other users from same domain active). Output: numeric score 0-100. Score >= 70 = PQL. Refreshed daily and on feature_used events.'
+      prompt: 'Create an AI-derived attribute ''PQL score'' on the User object. Composite signal: (a) high-value feature usage (key activation events) weighted highest; (b) usage depth (sessions in last 14 days, features touched, time-in-product); (c) account-level density (other users from same domain active). Output: numeric score 0-100. Score >= 70 = PQL. Refreshed daily and on Feature used events.'
     - step: 2
       title: "Find free users crossing 70"
       command: create_segment
@@ -48,7 +48,7 @@ intempt:
       dependsOn:
       - pql_score
       description: "Free tier users who crossed 70 in the last 7 days with no SDR task open and no outreach in the last 30 days. Paying users and anyone who has opted out are left out."
-      prompt: 'Build a segment ''PQL: free users score >= 70'' capturing free-tier users where pql_score crossed 70 in the last 7 days AND no active SDR task exists for this user AND no recent (last 30 days) outreach has occurred. Excludes paid users (different workflow) and users in opt-out list.'
+      prompt: 'Build a segment ''PQL: free users score >= 70'' capturing free-tier users where the PQL score crossed 70 in the last 7 days AND no active SDR task exists for this user AND no recent (last 30 days) outreach has occurred. Excludes paid users (different workflow) and users in opt-out list.'
     - step: 3
       title: "Give the SDR the context"
       command: create_workflow
@@ -58,7 +58,7 @@ intempt:
       - pql_score
       - pql_segment
       description: "On crossing 70 it enriches the account if needed, gathers the top features used, how often they are in, the company size and the ICP tier, creates a high priority SDR task with that attached, assigns it by territory, then messages the SDR in Slack. Accounts below your ICP threshold go to self serve nurture instead."
-      prompt: 'Create a workflow firing when pql_score crosses 70. Step sequence: (1) enrich the user''s account if not already enriched (firmographics, ICP fit); (2) compute outreach context: top features used, usage frequency, account size, ICP fit tier; (3) create a high-priority SDR task with the outreach context attached, assigned via territory rules (geo / industry / account size); (4) post a brief Slack notification to the assigned SDR''s DM with the task link. If account is below ICP threshold, route to self-serve nurture journey instead of SDR queue.'
+      prompt: 'Create a workflow firing when the PQL score crosses 70. Step sequence: (1) enrich the user''s account if not already enriched (firmographics, ICP fit); (2) compute outreach context: top features used, usage frequency, account size, ICP fit tier; (3) create a high-priority SDR task with the outreach context attached, assigned via territory rules (geo / industry / account size); (4) post a brief Slack notification to the assigned SDR''s DM with the task link. If account is below ICP threshold, route to self-serve nurture journey instead of SDR queue.'
     - step: 4
       title: "Hold the 24 hour first touch"
       command: create_dashboard

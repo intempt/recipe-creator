@@ -1,7 +1,7 @@
 ---
 name: funnel-dropoff-attribution-by-source
 description: |
-  Use when a user mentions "funnel drop-off attribution by source", or asks for related help. Same funnel run separately by Users.utm_source: surfaces which acquisition channels actually convert.
+  Use when a user mentions "funnel drop-off attribution by source", or asks for related help. Same funnel run separately by acquisition source: surfaces which acquisition channels actually convert.
 arguments: []
 intempt:
   id: funnel-dropoff-attribution-by-source
@@ -34,21 +34,21 @@ intempt:
       prompt: |
         Create a Funnel report called "Funnel Drop-off by Acquisition Source".
 
-        This is a configurable funnel: the user specifies which canonical events make up the funnel. Defaults if unspecified:
+        This is a configurable funnel: the user specifies which events make up the funnel. Defaults if unspecified:
 
-        1. Event "user_created": "Acquired"
-        2. Event "goal_completed_in_journey" (configurable journey_id): "Activated"
-        3. Event "subscription_created" (saas) OR "order_created" (ecommerce): "Converted"
-        4. Event "session_start" with date 30+ days after the conversion event: "Retained 30 days"
+        1. Event "User created": "Acquired"
+        2. Event "Completed a journey goal" (configurable journey): "Activated"
+        3. Event "Subscription started" (saas) OR "Placed order" (ecommerce): "Converted"
+        4. Event "Session start" with date 30+ days after the conversion event: "Retained 30 days"
 
         Conversion window: 60 days
-        Breakdown: By Users.utm_source (top 8 sources by Step 1 volume)
+        Breakdown: By acquisition source (top 8 sources by Step 1 volume)
         Compare: Previous period (prior 60 days)
 
         Render as small-multiples: one funnel per source, sorted by end-to-end conversion rate descending.
 
         Also include a summary table:
-        - Source · Volume at Step 1 · End-to-end conversion % · Volume at final step · Per-source revenue (sum of subscription_created.amount or order_created.total_price for users who reached Step 3+)
+        - Source · Volume at Step 1 · End-to-end conversion % · Volume at final step · Per-source revenue (sum of the subscription or order value for users who reached Step 3+)
 
         Annotations:
         - Flag the source with highest end-to-end conversion AND volume above the 33rd percentile.
@@ -58,9 +58,7 @@ intempt:
 
         Surface the actual revenue-weighted ROI per source.
 
-        Taxonomy notes:
-        - All steps reference canonical events. Users.utm_source is a real first-touch attribution attribute.
-        - Note: this recipe does NOT compute CAC because ad-spend is not in the canonical taxonomy. Per-source revenue is the closest proxy.
+        Note: this recipe does NOT compute CAC because ad-spend is not available in the data. Per-source revenue is the closest proxy.
   outputs:
     - { name: report, type: report, cardinality: single, description: "Report produced by this recipe." }
 ---

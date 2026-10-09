@@ -45,17 +45,17 @@ intempt:
         - Variant C (33%): no popup (control baseline: measures intrinsic recovery rate)
 
         Targeting:
-        - Pages: page URL contains "/cart" OR cart_created has occurred in the current session
+        - Pages: page URL contains "/cart" OR Cart created has occurred in the current session
         - Devices: desktop only (exit-intent requires mouse tracking; mobile doesn't have hover events)
-        - Audience: visitors with at least one cart_created in the current session
+        - Audience: visitors with at least one Cart created in the current session
         - Display frequency: once_per_session
 
-        Primary metric: goal_completed_in_experience where experience_id = <this> (goal: order_created within 24 hours of exposure)
+        Primary metric: Completed an experience goal for this experience (goal: Placed order within 24 hours of exposure)
         Secondary metrics:
-        - click_on where target_id = "popup-save-cart" (popup engagement rate)
-        - click_on where target_id = "popup-dismiss" (dismissal rate)
-        - Email capture rate from popup (submit_on the popup form)
-        - order_created within 24 hours
+        - Click on where the target is "popup-save-cart" (popup engagement rate)
+        - Click on where the target is "popup-dismiss" (dismissal rate)
+        - Email capture rate from popup (Submit on the popup form)
+        - Placed order within 24 hours
 
         Guardrail: bounce rate (sessions ending immediately after popup display) must not increase >10%
 
@@ -97,20 +97,19 @@ intempt:
             </div>
           </div>
 
-          Trigger logic: when cart_created fires, start a 30-second timer. If no cart_updated, click_on within the cart context, or page_viewed event occurs within that window, the popup shows. Reset the timer on any cart interaction so active shoppers aren't interrupted.
+          Trigger logic: when Cart created fires, start a 30-second timer. If no Cart updated, Click on within the cart context, or View page event occurs within that window, the popup shows. Reset the timer on any cart interaction so active shoppers aren't interrupted.
 
         Variant: C (no popup: baseline)
           No DOM changes: measures the intrinsic recovery rate without any popup intervention. This baseline is critical: without it you can't tell whether the popups CAUSE recovery or whether users would have returned anyway.
 
         The Visual Editor allows the user to refine the popup copy, styling, animation (slide-up vs. fade-in), and the email-capture handoff to the merchant's email tool.
 
-        Taxonomy notes:
-        - cart_created is canonical (fires when items are added).
-        - target_id values "popup-save-cart" and "popup-dismiss" are preserved across Variants Control and B for consistent click_on aggregation. Variant C has neither (no popup rendered).
-        - The "popup engagement rate" = click_on (target_id = "popup-save-cart") count / total exposures with that variant.
-        - Variant C's baseline is essential and not optional. Skipping it makes the experiment unable to distinguish causal lift from return-anyway behavior.
-        - For Variant B's "cart idle" detection, the timer resets on any cart-related interaction. The 30-second window is a starting point; tune based on your audience's typical cart-decision time.
-        - Email capture from the popup feeds into your existing abandoned-cart email journey: this experiment tests whether the popup adds value above intrinsic return, not whether email recovery itself works.
+        Notes:
+        - The element ids "popup-save-cart" and "popup-dismiss" stay the same across Control and Variant B so engagement aggregates cleanly. Variant C has neither (no popup rendered).
+        - Popup engagement rate = clicks on "popup-save-cart" divided by total exposures for that variant.
+        - Variant C's no-popup baseline is essential, not optional. Without it the experiment cannot separate causal lift from return-anyway behavior.
+        - For Variant B's "cart idle" detection, the timer resets on any cart-related interaction. The 30-second window is a starting point; tune it to your audience's typical cart-decision time.
+        - Email captured from the popup feeds your existing abandoned-cart email journey: this experiment tests whether the popup adds value above intrinsic return, not whether email recovery itself works.
   outputs:
     - { name: experiment, type: experiment, cardinality: single, description: "Website experiment created on /experiences." }
 ---

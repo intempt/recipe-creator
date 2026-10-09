@@ -50,11 +50,11 @@ intempt:
         - Audience: all visitors
         - Display frequency: always
 
-        Primary metric: goal_completed_in_experience where experience_id = <this> (goal fires on cart_created within session of exposure)
+        Primary metric: Completed an experience goal for this experience (goal fires on Cart created within the session of exposure)
         Secondary metrics:
-        - click_on where target_id = "sticky-add-to-cart-button" (variant B and C only)
-        - click_on where target_id = "main-add-to-cart-button" (control + as fallback for B/C)
-        - order_created within 24 hours of exposure (mobile checkout completion)
+        - Click on the "sticky-add-to-cart-button" element (variant B and C only)
+        - Click on the "main-add-to-cart-button" element (control + as fallback for B/C)
+        - Placed order within 24 hours of exposure (mobile checkout completion)
         - Time-on-PDP (mobile dwell time)
 
         Guardrail: PDP scroll depth must not drop >10% (sticky bar shouldn't disincentivize content reading); checkout conversion rate must not drop on mobile
@@ -96,9 +96,9 @@ intempt:
 
         The Visual Editor allows the user to fine-tune the bar's color scheme, animation (slide-up reveal on scroll), and quantity-selector behavior.
 
-        Taxonomy notes:
-        - "Mobile only" is enforced via the experience-level device targeting (targetDevice = "mobile") which Lovable applies at the SDK level; the CSS guard is belt-and-braces.
-        - target_id = "sticky-add-to-cart-button" is shared across variants B and C; control uses "main-add-to-cart-button". This lets you compare sticky-bar engagement vs. main-button engagement.
+        Mobile only is enforced through the experience-level device targeting set to mobile; the CSS guard is a second safeguard.
+
+        Variants B and C share the "sticky-add-to-cart-button" element id and control uses "main-add-to-cart-button". This lets you compare sticky-bar engagement vs. main-button engagement.
   outputs:
     - { name: experiment, type: experiment, cardinality: single, description: "Website experiment created on /experiences." }
 ---

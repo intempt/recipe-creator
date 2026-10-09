@@ -39,7 +39,7 @@ intempt:
       produces: attribute
       bindsAs: expansion_signal
       description: "A 0 to 100 score on the account from how fast new users are joining from their domain against the last 90 days, whether each user is reaching for more features, whether several teams or functions have come on, how close they are to their seat, API, event or storage limits, and any new integrations. It also says which of those signals are firing."
-      prompt: 'Create an AI-derived attribute ''expansion_signal_score'' on the Account object. Inputs: (a) active-user growth rate (new users added from domain in last 30 days vs. trailing 90-day baseline); (b) feature-depth expansion (count of distinct features used per active user trending up); (c) multi-team adoption (users from different functions / departments based on email domain or profile data); (d) usage-cap proximity (seats / API calls / events / storage); (e) integration-attach (new integrations connected: signals deeper commitment). Output: 0-100 score with composite reasoning string explaining which signals are firing.'
+      prompt: 'Create an AI-derived attribute ''Expansion signal score'' on the Account object. Inputs: (a) active-user growth rate (new users added from domain in last 30 days vs. trailing 90-day baseline); (b) feature-depth expansion (count of distinct features used per active user trending up); (c) multi-team adoption (users from different functions / departments based on email domain or profile data); (d) usage-cap proximity (seats / API calls / events / storage); (e) integration-attach (new integrations connected: signals deeper commitment). Output: 0-100 score with composite reasoning string explaining which signals are firing.'
     - step: 2
       title: "Find accounts outgrowing the plan"
       command: create_segment
@@ -48,7 +48,7 @@ intempt:
       dependsOn:
       - expansion_signal
       description: "Paying accounts scoring 70 or more in the last 14 days with no expansion deal already running, split by the dominant signal: user growth, feature depth, or hitting a limit."
-      prompt: Build a segment 'Expansion-ready customer accounts' capturing existing paying accounts where expansion_signal_score >= 70 in the last 14 days AND no active expansion deal already in flight (don't double-orchestrate against AE work). Partitioned by primary signal type so the journey can branch on the dominant signal (user-growth-driven vs. feature-depth-driven vs. usage-cap-driven).
+      prompt: Build a segment 'Expansion-ready customer accounts' capturing existing paying accounts where the expansion signal score is 70 or above in the last 14 days AND no active expansion deal already in flight (don't double-orchestrate against AE work). Partitioned by primary signal type so the journey can branch on the dominant signal (user-growth-driven vs. feature-depth-driven vs. usage-cap-driven).
     - step: 3
       title: "Write to the champion"
       command: create_email_content
@@ -92,7 +92,7 @@ intempt:
       - buyer_asset
       - rec_surface
       description: "Champion email on day 0. The upgrade comparison appears for admins at their next session on day 3. The budget holder gets the ROI email on day 7. If no meeting is booked by day 14, the AE gets a task carrying the signals, the decision makers and a recommended package. The panel stays up for 60 days. It closes on a meeting, an upgrade, a new deal, or the score falling under 50 for 30 days."
-      prompt: 'Build a multi-stakeholder journey triggered when an account enters expansion-ready segment. Touch 1 (Day 0): champion email: ''you''re growing fast / using deeply / hitting limits'' content. Touch 2 (Day 3): in-app upgrade-comparison surface activates for admin users at the account on next session. Touch 3 (Day 7): economic-buyer email with ROI summary and AE meeting CTA. Touch 4 (Day 14): if no AE meeting booked, create AE task with the full account context attached (signals, decision-makers, recommended package). Recommendation surface stays active for 60 days. Exit on: meeting_scheduled (handoff to AE), upgrade_completed (success (celebrate), deal_created (AE-owned from here), or expansion_signal drops below 50 for 30 days (false signal) exit gracefully).'
+      prompt: 'Build a multi-stakeholder journey triggered when an account enters expansion-ready segment. Touch 1 (Day 0): champion email: ''you''re growing fast / using deeply / hitting limits'' content. Touch 2 (Day 3): in-app upgrade-comparison surface activates for admin users at the account on next session. Touch 3 (Day 7): economic-buyer email with ROI summary and AE meeting CTA. Touch 4 (Day 14): if no AE meeting booked, create AE task with the full account context attached (signals, decision-makers, recommended package). Recommendation surface stays active for 60 days. Exit on: Meeting scheduled (handoff to AE), upgrade completed (success (celebrate), Deal created (AE-owned from here), or the expansion signal score drops below 50 for 30 days (false signal) exit gracefully).'
     - step: 7
       title: "Measure the expansion it makes"
       command: create_dashboard

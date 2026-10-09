@@ -50,11 +50,11 @@ intempt:
         - Audience: all visitors
         - Display frequency: always
 
-        Primary metric: goal_completed_in_experience where experience_id = <this> (goal fires on cart_created within session of exposure)
+        Primary metric: Completed an experience goal for this experience (goal fires on Cart created within session of exposure)
         Secondary metrics:
-        - click_on where target_id = "add-to-cart-button"
-        - order_created within 7 days of exposure
-        - Time on PDP (time from page_viewed to next page_viewed or session_end)
+        - Click on the "add-to-cart-button" element
+        - Placed order within 7 days of exposure
+        - Time on PDP (time from View page to next View page or Session end)
 
         Guardrail: bounce rate on PDPs must not increase >5%
 
@@ -98,9 +98,7 @@ intempt:
             <section class="product-info"><!-- description, reviews --></section>
           </article>
 
-        Taxonomy notes:
-        - cart_created is the canonical add-to-cart event; it fires with product_id, quantity, total_amount.
-        - "add-to-cart-button" target_id must be preserved across variants for click-rate comparability.
+        Keep the "add-to-cart-button" element id the same across variants so click rates stay comparable.
   outputs:
     - { name: experiment, type: experiment, cardinality: single, description: "Website experiment created on /experiences." }
 ---

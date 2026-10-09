@@ -37,7 +37,7 @@ intempt:
 
         ═══ PATH 1: Top-level configuration ═══
 
-        Experience type: client_experiment
+        Experience type: Client experiment
 
         Variants:
         - Control (25%): no trust badges near the primary CTA (existing state for many pages)
@@ -51,11 +51,11 @@ intempt:
         - Audience: all visitors
         - Display frequency: always
 
-        Primary metric: goal_completed_in_experience where experience_id = <this> (goal: subscription_created OR order_created within 24 hours of exposure)
+        Primary metric: Completed an experience goal for this experience (goal: Subscription started OR Placed order within 24 hours of exposure)
         Secondary metrics:
-        - click_on on the primary CTA (target_id matches the page's primary CTA)
-        - checkout_completed within session
-        - subscription_created or order_created within 24 hours
+        - Click on the primary CTA (the clicked element is the page's primary CTA)
+        - Checkout completed within session
+        - Subscription started or Placed order within 24 hours
 
         Guardrail: page-bounce rate must not increase >5% (badges shouldn't add visual clutter that drives users off the page)
 
@@ -101,10 +101,11 @@ intempt:
 
         The Visual Editor allows the user to swap badges, adjust placement (inline-after-CTA vs. below-button vs. floating-near-CTA), and refine typography. Badges should look authentic: only display certifications the merchant actually has.
 
-        Taxonomy notes:
-        - Only display trust badges that reflect real certifications, guarantees, or payment methods the merchant actually offers. Fake or aspirational badges erode trust.
-        - For SaaS pages, "guarantee" framing tends to outperform "security" framing; for ecommerce checkout, both matter.
-        - Build Grow Scale's 2026 data: badges placed directly below or beside the Add to Cart button increase purchase confidence by 42%.
+        Only display trust badges that reflect real certifications, guarantees, or payment methods the merchant actually offers. Fake or aspirational badges erode trust.
+
+        For SaaS pages, "guarantee" framing tends to outperform "security" framing; for ecommerce checkout, both matter.
+
+        Build Grow Scale's 2026 data: badges placed directly below or beside the Add to Cart button increase purchase confidence by 42%.
   outputs:
     - { name: experiment, type: experiment, cardinality: single, description: "Website experiment created on /experiences." }
 ---

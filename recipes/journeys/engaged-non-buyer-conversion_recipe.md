@@ -39,7 +39,7 @@ intempt:
       produces: attribute
       bindsAs: engagement_paradox
       description: "A 0 to 100 score for the distance between how much someone uses the product and the fact they have not paid, built from sessions in the last 30 days, how broadly and deeply they use features, and email engagement, all against the profile of people who do convert. It also names the likely blocker: price, a missing feature, no authority, indecision or no urgency."
-      prompt: 'Create an AI-derived attribute ''engagement_paradox_score'' on the User object. Calculates the gap between engagement intensity and conversion behavior. Inputs: sessions in last 30 days, feature breadth/depth, marketing email engagement (opens / clicks), in-product activity vs. typical-converter benchmarks. High score = the user behaves like a converter SHOULD behave, but hasn''t converted. Output: numeric 0-100. Score >= 70 = high engagement paradox (engaged but stuck: the most interesting cohort). Includes a diagnostic field naming the likely blocker (price-sensitivity / feature-gap / authority-issue / decision-paralysis / no-urgency) inferred from behavior patterns.'
+      prompt: 'Create an AI-derived attribute ''Engagement paradox score'' on the User object. Calculates the gap between engagement intensity and conversion behavior. Inputs: sessions in last 30 days, feature breadth/depth, marketing email engagement (opens / clicks), in-product activity vs. typical-converter benchmarks. High score = the user behaves like a converter SHOULD behave, but hasn''t converted. Output: numeric 0-100. Score >= 70 = high engagement paradox (engaged but stuck: the most interesting cohort). Includes a diagnostic field naming the likely blocker (price-sensitivity / feature-gap / authority-issue / decision-paralysis / no-urgency) inferred from behavior patterns.'
     - step: 2
       title: "Find engaged free users"
       command: create_segment
@@ -48,7 +48,7 @@ intempt:
       dependsOn:
       - engagement_paradox
       description: "Accounts at least 30 days old, still free or trialing, scoring 70 or above. People already in a sales conversation are left out, and so is anyone who turned down an upgrade in the last 90 days."
-      prompt: Build a segment 'Engaged non-buyers - last 60 days' capturing users where (a) account age is 30+ days AND (b) subscription_status is free or trialing AND (c) engagement_paradox_score >= 70. Excludes users in active sales conversations (don't double-orchestrate) and users who explicitly declined an upgrade in the last 90 days (respect the no).
+      prompt: Build a segment 'Engaged non-buyers - last 60 days' capturing users where (a) account age is 30+ days AND (b) subscription is free or trialing AND (c) the engagement paradox score is 70 or above. Excludes users in active sales conversations (don't double-orchestrate) and users who explicitly declined an upgrade in the last 90 days (respect the no).
     - step: 3
       title: "Write one email per blocker"
       command: create_email_content
@@ -80,7 +80,7 @@ intempt:
       - email_asset
       - agent
       description: "The blocker email on day 0, an invitation to the agent on their next session if nothing happens by day 3, and on day 7 an AE task carrying the score, the blocker and a suggested approach. They leave when they subscribe, when they decline, or when the agent gets an answer and hands them on."
-      prompt: 'Build a 3-touch diagnostic journey wired to engaged-non-buyer segment. Touch 1 (Day 0 of entry): diagnostic email matched to inferred blocker. Touch 2 (Day 3, if no engagement): in-app chat invitation to the diagnostic agent on next session. Touch 3 (Day 7, if still no conversion): personalized AE outreach task with the full engagement-paradox profile + inferred blocker + suggested approach attached. Exit on: subscription_created (won (celebrate), explicit decline / opt-out, or successful agent diagnostic (handoff to appropriate downstream) sales, support, or PM).'
+      prompt: 'Build a 3-touch diagnostic journey wired to engaged-non-buyer segment. Touch 1 (Day 0 of entry): diagnostic email matched to inferred blocker. Touch 2 (Day 3, if no engagement): in-app chat invitation to the diagnostic agent on next session. Touch 3 (Day 7, if still no conversion): personalized AE outreach task with the full engagement-paradox profile + inferred blocker + suggested approach attached. Exit on: Subscription started (won (celebrate), explicit decline / opt-out, or successful agent diagnostic (handoff to appropriate downstream) sales, support, or PM).'
     - step: 6
       title: "See which angle converts"
       command: create_dashboard

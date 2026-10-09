@@ -34,22 +34,22 @@ intempt:
       prompt: |
         Create a Path report called "Exit Paths Before Cancellation".
 
-        Anchor event: page_viewed where page_url contains "/cancel" OR "/account/billing" with cancellation intent (configurable URL pattern)
+        Anchor event: View page where the page URL contains "/cancel" OR "/account/billing" with cancellation intent (configurable URL pattern)
         Direction: forward
         Depth: 5 steps forward
         Window: 60 minutes after the cancel-page visit
         Loop compression: on
         Time range: Last 90 days
-        Breakdown: By plan_name (resolved from the user's active subscription_created)
+        Breakdown: By plan (the user's active plan)
 
         Outcome split: render two side-by-side path views:
-          - Path A: Users whose visit ended in subscription_cancelled within the window (lost)
+          - Path A: Users whose visit ended in Subscription canceled within the window (lost)
           - Path B: Users whose visit ended in any non-cancellation outcome (saved)
 
         Surface:
         - For each outcome group, the top 10 most-common 5-step paths
         - The "save rate" overall and per plan: % of users who visited /cancel but did NOT cancel within 24 hours
-        - The most common page_viewed events between /cancel page and session_end / cancellation (the "save plays" vs. "death paths")
+        - The most common View page events between the /cancel page and Session end / cancellation (the "save plays" vs. "death paths")
 
         Annotations:
         - Flag any in-product surface (FAQ, plan-comparison, downgrade flow, contact-support) that meaningfully appears in Path B (saved) but not Path A (lost): these are working save plays; promote them more aggressively.
@@ -57,9 +57,6 @@ intempt:
         - Highlight the difference in path length between A and B: saved users typically take longer paths (consider alternatives, browse plans), lost users take shorter paths (decided before arriving). If save paths are short, the save-flow itself is too easy to escape.
 
         Use case: distinct from the existing pre-churn-behavioral-signals recipe (which looks 30 days back from cancellation). This recipe focuses on the LAST-SESSION moment when the user is actively considering canceling: the highest-leverage, highest-urgency intervention window.
-
-        Taxonomy notes:
-        - subscription_cancelled is canonical (British spelling). The "considering cancellation" trigger is derived from page_viewed.page_url patterns; if the workspace emits a custom event for cancellation-intent (e.g. cancel_clicked), it can be substituted.
   outputs:
     - { name: report, type: report, cardinality: single, description: "Report produced by this recipe." }
 ---

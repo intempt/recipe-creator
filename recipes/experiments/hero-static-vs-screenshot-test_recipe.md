@@ -52,9 +52,9 @@ intempt:
         - Audience: all visitors
         - Display frequency: always
 
-        Primary metric: goal_completed_in_experience where experience_id = <this> (goal: form_submitted on demo / contact / signup, OR user_created within session of exposure)
+        Primary metric: Completed an experience goal for this experience (goal: Form submitted on demo / contact / signup, OR User created within session of exposure)
         Secondary metrics:
-        - click_on on primary CTA (does the hero image affect CTA click-through?)
+        - Click on the primary CTA (does the hero image affect CTA click-through?)
         - Bounce rate (does the hero image keep visitors engaged?)
         - Time-on-page (proxy for engagement)
         - Scroll-depth-to-50% (does the hero compel visitors to scroll?)
@@ -99,11 +99,7 @@ intempt:
 
         The Visual Editor allows the user to swap actual image assets and adjust alt-text, sizing, and positioning. Critical: ensure all image variants are properly sized and compressed for fast load: image swaps that hurt page speed will lose regardless of design quality.
 
-        Taxonomy notes:
-        - 2026 SaaS research strongly favors authentic visuals over stock illustrations. Real product screenshots often outperform abstract illustrations for product-led teams; real customer photos often outperform for service/enterprise teams.
-        - Page-speed monitoring is critical: measure Largest Contentful Paint (LCP) per variant. The winning hero image must also load fast.
-        - A static-image test is the foundation; animated/video heroes (Lottie embeds, MP4 background, etc.) are out of scope for this recipe and can be authored as a future extension once the static winner is determined.
-        - Mobile-specific image variants are essential: desktop hero images cropped down to mobile usually look poor and convert worse than mobile-designed versions.
+        2026 SaaS research strongly favors authentic visuals over stock illustrations. Real product screenshots often outperform abstract illustrations for product-led teams; real customer photos often outperform for service/enterprise teams. Monitor page speed by measuring Largest Contentful Paint (LCP) per variant: the winning hero image must also load fast. Animated or video heroes (Lottie embeds, MP4 background, etc.) are out of scope here and can follow as an extension once the static winner is known. Mobile-specific image variants are essential: desktop hero images cropped down to mobile usually look poor and convert worse than mobile-designed versions.
   outputs:
     - { name: experiment, type: experiment, cardinality: single, description: "Website experiment created on /experiences." }
 ---

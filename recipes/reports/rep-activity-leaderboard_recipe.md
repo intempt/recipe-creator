@@ -38,16 +38,16 @@ intempt:
       prompt: |
         Create an Insights report called "Rep Activity Leaderboard".
 
-        Series A: Event "call_completed" OR "call_logged", aggregation: Count grouped by owner_id, label: "Calls"
-        Series B: Event "messaged_email" where direction = outbound (sent emails), aggregation: Count grouped by created_by (the rep), label: "Outbound Emails"
-        Series C: Event "meeting_scheduled" where canceled_at is null, aggregation: Count grouped by created_by, label: "Meetings Booked"
-        Series D: Event "task_completed", aggregation: Count grouped by assignee_id, label: "Tasks Completed"
-        Series E: Sum of deal_won.amount grouped by owner_id (rep's revenue contribution in period), unit: $, label: "Revenue Closed"
+        Series A: Event "Call completed" OR "Call logged", aggregation: Count grouped by the rep, label: "Calls"
+        Series B: Event "Messaged email" where direction = outbound (sent emails), aggregation: Count grouped by the rep, label: "Outbound Emails"
+        Series C: Event "Meeting scheduled" where the meeting was not canceled, aggregation: Count grouped by the rep, label: "Meetings Booked"
+        Series D: Event "Task completed", aggregation: Count grouped by the assigned rep, label: "Tasks Completed"
+        Series E: Sum of the Deal won amount grouped by the rep (rep's revenue contribution in period), unit: $, label: "Revenue Closed"
         Series F: Computed: Series E / Series A × 100, label: "Revenue per 100 Calls"
           - The Gong-popularized leading-indicator metric: ties activity volume to revenue outcomes.
 
         Time range: Last 30 days
-        Breakdown: By owner_id (per-rep, sortable leaderboard)
+        Breakdown: By rep (per-rep, sortable leaderboard)
         Compare: Previous period (prior 30 days)
         Chart type: Sortable table (the leaderboard) with rep name, all activity counts, revenue closed, and the activity-to-revenue ratios. Plus a secondary chart showing activity volume distribution per rep (stacked bar).
 
@@ -65,19 +65,6 @@ intempt:
         - Add the trailing-week revenue-per-call benchmark; below team-average × 0.5 indicates serious efficiency issue.
 
         Use case: the canonical sales-manager weekly review. Activity metrics are leading indicators (per Gong); revenue is the lagging outcome. Reading them together surfaces both the "rising stars" (activity climbing, revenue about to follow) and the "coaching opportunities" (activity high but revenue stuck).
-
-        Taxonomy notes:
-        - call_completed and call_logged are both canonical (varies by integration: HubSpot/Salesforce typically emit call_completed with metadata; manually-logged calls emit call_logged).
-        - messaged_email.direction is a canonical property; outbound emails have direction = "outbound".
-        - meeting_scheduled.canceled_at being null means the meeting wasn't canceled. End_time being in the past indicates it actually occurred.
-        - task_completed.assignee_id is the rep responsible for the task.
-        - "Rep" identification varies by event:
-          - call_completed: created_by
-          - messaged_email: created_by
-          - meeting_scheduled: created_by
-          - task_completed: assignee_id
-          - deal_won: owner_id
-          These should all resolve to the same Users object (owner_id is a canonical user-attribute): Lovable's translation layer must unify these for per-rep aggregation.
   outputs:
     - { name: report, type: report, cardinality: single, description: "Report produced by this recipe." }
 ---

@@ -80,7 +80,7 @@ intempt:
       - workflow
       - filter
       description: "Each matched post is classified by what it is: active shopping, a brand mention, a complaint or general chat, plus sentiment, urgency, and whether replying there would be welcome or would break that community's norms."
-      prompt: 'Configure AI step that classifies each matched post: intent_type (active-shopping / brand-mention / complaint / general-discussion), sentiment (positive / neutral / negative), urgency (immediate / browsing / casual), and ''is this post a good place to respond authentically?'' (avoid posts where commercial response would be off-topic / against community norms / clearly hostile). Output: classification + reasoning.'
+      prompt: 'Configure AI step that classifies each matched post: intent type (active-shopping / brand-mention / complaint / general-discussion), sentiment (positive / neutral / negative), urgency (immediate / browsing / casual), and ''is this post a good place to respond authentically?'' (avoid posts where commercial response would be off-topic / against community norms / clearly hostile). Output: classification + reasoning.'
     - step: 6
       title: "Route by what it is"
       command: configure_workflow_multi_split_step

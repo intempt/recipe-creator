@@ -39,7 +39,7 @@ intempt:
       produces: attribute
       bindsAs: manual_pattern
       description: "Checked daily for repeated manual work the product can automate: the same report run five or more times in 7 days when scheduled reports exist, three or more manual exports in 7 days when there is an API, the same task assigned again and again when templates exist, or the same dashboard filter set 10 times in 14 days when views can be saved. Each pattern is paired with the feature that replaces it and how likely that person is to adopt it."
-      prompt: 'Create an AI-derived attribute ''detected_manual_patterns'' on the User object, refreshed daily. Detects repeated manual sequences that have automated counterparts in the product. Example patterns: (a) user runs same multi-step report 5+ times in 7 days (has unused ''scheduled reports'' feature), (b) user exports data manually 3+ times in 7 days (has unused API/webhook feature), (c) user assigns same task type repeatedly (has unused task templates feature), (d) user filters dashboard same way 10+ times in 14 days (has unused saved-view feature). Output: list of detected patterns with the automate-it feature name and adoption-likelihood score (based on user''s plan, skill level, prior automation adoption).'
+      prompt: 'Create an AI-derived attribute ''Detected manual patterns'' on the User object, refreshed daily. Detects repeated manual sequences that have automated counterparts in the product. Example patterns: (a) user runs same multi-step report 5+ times in 7 days (has unused ''scheduled reports'' feature), (b) user exports data manually 3+ times in 7 days (has unused API/webhook feature), (c) user assigns same task type repeatedly (has unused task templates feature), (d) user filters dashboard same way 10+ times in 14 days (has unused saved-view feature). Output: list of detected patterns with the automate-it feature name and adoption-likelihood score (based on user''s plan, skill level, prior automation adoption).'
     - step: 2
       title: "Find who could automate it"
       command: create_segment
@@ -48,7 +48,7 @@ intempt:
       dependsOn:
       - manual_pattern
       description: "Paying users with at least one detected pattern who have not used the matching feature, split by which feature to introduce. Anyone who has dismissed feature suggestions three times is left out, and so is anyone whose plan does not include the feature."
-      prompt: Build a segment 'Manual-pattern detected' capturing paying users where detected_manual_patterns is non-empty AND the user hasn't yet used the recommended automation feature. Partitioned by feature-to-introduce. Excludes users who have dismissed feature-recommendations 3+ times (respect the no) and users with plan limits that exclude the suggested feature.
+      prompt: Build a segment 'Manual-pattern detected' capturing paying users where the detected-manual-patterns list is non-empty AND the user hasn't yet used the recommended automation feature. Partitioned by feature-to-introduce. Excludes users who have dismissed feature-recommendations 3+ times (respect the no) and users with plan limits that exclude the suggested feature.
     - step: 3
       title: "Nudge them mid task"
       command: create_page_content
@@ -68,7 +68,7 @@ intempt:
       - manual_pattern
       - segment
       description: "A dashboard panel with the top three patterns and the features that replace them, ranked by how likely they are to adopt, each one a line and a link. It rotates as they adopt and stays up for 30 days after detection."
-      prompt: 'Configure a recommendation surface ''Power features for your workflow'' on the user''s dashboard. Pulls: the top 3 detected_manual_patterns with their automate-it counterparts, ranked by adoption-likelihood. Each recommendation: 1-line description + ''try it'' deep link. Updates when user adopts a feature (rotates in the next-best). Renders persistently for 30 days after detection.'
+      prompt: 'Configure a recommendation surface ''Power features for your workflow'' on the user''s dashboard. Pulls: the top 3 detected manual patterns with their automate-it counterparts, ranked by adoption-likelihood. Each recommendation: 1-line description + ''try it'' deep link. Updates when user adopts a feature (rotates in the next-best). Renders persistently for 30 days after detection.'
     - step: 5
       title: "Ask adopters for a review"
       command: create_email_content

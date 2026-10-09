@@ -46,17 +46,17 @@ intempt:
 
         Targeting:
         - Pages: in-app onboarding page (typically /onboarding or post-signup landing)
-        - Audience: new signups only: segment: user_created within 1 hour
+        - Audience: new signups only: segment: User created within 1 hour
         - Devices: any
         - Display frequency: once (sticky to user's first session)
 
-        Primary metric: goal_completed_in_experience where experience_id = <this> (goal fires on the activation event, e.g. goal_completed_in_journey for the activation journey, within 7 days of exposure)
+        Primary metric: Completed an experience goal for this experience (goal fires on the activation event, e.g. Completed a journey goal for the activation journey, within 7 days of exposure)
         Secondary metrics:
-        - Median time from exposed_to_experience to first key click_on (the canonical "time to value" measurement)
-        - session_start day-2 (returned-after-signup rate: engagement persistence)
-        - Onboarding completion rate (click_on on the final step's target_id)
+        - Median time from Exposed to experience to first key Click on (the "time to value" measurement)
+        - Session start day-2 (returned-after-signup rate: engagement persistence)
+        - Onboarding completion rate (Click on the final step's element)
 
-        Guardrail: bounce-from-onboarding rate (session_end without any click_on after onboarding render) must not increase >10%
+        Guardrail: bounce-from-onboarding rate (Session end without any Click on after onboarding render) must not increase >10%
 
         Schedule: 30 days minimum
 
@@ -103,9 +103,9 @@ intempt:
 
         The user supplies their actual onboarding copy, video file, and styling in the Visual Editor.
 
-        Taxonomy notes:
-        - "Time to first key click_on" is computed by Lovable from exposed_to_experience timestamp to the first downstream click_on event for the same user. Median across users = the variant's TTV.
-        - The "key click_on" identifier (which click_on target_id counts as activation) is project-defined; typically it's the first interaction with a core product feature.
+        Time to first key Click on is computed from the Exposed to experience timestamp to the first downstream Click on for the same user. Median across users is the variant's time to value.
+
+        Which Click on counts as activation is project-defined; typically it's the first interaction with a core product feature.
   outputs:
     - { name: experiment, type: experiment, cardinality: single, description: "Website experiment created on /experiences." }
 ---

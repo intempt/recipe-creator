@@ -41,11 +41,11 @@ intempt:
         Variants (each binds to geographic audience):
         - Control (audience = all: fallback): default homepage with global shipping messaging
         - Variant B (audience = US visitors): US-specific promo (free shipping over $50, USD prices)
-          - Audience: Users.country = "US"
+          - Audience: the visitor's country is "US"
         - Variant C (audience = UK + EU visitors): UK/EU-specific promo (free shipping over £50/€50, local currency, GDPR-compliant footer)
-          - Audience: Users.country IN ("GB", "DE", "FR", "ES", "IT", "NL")
+          - Audience: the visitor's country is one of "GB", "DE", "FR", "ES", "IT", "NL"
         - Variant D (audience = APAC visitors): APAC-specific promo (regional shipping, local payment methods callout)
-          - Audience: Users.country IN ("AU", "JP", "SG", "HK", "KR")
+          - Audience: the visitor's country is one of "AU", "JP", "SG", "HK", "KR"
 
         Targeting:
         - Pages: homepage "/"
@@ -53,9 +53,9 @@ intempt:
         - Display frequency: once_per_session
 
         Metrics:
-        - order_created per geographic audience
+        - Placed order per geographic audience
         - Average order value per audience
-        - click_on engagement on geo-specific CTAs
+        - Click on engagement on geo-specific CTAs
 
         Schedule: continuous
 
@@ -93,8 +93,8 @@ intempt:
 
         The Visual Editor lets the user refine the regional messaging, payment-method icons, and shipping promise per region.
 
-        Taxonomy notes:
-        - Users.country is canonical (geo-IP enriched at session start). Use the ISO 3166-1 alpha-2 country code.
+        Notes:
+        - The visitor's country is geo-IP enriched at session start. Use the ISO 3166-1 alpha-2 country code.
         - Currency display is application-side; this recipe sets the data-currency attribute, and the application's price-formatting logic reads it.
         - For prices to actually change, the application must read the currency hint and re-format. The recipe assumes price formatting is centralized in a JS helper that respects data-currency.
   outputs:

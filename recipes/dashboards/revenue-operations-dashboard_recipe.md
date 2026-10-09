@@ -43,7 +43,7 @@ intempt:
         - exclusionPeriod: incomplete_periods
         - visibility: project
         - boardFilters: none by default
-        - boardBreakdowns: utm_source (lead source): pushed down so cards decompose by acquisition channel where applicable
+        - boardBreakdowns: UTM source (lead source): pushed down so cards decompose by acquisition channel where applicable
 
         Layout: 4 rows.
 
@@ -68,11 +68,7 @@ intempt:
         - This board is meant for monthly QBR review, not daily/weekly. The right cadence is reading it once per month, looking for inflection points.
         - Row 1 KPIs are 4 leading indicators: declining win rate, lengthening sales cycle, falling MQL to Won, or NRR dipping below 100% are all early-warning signs that warrant strategic intervention.
         - Row 3 (full-width win-loss) is the strategic centerpiece: the breakdown by source shows where to invest more vs. less; the breakdown by stage-at-loss shows whether losses come from qualification (top-funnel ICP issue) or closing (late-funnel competition/pricing issue).
-
-        Taxonomy notes:
-        - All source recipes use canonical events: deal_won, deal_lost, deal_stage_changed, lead_stage_changed, user_created, subscription_created, subscription_updated, subscription_cancelled.
-        - net-revenue-retention-by-cohort depends on subscription_updated.changed_fields parsing for expansion/contraction split.
-        - win-rate-trend (new in v5) is the single-metric tracking version of win-loss-analysis.
+        - The NRR cards split expansion from contraction by reading which fields changed on each Subscription updated event.
   outputs:
     - { name: dashboard, type: dashboard, cardinality: single, description: "Dash board (composition canvas) produced by this recipe." }
 ---

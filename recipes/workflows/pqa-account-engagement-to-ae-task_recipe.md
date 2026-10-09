@@ -39,7 +39,7 @@ intempt:
       produces: attribute
       bindsAs: pqa_score
       description: "A 0 to 100 score per account from how many different people were active in the last 14 days, where three or more is a strong signal, the total feature events across them, whether any look like decision makers by title or email pattern, and how deeply the team uses it. 70 and above counts as qualified, updated daily and whenever someone new signs up from the domain."
-      prompt: 'Create an AI-derived attribute ''pqa_score'' on the Account object. Composite: (a) count of distinct users from the account active in last 14 days (3+ users = strong PQA signal); (b) total feature events across the account; (c) seniority of users (any decision-makers based on title/email pattern); (d) usage depth across the account team. Output: numeric score 0-100. Score >= 70 = PQA. Updated daily and on new user signups from the domain.'
+      prompt: 'Create an AI-derived attribute ''PQA score'' on the Account object. Composite: (a) count of distinct users from the account active in last 14 days (3+ users = strong PQA signal); (b) total feature events across the account; (c) seniority of users (any decision-makers based on title/email pattern); (d) usage depth across the account team. Output: numeric score 0-100. Score >= 70 = PQA. Updated daily and on new user signups from the domain.'
     - step: 2
       title: "Find accounts crossing 70"
       command: create_segment
@@ -48,7 +48,7 @@ intempt:
       dependsOn:
       - pqa_score
       description: "Accounts that crossed 70 in the last 14 days with no open deal and no AE engaged in the last 60 days. Existing paying customers are left out, because expansion is a different play."
-      prompt: 'Build a segment ''PQA: accounts score >= 70'' capturing accounts where pqa_score crossed 70 in the last 14 days AND no open deal currently exists for the account AND no AE has been actively engaged in the last 60 days. Excludes existing paid customers (different motion: see seat-expansion workflow).'
+      prompt: 'Build a segment ''PQA: accounts score >= 70'' capturing accounts where the PQA score crossed 70 in the last 14 days AND no open deal currently exists for the account AND no AE has been actively engaged in the last 60 days. Excludes existing paid customers (different motion: see seat-expansion workflow).'
     - step: 3
       title: "Brief an AE to open a deal"
       command: create_workflow
@@ -58,7 +58,7 @@ intempt:
       - pqa_score
       - pqa_segment
       description: "On crossing 70 it refreshes the account's firmographics, technographics and decision maker contacts, writes a summary of who is active, what each of them uses, who can sign, the headcount and the ICP fit, creates a high priority task to open a deal and start outreach with that attached, and notifies the AE and their manager in Slack. Only accounts matching your ICP fire."
-      prompt: 'Create a workflow firing when pqa_score crosses 70. Step sequence: (1) refresh account enrichment (firmographics, technographics, decision-maker contacts via Apollo/ZoomInfo if connected); (2) compute account context summary: active user count, key features used per user, decision-makers identified, employee count, ICP fit; (3) create a high-priority AE task to create a deal record and start outreach, with the full account context pre-attached; (4) notify AE manager and assigned AE via Slack with a one-paragraph summary and link to the account record. Only fire for ICP-matched accounts.'
+      prompt: 'Create a workflow firing when the PQA score crosses 70. Step sequence: (1) refresh account enrichment (firmographics, technographics, decision-maker contacts via Apollo/ZoomInfo if connected); (2) compute account context summary: active user count, key features used per user, decision-makers identified, employee count, ICP fit; (3) create a high-priority AE task to create a deal record and start outreach, with the full account context pre-attached; (4) notify AE manager and assigned AE via Slack with a one-paragraph summary and link to the account record. Only fire for ICP-matched accounts.'
     - step: 4
       title: "Compare against cold outbound"
       command: create_dashboard
@@ -69,7 +69,7 @@ intempt:
       - pqa_segment
       - workflow
       description: "Accounts crossing the threshold each month, how long AEs take to open a deal, conversion to deals and to meetings, the ARR behind them, and how they compare with cold sourced deals on win rate and cycle time."
-      prompt: 'Compose a PQA dashboard tracking: PQA detection volume (accounts crossing threshold per month), AE response time (median time from PQA-flag to deal_created), PQA-to-deal conversion rate, PQA-to-meeting rate, ARR-weighted PQA value (deals from PQAs vs. non-PQA outbound). Compare PQA-sourced deals vs. cold-outbound-sourced deals on win-rate and cycle time: usually PQAs win 2-3x more reliably.'
+      prompt: 'Compose a PQA dashboard tracking: PQA detection volume (accounts crossing threshold per month), AE response time (median time from PQA-flag to Deal created), PQA-to-deal conversion rate, PQA-to-meeting rate, ARR-weighted PQA value (deals from PQAs vs. non-PQA outbound). Compare PQA-sourced deals vs. cold-outbound-sourced deals on win-rate and cycle time: usually PQAs win 2-3x more reliably.'
   outputs:
     - { name: attribute, type: attribute, cardinality: single, description: "AI-Derived Attribute produced by this recipe." }
     - { name: segment, type: segment, cardinality: single, description: "Segment produced by this recipe." }

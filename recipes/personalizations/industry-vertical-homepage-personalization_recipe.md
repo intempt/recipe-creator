@@ -43,13 +43,13 @@ intempt:
         Variants (each binds to an industry audience: adjust to your top 4 verticals):
         - Control (audience = all: fallback): generic homepage for visitors without industry identification
         - Variant B (audience = "Technology / SaaS"): Tech/SaaS-specific hero
-          - Audience: account_industry IN ("Technology", "SaaS", "Software")
+          - Audience: the account's industry is one of "Technology", "SaaS", "Software"
         - Variant C (audience = "Financial Services"): Finance-specific hero
-          - Audience: account_industry IN ("Banking", "Financial Services", "Insurance", "Fintech")
+          - Audience: the account's industry is one of "Banking", "Financial Services", "Insurance", "Fintech"
         - Variant D (audience = "Healthcare"): Healthcare-specific hero
-          - Audience: account_industry IN ("Healthcare", "Health Tech", "Pharmaceuticals", "Medical Devices")
+          - Audience: the account's industry is one of "Healthcare", "Health Tech", "Pharmaceuticals", "Medical Devices"
         - Variant E (audience = "Manufacturing / Industrial"): Industrial-specific hero
-          - Audience: account_industry IN ("Manufacturing", "Industrial", "Logistics", "Supply Chain")
+          - Audience: the account's industry is one of "Manufacturing", "Industrial", "Logistics", "Supply Chain"
 
         Targeting:
         - Pages: homepage "/" and key marketing pages (/solutions, /pricing)
@@ -57,8 +57,8 @@ intempt:
         - Display frequency: always
 
         Metrics:
-        - form_submitted on demo-request form per industry segment
-        - click_on on primary CTA per segment
+        - Form submitted on demo-request form per industry segment
+        - Click on the primary CTA per segment
         - Demo-request conversion rate per industry (typically the most important downstream metric)
 
         Schedule: continuous
@@ -101,8 +101,8 @@ intempt:
 
         The Visual Editor allows the user to swap logos, adjust copy, and select industry-specific stats per vertical. Avoid over-personalizing (vertical-specific case study links are good; vertical-specific pricing is usually too narrow).
 
-        Taxonomy notes:
-        - REQUIRES FIRMOGRAPHIC ENRICHMENT: account_industry must be populated via Clearbit, ZoomInfo, IP-reverse lookup, or manual segmentation. Without enrichment, all traffic falls through to Control.
+        Notes:
+        - Requires firmographic enrichment: the account's industry must be populated via an enrichment provider, IP reverse lookup, or manual segmentation. Without enrichment, all traffic falls through to Control.
         - This is a broader, more sustainable personalization than per-account ABM. ABM is high-effort per audience (named heroes); industry-vertical is medium-effort and applies to broader traffic.
         - Demandbase's research: 4-5 vertical segments is the operational sweet spot. Going beyond 5 makes content maintenance expensive without proportional return.
         - Don't combine industry-vertical personalization with ABM personalization concurrently on the same page: they'll conflict. Run sequentially or use the experience module's variant-targeting precedence (per-account beats per-industry beats default).

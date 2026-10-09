@@ -38,7 +38,7 @@ intempt:
       produces: workflow
       bindsAs: workflow
       description: "Runs when a high tier account is created, or on demand against a list of accounts. The job is a brief a rep can act on without doing any research of their own."
-      prompt: 'Create a workflow ''AI account deep research'' triggered by account_created (high-tier accounts only: by ICP fit or domain-tier flag) OR manual trigger from a list view (''research these 50 accounts''). Goal: produce a structured account-intelligence brief that a rep can act on without doing their own research.'
+      prompt: 'Create a workflow ''AI account deep research'' triggered by Account created (high-tier accounts only: by ICP fit or domain-tier flag) OR manual trigger from a list view (''research these 50 accounts''). Goal: produce a structured account-intelligence brief that a rep can act on without doing their own research.'
     - step: 2
       title: "Read their website"
       command: configure_web_scrape_step
@@ -67,7 +67,7 @@ intempt:
       - workflow
       - summarize
       description: "A 0 to 100 fit score built from that summary against your ICP definition of industry, size, technology and use case, with a written reason for the number."
-      prompt: 'Configure a second AI step that scores ICP fit using the company summary + a provided ICP definition (industry, size, tech, use cases). Output: numeric 0-100 score + reasoning string (''Strong fit because they are a B2B SaaS in [target industry] with ~50 employees and recently raised Series A: matches our ICP for growth-stage teams''). Records a structured fit_score + fit_reasoning attribute.'
+      prompt: 'Configure a second AI step that scores ICP fit using the company summary + a provided ICP definition (industry, size, tech, use cases). Output: numeric 0-100 score + reasoning string (''Strong fit because they are a B2B SaaS in [target industry] with ~50 employees and recently raised Series A: matches our ICP for growth-stage teams''). Records a structured fit score and fit reasoning attribute.'
     - step: 5
       title: "Draft the opening line"
       command: configure_write_with_ai_step
@@ -90,7 +90,7 @@ intempt:
       - icp_score
       - draft_opening
       description: "The description, main product, current priorities, decision makers, competitors, fit score, reasoning, drafted opener and the time it ran, all onto the account record."
-      prompt: 'Write back to the Account record: company_description, primary_product, recent_priorities, decision_makers_inferred (array), competitors_mentioned, fit_score, fit_reasoning, ai_drafted_opening, research_completed_at. The SDR sees a fully-formed account brief without doing any manual research.'
+      prompt: 'Write back to the account record: company description, primary product, recent priorities, inferred decision makers (array), competitors mentioned, fit score, fit reasoning, AI-drafted opening, and research completed date. The SDR sees a fully-formed account brief without doing any manual research.'
     - step: 7
       title: "Publish and check the picks"
       command: publish_workflow

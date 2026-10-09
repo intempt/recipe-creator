@@ -35,7 +35,7 @@ intempt:
       produces: attribute
       bindsAs: progress_snapshot
       description: "At quarter close, per account: usage against last quarter and against similar accounts, outcomes and milestones reached, ROI where the data allows, how many new users and teams came on, and anything notable such as a first use of a feature or a benchmark passed."
-      prompt: 'Create an AI-derived attribute ''quarterly_progress_snapshot'' on the Account object, computed at end of each quarter for all paying accounts. Aggregates: (a) usage trajectory (total events, active users, feature breadth: compared to prior quarter and to similar-cohort accounts); (b) outcomes attributed to the product (milestones reached, KPI changes if trackable); (c) ROI computed where data permits (time saved, error rate reduced, throughput increased); (d) team-impact (new users added, departments adopting); (e) noteworthy events (first time using feature X, exceeded benchmark Y). Output: structured story-ready snapshot the email and in-app surface render from.'
+      prompt: 'Create an AI-derived attribute ''Quarterly progress snapshot'' on the Account object, computed at end of each quarter for all paying accounts. Aggregates: (a) usage trajectory (total events, active users, feature breadth: compared to prior quarter and to similar-cohort accounts); (b) outcomes attributed to the product (milestones reached, KPI changes if trackable); (c) ROI computed where data permits (time saved, error rate reduced, throughput increased); (d) team-impact (new users added, departments adopting); (e) noteworthy events (first time using feature X, exceeded benchmark Y). Output: structured story-ready snapshot the email and in-app surface render from.'
     - step: 2
       title: "Pick who should get it"
       command: create_segment
@@ -44,7 +44,7 @@ intempt:
       dependsOn:
       - progress_snapshot
       description: "Paying accounts at least 90 days old, with real usage last quarter and a churn risk score under 60. Barely active and at risk accounts are left out, because a celebration email lands badly there."
-      prompt: 'Build a segment ''Quarterly progress recipients'' capturing paying accounts where: (a) account is 90+ days old (needs a full quarter of data), (b) usage in the past quarter was meaningful (above noise floor: don''t send ''your impact'' to barely-active accounts, it backfires), (c) churn_risk_score is below 60 (don''t send celebratory content to at-risk accounts: that''s tone-deaf; they get the tiered-churn journey instead). Audience refreshes once per quarter at quarter-close.'
+      prompt: 'Build a segment ''Quarterly progress recipients'' capturing paying accounts where: (a) account is 90+ days old (needs a full quarter of data), (b) usage in the past quarter was meaningful (above noise floor: don''t send ''your impact'' to barely-active accounts, it backfires), (c) the churn risk score is below 60 (don''t send celebratory content to at-risk accounts: that''s tone-deaf; they get the tiered-churn journey instead). Audience refreshes once per quarter at quarter-close.'
     - step: 3
       title: "Write the quarter in numbers"
       command: create_email_content

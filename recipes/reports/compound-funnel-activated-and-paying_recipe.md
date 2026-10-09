@@ -35,13 +35,13 @@ intempt:
         Create a Funnel report called "Activated AND Paying".
 
         Steps:
-        1. Event "user_created": "Signed Up"
-        2. Event "goal_completed_in_journey" where journey_id matches the activation journey: "Activated" (uses core feature)
-        3. Event "goal_completed_in_journey" with frequency: 3+ occurrences within the same 7-day window for the same user: "Habitual Use"
-        4. Compound condition: Step 3 reached AND a subscription_created event exists for the same customer_id where trial_end is null (real paid subscription, not trial): "Activated AND Paying"
+        1. Event "User created": "Signed Up"
+        2. Event "Completed a journey goal" where the journey is the activation journey: "Activated" (uses core feature)
+        3. Event "Completed a journey goal" with frequency: 3+ occurrences within the same 7-day window for the same user: "Habitual Use"
+        4. Compound condition: Step 3 reached AND a Subscription started event exists for the same user where the trial end date is empty (real paid subscription, not trial): "Activated AND Paying"
 
         Conversion window: 30 days
-        Breakdown: By Users.utm_source
+        Breakdown: By UTM source
         Compare: Previous period (prior 30 days)
 
         For each step, also surface:
@@ -55,9 +55,6 @@ intempt:
         - Highlight sources where Step 4 conversion exceeds 15%.
 
         The activation-paywall conversion gap (Activated alone vs. Activated AND Paying) is the difference between vanity activation and real activation.
-
-        Taxonomy notes:
-        - "Habituated Use" and "Activated AND Paying" require Lovable to compute compound conditions from event sequences. The canonical events are all real (goal_completed_in_journey, subscription_created); the compounds are derived.
   outputs:
     - { name: report, type: report, cardinality: single, description: "Report produced by this recipe." }
 ---

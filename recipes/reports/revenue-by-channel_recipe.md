@@ -37,9 +37,9 @@ intempt:
       prompt: |
         Create an Insights report called "Revenue by Acquisition Channel".
 
-        Series A: Event "order_created", aggregation: Sum of "total_price" property, unit: $, label: "Revenue"
+        Series A: Event "Placed order", aggregation: Sum of the order total, unit: $, label: "Revenue"
         Series B: Computed: Series A / total revenue × 100, unit: %, label: "Share of Revenue"
-        Breakdown: By utm_source: use the User.utm_source attribute (Users object has utm_source as a User-scope text attribute) to attribute each order to a channel. Top 8 by revenue, group remainder as "Other".
+        Breakdown: By acquisition channel: use each user's first-touch UTM source to attribute each order to a channel. Top 8 by revenue, group remainder as "Other".
         Time range: Last 30 days
         Compare: Previous period (prior 30 days) AND year-over-year (same 30 days last year)
         Chart type: Horizontal bar chart for Series A with overlaid period comparison; separate small-multiple area chart for share-of-revenue over time
@@ -50,10 +50,6 @@ intempt:
         - Highlight channels with revenue growth but declining share (growing slower than overall) and channels with declining revenue but stable share (overall slowdown, not channel-specific).
 
         The mix-shift view is what reveals whether the business is becoming more or less channel-concentrated.
-
-        Taxonomy notes:
-        - Users.utm_source is a real text attribute; per-order channel attribution uses the User's first-touch utm_source as authored on the user record.
-        - order_created.total_price is the order value (Shopify-sourced). "order_total" is not a real property.
   outputs:
     - { name: report, type: report, cardinality: single, description: "Report produced by this recipe." }
 ---

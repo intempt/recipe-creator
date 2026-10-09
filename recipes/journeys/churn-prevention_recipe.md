@@ -40,7 +40,7 @@ intempt:
       produces: attribute
       bindsAs: attribute
       description: "A churn risk score built from falling engagement, the tone of support tickets, and which features have gone unused."
-      prompt: "Define an AI-derived churn_risk_score attribute using engagement decline, support ticket sentiment, and feature-usage signals."
+      prompt: "Define an AI-derived Churn risk score attribute using engagement decline, support ticket sentiment, and feature-usage signals."
     - step: 2
       title: "Split into low, medium and high"
       command: create_segment

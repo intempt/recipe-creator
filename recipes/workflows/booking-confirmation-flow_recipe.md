@@ -55,7 +55,7 @@ intempt:
       bindsAs: journey
       dependsOn: [asset, sms_asset]
       description: "All three are timed off the meeting start. The 48 hour email is skipped if the booking came in later than that, and the text only goes to people who opted in. It ends on the meeting happening, on a cancellation or on an opt out, and every time is recalculated if the meeting moves."
-      prompt: 'Build a 3-touch journey triggered by meeting_scheduled, with all touches timed relative to meeting_start_time. Touch 1: 48hr email reminder (skip if meeting is sooner than 48hr at scheduling time). Touch 2: 24hr email reminder. Touch 3: 2hr SMS reminder (only if user has SMS opt-in). Exit conditions: meeting_completed, meeting_cancelled, or user opted out. If meeting is rescheduled, recompute all touch times from the new meeting_start_time.'
+      prompt: 'Build a 3-touch journey triggered by Meeting scheduled, with all touches timed relative to the meeting start time. Touch 1: 48hr email reminder (skip if meeting is sooner than 48hr at scheduling time). Touch 2: 24hr email reminder. Touch 3: 2hr SMS reminder (only if user has SMS opt-in). Exit conditions: Meeting completed, Meeting canceled, or user opted out. If meeting is rescheduled, recompute all touch times from the new meeting start time.'
     - step: 4
       title: "Tell the host, link the deal"
       command: create_workflow
@@ -63,7 +63,7 @@ intempt:
       bindsAs: workflow
       dependsOn: [asset, journey]
       description: "On booking: a Slack note to the host with the details and a link to the record, the meeting linked to any open deal at that account, and the reminders started. On a cancellation the host is told and the reminders stop."
-      prompt: 'Create a workflow firing on meeting_scheduled. Step sequence: (1) post host notification to Slack with meeting details and a link to the user record; (2) link the meeting to the open deal if one exists for the user''s account; (3) trigger the reminder journey. On meeting_cancelled, send the host a notification and exit the journey for that user.'
+      prompt: 'Create a workflow firing on Meeting scheduled. Step sequence: (1) post host notification to Slack with meeting details and a link to the user record; (2) link the meeting to the open deal if one exists for the user''s account; (3) trigger the reminder journey. On Meeting canceled, send the host a notification and exit the journey for that user.'
     - step: 5
       title: "See what reminders are worth"
       command: create_dashboard

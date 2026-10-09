@@ -40,7 +40,7 @@ intempt:
       produces: workflow
       bindsAs: workflow
       description: "Runs on account creation, and again on a schedule for accounts untouched for 90 days. The aim is to fill firmographics, technographics, decision makers and funding as completely as possible while only reaching for premium providers when the cheaper ones come up short."
-      prompt: 'Create a workflow ''Waterfall account enrichment'' triggered by account_created OR scheduled refresh for stale accounts (no enrichment update in 90 days). Goal: maximize fill rate on key account attributes (firmographics, technographics, decision-makers, funding) while minimizing cost by querying premium providers only when cheaper ones fail.'
+      prompt: 'Create a workflow ''Waterfall account enrichment'' triggered by Account created OR scheduled refresh for stale accounts (no enrichment update in 90 days). Goal: maximize fill rate on key account attributes (firmographics, technographics, decision-makers, funding) while minimizing cost by querying premium providers only when cheaper ones fail.'
     - step: 2
       title: "Try the cheap provider first"
       command: configure_enrich_step
@@ -91,7 +91,7 @@ intempt:
       - secondary_enrich
       - ai_research
       description: "Everything is written back to the account, along with which tier supplied it, primary, secondary or AI research, so RevOps can audit the cost per record, plus a confidence level based on where the data came from."
-      prompt: Configure the update step that writes all enriched data back to the Account record. Includes a metadata field 'enrichment_source_used' (primary / secondary / ai-research) so RevOps can audit cost per record. Also writes enrichment_confidence (high/medium/low based on which tier filled the data).
+      prompt: Configure the update step that writes all enriched data back to the Account record. Includes a metadata field 'enrichment source used' (primary / secondary / ai-research) so RevOps can audit cost per record. Also writes enrichment confidence (high/medium/low based on which tier filled the data).
     - step: 7
       title: "Publish and watch the mix"
       command: publish_workflow

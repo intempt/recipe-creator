@@ -1,7 +1,7 @@
 ---
 name: feature-discovery-adoption
 description: |
-  Use when a user mentions "feature discovery to adoption", or asks for related help. 4-step funnel from first feature exposure to repeated use, using canonical click_on patterns.
+  Use when a user mentions "feature discovery to adoption", or asks for related help. 4-step funnel from first feature exposure to repeated use.
 arguments: []
 intempt:
   id: feature-discovery-adoption
@@ -35,14 +35,14 @@ intempt:
         Create a Funnel report called "Feature Discovery to Adoption".
 
         Steps:
-        1. Event "page_viewed" where page_url contains the feature path: "Discovered Feature" (first exposure)
-           (alternative: click_on where target_id matches a feature-tour or tooltip element)
-        2. Event "click_on" where target_id matches the feature interaction handle: "Tried Feature" (first use)
-        3. Event "click_on" with same target_id as Step 2, count >= 3 by the same user within 21 days: "Used 3+ Times"
-        4. Event "click_on" with same target_id, frequency: at least 3 distinct days of use in the last 5 days: "Habitual User"
+        1. Event "View page" where the page URL contains the feature path: "Discovered Feature" (first exposure)
+           (alternative: Click on where the clicked element matches a feature-tour or tooltip)
+        2. Event "Click on" where the clicked element matches the feature's interaction control: "Tried Feature" (first use)
+        3. Event "Click on" on the same feature control as Step 2, count >= 3 by the same user within 21 days: "Used 3+ Times"
+        4. Event "Click on" on the same feature control, frequency: at least 3 distinct days of use in the last 5 days: "Habitual User"
 
         Conversion window: 21 days
-        Breakdown: By target_id (feature handle)
+        Breakdown: By feature
         Compare: Previous period (prior 21 days)
 
         For each feature, also surface:
@@ -55,10 +55,6 @@ intempt:
         - Highlight features with discovery to habitual conversion > 25%: surface candidates for promotion.
 
         Surface the top 3 features by absolute habitual-user count and the top 3 by habitual-conversion rate.
-
-        Taxonomy notes:
-        - "feature_discovered" and "feature_habitual" as standalone events do not exist. Feature interactions are tracked via click_on with stable target_id values per feature.
-        - Step 4 ("Habitual User") requires Lovable to compute the "3 of last 5 days" rule from click_on event timestamps grouped by user.
   outputs:
     - { name: report, type: report, cardinality: single, description: "Report produced by this recipe." }
 ---

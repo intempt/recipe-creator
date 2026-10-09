@@ -1,7 +1,7 @@
 ---
 name: source-based-personalization
 description: |
-  Use when a user mentions "source-based personalization", or asks for related help. Match landing page hero / messaging to the ad source the visitor came from (utm_source, utm_campaign, referrer). Cited as "the simplest high-impact personalization implementation."
+  Use when a user mentions "source-based personalization", or asks for related help. Match landing page hero / messaging to the ad source the visitor came from (UTM source, UTM campaign, referrer). Cited as "the simplest high-impact personalization implementation."
 arguments: []
 intempt:
   id: source-based-personalization
@@ -30,7 +30,7 @@ intempt:
       command: create_personalization
       produces: personalization
       bindsAs: personalization
-      description: "Five variants matched on utm_source, utm_campaign and referrer: competitor search ads, LinkedIn enterprise ads, Facebook SMB ads, partner referrals and branded organic search. Direct traffic keeps the generic hero."
+      description: "Five variants matched on UTM source, UTM campaign and referrer: competitor search ads, LinkedIn enterprise ads, Facebook SMB ads, partner referrals and branded organic search. Direct traffic keeps the generic hero."
       prompt: |
         Create a CLIENT PERSONALIZATION on /experiences titled "Source-Based Personalization".
 
@@ -43,15 +43,15 @@ intempt:
         Variants (each binds to a source audience):
         - Control (audience = all: fallback): generic hero for direct / organic / unattributed traffic
         - Variant B (audience = "Google Ads: competitor terms"): hero matches the competitor-comparison query
-          - Audience: utm_source = "google" AND utm_campaign CONTAINS "competitor" or "alternative"
+          - Audience: UTM source = "google" AND UTM campaign contains "competitor" or "alternative"
         - Variant C (audience = "LinkedIn Ads: enterprise"): hero matches the LinkedIn ad's enterprise messaging
-          - Audience: utm_source = "linkedin" AND utm_campaign CONTAINS "enterprise"
+          - Audience: UTM source = "linkedin" AND UTM campaign contains "enterprise"
         - Variant D (audience = "Facebook Ads: SMB"): hero matches the Facebook ad's SMB messaging
-          - Audience: utm_source = "facebook" AND utm_campaign CONTAINS "smb"
+          - Audience: UTM source = "facebook" AND UTM campaign contains "smb"
         - Variant E (audience = "Partner referral"): hero matches the partner brand and offers a partner-specific incentive
-          - Audience: referrer CONTAINS "partner-domain.com" OR utm_source = "partner_xyz"
+          - Audience: referrer contains "partner-domain.com" OR UTM source = "partner_xyz"
         - Variant F (audience = "Organic: branded search"): hero matches the brand-search intent
-          - Audience: utm_source = "google" AND utm_medium = "organic" AND landing_page contains "/" (homepage)
+          - Audience: UTM source = "google" AND UTM medium = "organic" AND landing page contains "/" (homepage)
 
         Targeting:
         - Pages: homepage "/" and key landing pages (/lp, /landing-*)
@@ -59,8 +59,8 @@ intempt:
         - Display frequency: always (within session: source attribution sticks for the session)
 
         Metrics:
-        - form_submitted on demo / contact / signup form per source
-        - click_on on primary CTA per source
+        - Form submitted on demo / contact / signup form per source
+        - Click on the primary CTA per source
         - Conversion rate per source (existing CRM/CDP attribution metric)
 
         Schedule: continuous
@@ -110,10 +110,10 @@ intempt:
 
         The Visual Editor allows the user to refine copy, swap images, and adjust CTAs per source segment. Ensure the [Competitor] / [Partner] placeholders are populated correctly per variant.
 
-        Taxonomy notes:
-        - The canonical Users-object UTM attributes are: utm_source, utm_medium, utm_campaign, utm_content, utm_term: all standard. Plus referrer and landing_page.
-        - These attributes are populated automatically on session_start from URL parameters and HTTP referrer header.
-        - For source attribution to persist beyond the entry session, the platform stores the first-touch UTM values on the user record (Users.utm_source, etc.). This is the canonical pattern.
+        Notes:
+        - The UTM attributes are: UTM source, UTM medium, UTM campaign, UTM content, UTM term: all standard. Plus referrer and landing page.
+        - These attributes are populated automatically on Session start from URL parameters and the HTTP referrer header.
+        - For source attribution to persist beyond the entry session, the platform stores the first-touch UTM values on the user record.
         - Don't over-segment: 4-6 source segments is the sweet spot. Too many segments to low traffic per variant to unmeasurable.
         - Combine with industry-vertical or ABM personalization for compounding effect, but order precedence carefully (per-account beats per-source beats per-industry beats default).
   outputs:
@@ -129,7 +129,7 @@ The hero repeats the promise of the ad the visitor clicked, so a competitor sear
 
 1. **Set up the source variants** (`create_personalization`)
 
-   Five variants matched on utm_source, utm_campaign and referrer: competitor search ads, LinkedIn enterprise ads, Facebook SMB ads, partner referrals and branded organic search. Direct traffic keeps the generic hero.
+   Five variants matched on UTM source, UTM campaign and referrer: competitor search ads, LinkedIn enterprise ads, Facebook SMB ads, partner referrals and branded organic search. Direct traffic keeps the generic hero.
 
 ## What you end up with
 

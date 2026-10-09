@@ -52,16 +52,16 @@ intempt:
         Targeting:
         - Pages:
           - Variant B: page URL contains "/products/"
-          - Variant C: any page where the cart drawer opens (triggered by cart_created event)
+          - Variant C: any page where the cart drawer opens (triggered by the Cart created event)
           - Variant D: all pages where the buttons are visible per their placement
         - Devices: any (mobile is where express checkout has the largest impact, but desktop also benefits)
         - Audience: all visitors
         - Display frequency: always
 
-        Primary metric: goal_completed_in_experience where experience_id = <this> AND value > 0 (revenue from order_created within session of exposure)
+        Primary metric: Completed an experience goal for this experience AND value > 0 (revenue from Placed order within session of exposure)
         Secondary metrics:
-        - click_on where target_id = "apple-pay-button" OR "google-pay-button" OR "shop-pay-button" (express-checkout engagement rate)
-        - order_created where payment_method IN ("apple_pay", "google_pay", "shop_pay"): share of express orders per variant
+        - Click on where the target is "apple-pay-button" OR "google-pay-button" OR "shop-pay-button" (express-checkout engagement rate)
+        - Placed order where payment method IN ("apple_pay", "google_pay", "shop_pay"): share of express orders per variant
         - Mobile vs. desktop conversion rate split (express checkout is mobile-dominant)
         - AOV per variant (express checkout users may have different basket profiles)
 
@@ -111,12 +111,12 @@ intempt:
 
         The Visual Editor allows the user to refine button order (Apple Pay first on iOS, Google Pay first on Android, etc.), styling, and divider design.
 
-        Taxonomy notes:
+        Notes:
         - REQUIRES PAYMENT-PROVIDER INTEGRATION: This recipe assumes the merchant has Apple Pay, Google Pay, and Shop Pay configured at the payment-provider level (Stripe, Shopify Payments, Braintree, etc.). Without these, the variant buttons render but don't function.
         - Mobile users see the largest impact: express checkout on PDP can lift mobile conversion 15-30% by eliminating card-entry friction.
         - iOS users prefer Apple Pay; Android users prefer Google Pay; Shopify users see Shop Pay. Show device-appropriate buttons; the buttons themselves auto-detect availability.
         - Don't run this experiment alongside checkout-flow-length-test concurrently: checkout flow changes interact with express checkout placement. Run sequentially.
-        - order_created.payment_method (or equivalent) must be populated to measure express-checkout share. If your order event doesn't track payment method, add it.
+        - The order's payment method (or equivalent) must be populated to measure express-checkout share. If your order event doesn't track payment method, add it.
   outputs:
     - { name: experiment, type: experiment, cardinality: single, description: "Website experiment created on /experiences." }
 ---

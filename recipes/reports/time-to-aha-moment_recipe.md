@@ -1,7 +1,7 @@
 ---
 name: time-to-aha-moment
 description: |
-  Use when a user mentions "time to aha moment", or asks for related help. Histogram of time from user_created to first activation goal: surfaces whether users hit aha in 5 min, 5 hours, or 5 days.
+  Use when a user mentions "time to aha moment", or asks for related help. Histogram of time from user signup to first activation goal: surfaces whether users hit aha in 5 min, 5 hours, or 5 days.
 arguments: []
 intempt:
   id: time-to-aha-moment
@@ -34,13 +34,13 @@ intempt:
       prompt: |
         Create an Insights report called "Time to Aha Moment".
 
-        Series A: Distribution histogram of time elapsed between each user's user_created and their first goal_completed_in_journey for the activation journey
+        Series A: Distribution histogram of time elapsed between each user's signup and their first completed activation goal
         Series B: Cumulative percentage: what % of new users hit the aha moment within X time
 
         Buckets for Series A: 0-5 min / 5-30 min / 30 min-2 hr / 2-6 hr / 6-24 hr / 1-3 days / 3-7 days / 7-14 days / never (haven't hit aha within 14 days)
 
         Time range: Users created in the last 90 days (those who have had 14+ days to activate)
-        Breakdown: By Users.utm_source (signup source: top 6 channels)
+        Breakdown: By signup source (first-touch UTM source): top 6 channels
         Compare: Previous period (prior 90 days of cohort)
         Chart type: Histogram with the cumulative % overlay as a secondary line
 
@@ -53,9 +53,7 @@ intempt:
 
         Use case: distinct from the activation funnel (which is conversion %). This is the time-distribution view: answers "WHEN do users get value?" not just "DO they?" Time-to-value is the leading indicator of retention; users who hit aha fast retain at materially higher rates.
 
-        Taxonomy notes:
-        - user_created and goal_completed_in_journey are canonical. The activation journey is project-specific (configurable journey_id).
-        - Users.utm_source is the canonical first-touch source.
+        The activation journey is specific to each project.
   outputs:
     - { name: report, type: report, cardinality: single, description: "Report produced by this recipe." }
 ---

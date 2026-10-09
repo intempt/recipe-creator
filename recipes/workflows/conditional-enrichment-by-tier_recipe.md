@@ -37,7 +37,7 @@ intempt:
       produces: workflow
       bindsAs: workflow
       description: "Runs on account creation and spends credits in proportion to the value of the account, instead of the blanket enrichment that burns budget on accounts that never convert."
-      prompt: 'Create a workflow ''Conditional enrichment by tier'' triggered by account_created. Goal: only spend enrichment credits proportional to account value. The cost-saving Clay pattern: most teams blanket-enrich, which burns budget on accounts that don''t convert.'
+      prompt: 'Create a workflow ''Conditional enrichment by tier'' triggered by Account created. Goal: only spend enrichment credits proportional to account value. The cost-saving Clay pattern: most teams blanket-enrich, which burns budget on accounts that don''t convert.'
     - step: 2
       title: "Buy the cheapest look first"
       command: configure_enrich_step

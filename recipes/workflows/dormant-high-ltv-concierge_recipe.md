@@ -38,7 +38,7 @@ intempt:
       produces: attribute
       bindsAs: dormancy_ltv
       description: "Two things per account, refreshed daily: days since anyone there last started a session, and lifetime value, meaning what they have paid plus what their current monthly revenue is likely to become at the retention curve for similar accounts. The top 10% by value counts as high value."
-      prompt: 'Create AI-derived attributes on the Account object: ''days_dormant'' (days since last session_start by ANY user on the account) and ''account_ltv'' (cumulative revenue paid, plus projected forward LTV based on current MRR × historical retention curve for similar accounts). LTV tier: top 10% of customers by LTV = high-LTV. Refreshed daily.'
+      prompt: 'Create AI-derived attributes on the Account object: ''days dormant'' (days since last Session start by ANY user on the account) and ''account lifetime value'' (cumulative revenue paid, plus projected forward LTV based on current MRR × historical retention curve for similar accounts). LTV tier: top 10% of customers by LTV = high-LTV. Refreshed daily.'
     - step: 2
       title: "Find the valuable ones gone quiet"
       command: create_segment
@@ -47,7 +47,7 @@ intempt:
       dependsOn:
       - dormancy_ltv
       description: "Accounts in the top 10% by value, dormant 30 days or more, with no CSM contact in the last 30 days. Accounts a CSM has flagged as temporarily paused, for a legal review or a team holiday, are left out."
-      prompt: Build a segment 'Dormant high-LTV accounts' capturing accounts where account_ltv is in the top 10% AND days_dormant >= 30 AND the account has not had CSM contact in last 30 days. Excludes accounts with a known temporary-pause status (e.g. 'paused for legal review', 'team on annual leave', these are flagged by CSM separately).
+      prompt: Build a segment 'Dormant high-LTV accounts' capturing accounts where account lifetime value is in the top 10% AND days dormant >= 30 AND the account has not had CSM contact in last 30 days. Excludes accounts with a known temporary-pause status (e.g. 'paused for legal review', 'team on annual leave', these are flagged by CSM separately).
     - step: 3
       title: "Brief the CSM and escalate"
       command: create_workflow

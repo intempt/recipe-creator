@@ -47,7 +47,7 @@ intempt:
         - exclusionPeriod: none
         - visibility: project
         - boardFilters: none by default (each card scopes its own population)
-        - boardBreakdowns: owner_id (per-rep): pushed down for per-rep forecast visibility
+        - boardBreakdowns: Owner (per-rep): pushed down for per-rep forecast visibility
 
         Layout: 4 rows.
 
@@ -58,7 +58,7 @@ intempt:
         - Card 4: Insights metric to source recipe: forecast-vs-actual-quota, vizType: metric, titleOverride: "Projected Close (Next 30d)"
 
         Row 2: Forecast vs. actual vs. quota (heightPx: 480, full-width single card at widthUnits: 12):
-        - Card 1: Insights to source recipe: forecast-vs-actual-quota, displayMode: chart, vizType: column (combo chart: actual closed bars + weighted forecast bars + quota target line, broken down by owner_id and trended over the last 4 periods + current). The strategic centerpiece.
+        - Card 1: Insights to source recipe: forecast-vs-actual-quota, displayMode: chart, vizType: column (combo chart: actual closed bars + weighted forecast bars + quota target line, broken down by Owner and trended over the last 4 periods + current). The strategic centerpiece.
 
         Row 3: Per-rep quota attainment (heightPx: 480, full-width single card at widthUnits: 12):
         - Card 1: Insights to source recipe: quota-attainment-by-rep, displayMode: table (the sortable per-rep leaderboard with attainment %, absolute revenue, pipeline coverage ratio, and trend sparkline)
@@ -68,14 +68,12 @@ intempt:
         - Card 2: Insights to source recipe: deal-velocity-by-stage, displayMode: chart, vizType: bar (median time-in-stage: informs which deals will likely close in-period vs. slip)
 
         Annotations:
-        - Row 1's Pipeline Coverage Ratio is the canonical sales-leadership health metric: <2:1 = acute risk for the period, 2-3:1 = warning, ≥3:1 = healthy, ≥5:1 = abundance (potentially over-forecasting).
+        - Row 1's Pipeline Coverage Ratio is the standard sales-leadership health metric: <2:1 = acute risk for the period, 2-3:1 = warning, ≥3:1 = healthy, ≥5:1 = abundance (potentially over-forecasting).
         - Row 2 (Forecast vs Actual vs Quota, full-width) reads top-down: actual-period revenue should be approaching quota target; weighted forecast should be above quota by the end of the period; gap between forecast and quota = commit risk. Trailing-period accuracy (|forecast − actual|) should ideally stay within ±10%: that's top-quartile sales-team forecast accuracy.
         - Row 3 surfaces per-rep risk: any rep <50% attainment with <2:1 coverage is a yellow flag warranting manager intervention.
         - Row 4's velocity view answers a forecasting-specific question: of deals currently in negotiation/proposal, which are likely to actually close before period-end? Median time-in-stage tells you whether a deal at "negotiation" 3 days in is on track vs. behind.
 
-        Taxonomy notes:
-        - forecast-vs-actual-quota and quota-attainment-by-rep both depend on workspace-level quota target configuration. Without quota data, those cards degrade gracefully (Series C and D return null) and the report shows actual + weighted forecast only. Sales teams typically inject quota targets via HubSpot/Salesforce sync or manually as a workspace attribute.
-        - All other source recipes use canonical events: deal_won, deal_lost, deal_stage_changed, deal_created.
+        Quota dependency: forecast-vs-actual-quota and quota-attainment-by-rep both depend on quota targets being configured for the workspace. Without quota data, those cards degrade gracefully (Series C and D return null) and the report shows actual + weighted forecast only. Sales teams typically bring quota targets in through the HubSpot/Salesforce sync or set them manually as a workspace attribute.
   outputs:
     - { name: dashboard, type: dashboard, cardinality: single, description: "Dash board (composition canvas) produced by this recipe." }
 ---

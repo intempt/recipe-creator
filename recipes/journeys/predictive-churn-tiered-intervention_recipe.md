@@ -40,7 +40,7 @@ intempt:
       produces: attribute
       bindsAs: churn_risk
       description: "A 0 to 100 score from how sessions are trending over 30, 14 and 7 days, features falling out of use, the direction of support sentiment, billing signals, what similar accounts did, and account level usage for B2B. Banded low 0 to 29, medium 30 to 59, high 60 to 79 and critical 80 to 100, and recomputed on any significant event so a sudden drop is caught quickly."
-      prompt: 'Create an AI-derived attribute ''churn_risk_score'' on the User object, refreshed daily. Inputs: engagement velocity (sessions trend over 30/14/7 days), feature usage decay, support sentiment trajectory, billing-status signals, peer-cohort churn patterns, account-level usage (for B2B). Output: numeric 0-100 with tier label (low (0-29) / medium (30-59) / high (60-79) / critical (80-100). NOT binary at-risk-or-not) the nuance is the point: medium and high get different treatments. Refresh on every significant behavioral event so a sudden engagement drop is caught fast.'
+      prompt: 'Create an AI-derived attribute ''Churn risk score'' on the User object, refreshed daily. Inputs: engagement velocity (sessions trend over 30/14/7 days), feature usage decay, support sentiment trajectory, billing-status signals, peer-cohort churn patterns, account-level usage (for B2B). Output: numeric 0-100 with tier label (low (0-29) / medium (30-59) / high (60-79) / critical (80-100). NOT binary at-risk-or-not) the nuance is the point: medium and high get different treatments. Refresh on every significant behavioral event so a sudden engagement drop is caught fast.'
     - step: 2
       title: "Take everyone above 30"
       command: create_segment
@@ -49,7 +49,7 @@ intempt:
       dependsOn:
       - churn_risk
       description: "All paying users scoring 30 or more, held in bands by that score. The first 14 days are excluded because early signals are unreliable, and so is anyone already in a save flow."
-      prompt: Build a parent segment 'Churn risk - paying users' capturing all paying users with churn_risk_score >= 30. Implicitly partitioned by tier through the attribute. Excludes users in the first 14 days (early signals aren't reliable yet) and users already in active save flows (no double-intervention).
+      prompt: Build a parent segment 'Churn risk - paying users' capturing all paying users whose churn risk score is 30 or above. Implicitly partitioned by tier through the attribute. Excludes users in the first 14 days (early signals aren't reliable yet) and users already in active save flows (no double-intervention).
     - step: 3
       title: "Write an email per band"
       command: create_email_content
@@ -93,7 +93,7 @@ intempt:
       - inapp_asset
       - rec_surface
       description: "Bands are read at entry and again weekly. Low gets one light email on day 7. Medium gets a tip on day 0, in app help at the next login, and recommendations on day 7. High gets a CSM email on day 0, an urgent banner at the next session, and a same day CSM task. Critical gets all of it inside four hours: the founder's email, an agent offering a call, a CSM task and an executive sponsor task. People who improve drop out, people who worsen move up a band. They leave once the score stays under 30 for 14 days, on cancellation, or on unsubscribe."
-      prompt: 'Build a tiered journey wired to the churn-risk segment. Branch on churn_risk tier at entry AND re-evaluate weekly: LOW tier (light-touch nurture email at Day 7 (no urgency, just value content). MEDIUM tier) Touch 1 email Day 0 (helpful tip), Touch 2 in-app at next login (deep-link to retention feature), Touch 3 email Day 7 with recommendation surface highlighting cohort-success features. HIGH tier: Touch 1 email Day 0 from CSM with offer of help, in-app urgent banner on next session, CSM task created same-day. CRITICAL tier: within 4 hours: founder/CEO personal email + agent handoff offering 1:1 call + urgent CSM task + executive-sponsor task. Tier RECOMPUTED weekly: users de-escalate (engagement returned) exit gracefully; users escalate get tier-appropriate next-touch. Exit on: churn_risk drops below 30 for 14+ days (recovered: log retention_win), subscription_canceled (handoff to post-cancel-winback), or unsubscribe.'
+      prompt: 'Build a tiered journey wired to the churn-risk segment. Branch on the churn risk tier at entry AND re-evaluate weekly: LOW tier (light-touch nurture email at Day 7 (no urgency, just value content). MEDIUM tier) Touch 1 email Day 0 (helpful tip), Touch 2 in-app at next login (deep-link to retention feature), Touch 3 email Day 7 with recommendation surface highlighting cohort-success features. HIGH tier: Touch 1 email Day 0 from CSM with offer of help, in-app urgent banner on next session, CSM task created same-day. CRITICAL tier: within 4 hours: founder/CEO personal email + agent handoff offering 1:1 call + urgent CSM task + executive-sponsor task. Tier RECOMPUTED weekly: users de-escalate (engagement returned) exit gracefully; users escalate get tier-appropriate next-touch. Exit on: the churn risk score drops below 30 for 14+ days (recovered: log a retention win), Subscription canceled (handoff to post-cancel-winback), or unsubscribe.'
     - step: 7
       title: "See if the bands hold up"
       command: create_dashboard

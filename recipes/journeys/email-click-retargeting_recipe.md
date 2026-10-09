@@ -37,7 +37,7 @@ intempt:
       produces: attribute
       bindsAs: click_intent
       description: "The links each person clicked in marketing emails over the last 14 days, sorted into topics such as pricing, a feature, a case study, the blog or an integration, then ranked by how often."
-      prompt: 'Create an AI-derived attribute ''recent_click_topics'' on the User object. Capture: links clicked in marketing emails in the last 14 days, classified by topic (pricing / feature-X / case-study / blog / integration). Output: ranked list of top topics by click count. The clicker is showing you what they care about: log it and act on it.'
+      prompt: 'Create an AI-derived attribute ''Recent click topics'' on the User object. Capture: links clicked in marketing emails in the last 14 days, classified by topic (pricing / feature-X / case-study / blog / integration). Output: ranked list of top topics by click count. The clicker is showing you what they care about: log it and act on it.'
     - step: 2
       title: "Find the meaningful clicks"
       command: create_segment
@@ -46,7 +46,7 @@ intempt:
       dependsOn:
       - click_intent
       description: "People who clicked a high signal link in the last 14 days, split by topic. Footer and view in browser links do not count, and anyone already further along, on a trial or on the pricing page, is left out."
-      prompt: Build a segment 'Recent email clickers - last 14 days' capturing users with email_clicked event in the last 14 days where the click was on a high-signal link (pricing, feature page, case study, not generic 'view in browser' or footer). Partitioned by click_topic. Excludes users who already engaged downstream (e.g. visited pricing page, started trial, those are getting other journeys).
+      prompt: Build a segment 'Recent email clickers - last 14 days' capturing users who clicked a marketing email in the last 14 days where the click was on a high-signal link (pricing, feature page, case study, not generic 'view in browser' or footer). Partitioned by click topic. Excludes users who already engaged downstream (e.g. visited pricing page, started trial, those are getting other journeys).
     - step: 3
       title: "Write a reply per topic"
       command: create_email_content
@@ -67,7 +67,7 @@ intempt:
       - segment
       - asset
       description: "The matched email goes out a day after the click, and on day 5 a soft call to action if nothing else has happened. A new click restarts the sequence on the new topic. They leave on a booked meeting, a new deal, or after 10 days. Capped at one run per person per week."
-      prompt: 'Build a 2-touch journey triggered when email_clicked fires on a high-signal link. Touch 1 (Day 1): topic-matched follow-up. Touch 2 (Day 5): if no further engagement, offer a soft CTA (book a chat / try free / talk to AE based on company size). If user clicks something during this journey, reset to a fresh topic-matched cadence. Exit on: meeting_scheduled, deal_created, or 10-day timeout. Throttle hard: never trigger this journey more than once per week per user: clicks happen constantly, don''t bombard.'
+      prompt: 'Build a 2-touch journey triggered when a marketing email click fires on a high-signal link. Touch 1 (Day 1): topic-matched follow-up. Touch 2 (Day 5): if no further engagement, offer a soft CTA (book a chat / try free / talk to AE based on company size). If user clicks something during this journey, reset to a fresh topic-matched cadence. Exit on: Meeting scheduled, Deal created, or 10-day timeout. Throttle hard: never trigger this journey more than once per week per user: clicks happen constantly, don''t bombard.'
     - step: 5
       title: "Compare against no follow up"
       command: create_dashboard

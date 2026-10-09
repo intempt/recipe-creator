@@ -55,7 +55,7 @@ intempt:
       - segment
       - asset
       description: "Starts when the activation event fires, with emails on day 1, day 5 and day 10. If they find the next feature on their own by day 5, the middle email is skipped and they go straight to the power user one. They leave if they start paying, unsubscribe, or after 14 days."
-      prompt: 'Build a 3-touch journey triggered when feature_first_used = aha-moment fires. Touch 1: Day 1. Touch 2: Day 5. Touch 3: Day 10. Add a branch: if the user has already done the next-step feature naturally by Day 5 (great sign), skip touch 2 and go straight to touch 3 power-user content. Exit on: subscription_created (paid conversion: celebrate and handoff to free-to-paid-csm-kickoff), unsubscribe, or 14-day timeout.'
+      prompt: 'Build a 3-touch journey triggered when the aha-moment event (first feature used) fires. Touch 1: Day 1. Touch 2: Day 5. Touch 3: Day 10. Add a branch: if the user has already done the next-step feature naturally by Day 5 (great sign), skip touch 2 and go straight to touch 3 power-user content. Exit on: Subscription started (paid conversion: celebrate and handoff to free-to-paid-csm-kickoff), unsubscribe, or 14-day timeout.'
     - step: 4
       title: "Track activation and retention"
       command: create_dashboard

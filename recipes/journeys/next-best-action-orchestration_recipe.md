@@ -42,7 +42,7 @@ intempt:
       produces: attribute
       bindsAs: nba_attribute
       description: "Refreshed daily and on every meaningful event, from lifecycle stage, whether sessions are trending up or down, how many features they use, recent intent such as a pricing visit or a support touch, and how they responded to past messages. It returns the action to take, the channel, the content theme, a confidence score, and the uplift it expects."
-      prompt: 'Create an AI-derived attribute ''next_best_action'' on the User object, refreshed daily and on every significant behavioral event. Inputs: current lifecycle stage, engagement velocity (sessions trend), feature usage breadth, recent intent signals (pricing visit, feature first-click, support touch), and prior message engagement. Outputs: a structured object with (a) recommended_action one of [educate / nurture / offer / surface-feature / surface-recommendations / handoff-to-agent / wait]; (b) recommended_channel [email / sms / in_app / push / slack-internal]; (c) recommended_content_theme; (d) confidence (0-100); (e) expected_uplift_signal. The attribute is the decisioning brain: the journey routes from it at each gate.'
+      prompt: 'Create an AI-derived attribute ''Next best action'' on the User object, refreshed daily and on every significant behavioral event. Inputs: current lifecycle stage, engagement velocity (sessions trend), feature usage breadth, recent intent signals (pricing visit, feature first-click, support touch), and prior message engagement. Outputs: a structured object with (a) recommended action one of [educate / nurture / offer / surface-feature / surface-recommendations / handoff-to-agent / wait]; (b) recommended channel [email / SMS / in-app / push / internal Slack]; (c) recommended content theme; (d) confidence (0-100); (e) expected uplift signal. The attribute is the decisioning brain: the journey routes from it at each gate.'
     - step: 2
       title: "Only route confident calls"
       command: create_segment
@@ -51,7 +51,7 @@ intempt:
       dependsOn:
       - nba_attribute
       description: "Active users whose confidence is 50 or above and who are not already in another high priority journey. It refreshes continuously, so people move between branches as their signal changes."
-      prompt: Build a segment 'NBA-orchestrated users' capturing active users where next_best_action.confidence >= 50 AND user is not currently in another high-priority journey (no double-orchestration). Refreshed continuously, as users' NBA changes, they move between sub-cohorts of this parent segment.
+      prompt: Build a segment 'NBA-orchestrated users' capturing active users whose next best action confidence is 50 or above AND who are not currently in another high-priority journey (no double-orchestration). Refreshed continuously, as users' NBA changes, they move between sub-cohorts of this parent segment.
     - step: 3
       title: "Write an email per action"
       command: create_email_content
@@ -61,7 +61,7 @@ intempt:
       - nba_attribute
       - segment
       description: "A short value tip for teaching, a customer story for nurture, a personal incentive such as a discount, trial extension or credit for an offer, and a feature spotlight with a deep link. Each pulls content blocks from the whole profile, not just a first name."
-      prompt: 'Generate email content variants per recommended_action: (a) educate variant (short value tip matched to the user''s stage; (b) nurture variant) case study/customer story relevant to user''s segment; (c) offer variant (personalized incentive (discount / trial extension / credit) matched to plan and tenure; (d) surface-feature variant) feature spotlight with deep-link to the in-app destination. Each variant pulls dynamic content blocks based on the user''s full profile, not just first name.'
+      prompt: 'Generate email content variants per recommended action: (a) educate variant (short value tip matched to the user''s stage; (b) nurture variant) case study/customer story relevant to user''s segment; (c) offer variant (personalized incentive (discount / trial extension / credit) matched to plan and tenure; (d) surface-feature variant) feature spotlight with deep-link to the in-app destination. Each variant pulls dynamic content blocks based on the user''s full profile, not just first name.'
     - step: 4
       title: "Write the in app versions"
       command: create_page_content
@@ -82,7 +82,7 @@ intempt:
       - nba_attribute
       - segment
       description: "Fed by their own history, what similar users buy and use, and what is trending in their segment. It shows in the app sidebar, inside emails and in a page slot, and refreshes weekly."
-      prompt: 'Configure a recommendation surface ''NBA-driven product/content recs'' that activates when next_best_action.recommended_action = surface-recommendations. Sources: the user''s prior interaction history + similar-user purchase/usage patterns + currently-trending items in their segment. Render in: in-app sidebar + email content block + page personalization slot. Refresh weekly.'
+      prompt: 'Configure a recommendation surface ''NBA-driven product/content recs'' that activates when the recommended action is surface-recommendations. Sources: the user''s prior interaction history + similar-user purchase/usage patterns + currently-trending items in their segment. Render in: in-app sidebar + email content block + page personalization slot. Refresh weekly.'
     - step: 6
       title: "Re-read the signal at each gate"
       command: create_journey
@@ -95,7 +95,7 @@ intempt:
       - inapp_asset
       - rec_surface
       description: "At day 7, 14, 30 and 60 after signup and weekly after that, the journey reads the recommendation and takes that branch: teach, nurture, offer, nudge a feature, surface recommendations, hand to an agent, or wait and recompute. What happens next feeds back into the decision. They leave on conversion, on unsubscribe, or after three waits in a row."
-      prompt: 'Build an adaptive journey wired to the NBA segment. At each gate (signup+7d, +14d, +30d, +60d, ongoing weekly), the journey reads next_best_action attribute and routes the user down the matching branch: educate to email variant a; nurture to email variant b; offer to email variant c with discount; surface-feature to in-app tooltip + email variant d; surface-recommendations to activate recommendation surface + email digest with recs; handoff-to-agent to trigger agent conversation; wait to skip touch, recompute next gate. Each branch''s outcome (clicked / engaged / converted / ignored) feeds back into the next NBA computation so the decisioning learns. Exit on: conversion event (deal_created / subscription_created / activation_milestone: depending on lifecycle), unsubscribe, or sustained no-engagement (NBA returns wait 3 gates in a row to suppress).'
+      prompt: 'Build an adaptive journey wired to the NBA segment. At each gate (signup+7d, +14d, +30d, +60d, ongoing weekly), the journey reads the next best action attribute and routes the user down the matching branch: educate to email variant a; nurture to email variant b; offer to email variant c with discount; surface-feature to in-app tooltip + email variant d; surface-recommendations to activate recommendation surface + email digest with recs; handoff-to-agent to trigger agent conversation; wait to skip touch, recompute next gate. Each branch''s outcome (clicked / engaged / converted / ignored) feeds back into the next NBA computation so the decisioning learns. Exit on: conversion event (Deal created / Subscription started / activation milestone: depending on lifecycle), unsubscribe, or sustained no-engagement (NBA returns wait 3 gates in a row to suppress).'
     - step: 7
       title: "Check the model against a control"
       command: create_dashboard
@@ -109,7 +109,7 @@ intempt:
       - rec_surface
       - journey
       description: "Which actions the model picks and how often, engagement per branch, whether higher confidence really does mean higher conversion, the lift against a 5 to 10% holdout left on a fixed cadence, and which segments it serves worst."
-      prompt: 'Compose an NBA orchestration dashboard: distribution of recommended_action across users (which actions does the model favor: sanity check on model balance), per-branch engagement rates (which actions actually convert), confidence-vs-conversion correlation (does higher-confidence routing actually predict higher conversion (model-quality signal), uplift vs control (a 5-10% holdout that gets fixed cadence) the proof-of-value chart), and per-segment NBA quality (model may serve some segments better than others: informs retraining priorities).'
+      prompt: 'Compose an NBA orchestration dashboard: distribution of recommended action across users (which actions does the model favor: sanity check on model balance), per-branch engagement rates (which actions actually convert), confidence-vs-conversion correlation (does higher-confidence routing actually predict higher conversion (model-quality signal), uplift vs control (a 5-10% holdout that gets fixed cadence) the proof-of-value chart), and per-segment NBA quality (model may serve some segments better than others: informs retraining priorities).'
   outputs:
     - { name: attribute, type: attribute, cardinality: single, description: "AI-Derived Attribute produced by this recipe." }
     - { name: segment, type: segment, cardinality: single, description: "Segment produced by this recipe." }

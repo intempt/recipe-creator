@@ -38,16 +38,16 @@ intempt:
       prompt: |
         Create an Insights report called "Quota Attainment by Rep".
 
-        Series A: Sum of deal_won.amount per period, grouped by owner_id, unit: $, label: "Revenue Closed by Rep"
+        Series A: Sum of the Deal won amount per period, grouped by the deal owner (rep), unit: $, label: "Revenue Closed by Rep"
         Series B: Workspace-configured quota per rep per period, unit: $, label: "Quota Target"
-          - Sourced from a per-rep quota attribute on the Users object OR from an external integration (HubSpot/Salesforce typically syncs this).
+          - Sourced from a per-rep quota attribute on the user OR from an external integration (HubSpot/Salesforce typically syncs this).
         Series C: Computed: Series A / Series B × 100, unit: %, label: "Quota Attainment %"
         Series D: Sum of all open-deal amounts (current pipeline) per rep / Series B = "Pipeline Coverage Ratio per Rep"
         Series E: Trailing-12-month rolling Series C per rep: the durable performance signal vs. period noise
 
         Time granularity: Quarterly (the standard quota period for B2B)
         Time range: Last 4 quarters + current quarter
-        Breakdown: By owner_id (per-rep)
+        Breakdown: By the deal owner (per-rep)
         Compare: Previous quarter AND same quarter prior year
         Chart type: Sortable horizontal bar chart per rep: bar = Series C (attainment %), with target line at 100%, annotation showing absolute closed revenue and quota; secondary view: trend chart per rep over last 4 quarters
 
@@ -65,10 +65,8 @@ intempt:
 
         Use case: distinct from rep-activity-leaderboard (which is calls/emails leading indicators): this is the lagging revenue outcome compared to assigned quota. Sales VPs use these together: activity diagnoses, attainment evaluates.
 
-        Taxonomy notes:
-        - deal_won.owner_id and deal_won.amount are canonical properties.
-        - IMPORTANT (quota dependency: same caveat as forecast-vs-actual-quota) quota targets must be configured. Without quota data, Series B/C return null and the report degrades to absolute revenue-by-rep ranking only.
-        - "Open deal amount" for Series D comes from the most-recent deal_stage_changed.amount per deal_id where new_stage is not in closed states.
+        Quota targets must be configured. Without quota data, Series B and C stay empty and the report degrades to an absolute revenue-by-rep ranking only.
+        Open deal amount for Series D comes from the most recent Deal stage changed amount per deal where the new stage is not a closed state.
   outputs:
     - { name: report, type: report, cardinality: single, description: "Report produced by this recipe." }
 ---

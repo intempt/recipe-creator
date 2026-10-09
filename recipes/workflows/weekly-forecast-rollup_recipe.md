@@ -36,7 +36,7 @@ intempt:
       produces: report
       bindsAs: report
       description: "Open pipeline by stage, the weighted forecast using each stage's historical win rate, the split across commit, best case, pipeline and omitted, what moved week over week in deals added, advanced, lost and won, and how last week's forecast compared with what actually closed. Each Monday's version is kept."
-      prompt: 'Build an insights report ''Weekly pipeline forecast snapshot'' computing: (a) total open pipeline ARR by stage; (b) weighted forecast (each stage × its historical win-probability); (c) commit-category breakdown (Commit / Best Case / Pipeline / Omitted: sourced from deal-level forecast_category attribute); (d) week-over-week pipeline movement (deals added / advanced / lost / closed-won); (e) forecast-vs-actual for closed quarters (was last week''s forecast accurate?). Freezable: each Monday''s report is preserved for historical comparison.'
+      prompt: 'Build an insights report ''Weekly pipeline forecast snapshot'' computing: (a) total open pipeline ARR by stage; (b) weighted forecast (each stage × its historical win-probability); (c) commit-category breakdown (Commit / Best Case / Pipeline / Omitted: sourced from the deal-level forecast category attribute); (d) week-over-week pipeline movement (deals added / advanced / lost / closed-won); (e) forecast-vs-actual for closed quarters (was last week''s forecast accurate?). Freezable: each Monday''s report is preserved for historical comparison.'
     - step: 2
       title: "Write the leadership email"
       command: create_email_content

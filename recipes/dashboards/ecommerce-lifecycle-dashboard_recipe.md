@@ -43,7 +43,7 @@ intempt:
         - exclusionPeriod: incomplete_periods
         - visibility: project
         - boardFilters: none by default
-        - boardBreakdowns: lifecycle_score (canonical 6-stage enum)
+        - boardBreakdowns: Lifecycle score (the six lifecycle stages)
 
         Layout: 4 rows.
 
@@ -68,10 +68,6 @@ intempt:
         - Row 2 (lifecycle distribution + migration, full-width) is the strategic centerpiece.
         - Row 3 turns insight into operational levers.
         - Row 4 closes the loop: post-conversion paths + retention by category.
-
-        Taxonomy notes:
-        - Users.lifecycle_score is the canonical 6-stage enum.
-        - All source recipes use canonical events: order_created, discount_applied, page_viewed, session_start, subscription_created.
   outputs:
     - { name: dashboard, type: dashboard, cardinality: single, description: "Dash board (composition canvas) produced by this recipe." }
 ---

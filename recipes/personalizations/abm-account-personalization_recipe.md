@@ -44,12 +44,12 @@ intempt:
         Variants (each binds to a target-account audience: adjust audience IDs to your target list):
         - Control (audience = all: fallback): standard homepage hero
         - Variant B (audience = "tier-1 target accounts: enterprise SaaS"): hero customized for enterprise SaaS visitors
-          - Audience definition: account_id IN ("acc-001", "acc-002", ...): the explicit target list
-          - OR account_industry = "Enterprise SaaS" AND account_employee_count > 1000
+          - Audience definition: the account is one of your named target accounts (an explicit account list)
+          - OR the account's industry is "Enterprise SaaS" AND the account has more than 1000 employees
         - Variant C (audience = "tier-1 target accounts: financial services"): hero customized for financial-services targets
-          - Audience: account_industry IN ("Banking", "Financial Services", "Insurance") AND account_employee_count > 500
+          - Audience: the account's industry is one of "Banking", "Financial Services", "Insurance" AND the account has more than 500 employees
         - Variant D (audience = "tier-2 target accounts: healthcare"): hero customized for healthcare targets
-          - Audience: account_industry IN ("Healthcare", "Health Tech", "Medical Devices") AND account_employee_count > 100
+          - Audience: the account's industry is one of "Healthcare", "Health Tech", "Medical Devices" AND the account has more than 100 employees
 
         Targeting (experience-wide):
         - Pages: homepage "/" and key conversion pages (/pricing, /demo)
@@ -58,9 +58,9 @@ intempt:
         - Display frequency: always
 
         Metrics (existing CRM/CDP: personalizations don't have hypothesis-bound primary/secondary):
-        - form_submitted on demo-request form per audience (B2B's primary outcome)
-        - click_on on primary CTA per audience
-        - Account-level engagement (page_viewed count per identified company in the targeting window)
+        - Form submitted on demo-request form per audience (B2B's primary outcome)
+        - Click on the primary CTA per audience
+        - Account-level engagement (View page count per identified company in the targeting window)
 
         Schedule: continuous
 
@@ -110,13 +110,12 @@ intempt:
         Variant: D (Healthcare targets)
           Similar structure with HIPAA badges, healthcare customer logos, healthcare-specific copy.
 
-        The Visual Editor allows the user to refine copy, swap customer logos to match the actual account's industry, and inject the [Account name] placeholder. Use {{account.name}} in the HTML: the platform's personalization engine substitutes the actual account name at render time when the visitor is identified.
+        The Visual Editor allows the user to refine copy, swap customer logos to match the actual account's industry, and inject the account-name placeholder, which is substituted at render time when the visitor is identified.
 
-        Taxonomy notes:
-        - REQUIRES FIRMOGRAPHIC ENRICHMENT: This recipe depends on visitor-to-account identification, typically via Clearbit, Demandbase, 6sense, ZoomInfo, or IP-based reverse lookup. Without enrichment, all visitors fall through to the Control variant.
-        - The Accounts object stores firmographic attributes: account_industry, account_employee_count, account_revenue, account_id, etc. Ensure these are populated by your enrichment pipeline before launching this personalization.
+        Notes:
+        - Requires firmographic enrichment: this depends on matching a visitor to a company, via an enrichment provider or IP-based reverse lookup. Without it, all visitors fall through to the Control variant.
+        - Make sure the account's industry and company size are populated by your enrichment before launching this personalization.
         - Demandbase's research shows the operational sweet spot is 4-5 distinct account segments. Beyond that, content management overhead exceeds the personalization gains.
-        - For the [Account name] template substitution, the platform reads from the Users object's company association: typically `Users.company_name` or `Accounts.name` for the matched account.
         - Mutiny's playbook: tier-1 accounts (top 100 named accounts) get fully custom heroes; tier-2 (industry segments) get vertical-specific heroes; everyone else gets the default. This recipe encodes that pattern.
   outputs:
     - { name: personalization, type: personalization, cardinality: single, description: "Website personalization created on /experiences." }

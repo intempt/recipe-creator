@@ -42,8 +42,8 @@ intempt:
         - defaultDateRange: last_30_days
         - exclusionPeriod: today (most campaign attribution windows extend 7 days; today's data is incomplete)
         - visibility: project
-        - boardFilters: none by default; marketers can filter to specific campaign_id patterns (e.g., flow vs. broadcast) at runtime
-        - boardBreakdowns: campaign_id
+        - boardFilters: none by default; marketers can filter to specific campaign ID patterns (e.g., flow vs. broadcast) at runtime
+        - boardBreakdowns: Campaign ID
 
         Layout: 4 rows.
 
@@ -58,10 +58,10 @@ intempt:
 
         Row 3: Performance scatter and funnel (heightPx: 440, two cards at widthUnits: 6):
         - Card 1: Insights to source recipe: campaign-performance-leaderboard, displayMode: chart, vizType: scatter (X-axis: Click Rate, Y-axis: Conversion Rate, bubble size: Revenue per Send: the four-quadrant performance matrix)
-        - Card 2: Funnel to source recipe: email-purchase, displayMode: chart, vizType: funnel_steps (the canonical email-to-purchase journey, with per-campaign breakdown showing where in the funnel campaigns leak)
+        - Card 2: Funnel to source recipe: email-purchase, displayMode: chart, vizType: funnel_steps (the email-to-purchase journey, with per-campaign breakdown showing where in the funnel campaigns leak)
 
         Row 4: Channel context (heightPx: 400, two cards at widthUnits: 6):
-        - Card 1: Insights to source recipe: revenue-by-channel, displayMode: chart, vizType: bar (filter: utm_source = email; shows email's contribution to total channel revenue)
+        - Card 1: Insights to source recipe: revenue-by-channel, displayMode: chart, vizType: bar (filter: UTM source = email; shows email's contribution to total channel revenue)
         - Card 2: Insights to source recipe: customer-lifecycle-distribution, displayMode: chart (lifecycle stage distribution of email-engaged users: answers "are emails reaching Champions or At Risk?")
 
         Annotations:
@@ -73,12 +73,9 @@ intempt:
           - Bottom-left (low CTR + low CR) = the campaign didn't connect; either retire the audience segment or rethink the offer
         - Row 3 Card 2 (email-purchase funnel) surfaces where in the email-to-purchase journey campaigns leak: open to click drop = subject line/preheader; click to product page = landing page; product page to purchase = price/offer.
         - Row 4 provides context: how big is email as a % of total revenue (Card 1)? And are emails reaching the right lifecycle segments (Card 2)? Emails reaching mostly At Risk customers signal great win-back work; emails reaching mostly New customers signal acquisition-funnel email.
-
-        Taxonomy notes:
-        - campaign-performance-leaderboard depends on email_sent.campaign_id being reliably populated by the workspace's email integration (Klaviyo, Customer.io, Mailchimp). If campaign_id is sparse, the report degrades to aggregate email performance without per-campaign breakdown.
-        - Attribution from email_clicked to order_created uses a 7-day window joined via masterID/email matching the email_sent.campaign_id.
-        - For SMS-side analysis, substitute messaged_sms (which has template_id and journey_id): the recipe handles both channels.
-        - All other source recipes use canonical events: email_sent, email_opened, email_clicked, order_created, page_viewed.
+        - The leaderboard depends on the campaign ID being reliably recorded on each Email sent by the workspace's email integration (Klaviyo, Customer.io, Mailchimp). If the campaign ID is sparse, the report degrades to aggregate email performance without per-campaign breakdown.
+        - Attribution from Email clicked to Placed order uses a 7-day window, matched on the person's identity and the campaign that sent the email.
+        - For SMS-side analysis, use Messaged SMS (which carries a template and a journey) in place of Email sent: the recipe handles both channels.
   outputs:
     - { name: dashboard, type: dashboard, cardinality: single, description: "Dash board (composition canvas) produced by this recipe." }
 ---

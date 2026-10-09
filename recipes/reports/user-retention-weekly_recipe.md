@@ -34,11 +34,11 @@ intempt:
       prompt: |
         Create a Retention report called "Weekly User Retention".
 
-        Anchor event: user_created
-        Return event: session_start
+        Anchor event: User created
+        Return event: Session start
         Cohort granularity: Weekly
         Time range: Last 12 weeks (require cohorts to have completed full 12-week return window where possible)
-        Breakdown: By Users.utm_source (acquisition source)
+        Breakdown: By UTM source (acquisition source)
         Compare: Previous period (prior 12 weeks of cohorts)
         Chart type: Retention curve (line per cohort) plus cohort table with W1 / W4 / W12 columns
 
@@ -49,9 +49,6 @@ intempt:
         - Identify whether retention curves are flattening over time (good (natural retention forming a plateau) or continuously decaying (bad) no stable user base forming).
 
         Surface the source-by-source retention gap at W4: the moment by which most low-quality signups have churned out.
-
-        Taxonomy notes:
-        - user_created and session_start are canonical. Users.utm_source is the canonical first-touch attribute.
   outputs:
     - { name: report, type: report, cardinality: single, description: "Report produced by this recipe." }
 ---

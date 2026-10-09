@@ -38,7 +38,7 @@ intempt:
       produces: attribute
       bindsAs: domain_tier
       description: "From the email domain at signup: enterprise, mid market, SMB or consumer. It checks the target account list, headcount where enrichment has it, with 1000 and up enterprise and 100 to 1000 mid market, whether the company is publicly listed, and whether the industry matches your ICP. Gmail and the like are treated as consumer."
-      prompt: 'Create an AI-derived attribute ''account_tier'' on the Account object. Computed at signup from email domain. Output: enterprise / mid-market / smb / consumer (generic email). Logic: cross-reference against (a) target-account list, (b) employee-count enrichment if available (1000+ = enterprise, 100-1000 = mid-market), (c) public-company indicator, (d) ICP industry match. Generic email domains (gmail, outlook) to tier: consumer (likely not a buyer).'
+      prompt: 'Create an AI-derived attribute ''account tier'' on the Account object. Computed at signup from email domain. Output: enterprise / mid-market / smb / consumer (generic email). Logic: cross-reference against (a) target-account list, (b) employee-count enrichment if available (1000+ = enterprise, 100-1000 = mid-market), (c) public-company indicator, (d) ICP industry match. Generic email domains (gmail, outlook) to tier: consumer (likely not a buyer).'
     - step: 2
       title: "Find enterprise signups with no AE"
       command: create_segment
@@ -47,7 +47,7 @@ intempt:
       dependsOn:
       - domain_tier
       description: "Enterprise tier accounts created in the last 30 days that still have nobody assigned, used both to audit the workflow and to look back at how enterprise leads convert."
-      prompt: Build a segment 'Enterprise signups - last 30 days' capturing accounts where account_tier = enterprise AND the account was created in last 30 days AND no AE has been assigned. Used for both the workflow audit and post-hoc analysis of enterprise-lead conversion.
+      prompt: Build a segment 'Enterprise signups - last 30 days' capturing accounts where account tier = enterprise AND the account was created in last 30 days AND no AE has been assigned. Used for both the workflow audit and post-hoc analysis of enterprise-lead conversion.
     - step: 3
       title: "Hand it to the right AE"
       command: create_workflow
@@ -57,7 +57,7 @@ intempt:
       - domain_tier
       - segment
       description: "On signup it works out the tier, and for enterprise or mid market it enriches firmographics, decision makers and tech stack, checks whether the account is already in the CRM or on the target list, creates a high priority AE task assigned by territory and named account rules, keeps any existing owner, posts to the enterprise alerts channel with the context, and takes the user out of self serve nurture, because this is a sales led motion."
-      prompt: 'Create a workflow firing on user_signed_up. Step sequence: (1) compute account_tier from the email domain; (2) if tier = enterprise or mid-market: immediately enrich (firmographics, decision-makers, tech stack); (3) check whether the account is already in the CRM or part of target-account list; (4) create an enterprise-tier AE task with priority HIGH, assigned by territory + named-account rules (preserving any pre-assigned account owner); (5) post a high-visibility Slack alert to #enterprise-alerts with account context, decision-maker contacts, and current product activity; (6) suppress this user from the standard self-serve nurture journey (different motion for enterprise: sales-led, not marketing-led).'
+      prompt: 'Create a workflow firing on User signed up. Step sequence: (1) compute the account tier from the email domain; (2) if tier = enterprise or mid-market: immediately enrich (firmographics, decision-makers, tech stack); (3) check whether the account is already in the CRM or part of target-account list; (4) create an enterprise-tier AE task with priority HIGH, assigned by territory + named-account rules (preserving any pre-assigned account owner); (5) post a high-visibility Slack alert to #enterprise-alerts with account context, decision-maker contacts, and current product activity; (6) suppress this user from the standard self-serve nurture journey (different motion for enterprise: sales-led, not marketing-led).'
     - step: 4
       title: "Watch the response time"
       command: create_dashboard

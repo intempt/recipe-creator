@@ -39,7 +39,7 @@ intempt:
       produces: attribute
       bindsAs: threading
       description: "The number of people on the buyer's side who have attended a meeting on this deal, replied to an email on it, or been added as a contact. One person at demo, proposal or closing stage is flagged. One person early on is normal."
-      prompt: 'Create an AI-derived attribute ''threading_depth'' on the Deal object. Count distinct buyer-side contacts who have (a) attended a meeting on this deal, OR (b) replied to an email on this deal, OR (c) been explicitly added as a deal contact. Output: integer count. Flag as ''single-threaded'' if count = 1 and deal is in Demo / Proposal / Closing stage (early-stage single-threading is normal; late-stage is a red flag).'
+      prompt: 'Create an AI-derived attribute ''threading depth'' on the Deal object. Count distinct buyer-side contacts who have (a) attended a meeting on this deal, OR (b) replied to an email on this deal, OR (c) been explicitly added as a deal contact. Output: integer count. Flag as ''single-threaded'' if count = 1 and deal is in Demo / Proposal / Closing stage (early-stage single-threading is normal; late-stage is a red flag).'
     - step: 2
       title: "Find the risky ones"
       command: create_segment
@@ -48,7 +48,7 @@ intempt:
       dependsOn:
       - threading
       description: "Open deals with a single engaged contact at demo, proposal or closing. Deals under 14 days old are left out, because multi threading takes time, and so are deals marked as a genuine single buyer, such as a founder led small business."
-      prompt: Build a segment 'Single-threaded deals - mid+ stage' capturing open deals where threading_depth = 1 AND stage is Demo, Proposal, or Closing. Excludes deals < 14 days old (haven't had time for multi-threading naturally) and deals flagged as exec-buyer (1-person decision is genuine in some buyer profiles, e.g. founder-led SMB).
+      prompt: Build a segment 'Single-threaded deals - mid+ stage' capturing open deals where threading depth = 1 AND stage is Demo, Proposal, or Closing. Excludes deals < 14 days old (haven't had time for multi-threading naturally) and deals flagged as exec-buyer (1-person decision is genuine in some buyer profiles, e.g. founder-led SMB).
     - step: 3
       title: "Give the rep three names"
       command: create_workflow
@@ -58,7 +58,7 @@ intempt:
       - threading
       - segment
       description: "Daily, for newly flagged deals, it recounts the contacts, pulls suggested additions from enrichment, peers, the manager above and related team members, ranked by likely influence on the decision, creates a task with that list attached, and messages the rep. If the lone contact is the decision maker, it stays quiet."
-      prompt: 'Create a workflow firing daily for deals newly-flagged as single-threaded. Step sequence: (1) recompute threading_depth (fresh); (2) for genuine single-threaded mid-stage deals, fetch suggested additional contacts from account enrichment (peer roles, manager up, related team members), prioritized by likely-buying-influence; (3) create a task for the rep labeled ''Multi-thread this deal: 3 suggested contacts'' with the contact list pre-attached; (4) Slack DM to the rep with deal context. If lone champion is the decision-maker (CEO of a small co, etc.), suppress: that''s not single-threading risk.'
+      prompt: 'Create a workflow firing daily for deals newly-flagged as single-threaded. Step sequence: (1) recompute the threading depth (fresh); (2) for genuine single-threaded mid-stage deals, fetch suggested additional contacts from account enrichment (peer roles, manager up, related team members), prioritized by likely-buying-influence; (3) create a task for the rep labeled ''Multi-thread this deal: 3 suggested contacts'' with the contact list pre-attached; (4) Slack DM to the rep with deal context. If lone champion is the decision-maker (CEO of a small co, etc.), suppress: that''s not single-threading risk.'
     - step: 4
       title: "See what threading is worth"
       command: create_dashboard

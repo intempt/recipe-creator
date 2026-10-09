@@ -36,7 +36,7 @@ intempt:
       produces: segment
       bindsAs: segment
       description: "People who cancelled between 30 and 120 days ago, unless the reason was wrong fit or the company shutting down. Anyone who has already resubscribed or asked for no marketing is left out."
-      prompt: Build a segment 'Recently cancelled - last 120 days' capturing users with subscription_canceled in the last 30-120 days AND cancel_reason is NOT 'wrong-fit' or 'company-shutdown' (those won't winback). Excludes users who have already won back (subscribed again) and users who explicitly requested no-marketing in cancel form.
+      prompt: Build a segment 'Recently cancelled - last 120 days' capturing users who canceled their subscription 30 to 120 days ago AND whose cancel reason is NOT 'wrong-fit' or 'company-shutdown' (those won't winback). Excludes users who have already won back (subscribed again) and users who explicitly requested no-marketing in cancel form.
     - step: 2
       title: "Write three win back emails"
       command: create_email_content
@@ -55,7 +55,7 @@ intempt:
       - segment
       - asset
       description: "Three emails counted from the cancellation, each using their old plan, their stated reason and the features they last used. They leave when they resubscribe, when they reply, on unsubscribe, or after 120 days, when they move to long term lapsed nurture."
-      prompt: 'Build a 3-touch journey triggered when subscription_canceled fired 30+ days ago. Touch 1: Day 30. Touch 2: Day 60. Touch 3: Day 90. Each touch personalized using the prior account context (cancel reason, plan, last-used features). Exit on: subscription_created (won back: record winback_won event), email_replied (warm handoff to sales), unsubscribe, or 120-day timeout (after which user moves to long-term lapsed nurture, separate motion).'
+      prompt: 'Build a 3-touch journey triggered when the subscription was canceled 30+ days ago. Touch 1: Day 30. Touch 2: Day 60. Touch 3: Day 90. Each touch personalized using the prior account context (cancel reason, plan, last-used features). Exit on: Subscription started (won back: record a winback-won event), Email replied (warm handoff to sales), unsubscribe, or 120-day timeout (after which user moves to long-term lapsed nurture, separate motion).'
     - step: 4
       title: "See who comes back"
       command: create_dashboard

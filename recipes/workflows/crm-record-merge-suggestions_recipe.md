@@ -40,7 +40,7 @@ intempt:
       produces: workflow
       bindsAs: workflow
       description: "Runs the instant an account or user is created, so duplicates are caught before they spread rather than cleaned up months later."
-      prompt: 'Create a workflow ''Real-time CRM dedup'' triggered immediately on account_created OR user_created events. Goal: catch duplicates at creation moment rather than letting them propagate, then needing cleanup later.'
+      prompt: 'Create a workflow ''Real-time CRM dedup'' triggered immediately on Account created OR User created events. Goal: catch duplicates at creation moment rather than letting them propagate, then needing cleanup later.'
     - step: 2
       title: "Look for a match"
       command: configure_find_records_step
@@ -89,7 +89,7 @@ intempt:
       - workflow
       - conf_split
       description: "The existing record survives so its history is kept, any new fields are copied across, and the new record is marked as merged into it. References to the new one still work and point at the survivor."
-      prompt: 'On high-confidence branch: merge the new record into the existing one. Keep the existing record as survivor (preserves history), copy any new fields from the new record, mark the new record as ''merged into [existing_id]''. The new record reference still works for inbound webhooks but redirects to the survivor.'
+      prompt: 'On high-confidence branch: merge the new record into the existing one. Keep the existing record as survivor (preserves history), copy any new fields from the new record, mark the new record as ''merged into [the existing record id]''. The new record reference still works for inbound webhooks but redirects to the survivor.'
     - step: 7
       title: "Queue the uncertain pairs"
       command: configure_create_task_step

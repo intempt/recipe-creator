@@ -34,20 +34,20 @@ intempt:
       prompt: |
         Create a Retention report called "Paid User Monthly Retention".
 
-        Anchor event: subscription_created where trial_end is null (paid signup, not trial)
-        Return event: session_start (logo retention) AND revenue_completed (revenue retention): render as two views
+        Anchor event: Subscription started where trial end is empty (paid signup, not trial)
+        Return event: Session start (logo retention) AND Revenue completed (revenue retention): render as two views
 
         Cohort granularity: Monthly
         Time range: Last 6 months
-        Breakdown: By plan_name (from subscription_created.plan_name)
+        Breakdown: By Plan (from the Subscription started event)
         Compare: Previous period (prior 6 months of cohorts)
         Chart type: Retention curve plus cohort table with M1 through M6 columns
 
         Logo Retention view:
-        - Cell value = % of cohort users who emitted at least one session_start in month N
+        - Cell value = % of cohort users who emitted at least one Session start in month N
 
         Revenue Retention view:
-        - Cell value = Sum of revenue_completed.amount in month N from cohort users / Sum of revenue_completed.amount in month 0 from cohort users × 100, unit: %
+        - Cell value = Sum of the Revenue completed amount in month N from cohort users / Sum of the Revenue completed amount in month 0 from cohort users × 100, unit: %
         - This separates "do users stay?" from "do they pay the same or more?"
 
         Annotations:
@@ -58,10 +58,7 @@ intempt:
 
         Surface whether enterprise tiers retain materially better than starter tiers.
 
-        Taxonomy notes:
-        - subscription_created with trial_end=null marks paid (non-trial) starts.
-        - revenue_completed has amount, customer_id, type: the canonical recurring revenue marker.
-        - "any_active_event" as a return signal can be substituted with session_start (most reliable active marker).
+        For logo retention, use Session start as the active-user signal: it is the most reliable active marker.
   outputs:
     - { name: report, type: report, cardinality: single, description: "Report produced by this recipe." }
 ---

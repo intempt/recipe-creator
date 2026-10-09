@@ -43,7 +43,7 @@ intempt:
         - exclusionPeriod: incomplete_periods
         - visibility: project
         - boardFilters: none by default
-        - boardBreakdowns: plan_name (pushed down where applicable)
+        - boardBreakdowns: Plan (pushed down where applicable)
 
         Layout: 4 rows.
 
@@ -54,7 +54,7 @@ intempt:
         - Card 4: Insights metric to source recipe: monthly-logo-retention-trend, vizType: metric, titleOverride: "Logo Retention (Annualized)"
 
         Row 2: MRR movement waterfall (heightPx: 480, full-width single card at widthUnits: 12):
-        - Card 1: Insights to source recipe: mrr-movement-decomposition, displayMode: chart, vizType: stacked_column (the canonical MRR waterfall: New, Expansion, Reactivation, Contraction, Churn, Net New per month). The strategic centerpiece of this dashboard.
+        - Card 1: Insights to source recipe: mrr-movement-decomposition, displayMode: chart, vizType: stacked_column (the standard MRR waterfall: New, Expansion, Reactivation, Contraction, Churn, Net New per month). The strategic centerpiece of this dashboard.
 
         Row 3: Retention dynamics (heightPx: 440, two cards at widthUnits: 6):
         - Card 1: Retention to source recipe: net-revenue-retention-by-cohort, displayMode: chart, vizType: line (cohort NRR curves: answers "are recent cohorts compounding revenue or eroding?")
@@ -69,11 +69,6 @@ intempt:
         - Row 1 KPIs are the four numbers a CFO reports to the board. NRR ≥ 100% indicates the installed base is growing despite churn; NRR ≥ 110% is top-quartile; <90% indicates revenue erosion.
         - Row 2 (MRR movement waterfall, full-width) is the single most important view in subscription analytics. Reading it: green stacks (New + Expansion + Reactivation) should consistently outweigh red stacks (Contraction + Churn). Months where it doesn't are the moments to investigate.
         - Row 4 surfaces the operational levers: dunning recovery rate of 70% is healthy; expansion revenue ≥30% of new MRR is healthy; both can be operationally improved without changing the product.
-
-        Taxonomy notes:
-        - mrr-movement-decomposition and net-revenue-retention-by-cohort both depend on subscription_updated.changed_fields parsing for expansion/contraction split: see those recipes' notes.
-        - All other source recipes use canonical events: subscription_created, subscription_cancelled, subscription_updated, subscription_resumed, invoice_paid, invoice_payment_failed, revenue_completed.
-        - monthly-logo-retention-trend annualizes the monthly retention rate; surface the annual implication directly (e.g., "95% monthly = 54% annual retention").
   outputs:
     - { name: dashboard, type: dashboard, cardinality: single, description: "Dash board (composition canvas) produced by this recipe." }
 ---

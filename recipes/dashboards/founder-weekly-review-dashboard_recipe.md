@@ -70,10 +70,7 @@ intempt:
         - Row 1's six metric cards each show: current week value, week-over-week % change, year-over-year % change.
         - Row 3 is the strategic anchor for the week. SaaS founders watch the MRR waterfall; ecommerce founders watch lifecycle migration.
         - Row 1 and Row 2 cards are intentionally all sourced from weekly-business-review-summary: that recipe is a multi-series report designed to power exactly this dashboard. Each card pulls a different series (Series A through Series F) of the same report.
-
-        Taxonomy notes:
         - weekly-business-review-summary is mode-aware and adapts its underlying queries based on the workspace's primary mode.
-        - All cards reference canonical events through their source recipes.
   outputs:
     - { name: dashboard, type: dashboard, cardinality: single, description: "Dash board (composition canvas) produced by this recipe." }
 ---

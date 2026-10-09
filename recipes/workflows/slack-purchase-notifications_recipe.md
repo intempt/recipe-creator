@@ -1,6 +1,6 @@
 ---
 name: slack-purchase-notifications
-description: Use when a user mentions "slack purchase notifications", "revenue celebrations", "deal-won slack alert", or asks for related help. Post celebration-grade Slack messages on key revenue events (deal_won, new subscription, expansion) and operational Slack messages on at-risk events (payment_failed, churn). Single configurable workflow handling the Slack revenue-notifications surface.
+description: Use when a user mentions "slack purchase notifications", "revenue celebrations", "deal-won slack alert", or asks for related help. Post celebration-grade Slack messages on key revenue events (Deal won, new subscription, expansion) and operational Slack messages on at-risk events (Payment failed, churn). Single configurable workflow handling the Slack revenue-notifications surface.
 arguments: []
 intempt:
   id: slack-purchase-notifications
@@ -38,14 +38,14 @@ intempt:
       produces: asset
       bindsAs: celebration_asset
       description: "A won deal names the rep, the account, the ARR and the contract length and tags the team. The first new B2B subscription of the month gets a fanfare and the rest a one liner. An ecommerce order only gets a post if it is in the top 5% by value. An upsell names the amount, the customer and the AE. Warm and brief."
-      prompt: 'Generate Slack message content for revenue celebrations. Variants: (a) deal_won (include rep name, account, ARR, contract length, with a 🎉 emoji and team @mention; (b) subscription_created (B2B)) first paying customer of the month gets a fanfare message, subsequent ones get a compact one-liner; (c) order_placed (ecommerce) (large-order threshold (top 5% of order values) gets celebration, normal orders silent; (d) expansion) upsell amount, customer name, AE who closed. Tone: warm, brief, team-celebratory.'
+      prompt: 'Generate Slack message content for revenue celebrations. Variants: (a) Deal won (include rep name, account, ARR, contract length, with a 🎉 emoji and team @mention; (b) Subscription started (B2B)) first paying customer of the month gets a fanfare message, subsequent ones get a compact one-liner; (c) Placed order (ecommerce) (large-order threshold (top 5% of order values) gets celebration, normal orders silent; (d) expansion) upsell amount, customer name, AE who closed. Tone: warm, brief, team-celebratory.'
     - step: 2
       title: "Write the operational alerts"
       command: create_slack_content
       produces: asset
       bindsAs: alert_asset
       description: "For a different channel: a failed payment with the customer, the plan, the revenue at risk and the CSM tagged, a cancellation with its reason, and an unusually large abandoned cart. Terse, and clear about who has to act."
-      prompt: 'Generate Slack message content for operational alerts (different channel from celebrations). Variants: (a) payment_failed: customer name, plan, MRR at risk, CSM owner @mention; (b) subscription_canceled with reason; (c) high-value-cart_abandoned (B2C, single cart value > threshold). Tone: terse, action-oriented, who-needs-to-respond clear.'
+      prompt: 'Generate Slack message content for operational alerts (different channel from celebrations). Variants: (a) Payment failed: customer name, plan, MRR at risk, CSM owner @mention; (b) Subscription canceled with reason; (c) high-value Abandoned cart (B2C, single cart value > threshold). Tone: terse, action-oriented, who-needs-to-respond clear.'
     - step: 3
       title: "Route wins and problems apart"
       command: create_workflow

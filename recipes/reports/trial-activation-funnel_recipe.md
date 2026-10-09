@@ -1,7 +1,7 @@
 ---
 name: trial-activation-funnel
 description: |
-  Use when a user mentions "trial activation funnel", or asks for related help. Trial milestone funnel using subscription_created (trial), session_start, and journey-goal events.
+  Use when a user mentions "trial activation funnel", or asks for related help. Trial milestone funnel using the trial start, return sessions, and journey goal completions.
 arguments: []
 intempt:
   id: trial-activation-funnel
@@ -35,14 +35,14 @@ intempt:
         Create a Funnel report called "Trial Activation Funnel".
 
         Steps:
-        1. Event "subscription_created" where trial_end and trial_start are populated: "Started Trial"
-        2. Event "session_start" by the same user within 24h of step 1: "First Return Session"
-        3. Event "goal_completed_in_journey" where journey_id matches the integration/setup journey: "Completed Setup Goal"
-        4. Event "goal_completed_in_journey" where journey_id matches the core-feature-use journey: "Used Core Feature"
-        5. Event "goal_completed_in_journey" where journey_id matches the full-activation journey AND occurred within 14 days of trial start: "Fully Activated"
+        1. Event Subscription started where the trial start and trial end dates are populated: "Started Trial"
+        2. Event Session start by the same user within 24h of step 1: "First Return Session"
+        3. Event Completed a journey goal where the journey is the integration/setup journey: "Completed Setup Goal"
+        4. Event Completed a journey goal where the journey is the core-feature-use journey: "Used Core Feature"
+        5. Event Completed a journey goal where the journey is the full-activation journey AND it occurred within 14 days of trial start: "Fully Activated"
 
         Conversion window: 14 days
-        Breakdown: By Users.utm_source
+        Breakdown: By UTM source
         Compare: Previous period (prior 14 days)
 
         For each step, also surface:
@@ -57,9 +57,7 @@ intempt:
 
         Surface the single highest-leverage step to optimize: largest drop-off × largest downstream lift on Step 5.
 
-        Taxonomy notes:
-        - "integration_connected" and "onboarding_started" as standalone events do not exist. Setup milestones are tracked via goal_completed_in_journey events emitted by the relevant onboarding journey.
-        - Each onboarding milestone (setup, core-feature use, full activation) corresponds to a different journey_id in the project's journey configuration.
+        Each onboarding milestone (setup, core-feature use, full activation) is a separate journey, so each maps to a different journey goal completion.
   outputs:
     - { name: report, type: report, cardinality: single, description: "Report produced by this recipe." }
 ---

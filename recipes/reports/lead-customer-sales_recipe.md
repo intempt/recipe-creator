@@ -1,7 +1,7 @@
 ---
 name: lead-customer-sales
 description: |
-  Use when a user mentions "lead to customer (sales)", or asks for related help. Sales pipeline funnel using deal_stage_changed and meeting events with stage velocity and forecasted revenue.
+  Use when a user mentions "lead to customer (sales)", or asks for related help. Sales pipeline funnel using deal stage changes and meeting events with stage velocity and forecasted revenue.
 arguments: []
 intempt:
   id: lead-customer-sales
@@ -35,21 +35,21 @@ intempt:
         Create a Funnel report called "Lead to Customer".
 
         Steps:
-        1. Event "form_submitted" where form_id matches a demo-request form: "Requested Demo"
-           (alternative: deal_created with stage matching "Discovery" or similar)
-        2. Event "meeting_scheduled" linked to the user (via primary_user_id or user_ids): "Scheduled Demo"
-        3. Event "meeting_scheduled" where canceled_at is null AND end_time < now (i.e. meeting actually happened, no subsequent meeting_canceled): "Completed Demo"
-        4. Event "deal_stage_changed" where new_stage matches a "Proposal" pattern: "Proposal Sent"
-        5. Event "deal_won": "Deal Closed"
+        1. Event "Form submitted" where the form matches a demo-request form: "Requested Demo"
+           (alternative: Deal created with stage matching "Discovery" or similar)
+        2. Event "Meeting scheduled" linked to the user: "Scheduled Demo"
+        3. Event "Meeting scheduled" that was not canceled and whose end time is in the past (i.e. the meeting actually happened): "Completed Demo"
+        4. Event "Deal stage changed" where the new stage matches a "Proposal" pattern: "Proposal Sent"
+        5. Event "Deal won": "Deal Closed"
 
         Conversion window: 60 days
-        Breakdown: By Users.utm_source attribute (first-touch lead source on the User record). Top 8 sources.
+        Breakdown: By the first-touch lead source on the user record. Top 8 sources.
         Compare: Previous period (prior 60 days)
 
         For each step, also surface:
         - Median time-to-convert from previous step (stage velocity)
         - Per-source conversion rate at each stage
-        - Forecast revenue: Sum of deal_created.amount (or current deal_stage_changed.amount) for deals currently at this stage × historical conversion-to-won rate
+        - Forecast revenue: Sum of the current deal amount for deals currently at this stage × historical conversion-to-won rate
 
         Annotations:
         - Flag the lead source with highest end-to-end win rate AND volume: invest more there.
@@ -57,12 +57,6 @@ intempt:
         - Highlight any source with rising volume but falling win rate (lead-quality erosion).
 
         Surface the projected closed-won revenue for the period based on current pipeline volumes.
-
-        Taxonomy notes:
-        - "demo_requested", "demo_completed", "proposal_sent" as standalone events do not exist. They are derived from form_submitted, meeting_scheduled, and deal_stage_changed.new_stage respectively.
-        - deal_stage_changed has previous_stage and new_stage properties; deal stages are project-configured (the Deals object has stage as a relation attribute).
-        - meeting_scheduled has canceled_at, start_time, end_time: completion is derived from these.
-        - Users.utm_source is the canonical lead-source User attribute.
   outputs:
     - { name: report, type: report, cardinality: single, description: "Report produced by this recipe." }
 ---

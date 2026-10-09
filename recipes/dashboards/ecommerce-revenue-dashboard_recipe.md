@@ -41,7 +41,7 @@ intempt:
         - exclusionPeriod: incomplete_periods
         - visibility: project
         - boardFilters: none by default
-        - boardBreakdowns: device_type: pushed down to applicable cards
+        - boardBreakdowns: Device type: pushed down to applicable cards
 
         Layout: 4 rows.
 
@@ -64,11 +64,8 @@ intempt:
         - Card 2: Retention to source recipe: purchase-retention, displayMode: chart, vizType: retention_curve
 
         Annotations:
-        - This is the canonical CMO/Founder weekly-check dashboard for ecommerce. Row 1 is the headline; Row 2 surfaces channel mix shifts; Row 3 surfaces conversion bottlenecks; Row 4 surfaces inventory/retention strategy.
+        - This is the CMO/Founder weekly-check dashboard for ecommerce. Row 1 is the headline; Row 2 surfaces channel mix shifts; Row 3 surfaces conversion bottlenecks; Row 4 surfaces inventory/retention strategy.
         - The AOV decomposition in Row 2 Card 2 (units/order vs price/unit) is the diagnostic: AOV moving via price = merchandising/pricing impact; AOV moving via units = bundling/cross-sell impact.
-
-        Taxonomy notes:
-        - All source recipes use canonical events: order_created, cart_created, page_viewed, checkout_created.
   outputs:
     - { name: dashboard, type: dashboard, cardinality: single, description: "Dash board (composition canvas) produced by this recipe." }
 ---

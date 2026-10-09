@@ -34,13 +34,13 @@ intempt:
       prompt: |
         Create an Insights report called "Time-to-Ship Distribution".
 
-        Series A: Distribution histogram of fulfillment-time per order: computed by Lovable as (order_fulfilled.created_at − order_created.created_at) for each fulfilled order, joined on order_id
+        Series A: Distribution histogram of fulfillment time per order: computed by Lovable as the time between when an order was placed and when it was fulfilled, for each fulfilled order, matched on the order
 
         Buckets for Series A: 0 (24h / 24) 48h / 48 (72h / 3) 5 days / 5 (7 days / 7) 14 days / 14+ days
         Series B: Cumulative percentage: what % of orders ship within X time
 
-        Time range: Last 30 days of order_fulfilled events (use the fulfillment date for cohorting, since orders fulfilled in the period may have been created before)
-        Breakdown: By "source" property on order_fulfilled (warehouse, fulfillment center, or 3PL: varies by integration) OR by Users.country for geographic distribution analysis
+        Time range: Last 30 days of Order fulfilled events (use the fulfillment date for cohorting, since orders fulfilled in the period may have been created before)
+        Breakdown: By the fulfillment source (warehouse, fulfillment center, or 3PL: varies by integration) OR by the user's country for geographic distribution analysis
         Compare: Previous period (prior 30 days)
         Chart type: Histogram chart with Series A as the bar distribution, Series B as a cumulative line overlay; secondary callouts for median, p75, p95 fulfillment times
 
@@ -53,10 +53,7 @@ intempt:
 
         Use case: post-purchase customer experience is increasingly a competitive lever. Brands that ship fast retain better. This recipe makes the actual time-to-ship distribution visible (most ops dashboards only show "average ship time" which obscures the long tail).
 
-        Taxonomy notes:
-        - order_created.created_at and order_fulfilled.created_at are both real datetime properties; the join is on order_id.
-        - order_fulfilled.source is a real property (warehouse / 3PL identifier; varies by integration).
-        - This recipe excludes orders where fulfillment hasn't yet occurred (no order_fulfilled event). For an "in-flight" backlog view, pair this recipe with order-status-flow.
+        This report excludes orders that have not been fulfilled yet (no Order fulfilled event). For an in-flight backlog view, pair this recipe with order-status-flow.
   outputs:
     - { name: report, type: report, cardinality: single, description: "Report produced by this recipe." }
 ---

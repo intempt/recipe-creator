@@ -37,7 +37,7 @@ intempt:
       produces: segment
       bindsAs: segment
       description: "Anyone whose meeting in the last 7 days shows no attendance, or under two minutes of it. People who already rebooked within a day are left out."
-      prompt: Build a segment 'Recent no-shows - last 7 days' capturing users with a meeting_completed event in the last 7 days where the attendance attribute = false (or attended_minutes < 2). Excludes users who have already rescheduled within 24 hours of the original meeting.
+      prompt: Build a segment 'Recent no-shows - last 7 days' capturing users with a completed meeting in the last 7 days where attendance is false (or attended minutes < 2). Excludes users who have already rescheduled within 24 hours of the original meeting.
     - step: 2
       title: "Write three reschedule notes"
       command: create_email_content
@@ -53,7 +53,7 @@ intempt:
       bindsAs: journey
       dependsOn: [segment, asset]
       description: "Each email is skipped if they have already rebooked or replied. If nothing lands by the third, they move into the standard nurture journey. They leave on a new booking, a reply, or an opt out."
-      prompt: 'Build a 3-touch journey wired to the no-show segment: send touch 1 at 1 hour after no-show, touch 2 at 48 hours after no-show (skip if user has rescheduled), touch 3 at 5 days after no-show (skip if user has rescheduled or replied). After touch 3 with no engagement: move user into the standard nurture journey (handoff). Exit conditions: meeting_scheduled (rescheduled), email_replied, or user opted out.'
+      prompt: 'Build a 3-touch journey wired to the no-show segment: send touch 1 at 1 hour after no-show, touch 2 at 48 hours after no-show (skip if user has rescheduled), touch 3 at 5 days after no-show (skip if user has rescheduled or replied). After touch 3 with no engagement: move user into the standard nurture journey (handoff). Exit conditions: Meeting scheduled (rescheduled), Email replied, or user opted out.'
     - step: 4
       title: "Watch the no show rate"
       command: create_dashboard

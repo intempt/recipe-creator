@@ -50,11 +50,11 @@ intempt:
         - Audience: all visitors
         - Display frequency: always
 
-        Primary metric: goal_completed_in_experience where experience_id = <this> AND value > 0 (revenue from subscription_created within 7 days of exposure)
+        Primary metric: Completed an experience goal for this experience with value > 0 (revenue from Subscription started within 7 days of exposure; the platform sets the value from the subscription amount)
         Secondary metrics:
-        - click_on where target_id starts with "plan-select-" (per-plan click-through)
-        - checkout_created within 7 days of exposed_to_experience
-        - subscription_created within 14 days
+        - Click on where the target ID starts with "plan-select-" (per-plan click-through, tracked uniformly so per-plan click rates can be compared across variants)
+        - Checkout created within 7 days of Exposed to experience
+        - Subscription started within 14 days
 
         Guardrail: bounce rate on /pricing must not increase >5%
 
@@ -108,10 +108,6 @@ intempt:
           </section>
 
         The Visual Editor renders the variant HTML with the user's existing site styles applied; the user refines copy, color, and spacing in the canvas before publishing.
-
-        Taxonomy notes:
-        - All click_on target_id values starting with "plan-select-" are tracked uniformly so per-plan click rates can be compared across variants.
-        - value on goal_completed_in_experience is set by the platform when the downstream subscription_created.amount is captured.
   outputs:
     - { name: experiment, type: experiment, cardinality: single, description: "Website experiment created on /experiences." }
 ---

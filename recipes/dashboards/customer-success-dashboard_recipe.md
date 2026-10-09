@@ -40,7 +40,7 @@ intempt:
         - defaultDateRange: last_30_days
         - exclusionPeriod: incomplete_periods
         - visibility: project
-        - boardFilters: none by default; CSMs typically add a filter on owner_id at runtime to view their book of business
+        - boardFilters: none by default; CSMs typically add a filter on the account owner at runtime to view their book of business
         - boardBreakdowns: none
 
         Layout: 4 rows.
@@ -66,11 +66,6 @@ intempt:
         - Row 1's four KPIs together answer "how is the customer base health" from four angles: how many are slipping (Accounts at Risk), are we keeping them (Logo Retention), are they paying more (NRR), and how do they feel (NPS).
         - Row 2 (the full-width account table) is the centerpiece. CSMs work this list weekly: top of the "decline" sort = save plays; top of the "rise" sort = expansion outreach.
         - Row 4 is leading-indicator territory: support spikes precede churn by 2-4 weeks, and pre-churn behavioral signals surface 30 days out. Use these to fire intervention before retention erosion shows up in Row 3's NRR curves.
-
-        Taxonomy notes:
-        - All source recipes use canonical events: session_start, click_on, ticket_created, subscription_cancelled, subscription_updated, feedback_submitted.
-        - Account-level rollups via Users.primary_account_id.
-        - accounts-at-risk-count, monthly-logo-retention-trend, and nps-tracking are new v5 recipes designed to fill the headline-KPI slots cleanly.
   outputs:
     - { name: dashboard, type: dashboard, cardinality: single, description: "Dash board (composition canvas) produced by this recipe." }
 ---

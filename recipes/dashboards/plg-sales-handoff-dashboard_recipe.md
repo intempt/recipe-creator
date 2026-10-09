@@ -36,14 +36,14 @@ intempt:
 
         Persona: PLG Sales Lead, Hybrid GTM operator, or PLG-aware AE. Question answered: "Which free users are showing strong intent, and which features are driving them toward paid?"
 
-        This dashboard pairs the canonical PLG sales handoff signals (PQL leaderboard, paywall conversion) with the funnel and account-level views that surface the highest-intent users for sales outreach.
+        This dashboard pairs the core PLG sales handoff signals (PQL leaderboard, paywall conversion) with the funnel and account-level views that surface the highest-intent users for sales outreach.
 
         Board-level configuration:
         - defaultDateRange: last_30_days
         - exclusionPeriod: today (PQL signals are fast-moving; today's data is partial)
         - visibility: project
         - boardFilters: subscription is null OR subscription is trial (default-pinned to scope to free/trial users only)
-        - boardBreakdowns: utm_source: pushed down to ICP-filter applicable cards
+        - boardBreakdowns: UTM source: pushed down to ICP-filter applicable cards
 
         Layout: 4 rows.
 
@@ -54,7 +54,7 @@ intempt:
         - Card 4: Funnel metric to source recipe: free-paid-conversion-funnel, vizType: metric, titleOverride: "Trial to Paid Rate"
 
         Row 2: The leaderboard (heightPx: 480, full-width single card at widthUnits: 12):
-        - Card 1: Insights to source recipe: pql-leaderboard, displayMode: table (the sortable PQL leaderboard: the canonical sales-handoff artifact)
+        - Card 1: Insights to source recipe: pql-leaderboard, displayMode: table (the sortable PQL leaderboard: the core sales-handoff artifact)
 
         Row 3: Paywall and feature intelligence (heightPx: 440, two cards at widthUnits: 6):
         - Card 1: Insights to source recipe: feature-paywall-conversion, displayMode: chart, vizType: scatter (the four-quadrant scatter)
@@ -69,10 +69,7 @@ intempt:
         - Row 2 (the PQL leaderboard, full-width) is what sales reps look at every morning.
         - Row 3 Card 1 (paywall conversion scatter) tells the product team which features to gate vs. give away.
         - Row 4 Card 1 (Activated AND Paying) reveals the gap between vanity activation and real activation.
-
-        Taxonomy notes:
-        - All source recipes use canonical events: session_start, click_on, goal_completed_in_journey, page_viewed (filtered to /pricing), subscription_created.
-        - PQL/PQA scoring uses Users.primary_account_id for account-level rollup.
+        - PQL and PQA scoring rolls up to the account each user belongs to. Pricing intent comes from page views filtered to /pricing.
   outputs:
     - { name: dashboard, type: dashboard, cardinality: single, description: "Dash board (composition canvas) produced by this recipe." }
 ---

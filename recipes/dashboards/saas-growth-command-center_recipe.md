@@ -40,7 +40,7 @@ intempt:
         - defaultDateRange: last_30_days
         - exclusionPeriod: incomplete_periods
         - visibility: project
-        - boardFilters: none by default (allow user to add plan_tier filter at runtime)
+        - boardFilters: none by default (allow user to add a Plan tier filter at runtime)
         - boardBreakdowns: none
 
         Layout: 4 rows × variable cards per row. All cards isLinked: true (live-mirror the source recipe). Widths sum to 12 per row.
@@ -66,11 +66,7 @@ intempt:
         Annotations:
         - The four KPIs in Row 1 should be reviewed alongside the stickiness ratio (Row 1 Card 4): high WAU/MRR with falling stickiness is a leading indicator of churn.
         - All cards respect the board-level date range; users can override per-card if needed.
-
-        Taxonomy notes:
-        - All 7 source recipes are taxonomy-grounded against Intempt V2.1.
-        - Cards reference recipe slugs by id; when isLinked: true the card is a live mirror of the source recipe's configuration.
-        - KPI cards use the metric vizType applied to the source chart-recipe: Lovable renders the recipe's headline metric as a single number.
+        - KPI cards apply the metric vizType to the source recipe, rendering its headline metric as a single number.
   outputs:
     - { name: dashboard, type: dashboard, cardinality: single, description: "Dash board (composition canvas) produced by this recipe." }
 ---

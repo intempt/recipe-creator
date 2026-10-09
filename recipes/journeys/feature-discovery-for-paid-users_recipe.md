@@ -38,7 +38,7 @@ intempt:
       produces: attribute
       bindsAs: untouched_features
       description: "Weekly, for each user: the features on their plan they have not touched in 90 days, cut to the top three by how strongly each correlates with retention for similar users and how well it fits their role and industry."
-      prompt: 'Create an AI-derived attribute ''untouched_features'' on the User object. Computed weekly. For each user, compare features-touched in last 90 days against the catalog of features available on their plan, and surface the top 3 high-value features they haven''t used. Prioritize features by: (a) historical correlation with retention among similar users, (b) features the user''s use case (inferred from segment / industry / role) suggests they should benefit from. Excludes features that the user''s plan doesn''t include. Output: ranked list of 3 untouched features with the recommended order.'
+      prompt: 'Create an AI-derived attribute ''Untouched features'' on the User object. Computed weekly. For each user, compare features-touched in last 90 days against the catalog of features available on their plan, and surface the top 3 high-value features they haven''t used. Prioritize features by: (a) historical correlation with retention among similar users, (b) features the user''s use case (inferred from segment / industry / role) suggests they should benefit from. Excludes features that the user''s plan doesn''t include. Output: ranked list of 3 untouched features with the recommended order.'
     - step: 2
       title: "Pick who is worth nudging"
       command: create_segment
@@ -47,7 +47,7 @@ intempt:
       dependsOn:
       - untouched_features
       description: "Paid users at least 30 days in, with at least one untouched feature and two or more sessions in the last 14 days. People still onboarding are left out, and so is anyone already nudged in the last 30 days."
-      prompt: Build a segment 'Feature discovery audience' capturing paid users where subscription is at least 30 days old AND untouched_features list is non-empty AND the user has had at least 2 sessions in the last 14 days (active enough to benefit from a feature nudge). Excludes users in initial onboarding (different motion) and users who already received a feature-discovery nudge in the last 30 days.
+      prompt: Build a segment 'Feature discovery audience' capturing paid users where subscription is at least 30 days old AND the untouched-features list is non-empty AND the user has had at least 2 sessions in the last 14 days (active enough to benefit from a feature nudge). Excludes users in initial onboarding (different motion) and users who already received a feature-discovery nudge in the last 30 days.
     - step: 3
       title: "Write the nudge"
       command: create_email_content

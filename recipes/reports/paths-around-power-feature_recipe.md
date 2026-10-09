@@ -34,24 +34,24 @@ intempt:
       prompt: |
         Create a Path report called "Paths Around a Power Feature".
 
-        This is a TWO-PATH report (forward and backward) bracketing a configurable target feature, identified by click_on.target_id.
+        This is a TWO-PATH report (forward and backward) bracketing a configurable target feature, identified by the clicked element's target.
 
         Path A: Backward (what leads users to the feature):
-        - Anchor event: click_on where target_id matches the target feature pattern
+        - Anchor event: Click on, where the clicked element's target matches the target feature pattern
         - Direction: backward
         - Depth: 5 steps backward
         - Window: 30 minutes before the feature interaction
         - Loop compression: on
 
         Path B: Forward (what users do after using the feature):
-        - Anchor event: same click_on
+        - Anchor event: the same Click on
         - Direction: forward
         - Depth: 5 steps forward
         - Window: 30 minutes after the feature interaction
         - Loop compression: on
 
         Time range: Last 30 days
-        Breakdown: By plan_name (resolved from each user's most-recent active subscription_created.plan_name)
+        Breakdown: By Plan (resolved from each user's most-recent active Subscription started plan)
 
         Surface for both paths:
         - The top 10 most-common precursor paths (Path A) and follow-on paths (Path B)
@@ -59,16 +59,12 @@ intempt:
         - The % of users for whom this was their FIRST interaction with the feature in the trailing 90 days
 
         Annotations:
-        - Path A: flag if the dominant precursor is "page_viewed on /help" or "click_on a tooltip" (feature is being discovered through help, not natural workflow: discoverability issue).
+        - Path A: flag if the dominant precursor is "View page on /help" or "Click on a tooltip" (feature is being discovered through help, not natural workflow: discoverability issue).
         - Path A: flag if the dominant precursor is from settings/admin (advanced feature only used by admins, not the broader user base).
-        - Path B (flag if the dominant follow-on is session_end (users disengage after using the feature) signals confusion or completion of a single task, not workflow integration).
+        - Path B (flag if the dominant follow-on is Session end (users disengage after using the feature) signals confusion or completion of a single task, not workflow integration).
         - Path B: flag if the feature leads to repeated use of itself within session (sticky / habit-forming pattern).
 
         Use case: when prioritizing investment in a feature, knowing how users arrive at it AND what they do after reveals whether the feature is well-positioned in the product workflow or sits in isolation. The KISSmetrics product analytics literature flags this as one of the most-overlooked path use cases.
-
-        Taxonomy notes:
-        - click_on is canonical with target_id, target_text, hierarchy, path properties.
-        - session_end is the canonical session-disengagement marker.
   outputs:
     - { name: report, type: report, cardinality: single, description: "Report produced by this recipe." }
 ---

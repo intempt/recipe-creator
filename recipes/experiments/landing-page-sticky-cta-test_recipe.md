@@ -50,10 +50,10 @@ intempt:
         - Audience: all visitors
         - Display frequency: always (within session)
 
-        Primary metric: goal_completed_in_experience where experience_id = <this> (goal: form_submitted on demo-request OR user_created via signup, within session of exposure)
+        Primary metric: Completed an experience goal for this experience (goal: Form submitted on demo-request OR User created via signup, within session of exposure)
         Secondary metrics:
-        - click_on where target_id = "sticky-cta-button" (sticky CTA engagement rate)
-        - click_on where target_id = "hero-cta-button" (does sticky cannibalize hero clicks?)
+        - Click on the "sticky-cta-button" element (sticky CTA engagement rate)
+        - Click on the "hero-cta-button" element (does sticky cannibalize hero clicks?)
         - Bounce rate per variant (variant B's always-visible may feel pushy)
         - Scroll depth (does sticky reduce scroll engagement?)
 
@@ -87,11 +87,7 @@ intempt:
 
         The Visual Editor allows the user to refine the sticky bar's color, copy, button styling, and animation timing. Mobile note: ensure the sticky bar respects the iOS Safari URL bar and doesn't double-stack with mobile browser chrome.
 
-        Taxonomy notes:
-        - This is distinct from mobile-sticky-add-to-cart-test (which is ecommerce PDP-specific, mobile-only). Landing-page sticky CTA applies to SaaS marketing pages on all devices.
-        - target_id="sticky-cta-button" must be preserved across variants B and C for consistent click_on aggregation.
-        - Variant C's fade-in is generally less intrusive but has slightly lower engagement than Variant B's always-visible. The test answers: which tradeoff wins for your audience?
-        - For dark-launching: ship Variant B first to a small traffic slice (5%) to confirm no layout regressions before full experiment ramp.
+        This is distinct from mobile-sticky-add-to-cart-test (ecommerce PDP-specific, mobile-only): a landing-page sticky CTA applies to SaaS marketing pages on all devices. Keep the id "sticky-cta-button" on the button in both variants B and C so clicks aggregate consistently. Variant C's fade-in is generally less intrusive but has slightly lower engagement than Variant B's always-visible bar, so the test answers which tradeoff wins for your audience. For a dark launch, ship Variant B first to a small traffic slice (5%) to confirm no layout regressions before the full experiment ramp.
   outputs:
     - { name: experiment, type: experiment, cardinality: single, description: "Website experiment created on /experiences." }
 ---

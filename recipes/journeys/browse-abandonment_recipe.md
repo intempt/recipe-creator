@@ -36,7 +36,7 @@ intempt:
       produces: segment
       bindsAs: segment
       description: "Anyone who viewed a product in the last 7 days and never added one to their cart."
-      prompt: "Identify users with product_viewed events in last 7 days who did NOT trigger cart_added."
+      prompt: "Identify users who viewed a product in the last 7 days but did not add one to their cart."
     - step: 2
       title: "Write the browse reminder"
       command: create_email_content

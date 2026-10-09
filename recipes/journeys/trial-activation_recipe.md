@@ -35,7 +35,7 @@ intempt:
       produces: attribute
       bindsAs: attribute
       description: "A trial health score from logins, use of the key features, team invites and data uploaded."
-      prompt: "Define an AI-derived trial_health_score attribute computed from event signals (logins, key feature usage, team invites, data uploaded)."
+      prompt: "Define an AI-derived Trial health score attribute computed from event signals (logins, key feature usage, team invites, data uploaded)."
     - step: 2
       title: "Split trials into three tiers"
       command: create_segment
@@ -43,7 +43,7 @@ intempt:
       bindsAs: segment
       dependsOn: [attribute]
       description: "Highly engaged, moderate and at risk, off that score."
-      prompt: "Segment trial users into risk tiers (high-engagement, moderate, at-risk) based on trial_health_score."
+      prompt: "Segment trial users into risk tiers (high-engagement, moderate, at-risk) based on the trial health score."
     - step: 3
       title: "Write onboarding per tier"
       command: create_email_content

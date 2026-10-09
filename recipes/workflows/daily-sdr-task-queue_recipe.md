@@ -36,7 +36,7 @@ intempt:
       produces: attribute
       bindsAs: task_priority
       description: "A score out of 150 per task. The source is worth 50 for a product qualified account, 40 for a product qualified lead, 35 for pricing intent, 30 for a target account and 10 for a cold follow up. Signals under a day old are multiplied by 1.5 and anything over a week by 0.4, ideal ICP fit by 1.3 and marginal by 0.5, and enterprise accounts by 1.5."
-      prompt: 'Create an AI-derived attribute ''task_priority_score'' on the Task object. Composite: (a) signal source weight: PQA: 50, PQL: 40, pricing-intent: 35, named-account-touch: 30, generic-inbound: 20, cold-outbound-followup: 10; (b) recency multiplier (fresh signal (<24hr) × 1.5, day-2 × 1.0, day-3-7 × 0.7, day-8+ × 0.4; (c) ICP fit boost) ideal-tier accounts × 1.3, viable × 1.0, marginal × 0.5; (d) account size weight: enterprise tier × 1.5. Output: 0-150 score for ranking.'
+      prompt: 'Create an AI-derived attribute ''task priority score'' on the Task object. Composite: (a) signal source weight: PQA: 50, PQL: 40, pricing-intent: 35, named-account-touch: 30, generic-inbound: 20, cold-outbound-followup: 10; (b) recency multiplier (fresh signal (<24hr) × 1.5, day-2 × 1.0, day-3-7 × 0.7, day-8+ × 0.4; (c) ICP fit boost) ideal-tier accounts × 1.3, viable × 1.0, marginal × 0.5; (d) account size weight: enterprise tier × 1.5. Output: 0-150 score for ranking.'
     - step: 2
       title: "Cut it to 25 a day"
       command: build_insights_report
@@ -45,7 +45,7 @@ intempt:
       dependsOn:
       - task_priority
       description: "Per SDR, the top 25 open tasks by that score, each showing the signal, the account, its ICP tier, how many days since the signal fired, and a suggested opening angle. It stops at 25 because that is roughly what one person can work in a day."
-      prompt: 'Build a report ''SDR daily queue snapshot'' computing, per SDR, their top 25 open tasks ranked by task_priority_score, with each task showing: signal source (PQL / PQA / intent), account name, ICP tier, days since signal fired, suggested first-touch angle (based on signal type and account context). Caps queue at 25 because SDR daily-touch capacity is realistically 20-25 outreaches.'
+      prompt: 'Build a report ''SDR daily queue snapshot'' computing, per SDR, their top 25 open tasks ranked by task priority score, with each task showing: signal source (PQL / PQA / intent), account name, ICP tier, days since signal fired, suggested first-touch angle (based on signal type and account context). Caps queue at 25 because SDR daily-touch capacity is realistically 20-25 outreaches.'
     - step: 3
       title: "Deliver it at 8am"
       command: create_workflow
@@ -55,7 +55,7 @@ intempt:
       - task_priority
       - report
       description: "Every working day in each SDR's own timezone: it rescores the open tasks so overnight signals count, builds each queue, sends it by Slack DM with a link per task, and gives the manager the team picture, including anyone under 10 tasks or over 50. Weekends and holidays are skipped."
-      prompt: 'Create a scheduled workflow firing every business day at 8am local time per SDR (timezone-aware). Step sequence: (1) refresh task_priority_score across all open SDR tasks (catches new signals from overnight); (2) generate each SDR''s top-25 queue; (3) deliver via Slack DM to the SDR with the prioritized list and one-click links to each task; (4) post a team-level summary to the SDR manager: queue-size distribution (any SDR with <10 tasks = underfed, >50 = backlog), top signal sources today, ICP-tier mix. Skip on weekends and holidays.'
+      prompt: 'Create a scheduled workflow firing every business day at 8am local time per SDR (timezone-aware). Step sequence: (1) refresh the task priority score across all open SDR tasks (catches new signals from overnight); (2) generate each SDR''s top-25 queue; (3) deliver via Slack DM to the SDR with the prioritized list and one-click links to each task; (4) post a team-level summary to the SDR manager: queue-size distribution (any SDR with <10 tasks = underfed, >50 = backlog), top signal sources today, ICP-tier mix. Skip on weekends and holidays.'
     - step: 4
       title: "Check the ranking is right"
       command: create_dashboard

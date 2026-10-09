@@ -36,7 +36,7 @@ intempt:
       produces: segment
       bindsAs: segment
       description: "Anyone who abandoned a cart in the last 30 days and never placed that order."
-      prompt: "Identify users with cart_abandoned event in last 30 days who have NOT placed an order for that cart."
+      prompt: "Identify users who abandoned a cart in the last 30 days but have not placed an order for that cart."
     - step: 2
       title: "Write the three emails"
       command: create_email_content

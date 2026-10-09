@@ -51,10 +51,10 @@ intempt:
         - Audience: all visitors
         - Display frequency: always
 
-        Primary metric: goal_completed_in_experience where experience_id = <this> AND value > 0 (revenue from subscription_created OR order_created within 7 days of exposure)
+        Primary metric: Completed an experience goal for this experience with value > 0 (revenue from Subscription started OR Placed order within 7 days of exposure; for ecommerce the value is the order total, for SaaS the subscription amount)
         Secondary metrics:
-        - click_on where target_id starts with "plan-select-" or "add-to-cart-button" (CTA click-through per variant)
-        - checkout_created within 7 days
+        - Click on where the target ID starts with "plan-select-" or "add-to-cart-button" (CTA click-through per variant)
+        - Checkout created within 7 days
         - AOV: average value of orders attributed to the variant
 
         Guardrail: bounce rate on the page must not increase >5%
@@ -92,10 +92,7 @@ intempt:
 
         The Visual Editor allows the user to refine typography, color (red vs. green for savings), and exact dollar/percentage values to match their actual pricing.
 
-        Taxonomy notes:
-        - The actual savings amounts ($24, 20%, $120 to $96) must reflect the merchant's real pricing: these are placeholders that the user adjusts in the Visual Editor.
-        - For ecommerce, the goal fires on order_created.total_price; for saas, on subscription_created.amount.
-        - Compare-at pricing requires the merchant's actual original price to be available; if pricing varies dynamically, the recipe assumes a stable comparison baseline.
+        The savings amounts ($24, 20%, $120 to $96) are placeholders and must reflect the merchant's real pricing. Compare-at pricing requires the merchant's actual original price to be available; if pricing varies dynamically, the recipe assumes a stable comparison baseline.
   outputs:
     - { name: experiment, type: experiment, cardinality: single, description: "Website experiment created on /experiences." }
 ---

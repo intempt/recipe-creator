@@ -34,18 +34,19 @@ intempt:
       prompt: |
         Create an Insights report called "Customer Lifecycle Distribution".
 
-        Series A: Count Unique Users grouped by Users.lifecycle_score: the canonical lifecycle enum with exactly six values:
+        Series A: Count Unique Users grouped by Lifecycle stage, which has exactly six values:
           - At risk
           - Needs attention
           - New customers
           - Promising
           - Regulars
           - Champions
+        Use only these six stages; do not invent additional segments (no "Loyal," no "Hibernating," no "Lost," no "Can't Lose Them").
 
-        Series B: Sum of Users.lifetime_value per lifecycle stage (revenue concentration view)
+        Series B: Sum of Lifetime value per lifecycle stage (revenue concentration view)
         Series C: Computed: Series B / total LTV × 100, unit: %, label: "Share of Total LTV"
-        Series D: Average of Users.days_since_last_activity per lifecycle stage (recency context)
-        Series E: Average of Users.avg_order_value per lifecycle stage (basket-size context)
+        Series D: Average of Days since last activity per lifecycle stage (recency context)
+        Series E: Average of Average order value per lifecycle stage (basket-size context)
 
         Time range: Current snapshot
         Compare: Same snapshot 30 days ago AND 90 days ago (lifecycle migration over 1 month and 1 quarter)
@@ -67,13 +68,7 @@ intempt:
         - Surface the largest single migration over the period (e.g. "147 users moved from Regulars to At risk this month"): this is the at-risk cohort that warrants targeted re-engagement.
         - Add benchmarks for healthy share-of-customers distribution: Champions 5-10%, Regulars 15-25%, Promising 15-20%, New customers 10-20%, Needs attention 15-25%, At risk 10-20%. Distributions skewed toward "At risk" + "Needs attention" indicate retention erosion; distributions skewed toward "New customers" without "Regulars" growing indicate weak repeat-purchase mechanics.
 
-        Use case: the canonical CRM segmentation view. Every direct-to-consumer brand needs lifecycle visibility; this recipe materializes it directly from the platform's pre-computed Users.lifecycle_score attribute (which is maintained automatically based on RFM scoring). The migration view is the high-leverage piece: the single number "Champions: 8%" is less actionable than "147 Regulars moved to At risk this month."
-
-        Taxonomy notes:
-        - Users.lifecycle_score is the canonical platform-maintained lifecycle enum with exactly the six values listed above. Do NOT invent additional segments (no "Loyal," no "Hibernating," no "Lost," no "Can't Lose Them"): these are common in textbook RFM frameworks but are not part of Intempt's canonical lifecycle taxonomy.
-        - Users.recency_score, frequency_score, monetary_score are separate enum attributes (the inputs that feed lifecycle_score) but should NOT be used as cross-tab dimensions in this recipe: they're the components, not the segmentation. If R/F/M-cube cross-tab analysis is needed, that's a different recipe.
-        - Users.lifetime_value, days_since_last_activity, avg_order_value are real computed numeric attributes on the Users object.
-        - Migration analysis is computed by Lovable from snapshots of lifecycle_score taken at different points in time. The platform should retain or version lifecycle_score history to enable this.
+        Use case: the canonical CRM segmentation view. Every direct-to-consumer brand needs lifecycle visibility; this recipe materializes it directly from the platform's pre-computed lifecycle stage (which is maintained automatically based on RFM scoring). The migration view is the high-leverage piece: the single number "Champions: 8%" is less actionable than "147 Regulars moved to At risk this month."
   outputs:
     - { name: report, type: report, cardinality: single, description: "Report produced by this recipe." }
 ---

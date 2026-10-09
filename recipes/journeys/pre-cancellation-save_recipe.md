@@ -37,7 +37,7 @@ intempt:
       produces: attribute
       bindsAs: cancel_intent
       description: "Tracked in real time: a visit to the cancel or downgrade page in the last 14 days, a click on cancel subscription, or a cancel reason submitted without confirming. It records how far they got, the reason if they gave one, and when. It expires after 7 quiet days."
-      prompt: 'Create an AI-derived attribute ''cancel_intent_signal'' on the User object. Computed in real-time. Inputs: (a) visited /cancel or /downgrade page in last 14 days; (b) clicked ''cancel subscription'' button (which triggers cancel-modal not cancellation); (c) submitted cancel reason in cancel-flow form without confirming. Output: object with intent_level (browsing / interacting / committing), stated_reason if captured (price / unused / competitor / feature-gap / pause-needed / other), and timestamp. The signal expires after 7 days of no further activity.'
+      prompt: 'Create an AI-derived attribute ''Cancel intent signal'' on the User object. Computed in real-time. Inputs: (a) visited /cancel or /downgrade page in last 14 days; (b) clicked ''cancel subscription'' button (which triggers cancel-modal not cancellation); (c) submitted cancel reason in cancel-flow form without confirming. Output: object with intent level (browsing / interacting / committing), stated reason if captured (price / unused / competitor / feature-gap / pause-needed / other), and timestamp. The signal expires after 7 days of no further activity.'
     - step: 2
       title: "Find who is halfway out"
       command: create_segment
@@ -46,7 +46,7 @@ intempt:
       dependsOn:
       - cancel_intent
       description: "Paying users who are interacting with or committing to the cancel flow but are still subscribed. Trials are left out, and so is anyone who already got a save offer in the last 90 days."
-      prompt: Build a segment 'Cancel-intent active' capturing paying users where cancel_intent_signal.intent_level is 'interacting' or 'committing' AND subscription is still active (not yet cancelled, once cancelled, post-cancel-winback takes over). Excludes users on trial (different motion) and users who have already received a cancel-save offer in last 90 days (no spam).
+      prompt: Build a segment 'Cancel-intent active' capturing paying users whose cancel intent level is 'interacting' or 'committing' AND whose subscription is still active (not yet cancelled, once cancelled, post-cancel-winback takes over). Excludes users on trial (different motion) and users who have already received a cancel-save offer in last 90 days (no spam).
     - step: 3
       title: "Write one offer per reason"
       command: create_email_content
@@ -67,7 +67,7 @@ intempt:
       - segment
       - asset
       description: "Each person gets a single offer, chosen by the reason they gave, within an hour of the signal, and a softer follow up on day 2 if nothing happens. The top 10% by ARR also raise an urgent CSM task straight away, so a human tries in parallel. It closes when the offer is accepted, when they cancel anyway, or after 14 days."
-      prompt: 'Build a branched journey triggered when cancel_intent_signal becomes ''interacting'' or ''committing''. Branch on stated_reason: each user gets ONE save offer matched to their stated reason. Touch 1 (within 1 hour of intent signal): the matched save offer email. Touch 2 (Day 2, if no engagement): softer follow-up reinforcing the offer. For high-LTV customers (top 10% by ARR), additionally create urgent CSM task at intent detection: human save attempt parallel to email. Exit on: save_offer_accepted (recorded as retention_win event), subscription_canceled (proceed to post-cancel-winback), or 14-day timeout.'
+      prompt: 'Build a branched journey triggered when the cancel intent signal becomes ''interacting'' or ''committing''. Branch on stated reason: each user gets ONE save offer matched to their stated reason. Touch 1 (within 1 hour of intent signal): the matched save offer email. Touch 2 (Day 2, if no engagement): softer follow-up reinforcing the offer. For high-LTV customers (top 10% by ARR), additionally create urgent CSM task at intent detection: human save attempt parallel to email. Exit on: the save offer is accepted (recorded as a retention-win event), Subscription canceled (proceed to post-cancel-winback), or 14-day timeout.'
     - step: 5
       title: "See which saves actually work"
       command: create_dashboard

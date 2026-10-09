@@ -43,7 +43,7 @@ intempt:
         - exclusionPeriod: today (operations data lags by hours)
         - visibility: project
         - boardFilters: none by default
-        - boardBreakdowns: product_category (derived from items): pushed down to applicable cards
+        - boardBreakdowns: Product category (derived from items): pushed down to applicable cards
 
         Layout: 4 rows.
 
@@ -63,17 +63,14 @@ intempt:
 
         Row 4: Pre-purchase friction and support (heightPx: 400, two cards at widthUnits: 6):
         - Card 1: Funnel to source recipe: checkout-form-friction, displayMode: chart, vizType: funnel_steps (per-checkout-step friction)
-        - Card 2: Path to source recipe: support-deflection-paths, displayMode: chart (paths preceding ticket_created: operational quality intelligence)
+        - Card 2: Path to source recipe: support-deflection-paths, displayMode: chart (paths preceding Ticket created: operational quality intelligence)
 
         Annotations:
         - Row 1 Card 2 ("Fulfillment Rate") is the operational headline. <90% indicates a backlog or capacity issue.
         - Row 2 surfaces the operational tempo (Card 1: order flow over time) and ship-time distribution (Card 2: how fast are we actually shipping). The histogram is more useful than just "average ship time" because it surfaces the long tail.
         - Row 3 surfaces post-purchase quality (categories with high return AND high refund rates are the inventory-quality problem children); Row 4 surfaces pre-purchase friction and support load.
 
-        Taxonomy notes:
-        - All source recipes are taxonomy-grounded. order-status-flow and time-to-ship-distribution are new v5 recipes designed specifically for this dashboard's operational use case (replacing earlier inline custom specs).
-        - order_created, order_fulfilled, order_refunded, order_cancelled are all canonical events.
-        - Time-to-ship is computed from (order_fulfilled.created_at − order_created.created_at) joined on order_id.
+        - Time to ship is the time between Placed order and Order fulfilled for the same order.
   outputs:
     - { name: dashboard, type: dashboard, cardinality: single, description: "Dash board (composition canvas) produced by this recipe." }
 ---

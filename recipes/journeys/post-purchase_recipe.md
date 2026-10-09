@@ -36,7 +36,7 @@ intempt:
       produces: segment
       bindsAs: segment
       description: "People who placed an order in the last 14 days, separated into first time and repeat buyers."
-      prompt: "Identify users with order_placed event in last 14 days, segmented by first-time vs repeat buyer."
+      prompt: "Identify users who placed an order in the last 14 days, segmented by first-time vs repeat buyer."
     - step: 2
       title: "Write the five emails"
       command: create_email_content

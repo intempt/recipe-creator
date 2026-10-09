@@ -34,15 +34,15 @@ intempt:
       prompt: |
         Create an Insights report called "Multi-Threading Coverage by Deal".
 
-        Series A: Event "deal_stage_changed", scope: per active deal_id, aggregation: Count Unique users from the user_ids property (the distinct stakeholders attached to the deal across all stage events)
-        Series B: Same per-deal computation but counting only meeting_scheduled events linked to the deal (via deal_ids relation): distinct users who actually attended a meeting
+        Series A: Deal stage changed events, scope: per active deal, aggregation: Count unique associated users (the distinct stakeholders attached to the deal across all stage events)
+        Series B: Same per-deal computation but counting only Meeting scheduled events linked to the deal (via the associated deals relation): distinct users who actually attended a meeting
         Series C: Computed: Series A bucketed into "Single-threaded (1 contact)" / "Lightly threaded (2-3)" / "Multi-threaded (4-6)" / "Deeply threaded (7+)"
-        Breakdown: By deal stage (open deals only, group by current stage from deal_stage_changed.new_stage)
+        Breakdown: By deal stage (open deals only, group by current stage from the Deal stage changed new stage)
         Time range: All open deals + last 90 days of closed deals
         Chart type: Stacked bar chart: bar per stage, segments showing the threading-bucket distribution
 
         Also include a parallel "win-rate by threading level" view:
-        - For closed deals (deal_won + deal_lost) in the last 12 months, compute win rate by threading bucket
+        - For closed deals (Deal won plus Deal lost) in the last 12 months, compute win rate by threading bucket
         - Surface: single-threaded deals win X%, multi-threaded deals win Y%, with the gap quantified
 
         Annotations:
@@ -53,10 +53,7 @@ intempt:
 
         Use case: the standard B2B sales hygiene report. AEs are notoriously single-threaded; this report makes the risk visible and quantifies it in dollars. Top-performing sales orgs make this their #1 weekly review.
 
-        Taxonomy notes:
-        - deal_stage_changed.user_ids is a relation (multi-value) carrying associated users.
-        - meeting_scheduled.user_ids and meeting_scheduled.deal_ids together let us count meeting-attended stakeholders per deal.
-        - Deal "current threading count" is computed across all events linked to the deal_id (deal_stage_changed, meeting_scheduled, call_completed, email_sent).
+        A deal's current threading count is computed across all events linked to the deal: stage changes, meetings scheduled, calls completed and emails sent.
   outputs:
     - { name: report, type: report, cardinality: single, description: "Report produced by this recipe." }
 ---

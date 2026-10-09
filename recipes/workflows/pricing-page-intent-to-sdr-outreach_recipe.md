@@ -37,7 +37,7 @@ intempt:
       produces: segment
       bindsAs: segment
       description: "Identified users with two or more pricing page views in the last 14 days, or a single view after at least five minutes in the product. Existing customers and anyone with an open deal are left out. The repeat and dwell tests are what remove the one click visitors."
-      prompt: Build a segment 'Pricing-page intent - last 7 days' capturing identified users with 2+ pricing_page_viewed events in the last 14 days, OR a single pricing_page_viewed event after at least 5 minutes of total product session time. Excludes existing paid customers and users with an open deal already. The repeat-visit and dwell-time qualifiers filter out casual one-click visits.
+      prompt: Build a segment 'Pricing-page intent - last 7 days' capturing identified users with 2+ Pricing page viewed events in the last 14 days, OR a single Pricing page viewed event after at least 5 minutes of total product session time. Excludes existing paid customers and users with an open deal already. The repeat-visit and dwell-time qualifiers filter out casual one-click visits.
     - step: 2
       title: "Send the visit to a rep"
       command: create_workflow
@@ -46,7 +46,7 @@ intempt:
       dependsOn:
       - segment
       description: "On an identified pricing view it checks the visit qualifies, enriches the account if needed, gathers how many times they have been, what they looked at beforehand, the features used in that session and the ICP tier, creates an SDR task tagged high intent, assigns it by territory and messages the rep. An anonymous visitor goes into the identification journey instead, which asks for an email in the app."
-      prompt: 'Create a workflow firing on pricing_page_viewed when the user is identified. Step sequence: (1) check whether this is a qualifying visit per segment criteria; (2) enrich the user''s account if not done already; (3) compute a context blob: visit count, pages viewed prior to pricing, key features used in session, account ICP tier; (4) create a SDR task tagged ''high-intent: pricing'' with the context, assigned by territory; (5) post Slack notification to the rep. If the account is unidentified (anonymous visitor), trigger the identification journey instead (request email via in-app prompt).'
+      prompt: 'Create a workflow firing on Pricing page viewed when the user is identified. Step sequence: (1) check whether this is a qualifying visit per segment criteria; (2) enrich the user''s account if not done already; (3) compute a context blob: visit count, pages viewed prior to pricing, key features used in session, account ICP tier; (4) create a SDR task tagged ''high-intent: pricing'' with the context, assigned by territory; (5) post Slack notification to the rep. If the account is unidentified (anonymous visitor), trigger the identification journey instead (request email via in-app prompt).'
     - step: 3
       title: "Compare against cold sourcing"
       command: create_dashboard
@@ -56,7 +56,7 @@ intempt:
       - segment
       - workflow
       description: "Signals per week, the median minutes from signal to first contact, and conversion to a booked demo and to a deal, set against deals sourced from cold outbound."
-      prompt: 'Compose a pricing-intent dashboard: pricing-page intent signal volume per week, SDR response time (median minutes from signal to first touch), conversion rate from pricing-intent signal to demo-scheduled, conversion rate from pricing-intent to deal_created. Compare against baseline (deals sourced from cold outbound): pricing-intent leads should convert 3-5x better.'
+      prompt: 'Compose a pricing-intent dashboard: pricing-page intent signal volume per week, SDR response time (median minutes from signal to first touch), conversion rate from pricing-intent signal to demo-scheduled, conversion rate from pricing-intent to Deal created. Compare against baseline (deals sourced from cold outbound): pricing-intent leads should convert 3-5x better.'
   outputs:
     - { name: segment, type: segment, cardinality: single, description: "Segment produced by this recipe." }
     - { name: workflow, type: workflow, cardinality: single, description: "Workflow produced by this recipe." }

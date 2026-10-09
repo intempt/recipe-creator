@@ -41,19 +41,19 @@ intempt:
         Variants (each binds to a specific behavioral audience):
         - Control (audience = all: fallback): standard hero
         - Variant B (audience = "first-time visitors"): value-proposition + social proof hero
-          - Audience definition: Users.first_seen_at is within the current session OR Users.first_seen_at is null
+          - Audience definition: first seen within the current session OR never seen before
           - In other words: this is the user's first visit, or they were never identified before
         - Variant C (audience = "returning visitors with abandoned cart"): cart resumption hero
           - Audience definition: ALL of the following:
-            1. Users.first_seen_at is older than the current session (returning visitor: has prior session history)
-            2. At least one cart_created event in the last 7 days
-            3. NO order_created event since that most-recent cart_created
-            4. NO active session at the time of last cart_created (i.e., they left without checking out)
+            1. First seen before the current session (returning visitor: has prior session history)
+            2. At least one Cart created event in the last 7 days
+            3. NO Placed order event since that most-recent Cart created
+            4. NO active session at the time of last Cart created (i.e., they left without checking out)
           - This composite definition expresses "returning visitor with an abandoned cart from a prior session"
         - Variant D (audience = "returning visitors without abandoned cart"): "continue browsing" hero
           - Audience definition: ALL of the following:
-            1. Users.first_seen_at is older than the current session (returning visitor)
-            2. NOT in the abandoned-cart audience (no cart_created in last 7 days OR an order_created has occurred since last cart_created)
+            1. First seen before the current session (returning visitor)
+            2. NOT in the abandoned-cart audience (no Cart created in last 7 days OR a Placed order has occurred since last Cart created)
 
         Targeting:
         - Pages: homepage "/" and product category pages "/category/*"
@@ -61,9 +61,9 @@ intempt:
         - Display frequency: once_per_session
 
         Metrics:
-        - click_on engagement per audience
-        - order_created conversion per audience
-        - For Variant C specifically: cart-resumption rate: visitors in the abandoned-cart audience who, after seeing this variant, complete order_created within session
+        - Click on engagement per audience
+        - Placed order conversion per audience
+        - For Variant C specifically: cart-resumption rate: visitors in the abandoned-cart audience who, after seeing this variant, complete a Placed order within session
 
         Schedule: continuous
 
@@ -92,7 +92,7 @@ intempt:
             <h1>Welcome back: your cart's still here</h1>
             <p>Items in your cart from your last visit.</p>
             <div class="abandoned-cart-preview">
-              <!-- platform fills in items from the abandoned cart_created via {{cart.items}} template -->
+              <!-- platform fills in items from the abandoned cart via {{cart.items}} template -->
               <button class="cta-primary" id="hero-cta-resume">Resume checkout</button>
             </div>
           </section>
@@ -105,18 +105,18 @@ intempt:
             <p>Pick up where you left off.</p>
             <section class="recently-viewed" data-source="user-session-history">
               <h2>Recently viewed</h2>
-              <!-- platform fills in last 4 page_viewed PDPs from prior sessions via {{user.recently_viewed}} -->
+              <!-- platform fills in last 4 viewed product pages from prior sessions via {{user.recently_viewed}} -->
             </section>
           </section>
 
-        Taxonomy notes:
-        - Users.first_seen_at is the canonical first-touch timestamp.
-        - "Returning visitor" detection: Users.first_seen_at older than the current session_start timestamp.
-        - "Abandoned cart" derivation in canonical events:
-            cart_created in [now - 7 days, now]
-            AND latest_cart_created.timestamp > MAX(order_created.timestamp WHERE customer_id = current_user)
-            OR no order_created exists for this user
-          This composite condition (last cart_created has no subsequent order_created from the same user) is the canonical abandoned-cart pattern. Most personalization engines support this as a built-in audience template; otherwise it must be evaluated at audience-definition time using event history.
+        Notes:
+        - First seen is the first-touch timestamp.
+        - "Returning visitor" means first seen before the current session's start.
+        - "Abandoned cart" logic:
+            a Cart created in [now - 7 days, now]
+            AND the latest Cart created is more recent than the user's last Placed order
+            OR the user has no Placed order at all
+          This composite condition (the last Cart created has no later Placed order from the same user) is the abandoned-cart pattern. Most personalization engines support this as a built-in audience template; otherwise it must be evaluated at audience-definition time using event history.
         - Variant precedence (most specific wins): C beats D beats B beats Control. Configure the audience evaluation order so abandoned-cart users get Variant C, not Variant D.
         - The {{cart.items}} and {{user.recently_viewed}} template tokens are filled at render time by the personalization engine reading from the user's event history.
   outputs:

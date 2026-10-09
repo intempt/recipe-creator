@@ -34,13 +34,13 @@ intempt:
       prompt: |
         Create an Insights report called "Weekly Active Users Trend".
 
-        Series A: Event "session_start", aggregation: Count Unique Users, time granularity: Weekly, label: "WAU"
-          (alternative: use "identify" if the workspace uses identify as the active-user signal)
-        Series B: Event "session_start", aggregation: Count Unique Users, rolling 28-day window, label: "MAU"
+        Series A: Event Session start, aggregation: Count Unique Users, time granularity: Weekly, label: "WAU"
+          (alternative: use Identify if the workspace uses identify as the active-user signal)
+        Series B: Event Session start, aggregation: Count Unique Users, rolling 28-day window, label: "MAU"
         Series C: Computed: Series A (WAU) / Series B (MAU) × 100, unit: %, label: "Stickiness (WAU/MAU)"
         Time granularity: Weekly
         Time range: Last 12 weeks
-        Breakdown: By plan_name: derive from each user's most-recent active subscription_created.plan_name
+        Breakdown: By Plan: derive from each user's most recent active subscription plan
         Compare: Previous period (prior 12 weeks)
         Chart type: Dual-axis: left axis user counts (WAU/MAU as lines), right axis stickiness % (line)
 
@@ -51,10 +51,6 @@ intempt:
         - Flag any plan where WAU is growing but stickiness is falling (acquiring users but losing engagement).
 
         Stickiness is the leading indicator of retention; raw WAU growth without stickiness growth is a vanity metric.
-
-        Taxonomy notes:
-        - session_start is canonical and carries device_type, country, utm_source. "user_active" as an event does not exist; session_start (or identify) is the active-user signal.
-        - plan_tier as a property does not exist; plan_name on subscription_created is the canonical plan attribute.
   outputs:
     - { name: report, type: report, cardinality: single, description: "Report produced by this recipe." }
 ---

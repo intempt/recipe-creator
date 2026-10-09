@@ -38,7 +38,7 @@ intempt:
       produces: attribute
       bindsAs: attribute
       description: "From the transcript once the recording lands: who talked and for how long, every objection with its quote, timestamp and category of price, timing, competition, a missing feature, authority or trust, how sentiment moved through the call, the buying signals with quotes, how many discovery questions were asked, and an at risk score combining all of it."
-      prompt: 'Create an AI-derived attribute on the Meeting object called ''call_insights''. Computed at call_recording_available from the transcript. Output: structured object with (a) talk-listen ratio per participant; (b) objections detected (list with quote + timestamp + category: price/timing/competition/feature-gap/authority/trust); (c) sentiment trajectory across call phases (open/discovery/demo/close); (d) buying signals detected (list with quote + timestamp + category); (e) discovery question count; (f) at-risk score (composite: high objections + low buying signals + negative sentiment shifts).'
+      prompt: 'Create an AI-derived attribute on the Meeting object called ''call insights''. Computed when the call recording becomes available, from the transcript. Output: structured object with (a) talk-listen ratio per participant; (b) objections detected (list with quote + timestamp + category: price/timing/competition/feature-gap/authority/trust); (c) sentiment trajectory across call phases (open/discovery/demo/close); (d) buying signals detected (list with quote + timestamp + category); (e) discovery question count; (f) at-risk score (composite: high objections + low buying signals + negative sentiment shifts).'
     - step: 2
       title: "Write the manager alert"
       command: create_slack_content
@@ -54,7 +54,7 @@ intempt:
       bindsAs: workflow
       dependsOn: [attribute, asset]
       description: "When a recording becomes available it computes the insights, writes them onto the meeting and links them to the deal, posts the manager alert and raises a 24 hour review task once the at risk score reaches 70, and creates a high priority follow up task when the buying signals are strong and nothing is scheduled."
-      prompt: 'Create a workflow firing on call_recording_available. Step sequence: (1) compute call_insights attribute from the transcript; (2) update the linked Meeting record''s notes with the structured insights and link to the deal; (3) if at-risk score crosses threshold (>=70), post the manager alert to Slack #sales-coaching and create a task for the rep''s manager to review within 24h; (4) if buying signals are strong and no follow-up exists, create a high-priority next-step task for the rep.'
+      prompt: 'Create a workflow firing on Call recording available. Step sequence: (1) compute the call insights attribute from the transcript; (2) update the linked Meeting record''s notes with the structured insights and link to the deal; (3) if at-risk score crosses threshold (>=70), post the manager alert to Slack #sales-coaching and create a task for the rep''s manager to review within 24h; (4) if buying signals are strong and no follow-up exists, create a high-priority next-step task for the rep.'
     - step: 4
       title: "Coach from the patterns"
       command: create_dashboard

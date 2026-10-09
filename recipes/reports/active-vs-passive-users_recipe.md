@@ -1,7 +1,7 @@
 ---
 name: active-vs-passive-users
 description: |
-  Use when a user mentions "active vs. passive users", or asks for related help. Three-way split: producers (frequent click_on), consumers (only page_viewed/session_start), and inactive: the hidden segment most teams miss.
+  Use when a user mentions "active vs. passive users", or asks for related help. Three-way split: producers (frequent clicks), consumers (only page views and sessions), and inactive: the hidden segment most teams miss.
 arguments: []
 intempt:
   id: active-vs-passive-users
@@ -35,18 +35,18 @@ intempt:
         Create an Insights report called "Active vs. Passive Users".
 
         Per-user classification computed from the trailing 30-day window:
-          - Producer: emitted ≥10 click_on events AND ≥1 submit_on (taking actions, creating, configuring)
-          - Consumer: emitted ≥3 session_start AND ≥10 page_viewed BUT <5 click_on (browsing, reading, but not creating)
-          - Lurker: emitted ≥1 session_start in the last 30 days BUT below both thresholds above (logging in but barely engaging)
-          - Inactive: zero session_start in the last 30 days
+          - Producer: emitted ≥10 Click on events AND ≥1 Submit on (taking actions, creating, configuring)
+          - Consumer: emitted ≥3 Session start AND ≥10 View page BUT <5 Click on (browsing, reading, but not creating)
+          - Lurker: emitted ≥1 Session start in the last 30 days BUT below both thresholds above (logging in but barely engaging)
+          - Inactive: zero Session start in the last 30 days
 
         Series A: Count Unique Users per classification bucket, time granularity: Weekly
         Series B: Computed: share of total active users (excluding Inactive) per bucket, unit: %
-        Series C: Sum of subscription_created.amount or revenue_completed.amount per bucket: surfaces revenue concentration
+        Series C: Sum of subscription amount or completed revenue amount per bucket: surfaces revenue concentration
 
         Time granularity: Weekly snapshot
         Time range: Last 12 weeks
-        Breakdown: By plan_name (resolved from each user's most-recent active subscription_created)
+        Breakdown: By plan (resolved from each user's most-recent active subscription)
         Compare: Previous period (prior 12 weeks)
         Chart type: Stacked area chart for the weekly distribution, with a secondary view showing revenue concentration per bucket
 
@@ -58,10 +58,6 @@ intempt:
         - Flag any plan tier where Producer share is materially lower than other tiers (the plan is acquiring lurkers: pricing/positioning issue).
 
         Use case: most engagement reports just count "active users." This recipe surfaces the hidden segment of "active but passive": users who log in regularly but never DO anything. They look retained but are pre-churn. Catching them before they go inactive is high-leverage.
-
-        Taxonomy notes:
-        - click_on, submit_on, page_viewed, session_start are all canonical. submit_on is specifically the "user took an action" canonical event (form submissions, etc.).
-        - The classification thresholds are configurable per workspace.
   outputs:
     - { name: report, type: report, cardinality: single, description: "Report produced by this recipe." }
 ---

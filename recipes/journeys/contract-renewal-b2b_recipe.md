@@ -34,7 +34,7 @@ intempt:
       produces: segment
       bindsAs: segment
       description: "Active enterprise and mid market accounts whose contract ends between 30 and 90 days from now. Each one has several contacts, and the journey reaches them by role."
-      prompt: Build a segment 'Upcoming B2B contract renewals - next 90 days' capturing accounts where contract_end_date is between 30 and 90 days from now AND account_tier is enterprise or mid-market AND subscription_status is active. Each account in the segment has multiple touched users, the journey reaches different contacts at the account with role-appropriate messaging.
+      prompt: Build a segment 'Upcoming B2B contract renewals - next 90 days' capturing accounts whose contract end date is between 30 and 90 days from now AND whose account tier is enterprise or mid-market AND whose subscription is active. Each account in the segment has multiple touched users, the journey reaches different contacts at the account with role-appropriate messaging.
     - step: 2
       title: "Read the renewal health"
       command: create_ai_attribute
@@ -43,7 +43,7 @@ intempt:
       dependsOn:
       - segment
       description: "Taken when the account enters the renewal window: whether usage grew, flattened or fell over 12 months, what outcomes and ROI you can show, whether the champion is still in role and the budget holder is reachable, the tone of six months of support tickets, and any competitor mentions in meeting notes."
-      prompt: 'Create an AI-derived attribute ''renewal_health_snapshot'' on the Account object, computed at renewal-window entry. Aggregates: (a) usage trajectory over past 12 months (growing / flat / declining); (b) value delivered (key outcomes, milestones reached, ROI metric if tracked); (c) stakeholder health: champion still in role and engaged? economic buyer reachable? new stakeholders identified?; (d) support ticket sentiment over past 6 months; (e) competitor mentions in any meeting summaries. Output: composite health score + structured content for the renewal emails.'
+      prompt: 'Create an AI-derived attribute ''Renewal health snapshot'' on the Account object, computed at renewal-window entry. Aggregates: (a) usage trajectory over past 12 months (growing / flat / declining); (b) value delivered (key outcomes, milestones reached, ROI metric if tracked); (c) stakeholder health: champion still in role and engaged? economic buyer reachable? new stakeholders identified?; (d) support ticket sentiment over past 6 months; (e) competitor mentions in any meeting summaries. Output: composite health score + structured content for the renewal emails.'
     - step: 3
       title: "Write one email per role"
       command: create_email_content
@@ -64,7 +64,7 @@ intempt:
       - renewal_health
       - asset
       description: "Champion at 90 days, budget holder at 60, security at 60 in parallel, and all of them at 30. The moment a CSM or AE books a renewal meeting the journey pauses and the human takes over. Accounts with weak health or any churn signal also get an urgent CSM task at day 90."
-      prompt: 'Build a multi-touch multi-stakeholder journey triggered at renewal-window entry. Each touch goes to a DIFFERENT contact at the account based on their role: Touch 1 (Day 90 before contract_end): champion. Touch 2 (Day 60): economic buyer. Touch 3 (Day 60, parallel): IT/security if applicable. Touch 4 (Day 30): all stakeholders. Add a renewal-meeting-scheduled branch: if CSM/AE schedules a renewal meeting at any point, journey pauses (human-led from here). For high-risk accounts (renewal_health composite low or any churn signal), additionally create urgent CSM task at Day 90: automation alone won''t save at-risk renewals.'
+      prompt: 'Build a multi-touch multi-stakeholder journey triggered at renewal-window entry. Each touch goes to a DIFFERENT contact at the account based on their role: Touch 1 (Day 90 before contract end): champion. Touch 2 (Day 60): economic buyer. Touch 3 (Day 60, parallel): IT/security if applicable. Touch 4 (Day 30): all stakeholders. Add a renewal-meeting-scheduled branch: if CSM/AE schedules a renewal meeting at any point, journey pauses (human-led from here). For high-risk accounts (renewal health composite low or any churn signal), additionally create urgent CSM task at Day 90: automation alone won''t save at-risk renewals.'
     - step: 5
       title: "Forecast the renewal book"
       command: create_dashboard

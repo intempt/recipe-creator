@@ -36,7 +36,7 @@ intempt:
       produces: segment
       bindsAs: segment
       description: "Anyone who filled in a content download form in the last 30 days, split by the topic they took so each gets its own cadence. Paying customers and people with an open deal are left out."
-      prompt: Build a segment 'Recent content downloaders - last 30 days' capturing users with form_submitted where form_type = content_download in the last 30 days, partitioned by the content_topic (so each topic gets its own nurture cadence). Excludes users who are already paying customers (different motion) and users with an open deal already (don't double-nurture).
+      prompt: Build a segment 'Recent content downloaders - last 30 days' capturing users who submitted a content-download form in the last 30 days, partitioned by the content topic (so each topic gets its own nurture cadence). Excludes users who are already paying customers (different motion) and users with an open deal already (don't double-nurture).
     - step: 2
       title: "Write three emails per topic"
       command: create_email_content
@@ -55,7 +55,7 @@ intempt:
       - segment
       - asset
       description: "Starts on the download. Anyone who opens all three and clicks twice is handed to an SDR and leaves early. A second download restarts the sequence on the new topic. They also leave on a booked meeting, a new deal, or after 21 days."
-      prompt: 'Build a 3-touch journey triggered when content_download event fires. Touch 1: Day 1. Touch 2: Day 7. Touch 3: Day 14. Add an engagement branch: if the user engages strongly (opens all 3 emails + clicks 2+ CTAs), fast-track to an SDR task (high-intent signal) and exit journey. If user downloads ANOTHER piece of content during the journey, reset the journey to Day 1 with the new topic (signals deeper exploration, restart the nurture in the new context). Exit conditions: meeting_scheduled, deal_created, or 21-day timeout.'
+      prompt: 'Build a 3-touch journey triggered when a content-download form is submitted. Touch 1: Day 1. Touch 2: Day 7. Touch 3: Day 14. Add an engagement branch: if the user engages strongly (opens all 3 emails + clicks 2+ CTAs), fast-track to an SDR task (high-intent signal) and exit journey. If user downloads ANOTHER piece of content during the journey, reset the journey to Day 1 with the new topic (signals deeper exploration, restart the nurture in the new context). Exit conditions: Meeting scheduled, Deal created, or 21-day timeout.'
     - step: 4
       title: "See which topics make pipeline"
       command: create_dashboard

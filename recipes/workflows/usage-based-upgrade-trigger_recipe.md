@@ -37,7 +37,7 @@ intempt:
       produces: attribute
       bindsAs: usage_capacity
       description: "For every metered dimension on the plan, API calls, contacts, events, seats, storage or sends, current use as a share of the limit. It reports the highest of them and names which one, flagging 80% as approaching, 95% as near the limit, and 100% or more as over, where overage charges or throttling start."
-      prompt: 'Create an AI-derived attribute ''usage_capacity_used'' on the Account object. For each metered usage dimension on the account''s current plan (API calls / contacts / events / seats / storage / sends), compute current_usage / plan_limit as a fraction. Output: the maximum across all dimensions (the bottleneck), with which dimension is at threshold. Flag thresholds: 0.8 = approaching, 0.95 = near-limit, 1.0+ = over-limit (overage charges or service throttling).'
+      prompt: 'Create an AI-derived attribute ''usage capacity used'' on the Account object. For each metered usage dimension on the account''s current plan (API calls / contacts / events / seats / storage / sends), compute current usage / plan limit as a fraction. Output: the maximum across all dimensions (the bottleneck), with which dimension is at threshold. Flag thresholds: 0.8 = approaching, 0.95 = near-limit, 1.0+ = over-limit (overage charges or service throttling).'
     - step: 2
       title: "Find accounts near a limit"
       command: create_segment
@@ -46,7 +46,7 @@ intempt:
       dependsOn:
       - usage_capacity
       description: "Paying accounts at 80% or more that are not already on the top plan and have not discussed an upgrade in the last 30 days. Between 80 and 94% gets the in app prompt, 95 to 100% adds an AE task, and over the limit means an urgent AE task and a notice to the customer."
-      prompt: 'Build a segment ''Upgrade-ready accounts'' capturing paying accounts where usage_capacity_used >= 0.8 AND the account isn''t already on the highest plan AND no upgrade conversation occurred in last 30 days. Splits implicitly: (a) approaching (0.8-0.94) to in-app prompt, (b) near-limit (0.95-1.0) to in-app prompt + AE task, (c) over-limit to urgent AE task + customer notification.'
+      prompt: 'Build a segment ''Upgrade-ready accounts'' capturing paying accounts where usage capacity used >= 0.8 AND the account isn''t already on the highest plan AND no upgrade conversation occurred in last 30 days. Splits implicitly: (a) approaching (0.8-0.94) to in-app prompt, (b) near-limit (0.95-1.0) to in-app prompt + AE task, (c) over-limit to urgent AE task + customer notification.'
     - step: 3
       title: "Write the in app prompt"
       command: create_page_content
@@ -66,7 +66,7 @@ intempt:
       - segment
       - asset
       description: "When usage crosses 80%, and again at each later threshold, the prompt appears for whoever can approve the plan, accounts over $500 a month get an AE expansion task straight away without waiting for a click, going over the limit adds an email to the billing contact about the overage, and an upgrade signal is recorded for analytics. It will not fire again for the same account within 14 days."
-      prompt: 'Create a workflow firing when usage_capacity_used crosses 0.8 (and on each subsequent threshold). Step sequence: (1) trigger in-app upgrade prompt for plan-decision-makers on the account; (2) for accounts with MRR > $500/month, create AE expansion task immediately (don''t wait for prompt-clickthrough: these are high-value, deserve human outreach); (3) for over-limit cases, additionally send an email notification to billing-contact about overage; (4) emit upgrade_signal event for analytics tracking. Throttle: don''t re-fire for the same account within 14 days even if it''s still over threshold (avoid prompt fatigue).'
+      prompt: 'Create a workflow firing when usage capacity used crosses 0.8 (and on each subsequent threshold). Step sequence: (1) trigger in-app upgrade prompt for plan-decision-makers on the account; (2) for accounts with MRR > $500/month, create AE expansion task immediately (don''t wait for prompt-clickthrough: these are high-value, deserve human outreach); (3) for over-limit cases, additionally send an email notification to billing-contact about overage; (4) emit an upgrade signal event for analytics tracking. Throttle: don''t re-fire for the same account within 14 days even if it''s still over threshold (avoid prompt fatigue).'
     - step: 5
       title: "Compare prompt against AE"
       command: create_dashboard

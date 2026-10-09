@@ -34,13 +34,13 @@ intempt:
       prompt: |
         Create an Insights report called "Feature to Paywall Conversion".
 
-        Series A: Event "click_on" filtered by target_id matching a feature pattern, scoped to free-plan users (users without a paid subscription_created), aggregation: Count Unique Users per target_id, label: "Free Users Who Tried Feature"
-        Series B: Of the users in Series A, those who subsequently emitted a page_viewed where page_url contains "/pricing" within 30 days of the feature click, label: "Reached Paywall"
-        Series C: Of the users in Series A, those who subsequently emitted subscription_created (with trial_end null: paid, non-trial) within 30 days, label: "Converted to Paid"
+        Series A: Event "Click on" filtered by feature, scoped to free-plan users (users without a paid subscription), aggregation: Count Unique Users per feature, label: "Free Users Who Tried Feature"
+        Series B: Of the users in Series A, those who subsequently had a View page where the page URL contains "/pricing" within 30 days of the feature click, label: "Reached Paywall"
+        Series C: Of the users in Series A, those who subsequently started a paid, non-trial subscription within 30 days, label: "Converted to Paid"
         Series D: Computed: Series B / Series A × 100, unit: %, label: "Feature to Paywall Rate"
         Series E: Computed: Series C / Series A × 100, unit: %, label: "Feature to Paid Rate"
 
-        Breakdown: By target_id (the specific feature)
+        Breakdown: By feature
         Time range: Last 90 days
         Compare: Previous period (prior 90 days)
         Chart type: Scatter plot: X axis = Feature to Paywall Rate (Series D), Y axis = Feature to Paid Rate (Series E), bubble size = Series A volume (free users who tried). Each bubble is a feature.
@@ -56,11 +56,6 @@ intempt:
         - Surface the feature with the largest Free to Paywall conversion gap (Series D much higher than Series E): pricing-perception issue specific to that feature.
 
         Use case: Kyle Poyar's (OpenView) most-shared Amplitude template. Tells the product team which features to gate behind the paywall vs. which to give away vs. which to deprecate. The single most-actionable monetization analysis a SaaS product can run.
-
-        Taxonomy notes:
-        - click_on.target_id is the canonical feature handle.
-        - page_viewed.page_url filtered to /pricing identifies paywall views.
-        - subscription_created.trial_end null distinguishes paid from trial.
   outputs:
     - { name: report, type: report, cardinality: single, description: "Report produced by this recipe." }
 ---

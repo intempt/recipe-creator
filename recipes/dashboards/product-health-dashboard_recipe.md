@@ -41,7 +41,7 @@ intempt:
         - exclusionPeriod: incomplete_periods
         - visibility: project
         - boardFilters: none by default
-        - boardBreakdowns: plan_name (resolved from each user's most-recent active subscription): pushed down to all cards as a secondary breakdown
+        - boardBreakdowns: Plan (resolved from each user's most-recent active subscription): pushed down to all cards as a secondary breakdown
 
         Layout: 4 rows.
 
@@ -66,10 +66,7 @@ intempt:
         Annotations:
         - Row 1's four KPIs together answer: are users active (WAU), are they sticky (DAU/MAU), are they actively producing (Producer Share %), and how do they feel (NPS). Each is a different lens; reading them together is the key.
         - The board's value comes from reading the four rows together: Row 1 reports headline state, Row 2 reports feature engagement depth, Row 3 reports retention drivers, Row 4 reports segmentation and support pulse.
-
-        Taxonomy notes:
-        - All 8 source recipes are taxonomy-grounded.
-        - nps-tracking depends on feedback_submitted events with survey_type = "nps": see that recipe's notes.
+        - The NPS Score card depends on Feedback submitted events where the survey type is NPS.
   outputs:
     - { name: dashboard, type: dashboard, cardinality: single, description: "Dash board (composition canvas) produced by this recipe." }
 ---

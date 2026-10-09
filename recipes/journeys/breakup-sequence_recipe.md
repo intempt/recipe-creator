@@ -52,7 +52,7 @@ intempt:
       - segment
       - asset
       description: "One email when a lead enters the segment. Any reply routes them to an AE, a booked meeting counts as a win, unsubscribes are honoured, and after 14 days of silence the lead is marked cold closed and drops out of outreach until a new signal brings them back."
-      prompt: 'Build a 1-touch journey triggered when a lead enters the cold-silent segment. Send the break-up email. Exit on: email_replied (any reply = success, route to AE for human handling), meeting_scheduled (huge success), unsubscribe (honored (and that''s a clean outcome too), or 14-day timeout (no response) mark lead as ''cold-closed'', exit from active outreach). After timeout, the lead can re-enter prospecting only via a new significant signal (target-account refresh, intent signal, etc).'
+      prompt: 'Build a 1-touch journey triggered when a lead enters the cold-silent segment. Send the break-up email. Exit on: Email replied (any reply = success, route to AE for human handling), Meeting scheduled (huge success), unsubscribe (honored (and that''s a clean outcome too), or 14-day timeout (no response) mark lead as ''cold-closed'', exit from active outreach). After timeout, the lead can re-enter prospecting only via a new significant signal (target-account refresh, intent signal, etc).'
     - step: 4
       title: "See what the last email pulls"
       command: create_dashboard

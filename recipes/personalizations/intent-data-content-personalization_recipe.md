@@ -44,14 +44,14 @@ intempt:
         Variants (each binds to a behavioral audience):
         - Control (audience = all: fallback): generic content blocks
         - Variant B (audience = "high pricing intent"): show ROI calculator and pricing-comparison content
-          - Audience: page_viewed where page_url contains "/pricing": count >= 2 in last 7 days
+          - Audience: View page where the page URL contains "/pricing": count >= 2 in last 7 days
         - Variant C (audience = "security/compliance research"): show security case study and compliance content
-          - Audience: page_viewed where page_url contains "/security" OR "/compliance": count >= 1 in last 14 days
-          OR click_on on a security-whitepaper download link in last 14 days
+          - Audience: View page where the page URL contains "/security" OR "/compliance": count >= 1 in last 14 days
+          OR Click on a security-whitepaper download link in last 14 days
         - Variant D (audience = "integrations research"): show integration directory and integrations case studies
-          - Audience: page_viewed where page_url contains "/integrations": count >= 2 in last 7 days
+          - Audience: View page where the page URL contains "/integrations": count >= 2 in last 7 days
         - Variant E (audience = "case study readers"): show more case studies and customer logos
-          - Audience: page_viewed where page_url contains "/case-studies" OR "/customers": count >= 2 in last 14 days
+          - Audience: View page where the page URL contains "/case-studies" OR "/customers": count >= 2 in last 14 days
 
         Targeting:
         - Pages: homepage "/" and key landing pages: anywhere a "Featured content" block renders
@@ -59,8 +59,8 @@ intempt:
         - Display frequency: always
 
         Metrics (behavioral personalization):
-        - form_submitted on demo-request OR contact form per behavioral segment
-        - click_on on the personalized content block (per-variant CTR)
+        - Form submitted on demo-request OR contact form per behavioral segment
+        - Click on the personalized content block (per-variant CTR)
         - Demo-request conversion rate per segment (the downstream signal that intent-matched content drives conversions)
 
         Schedule: continuous
@@ -122,9 +122,9 @@ intempt:
 
         The Visual Editor allows the user to refine copy, embed actual ROI-calculator widgets, and select case studies that match the visitor's likely industry.
 
-        Taxonomy notes:
-        - This recipe uses canonical event-history-based audiences. The platform's personalization engine evaluates audience rules at render time using the visitor's prior page_viewed and click_on event history.
-        - Audience evaluation: "page_viewed where page_url contains '/pricing': count >= 2 in last 7 days" requires the platform to query the visitor's event history at render time. Confirm your /experiences personalization engine supports event-history-based audience rules (most modern platforms do; some legacy ones only support attribute-based).
+        Notes:
+        - This recipe uses event-history-based audiences, evaluated at render time from the visitor's prior View page and Click on history.
+        - Audience evaluation: "View page where the page URL contains '/pricing': count >= 2 in last 7 days" requires querying the visitor's event history at render time. Confirm your /experiences personalization engine supports event-history-based audience rules (most modern platforms do; some legacy ones only support attribute-based).
         - The 7-day and 14-day windows are starting points; tune based on your typical buying cycle. B2B SaaS with longer cycles may use 30-day windows.
         - This personalization compounds with ABM and industry-vertical: a visitor from a target account in financial services who has viewed /pricing 3 times sees the most personalized experience: but the variants must be ordered by precedence (per-account beats per-industry beats per-intent beats default).
         - For privacy compliance, ensure your cookie consent banner allows behavioral tracking before evaluating intent-based audiences.

@@ -39,7 +39,7 @@ intempt:
 
         ═══ PATH 1: Top-level configuration ═══
 
-        Experience type: client_experiment
+        Experience type: Client experiment
 
         Variants (placement axis):
         - Control (25%): existing upgrade banner at top of dashboard
@@ -49,22 +49,22 @@ intempt:
 
         Targeting (timing dimension applied as audience filter):
         - Pages: any in-app page where the dashboard chrome renders
-        - Audience: free plan users only: segment definition: subscription is null OR plan_name = "free", AND account_age >= 3 days
+        - Audience: free plan users only: segment definition: subscription is null OR Plan = "free", AND account age >= 3 days
           - Run this experiment in three sequential cohorts to test timing:
-            - Cohort 1: account_age 3-7 days
-            - Cohort 2: account_age 8-14 days
-            - Cohort 3: account_age >14 days
+            - Cohort 1: account age 3-7 days
+            - Cohort 2: account age 8-14 days
+            - Cohort 3: account age >14 days
           - Each cohort gets the same 4 placement variants; comparing across cohorts answers the timing question.
         - Devices: any
-        - Display frequency: once_per_session (avoid prompt fatigue within a session)
+        - Display frequency: once per session (avoid prompt fatigue within a session)
 
-        Primary metric: goal_completed_in_experience where experience_id = <this> (goal fires on subscription_created within 14 days of exposure)
+        Primary metric: Completed an experience goal for this experience (goal fires on Subscription started within 14 days of exposure)
         Secondary metrics:
-        - click_on where target_id = "upgrade-prompt-cta" (per-placement click rate)
-        - click_on where target_id = "upgrade-prompt-dismiss" (dismissal rate: friction signal)
-        - subscription_created within 14 days
+        - Click on where element ID = "upgrade-prompt-cta" (per-placement click rate)
+        - Click on where element ID = "upgrade-prompt-dismiss" (dismissal rate: friction signal)
+        - Subscription started within 14 days
 
-        Guardrail: NPS feedback (feedback_submitted with score property) must not drop more than 5 points in trailing-30d trend
+        Guardrail: NPS feedback (Feedback submitted with a score property) must not drop more than 5 points in trailing-30d trend
 
         Schedule: 21 days
 
@@ -106,11 +106,11 @@ intempt:
             <button class="dismiss" id="upgrade-prompt-dismiss" aria-label="Dismiss">×</button>
           </div>
 
-        The Visual Editor lets the user adjust copy, colors, animation, and exact positioning per variant. Ensure target_id values "upgrade-prompt-cta" and "upgrade-prompt-dismiss" are preserved across all variants so click_on aggregation is consistent.
+        The Visual Editor lets the user adjust copy, colors, animation, and exact positioning per variant. Ensure the element IDs "upgrade-prompt-cta" and "upgrade-prompt-dismiss" are preserved across all variants so Click on aggregation is consistent.
 
-        Taxonomy notes:
-        - The 4-variant design tests placement; the 3-cohort schedule tests timing. Total observations: 4 placements × 3 timings = 12 cells. Plan sample sizes accordingly: you'll want at least 500 exposures per cell, so ~6,000 free users in the experiment.
-        - click_on.target_id = "upgrade-prompt-cta" is shared across placements, with target_id and the data-placement attribute on the button enabling per-placement segmentation in analysis.
+        The 4-variant design tests placement; the 3-cohort schedule tests timing. Total observations: 4 placements × 3 timings = 12 cells. Plan sample sizes accordingly: you'll want at least 500 exposures per cell, so ~6,000 free users in the experiment.
+
+        The "upgrade-prompt-cta" element ID is shared across placements, and the data-placement attribute on the button enables per-placement segmentation in analysis.
   outputs:
     - { name: experiment, type: experiment, cardinality: single, description: "Website experiment created on /experiences." }
 ---

@@ -37,7 +37,7 @@ intempt:
       produces: attribute
       bindsAs: task_stage_map
       description: "Per task template, the stage that completing it should move the deal to. Sending a proposal moves it to proposal if it is at demo or earlier, a contract sent moves it to closing from proposal, a proof of concept kickoff moves it to technical evaluation. Tasks not on this list are informational and move nothing."
-      prompt: 'Create an attribute on the Task object: ''advances_deal_to_stage''. For each task template, define the deal stage that completion should advance to. Examples: ''Send proposal'' to advances deal to Proposal stage if currently Demo or earlier; ''Contract sent'' to advances to Closing if currently Proposal; ''POC kickoff'' to advances to Technical Evaluation. Tasks not on this list don''t trigger advancement (they''re informational tasks, not stage-gates).'
+      prompt: 'Create an attribute on the Task object: ''advances deal to stage''. For each task template, define the deal stage that completion should advance to. Examples: ''Send proposal'' to advances deal to Proposal stage if currently Demo or earlier; ''Contract sent'' to advances to Closing if currently Proposal; ''POC kickoff'' to advances to Technical Evaluation. Tasks not on this list don''t trigger advancement (they''re informational tasks, not stage-gates).'
     - step: 2
       title: "Move it forward, never back"
       command: create_workflow
@@ -46,7 +46,7 @@ intempt:
       dependsOn:
       - task_stage_map
       description: "When a task completes it checks whether that task gates a stage, finds the linked deal, and advances it only if the deal is behind that stage, never when it is already at or past it. On a move it posts a short Slack note to the AE. A jump of more than one stage needs a human to confirm."
-      prompt: 'Create a workflow firing on task_completed. Step sequence: (1) check whether the task has ''advances_deal_to_stage'' set; (2) look up the linked deal: IF the deal''s current stage is earlier than the task''s target stage, advance the deal via move_deal_stage; (3) if the deal is already at or past the target stage, skip (no regression, no double-advance); (4) on stage change, post a brief Slack notification to the AE owner (''Deal X advanced to Proposal: task Y completed'') so they have realtime visibility; (5) if the advancement skips multiple stages (e.g. Discovery to Closing in one task), require human confirmation: don''t auto-skip stages.'
+      prompt: 'Create a workflow firing on Task completed. Step sequence: (1) check whether the task has ''advances deal to stage'' set; (2) look up the linked deal: IF the deal''s current stage is earlier than the task''s target stage, advance the deal to the mapped stage; (3) if the deal is already at or past the target stage, skip (no regression, no double-advance); (4) on stage change, post a brief Slack notification to the AE owner (''Deal X advanced to Proposal: task Y completed'') so they have realtime visibility; (5) if the advancement skips multiple stages (e.g. Discovery to Closing in one task), require human confirmation: don''t auto-skip stages.'
     - step: 3
       title: "Audit the mapping"
       command: create_dashboard

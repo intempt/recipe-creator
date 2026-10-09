@@ -52,14 +52,14 @@ intempt:
         - Pages: marketing pages (/pricing, /features, /solutions, key landing pages (NOT /checkout or /signup) exit there is a different problem)
         - Devices: desktop only (exit-intent requires mouse-leave detection; mobile requires different triggers)
         - Audience: visitors who have spent at least 30 seconds on the page (avoid triggering on bounces) AND have not yet converted
-        - Display frequency: once_per_session (don't show twice)
+        - Display frequency: once per session (don't show twice)
 
-        Primary metric: goal_completed_in_experience where experience_id = <this> (goal varies by variant: see secondary metrics)
+        Primary metric: Completed an experience goal for this experience (goal varies by variant: see secondary metrics)
         Secondary metrics (per variant):
-        - Variant B: form_submitted on the discount-claim form: discount-redemption rate
-        - Variant C: click_on the comparison-guide download: guide-download rate
-        - Variant D: form_submitted with email captured: lead-capture rate
-        - Variant E: form_submitted on the exit survey: survey-completion rate
+        - Variant B: Form submitted on the discount-claim form: discount-redemption rate
+        - Variant C: Click on the comparison-guide download: guide-download rate
+        - Variant D: Form submitted with email captured: lead-capture rate
+        - Variant E: Form submitted on the exit survey: survey-completion rate
         - Cross-variant: 7-day return visit rate, 14-day demo-request conversion rate (which offer brings the highest-quality leads back?)
 
         Guardrail: bounce rate must not increase >5%; popup-dismiss rate must not exceed 80% (high dismissal = annoyance signal)
@@ -141,13 +141,10 @@ intempt:
 
           Trigger logic for all variants: attach mouseleave listener to document.documentElement; when mouse exits the top of the viewport AND the user has been on the page for >30 seconds AND hasn't converted, show the popup. Lightweight JS the user refines in the Visual Editor.
 
-        Taxonomy notes:
-        - This recipe is desktop-only (exit-intent requires mouse-leave detection). For mobile, a different trigger is needed: typically scroll-up direction on long pages. Consider a separate mobile recipe if mobile exit-intent is needed.
-        - The 30-second engagement gate is important: without it, the popup triggers on bouncers, where exit-intent isn't really intent at all.
-        - Variant E (survey) is the most informative variant for product/marketing teams: even if conversion is low, the qualitative responses guide future page-content tests. Treat the survey results as research input, not just a conversion variant.
-        - Variant C (comparison guide) is the highest-quality lead-gen variant for B2B SaaS: visitors who download a competitor-comparison guide are typically high-intent.
-        - Variant B (discount) often has the highest immediate conversion but may bring lower-quality leads. Measure 14-day downstream demo-request rate to avoid being misled.
-        - This is distinct from cart-abandonment-popup-timing (which tests popup TIMING on ecommerce cart pages). The current recipe tests popup CONTENT on SaaS marketing pages.
+        This recipe is desktop-only because exit-intent needs mouse-leave detection. Mobile needs a different trigger, typically scroll-up direction on long pages, so use a separate mobile recipe if you need it.
+        The 30-second engagement gate matters: without it the popup triggers on bouncers, where exit-intent isn't really intent at all.
+        Treat the exit survey responses as research input for future page-content tests, not just a conversion variant.
+        The discount variant often has the highest immediate conversion but may bring lower-quality leads, so judge it on the 14-day downstream demo-request rate.
   outputs:
     - { name: experiment, type: experiment, cardinality: single, description: "Website experiment created on /experiences." }
 ---

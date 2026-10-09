@@ -48,14 +48,14 @@ intempt:
         Targeting:
         - Pages: page URL contains "/checkout"
         - Devices: any
-        - Audience: first-time buyers only: segment definition: lifetime_value = 0 OR orders_count = 0 (this is their first checkout)
+        - Audience: first-time buyers only: segment definition: lifetime value is 0 or order count is 0 (this is their first checkout)
         - Display frequency: once per order
 
-        Primary metric: goal_completed_in_experience where experience_id = <this> (goal fires on user_tags_added with "loyalty_member" tag within session)
+        Primary metric: Completed an experience goal for this experience (goal fires when the "loyalty_member" tag is added to the user within the session)
         Secondary metrics:
         - 90-day repeat purchase rate per joined cohort (see cohort tagging below: this is the most important downstream signal)
-        - order_created.total_price on the current order (does the offer increase basket size?)
-        - Per-variant loyalty join rate (loyalty_member tag added / checkout_created within experiment)
+        - Order total on the current order (does the offer increase basket size? Free shipping on the next order shouldn't move the current order total; double points might)
+        - Per-variant loyalty join rate (loyalty_member tag added / Checkout created within experiment)
 
         Guardrail: checkout completion rate must not drop >3% (offer banner shouldn't slow conversion)
 
@@ -66,8 +66,8 @@ intempt:
         The "90-day repeat purchase rate per variant" is the most informative signal but requires cohort tagging at signup. The recipe expects the loyalty-join firing logic to capture which variant the user joined under:
 
         When the user checks the loyalty checkbox in any variant, fire BOTH events together:
-          1. user_tags_added with tag = "loyalty_member"
-          2. user_tags_added with tag = "loyalty_offer:b" (or "c" or "d" matching the variant they joined under)
+          1. User tags added with tag = "loyalty_member"
+          2. User tags added with tag = "loyalty_offer:b" (or "c" or "d" matching the variant they joined under)
 
         The variant-specific tag persists on the user record. Then 90 days later, segment cohorts:
           - Cohort B = users with both "loyalty_member" AND "loyalty_offer:b" tags
@@ -75,7 +75,11 @@ intempt:
           - Cohort D = users with both "loyalty_member" AND "loyalty_offer:d" tags
           - Cohort Control = first-time-buyers in Variant Control who completed checkout (didn't see a prompt)
 
-        90-day repeat-purchase rate per cohort = count(users in cohort with order_created.timestamp > join_timestamp AND order_created.timestamp < join_timestamp + 90 days) / cohort size.
+        90-day repeat-purchase rate per cohort = count(users in cohort with a Placed order after their join time and within 90 days of it) / cohort size.
+
+        The 90-day window is the standard repeat-purchase measurement window for ecommerce; some categories (apparel) may need 60 days, others (consumables) may need 30.
+
+        Cohort Control (first-time buyers who saw no prompt and didn't join) is essential for measuring the causal repeat-purchase lift: without it you only know which offer cohort returns most often, not whether the program itself moves the needle vs. doing nothing.
 
         ═══ PATH 2: Variant HTML content (Visual Editor) ═══
 
@@ -118,14 +122,7 @@ intempt:
             </label>
           </div>
 
-        When the user submits checkout with the loyalty-join-checkbox checked, fire user_tags_added twice: once with "loyalty_member" and once with the variant-specific tag from the data-offer-code attribute. The goal_completed_in_experience event fires automatically based on the loyalty_member tag addition.
-
-        Taxonomy notes:
-        - user_tags_added is a canonical event that fires when tags are added to a user record.
-        - Segment definitions for the 90-day cohort comparison use the tags-on-user-object pattern (Users.tags array contains "loyalty_offer:b" etc.).
-        - The 90-day window is the standard repeat-purchase measurement window for ecom; some categories (apparel) may need 60 days, others (consumables) may need 30.
-        - Cohort Control (first-time buyers who saw no prompt and didn't join) is essential for measuring CAUSAL repeat-purchase lift: without it you only know which offer-cohort returns most often, not whether the program itself moves the needle vs. doing nothing.
-        - The order_created.total_price secondary metric measures whether the offer affects current-order basket size. Some offers (free shipping next-order) shouldn't move current AOV; some (2× points) might.
+        When the user submits checkout with the loyalty-join-checkbox checked, fire User tags added twice: once with "loyalty_member" and once with the variant-specific tag from the data-offer-code attribute. The Completed an experience goal event fires automatically based on the loyalty_member tag addition.
   outputs:
     - { name: experiment, type: experiment, cardinality: single, description: "Website experiment created on /experiences." }
 ---

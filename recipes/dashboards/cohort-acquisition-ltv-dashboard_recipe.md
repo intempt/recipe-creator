@@ -43,7 +43,7 @@ intempt:
         - exclusionPeriod: incomplete_periods (recent cohorts haven't had time to mature)
         - visibility: project
         - boardFilters: none by default
-        - boardBreakdowns: utm_source: pushed down throughout (the canonical acquisition-channel dimension)
+        - boardBreakdowns: UTM source, pushed down throughout as the acquisition-channel dimension
 
         Layout: 4 rows.
 
@@ -54,7 +54,7 @@ intempt:
         - Card 4: Insights metric to source recipe: post-purchase-second-order-velocity, vizType: metric, titleOverride: "Median Days to 2nd Order"
 
         Row 2: Cohort LTV curves by channel (heightPx: 480, full-width single card at widthUnits: 12):
-        - Card 1: Insights to source recipe: first-purchase-cohort-ltv-curve, displayMode: chart, vizType: line (multi-line: each line = a cohort, X-axis = months since first purchase, Y-axis = cumulative revenue per cohort member, broken down by acquisition channel via utm_source). The strategic centerpiece: answers "which channels acquire customers worth keeping."
+        - Card 1: Insights to source recipe: first-purchase-cohort-ltv-curve, displayMode: chart, vizType: line (multi-line: each line = a cohort, X-axis = months since first purchase, Y-axis = cumulative revenue per cohort member, broken down by acquisition channel via UTM source). The strategic centerpiece: answers "which channels acquire customers worth keeping."
 
         Row 3: Repeat-purchase mechanics (heightPx: 440, two cards at widthUnits: 6):
         - Card 1: Retention to source recipe: purchase-retention, displayMode: chart, vizType: retention_curve (cohort by first-purchase month: repeat-purchase % over time, by first-order category)
@@ -65,7 +65,7 @@ intempt:
         - Card 2: Insights to source recipe: customer-lifecycle-distribution, displayMode: chart (per-channel customer-lifecycle distribution: answers "which channels acquire Champions vs. At Risk customers")
 
         Annotations:
-        - Row 1's two LTV KPIs (M6 + M12) are the canonical DTC scaling metrics. M6 LTV ≥ 1.5× CAC = healthy unit economics; M12 LTV ≥ 3× CAC = top-quartile. Without ad-spend integration in canonical taxonomy, this dashboard surfaces LTV; CAC must be computed externally and combined.
+        - Row 1's two LTV KPIs (M6 + M12) are the core DTC scaling metrics. M6 LTV ≥ 1.5× CAC = healthy unit economics; M12 LTV ≥ 3× CAC = top-quartile. Without an ad-spend integration, this dashboard surfaces LTV; CAC must be computed externally and combined.
         - Row 2 (Cohort LTV curves, full-width) is the strategic centerpiece. Reading it: each line is a cohort defined by first-purchase month; the line's slope tells you how fast each cohort accumulates revenue. Channels with steep curves (rapid cumulative revenue) acquire quality customers; channels with flat curves (low cumulative revenue) acquire one-and-done buyers.
         - Row 3 surfaces operational levers:
           - Card 1 (retention curve) shows replenishment patterns by category: categories with steep retention curves (>30% M3 repeat) are candidates for subscribe-and-save or autoship; flat curves (<10% M3) are one-time-purchase categories
@@ -73,11 +73,7 @@ intempt:
         - Row 4 ties it together: which channels are currently producing revenue (Card 1), and what customer types are they acquiring (Card 2). A channel with high current revenue but acquiring mostly At Risk segments is a leading indicator of revenue erosion.
         - Recommended cadence: read this dashboard monthly. Cohort LTV is slow-moving: weekly views over-rotate on noise.
 
-        Taxonomy notes:
-        - All source recipes use canonical events: order_created (with items, total_price, customer_id), session_start, page_viewed.
-        - Users.utm_source is the canonical first-touch acquisition channel.
-        - Users.lifecycle_score is the canonical 6-stage lifecycle enum (At risk / Needs attention / New customers / Promising / Regulars / Champions).
-        - This dashboard does NOT include CAC or ROAS metrics because ad-spend events are not in canonical taxonomy V2.1. It surfaces LTV cohort quality; CAC must be computed externally and combined for full unit economics analysis.
+        Scope: this dashboard does NOT include CAC or ROAS metrics because it cannot compute them without an ad-spend integration. It surfaces LTV cohort quality; CAC must be computed externally and combined for full unit economics analysis.
   outputs:
     - { name: dashboard, type: dashboard, cardinality: single, description: "Dash board (composition canvas) produced by this recipe." }
 ---

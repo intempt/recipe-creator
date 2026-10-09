@@ -36,7 +36,7 @@ intempt:
       produces: attribute
       bindsAs: attribute
       description: "A value tier from lifetime spend, how often they buy and how recently."
-      prompt: "Define an AI-derived customer_value_tier attribute using LTV, frequency, and recency."
+      prompt: "Define an AI-derived Customer value tier attribute using LTV, frequency, and recency."
     - step: 2
       title: "Set the silver and gold lines"
       command: create_segment

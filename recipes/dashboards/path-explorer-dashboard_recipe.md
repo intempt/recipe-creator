@@ -43,18 +43,18 @@ intempt:
         - exclusionPeriod: incomplete_periods
         - visibility: project
         - boardFilters: none by default
-        - boardBreakdowns: utm_source (pushed down where applicable)
+        - boardBreakdowns: UTM source (pushed down where applicable)
 
         Layout: 4 rows. Each row pairs path views appropriately. Path visualizations need width: most cards are widthUnits: 12 (full-width).
 
         Row 1: Onboarding paths (heightPx: 480, full-width single card at widthUnits: 12):
-        - Card 1: Path to source recipe: first-session-paths-after-signup, displayMode: chart (forward path from user_created)
+        - Card 1: Path to source recipe: first-session-paths-after-signup, displayMode: chart (forward path from User created)
 
         Row 2: Feature interaction (heightPx: 480, full-width single card at widthUnits: 12):
         - Card 1: Path to source recipe: paths-around-power-feature, displayMode: chart (bidirectional)
 
         Row 3: Support and friction (heightPx: 480, full-width single card at widthUnits: 12):
-        - Card 1: Path to source recipe: support-deflection-paths, displayMode: chart (backward path from ticket_created)
+        - Card 1: Path to source recipe: support-deflection-paths, displayMode: chart (backward path from Ticket created)
 
         Row 4: Churn and retention paths (heightPx: 480, two cards at widthUnits: 6):
         - Card 1: Path to source recipe: pre-churn-behavioral-signals, displayMode: chart
@@ -64,9 +64,6 @@ intempt:
         - Path analysis is the technique most product teams underuse. This dashboard surfaces 5 high-value path analyses on one canvas: read top to bottom, it tracks the user journey from acquisition through engagement, friction, and attrition.
         - Row 4 pairs the 30-day "what predicts churn" view with the in-session "what saves vs. kills retention" view.
         - Path reports are computationally heavier than other reports: be mindful of date ranges.
-
-        Taxonomy notes:
-        - All 5 source path recipes use canonical events: user_created, click_on, page_viewed, session_start, ticket_created, subscription_cancelled.
   outputs:
     - { name: dashboard, type: dashboard, cardinality: single, description: "Dash board (composition canvas) produced by this recipe." }
 ---

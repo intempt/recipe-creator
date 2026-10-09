@@ -1,7 +1,7 @@
 ---
 name: lifecycle-stage-homepage-personalization
 description: |
-  Use when a user mentions "lifecycle stage homepage personalization", or asks for related help. Show different homepage hero content based on the visitor's canonical lifecycle_score (At risk, Champions, etc.). Client personalization for ecommerce.
+  Use when a user mentions "lifecycle stage homepage personalization", or asks for related help. Show different homepage hero content based on the visitor's lifecycle stage (At risk, Champions, etc.). Client personalization for ecommerce.
 arguments: []
 intempt:
   id: lifecycle-stage-homepage-personalization
@@ -34,20 +34,20 @@ intempt:
       prompt: |
         Create a CLIENT PERSONALIZATION on /experiences titled "Lifecycle Stage Homepage Personalization".
 
-        Different homepage experiences for different lifecycle stages, using the canonical Users.lifecycle_score enum (At risk, Needs attention, New customers, Promising, Regulars, Champions).
+        Different homepage experiences for different lifecycle stages, using the lifecycle stage (At risk, Needs attention, New customers, Promising, Regulars, Champions).
 
         ═══ PATH 1: Top-level configuration ═══
 
         Experience type: client_personalization
 
         Variants (each binds to a specific lifecycle audience):
-        - Control: standard homepage, audience = "all" (fallback for visitors whose lifecycle_score is null or for new sessions before the score is computed)
+        - Control: standard homepage, audience = "all" (fallback for visitors whose lifecycle stage is not set yet, or for new sessions before the stage is computed)
         - Variant B: "Welcome back" experience, audience = "Champions OR Regulars"
-          - Audience: Users.lifecycle_score IN ("Champions", "Regulars")
+          - Audience: the lifecycle stage is one of "Champions", "Regulars"
         - Variant C: "We've missed you" win-back experience, audience = "At risk OR Needs attention"
-          - Audience: Users.lifecycle_score IN ("At risk", "Needs attention")
+          - Audience: the lifecycle stage is one of "At risk", "Needs attention"
         - Variant D: "First-time browse" introduction, audience = "New customers OR Promising"
-          - Audience: Users.lifecycle_score IN ("New customers", "Promising")
+          - Audience: the lifecycle stage is one of "New customers", "Promising"
 
         Targeting:
         - Pages: page URL is the homepage "/"
@@ -55,9 +55,9 @@ intempt:
         - Display frequency: once_per_session (don't change the experience mid-session)
 
         Metrics (existing CRM/CDP):
-        - order_created within session (per lifecycle group conversion)
+        - Placed order within session (per lifecycle group conversion)
         - Average order value per audience
-        - click_on engagement (which audiences engage with their personalized hero)
+        - Click on engagement (which audiences engage with their personalized hero)
 
         Schedule: continuous
 
@@ -112,11 +112,11 @@ intempt:
             </section>
           </section>
 
-        The Visual Editor lets the user adjust copy, image selection, and recommendation block styling per audience. The [first_name] placeholder is replaced at render time from the Users object.
+        The Visual Editor lets the user adjust copy, image selection, and recommendation block styling per audience. The [first_name] placeholder is replaced at render time from the visitor's profile.
 
-        Taxonomy notes:
-        - Users.lifecycle_score is the canonical 6-stage enum: exact values: "At risk", "Needs attention", "New customers", "Promising", "Regulars", "Champions". Do NOT introduce textbook RFM segment names like "Loyal" or "VIP": the platform's lifecycle taxonomy is fixed at these six values.
-        - For the [first_name] personalization, ensure the Users object has first_name populated; if absent, the variant should gracefully fall back to "Welcome back" without the name.
+        Notes:
+        - The lifecycle stage is a fixed 6-stage set: "At risk", "Needs attention", "New customers", "Promising", "Regulars", "Champions". Do NOT introduce textbook RFM segment names like "Loyal" or "VIP": these six stages are the fixed set.
+        - For the [first_name] personalization, ensure the first name is populated; if absent, the variant should gracefully fall back to "Welcome back" without the name.
         - The "recommendations" block strategies (based-on-purchase-history, reorder-favorites, popular-with-new-customers) are application-level: typically powered by a recommendation API.
   outputs:
     - { name: personalization, type: personalization, cardinality: single, description: "Website personalization created on /experiences." }
