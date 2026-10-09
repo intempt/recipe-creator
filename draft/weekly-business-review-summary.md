@@ -1,0 +1,45 @@
+---
+description: 'One scorecard with the six numbers to look at every Monday: new signups, new paying customers, churn, revenue, net new customers and engagement.'
+author:
+  first_name: Aman
+  last_name: Tiwari
+  job_title: Product Manager
+  company: Intempt
+org_name: intempt
+classification:
+  industry:
+  - ai
+  - b2b-saas
+  - ecommerce
+  - finance
+  - media
+  - social
+---
+
+# Weekly business review
+
+Slash command: /weekly-business-review-summary
+
+## Step 1: Build the Monday scorecard
+
+Create an Insights report called "Weekly Business Review Summary".
+This recipe is a multi-series KPI dashboard combining the headline numbers a founder or exec wants to see every Monday morning. Render as a multi-metric scorecard.
+Series A: Event "User created", aggregation: Count Unique Users, weekly, label: "New Signups"
+Series B: Event "Subscription started" where trial_end is null (paid signup) OR for ecommerce mode "Placed order" where this is the user's first order, aggregation: Count Unique Users, weekly, label: "New Paying Customers"
+Series C: Event "Subscription canceled" (saas) OR users whose Users.Last seen exceeds 90 days (ecommerce churn proxy), weekly, label: "Churned Customers"
+Series D: Event "Revenue completed" with type indicating recurring revenue (saas) OR Sum of Placed order.total_price (ecommerce), aggregation: Sum of amount or total_price, weekly, label: "Revenue"
+Series E: Computed: Net New Customers = Series B − Series C, label: "Net New Customers"
+Series F: Trailing 7-day DAU (count of unique users with Session start), label: "Engagement"
+Time granularity: Weekly
+Time range: Last 12 weeks
+Compare: Previous period (prior 12 weeks) AND year-over-year
+Chart type: Multi-card scorecard layout: each metric gets a card showing: current week value, week-over-week % change, year-over-year % change, 12-week trend sparkline
+Annotations on each card:
+- Highlight the current-week value vs. trailing 4-week average (trend indicator: accelerating / steady / decelerating).
+- Flag any metric that moved >15% week-over-week in either direction (exec-attention threshold).
+- Flag any metric trending wrong-direction for 4+ consecutive weeks (durable trend, not noise).
+- Add a quality-of-growth indicator: Net New Customers (E) growing while Churned Customers (C) is also growing = treadmill (high churn offset by acquisition); Net New growing while Churned is flat or shrinking = compounding growth (best-in-class).
+Use case: the WBR-fill report. Founders, execs, and operators run a weekly cadence on the same 5-6 numbers. This recipe makes that cadence one-click: automatically populated, automatically annotated, ready to present. Replaces the spreadsheet most teams maintain manually for this purpose.
+Taxonomy notes:
+- This recipe operates as an aggregator over multiple canonical events. For mode=saas, prioritize subscription/revenue events. For mode=ecommerce, prioritize order events. For mode=all, render both side-by-side.
+- The "churn" definition for ecommerce uses Users.Last seen as a proxy because there's no explicit churn event in DTC ecommerce: adjust the threshold (60/90/180 days) per business model.
