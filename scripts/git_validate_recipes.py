@@ -2,7 +2,7 @@
 """
 Send every draft a pull request added or changed (`draft/**/*.md`, the draft/ flow,
 R-RG4-6) to llm-wrapper's `POST /v1/recipes/git_validate`. Each draft stands on its
-own: the ones that pass go on to job 2, the ones that fail are listed with their reason
+own: the ones that pass go on to job 3, the ones that fail are listed with their reason
 and stay in draft/. The job fails only when every draft failed (git_validate_summary).
 
 The route turns the markdown into steps and runs the per-step check with no
@@ -23,7 +23,7 @@ Usage:
   git_validate_recipes.py --base <ref> [--url URL]       # drafts changed since merge-base
   git_validate_recipes.py draft/x.md ...                 # explicit files
   --out DIR   writes each passing answer to DIR/<frontmatter_id>.json — the recipe object
-              job 2 (git_validate_run_recipes.py) runs, so it is never re-read —
+              job 3 (git_validate_writeback.py) writes back, so it is never re-read —
               and the draft it came from to DIR/<frontmatter_id>.path (job 3's key).
 URL: .github/recipe-git-validate.json (git_validate_config.py). Env: RECIPE_GIT_VALIDATE_SECRET.
 """
