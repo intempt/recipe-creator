@@ -7,8 +7,18 @@ and stay in draft/. The job fails only when every draft failed (git_validate_sum
 
 The route turns the markdown into steps and runs the per-step check with no
 tenant: each step must read earlier outputs correctly and must not be vague.
-A 422 is a recipe problem (errors printed per step); a 503 is the model
-failing, retried once before it counts as a failure.
+It is start-then-poll (R34-5): `POST <url>/start {markdown}` → 202 `{job_id}`, then
+`GET <url>/<job_id>` every --poll-interval seconds until the job is
+  done     → the record. A record whose steps failed is STILL a pass (R34-2/R34-3): each
+             failed step keeps its `errors`, `failed_steps` lists them, the record is saved
+             and written back like any other (deployed; the catalog shows it "Coming soon"),
+             and its failed steps are reported here and in the job summary.
+  refused  → a recipe problem (the old 422s: frontmatter_id, author, industry, unreadable,
+             empty/too large) — the draft fails and stays in draft/.
+  failed   → the model failed (the old 503) — the job is started again, --retries times.
+A 404 on a poll (job unknown or expired) restarts the job once; a transport error counts
+as a failed job. Each draft gets --timeout seconds in all (env RECIPE_GIT_VALIDATE_TIMEOUT_S,
+default 900).
 
 A new draft has no `frontmatter_id` yet and LM refuses one without it, so it is sent
 with a TEMPORARY key (recipe_draft.temp_key, `draft-<file name>`); the real key is
@@ -22,6 +32,7 @@ recipe-prerequisites.yml for why).
 Usage:
   git_validate_recipes.py --base <ref> [--url URL]       # drafts changed since merge-base
   git_validate_recipes.py draft/x.md ...                 # explicit files
+  --poll-interval S, --retries N, --timeout S   the poll loop (defaults 5, 1, 900)
   --out DIR   writes each passing answer to DIR/<frontmatter_id>.json — the recipe object
               job 3 (git_validate_writeback.py) writes back, so it is never re-read —
               and the draft it came from to DIR/<frontmatter_id>.path (job 3's key).
@@ -44,7 +55,10 @@ import git_validate_summary
 import recipe_draft
 
 HEADER = "x-recipe-validate-secret"
-TIMEOUT_S = 300
+REQUEST_TIMEOUT_S = 60      # one start or poll call; the job itself runs on LM
+DEFAULT_TIMEOUT_S = float(os.environ.get("RECIPE_GIT_VALIDATE_TIMEOUT_S") or 900)
+DEFAULT_INTERVAL_S = 5.0
+DEFAULT_RETRIES = 1         # a failed job is started once more, as the 503 used to be
 
 
 def changed_drafts(base: str) -> list[str]:
@@ -57,12 +71,13 @@ def changed_drafts(base: str) -> list[str]:
     return sorted(p for p in out.splitlines() if recipe_draft.is_draft(p))
 
 
-def post(url: str, secret: str, markdown: str) -> tuple[int, dict]:
+def _call(method: str, url: str, secret: str, payload: dict | None = None) -> tuple[int, dict]:
+    """One HTTP call → (status, JSON body). A transport error raises OSError."""
     req = urllib.request.Request(
-        url, data=json.dumps({"markdown": markdown}).encode("utf-8"), method="POST",
-        headers={"Content-Type": "application/json", HEADER: secret})
+        url, data=json.dumps(payload).encode("utf-8") if payload is not None else None,
+        method=method, headers={"Content-Type": "application/json", HEADER: secret})
     try:
-        with urllib.request.urlopen(req, timeout=TIMEOUT_S) as resp:
+        with urllib.request.urlopen(req, timeout=REQUEST_TIMEOUT_S) as resp:
             return resp.status, json.loads(resp.read() or b"{}")
     except urllib.error.HTTPError as err:
         body = err.read()
@@ -72,13 +87,81 @@ def post(url: str, secret: str, markdown: str) -> tuple[int, dict]:
             return err.code, {"raw": body.decode("utf-8", "replace")[:500]}
 
 
+def _detail(code: str, message: str) -> dict:
+    return {"detail": {"code": code, "message": message}}
+
+
+def validate(url: str, secret: str, markdown: str, *, timeout_s: float = DEFAULT_TIMEOUT_S,
+             interval_s: float = DEFAULT_INTERVAL_S, retries: int = DEFAULT_RETRIES) -> tuple[int, dict]:
+    """Start a git_validate job and poll it to the end. Returns what the sync route used to:
+    (200, record) — failed steps included —, (422, {detail}) refused, (503, {detail}) the
+    check failed past `retries` (or LM was unreachable), (404, body) wrong URL/secret, and
+    (504, {detail: timeout}) when `timeout_s` ran out."""
+    deadline = time.monotonic() + timeout_s
+    failures, restarted = 0, False
+    last = (503, _detail("check_failed", "The check could not be made."))
+    while True:
+        if failures > retries:
+            return last
+        if time.monotonic() >= deadline:
+            return 504, _detail("timeout", f"no answer within {timeout_s:g}s")
+        try:
+            status, body = _call("POST", url.rstrip("/") + "/start", secret, {"markdown": markdown})
+        except OSError as e:
+            failures, last = failures + 1, (503, _detail("unreachable", f"start: {e}"))
+            time.sleep(interval_s)
+            continue
+        if status in (500, 502, 503, 504):
+            failures, last = failures + 1, (503, body if isinstance(body.get("detail"), dict)
+                                            else _detail("check_failed", f"start answered {status}"))
+            time.sleep(interval_s)
+            continue
+        if status != 202 or not body.get("job_id"):
+            return status, body   # 404 wrong URL/secret, 422 a body LM cannot read, …
+        poll = url.rstrip("/") + "/" + str(body["job_id"])
+        while True:
+            if time.monotonic() >= deadline:
+                return 504, _detail("timeout", f"no answer within {timeout_s:g}s")
+            time.sleep(interval_s)
+            try:
+                status, body = _call("GET", poll, secret)
+            except OSError as e:
+                failures, last = failures + 1, (503, _detail("unreachable", f"poll: {e}"))
+                break
+            state = body.get("state") if status == 200 else None
+            if status == 404:
+                if restarted:
+                    return 404, _detail("job_lost", "the job was lost twice (unknown or expired)")
+                restarted = True
+                break
+            if state == "running":
+                continue
+            if state == "done":
+                return 200, body.get("result") or {}
+            if state == "refused":
+                return 422, {"detail": body.get("detail")}
+            if state == "failed" or status >= 500:
+                detail = body.get("detail")
+                failures, last = failures + 1, (503, {"detail": detail} if isinstance(detail, dict)
+                                                else _detail("check_failed", f"poll answered {status}"))
+                break
+            if status == 200:   # a 200 this client cannot read is never a pass
+                return 502, _detail("bad_answer", f"poll answered state {state!r}")
+            return status, body
+
+
 def report(path: str, status: int, body: dict) -> str | None:
-    """Print the verdict for one draft. Returns None when it passed, else the one-line reason."""
+    """Print the verdict for one draft. Returns None when it passed, else the one-line reason.
+    A record with failed steps passed (R34-3); its failed steps are printed under it."""
     if status == 200:
-        print(f"PASS  {path}  ({body.get('frontmatter_id')}, {len(body.get('steps') or [])} steps)")
+        failed_steps = body.get("failed_steps") or []
+        extra = f", {len(failed_steps)} failed step(s)" if failed_steps else ""
+        print(f"PASS  {path}  ({body.get('frontmatter_id')}, {len(body.get('steps') or [])} steps{extra})")
+        for line in failed_step_lines(failed_steps):
+            print(f"        {line}")
         return None
     detail = body.get("detail", body)
-    if status == 404:
+    if status == 404 and not (isinstance(detail, dict) and detail.get("code")):
         why = "404 — wrong URL, or the secret is unset/wrong on either side"
         print(f"FAIL  {path}  {why}")
         return why
@@ -91,15 +174,19 @@ def report(path: str, status: int, body: dict) -> str | None:
     for key in ("missing",):
         if detail.get(key):
             print(f"        {key}: {', '.join(detail[key])}")
-    titles = []
-    for step in detail.get("steps") or []:
-        title = step.get("title") or step.get("id") or f"step {step.get('position')}"
-        titles.append(str(title))
+    return why
+
+
+def failed_step_lines(failed_steps: list) -> list[str]:
+    """`- <title>: [<kind>] <message>` per error of each failed step."""
+    lines = []
+    for step in failed_steps:
+        title = step.get("title") or step.get("id") or "step"
         for e in step.get("errors") or []:
             msg = e.get("message") if isinstance(e, dict) else e
-            code = e.get("kind") if isinstance(e, dict) else ""
-            print(f"        - {title}: [{code}] {msg}")
-    return why + (f" ({', '.join(titles)})" if titles else "")
+            kind = e.get("kind") if isinstance(e, dict) else ""
+            lines.append(f"- {title}: [{kind}] {msg}")
+    return lines
 
 
 def save(out_dir: str, body: dict, path: str) -> None:
@@ -119,6 +206,11 @@ def main() -> int:
     ap.add_argument("--base", help="git ref to diff against (merge-base)")
     ap.add_argument("--url", default=git_validate_config.load()["url"])
     ap.add_argument("--out", help="directory for each passing answer, <frontmatter_id>.json")
+    ap.add_argument("--timeout", type=float, default=DEFAULT_TIMEOUT_S,
+                    help="seconds per draft, start to answer (env RECIPE_GIT_VALIDATE_TIMEOUT_S)")
+    ap.add_argument("--poll-interval", type=float, default=DEFAULT_INTERVAL_S)
+    ap.add_argument("--retries", type=int, default=DEFAULT_RETRIES,
+                    help="times a failed job (the model failing) is started again")
     args = ap.parse_args()
 
     files = args.files or (changed_drafts(args.base) if args.base else [])
@@ -130,7 +222,7 @@ def main() -> int:
         print("url (.github/recipe-git-validate.json) / RECIPE_GIT_VALIDATE_SECRET not set.", file=sys.stderr)
         return 2
 
-    passed, failed = [], []
+    passed, failed, flagged = [], [], []
     for path in files:
         with open(path, encoding="utf-8") as fh:
             text = fh.read()
@@ -140,18 +232,18 @@ def main() -> int:
             print(f"FAIL  {path}  {e}")
             failed.append((path, str(e)))
             continue
-        status, body = post(args.url, secret, markdown)
-        if status == 503:
-            time.sleep(5)
-            status, body = post(args.url, secret, markdown)
+        status, body = validate(args.url, secret, markdown, timeout_s=args.timeout,
+                                interval_s=args.poll_interval, retries=args.retries)
         why = report(path, status, body)
         if why is not None:
             failed.append((path, why))
             continue
         passed.append(path)
+        if body.get("failed_steps"):
+            flagged.append((path, "; ".join(failed_step_lines(body["failed_steps"]))))
         if args.out:
             save(args.out, body, path)
-    return git_validate_summary.finish("git-validate (step check)", passed, failed)
+    return git_validate_summary.finish("git-validate (step check)", passed, failed, flagged)
 
 if __name__ == "__main__":
     sys.exit(main())

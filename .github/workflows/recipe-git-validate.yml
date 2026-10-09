@@ -9,10 +9,15 @@ name: recipe-git-validate
 # draft is in the tree — "add the label" without `validate-recipes`, "being
 # validated" with it (scripts/recipe_label_gate.py).
 #
-# Job 1 sends each changed draft to llm-wrapper's POST /v1/recipes/git_validate:
+# Job 1 sends each changed draft to llm-wrapper's git_validate, start-then-poll (R34-5):
+# POST /v1/recipes/git_validate/start → job_id, then GET /v1/recipes/git_validate/<job_id>
+# until done | refused | failed (scripts/git_validate_recipes.py; 15 min per draft):
 # markdown → steps, then the per-step check with no tenant. A new draft carries no
 # frontmatter_id yet, so it is sent with a temporary one (R-RG4-10: no LM change).
-# A draft with a failing step is listed per step and goes no further.
+# A draft whose steps fail still PASSES (R34-2/R34-3): its failed steps keep their
+# `errors`, are listed in the log and job summary, and the recipe is written back and
+# deployed (the catalog shows it "Coming soon"; LM refuses to run a step with errors).
+# Only a refusal (author, industry, unreadable, size) or a check that kept failing stops a draft.
 #
 # The recipe is not run in CI: a global recipe runs in the customer's project, so a
 # run in a CI project would test that project's data, not the recipe.

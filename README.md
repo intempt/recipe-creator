@@ -90,7 +90,9 @@ using the banner image generated in Step 2 …
 - One `# Title`, then one `## Step N: <title>` per step, in plain prose.
 - A step that uses an earlier step's result names that step: "the segment created in
   Step 1". A step may use only earlier steps.
-- Write every value out: names, events, windows, tone. A vague step fails the check.
+- Write every value out: names, events, windows, tone. A vague step fails the check: the
+  recipe is still written back and deployed, but that step carries its errors, the engine
+  will not run it, and the catalog shows the recipe as "Coming soon" until you fix it.
   [WRITING-STEPS.md](./WRITING-STEPS.md) has the long version.
 - `org_name` is a folder name: lowercase letters, digits and single hyphens.
 - Leave `frontmatter_id` out for a new recipe. CI picks it (see "How the key is chosen" below).
@@ -111,7 +113,7 @@ Until the label is on, `recipe-label` stays red and says so. Then these jobs run
 
 | Job | What it does | When it fails |
 |---|---|---|
-| `git-validate` | Reads your steps and checks each one against the engine (no workspace) | A step is vague, or uses a later step's output. The errors are listed per step |
+| `git-validate` | Reads your steps and checks each one against the engine (no workspace). A step that is vague, or uses a later step's output, is listed with its errors (log, `::warning::`, job summary) but does NOT fail the job: the recipe goes on with those errors kept | The engine refuses the file itself: no/invalid author, invalid industry, unreadable, empty or too large |
 | `git-validate-writeback` | Writes `recipe.md` + `recipe.json`, deletes your draft, runs every prerequisites check on the result, commits as `github-actions[bot]`, and reports `recipe-label` and `prerequisites` green on that commit | The two files would disagree, or a check fails. Nothing is committed |
 
 When a job fails, fix the draft and push again. The jobs run again while the label stays on.

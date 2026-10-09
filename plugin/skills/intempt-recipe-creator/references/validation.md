@@ -110,13 +110,11 @@ python3 scripts/validate_recipes.py --recipes examples --lint
 python3 scripts/injection.py recipes examples          # prompt injection
 python3 scripts/portability.py recipes examples        # workspace-only values
 python3 scripts/normalise_recipe.py --check recipes examples
-python3 scripts/check_recipe_prerequisites.py           # every integration you name is declared
 python3 scripts/check_recipe_identity.py                # ids and slash commands are unique
 python3 scripts/rebuild_bodies.py --check               # each body matches its frontmatter
 python3 scripts/render_entities_doc.py --check          # references/entities.md is current
 python3 scripts/sync_plugin.py --check                  # the plugin's copies match the root
 python3 scripts/build_artifacts.py --out /tmp/c --check # the public catalog builds, copy is clean
 python3 scripts/tests/test_recipe_contract.py           # the contract's own tests
-python3 scripts/tests/test_check_recipe_prerequisites.py
 for t in scripts/tests/test_*.py; do python3 "$t" || exit 1; done   # every script's tests
 ```

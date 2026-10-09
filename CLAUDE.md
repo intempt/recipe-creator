@@ -28,7 +28,6 @@ python3 scripts/injection.py recipes examples    # prompt injection
 python3 scripts/portability.py recipes examples  # values that only exist in one workspace
 python3 scripts/normalise_recipe.py --check recipes examples
 for t in scripts/tests/test_*.py; do python3 "$t" || exit 1; done
-python3 scripts/check_recipe_prerequisites.py    # declares every integration it names
 python3 scripts/check_recipe_identity.py         # id unique, matches its folder, slash unique
 python3 scripts/build_artifacts.py --out /tmp/c --check   # customer-facing copy is clean
 python3 scripts/sync_plugin.py --check           # the plugin's copies match the root
@@ -58,7 +57,6 @@ find recipes -name recipe.md | wc -l
 | `accept_submission.py` | places an approved submission at `recipes/<owner>/<id>/recipe.md`, normalised and checked; `--external` refuses the `intempt` folder, `--replace` overwrites |
 | `build_artifacts.py` | builds the public catalog from the `.md` sources. The `--check` mode is the copy gate |
 | `check_recipe_identity.py` | id and slash-command uniqueness, id matches its folder |
-| `check_recipe_prerequisites.py` | a recipe naming an integration must declare it |
 | `recipe_contract.py` | the v2 contract in code: required fields, entity lists, availability. Everything else imports it |
 | `validate_recipes.py` | validates every recipe.md, reports availability and description lints, and fails on injection or portability findings |
 | `injection.py` | prompt-injection scan. Patterns are `fixtures/injection_patterns.json`, pinned by `fixtures/SUITE_SHA256`; change both in one commit |

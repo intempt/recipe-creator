@@ -264,6 +264,25 @@ class Refusals(Base):
         self.assertEqual(check_recipe_consistency.check(
             str(self.root / "recipes" / "intempt" / "form-abandonment-nudge")), [])
 
+    def test_failed_steps_are_written_with_their_errors(self):
+        """R34-3: a record whose steps failed is written (and later deployed) like any other;
+        each failed step's `errors` reaches recipe.json, which recipe_deploy.py sends as-is."""
+        errors = [{"kind": "vague", "message": "too vague"}]
+        steps = [{"id": "s1", "errors": errors}, {"id": "s2"}, {"id": "s3"}]
+        failed = [{"id": "s1", "title": "One", "errors": errors}]
+        draft = self.draft("form-abandonment-nudge.md", fixture="form-abandonment-nudge.md")
+        out = self.root / "checked"
+        out.mkdir()
+        (out / "draft-form-abandonment-nudge.json").write_text(
+            json.dumps(answer(steps=steps, failed_steps=failed)))
+        (out / "draft-form-abandonment-nudge.path").write_text(draft + "\n")
+        with contextlib.redirect_stdout(io.StringIO()) as log:
+            self.assertEqual(wb.main([str(out), "--root", str(self.root)]), 0)
+        self.assertIn("1 passed, 0 failed", log.getvalue())
+        _, _, record = self.written("intempt", "form-abandonment-nudge")
+        self.assertEqual(record["steps"], steps)
+        self.assertEqual(record["failed_steps"], failed)
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=1)

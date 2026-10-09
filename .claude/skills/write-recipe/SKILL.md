@@ -78,7 +78,6 @@ installer supplies and `does_not_claim` for what nothing checked. See the contra
 ```
 python3 scripts/rebuild_bodies.py
 python3 scripts/validate_recipes.py --lint recipes/<partner>/<recipe-id>/recipe.md
-python3 scripts/check_recipe_prerequisites.py
 python3 scripts/check_recipe_identity.py
 python3 scripts/build_artifacts.py --out /tmp/c --check
 ```

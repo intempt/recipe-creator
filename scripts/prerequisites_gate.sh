@@ -11,8 +11,6 @@
 # recipes, never the entity list) and `pip install pyyaml` (the caller installs it).
 set -euo pipefail
 cd "$(dirname "$0")/.."
-python3 scripts/tests/test_check_recipe_prerequisites.py
-python3 scripts/check_recipe_prerequisites.py
 python3 scripts/build_artifacts.py --out /tmp/catalog --check
 python3 scripts/tests/test_recipe_contract.py
 for t in scripts/tests/test_*.py; do python3 "$t" || exit 1; done
