@@ -22,6 +22,6 @@ Slash command: /acquisition-channel-cohort
 
 Build a segment of users named "Google Paid Acquired".
 A user is in the segment only when all of these are true:
-- their utm_source attribute is "google"
-- their utm_medium attribute is "cpc"
-- they did the order_created event at least once, at any time
+- their UTM source attribute is "google"
+- their UTM medium attribute is "cpc"
+- they did the Placed order event at least once, at any time

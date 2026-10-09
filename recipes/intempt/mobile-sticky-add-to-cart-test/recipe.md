@@ -29,11 +29,11 @@ Targeting:
 - Devices: MOBILE ONLY (viewport width < 768px): this is a mobile-specific UX test
 - Audience: all visitors
 - Display frequency: always
-Primary metric: goal_completed_in_experience where experience_id = <this> (goal fires on cart_created within session of exposure)
+Primary metric: goal_completed_in_experience where experience_id = <this> (goal fires on Cart created within session of exposure)
 Secondary metrics:
-- click_on where target_id = "sticky-add-to-cart-button" (variant B and C only)
-- click_on where target_id = "main-add-to-cart-button" (control + as fallback for B/C)
-- order_created within 24 hours of exposure (mobile checkout completion)
+- Click on where target_id = "sticky-add-to-cart-button" (variant B and C only)
+- Click on where target_id = "main-add-to-cart-button" (control + as fallback for B/C)
+- Placed order within 24 hours of exposure (mobile checkout completion)
 - Time-on-PDP (mobile dwell time)
 Guardrail: PDP scroll depth must not drop >10% (sticky bar shouldn't disincentivize content reading); checkout conversion rate must not drop on mobile
 Schedule: 14 days, mobile traffic only

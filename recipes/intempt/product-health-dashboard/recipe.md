@@ -29,7 +29,7 @@ Board-level configuration:
 - exclusionPeriod: incomplete_periods
 - visibility: project
 - boardFilters: none by default
-- boardBreakdowns: plan_name (resolved from each user's most-recent active subscription): pushed down to all cards as a secondary breakdown
+- boardBreakdowns: Plan (resolved from each user's most-recent active subscription): pushed down to all cards as a secondary breakdown
 Layout: 4 rows.
 Row 1: Engagement headline (heightPx: 200, four metric cards at widthUnits: 3):
 - Card 1: Insights metric to source recipe: stickiness-ratios-dau-wau-mau, vizType: metric, titleOverride: "DAU/MAU Stickiness"
@@ -50,4 +50,4 @@ Annotations:
 - The board's value comes from reading the four rows together: Row 1 reports headline state, Row 2 reports feature engagement depth, Row 3 reports retention drivers, Row 4 reports segmentation and support pulse.
 Taxonomy notes:
 - All 8 source recipes are taxonomy-grounded.
-- nps-tracking depends on feedback_submitted events with survey_type = "nps": see that recipe's notes.
+- nps-tracking depends on Feedback submitted events with survey_type = "nps": see that recipe's notes.

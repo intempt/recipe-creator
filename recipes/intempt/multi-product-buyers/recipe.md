@@ -20,5 +20,5 @@ Slash command: /multi-product-buyers
 
 Build a segment of users named "Multi-Product Buyers".
 A user is in the segment only when all of these are true:
-- they did the order_created event 2 or more times in the last 180 days
-- their lifetime_value attribute is 200 or more
+- they did the Placed order event 2 or more times in the last 180 days
+- their Lifetime value attribute is 200 or more

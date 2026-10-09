@@ -28,14 +28,14 @@ Variants:
 Targeting:
 - Pages: any page where the search backend is called: typically search results pages (page URL contains "/search") and inline search-as-you-type widgets in the header
 - Devices: any (server-side search is device-agnostic; the ranking algorithm runs in the search backend regardless of client device)
-- Audience: users performing product searches (search query string is non-empty, OR submit_on the search form)
+- Audience: users performing product searches (search query string is non-empty, OR Submit on the search form)
 - Display frequency: always (every search query call invokes getFlag and applies the assigned variant's ranking)
-Primary metric: goal_completed_in_experience where experience_id = <this> AND value > 0 (revenue from order_created within session of a search)
+Primary metric: goal_completed_in_experience where experience_id = <this> AND value > 0 (revenue from Placed order within session of a search)
 Secondary metrics:
-- click_on on search results (search-to-click conversion)
+- Click on on search results (search-to-click conversion)
 - Average click position (which rank (1, 2, 3) got clicked)
-- Revenue per search (sum of order_created.total_price / count of distinct searches)
-- Zero-result rate (searches where no click_on followed within 30 seconds)
+- Revenue per search (sum of Placed order.total_price / count of distinct searches)
+- Zero-result rate (searches where no Click on followed within 30 seconds)
 Guardrail: search-to-purchase conversion (the existing aggregate metric) must not drop >5% in any variant. Note: variant C (margin-weighted) is a known accuracy/profit tradeoff: guardrails catch it if the accuracy drop is too steep.
 Schedule: 21 days, 5,000 searches per variant minimum
 ═══ PATH 2: Variant JSON payload ═══
@@ -75,9 +75,9 @@ Variant: C (margin-weighted)
 SDK integration:
  const ranking = await intempt.getFlag('search_ranking_strategy', userId);
  const results = await search.query(query, { weights: ranking.weights, max: ranking.max_results });
-Each rendered search result should have target_id = "search-result-{position}" so click_on per-position metrics roll up consistently.
+Each rendered search result should have target_id = "search-result-{position}" so Click on per-position metrics roll up consistently.
 Taxonomy notes:
 - The search backend (search.query) is application-side and not part of canonical taxonomy.
-- "Click position" is the rank of the clicked result: typically captured as target_id ("search-result-3" to position 3) or as a property on click_on.
+- "Click position" is the rank of the clicked result: typically captured as target_id ("search-result-3" to position 3) or as a property on Click on.
 - "Margin" data is required for variant C; if your product catalog doesn't track per-product margin, variant C cannot run faithfully.
 - "Display frequency: always": every search query for a given userId returns the same variant (sticky assignment) for the experiment's duration. The variant is computed once on first search and cached.

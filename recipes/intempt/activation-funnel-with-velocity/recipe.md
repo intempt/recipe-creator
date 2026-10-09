@@ -20,13 +20,13 @@ Slash command: /activation-funnel-with-velocity
 
 Create a Funnel report called "Activation with Step Velocity".
 Steps:
-1. Event "user_created": "Signed Up"
-2. Event "session_start" within 24h of user_created: "First Return"
-3. Event "goal_completed_in_journey" where journey_id matches the setup journey: "Completed Setup"
-4. Event "goal_completed_in_journey" where journey_id matches the core-feature journey: "Used Core Feature"
-5. Event "goal_completed_in_journey" where journey_id matches the activation journey, with frequency: occurred_at appears 3+ times in the 7 days following step 4: "Activated (Habituated)"
+1. Event "User created": "Signed Up"
+2. Event "Session start" within 24h of User created: "First Return"
+3. Event "Completed a journey goal" where journey_id matches the setup journey: "Completed Setup"
+4. Event "Completed a journey goal" where journey_id matches the core-feature journey: "Used Core Feature"
+5. Event "Completed a journey goal" where journey_id matches the activation journey, with frequency: Occurred date appears 3+ times in the 7 days following step 4: "Activated (Habituated)"
 Conversion window: 14 days
-Breakdown: By Users.utm_source
+Breakdown: By Users.UTM source
 Compare: Previous period (prior 14 days)
 For each step, in addition to conversion rate, surface:
 - Median time-to-convert from previous step
@@ -39,4 +39,4 @@ Annotations:
 - Highlight the step where reducing time-to-convert by 50% would have the biggest downstream activation lift.
 Velocity is the activation lever: drop-off tells you where users die, velocity tells you where they're stuck.
 Taxonomy notes:
-- "Habituated" Step 5 requires Lovable to compute the "3+ goal completions in 7 days" rule from goal_completed_in_journey timestamps grouped by user.
+- "Habituated" Step 5 requires Lovable to compute the "3+ goal completions in 7 days" rule from Completed a journey goal timestamps grouped by user.

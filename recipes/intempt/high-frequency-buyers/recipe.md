@@ -21,4 +21,4 @@ Slash command: /high-frequency-buyers
 
 Build a segment of users named "High-Frequency Buyers".
 A user is in the segment only when all of these are true:
-- they did the order_created event 4 or more times in the last 90 days
+- they did the Placed order event 4 or more times in the last 90 days

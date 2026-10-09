@@ -32,12 +32,12 @@ Targeting:
 - Devices: any (server experiments are device-agnostic; the cart logic runs the same regardless of client device)
 - Audience: all visitors except wholesale accounts (segment exclusion: account_type = "wholesale")
 - Display frequency: always (sticky assignment: every cart calculation for a given userId uses the same variant for the experiment's duration)
-Primary metric: goal_completed_in_experience where experience_id = <this> AND value > 0 (revenue per session: sum of order_created.total_price attributed via exposed_to_experience)
+Primary metric: goal_completed_in_experience where experience_id = <this> AND value > 0 (revenue per session: sum of Placed order.total_price attributed via exposed_to_experience)
 Secondary metrics:
-- order_created.total_price (AOV per variant)
-- order_created count per session (conversion rate)
-- items_count on order_created (units per order: does free shipping inflate cart size?)
-Guardrail: cart_abandoned rate must not increase >5% in lower-threshold variants (some shoppers may abandon when realizing they don't qualify)
+- Placed order.total_price (AOV per variant)
+- Placed order count per session (conversion rate)
+- items_count on Placed order (units per order: does free shipping inflate cart size?)
+Guardrail: Abandoned cart rate must not increase >5% in lower-threshold variants (some shoppers may abandon when realizing they don't qualify)
 Schedule: 21 days. Track new vs. returning visitors separately (returning visitors may have shipping expectations from prior orders).
 ═══ PATH 2: Variant JSON payload (loaded as code via SDK) ═══
 For SERVER experiments, each variant ships a JSON payload that the application loads via getFlag() and renders accordingly. The application code reads the payload and applies the threshold dynamically.
@@ -79,7 +79,7 @@ SDK integration example (JavaScript):
  // config.threshold_cents to number or null
  // applies in cart logic, displays in shipping banner
 Taxonomy notes:
-- order_created.total_price is the canonical order value. items_count derives from order_created.items length.
-- exposed_to_experience fires when getFlag() is first called for the user; goal_completed_in_experience fires when the configured goal (order_created within session) is reached.
+- Placed order.total_price is the canonical order value. items_count derives from Placed order.items length.
+- exposed_to_experience fires when getFlag() is first called for the user; goal_completed_in_experience fires when the configured goal (Placed order within session) is reached.
 - Server experiments do not have a Visual Editor: there is no DOM change. The variant's effect is purely via the JSON payload's effect on application logic.
 - "Display frequency: always" for server experiments means the same variant returns on every getFlag call for a given userId (sticky assignment): this is what makes the experiment statistically valid. A user assigned to Variant B sees the $50 threshold consistently across sessions.

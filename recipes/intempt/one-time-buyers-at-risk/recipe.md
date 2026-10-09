@@ -20,6 +20,6 @@ Slash command: /one-time-buyers-at-risk
 
 Build a segment of users named "One-Time Buyers At Risk".
 A user is in the segment only when all of these are true:
-- they did the order_created event exactly 1 time, at any time
-- their days_since_last_activity attribute is 60 or more
-- their lifecycle_score attribute is neither "Regulars" nor "Promising"
+- they did the Placed order event exactly 1 time, at any time
+- their Days since last activity attribute is 60 or more
+- their Lifecycle score attribute is neither "Regulars" nor "Promising"

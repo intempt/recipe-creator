@@ -21,5 +21,5 @@ Slash command: /demo-requested-accounts
 
 Build a segment of accounts named "Demo-Requested Accounts".
 An account is in the segment only when all of these are true:
-- the users in the account together did the submit_on event on the demo request form chosen for this run at least once in the last 30 days
-- its has_open_deal attribute is false
+- the users in the account together did the Submit on event on the demo request form chosen for this run at least once in the last 30 days
+- its Has an open deal attribute is false

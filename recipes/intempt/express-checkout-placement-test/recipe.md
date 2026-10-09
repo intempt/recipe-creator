@@ -28,15 +28,15 @@ Variants:
 Targeting:
 - Pages:
  - Variant B: page URL contains "/products/"
- - Variant C: any page where the cart drawer opens (triggered by cart_created event)
+ - Variant C: any page where the cart drawer opens (triggered by Cart created event)
  - Variant D: all pages where the buttons are visible per their placement
 - Devices: any (mobile is where express checkout has the largest impact, but desktop also benefits)
 - Audience: all visitors
 - Display frequency: always
-Primary metric: goal_completed_in_experience where experience_id = <this> AND value > 0 (revenue from order_created within session of exposure)
+Primary metric: goal_completed_in_experience where experience_id = <this> AND value > 0 (revenue from Placed order within session of exposure)
 Secondary metrics:
-- click_on where target_id = "apple-pay-button" OR "google-pay-button" OR "shop-pay-button" (express-checkout engagement rate)
-- order_created where payment_method IN ("apple_pay", "google_pay", "shop_pay"): share of express orders per variant
+- Click on where target_id = "apple-pay-button" OR "google-pay-button" OR "shop-pay-button" (express-checkout engagement rate)
+- Placed order where payment_method IN ("apple_pay", "google_pay", "shop_pay"): share of express orders per variant
 - Mobile vs. desktop conversion rate split (express checkout is mobile-dominant)
 - AOV per variant (express checkout users may have different basket profiles)
 Guardrail: standard checkout completion rate must not drop (express checkout shouldn't cannibalize properly-considered checkouts; both should rise)
@@ -81,4 +81,4 @@ Taxonomy notes:
 - Mobile users see the largest impact: express checkout on PDP can lift mobile conversion 15-30% by eliminating card-entry friction.
 - iOS users prefer Apple Pay; Android users prefer Google Pay; Shopify users see Shop Pay. Show device-appropriate buttons; the buttons themselves auto-detect availability.
 - Don't run this experiment alongside checkout-flow-length-test concurrently: checkout flow changes interact with express checkout placement. Run sequentially.
-- order_created.payment_method (or equivalent) must be populated to measure express-checkout share. If your order event doesn't track payment method, add it.
+- Placed order.payment_method (or equivalent) must be populated to measure express-checkout share. If your order event doesn't track payment method, add it.

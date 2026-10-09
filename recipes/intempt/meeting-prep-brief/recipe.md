@@ -19,7 +19,7 @@ Slash command: /meeting-prep-brief
 
 ## Step 1: Assemble the brief
 
-Create an AI-derived attribute on the Meeting object called 'prep_brief'. Computed at meeting_scheduled time. Output: a structured brief with sections: (a) attendees: name, title, role on deal, recent activity; (b) account snapshot: ARR, plan, health score, open opportunities; (c) prior touch history: last 5 interactions across email/meetings/support; (d) suggested talking points: AI-derived from deal stage, recent product usage, and any open support tickets; (e) competitive intel: if any flag exists. Refreshes if a new attendee is added within 1 hour of meeting time.
+Create an AI-derived attribute on the Meeting object called 'prep_brief'. Computed at Meeting scheduled time. Output: a structured brief with sections: (a) attendees: name, title, role on deal, recent activity; (b) account snapshot: ARR, plan, health score, open opportunities; (c) prior touch history: last 5 interactions across email/meetings/support; (d) suggested talking points: AI-derived from deal stage, recent product usage, and any open support tickets; (e) competitive intel: if any flag exists. Refreshes if a new attendee is added within 1 hour of meeting time.
 
 ## Step 2: Lay it out to be skimmed
 
@@ -27,7 +27,7 @@ Generate an HTML email template that renders the prep_brief attribute in a clean
 
 ## Step 3: Send it a day before
 
-Create a workflow firing on meeting_scheduled. Schedule a delayed step to fire 24 hours before the meeting (or immediately if the meeting is within 24 hours). On firing: re-compute the prep_brief attribute (catches any last-minute updates), then trigger the brief journey to deliver to the host. If the meeting is rescheduled, cancel the pending delivery and re-schedule. If cancelled, suppress delivery. Use the result of "Assemble the brief", "Lay it out to be skimmed".
+Create a workflow firing on Meeting scheduled. Schedule a delayed step to fire 24 hours before the meeting (or immediately if the meeting is within 24 hours). On firing: re-compute the prep_brief attribute (catches any last-minute updates), then trigger the brief journey to deliver to the host. If the meeting is rescheduled, cancel the pending delivery and re-schedule. If cancelled, suppress delivery. Use the result of "Assemble the brief", "Lay it out to be skimmed".
 
 ## Step 4: Deliver it to the host
 

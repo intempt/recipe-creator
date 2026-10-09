@@ -34,9 +34,9 @@ Targeting:
 - Devices: any
 - Display frequency: once_per_session
 Metrics:
-- order_created per geographic audience
+- Placed order per geographic audience
 - Average order value per audience
-- click_on engagement on geo-specific CTAs
+- Click on engagement on geo-specific CTAs
 Schedule: continuous
 ═══ PATH 2: Variant HTML content (Visual Editor) ═══
 Variant: Control (all: fallback, generic)

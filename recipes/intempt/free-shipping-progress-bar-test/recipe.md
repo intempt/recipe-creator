@@ -27,13 +27,13 @@ Variants:
 Targeting:
 - Pages: page URL contains "/cart" OR mini-cart drawer is open on any page
 - Devices: any
-- Audience: visitors with at least one cart_created event in the current session AND cart subtotal > $0 AND cart subtotal < free_shipping_threshold
+- Audience: visitors with at least one Cart created event in the current session AND cart subtotal > $0 AND cart subtotal < free_shipping_threshold
 - Display frequency: always
-Primary metric: goal_completed_in_experience where experience_id = <this> AND value > 0 (revenue from order_created within 24 hours of exposure)
+Primary metric: goal_completed_in_experience where experience_id = <this> AND value > 0 (revenue from Placed order within 24 hours of exposure)
 Secondary metrics:
-- AOV per variant (average order_created.total_price (the key signal) does the progress bar lift AOV?)
+- AOV per variant (average Placed order.total_price (the key signal) does the progress bar lift AOV?)
 - cart_updated count per session (does the bar drive add-more behavior?)
-- Cart-to-order conversion rate (cart_created to order_created within session)
+- Cart-to-order conversion rate (Cart created to Placed order within session)
 - Percentage of orders that hit the free-shipping threshold
 Guardrail: cart-abandonment rate must not increase >3% (some shoppers may walk away when they see they don't qualify)
 Schedule: 14 days
@@ -62,5 +62,5 @@ Variant: B (progress bar)
 When the cart subtotal crosses the threshold, fire a custom DOM event so analytics can capture the threshold-hit moment.
 Taxonomy notes:
 - This recipe assumes the merchant has a configured free shipping threshold. If you also run free-shipping-threshold-test (server experiment testing the dollar value), schedule them sequentially: don't run them concurrently to avoid interaction effects.
-- "Cart subtotal" is read from cart state (cart_created, cart_updated events with total_amount property).
+- "Cart subtotal" is read from cart state (Cart created, cart_updated events with Order total property).
 - The progress bar's biggest signal is AOV lift; expect 8-15% AOV uplift for stores below the typical free-shipping threshold.

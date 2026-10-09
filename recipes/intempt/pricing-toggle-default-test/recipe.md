@@ -31,13 +31,13 @@ Targeting:
 - Devices: any
 - Audience: all visitors
 - Display frequency: always
-Primary metric: goal_completed_in_experience where experience_id = <this> AND value > 0 (revenue from subscription_created within 7 days, weighted by billing-period: annual subscriptions count for full annual value)
+Primary metric: goal_completed_in_experience where experience_id = <this> AND value > 0 (revenue from Subscription started within 7 days, weighted by billing-period: annual subscriptions count for full annual value)
 Secondary metrics:
-- subscription_created where billing_period = "annual" (annual conversion rate per variant)
-- subscription_created where billing_period = "monthly" (monthly conversion rate per variant)
-- Toggle-interaction rate (click_on where target_id = "pricing-toggle")
+- Subscription started where billing_period = "annual" (annual conversion rate per variant)
+- Subscription started where billing_period = "monthly" (monthly conversion rate per variant)
+- Toggle-interaction rate (Click on where target_id = "pricing-toggle")
 - AOV per signup (annual signups have ~12x higher first-payment value than monthly)
-Guardrail: total subscription_created rate must not drop >3% (the test shouldn't suppress overall conversion; it should shift mix toward annual)
+Guardrail: total Subscription started rate must not drop >3% (the test shouldn't suppress overall conversion; it should shift mix toward annual)
 Schedule: 21 days, 1,000 visitors per variant minimum
 ═══ PATH 2: Variant HTML content (Visual Editor) ═══
 Variant: Control (no DOM changes)
@@ -69,9 +69,9 @@ Variant: C (monthly default: explicit baseline for comparison)
  </button>
  </div>
  </div>
-The Visual Editor allows the user to refine the savings-badge copy, toggle styling, and animation. Ensure the toggle-button click_on events fire properly in both variants so the toggle-interaction rate metric works.
+The Visual Editor allows the user to refine the savings-badge copy, toggle styling, and animation. Ensure the toggle-button Click on events fire properly in both variants so the toggle-interaction rate metric works.
 Taxonomy notes:
 - Most modern SaaS pricing pages already have a monthly/annual toggle: this experiment changes the *default* state on page load.
-- subscription_created.billing_period (or equivalent) must be populated to measure the annual-vs-monthly mix shift. If your subscription event doesn't track billing period, add it.
+- Subscription started.billing_period (or equivalent) must be populated to measure the annual-vs-monthly mix shift. If your subscription event doesn't track billing period, add it.
 - Annual default tends to lift annual conversion rate by 30-50% with little impact on overall conversion: the savings come almost entirely from mix shift, not from new conversions.
 - For trial signups (which usually start as a free trial then convert to paid), this experiment is more impactful at the trial to paid step than at the trial-signup step. Plan your downstream measurement window accordingly.

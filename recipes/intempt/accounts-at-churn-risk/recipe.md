@@ -23,7 +23,7 @@ Slash command: /accounts-at-churn-risk
 
 Build a segment of accounts named "Accounts At Churn Risk".
 An account is in the segment only when all of these are true:
-- its account_health attribute is "at_risk"
-- its has_renewal_deal attribute is false
-- its account_lifetime_value attribute is more than 0
-- its users_count attribute is 1 or more
+- its Account health attribute is "at_risk"
+- its Has a renewal deal attribute is false
+- its Account lifetime value attribute is more than 0
+- its User count attribute is 1 or more

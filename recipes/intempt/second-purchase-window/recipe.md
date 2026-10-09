@@ -20,5 +20,5 @@ Slash command: /second-purchase-window
 
 Build a segment of users named "Second-Purchase Window".
 A user is in the segment only when all of these are true:
-- they did the order_created event exactly 1 time, at any time
-- that order_created event happened in the last 30 days
+- they did the Placed order event exactly 1 time, at any time
+- that Placed order event happened in the last 30 days

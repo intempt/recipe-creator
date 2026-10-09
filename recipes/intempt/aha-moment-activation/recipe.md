@@ -29,7 +29,7 @@ Generate 3-touch reinforcement email content. Touch 1 (24 hours after aha): cele
 
 ## Step 3: Send on days 1, 5 and 10
 
-Build a 3-touch journey triggered when feature_first_used = aha-moment fires. Touch 1: Day 1. Touch 2: Day 5. Touch 3: Day 10. Add a branch: if the user has already done the next-step feature naturally by Day 5 (great sign), skip touch 2 and go straight to touch 3 power-user content. Exit on: subscription_created (paid conversion: celebrate and handoff to free-to-paid-csm-kickoff), unsubscribe, or 14-day timeout. Use the result of "Find people who just got value", "Write three follow up emails".
+Build a 3-touch journey triggered when feature_first_used = aha-moment fires. Touch 1: Day 1. Touch 2: Day 5. Touch 3: Day 10. Add a branch: if the user has already done the next-step feature naturally by Day 5 (great sign), skip touch 2 and go straight to touch 3 power-user content. Exit on: Subscription started (paid conversion: celebrate and handoff to free-to-paid-csm-kickoff), unsubscribe, or 14-day timeout. Use the result of "Find people who just got value", "Write three follow up emails".
 
 ## Step 4: Track activation and retention
 

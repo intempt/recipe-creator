@@ -20,14 +20,14 @@ Slash command: /stickiness-ratios-dau-wau-mau
 ## Step 1: Track daily against monthly use
 
 Create an Insights report called "DAU / WAU / MAU Stickiness".
-Series A: Event "session_start", aggregation: Count Unique Users, time granularity: Daily, label: "DAU"
-Series B: Event "session_start", aggregation: Count Unique Users, rolling 7-day window, label: "WAU"
-Series C: Event "session_start", aggregation: Count Unique Users, rolling 28-day window, label: "MAU"
+Series A: Event "Session start", aggregation: Count Unique Users, time granularity: Daily, label: "DAU"
+Series B: Event "Session start", aggregation: Count Unique Users, rolling 7-day window, label: "WAU"
+Series C: Event "Session start", aggregation: Count Unique Users, rolling 28-day window, label: "MAU"
 Series D: Computed: Series A / Series B × 100, unit: %, label: "DAU/WAU Stickiness"
 Series E: Computed: Series A / Series C × 100, unit: %, label: "DAU/MAU Stickiness"
 Time granularity: Daily (smooth Series D and E with 7-day rolling average to reduce noise)
 Time range: Last 90 days
-Breakdown: By plan_name: resolved from the user's most-recent active subscription
+Breakdown: By Plan: resolved from the user's most-recent active subscription
 Compare: Year-over-year (same 90-day window prior year)
 Chart type: Dual-axis: left axis user counts (A/B/C as lines), right axis stickiness % (D and E as lines)
 Annotations:
@@ -37,5 +37,5 @@ Annotations:
 - Flag any plan where MAU is growing but DAU is flat (acquiring users who aren't engaging).
 Stickiness leads retention by 1-2 quarters; it's the canary in the coal mine.
 Taxonomy notes:
-- session_start is the canonical "user is active" event. Alternative: identify, but session_start is more frequent and reliable.
-- plan_tier as a User property does not exist; plan_name comes from the user's subscription_created.
+- Session start is the canonical "user is active" event. Alternative: identify, but Session start is more frequent and reliable.
+- plan_tier as a User property does not exist; Plan comes from the user's Subscription started.

@@ -1,5 +1,5 @@
 ---
-description: Users grouped by plan_name for plan-based upgrade targeting.
+description: Users grouped by Plan for plan-based upgrade targeting.
 author:
   first_name: Harish
   last_name: Kumar
@@ -22,5 +22,5 @@ Slash command: /expansion-candidates
 
 Build a segment of users named "Expansion Candidates".
 A user is in the segment only when all of these are true:
-- their plan_name attribute is not "enterprise"
-- their usage_pct attribute is 80 or more
+- their Plan attribute is not "enterprise"
+- their Usage percentage attribute is 80 or more

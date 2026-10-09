@@ -19,7 +19,7 @@ Slash command: /closed-lost-revival
 
 ## Step 1: Find losses worth revisiting
 
-Build a segment 'Closed-lost revival candidates' capturing deals where deal_lost event fired 90-180 days ago AND lost_reason is NOT 'wrong-fit' or 'competitor-won-firm-commitment' (those won't revive). Includes deals lost to: timing, budget, no-decision, internal-resourcing, postponed. Excludes accounts that have entered closed-lost more than twice (3-strikes rule: stop pestering).
+Build a segment 'Closed-lost revival candidates' capturing deals where Deal lost event fired 90-180 days ago AND lost_reason is NOT 'wrong-fit' or 'competitor-won-firm-commitment' (those won't revive). Includes deals lost to: timing, budget, no-decision, internal-resourcing, postponed. Excludes accounts that have entered closed-lost more than twice (3-strikes rule: stop pestering).
 
 ## Step 2: Write two revival emails
 
@@ -31,7 +31,7 @@ Create a workflow firing daily for newly-eligible revival candidates. Step seque
 
 ## Step 4: Send at day 0 and day 14
 
-Build a 2-touch journey triggered by the revival workflow. Touch 1 at Day 0, Touch 2 at Day 14 (skipped if user replies or books meeting). Audience: the original deal's primary contact. Exit on: meeting_scheduled (revival success: open new deal), email_replied (warm handoff to AE), unsubscribe, or 30-day max duration. Use the result of "Find losses worth revisiting", "Write two revival emails", "Check what changed first".
+Build a 2-touch journey triggered by the revival workflow. Touch 1 at Day 0, Touch 2 at Day 14 (skipped if user replies or books meeting). Audience: the original deal's primary contact. Exit on: Meeting scheduled (revival success: open new deal), email_replied (warm handoff to AE), unsubscribe, or 30-day max duration. Use the result of "Find losses worth revisiting", "Write two revival emails", "Check what changed first".
 
 ## Step 5: See what comes back to life
 

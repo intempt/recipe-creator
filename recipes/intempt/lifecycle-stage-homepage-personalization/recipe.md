@@ -19,25 +19,25 @@ Slash command: /lifecycle-stage-homepage-personalization
 ## Step 1: Set up the three lifecycle heroes
 
 Create a CLIENT PERSONALIZATION on /experiences titled "Lifecycle Stage Homepage Personalization".
-Different homepage experiences for different lifecycle stages, using the canonical Users.lifecycle_score enum (At risk, Needs attention, New customers, Promising, Regulars, Champions).
+Different homepage experiences for different lifecycle stages, using the canonical Users.Lifecycle score enum (At risk, Needs attention, New customers, Promising, Regulars, Champions).
 ═══ PATH 1: Top-level configuration ═══
 Experience type: client_personalization
 Variants (each binds to a specific lifecycle audience):
-- Control: standard homepage, audience = "all" (fallback for visitors whose lifecycle_score is null or for new sessions before the score is computed)
+- Control: standard homepage, audience = "all" (fallback for visitors whose Lifecycle score is null or for new sessions before the score is computed)
 - Variant B: "Welcome back" experience, audience = "Champions OR Regulars"
- - Audience: Users.lifecycle_score IN ("Champions", "Regulars")
+ - Audience: Users.Lifecycle score IN ("Champions", "Regulars")
 - Variant C: "We've missed you" win-back experience, audience = "At risk OR Needs attention"
- - Audience: Users.lifecycle_score IN ("At risk", "Needs attention")
+ - Audience: Users.Lifecycle score IN ("At risk", "Needs attention")
 - Variant D: "First-time browse" introduction, audience = "New customers OR Promising"
- - Audience: Users.lifecycle_score IN ("New customers", "Promising")
+ - Audience: Users.Lifecycle score IN ("New customers", "Promising")
 Targeting:
 - Pages: page URL is the homepage "/"
 - Devices: any
 - Display frequency: once_per_session (don't change the experience mid-session)
 Metrics (existing CRM/CDP):
-- order_created within session (per lifecycle group conversion)
+- Placed order within session (per lifecycle group conversion)
 - Average order value per audience
-- click_on engagement (which audiences engage with their personalized hero)
+- Click on engagement (which audiences engage with their personalized hero)
 Schedule: continuous
 ═══ PATH 2: Variant HTML content (Visual Editor) ═══
 Variant: Control (all: fallback)
@@ -87,6 +87,6 @@ Variant: D (New customers + Promising: "First-time browse")
  </section>
 The Visual Editor lets the user adjust copy, image selection, and recommendation block styling per audience. The [first_name] placeholder is replaced at render time from the Users object.
 Taxonomy notes:
-- Users.lifecycle_score is the canonical 6-stage enum: exact values: "At risk", "Needs attention", "New customers", "Promising", "Regulars", "Champions". Do NOT introduce textbook RFM segment names like "Loyal" or "VIP": the platform's lifecycle taxonomy is fixed at these six values.
+- Users.Lifecycle score is the canonical 6-stage enum: exact values: "At risk", "Needs attention", "New customers", "Promising", "Regulars", "Champions". Do NOT introduce textbook RFM segment names like "Loyal" or "VIP": the platform's lifecycle taxonomy is fixed at these six values.
 - For the [first_name] personalization, ensure the Users object has first_name populated; if absent, the variant should gracefully fall back to "Welcome back" without the name.
 - The "recommendations" block strategies (based-on-purchase-history, reorder-favorites, popular-with-new-customers) are application-level: typically powered by a recommendation API.

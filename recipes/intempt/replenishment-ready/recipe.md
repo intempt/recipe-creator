@@ -20,5 +20,5 @@ Slash command: /replenishment-ready
 
 Build a segment of users named "Replenishment-Ready".
 A user is in the segment only when all of these are true:
-- they did the order_created event at least once between 30 and 60 days ago
-- they did not do the order_created event in the last 30 days
+- they did the Placed order event at least once between 30 and 60 days ago
+- they did not do the Placed order event in the last 30 days

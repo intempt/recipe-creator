@@ -21,9 +21,9 @@ Slash command: /feature-paywall-conversion
 ## Step 1: Rank features by paid conversion
 
 Create an Insights report called "Feature to Paywall Conversion".
-Series A: Event "click_on" filtered by target_id matching a feature pattern, scoped to free-plan users (users without a paid subscription_created), aggregation: Count Unique Users per target_id, label: "Free Users Who Tried Feature"
-Series B: Of the users in Series A, those who subsequently emitted a page_viewed where page_url contains "/pricing" within 30 days of the feature click, label: "Reached Paywall"
-Series C: Of the users in Series A, those who subsequently emitted subscription_created (with trial_end null: paid, non-trial) within 30 days, label: "Converted to Paid"
+Series A: Event "Click on" filtered by target_id matching a feature pattern, scoped to free-plan users (users without a paid Subscription started), aggregation: Count Unique Users per target_id, label: "Free Users Who Tried Feature"
+Series B: Of the users in Series A, those who subsequently emitted a View page where Page URL contains "/pricing" within 30 days of the feature click, label: "Reached Paywall"
+Series C: Of the users in Series A, those who subsequently emitted Subscription started (with trial_end null: paid, non-trial) within 30 days, label: "Converted to Paid"
 Series D: Computed: Series B / Series A × 100, unit: %, label: "Feature to Paywall Rate"
 Series E: Computed: Series C / Series A × 100, unit: %, label: "Feature to Paid Rate"
 Breakdown: By target_id (the specific feature)
@@ -41,6 +41,6 @@ Annotations:
 - Surface the feature with the largest Free to Paywall conversion gap (Series D much higher than Series E): pricing-perception issue specific to that feature.
 Use case: Kyle Poyar's (OpenView) most-shared Amplitude template. Tells the product team which features to gate behind the paywall vs. which to give away vs. which to deprecate. The single most-actionable monetization analysis a SaaS product can run.
 Taxonomy notes:
-- click_on.target_id is the canonical feature handle.
-- page_viewed.page_url filtered to /pricing identifies paywall views.
-- subscription_created.trial_end null distinguishes paid from trial.
+- Click on.target_id is the canonical feature handle.
+- View page.Page URL filtered to /pricing identifies paywall views.
+- Subscription started.trial_end null distinguishes paid from trial.

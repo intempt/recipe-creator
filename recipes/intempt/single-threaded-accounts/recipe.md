@@ -22,5 +22,5 @@ Slash command: /single-threaded-accounts
 Build a segment of accounts named "Single-Threaded Accounts".
 An account is in the segment only when all of these are true:
 - its employees attribute is more than 50
-- its users_count attribute is exactly 1
-- its has_open_deal attribute is true
+- its User count attribute is exactly 1
+- its Has an open deal attribute is true

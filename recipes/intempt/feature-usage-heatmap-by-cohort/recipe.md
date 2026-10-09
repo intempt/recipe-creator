@@ -19,10 +19,10 @@ Slash command: /feature-usage-heatmap-by-cohort
 ## Step 1: Heatmap features against cohorts
 
 Create an Insights report called "Feature Usage by Cohort".
-Series A: Event "click_on" filtered by target_id (matching a defined feature pattern), aggregation: Count Unique Users
+Series A: Event "Click on" filtered by target_id (matching a defined feature pattern), aggregation: Count Unique Users
 Series B: Computed: Series A / cohort size × 100, unit: %, label: "Adoption Rate within Cohort"
-Breakdown: By target_id (feature) AND by cohort month derived from User.first_seen_at (system-set datetime) bucketed to month
-Time range: Last 90 days of usage; cohorts from Users with first_seen_at in the last 6 months
+Breakdown: By target_id (feature) AND by cohort month derived from User.First seen (system-set datetime) bucketed to month
+Time range: Last 90 days of usage; cohorts from Users with First seen in the last 6 months
 Chart type: Heatmap (feature on Y axis, cohort month on X axis), cell value = adoption rate %, color intensity scaled
 Annotations:
 - Flag features that show "left-side fade" in the heatmap (older cohorts have higher adoption than newer cohorts): likely an onboarding regression where newer users aren't being introduced to the feature.
@@ -31,5 +31,5 @@ Annotations:
 - Highlight columns (cohorts) where adoption is uniformly low across most features: that cohort's onboarding may have been broken.
 Surface which features need to be re-introduced to recent cohorts and which cohort months had degraded onboarding.
 Taxonomy notes:
-- Users.first_seen_at is a system-set datetime; "signup_cohort_month" is a derived bucketing of first_seen_at, not a stored property.
-- click_on.target_id is the canonical feature handle.
+- Users.First seen is a system-set datetime; "signup_cohort_month" is a derived bucketing of First seen, not a stored property.
+- Click on.target_id is the canonical feature handle.

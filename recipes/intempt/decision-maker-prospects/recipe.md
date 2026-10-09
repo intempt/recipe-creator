@@ -21,6 +21,6 @@ Slash command: /decision-maker-prospects
 
 Build a segment of users named "Decision-Maker Prospects".
 A user is in the segment only when all of these are true:
-- their title attribute contains any of "CEO", "CTO", "CFO", "CMO", "COO", "VP", "Vice President", "Director", "Head of" or "Chief"
-- they did the page_viewed event with a page_url that contains "/pricing" at least once in the last 30 days
+- their Job title attribute contains any of "CEO", "CTO", "CFO", "CMO", "COO", "VP", "Vice President", "Director", "Head of" or "Chief"
+- they did the View page event with a Page URL that contains "/pricing" at least once in the last 30 days
 - their email attribute is not empty

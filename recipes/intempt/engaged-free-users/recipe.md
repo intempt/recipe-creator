@@ -1,5 +1,5 @@
 ---
-description: Identify free-plan users using their computed engagement_score to help prioritize upgrade outreach. The score is a number, not a High-tier match.
+description: Identify free-plan users using their computed Engagement score to help prioritize upgrade outreach. The score is a number, not a High-tier match.
 author:
   first_name: Harish
   last_name: Kumar
@@ -22,7 +22,7 @@ Slash command: /engaged-free-users
 
 Build a segment of users named "Engaged Free Users".
 A user is in the segment only when all of these are true:
-- their plan_name attribute is "free"
-- their engagement_score attribute is "High"
-- their days_since_last_activity attribute is 7 or less
-- they did the session_start event 5 or more times in the last 14 days
+- their Plan attribute is "free"
+- their Engagement score attribute is "High"
+- their Days since last activity attribute is 7 or less
+- they did the Session start event 5 or more times in the last 14 days

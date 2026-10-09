@@ -22,6 +22,6 @@ Slash command: /paid-users-low-engagement
 
 Build a segment of users named "Paid Users: Low Engagement".
 A user is in the segment only when all of these are true:
-- their plan_name attribute is neither "free" nor "trial"
-- their days_since_last_activity attribute is between 7 and 21
-- their engagement_score attribute is "Low"
+- their Plan attribute is neither "free" nor "trial"
+- their Days since last activity attribute is between 7 and 21
+- their Engagement score attribute is "Low"

@@ -23,7 +23,7 @@ Slash command: /failed-payment-accounts
 
 Build a segment of users named "Failed-Payment Users".
 A user is in the segment when any of these is true:
-- they did the payment_failed event at least once in the last 14 days
-- they did the invoice_payment_failed event at least once in the last 14 days
-- they did the billing_failed event at least once in the last 14 days
-- they did the charge_failed event at least once in the last 14 days
+- they did the Payment failed event at least once in the last 14 days
+- they did the Invoice payment failed event at least once in the last 14 days
+- they did the Billing failed event at least once in the last 14 days
+- they did the Charge failed event at least once in the last 14 days

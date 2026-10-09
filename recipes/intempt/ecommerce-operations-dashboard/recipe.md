@@ -42,12 +42,12 @@ Row 3: Quality issues (heightPx: 440, two cards at widthUnits: 6):
 - Card 2: Insights to source recipe: refund-rate-by-product-and-category, displayMode: chart, vizType: bar
 Row 4: Pre-purchase friction and support (heightPx: 400, two cards at widthUnits: 6):
 - Card 1: Funnel to source recipe: checkout-form-friction, displayMode: chart, vizType: funnel_steps (per-checkout-step friction)
-- Card 2: Path to source recipe: support-deflection-paths, displayMode: chart (paths preceding ticket_created: operational quality intelligence)
+- Card 2: Path to source recipe: support-deflection-paths, displayMode: chart (paths preceding Ticket created: operational quality intelligence)
 Annotations:
 - Row 1 Card 2 ("Fulfillment Rate") is the operational headline. <90% indicates a backlog or capacity issue.
 - Row 2 surfaces the operational tempo (Card 1: order flow over time) and ship-time distribution (Card 2: how fast are we actually shipping). The histogram is more useful than just "average ship time" because it surfaces the long tail.
 - Row 3 surfaces post-purchase quality (categories with high return AND high refund rates are the inventory-quality problem children); Row 4 surfaces pre-purchase friction and support load.
 Taxonomy notes:
 - All source recipes are taxonomy-grounded. order-status-flow and time-to-ship-distribution are new v5 recipes designed specifically for this dashboard's operational use case (replacing earlier inline custom specs).
-- order_created, order_fulfilled, order_refunded, order_cancelled are all canonical events.
-- Time-to-ship is computed from (order_fulfilled.created_at − order_created.created_at) joined on order_id.
+- Placed order, Order fulfilled, Order refunded, Order cancelled are all canonical events.
+- Time-to-ship is computed from (Order fulfilled.Created date − Placed order.Created date) joined on order_id.

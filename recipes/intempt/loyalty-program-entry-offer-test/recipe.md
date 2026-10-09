@@ -29,13 +29,13 @@ Variants:
 Targeting:
 - Pages: page URL contains "/checkout"
 - Devices: any
-- Audience: first-time buyers only: segment definition: lifetime_value = 0 OR orders_count = 0 (this is their first checkout)
+- Audience: first-time buyers only: segment definition: Lifetime value = 0 OR orders_count = 0 (this is their first checkout)
 - Display frequency: once per order
 Primary metric: goal_completed_in_experience where experience_id = <this> (goal fires on user_tags_added with "loyalty_member" tag within session)
 Secondary metrics:
 - 90-day repeat purchase rate per joined cohort (see cohort tagging below: this is the most important downstream signal)
-- order_created.total_price on the current order (does the offer increase basket size?)
-- Per-variant loyalty join rate (loyalty_member tag added / checkout_created within experiment)
+- Placed order.total_price on the current order (does the offer increase basket size?)
+- Per-variant loyalty join rate (loyalty_member tag added / Checkout created within experiment)
 Guardrail: checkout completion rate must not drop >3% (offer banner shouldn't slow conversion)
 Schedule: 30 days for the experiment itself; 90 additional days for cohort-tracking the repeat-purchase rate.
 ═══ Cohort tagging for 90-day repeat purchase measurement ═══
@@ -48,7 +48,7 @@ The variant-specific tag persists on the user record. Then 90 days later, segmen
  - Cohort C = users with both "loyalty_member" AND "loyalty_offer:c" tags
  - Cohort D = users with both "loyalty_member" AND "loyalty_offer:d" tags
  - Cohort Control = first-time-buyers in Variant Control who completed checkout (didn't see a prompt)
-90-day repeat-purchase rate per cohort = count(users in cohort with order_created.timestamp > join_timestamp AND order_created.timestamp < join_timestamp + 90 days) / cohort size.
+90-day repeat-purchase rate per cohort = count(users in cohort with Placed order.timestamp > join_timestamp AND Placed order.timestamp < join_timestamp + 90 days) / cohort size.
 ═══ PATH 2: Variant HTML content (Visual Editor) ═══
 Variant: Control (no DOM changes: no prompt)
  Existing checkout flow. Measures intrinsic loyalty join rate via other channels.
@@ -91,4 +91,4 @@ Taxonomy notes:
 - Segment definitions for the 90-day cohort comparison use the tags-on-user-object pattern (Users.tags array contains "loyalty_offer:b" etc.).
 - The 90-day window is the standard repeat-purchase measurement window for ecom; some categories (apparel) may need 60 days, others (consumables) may need 30.
 - Cohort Control (first-time buyers who saw no prompt and didn't join) is essential for measuring CAUSAL repeat-purchase lift: without it you only know which offer-cohort returns most often, not whether the program itself moves the needle vs. doing nothing.
-- The order_created.total_price secondary metric measures whether the offer affects current-order basket size. Some offers (free shipping next-order) shouldn't move current AOV; some (2× points) might.
+- The Placed order.total_price secondary metric measures whether the offer affects current-order basket size. Some offers (free shipping next-order) shouldn't move current AOV; some (2× points) might.

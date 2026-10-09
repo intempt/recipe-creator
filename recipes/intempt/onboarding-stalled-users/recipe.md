@@ -21,6 +21,6 @@ Slash command: /onboarding-stalled-users
 
 Build a segment of users named "Onboarding-Stalled Users".
 A user is in the segment only when all of these are true:
-- their first_seen_at attribute is between 7 and 30 days ago
-- they have not done the goal_completed_in_journey event since their first_seen_at date
-- their days_since_last_activity attribute is 14 or less
+- their First seen attribute is between 7 and 30 days ago
+- they have not done the Completed a journey goal event since their First seen date
+- their Days since last activity attribute is 14 or less

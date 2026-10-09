@@ -23,7 +23,7 @@ Create an attribute on the Task object: 'advances_deal_to_stage'. For each task 
 
 ## Step 2: Move it forward, never back
 
-Create a workflow firing on task_completed. Step sequence: (1) check whether the task has 'advances_deal_to_stage' set; (2) look up the linked deal: IF the deal's current stage is earlier than the task's target stage, advance the deal via move_deal_stage; (3) if the deal is already at or past the target stage, skip (no regression, no double-advance); (4) on stage change, post a brief Slack notification to the AE owner ('Deal X advanced to Proposal: task Y completed') so they have realtime visibility; (5) if the advancement skips multiple stages (e.g. Discovery to Closing in one task), require human confirmation: don't auto-skip stages. Use the result of "Map tasks to the stage they gate".
+Create a workflow firing on Task completed. Step sequence: (1) check whether the task has 'advances_deal_to_stage' set; (2) look up the linked deal: IF the deal's current stage is earlier than the task's target stage, advance the deal via move_deal_stage; (3) if the deal is already at or past the target stage, skip (no regression, no double-advance); (4) on stage change, post a brief Slack notification to the AE owner ('Deal X advanced to Proposal: task Y completed') so they have realtime visibility; (5) if the advancement skips multiple stages (e.g. Discovery to Closing in one task), require human confirmation: don't auto-skip stages. Use the result of "Map tasks to the stage they gate".
 
 ## Step 3: Audit the mapping
 

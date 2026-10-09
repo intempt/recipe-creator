@@ -22,11 +22,11 @@ Slash command: /slack-purchase-notifications
 
 ## Step 1: Write the celebration posts
 
-Generate Slack message content for revenue celebrations. Variants: (a) deal_won (include rep name, account, ARR, contract length, with a 🎉 emoji and team @mention; (b) subscription_created (B2B)) first paying customer of the month gets a fanfare message, subsequent ones get a compact one-liner; (c) order_placed (ecommerce) (large-order threshold (top 5% of order values) gets celebration, normal orders silent; (d) expansion) upsell amount, customer name, AE who closed. Tone: warm, brief, team-celebratory.
+Generate Slack message content for revenue celebrations. Variants: (a) Deal won (include rep name, account, ARR, contract length, with a 🎉 emoji and team @mention; (b) Subscription started (B2B)) first paying customer of the month gets a fanfare message, subsequent ones get a compact one-liner; (c) order_placed (ecommerce) (large-order threshold (top 5% of order values) gets celebration, normal orders silent; (d) expansion) upsell amount, customer name, AE who closed. Tone: warm, brief, team-celebratory.
 
 ## Step 2: Write the operational alerts
 
-Generate Slack message content for operational alerts (different channel from celebrations). Variants: (a) payment_failed: customer name, plan, MRR at risk, CSM owner @mention; (b) subscription_canceled with reason; (c) high-value-cart_abandoned (B2C, single cart value > threshold). Tone: terse, action-oriented, who-needs-to-respond clear.
+Generate Slack message content for operational alerts (different channel from celebrations). Variants: (a) Payment failed: customer name, plan, MRR at risk, CSM owner @mention; (b) Subscription canceled with reason; (c) high-value-Abandoned cart (B2C, single cart value > threshold). Tone: terse, action-oriented, who-needs-to-respond clear.
 
 ## Step 3: Route wins and problems apart
 

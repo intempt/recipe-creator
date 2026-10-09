@@ -19,7 +19,7 @@ Slash command: /quota-attainment-by-rep
 ## Step 1: Rank reps on quota hit
 
 Create an Insights report called "Quota Attainment by Rep".
-Series A: Sum of deal_won.amount per period, grouped by owner_id, unit: $, label: "Revenue Closed by Rep"
+Series A: Sum of Deal won.amount per period, grouped by owner_id, unit: $, label: "Revenue Closed by Rep"
 Series B: Workspace-configured quota per rep per period, unit: $, label: "Quota Target"
  - Sourced from a per-rep quota attribute on the Users object OR from an external integration (HubSpot/Salesforce typically syncs this).
 Series C: Computed: Series A / Series B × 100, unit: %, label: "Quota Attainment %"
@@ -42,6 +42,6 @@ Annotations:
 - Highlight the top 3 reps by absolute revenue (not just %): these are the deal-making heavyweights regardless of quota assignment.
 Use case: distinct from rep-activity-leaderboard (which is calls/emails leading indicators): this is the lagging revenue outcome compared to assigned quota. Sales VPs use these together: activity diagnoses, attainment evaluates.
 Taxonomy notes:
-- deal_won.owner_id and deal_won.amount are canonical properties.
+- Deal won.owner_id and Deal won.amount are canonical properties.
 - IMPORTANT (quota dependency: same caveat as forecast-vs-actual-quota) quota targets must be configured. Without quota data, Series B/C return null and the report degrades to absolute revenue-by-rep ranking only.
-- "Open deal amount" for Series D comes from the most-recent deal_stage_changed.amount per deal_id where new_stage is not in closed states.
+- "Open deal amount" for Series D comes from the most-recent Deal stage changed.amount per deal_id where new_stage is not in closed states.

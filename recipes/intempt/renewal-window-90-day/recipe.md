@@ -23,5 +23,5 @@ Slash command: /renewal-window-90-day
 
 Build a segment of users named "Renewal Window: 90 Days".
 A user is in the segment only when all of these are true:
-- their end_date attribute is in the future and within the next 90 days
-- their plan_name attribute is not "free"
+- their Subscription end date attribute is in the future and within the next 90 days
+- their Plan attribute is not "free"

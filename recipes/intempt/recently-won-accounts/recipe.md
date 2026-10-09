@@ -21,6 +21,6 @@ Slash command: /recently-won-accounts
 
 Build a segment of accounts named "Recently-Won Accounts".
 An account is in the segment only when all of these are true:
-- its lifecycle_changed_at attribute is within the last 90 days
-- its account_lifecycle attribute is "customer"
-- its has_open_deal attribute is false
+- its Lifecycle changed date attribute is within the last 90 days
+- its Lifecycle stage attribute is "customer"
+- its Has an open deal attribute is false

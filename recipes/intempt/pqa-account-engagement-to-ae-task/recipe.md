@@ -33,4 +33,4 @@ Create a workflow firing when pqa_score crosses 70. Step sequence: (1) refresh a
 
 ## Step 4: Compare against cold outbound
 
-Compose a PQA dashboard tracking: PQA detection volume (accounts crossing threshold per month), AE response time (median time from PQA-flag to deal_created), PQA-to-deal conversion rate, PQA-to-meeting rate, ARR-weighted PQA value (deals from PQAs vs. non-PQA outbound). Compare PQA-sourced deals vs. cold-outbound-sourced deals on win-rate and cycle time: usually PQAs win 2-3x more reliably. Use the result of "Score the whole account", "Find accounts crossing 70", "Brief an AE to open a deal".
+Compose a PQA dashboard tracking: PQA detection volume (accounts crossing threshold per month), AE response time (median time from PQA-flag to Deal created), PQA-to-deal conversion rate, PQA-to-meeting rate, ARR-weighted PQA value (deals from PQAs vs. non-PQA outbound). Compare PQA-sourced deals vs. cold-outbound-sourced deals on win-rate and cycle time: usually PQAs win 2-3x more reliably. Use the result of "Score the whole account", "Find accounts crossing 70", "Brief an AE to open a deal".

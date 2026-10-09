@@ -38,8 +38,8 @@ Targeting:
 - Devices: any
 - Display frequency: always
 Metrics:
-- form_submitted on demo-request form per industry segment
-- click_on on primary CTA per segment
+- Form submitted on demo-request form per industry segment
+- Click on on primary CTA per segment
 - Demo-request conversion rate per industry (typically the most important downstream metric)
 Schedule: continuous
 ═══ PATH 2: Variant HTML content (Visual Editor) ═══

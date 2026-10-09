@@ -25,7 +25,7 @@ Create attributes on the User object: 'subscription_status' (active / trialing /
 
 ## Step 2: Apply every Stripe event
 
-Create a workflow firing on Stripe webhook events. Step sequence: (1) parse the Stripe event payload (subscription_created/updated/canceled/payment_failed/invoice_paid); (2) match to user via stripe_customer_id (create user if doesn't exist: checkout-without-signup case); (3) update all billing attributes; (4) update user lifecycle_stage based on transition: subscription_created to 'customer', subscription_canceled to 'churned', payment_failed to 'at_risk'; (5) emit derived events to the event catalog (subscription_started, subscription_churned, payment_recovered) so journeys can trigger on canonical names not Stripe-specific names; (6) account-level rollup: if this is the only seat on the account and just churned, set account.lifecycle = churned. Use the result of "Hold the billing facts".
+Create a workflow firing on Stripe webhook events. Step sequence: (1) parse the Stripe event payload (Subscription started/updated/canceled/Payment failed/Invoice paid); (2) match to user via stripe_customer_id (create user if doesn't exist: checkout-without-signup case); (3) update all billing attributes; (4) update user lifecycle_stage based on transition: Subscription started to 'customer', Subscription canceled to 'churned', Payment failed to 'at_risk'; (5) emit derived events to the event catalog (subscription_started, subscription_churned, payment_recovered) so journeys can trigger on canonical names not Stripe-specific names; (6) account-level rollup: if this is the only seat on the account and just churned, set account.lifecycle = churned. Use the result of "Hold the billing facts".
 
 ## Step 3: Prove the two agree
 

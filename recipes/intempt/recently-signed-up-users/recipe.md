@@ -23,4 +23,4 @@ Slash command: /recently-signed-up-users
 
 Build a segment of users named "Recently Signed-Up Users".
 A user is in the segment only when all of these are true:
-- their first_seen_at attribute is within the last 30 days
+- their First seen attribute is within the last 30 days

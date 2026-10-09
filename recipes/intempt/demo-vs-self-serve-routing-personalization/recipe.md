@@ -28,16 +28,16 @@ Variants (each variant binds to a specific audience):
 - Variant B: enterprise demo CTA, audience = "enterprise visitors"
  - Audience definition: company size > 200 employees OR domain matches enterprise patterns (firmographic enrichment via the Accounts object)
 - Variant C: SMB self-serve CTA with social proof, audience = "SMB returning visitors"
- - Audience definition: company size 1-50 employees AND has at least one prior session_start
+ - Audience definition: company size 1-50 employees AND has at least one prior Session start
 Targeting (experience-wide):
 - Pages: page URL is the homepage "/" or marketing landing pages
 - Devices: any (firmographic data is identity-based, not device-based)
 - Audience: specific (each variant has its own audience binding)
 - Display frequency: always
 Metrics (existing CRM/CDP metrics: not hypothesis-bound):
-- form_submitted on demo-request form (per audience)
-- user_created (self-serve signup) (per audience)
-- deal_created (downstream attribution to demo route)
+- Form submitted on demo-request form (per audience)
+- User created (self-serve signup) (per audience)
+- Deal created (downstream attribution to demo route)
 Schedule: continuous: personalizations are not time-boxed like experiments. Edit the variants when needed; no statistical horizon.
 ═══ PATH 2: Variant HTML content (Visual Editor) ═══
 Variant: Control (audience = all: fallback)
@@ -67,4 +67,4 @@ The Visual Editor opens for each variant individually so the user can refine cop
 Taxonomy notes:
 - Personalizations differ from experiments in that variants don't compete; each one delivers to its own audience segment. The Setup tab hides Primary/Secondary Metrics and replaces the traffic-percentage stepper with an audience picker per variant.
 - Firmographic enrichment (company size, domain matching) typically requires an integration like Clearbit or ZoomInfo; the Accounts object is the canonical place to store this data.
-- "Returning visitor" detection uses Users.first_seen_at being older than the current session.
+- "Returning visitor" detection uses Users.First seen being older than the current session.

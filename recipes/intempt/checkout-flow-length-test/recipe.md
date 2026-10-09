@@ -28,13 +28,13 @@ Targeting:
 - Devices: track desktop and mobile separately (both run the experiment, but split analysis by device)
 - Audience: all visitors who reach checkout
 - Display frequency: always
-Primary metric: goal_completed_in_experience where experience_id = <this> (goal: order_created within 1 hour of checkout_created)
+Primary metric: goal_completed_in_experience where experience_id = <this> (goal: Placed order within 1 hour of Checkout created)
 Secondary metrics:
-- checkout_completed rate (checkout_completed / checkout_created)
-- order_created within 1 hour (final conversion)
-- Time-in-checkout (median time from checkout_created to order_created)
+- Checkout completed rate (Checkout completed / Checkout created)
+- Placed order within 1 hour (final conversion)
+- Time-in-checkout (median time from Checkout created to Placed order)
 - Per-step abandonment rate (variant B only: see instrumentation note below)
-Guardrail: card decline rate (payment_failed) must not increase >2%; cart_abandoned within checkout must not increase >5%
+Guardrail: card decline rate (Payment failed) must not increase >2%; Abandoned cart within checkout must not increase >5%
 Schedule: 14 days, 3,000 checkouts per variant minimum
 ═══ PATH 2: Variant HTML content (Visual Editor) ═══
 Variant: Control (single-page: no DOM changes if existing checkout is single-page)
@@ -66,18 +66,18 @@ Variant: B (3-step checkout)
  <button class="checkout-submit" id="checkout-submit">Place Order</button>
  </section>
  </div>
-═══ Per-step page_viewed instrumentation (CRITICAL for measurement) ═══
-For per-step abandonment to be measurable, each step transition MUST fire a distinct page_viewed event.
+═══ Per-step View page instrumentation (CRITICAL for measurement) ═══
+For per-step abandonment to be measurable, each step transition MUST fire a distinct View page event.
 Two implementation approaches:
 Approach A: Distinct URLs per step (recommended for SSR sites):
- - Step 1: /checkout/shipping to page_viewed automatically fires with page_url = "/checkout/shipping"
- - Step 2: /checkout/payment to page_viewed fires with page_url = "/checkout/payment"
- - Step 3: /checkout/review to page_viewed fires with page_url = "/checkout/review"
- - Measure step-by-step funnel via standard page_viewed funnel: /checkout/shipping to /checkout/payment to /checkout/review to order_created
-Approach B: Synthetic page_viewed for SPA (recommended for single-page-app sites):
- When the user advances to step 2 or step 3 without URL change, fire a synthetic page_viewed event manually:
- intempt.track('page_viewed', {
- page_url: '/checkout/payment',
+ - Step 1: /checkout/shipping to View page automatically fires with Page URL = "/checkout/shipping"
+ - Step 2: /checkout/payment to View page fires with Page URL = "/checkout/payment"
+ - Step 3: /checkout/review to View page fires with Page URL = "/checkout/review"
+ - Measure step-by-step funnel via standard View page funnel: /checkout/shipping to /checkout/payment to /checkout/review to Placed order
+Approach B: Synthetic View page for SPA (recommended for single-page-app sites):
+ When the user advances to step 2 or step 3 without URL change, fire a synthetic View page event manually:
+ intempt.track('View page', {
+ Page URL: '/checkout/payment',
  page_title: 'Checkout: Payment',
  checkout_step: 'payment',
  checkout_step_number: 2,
@@ -86,9 +86,9 @@ Approach B: Synthetic page_viewed for SPA (recommended for single-page-app sites
  });
  Same pattern for step 3 (/checkout/review). This makes per-step abandonment measurable identically to Approach A.
 Without one of these approaches, Variant B's per-step abandonment cannot be measured and the test loses its most informative secondary metric.
-The Visual Editor allows the user to refine step copy, validation messages, and button placement. The synthetic page_viewed firing logic should be added once and shared across all step transitions.
+The Visual Editor allows the user to refine step copy, validation messages, and button placement. The synthetic View page firing logic should be added once and shared across all step transitions.
 Taxonomy notes:
-- checkout_created and checkout_completed are canonical (typically Stripe-sourced).
-- page_viewed is canonical and accepts arbitrary properties (page_url, page_title, plus any custom dimensions like checkout_step). Use this for synthetic step-tracking events in SPA implementations.
-- payment_failed is project-defined; if your stack doesn't emit it, derive the guardrail from order_created absence after a checkout_completed (i.e., declined orders that started but didn't finish).
+- Checkout created and Checkout completed are canonical (typically Stripe-sourced).
+- View page is canonical and accepts arbitrary properties (Page URL, page_title, plus any custom dimensions like checkout_step). Use this for synthetic step-tracking events in SPA implementations.
+- Payment failed is project-defined; if your stack doesn't emit it, derive the guardrail from Placed order absence after a Checkout completed (i.e., declined orders that started but didn't finish).
 - Variant B's full DOM patch above includes hidden sections that the page's existing JS reveals on step-continue. The Visual Editor lets the user customize the styling but the show/hide logic typically lives in the application code.

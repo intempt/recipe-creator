@@ -33,7 +33,7 @@ Generate branched save-offer content per cancel reason. (a) Price reason: offer 
 
 ## Step 4: Make one matched offer
 
-Build a branched journey triggered when cancel_intent_signal becomes 'interacting' or 'committing'. Branch on stated_reason: each user gets ONE save offer matched to their stated reason. Touch 1 (within 1 hour of intent signal): the matched save offer email. Touch 2 (Day 2, if no engagement): softer follow-up reinforcing the offer. For high-LTV customers (top 10% by ARR), additionally create urgent CSM task at intent detection: human save attempt parallel to email. Exit on: save_offer_accepted (recorded as retention_win event), subscription_canceled (proceed to post-cancel-winback), or 14-day timeout. Use the result of "Catch cancel intent live", "Find who is halfway out", "Write one offer per reason".
+Build a branched journey triggered when cancel_intent_signal becomes 'interacting' or 'committing'. Branch on stated_reason: each user gets ONE save offer matched to their stated reason. Touch 1 (within 1 hour of intent signal): the matched save offer email. Touch 2 (Day 2, if no engagement): softer follow-up reinforcing the offer. For high-LTV customers (top 10% by ARR), additionally create urgent CSM task at intent detection: human save attempt parallel to email. Exit on: save_offer_accepted (recorded as retention_win event), Subscription canceled (proceed to post-cancel-winback), or 14-day timeout. Use the result of "Catch cancel intent live", "Find who is halfway out", "Write one offer per reason".
 
 ## Step 5: See which saves actually work
 

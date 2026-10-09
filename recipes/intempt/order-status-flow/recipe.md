@@ -19,16 +19,16 @@ Slash command: /order-status-flow
 ## Step 1: Track orders through their states
 
 Create an Insights report called "Order Status Flow".
-Series A: Event "order_created", aggregation: Count, label: "Created"
-Series B: Event "order_fulfilled", aggregation: Count, label: "Fulfilled"
-Series C: Event "order_refunded", aggregation: Count, label: "Refunded"
-Series D: Event "order_cancelled", aggregation: Count, label: "Cancelled"
+Series A: Event "Placed order", aggregation: Count, label: "Created"
+Series B: Event "Order fulfilled", aggregation: Count, label: "Fulfilled"
+Series C: Event "Order refunded", aggregation: Count, label: "Refunded"
+Series D: Event "Order cancelled", aggregation: Count, label: "Cancelled"
 Series E: Computed: Series B / Series A × 100, unit: %, label: "Fulfillment Rate"
 Series F: Computed: Series C / Series A × 100, unit: %, label: "Refund Rate"
 Series G: Computed: Series D / Series A × 100, unit: %, label: "Cancellation Rate"
 Time granularity: Daily (with weekly rollup option)
 Time range: Last 30 days
-Breakdown for Series A: By "fulfillment_status" property on order_fulfilled where present (fulfilled, partial, etc.)
+Breakdown for Series A: By "fulfillment_status" property on Order fulfilled where present (fulfilled, partial, etc.)
 Compare: Previous period (prior 30 days)
 Chart type: Stacked column chart for absolute counts (Series A: D) over time, with Series E/F/G as overlay lines on a secondary axis showing the rates
 Annotations:
@@ -40,6 +40,6 @@ Annotations:
 - Surface absolute volumes (orders today, fulfilled today, refunded today, cancelled today) as headline callouts.
 Use case: the operational pulse for ecommerce ops/fulfillment teams. Surfaces both the volume picture (am I getting more orders?) and the quality picture (am I delivering them?) on a single canvas.
 Taxonomy notes:
-- All four order events are canonical: order_created, order_fulfilled, order_refunded, order_cancelled.
-- order_fulfilled.fulfillment_status is a real property (values vary by integration source: typically "fulfilled", "partial", "pending").
+- All four order events are canonical: Placed order, Order fulfilled, Order refunded, Order cancelled.
+- Order fulfilled.fulfillment_status is a real property (values vary by integration source: typically "fulfilled", "partial", "pending").
 - For accurate rate computation, Series E/F/G should match against orders that had time to fulfill (e.g., exclude orders <48h old when computing fulfillment rate, since they may still be legitimately in pre-fulfillment).

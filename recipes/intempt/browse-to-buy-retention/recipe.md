@@ -19,11 +19,11 @@ Slash command: /browse-to-buy-retention
 ## Step 1: Track first visit to first order
 
 Create a Retention report called "Browse to Buy Retention".
-Anchor event: session_start (each user's first session_start)
-Return event: order_created
+Anchor event: Session start (each user's first Session start)
+Return event: Placed order
 Cohort granularity: Weekly
 Time range: Last 12 weeks
-Breakdown: By Users.utm_source (top 6 sources)
+Breakdown: By Users.UTM source (top 6 sources)
 Compare: Previous period (prior 12 weeks of cohorts)
 Chart type: Retention curve plus cohort table with W1 / W2 / W4 / W8 / W12 columns
 Annotations:
@@ -33,5 +33,5 @@ Annotations:
 - Highlight the source with the highest W12 conversion (best overall, even if slower).
 Surface which sources produce "fast converters" vs "slow converters."
 Taxonomy notes:
-- session_start and order_created are canonical. Users.utm_source is canonical.
-- "first session" per-user is determined by the earliest session_start for that customer_id.
+- Session start and Placed order are canonical. Users.UTM source is canonical.
+- "first session" per-user is determined by the earliest Session start for that customer_id.

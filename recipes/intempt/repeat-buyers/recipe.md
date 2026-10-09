@@ -20,5 +20,5 @@ Slash command: /repeat-buyers
 
 Build a segment of users named "Repeat Buyers".
 A user is in the segment only when all of these are true:
-- they did the order_created event 3 or more times in the last 90 days
-- their lifetime_value attribute is 100 or more
+- they did the Placed order event 3 or more times in the last 90 days
+- their Lifetime value attribute is 100 or more

@@ -21,7 +21,7 @@ Slash command: /accounts-no-open-deal
 
 Build a segment of accounts named "Accounts With No Open Deal".
 An account is in the segment only when all of these are true:
-- its has_open_deal attribute is false
-- its account_health attribute is "healthy"
-- its users_count attribute is 3 or more
-- the users in the account together did the session_start event 5 or more times in the last 30 days
+- its Has an open deal attribute is false
+- its Account health attribute is "healthy"
+- its User count attribute is 3 or more
+- the users in the account together did the Session start event 5 or more times in the last 30 days

@@ -20,12 +20,12 @@ Slash command: /signup-activation-funnel
 
 Create a Funnel report called "Signup to Activation".
 Steps:
-1. Event "user_created": "Signed Up"
-2. Event "session_start" within 24 hours of user_created: "Returned After Signup" (proxy for engagement after creation)
-3. Event "goal_completed_in_journey" where journey_id matches the onboarding/activation journey: "Used Core Feature"
-4. Event "goal_completed_in_journey" where journey_id matches the activation journey AND occurred_at - signup_at <= 14 days: "Activated"
+1. Event "User created": "Signed Up"
+2. Event "Session start" within 24 hours of User created: "Returned After Signup" (proxy for engagement after creation)
+3. Event "Completed a journey goal" where journey_id matches the onboarding/activation journey: "Used Core Feature"
+4. Event "Completed a journey goal" where journey_id matches the activation journey AND Occurred date - signup_at <= 14 days: "Activated"
 Conversion window: 14 days
-Breakdown: By Users.utm_source (signup source: top 6 channels: organic, paid_search, paid_social, content, referral, direct)
+Breakdown: By Users.UTM source (signup source: top 6 channels: organic, paid_search, paid_social, content, referral, direct)
 Compare: Previous period (prior 14 days)
 For each step, also surface:
 - Median and 75th-percentile time-to-convert from previous step
@@ -37,6 +37,6 @@ Annotations:
 - Highlight sources with activation rate >40%.
 Identify which signup source produces the highest-activating users at sufficient volume.
 Taxonomy notes:
-- user_created and goal_completed_in_journey are canonical. goal_completed_in_journey carries journey_id, occurred_at, user_id.
-- "signup_completed", "onboarding_started" as standalone events do not exist; the activation journey itself emits goal_completed_in_journey when the user hits the activation goal.
-- Users.utm_source is the canonical first-touch source attribute.
+- User created and Completed a journey goal are canonical. Completed a journey goal carries journey_id, Occurred date, user_id.
+- "signup_completed", "onboarding_started" as standalone events do not exist; the activation journey itself emits Completed a journey goal when the user hits the activation goal.
+- Users.UTM source is the canonical first-touch source attribute.

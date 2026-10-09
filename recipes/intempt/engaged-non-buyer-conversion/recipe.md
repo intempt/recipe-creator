@@ -35,7 +35,7 @@ Configure an AI agent scenario 'Engaged non-buyer diagnostic' that engages high-
 
 ## Step 5: Diagnose, then bring a human in
 
-Build a 3-touch diagnostic journey wired to engaged-non-buyer segment. Touch 1 (Day 0 of entry): diagnostic email matched to inferred blocker. Touch 2 (Day 3, if no engagement): in-app chat invitation to the diagnostic agent on next session. Touch 3 (Day 7, if still no conversion): personalized AE outreach task with the full engagement-paradox profile + inferred blocker + suggested approach attached. Exit on: subscription_created (won (celebrate), explicit decline / opt-out, or successful agent diagnostic (handoff to appropriate downstream) sales, support, or PM). Use the result of "Measure the gap", "Find engaged free users", "Write one email per blocker", "Ask what is stopping them".
+Build a 3-touch diagnostic journey wired to engaged-non-buyer segment. Touch 1 (Day 0 of entry): diagnostic email matched to inferred blocker. Touch 2 (Day 3, if no engagement): in-app chat invitation to the diagnostic agent on next session. Touch 3 (Day 7, if still no conversion): personalized AE outreach task with the full engagement-paradox profile + inferred blocker + suggested approach attached. Exit on: Subscription started (won (celebrate), explicit decline / opt-out, or successful agent diagnostic (handoff to appropriate downstream) sales, support, or PM). Use the result of "Measure the gap", "Find engaged free users", "Write one email per blocker", "Ask what is stopping them".
 
 ## Step 6: See which angle converts
 

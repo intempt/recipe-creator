@@ -23,6 +23,6 @@ Slash command: /new-paying-customers
 
 Build a segment of users named "New Paying Customers".
 A user is in the segment only when all of these are true:
-- they did the subscription_created event at least once in the last 30 days
-- their plan_name attribute is not "free"
-- their plan_name attribute is not "trial"
+- they did the Subscription started event at least once in the last 30 days
+- their Plan attribute is not "free"
+- their Plan attribute is not "trial"

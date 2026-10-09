@@ -21,6 +21,6 @@ Slash command: /high-intent-visitors
 
 Build a segment of users named "High-Intent Visitors".
 A user is in the segment only when all of these are true:
-- they did the page_viewed event with a page_url that contains "/pricing" at least once in the last 14 days
-- they did the page_viewed event with a page_url that contains "/docs" at least once in the last 14 days
-- their plan_name attribute is empty or is "free"
+- they did the View page event with a Page URL that contains "/pricing" at least once in the last 14 days
+- they did the View page event with a Page URL that contains "/docs" at least once in the last 14 days
+- their Plan attribute is empty or is "free"

@@ -21,7 +21,7 @@ Slash command: /cart-recovery
 ## Step 1: Find who abandoned a cart
 
 This step builds a segment.
-Identify users with cart_abandoned event in last 30 days who have NOT placed an order for that cart.
+Identify users with Abandoned cart event in last 30 days who have NOT placed an order for that cart.
 
 ## Step 2: Write the three emails
 

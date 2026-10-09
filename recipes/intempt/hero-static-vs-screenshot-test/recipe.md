@@ -32,9 +32,9 @@ Targeting:
 - Devices: any (note: customer-photo variant should have mobile-cropped versions)
 - Audience: all visitors
 - Display frequency: always
-Primary metric: goal_completed_in_experience where experience_id = <this> (goal: form_submitted on demo / contact / signup, OR user_created within session of exposure)
+Primary metric: goal_completed_in_experience where experience_id = <this> (goal: Form submitted on demo / contact / signup, OR User created within session of exposure)
 Secondary metrics:
-- click_on on primary CTA (does the hero image affect CTA click-through?)
+- Click on on primary CTA (does the hero image affect CTA click-through?)
 - Bounce rate (does the hero image keep visitors engaged?)
 - Time-on-page (proxy for engagement)
 - Scroll-depth-to-50% (does the hero compel visitors to scroll?)

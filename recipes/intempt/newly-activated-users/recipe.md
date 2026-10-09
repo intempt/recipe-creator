@@ -21,5 +21,5 @@ Slash command: /newly-activated-users
 
 Build a segment of users named "Newly Activated Users".
 A user is in the segment only when all of these are true:
-- they did the goal_completed_in_journey event at least once in the last 7 days, with a journey_id equal to the activation journey chosen for this run
-- their plan_name attribute is not "free"
+- they did the Completed a journey goal event at least once in the last 7 days, with a journey_id equal to the activation journey chosen for this run
+- their Plan attribute is not "free"

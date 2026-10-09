@@ -23,7 +23,7 @@ Create an AI-derived attribute 'lead_score' on the User object. Composite: (a) I
 
 ## Step 2: Assign it to the right rep
 
-Create a workflow firing on form_submitted OR user_signed_up (where source != self-serve-only). Step sequence: (1) enrich the account (firmographics, technographics, decision-maker contacts); (2) compute lead_score; (3) apply routing rules in priority order: (i) named-account override (if account is on target-account list, route to assigned account owner); (ii) territory match (geography, industry, segment); (iii) round-robin within territory pool (preserves balanced rep load); (4) create task assigned to the determined rep with lead context, score, and routing reason explained; (5) post Slack notification to rep; (6) IF score = cold AND no named-account match, route to self-serve nurture journey instead of human queue. Use the result of "Score the lead out of 100".
+Create a workflow firing on Form submitted OR user_signed_up (where source != self-serve-only). Step sequence: (1) enrich the account (firmographics, technographics, decision-maker contacts); (2) compute lead_score; (3) apply routing rules in priority order: (i) named-account override (if account is on target-account list, route to assigned account owner); (ii) territory match (geography, industry, segment); (iii) round-robin within territory pool (preserves balanced rep load); (4) create task assigned to the determined rep with lead context, score, and routing reason explained; (5) post Slack notification to rep; (6) IF score = cold AND no named-account match, route to self-serve nurture journey instead of human queue. Use the result of "Score the lead out of 100".
 
 ## Step 3: Check the balance and the SLA
 

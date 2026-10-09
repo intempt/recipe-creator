@@ -26,7 +26,7 @@ Generate break-up email content. Subject: 'Closing the loop' or 'Should I stop r
 
 ## Step 3: Send it once, then stop
 
-Build a 1-touch journey triggered when a lead enters the cold-silent segment. Send the break-up email. Exit on: email_replied (any reply = success, route to AE for human handling), meeting_scheduled (huge success), unsubscribe (honored (and that's a clean outcome too), or 14-day timeout (no response) mark lead as 'cold-closed', exit from active outreach). After timeout, the lead can re-enter prospecting only via a new significant signal (target-account refresh, intent signal, etc). Use the result of "Find prospects who went quiet", "Write the closing the loop note".
+Build a 1-touch journey triggered when a lead enters the cold-silent segment. Send the break-up email. Exit on: email_replied (any reply = success, route to AE for human handling), Meeting scheduled (huge success), unsubscribe (honored (and that's a clean outcome too), or 14-day timeout (no response) mark lead as 'cold-closed', exit from active outreach). After timeout, the lead can re-enter prospecting only via a new significant signal (target-account refresh, intent signal, etc). Use the result of "Find prospects who went quiet", "Write the closing the loop note".
 
 ## Step 4: See what the last email pulls
 

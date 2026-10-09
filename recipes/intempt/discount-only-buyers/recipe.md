@@ -20,5 +20,5 @@ Slash command: /discount-only-buyers
 
 Build a segment of users named "Discount-Only Buyers".
 A user is in the segment only when all of these are true:
-- they did the order_created event with a discount_codes value that is not empty 2 or more times, at any time
-- they never did the order_created event with an empty discount_codes value
+- they did the Placed order event with a Discount code value that is not empty 2 or more times, at any time
+- they never did the Placed order event with an empty Discount code value

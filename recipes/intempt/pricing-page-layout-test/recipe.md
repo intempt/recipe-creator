@@ -31,11 +31,11 @@ Targeting:
 - Devices: any
 - Audience: all visitors
 - Display frequency: always
-Primary metric: goal_completed_in_experience where experience_id = <this> AND value > 0 (revenue from subscription_created within 7 days of exposure)
+Primary metric: goal_completed_in_experience where experience_id = <this> AND value > 0 (revenue from Subscription started within 7 days of exposure)
 Secondary metrics:
-- click_on where target_id starts with "plan-select-" (per-plan click-through)
-- checkout_created within 7 days of exposed_to_experience
-- subscription_created within 14 days
+- Click on where target_id starts with "plan-select-" (per-plan click-through)
+- Checkout created within 7 days of exposed_to_experience
+- Subscription started within 14 days
 Guardrail: bounce rate on /pricing must not increase >5%
 Schedule: 21 days minimum, require 1,000 unique visitors per variant
 ═══ PATH 2: Variant HTML content (Visual Editor) ═══
@@ -83,5 +83,5 @@ Variant: C (interactive slider)
  </section>
 The Visual Editor renders the variant HTML with the user's existing site styles applied; the user refines copy, color, and spacing in the canvas before publishing.
 Taxonomy notes:
-- All click_on target_id values starting with "plan-select-" are tracked uniformly so per-plan click rates can be compared across variants.
-- value on goal_completed_in_experience is set by the platform when the downstream subscription_created.amount is captured.
+- All Click on target_id values starting with "plan-select-" are tracked uniformly so per-plan click rates can be compared across variants.
+- value on goal_completed_in_experience is set by the platform when the downstream Subscription started.amount is captured.

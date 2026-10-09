@@ -30,10 +30,10 @@ Targeting:
 - Devices: any (mobile + desktop both benefit; mobile especially given long-scroll pages)
 - Audience: all visitors
 - Display frequency: always (within session)
-Primary metric: goal_completed_in_experience where experience_id = <this> (goal: form_submitted on demo-request OR user_created via signup, within session of exposure)
+Primary metric: goal_completed_in_experience where experience_id = <this> (goal: Form submitted on demo-request OR User created via signup, within session of exposure)
 Secondary metrics:
-- click_on where target_id = "sticky-cta-button" (sticky CTA engagement rate)
-- click_on where target_id = "hero-cta-button" (does sticky cannibalize hero clicks?)
+- Click on where target_id = "sticky-cta-button" (sticky CTA engagement rate)
+- Click on where target_id = "hero-cta-button" (does sticky cannibalize hero clicks?)
 - Bounce rate per variant (variant B's always-visible may feel pushy)
 - Scroll depth (does sticky reduce scroll engagement?)
 Guardrail: bounce rate must not increase >5%; scroll-depth-to-50% rate must not drop >10%
@@ -59,6 +59,6 @@ Variant: C (fade-in sticky CTA)
 The Visual Editor allows the user to refine the sticky bar's color, copy, button styling, and animation timing. Mobile note: ensure the sticky bar respects the iOS Safari URL bar and doesn't double-stack with mobile browser chrome.
 Taxonomy notes:
 - This is distinct from mobile-sticky-add-to-cart-test (which is ecommerce PDP-specific, mobile-only). Landing-page sticky CTA applies to SaaS marketing pages on all devices.
-- target_id="sticky-cta-button" must be preserved across variants B and C for consistent click_on aggregation.
+- target_id="sticky-cta-button" must be preserved across variants B and C for consistent Click on aggregation.
 - Variant C's fade-in is generally less intrusive but has slightly lower engagement than Variant B's always-visible. The test answers: which tradeoff wins for your audience?
 - For dark-launching: ship Variant B first to a small traffic slice (5%) to confirm no layout regressions before full experiment ramp.

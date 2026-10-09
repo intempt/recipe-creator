@@ -22,6 +22,6 @@ Slash command: /pql-multi-user-account
 
 Build a segment of accounts named "PQL: Multi-User Account".
 An account is in the segment only when all of these are true:
-- its users_count attribute is 2 or more
-- the users in the account together did the session_start event 3 or more times in the last 14 days
-- the users in the account together did the goal_completed_in_journey event at least once in the last 14 days
+- its User count attribute is 2 or more
+- the users in the account together did the Session start event 3 or more times in the last 14 days
+- the users in the account together did the Completed a journey goal event at least once in the last 14 days

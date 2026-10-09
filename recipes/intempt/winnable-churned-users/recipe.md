@@ -23,6 +23,6 @@ Slash command: /winnable-churned-users
 
 Build a segment of users named "Winnable Churned Users".
 A user is in the segment only when all of these are true:
-- they did the subscription_cancelled event at least once in the last 60 days
-- their lifetime_value attribute is more than 0
-- their total_events attribute is 50 or more
+- they did the Subscription canceled event at least once in the last 60 days
+- their Lifetime value attribute is more than 0
+- their Total events attribute is 50 or more

@@ -21,7 +21,7 @@ Slash command: /post-cancel-winback
 
 ## Step 1: Find recent cancellations
 
-Build a segment 'Recently cancelled - last 120 days' capturing users with subscription_canceled in the last 30-120 days AND cancel_reason is NOT 'wrong-fit' or 'company-shutdown' (those won't winback). Excludes users who have already won back (subscribed again) and users who explicitly requested no-marketing in cancel form.
+Build a segment 'Recently cancelled - last 120 days' capturing users with Subscription canceled in the last 30-120 days AND cancel_reason is NOT 'wrong-fit' or 'company-shutdown' (those won't winback). Excludes users who have already won back (subscribed again) and users who explicitly requested no-marketing in cancel form.
 
 ## Step 2: Write three win back emails
 
@@ -29,7 +29,7 @@ Generate 3-touch winback email content. Touch 1 (Day 30 after cancel): 'A lot ha
 
 ## Step 3: Send at 30, 60 and 90 days
 
-Build a 3-touch journey triggered when subscription_canceled fired 30+ days ago. Touch 1: Day 30. Touch 2: Day 60. Touch 3: Day 90. Each touch personalized using the prior account context (cancel reason, plan, last-used features). Exit on: subscription_created (won back: record winback_won event), email_replied (warm handoff to sales), unsubscribe, or 120-day timeout (after which user moves to long-term lapsed nurture, separate motion). Use the result of "Find recent cancellations", "Write three win back emails".
+Build a 3-touch journey triggered when Subscription canceled fired 30+ days ago. Touch 1: Day 30. Touch 2: Day 60. Touch 3: Day 90. Each touch personalized using the prior account context (cancel reason, plan, last-used features). Exit on: Subscription started (won back: record winback_won event), email_replied (warm handoff to sales), unsubscribe, or 120-day timeout (after which user moves to long-term lapsed nurture, separate motion). Use the result of "Find recent cancellations", "Write three win back emails".
 
 ## Step 4: See who comes back
 

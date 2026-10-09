@@ -18,14 +18,14 @@ Slash command: /multi-threading-coverage-by-deal
 ## Step 1: Count contacts on each deal
 
 Create an Insights report called "Multi-Threading Coverage by Deal".
-Series A: Event "deal_stage_changed", scope: per active deal_id, aggregation: Count Unique users from the user_ids property (the distinct stakeholders attached to the deal across all stage events)
-Series B: Same per-deal computation but counting only meeting_scheduled events linked to the deal (via deal_ids relation): distinct users who actually attended a meeting
+Series A: Event "Deal stage changed", scope: per active deal_id, aggregation: Count Unique users from the user_ids property (the distinct stakeholders attached to the deal across all stage events)
+Series B: Same per-deal computation but counting only Meeting scheduled events linked to the deal (via deal_ids relation): distinct users who actually attended a meeting
 Series C: Computed: Series A bucketed into "Single-threaded (1 contact)" / "Lightly threaded (2-3)" / "Multi-threaded (4-6)" / "Deeply threaded (7+)"
-Breakdown: By deal stage (open deals only, group by current stage from deal_stage_changed.new_stage)
+Breakdown: By deal stage (open deals only, group by current stage from Deal stage changed.new_stage)
 Time range: All open deals + last 90 days of closed deals
 Chart type: Stacked bar chart: bar per stage, segments showing the threading-bucket distribution
 Also include a parallel "win-rate by threading level" view:
-- For closed deals (deal_won + deal_lost) in the last 12 months, compute win rate by threading bucket
+- For closed deals (Deal won + Deal lost) in the last 12 months, compute win rate by threading bucket
 - Surface: single-threaded deals win X%, multi-threaded deals win Y%, with the gap quantified
 Annotations:
 - Flag any open deals (especially in late-stage proposal/negotiation) that are still single-threaded: these are at acute risk and need multi-threading action by the AE.
@@ -34,6 +34,6 @@ Annotations:
 - Flag any deals where threading shrank vs. prior period (a stakeholder went silent: investigate champion-departure risk).
 Use case: the standard B2B sales hygiene report. AEs are notoriously single-threaded; this report makes the risk visible and quantifies it in dollars. Top-performing sales orgs make this their #1 weekly review.
 Taxonomy notes:
-- deal_stage_changed.user_ids is a relation (multi-value) carrying associated users.
-- meeting_scheduled.user_ids and meeting_scheduled.deal_ids together let us count meeting-attended stakeholders per deal.
-- Deal "current threading count" is computed across all events linked to the deal_id (deal_stage_changed, meeting_scheduled, call_completed, email_sent).
+- Deal stage changed.user_ids is a relation (multi-value) carrying associated users.
+- Meeting scheduled.user_ids and Meeting scheduled.deal_ids together let us count meeting-attended stakeholders per deal.
+- Deal "current threading count" is computed across all events linked to the deal_id (Deal stage changed, Meeting scheduled, Call completed, Email sent).

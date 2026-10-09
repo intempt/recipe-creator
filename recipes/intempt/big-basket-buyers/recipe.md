@@ -20,6 +20,6 @@ Slash command: /big-basket-buyers
 
 Build a segment of users named "Big-Basket Buyers".
 A user is in the segment only when all of these are true:
-- their avg_order_value attribute is 150 or more
-- they did the order_created event 2 or more times, at any time
-- their lifetime_value attribute is 300 or more
+- their Average order value attribute is 150 or more
+- they did the Placed order event 2 or more times, at any time
+- their Lifetime value attribute is 300 or more

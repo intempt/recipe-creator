@@ -27,15 +27,15 @@ Variants:
 - Variant C (33%): 7 steps: adds Watch tutorial, Configure notifications
 Targeting:
 - Pages: in-app dashboard URL where the onboarding checklist component renders
-- Audience: new signups only: segment definition: user_created within 24 hours
+- Audience: new signups only: segment definition: User created within 24 hours
 - Devices: any
 - Display frequency: always (during user's first session) or once (sticky to first visit)
 Primary metric: goal_completed_in_experience where experience_id = <this> (the goal fires when the user completes their nominated activation milestone within 7 days of exposure)
 Secondary metrics:
-- click_on per checklist step (per-step completion rate)
-- goal_completed_in_journey within 7 days (existing activation journey completion)
-- session_start day-2 / day-7 (engagement after onboarding)
-Guardrail: 14-day session_start retention must not drop >3 percentage points
+- Click on per checklist step (per-step completion rate)
+- Completed a journey goal within 7 days (existing activation journey completion)
+- Session start day-2 / day-7 (engagement after onboarding)
+Guardrail: 14-day Session start retention must not drop >3 percentage points
 Schedule: 30 days
 ═══ PATH 2: Variant HTML content (Visual Editor) ═══
 Variant: Control (3 steps)
@@ -58,7 +58,7 @@ Variant: C (7 steps)
  Same wrapper, add 2 more:
  <li class="checklist-step" id="step-6"><a href="/tutorial">Watch the tutorial</a></li>
  <li class="checklist-step" id="step-7"><a href="/settings/notifications">Configure notifications</a></li>
-User refines the step copy, icons, and ordering in the Visual Editor. Ensure each step has a stable target_id (step-1, step-2, etc.) so per-step click_on metrics roll up consistently.
+User refines the step copy, icons, and ordering in the Visual Editor. Ensure each step has a stable target_id (step-1, step-2, etc.) so per-step Click on metrics roll up consistently.
 Taxonomy notes:
-- The "activation milestone" is project-defined: typically goal_completed_in_journey for the activation journey. This recipe assumes the activation journey is configured separately.
-- session_start is the canonical engagement signal.
+- The "activation milestone" is project-defined: typically Completed a journey goal for the activation journey. This recipe assumes the activation journey is configured separately.
+- Session start is the canonical engagement signal.

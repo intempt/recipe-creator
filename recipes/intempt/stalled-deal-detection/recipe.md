@@ -19,11 +19,11 @@ Slash command: /stalled-deal-detection
 
 ## Step 1: Measure how long it has sat
 
-Create an AI-derived attribute 'days_in_current_stage' on the Deal object, refreshed daily. Compute: (a) calendar days since the deal last changed stage; (b) percentile of this age within the stage's historical median for similar deals (size, segment, rep). Flag deals where age is in the top quartile (75th+ percentile) for that stage. Also compute 'days_since_last_activity' (any meeting / email reply / task completion on the deal).
+Create an AI-derived attribute 'days_in_current_stage' on the Deal object, refreshed daily. Compute: (a) calendar days since the deal last changed stage; (b) percentile of this age within the stage's historical median for similar deals (size, segment, rep). Flag deals where age is in the top quartile (75th+ percentile) for that stage. Also compute 'Days since last activity' (any meeting / email reply / task completion on the deal).
 
 ## Step 2: Find the genuinely stuck ones
 
-Build a segment 'Stalled deals' capturing open deals where (a) days_in_current_stage is in the top quartile for that stage AND (b) days_since_last_activity >= 14 days. Excludes deals where the rep has manually set a 'paused' flag (legitimate pause, coming back next quarter, etc.). Refreshed daily. Use the result of "Measure how long it has sat".
+Build a segment 'Stalled deals' capturing open deals where (a) days_in_current_stage is in the top quartile for that stage AND (b) Days since last activity >= 14 days. Excludes deals where the rep has manually set a 'paused' flag (legitimate pause, coming back next quarter, etc.). Refreshed daily. Use the result of "Measure how long it has sat".
 
 ## Step 3: Write a nudge per stage
 

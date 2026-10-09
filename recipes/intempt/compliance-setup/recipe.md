@@ -23,5 +23,5 @@ Slash command: /compliance-setup
 
 Build a segment of users named "Marketing Consent Suppression List".
 A user is in the segment when any of these is true:
-- they have never done the consent_granted event
-- they did the consent_revoked event after their most recent consent_granted event
+- they have never done the Subscribed consent event
+- they did the Unsubscribed consent event after their most recent Subscribed consent event

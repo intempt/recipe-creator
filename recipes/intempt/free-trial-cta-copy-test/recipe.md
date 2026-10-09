@@ -33,9 +33,9 @@ Targeting (experience-wide):
 - Display frequency: always
 Primary metric: goal_completed_in_experience where experience_id = <this experience> (the goal fires when the user completes signup after exposure)
 Secondary metrics:
-- click_on where target_id = "hero-cta" (CTA click-through rate)
-- user_created within 7 days of exposed_to_experience (signup conversion)
-Guardrail: bounce rate (sessions with only one page_viewed) must not increase by >5% vs. control
+- Click on where target_id = "hero-cta" (CTA click-through rate)
+- User created within 7 days of exposed_to_experience (signup conversion)
+Guardrail: bounce rate (sessions with only one View page) must not increase by >5% vs. control
 Schedule: 14 days minimum, 95% statistical significance required to ship
 ═══ PATH 2: Variant HTML content (Visual Editor) ═══
 For CLIENT experiments, each variant ships an HTML object that the Visual Editor renders. Open each variant in the Visual Editor (/experience/:id/variants/:variantId/editor) and apply the DOM patches below.
@@ -59,5 +59,5 @@ Variant: C
 The Visual Editor lets the user refine the HTML (typography, color, animation) without leaving the canvas. The exposed_to_experience event fires the moment the variant DOM is applied to the page; goal_completed_in_experience fires when the downstream conversion event matches the configured goal.
 Taxonomy notes:
 - exposed_to_experience and goal_completed_in_experience are canonical platform events; they are emitted automatically by the SDK once the experience is live. The recipe does not need to instrument these manually.
-- click_on.target_id matches the button's id attribute. Ensure the id is preserved across all variants for consistent measurement.
-- user_created is the canonical signup event.
+- Click on.target_id matches the button's id attribute. Ensure the id is preserved across all variants for consistent measurement.
+- User created is the canonical signup event.

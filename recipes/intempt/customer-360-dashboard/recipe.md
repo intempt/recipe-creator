@@ -25,7 +25,7 @@ Board-level configuration:
 - exclusionPeriod: incomplete_periods
 - visibility: project
 - boardFilters: none by default
-- boardBreakdowns: lifecycle_score (the canonical 6-stage Users-object enum: At risk, Needs attention, New customers, Promising, Regulars, Champions)
+- boardBreakdowns: Lifecycle score (the canonical 6-stage Users-object enum: At risk, Needs attention, New customers, Promising, Regulars, Champions)
 Layout: 4 rows.
 Row 1: Lifecycle KPIs (heightPx: 200, four metric cards at widthUnits: 3):
 - Card 1: Insights metric to source recipe: customer-lifecycle-distribution, vizType: metric, titleOverride: "Total Active Customers"
@@ -41,10 +41,10 @@ Row 4: Long-term value (heightPx: 440, two cards at widthUnits: 6):
 - Card 1: Insights to source recipe: first-purchase-cohort-ltv-curve, displayMode: chart, vizType: line (cumulative LTV per cohort member)
 - Card 2: Path to source recipe: post-conversion-onboarding-paths, displayMode: chart (what new paying customers do in their first session: the post-purchase moment)
 Annotations:
-- Row 1 KPIs are filtered views of customer-lifecycle-distribution and first-purchase-cohort-ltv-curve: Lovable applies the lifecycle_score IN filter and renders the metric vizType.
+- Row 1 KPIs are filtered views of customer-lifecycle-distribution and first-purchase-cohort-ltv-curve: Lovable applies the Lifecycle score IN filter and renders the metric vizType.
 - Row 2 (the full-width lifecycle distribution) is the dashboard's centerpiece. The single most important metric here is the migration view: "147 Regulars moved to At risk this month" is more actionable than any point-in-time percentage.
 - Row 3 surfaces operational levers: the 2nd-order velocity histogram tells you the right replenishment-trigger delay per category.
 - Row 4 closes the loop: which acquisition cohorts produce high-LTV customers, and what does the post-purchase moment look like for newly-converted customers.
 Taxonomy notes:
-- All source recipes use canonical events: order_created (with items, total_price), session_start, page_viewed.
-- Users.lifecycle_score is the canonical 6-stage enum (At risk / Needs attention / New customers / Promising / Regulars / Champions). Do NOT introduce textbook RFM segment names like "Loyal," "VIP," "Hibernating," etc.
+- All source recipes use canonical events: Placed order (with items, total_price), Session start, View page.
+- Users.Lifecycle score is the canonical 6-stage enum (At risk / Needs attention / New customers / Promising / Regulars / Champions). Do NOT introduce textbook RFM segment names like "Loyal," "VIP," "Hibernating," etc.

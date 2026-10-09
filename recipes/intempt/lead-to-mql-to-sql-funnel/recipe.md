@@ -19,13 +19,13 @@ Slash command: /lead-to-mql-to-sql-funnel
 
 Create a Funnel report called "Lead Qualification Funnel".
 Steps:
-1. Event "user_created" where Users.utm_source is not empty: "Lead Created"
-2. Event "lead_stage_changed" where new_stage indicates MQL (lead_stage relation matches MQL stage in the project's lead-stage configuration), aggregation: Count Unique Users per lead: "Reached MQL"
-3. Event "deal_created" linked to the user (via primary_user_id or user_ids): "SQL Created"
-4. Event "meeting_scheduled" where canceled_at is null AND end_time < now: "Demo Completed"
-5. Event "deal_won": "Closed Won"
+1. Event "User created" where Users.UTM source is not empty: "Lead Created"
+2. Event "Lead stage changed" where new_stage indicates MQL (lead_stage relation matches MQL stage in the project's lead-stage configuration), aggregation: Count Unique Users per lead: "Reached MQL"
+3. Event "Deal created" linked to the user (via primary_user_id or user_ids): "SQL Created"
+4. Event "Meeting scheduled" where canceled_at is null AND end_time < now: "Demo Completed"
+5. Event "Deal won": "Closed Won"
 Conversion window: 90 days
-Breakdown: By Users.utm_source (top 6 sources)
+Breakdown: By Users.UTM source (top 6 sources)
 Compare: Previous period (prior 90 days)
 For each step, also surface:
 - Median time-to-convert from previous step
@@ -38,5 +38,5 @@ Annotations:
 - Highlight sources with high volume AND end-to-end conversion >5%.
 Surface the median sales-cycle length and whether it's increasing or decreasing.
 Taxonomy notes:
-- "lead_score" as a property is not canonical. Lead progression is tracked via lead_stage_changed events (which include score, intent_trend, stage_changed_by properties). The lead_stage relation on the User points to a configured lead-stage record.
-- The MQL/SQL boundary is project-specific; the recipe uses the lead_stage_changed.new_stage relation against the project's stage configuration.
+- "lead_score" as a property is not canonical. Lead progression is tracked via Lead stage changed events (which include score, intent_trend, stage_changed_by properties). The lead_stage relation on the User points to a configured lead-stage record.
+- The MQL/SQL boundary is project-specific; the recipe uses the Lead stage changed.new_stage relation against the project's stage configuration.

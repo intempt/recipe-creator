@@ -46,4 +46,4 @@ Annotations:
 - This is the canonical CMO/Founder weekly-check dashboard for ecommerce. Row 1 is the headline; Row 2 surfaces channel mix shifts; Row 3 surfaces conversion bottlenecks; Row 4 surfaces inventory/retention strategy.
 - The AOV decomposition in Row 2 Card 2 (units/order vs price/unit) is the diagnostic: AOV moving via price = merchandising/pricing impact; AOV moving via units = bundling/cross-sell impact.
 Taxonomy notes:
-- All source recipes use canonical events: order_created, cart_created, page_viewed, checkout_created.
+- All source recipes use canonical events: Placed order, Cart created, View page, Checkout created.

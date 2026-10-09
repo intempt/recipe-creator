@@ -38,9 +38,9 @@ Targeting (experience-wide):
 - Audience: specific (per-variant)
 - Display frequency: always
 Metrics (existing CRM/CDP: personalizations don't have hypothesis-bound primary/secondary):
-- form_submitted on demo-request form per audience (B2B's primary outcome)
-- click_on on primary CTA per audience
-- Account-level engagement (page_viewed count per identified company in the targeting window)
+- Form submitted on demo-request form per audience (B2B's primary outcome)
+- Click on on primary CTA per audience
+- Account-level engagement (View page count per identified company in the targeting window)
 Schedule: continuous
 ═══ PATH 2: Variant HTML content (Visual Editor) ═══
 Variant: Control (no DOM changes: fallback for non-target traffic)

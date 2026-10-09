@@ -28,4 +28,4 @@ Create a workflow firing on pricing_page_viewed when the user is identified. Ste
 
 ## Step 3: Compare against cold sourcing
 
-Compose a pricing-intent dashboard: pricing-page intent signal volume per week, SDR response time (median minutes from signal to first touch), conversion rate from pricing-intent signal to demo-scheduled, conversion rate from pricing-intent to deal_created. Compare against baseline (deals sourced from cold outbound): pricing-intent leads should convert 3-5x better. Use the result of "Filter out the casual visits", "Send the visit to a rep".
+Compose a pricing-intent dashboard: pricing-page intent signal volume per week, SDR response time (median minutes from signal to first touch), conversion rate from pricing-intent signal to demo-scheduled, conversion rate from pricing-intent to Deal created. Compare against baseline (deals sourced from cold outbound): pricing-intent leads should convert 3-5x better. Use the result of "Filter out the casual visits", "Send the visit to a rep".

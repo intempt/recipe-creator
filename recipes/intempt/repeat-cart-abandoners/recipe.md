@@ -20,5 +20,5 @@ Slash command: /repeat-cart-abandoners
 
 Build a segment of users named "Repeat Cart Abandoners".
 A user is in the segment only when all of these are true:
-- they did the abandoned_checkout event 2 or more times in the last 30 days
-- they did not do the order_created event in the last 30 days
+- they did the Abandoned checkout event 2 or more times in the last 30 days
+- they did not do the Placed order event in the last 30 days

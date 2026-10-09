@@ -46,5 +46,5 @@ Annotations:
 - Row 1's four KPIs are the daily-check numbers: what's in pipeline, what's at risk (single-threaded), what accounts need saving, and how fast we move.
 - Row 3 (the full-width account table) is the key actionable artifact: sorted by week-over-week engagement change, it surfaces both expansion candidates (rising) and churn-risk accounts (falling).
 Taxonomy notes:
-- All source recipes use canonical Intempt events: deal_stage_changed, deal_won, deal_lost, deal_created, meeting_scheduled, session_start, click_on, ticket_created.
+- All source recipes use canonical Intempt events: Deal stage changed, Deal won, Deal lost, Deal created, Meeting scheduled, Session start, Click on, Ticket created.
 - pipeline-value-snapshot includes weighted-forecast computation (each deal's amount × historical close-rate of its current stage).

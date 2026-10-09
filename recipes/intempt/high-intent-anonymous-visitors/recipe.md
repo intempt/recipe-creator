@@ -23,7 +23,7 @@ Slash command: /high-intent-anonymous-visitors
 
 Build a segment of users named "High-Intent Anonymous Visitors".
 A user is in the segment only when all of these are true:
-- their total_events attribute is 5 or more
+- their Total events attribute is 5 or more
 - their email attribute is empty
-- they did the page_viewed event 3 or more times in the last 7 days
-- they did the session_start event 2 or more times in the last 7 days
+- they did the View page event 3 or more times in the last 7 days
+- they did the Session start event 2 or more times in the last 7 days

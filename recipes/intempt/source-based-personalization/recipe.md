@@ -26,22 +26,22 @@ Experience type: client_personalization
 Variants (each binds to a source audience):
 - Control (audience = all: fallback): generic hero for direct / organic / unattributed traffic
 - Variant B (audience = "Google Ads: competitor terms"): hero matches the competitor-comparison query
- - Audience: utm_source = "google" AND utm_campaign CONTAINS "competitor" or "alternative"
+ - Audience: UTM source = "google" AND UTM campaign CONTAINS "competitor" or "alternative"
 - Variant C (audience = "LinkedIn Ads: enterprise"): hero matches the LinkedIn ad's enterprise messaging
- - Audience: utm_source = "linkedin" AND utm_campaign CONTAINS "enterprise"
+ - Audience: UTM source = "linkedin" AND UTM campaign CONTAINS "enterprise"
 - Variant D (audience = "Facebook Ads: SMB"): hero matches the Facebook ad's SMB messaging
- - Audience: utm_source = "facebook" AND utm_campaign CONTAINS "smb"
+ - Audience: UTM source = "facebook" AND UTM campaign CONTAINS "smb"
 - Variant E (audience = "Partner referral"): hero matches the partner brand and offers a partner-specific incentive
- - Audience: referrer CONTAINS "partner-domain.com" OR utm_source = "partner_xyz"
+ - Audience: referrer CONTAINS "partner-domain.com" OR UTM source = "partner_xyz"
 - Variant F (audience = "Organic: branded search"): hero matches the brand-search intent
- - Audience: utm_source = "google" AND utm_medium = "organic" AND landing_page contains "/" (homepage)
+ - Audience: UTM source = "google" AND UTM medium = "organic" AND landing_page contains "/" (homepage)
 Targeting:
 - Pages: homepage "/" and key landing pages (/lp, /landing-*)
 - Devices: any
 - Display frequency: always (within session: source attribution sticks for the session)
 Metrics:
-- form_submitted on demo / contact / signup form per source
-- click_on on primary CTA per source
+- Form submitted on demo / contact / signup form per source
+- Click on on primary CTA per source
 - Conversion rate per source (existing CRM/CDP attribution metric)
 Schedule: continuous
 ═══ PATH 2: Variant HTML content (Visual Editor) ═══
@@ -82,8 +82,8 @@ Variant: F (Organic: branded search)
  <button class="primary-cta" id="hero-cta-direct-signup">Start free trial</button>
 The Visual Editor allows the user to refine copy, swap images, and adjust CTAs per source segment. Ensure the [Competitor] / [Partner] placeholders are populated correctly per variant.
 Taxonomy notes:
-- The canonical Users-object UTM attributes are: utm_source, utm_medium, utm_campaign, utm_content, utm_term: all standard. Plus referrer and landing_page.
-- These attributes are populated automatically on session_start from URL parameters and HTTP referrer header.
-- For source attribution to persist beyond the entry session, the platform stores the first-touch UTM values on the user record (Users.utm_source, etc.). This is the canonical pattern.
+- The canonical Users-object UTM attributes are: UTM source, UTM medium, UTM campaign, UTM content, UTM term: all standard. Plus referrer and landing_page.
+- These attributes are populated automatically on Session start from URL parameters and HTTP referrer header.
+- For source attribution to persist beyond the entry session, the platform stores the first-touch UTM values on the user record (Users.UTM source, etc.). This is the canonical pattern.
 - Don't over-segment: 4-6 source segments is the sweet spot. Too many segments to low traffic per variant to unmeasurable.
 - Combine with industry-vertical or ABM personalization for compounding effect, but order precedence carefully (per-account beats per-source beats per-industry beats default).

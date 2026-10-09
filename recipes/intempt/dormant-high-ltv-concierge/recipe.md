@@ -22,7 +22,7 @@ Slash command: /dormant-high-ltv-concierge
 
 ## Step 1: Track dormancy and value
 
-Create AI-derived attributes on the Account object: 'days_dormant' (days since last session_start by ANY user on the account) and 'account_ltv' (cumulative revenue paid, plus projected forward LTV based on current MRR × historical retention curve for similar accounts). LTV tier: top 10% of customers by LTV = high-LTV. Refreshed daily.
+Create AI-derived attributes on the Account object: 'days_dormant' (days since last Session start by ANY user on the account) and 'account_ltv' (cumulative revenue paid, plus projected forward LTV based on current MRR × historical retention curve for similar accounts). LTV tier: top 10% of customers by LTV = high-LTV. Refreshed daily.
 
 ## Step 2: Find the valuable ones gone quiet
 

@@ -29,14 +29,14 @@ Variants:
 Targeting:
 - Pages: page URL contains "/order-confirmation" OR "/thank-you"
 - Devices: any
-- Audience: customers who just completed an order_created event
+- Audience: customers who just completed an Placed order event
 - Display frequency: once (per order)
-Primary metric: goal_completed_in_experience where experience_id = <this> (goal fires on additional order_created within 24 hours of upsell exposure: incremental revenue)
+Primary metric: goal_completed_in_experience where experience_id = <this> (goal fires on additional Placed order within 24 hours of upsell exposure: incremental revenue)
 Secondary metrics:
-- click_on where target_id starts with "upsell-product-" (upsell engagement rate)
-- Add-to-second-order rate (cart_created within 1 hour for any user shown the upsell)
+- Click on where target_id starts with "upsell-product-" (upsell engagement rate)
+- Add-to-second-order rate (Cart created within 1 hour for any user shown the upsell)
 - Average upsell value when accepted
-Guardrail: customer satisfaction (feedback_submitted score within 7 days of order) must not drop; modal-dismiss rate (variant C) must not exceed 80% (high dismissal = annoyance signal)
+Guardrail: customer satisfaction (Feedback submitted score within 7 days of order) must not drop; modal-dismiss rate (variant C) must not exceed 80% (high dismissal = annoyance signal)
 Schedule: 30 days
 ═══ PATH 2: Variant HTML content (Visual Editor) ═══
 Variant: Control (above order details)
@@ -65,7 +65,7 @@ Variant: C (inline modal, 5s delay)
  </div>
  </div>
  </div>
- Trigger JS: setTimeout 5000ms after page_viewed on /order-confirmation, set overlay hidden=false. Pair with a CSS modal animation.
+ Trigger JS: setTimeout 5000ms after View page on /order-confirmation, set overlay hidden=false. Pair with a CSS modal animation.
 Taxonomy notes:
 - Email and push variants from the original template are explicitly removed because the product scope is website-only.
-- The "incremental revenue" measurement requires the upsell-attributed order_created to be distinguished from the original purchase: typically done by session tracking joining click_on (target_id starts with "upsell-") to a subsequent order_created within the attribution window.
+- The "incremental revenue" measurement requires the upsell-attributed Placed order to be distinguished from the original purchase: typically done by session tracking joining Click on (target_id starts with "upsell-") to a subsequent Placed order within the attribution window.

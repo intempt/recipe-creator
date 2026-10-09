@@ -19,7 +19,7 @@ Slash command: /crm-record-merge-suggestions
 
 ## Step 1: Check at the moment of creation
 
-Create a workflow 'Real-time CRM dedup' triggered immediately on account_created OR user_created events. Goal: catch duplicates at creation moment rather than letting them propagate, then needing cleanup later.
+Create a workflow 'Real-time CRM dedup' triggered immediately on account_created OR User created events. Goal: catch duplicates at creation moment rather than letting them propagate, then needing cleanup later.
 
 ## Step 2: Look for a match
 
