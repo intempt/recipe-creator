@@ -38,8 +38,8 @@ intempt:
         Object: Accounts
 
         Rules (all conditions joined by AND):
-        - Event (across users in account): page_viewed where page_url contains "/pricing" occurred >= 3 times in last 7 days
-        - AND Attribute: has_open_deal = false
+        - Event (across users in account): View page where Page URL contains "/pricing" occurred >= 3 times in last 7 days
+        - AND Attribute: Has an open deal = false
 
         Description: Accounts where users have visited the pricing page 3+ times in the last 7 days: the active-research-surge signal. Sharper than single-visit indicators; multi-visit pricing review within a tight window is one of the strongest predictors of an in-flight buying decision. Trigger AE personalized outreach within 24 hours.
   outputs:

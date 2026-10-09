@@ -39,9 +39,9 @@ intempt:
         Object: Accounts
 
         Rules (all conditions joined by AND):
-        - Attribute: users_count >= 3
-        - AND Event (across users in account): session_start occurred >= 5 times in last 14 days
-        - AND Event (across users in account): page_viewed occurred >= 10 times in last 14 days
+        - Attribute: User count >= 3
+        - AND Event (across users in account): Session start occurred >= 5 times in last 14 days
+        - AND Event (across users in account): View page occurred >= 10 times in last 14 days
 
         Description: Accounts where 3+ users have been actively engaged in the last 14 days. The buying-committee signal: Salesforce reports B2B deals now involve an average of 11 stakeholders, so multi-user engagement at the account level is one of the strongest forward-looking indicators of an active buying cycle. Foundation for AE multi-threading plays and ABM coordination.
   outputs:

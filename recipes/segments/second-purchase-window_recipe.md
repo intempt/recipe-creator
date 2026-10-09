@@ -38,8 +38,8 @@ intempt:
         Object: Users
 
         Rules (all conditions joined by AND):
-        - Event: order_created occurred = 1 time (all time)
-        - AND Event: order_created occurred >= 1 time in last 30 days
+        - Event: Placed order occurred = 1 time (all time)
+        - AND Event: Placed order occurred >= 1 time in last 30 days
 
         Description: Customers who just bought for the first time and are in the highest-conversion repurchase window. 50.3% of all repeat purchases happen in the first 30 days post-purchase, yet most brands suppress recent buyers from campaigns. This segment fixes that by giving you a clean cohort to target with personalized cross-sells, "complete-the-set" offers, and second-purchase nudges (not discount blasts: handwritten-style notes outperform).
   outputs:

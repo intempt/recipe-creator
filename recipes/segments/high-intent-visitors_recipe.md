@@ -38,9 +38,9 @@ intempt:
         Object: Users
 
         Rules (all conditions joined by AND):
-        - Event: page_viewed where page_url contains "/pricing" occurred >= 1 time in last 14 days
-        - AND Event: page_viewed where page_url contains "/docs" occurred >= 1 time in last 14 days
-        - AND Attribute: plan_name is empty OR plan_name = "free"
+        - Event: View page where Page URL contains "/pricing" occurred >= 1 time in last 14 days
+        - AND Event: View page where Page URL contains "/docs" occurred >= 1 time in last 14 days
+        - AND Attribute: Plan is empty OR Plan = "free"
 
         Description: Non-customers (or free-plan users) showing strong buying signals across pricing and docs. Prioritize for sales outreach or in-app upgrade prompt.
   outputs:

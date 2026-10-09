@@ -38,8 +38,8 @@ intempt:
         Object: Users
 
         Rules (all conditions joined by AND):
-        - Event: subscription_cancelled occurred >= 1 time in last 30 days
-        - AND Attribute: lifetime_value > 0
+        - Event: Subscription canceled occurred >= 1 time in last 30 days
+        - AND Attribute: Lifetime value > 0
 
         Description: Users who cancelled in the last 30 days with prior paid history. Fast win-back cohort: easier to recover than older churned users while feedback is still fresh.
   outputs:

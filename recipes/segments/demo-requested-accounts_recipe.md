@@ -38,8 +38,8 @@ intempt:
         Object: Accounts
 
         Rules (all conditions joined by AND):
-        - Event (across users in account): submit_on a demo-request form occurred >= 1 time in last 30 days
-        - AND Attribute: has_open_deal = false
+        - Event (across users in account): Submit on a demo-request form occurred >= 1 time in last 30 days
+        - AND Attribute: Has an open deal = false
 
         Description: Accounts where any user submitted a demo-request form in the last 30 days, with no existing open deal. Highest SDR-routing priority: research consistently shows 53% conversion rate for 1-hour response vs 17% after 24 hours. SLA: SDR contact within 1 hour, AE follow-up within 24 hours.
   outputs:

@@ -40,9 +40,9 @@ intempt:
         Rules (all conditions joined by AND):
         - Attribute: employees is between 50 and 1000
         - AND Attribute: industry is one of ["SaaS", "Technology", "Fintech", "Financial Services"]
-        - AND Event (via users in account): page_viewed where page_url contains "/pricing" occurred >= 1 time in last 7 days
-        - AND Event (via users in account): page_viewed where page_url contains "/docs" occurred >= 1 time in last 7 days
-        - AND Attribute: has_open_deal = false
+        - AND Event (via users in account): View page where Page URL contains "/pricing" occurred >= 1 time in last 7 days
+        - AND Event (via users in account): View page where Page URL contains "/docs" occurred >= 1 time in last 7 days
+        - AND Attribute: Has an open deal = false
 
         Description: ICP-matching accounts with hot buying signals this week. Highest-priority cohort for SDR outreach: pre-qualified and actively researching.
   outputs:

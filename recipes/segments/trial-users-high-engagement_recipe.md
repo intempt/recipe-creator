@@ -38,10 +38,10 @@ intempt:
         Object: Users
 
         Rules (all conditions joined by AND):
-        - Attribute: plan_name = "trial"
-        - AND Attribute: end_date is within next 14 days
-        - AND Attribute: engagement_score = "High"
-        - AND Event: goal_completed_in_journey occurred >= 3 times in last 14 days
+        - Attribute: Plan = "trial"
+        - AND Attribute: Subscription end date is within next 14 days
+        - AND Attribute: Engagement score = "High"
+        - AND Event: Completed a journey goal occurred >= 3 times in last 14 days
 
         Description: Trial users with strong usage signals: most likely to convert. Trigger high-touch sales outreach or premium-feature unlock.
   outputs:

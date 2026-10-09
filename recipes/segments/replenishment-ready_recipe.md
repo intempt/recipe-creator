@@ -38,9 +38,9 @@ intempt:
         Object: Users
 
         Rules (all conditions joined by AND):
-        - Event: order_created occurred >= 1 time (all time)
-        - AND Event: order_created occurred 0 times in last 30 days
-        - AND Event: order_created occurred >= 1 time between 30 and 60 days ago
+        - Event: Placed order occurred >= 1 time (all time)
+        - AND Event: Placed order occurred 0 times in last 30 days
+        - AND Event: Placed order occurred >= 1 time between 30 and 60 days ago
 
         Description: Customers whose last purchase was 30-60 days ago and who are due for re-purchase based on typical consumption cycles. Trigger replenishment reminder ("Running low?") timed to product depletion. Replenishment messaging consistently outperforms generic promotion by 5-10x.
   outputs:

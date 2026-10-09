@@ -34,17 +34,17 @@ intempt:
       command: create_segment
       produces: segment
       bindsAs: segment
-      description: 'Users with any of payment_failed, invoice_payment_failed, billing_failed, or charge_failed in the last 14 days.'
+      description: 'Users with any of Payment failed, Invoice payment failed, Billing failed, or Charge failed in the last 14 days.'
       prompt: |
         Create a segment called "Failed-Payment Users".
 
         Object: Users
 
         Rules (any condition matches: joined by OR):
-        - Event: payment_failed occurred >= 1 time in last 14 days
-        - OR Event: invoice_payment_failed occurred >= 1 time in last 14 days
-        - OR Event: billing_failed occurred >= 1 time in last 14 days
-        - OR Event: charge_failed occurred >= 1 time in last 14 days
+        - Event: Payment failed occurred >= 1 time in last 14 days
+        - OR Event: Invoice payment failed occurred >= 1 time in last 14 days
+        - OR Event: Billing failed occurred >= 1 time in last 14 days
+        - OR Event: Charge failed occurred >= 1 time in last 14 days
 
         Description: Users with one or more payment failures in the last 14 days. Dunning-recovery cohort with the highest immediate-revenue ROI of any segment. Trigger an automated card-update email sequence; for high-LTV failures, escalate to manual CSM/AE outreach with a personal touch.
   outputs:
@@ -64,7 +64,7 @@ Users whose payment was declined in the last two weeks, so you can recover the m
 
 1. **Build the failed-payment list** (`create_segment`)
 
-   Users with any of payment_failed, invoice_payment_failed, billing_failed, or charge_failed in the last 14 days.
+   Users with any of Payment failed, Invoice payment failed, Billing failed, or Charge failed in the last 14 days.
 
 ## What you end up with
 

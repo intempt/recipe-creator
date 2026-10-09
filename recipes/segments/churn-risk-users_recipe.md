@@ -38,9 +38,9 @@ intempt:
         Object: Users
 
         Rules (all conditions joined by AND):
-        - Event: session_start occurred >= 5 times between 60 and 90 days ago
-        - AND Event: session_start occurred 0 times in last 30 days
-        - AND Attribute: plan_name is not "free"
+        - Event: Session start occurred >= 5 times between 60 and 90 days ago
+        - AND Event: Session start occurred 0 times in last 30 days
+        - AND Attribute: Plan is not "free"
 
         Description: Previously active paid users who have gone silent. Trigger CSM outreach or save-offer journey before they churn.
   outputs:

@@ -38,8 +38,8 @@ intempt:
         Object: Users
 
         Rules (all conditions joined by AND):
-        - Event: abandoned_checkout occurred >= 2 times in last 30 days
-        - AND Event: order_created occurred 0 times in last 30 days
+        - Event: Abandoned checkout occurred >= 2 times in last 30 days
+        - AND Event: Placed order occurred 0 times in last 30 days
 
         Description: Users who repeatedly abandon checkout: likely friction or price sensitivity. Trigger differentiated recovery offers (different from first-time abandoners).
   outputs:

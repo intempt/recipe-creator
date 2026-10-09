@@ -38,9 +38,9 @@ intempt:
         Object: Users
 
         Rules (all conditions joined by AND):
-        - Attribute: end_date is within next 90 days
-        - AND Attribute: end_date is in the future
-        - AND Attribute: plan_name is not "free"
+        - Attribute: Subscription end date is within next 90 days
+        - AND Attribute: Subscription end date is in the future
+        - AND Attribute: Plan is not "free"
 
         Description: Users with active paid subscriptions ending in the next 90 days. The renewal-targeting cohort: foundation for QBR-style ROI emails, renewal-conversation triggers, and NRR-driven CSM outreach. NRR is the single most important SaaS metric in 2026; this segment makes the renewal pipeline actionable.
   outputs:

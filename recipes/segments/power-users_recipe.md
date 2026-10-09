@@ -38,10 +38,10 @@ intempt:
         Object: Users
 
         Rules (all conditions joined by AND):
-        - Event: session_start occurred >= 10 times in last 30 days
-        - AND Event: click_on occurred >= 20 times in last 30 days
-        - AND Attribute: engagement_score = "High"
-        - AND Attribute: last_seen_at is within last 7 days
+        - Event: Session start occurred >= 10 times in last 30 days
+        - AND Event: Click on occurred >= 20 times in last 30 days
+        - AND Attribute: Engagement score = "High"
+        - AND Attribute: Last seen is within last 7 days
 
         Description: Highly engaged users: frequent sessions, high engagement, recent activity. Priority cohort for advocacy programs, beta access, and case-study outreach.
   outputs:

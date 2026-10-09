@@ -38,8 +38,8 @@ intempt:
         Object: Users
 
         Rules (all conditions joined by AND):
-        - Event: cart_abandoned where total_amount >= 200 occurred >= 1 time in last 7 days
-        - AND Event: order_created occurred 0 times in last 7 days
+        - Event: Abandoned cart where Order total >= 200 occurred >= 1 time in last 7 days
+        - AND Event: Placed order occurred 0 times in last 7 days
 
         Description: Cart abandoners whose abandoned cart value is high: priority recovery cohort. Worth more attention (and a potentially higher-effort intervention like a personal email or SMS) than low-cart-value abandoners. Distinct from repeat-cart-abandoners (which targets by frequency, not value).
   outputs:

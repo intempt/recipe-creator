@@ -38,9 +38,9 @@ intempt:
         Object: Users
 
         Rules (all conditions joined by AND):
-        - Attribute: first_seen_at is between 7 and 30 days ago
-        - AND Event: goal_completed_in_journey occurred 0 times since first_seen_at
-        - AND Attribute: days_since_last_activity <= 14
+        - Attribute: First seen is between 7 and 30 days ago
+        - AND Event: Completed a journey goal occurred 0 times since First seen
+        - AND Attribute: Days since last activity <= 14
 
         Description: Users who signed up 7-30 days ago, are still occasionally active, but have not completed any activation milestone. The activation-rescue cohort. Trigger guided onboarding outreach (in-app checklist, founder-style email, CSM check-in for high-value accounts).
   outputs:

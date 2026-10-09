@@ -38,8 +38,8 @@ intempt:
         Object: Users
 
         Rules (all conditions joined by AND):
-        - Event: order_created occurred >= 3 times in last 90 days
-        - AND Attribute: lifetime_value >= 100
+        - Event: Placed order occurred >= 3 times in last 90 days
+        - AND Attribute: Lifetime value >= 100
 
         Description: Repeat customers with meaningful spend. Priority for loyalty rewards, replenishment campaigns, and review requests.
   outputs:

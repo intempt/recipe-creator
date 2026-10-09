@@ -1,7 +1,7 @@
 ---
 name: compliance-setup
 description: |
-  Use when a user mentions "marketing consent suppression", "GDPR exclusion segment", or asks for related help. Build a suppression segment from consent_granted/consent_revoked events so opted-out users are excluded from marketing journeys.
+  Use when a user mentions "marketing consent suppression", "GDPR exclusion segment", or asks for related help. Build a suppression segment from Subscribed consent/Unsubscribed consent events so opted-out users are excluded from marketing journeys.
 arguments: []
 intempt:
   id: compliance-setup
@@ -24,8 +24,8 @@ intempt:
   aiPassRequired: true
   prerequisites:
     events:
-      - { value: consent_granted, severity: blocking }  # Required for suppression-segment logic
-      - { value: consent_revoked, severity: blocking }  # Required for suppression-segment logic
+      - { value: Subscribed consent, severity: blocking }  # Required for suppression-segment logic
+      - { value: Unsubscribed consent, severity: blocking }  # Required for suppression-segment logic
       - { value: preference_updated, severity: recommended }  # Preference center updates
   invokesCommands:
     - create_segment
@@ -35,7 +35,7 @@ intempt:
       command: create_segment
       produces: segment
       bindsAs: segment
-      description: 'Users with no marketing consent on record, or with an active opt-out, read from your consent_granted and consent_revoked events. Exclude this list from every marketing journey.'
+      description: 'Users with no marketing consent on record, or with an active opt-out, read from your Subscribed consent and Unsubscribed consent events. Exclude this list from every marketing journey.'
       prompt: "Build a suppression segment of users without marketing consent or with active opt-outs."
   outputs:
     - { name: segment, type: segment, cardinality: single, description: "Segment produced by this recipe." }
@@ -48,15 +48,15 @@ A list of people who never gave marketing consent or have since opted out, so yo
 
 ## Before you run it
 
-- Send the `consent_granted` event
-- Send the `consent_revoked` event
+- Send the `Subscribed consent` event
+- Send the `Unsubscribed consent` event
 - Send the `preference_updated` event
 
 ## What it does
 
 1. **Build the suppression list** (`create_segment`)
 
-   Users with no marketing consent on record, or with an active opt-out, read from your consent_granted and consent_revoked events. Exclude this list from every marketing journey.
+   Users with no marketing consent on record, or with an active opt-out, read from your Subscribed consent and Unsubscribed consent events. Exclude this list from every marketing journey.
 
 ## What you end up with
 

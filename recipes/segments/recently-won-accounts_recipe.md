@@ -38,9 +38,9 @@ intempt:
         Object: Accounts
 
         Rules (all conditions joined by AND):
-        - Attribute: lifecycle_changed_at is within last 90 days
-        - AND Attribute: account_lifecycle is "customer"
-        - AND Attribute: has_open_deal = false
+        - Attribute: Lifecycle changed date is within last 90 days
+        - AND Attribute: Lifecycle stage is "customer"
+        - AND Attribute: Has an open deal = false
 
         Description: Accounts that became customers in the last 90 days: the post-deal-close onboarding cohort. Distinct from new-paying-customers (which is plan-tier-conversion at the User level). For B2B sales motion, the deal-close moment is the kickoff for CSM onboarding, implementation milestones, and time-to-value tracking.
   outputs:

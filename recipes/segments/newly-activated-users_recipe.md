@@ -38,8 +38,8 @@ intempt:
         Object: Users
 
         Rules (all conditions joined by AND):
-        - Event: goal_completed_in_journey where journey_id = <activation journey id> occurred >= 1 time in last 7 days
-        - AND Attribute: plan_name is not "free"
+        - Event: Completed a journey goal where journey_id = <activation journey id> occurred >= 1 time in last 7 days
+        - AND Attribute: Plan is not "free"
 
         Description: Users who hit the activation milestone in the last 7 days. Warm cohort for expansion outreach, feature-discovery campaigns, and upgrade prompts.
   outputs:

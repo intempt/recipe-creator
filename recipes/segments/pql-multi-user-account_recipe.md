@@ -39,9 +39,9 @@ intempt:
         Object: Accounts
 
         Rules (all conditions joined by AND):
-        - Attribute: users_count >= 2
-        - AND Event (across users in account): session_start occurred >= 3 times in last 14 days
-        - AND Event (across users in account): goal_completed_in_journey occurred >= 1 time in last 14 days
+        - Attribute: User count >= 2
+        - AND Event (across users in account): Session start occurred >= 3 times in last 14 days
+        - AND Event (across users in account): Completed a journey goal occurred >= 1 time in last 14 days
 
         Description: Accounts where 2+ users from the same company are actively engaged in trial or free plan. The enterprise PQL signal: distinguishes team-buying behavior from individual-trial signups. Highest-converting PQL cohort: when multiple stakeholders test the product, they convert at 2-3x the rate of individual-trial PQLs.
   outputs:

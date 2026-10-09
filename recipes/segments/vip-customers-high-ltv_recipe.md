@@ -38,8 +38,8 @@ intempt:
         Object: Users
 
         Rules (all conditions joined by AND):
-        - Attribute: lifetime_value >= 1000
-        - AND Event: order_created occurred >= 2 times
+        - Attribute: Lifetime value >= 1000
+        - AND Event: Placed order occurred >= 2 times
 
         Description: High lifetime-value customers with repeat purchase history. Foundation segment for VIP rewards, exclusive product access, and concierge support.
   outputs:

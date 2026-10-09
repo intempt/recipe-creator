@@ -38,9 +38,9 @@ intempt:
         Object: Users
 
         Rules (all conditions joined by AND):
-        - Attribute: plan_name = "trial"
-        - AND Attribute: end_date is within next 7 days
-        - AND Event: subscription_created has not occurred in last 14 days
+        - Attribute: Plan = "trial"
+        - AND Attribute: Subscription end date is within next 7 days
+        - AND Event: Subscription started has not occurred in last 14 days
 
         Description: Trial users approaching expiry without paid conversion. Trigger a final-push email or in-app upgrade prompt.
   outputs:

@@ -38,8 +38,8 @@ intempt:
         Object: Users
 
         Rules (all conditions joined by AND):
-        - Attribute: title contains any of ["CEO", "CTO", "CFO", "CMO", "COO", "VP", "Vice President", "Director", "Head of", "Chief"]
-        - AND Event: page_viewed where page_url contains "/pricing" occurred >= 1 time in last 30 days
+        - Attribute: Job title contains any of ["CEO", "CTO", "CFO", "CMO", "COO", "VP", "Vice President", "Director", "Head of", "Chief"]
+        - AND Event: View page where Page URL contains "/pricing" occurred >= 1 time in last 30 days
         - AND Attribute: email is not empty
 
         Description: Senior-title users (C-level, VP, Director) who have visited pricing in the last 30 days. The economic-buyer signal: these are budget-holders actively researching. Highest priority for AE-led outreach, executive-sponsor engagement, and ROI-focused content delivery.

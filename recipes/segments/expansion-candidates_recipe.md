@@ -38,8 +38,8 @@ intempt:
         Object: Users
 
         Rules (all conditions joined by AND):
-        - Attribute: plan_name is not "enterprise"
-        - AND Attribute: usage_pct >= 80
+        - Attribute: Plan is not "enterprise"
+        - AND Attribute: Usage percentage >= 80
 
         Description: Users approaching plan limits: prime upgrade candidates. Trigger in-app upgrade prompt or AE outreach.
   outputs:

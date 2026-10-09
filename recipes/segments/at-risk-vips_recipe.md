@@ -38,10 +38,10 @@ intempt:
         Object: Users
 
         Rules (all conditions joined by AND):
-        - Attribute: lifetime_value >= 1000
-        - AND Attribute: days_since_last_activity is between 45 and 90
-        - AND Event: order_created occurred >= 2 times (all time)
-        - AND Event: order_created occurred 0 times in last 45 days
+        - Attribute: Lifetime value >= 1000
+        - AND Attribute: Days since last activity is between 45 and 90
+        - AND Event: Placed order occurred >= 2 times (all time)
+        - AND Event: Placed order occurred 0 times in last 45 days
 
         Description: High-LTV customers who are going quiet: the Klaviyo "Needs Attention" RFM cohort. Most expensive cohort to lose; strongest ROI for personalized win-back outreach (CSM-style email from a real person, not a discount blast).
   outputs:

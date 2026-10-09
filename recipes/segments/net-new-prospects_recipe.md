@@ -38,10 +38,10 @@ intempt:
         Object: Accounts
 
         Rules (all conditions joined by AND):
-        - Attribute: created_at is within last 7 days
-        - AND Attribute: total_events <= 5
-        - AND Attribute: account_lifecycle = "prospect"
-        - AND Attribute: has_open_deal = false
+        - Attribute: Account created date is within last 7 days
+        - AND Attribute: Total events <= 5
+        - AND Attribute: Lifecycle stage = "prospect"
+        - AND Attribute: Has an open deal = false
 
         Description: Accounts identified in the last 7 days with minimal engagement so far. Foundation for SDR first-touch sequences: these are the freshest entries to your TAL or your inbound feed, deserving immediate qualification within ICP-fit and intent-strength frameworks.
   outputs:

@@ -38,10 +38,10 @@ intempt:
         Object: Accounts
 
         Rules (all conditions joined by AND):
-        - Attribute: has_open_deal = false
-        - AND Attribute: account_health = "healthy"
-        - AND Attribute: users_count >= 3
-        - AND Event: session_start (across users in account) occurred >= 5 times in last 30 days
+        - Attribute: Has an open deal = false
+        - AND Attribute: Account health = "healthy"
+        - AND Attribute: User count >= 3
+        - AND Event: Session start (across users in account) occurred >= 5 times in last 30 days
 
         Description: Healthy active accounts with no open deal: ready for expansion conversation. Trigger AE whitespace task or executive outreach.
   outputs:

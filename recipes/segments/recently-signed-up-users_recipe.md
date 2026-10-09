@@ -38,7 +38,7 @@ intempt:
         Object: Users
 
         Rules:
-        - Attribute: first_seen_at is within last 30 days
+        - Attribute: First seen is within last 30 days
 
         Description: Onboarding cohort. Use as the audience for first-week activation campaigns, welcome journeys, and onboarding email sequences.
   outputs:

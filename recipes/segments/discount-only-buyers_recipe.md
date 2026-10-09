@@ -41,8 +41,8 @@ intempt:
         Object: Users
 
         Rules (all conditions joined by AND):
-        - Event: order_created where discount_codes is not empty occurred >= 2 times (all time)
-        - AND Event: order_created where discount_codes is empty occurred 0 times (all time)
+        - Event: Placed order where Discount code is not empty occurred >= 2 times (all time)
+        - AND Event: Placed order where Discount code is empty occurred 0 times (all time)
 
         Description: Customers whose every order has a discount code applied. Margin-protective suppression cohort: exclude from full-price campaigns and reserve for sale-only outreach. Pricing them at full price typically results in zero conversion; the bargain-hunting behavior is the buying signal.
   outputs:

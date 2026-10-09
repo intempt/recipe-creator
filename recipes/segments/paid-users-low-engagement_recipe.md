@@ -38,9 +38,9 @@ intempt:
         Object: Users
 
         Rules (all conditions joined by AND):
-        - Attribute: plan_name is not in ["free", "trial"]
-        - AND Attribute: days_since_last_activity is between 7 and 21
-        - AND Attribute: engagement_score = "Low"
+        - Attribute: Plan is not in ["free", "trial"]
+        - AND Attribute: Days since last activity is between 7 and 21
+        - AND Attribute: Engagement score = "Low"
 
         Description: Paid customers showing early disengagement before they become full churn risk. Trigger CSM check-in or feature-rediscovery campaign.
   outputs:

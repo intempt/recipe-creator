@@ -38,7 +38,7 @@ intempt:
         Object: Users
 
         Rules:
-        - Event: order_created occurred >= 4 times in last 90 days
+        - Event: Placed order occurred >= 4 times in last 90 days
 
         Description: High-frequency buyers: the most loyal cohort. Priority for loyalty program enrollment, early access, and brand-ambassador outreach.
   outputs:

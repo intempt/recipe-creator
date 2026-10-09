@@ -38,10 +38,10 @@ intempt:
         Object: Users
 
         Rules (all conditions joined by AND):
-        - Attribute: plan_name = "free"
-        - AND Attribute: engagement_score = "High"
-        - AND Attribute: days_since_last_activity <= 7
-        - AND Event: session_start occurred >= 5 times in last 14 days
+        - Attribute: Plan = "free"
+        - AND Attribute: Engagement score = "High"
+        - AND Attribute: Days since last activity <= 7
+        - AND Event: Session start occurred >= 5 times in last 14 days
 
         Description: Free users showing strong engagement and recent activity. Prime cohort for upgrade prompts, premium-feature trials, and account-expansion outreach.
   outputs:

@@ -38,9 +38,9 @@ intempt:
         Object: Users
 
         Rules (all conditions joined by AND):
-        - Event: subscription_cancelled occurred >= 1 time in last 60 days
-        - AND Attribute: lifetime_value > 0
-        - AND Attribute: total_events >= 50
+        - Event: Subscription canceled occurred >= 1 time in last 60 days
+        - AND Attribute: Lifetime value > 0
+        - AND Attribute: Total events >= 50
 
         Description: Recently churned users with prior engagement (positive lifetime value, meaningful event volume during their active period). Best candidates for a win-back offer.
   outputs:

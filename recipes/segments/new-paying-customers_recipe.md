@@ -38,9 +38,9 @@ intempt:
         Object: Users
 
         Rules (all conditions joined by AND):
-        - Event: subscription_created occurred >= 1 time in last 30 days
-        - AND Attribute: plan_name is not "free"
-        - AND Attribute: plan_name is not "trial"
+        - Event: Subscription started occurred >= 1 time in last 30 days
+        - AND Attribute: Plan is not "free"
+        - AND Attribute: Plan is not "trial"
 
         Description: Users who converted to a paid plan in the last 30 days. The paid-onboarding cohort: distinct from recently-signed-up-users (which is account creation). The first 30 days post-paid-conversion is the highest-leverage retention window; trigger CSM kickoff, premium-feature discovery, and ROI-tracking content.
   outputs:

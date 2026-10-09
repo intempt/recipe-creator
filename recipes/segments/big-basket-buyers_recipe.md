@@ -38,9 +38,9 @@ intempt:
         Object: Users
 
         Rules (all conditions joined by AND):
-        - Attribute: avg_order_value >= 150
-        - AND Event: order_created occurred >= 2 times (all time)
-        - AND Attribute: lifetime_value >= 300
+        - Attribute: Average order value >= 150
+        - AND Event: Placed order occurred >= 2 times (all time)
+        - AND Attribute: Lifetime value >= 300
 
         Description: Customers who buy at higher AOV per order. Distinct from VIPs (which is by lifetime spend). Big-basket buyers may have fewer orders but consistently spend big on each: the right cohort for premium product launches, bundle offers, and "spend more, save more" tier promotions.
   outputs:

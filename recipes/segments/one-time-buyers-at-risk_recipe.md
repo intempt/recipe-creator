@@ -38,9 +38,9 @@ intempt:
         Object: Users
 
         Rules (all conditions joined by AND):
-        - Event: order_created occurred = 1 time (all time)
-        - AND Attribute: days_since_last_activity >= 60
-        - AND Attribute: lifecycle_score is not in ["Regulars", "Promising"]
+        - Event: Placed order occurred = 1 time (all time)
+        - AND Attribute: Days since last activity >= 60
+        - AND Attribute: Lifecycle score is not in ["Regulars", "Promising"]
 
         Description: Single-purchase customers who haven't returned in over 60 days and aren't on a healthy lifecycle trajectory. Re-engagement opportunity: second-purchase incentive recommended.
   outputs:

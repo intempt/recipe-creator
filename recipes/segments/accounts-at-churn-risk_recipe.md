@@ -38,10 +38,10 @@ intempt:
         Object: Accounts
 
         Rules (all conditions joined by AND):
-        - Attribute: account_health = "at_risk"
-        - AND Attribute: has_renewal_deal = false
-        - AND Attribute: account_lifetime_value > 0
-        - AND Attribute: users_count >= 1
+        - Attribute: Account health = "at_risk"
+        - AND Attribute: Has a renewal deal = false
+        - AND Attribute: Account lifetime value > 0
+        - AND Attribute: User count >= 1
 
         Description: Active accounts flagged at-risk by the platform's health-scoring with positive lifetime value (proven paid customer) and no active renewal deal in flight. CSM intervention priority: these are recoverable churn risks where someone has paid before and isn't currently in renewal motion.
   outputs:

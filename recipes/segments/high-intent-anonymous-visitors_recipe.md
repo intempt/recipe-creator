@@ -38,10 +38,10 @@ intempt:
         Object: Users
 
         Rules (all conditions joined by AND):
-        - Attribute: total_events >= 5
+        - Attribute: Total events >= 5
         - AND Attribute: email is empty
-        - AND Event: page_viewed occurred >= 3 times in last 7 days
-        - AND Event: session_start occurred >= 2 times in last 7 days
+        - AND Event: View page occurred >= 3 times in last 7 days
+        - AND Event: Session start occurred >= 2 times in last 7 days
 
         Description: Unidentified visitors with multiple sessions and substantial activity. Ad-retargeting cohort: also a candidate for an email-capture popup or content offer.
   outputs:

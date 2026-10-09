@@ -38,8 +38,8 @@ intempt:
         Object: Users
 
         Rules (all conditions joined by AND):
-        - Event: order_created occurred >= 2 times in last 180 days
-        - AND Attribute: lifetime_value >= 200
+        - Event: Placed order occurred >= 2 times in last 180 days
+        - AND Attribute: Lifetime value >= 200
 
         Description: Customers with multiple orders and meaningful spend. Cross-sell-ready cohort: broader product affinity than single-category buyers.
   outputs:

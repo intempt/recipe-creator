@@ -38,9 +38,9 @@ intempt:
         Object: Users
 
         Rules (all conditions joined by AND):
-        - Attribute: total_events >= 10
-        - AND Event: order_created occurred 0 times (all time)
-        - AND Attribute: days_since_last_activity <= 7
+        - Attribute: Total events >= 10
+        - AND Event: Placed order occurred 0 times (all time)
+        - AND Attribute: Days since last activity <= 7
         - AND Attribute: email is not empty
 
         Description: Identified users who engage frequently but have never purchased. First-purchase incentive cohort: typically responds well to a first-order discount or product-discovery campaign.

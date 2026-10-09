@@ -1,7 +1,7 @@
 ---
 name: acquisition-channel-cohort
 description: |
-  Use when a user mentions "acquisition channel cohort", or asks for related help. Customers acquired through a specific channel (parameterized by utm_source/medium): for channel-quality analysis.
+  Use when a user mentions "acquisition channel cohort", or asks for related help. Customers acquired through a specific channel (parameterized by UTM source/medium): for channel-quality analysis.
 arguments: []
 intempt:
   id: acquisition-channel-cohort
@@ -31,23 +31,23 @@ intempt:
       command: create_segment
       produces: segment
       bindsAs: segment
-      description: 'Users matching one utm_source and utm_medium pair (for example google and cpc) who have placed at least one order. Build one cohort per channel you want to compare.'
+      description: 'Users matching one UTM source and UTM medium pair (for example google and cpc) who have placed at least one order. Build one cohort per channel you want to compare.'
       prompt: |
         Create a segment called "Acquisition Channel: <Channel Name>".
 
         Object: Users
 
         Rules (all conditions joined by AND):
-        - Attribute: utm_source = "<source>"  (e.g., "google", "facebook", "tiktok", "klaviyo", "newsletter")
-        - AND Attribute: utm_medium = "<medium>"  (e.g., "cpc", "social", "email", "referral", "organic")
-        - AND Event: order_created occurred >= 1 time (all time)
+        - Attribute: UTM source = "<source>"  (e.g., "google", "facebook", "tiktok", "klaviyo", "newsletter")
+        - AND Attribute: UTM medium = "<medium>"  (e.g., "cpc", "social", "email", "referral", "organic")
+        - AND Event: Placed order occurred >= 1 time (all time)
 
         Example concrete instances merchants typically build:
-        - "Paid Social Acquired": utm_source IN ["facebook", "instagram", "tiktok"] AND utm_medium IN ["cpc", "paid_social", "social"]
-        - "Google Paid Acquired": utm_source = "google" AND utm_medium = "cpc"
-        - "Organic Search Acquired": utm_source = "google" AND utm_medium = "organic"
-        - "Email/Newsletter Acquired": utm_medium = "email"
-        - "Referral Acquired": utm_medium IN ["referral", "affiliate"]
+        - "Paid Social Acquired": UTM source IN ["facebook", "instagram", "tiktok"] AND UTM medium IN ["cpc", "paid_social", "social"]
+        - "Google Paid Acquired": UTM source = "google" AND UTM medium = "cpc"
+        - "Organic Search Acquired": UTM source = "google" AND UTM medium = "organic"
+        - "Email/Newsletter Acquired": UTM medium = "email"
+        - "Referral Acquired": UTM medium IN ["referral", "affiliate"]
 
         Description: Channel-specific cohorts for retention analysis and channel-quality measurement. Customers acquired through different channels behave differently: organic and referral acquisitions typically have 30-50% higher repeat purchase rates than paid-social acquisitions. Building these cohorts lets you measure channel ROI by retention (not just acquisition cost) and tune retention investment per channel.
   outputs:
@@ -63,7 +63,7 @@ Customers grouped by the channel that brought them in, so you can compare how we
 
 1. **Build the channel cohort** (`create_segment`)
 
-   Users matching one utm_source and utm_medium pair (for example google and cpc) who have placed at least one order. Build one cohort per channel you want to compare.
+   Users matching one UTM source and UTM medium pair (for example google and cpc) who have placed at least one order. Build one cohort per channel you want to compare.
 
 ## What you end up with
 

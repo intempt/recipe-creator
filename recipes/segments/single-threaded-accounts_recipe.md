@@ -39,8 +39,8 @@ intempt:
 
         Rules (all conditions joined by AND):
         - Attribute: employees > 50
-        - AND Attribute: users_count = 1
-        - AND Attribute: has_open_deal = true
+        - AND Attribute: User count = 1
+        - AND Attribute: Has an open deal = true
 
         Description: Multi-user-sized companies (50+ employees) where only one user is engaged with our product, AND there's an active deal. Critical multi-threading risk: single-threaded enterprise deals lose at 2-3x the rate of multi-threaded deals. Trigger AE plays to identify and engage 2-3 additional stakeholders before deal close.
   outputs:
