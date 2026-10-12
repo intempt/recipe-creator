@@ -1,12 +1,15 @@
 ---
+frontmatter_id: meeting-types-taxonomy
+slash_command: /meeting-types-taxonomy
 description: Organizes calls with the notetaker's built in All, My, and Shared views so downstream summaries and reporting pull from the right call set.
 author:
+  name: Sid Chaudhary
   first_name: Sid
   last_name: Chaudhary
+  company: Intempt
   job_title: Founder & CEO
   avatar: https://cdn.intempt.com/assets/author-profile-pics/sid.png
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ai

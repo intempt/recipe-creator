@@ -1,11 +1,14 @@
 ---
+frontmatter_id: video-reel
+slash_command: /video-reel
 description: Builds a 5 or 10 second reel from a script, using your avatar, a catalog product, or a scene on its own, with voice and music.
 author:
+  name: Aurobind Venu
   first_name: Aurobind
   last_name: Venu
-  job_title: Creative Director
   company: Intempt
-org_name: intempt
+  job_title: Creative Director
+  org_name: intempt
 classification:
   industry:
   - b2b-saas

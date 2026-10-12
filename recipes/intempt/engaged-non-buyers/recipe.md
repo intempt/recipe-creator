@@ -1,12 +1,15 @@
 ---
+frontmatter_id: engaged-non-buyers
+slash_command: /engaged-non-buyers
 description: People who use your site a lot but have never placed an order, so you can aim a first-purchase offer at them.
 author:
+  name: Harish Kumar
   first_name: Harish
   last_name: Kumar
+  company: Intempt
   job_title: Growth Marketer
   avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ecommerce
@@ -20,7 +23,7 @@ Slash command: /engaged-non-buyers
 
 Build a segment of users named "Engaged Non-Buyers".
 A user is in the segment only when all of these are true:
-- their total_events attribute is 10 or more
-- they have never done the order_created event
-- their days_since_last_activity attribute is 7 or less
+- their Total events attribute is 10 or more
+- they have never done the Placed order event
+- their Days since last activity attribute is 7 or less
 - their email attribute is not empty

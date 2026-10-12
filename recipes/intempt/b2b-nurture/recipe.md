@@ -1,12 +1,15 @@
 ---
+frontmatter_id: b2b-nurture
+slash_command: /b2b-nurture
 description: Scores inbound leads, hands the sales ready ones to a rep with an owner and a task, and keeps the rest warm with content matched to how close they are.
 author:
+  name: Somya Nayak
   first_name: Somya
   last_name: Nayak
+  company: Intempt
   job_title: Marketing Lead
   avatar: https://cdn.intempt.com/assets/author-profile-pics/somya.png
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ai

@@ -1,12 +1,15 @@
 ---
+frontmatter_id: booking-confirmation-flow
+slash_command: /booking-confirmation-flow
 description: Reminds the other side before a booked meeting at 48 hours, 24 hours and 2 hours, and shows what that does to your show rate.
 author:
+  name: Trishik Shrestha
   first_name: Trishik
   last_name: Shrestha
+  company: Intempt
   job_title: Growth Marketer
   avatar: https://cdn.intempt.com/assets/author-profile-pics/trishik.png
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ai
@@ -27,11 +30,11 @@ Generate a 2-hour-before SMS reminder. Format: under 160 chars. Include meeting 
 
 ## Step 3: Remind at 48, 24 and 2 hours
 
-Build a 3-touch journey triggered by meeting_scheduled, with all touches timed relative to meeting_start_time. Touch 1: 48hr email reminder (skip if meeting is sooner than 48hr at scheduling time). Touch 2: 24hr email reminder. Touch 3: 2hr SMS reminder (only if user has SMS opt-in). Exit conditions: meeting_completed, meeting_cancelled, or user opted out. If meeting is rescheduled, recompute all touch times from the new meeting_start_time. Use the result of "Write the two reminder emails", "Write the two hour text".
+Build a 3-touch journey triggered by Meeting scheduled, with all touches timed relative to meeting_start_time. Touch 1: 48hr email reminder (skip if meeting is sooner than 48hr at scheduling time). Touch 2: 24hr email reminder. Touch 3: 2hr SMS reminder (only if user has SMS opt-in). Exit conditions: meeting_completed, meeting_cancelled, or user opted out. If meeting is rescheduled, recompute all touch times from the new meeting_start_time. Use the result of "Write the two reminder emails", "Write the two hour text".
 
 ## Step 4: Tell the host, link the deal
 
-Create a workflow firing on meeting_scheduled. Step sequence: (1) post host notification to Slack with meeting details and a link to the user record; (2) link the meeting to the open deal if one exists for the user's account; (3) trigger the reminder journey. On meeting_cancelled, send the host a notification and exit the journey for that user. Use the result of "Write the two reminder emails", "Remind at 48, 24 and 2 hours".
+Create a workflow firing on Meeting scheduled. Step sequence: (1) post host notification to Slack with meeting details and a link to the user record; (2) link the meeting to the open deal if one exists for the user's account; (3) trigger the reminder journey. On meeting_cancelled, send the host a notification and exit the journey for that user. Use the result of "Write the two reminder emails", "Remind at 48, 24 and 2 hours".
 
 ## Step 5: See what reminders are worth
 

@@ -1,12 +1,15 @@
 ---
+frontmatter_id: revenue-operations-dashboard
+slash_command: /revenue-operations-dashboard
 description: Answers where the go-to-market machine leaks over a trailing 90 days, by source and cohort rather than by rep, so you can move spend and fix process.
 author:
+  name: Sid Chaudhary
   first_name: Sid
   last_name: Chaudhary
+  company: Intempt
   job_title: Founder & CEO
   avatar: https://cdn.intempt.com/assets/author-profile-pics/sid.png
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - b2b-saas
@@ -27,7 +30,7 @@ Board-level configuration:
 - exclusionPeriod: incomplete_periods
 - visibility: project
 - boardFilters: none by default
-- boardBreakdowns: utm_source (lead source): pushed down so cards decompose by acquisition channel where applicable
+- boardBreakdowns: UTM source (lead source): pushed down so cards decompose by acquisition channel where applicable
 Layout: 4 rows.
 Row 1: Strategic KPIs (heightPx: 200, four metric cards at widthUnits: 3):
 - Card 1: Insights metric to source recipe: win-rate-trend, vizType: metric, titleOverride: "Trailing-90d Win Rate"
@@ -47,6 +50,6 @@ Annotations:
 - Row 1 KPIs are 4 leading indicators: declining win rate, lengthening sales cycle, falling MQL to Won, or NRR dipping below 100% are all early-warning signs that warrant strategic intervention.
 - Row 3 (full-width win-loss) is the strategic centerpiece: the breakdown by source shows where to invest more vs. less; the breakdown by stage-at-loss shows whether losses come from qualification (top-funnel ICP issue) or closing (late-funnel competition/pricing issue).
 Taxonomy notes:
-- All source recipes use canonical events: deal_won, deal_lost, deal_stage_changed, lead_stage_changed, user_created, subscription_created, subscription_updated, subscription_cancelled.
-- net-revenue-retention-by-cohort depends on subscription_updated.changed_fields parsing for expansion/contraction split.
+- All source recipes use canonical events: Deal won, Deal lost, Deal stage changed, Lead stage changed, User created, Subscription started, Subscription updated, Subscription canceled.
+- net-revenue-retention-by-cohort depends on Subscription updated.changed_fields parsing for expansion/contraction split.
 - win-rate-trend (new in v5) is the single-metric tracking version of win-loss-analysis.

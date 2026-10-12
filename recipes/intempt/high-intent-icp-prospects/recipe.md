@@ -1,12 +1,15 @@
 ---
+frontmatter_id: high-intent-icp-prospects
+slash_command: /high-intent-icp-prospects
 description: Accounts that match your ideal customer profile by account attributes and have no open deal yet.
 author:
+  name: Harish Kumar
   first_name: Harish
   last_name: Kumar
+  company: Intempt
   job_title: Growth Marketer
   avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ai
@@ -23,6 +26,6 @@ Build a segment of accounts named "High-Intent ICP Prospects".
 An account is in the segment only when all of these are true:
 - its employees attribute is between 50 and 1000
 - its industry attribute is one of "SaaS", "Technology", "Fintech" or "Financial Services"
-- the users in the account together did the page_viewed event with a page_url that contains "/pricing" at least once in the last 7 days
-- the users in the account together did the page_viewed event with a page_url that contains "/docs" at least once in the last 7 days
-- its has_open_deal attribute is false
+- the users in the account together did the View page event with a Page URL that contains "/pricing" at least once in the last 7 days
+- the users in the account together did the View page event with a Page URL that contains "/docs" at least once in the last 7 days
+- its Has an open deal attribute is false

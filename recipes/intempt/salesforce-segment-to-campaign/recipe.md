@@ -1,12 +1,15 @@
 ---
+frontmatter_id: salesforce-segment-to-campaign
+slash_command: /salesforce-segment-to-campaign
 description: Puts a segment's members into a Salesforce campaign, which is how an audience built here becomes something a sales team can run against.
 author:
+  name: Trishik Shrestha
   first_name: Trishik
   last_name: Shrestha
+  company: Intempt
   job_title: Growth Marketer
   avatar: https://cdn.intempt.com/assets/author-profile-pics/trishik.png
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - b2b-saas

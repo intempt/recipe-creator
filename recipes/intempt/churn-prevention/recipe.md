@@ -1,12 +1,15 @@
 ---
+frontmatter_id: churn-prevention
+slash_command: /churn-prevention
 description: Flags customers who are drifting away, reaches them automatically while it is still cheap to fix, and pulls in a CSM when it is not.
 author:
+  name: Somya Nayak
   first_name: Somya
   last_name: Nayak
+  company: Intempt
   job_title: Marketing Lead
   avatar: https://cdn.intempt.com/assets/author-profile-pics/somya.png
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ai

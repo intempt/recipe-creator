@@ -1,12 +1,15 @@
 ---
+frontmatter_id: trial-users-high-engagement
+slash_command: /trial-users-high-engagement
 description: Trial users with high numeric engagement scores and two weeks remaining in their trial period.
 author:
+  name: Harish Kumar
   first_name: Harish
   last_name: Kumar
+  company: Intempt
   job_title: Growth Marketer
   avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ai
@@ -22,7 +25,7 @@ Slash command: /trial-users-high-engagement
 
 Build a segment of users named "Trial Users: High Engagement".
 A user is in the segment only when all of these are true:
-- their plan_name attribute is "trial"
-- their end_date attribute is within the next 14 days
-- their engagement_score attribute is "High"
-- they did the goal_completed_in_journey event 3 or more times in the last 14 days
+- their Plan attribute is "trial"
+- their Subscription end date attribute is within the next 14 days
+- their Engagement score attribute is "High"
+- they did the Completed a journey goal event 3 or more times in the last 14 days

@@ -1,12 +1,15 @@
 ---
+frontmatter_id: ai-draft-sales-reply
+slash_command: /ai-draft-sales-reply
 description: Drafts a Gmail reply for a sales email thread using the thread, deal stage, and recent product activity, leaving it in the rep's drafts for review and send.
 author:
+  name: Trishik Shrestha
   first_name: Trishik
   last_name: Shrestha
+  company: Intempt
   job_title: Growth Marketer
   avatar: https://cdn.intempt.com/assets/author-profile-pics/trishik.png
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ai

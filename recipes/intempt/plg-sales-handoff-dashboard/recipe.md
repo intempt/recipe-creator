@@ -1,12 +1,15 @@
 ---
+frontmatter_id: plg-sales-handoff-dashboard
+slash_command: /plg-sales-handoff-dashboard
 description: Shows paywall conversion and the free-to-paid funnel so teams can see where free users convert to paid.
 author:
+  name: Sid Chaudhary
   first_name: Sid
   last_name: Chaudhary
+  company: Intempt
   job_title: Founder & CEO
   avatar: https://cdn.intempt.com/assets/author-profile-pics/sid.png
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ai
@@ -28,7 +31,7 @@ Board-level configuration:
 - exclusionPeriod: today (PQL signals are fast-moving; today's data is partial)
 - visibility: project
 - boardFilters: subscription is null OR subscription is trial (default-pinned to scope to free/trial users only)
-- boardBreakdowns: utm_source: pushed down to ICP-filter applicable cards
+- boardBreakdowns: UTM source: pushed down to ICP-filter applicable cards
 Layout: 4 rows.
 Row 1: Handoff KPIs (heightPx: 200, four metric cards at widthUnits: 3):
 - Card 1: Insights metric to source recipe: pql-leaderboard, vizType: metric, titleOverride: "Active PQLs"
@@ -49,5 +52,5 @@ Annotations:
 - Row 3 Card 1 (paywall conversion scatter) tells the product team which features to gate vs. give away.
 - Row 4 Card 1 (Activated AND Paying) reveals the gap between vanity activation and real activation.
 Taxonomy notes:
-- All source recipes use canonical events: session_start, click_on, goal_completed_in_journey, page_viewed (filtered to /pricing), subscription_created.
-- PQL/PQA scoring uses Users.primary_account_id for account-level rollup.
+- All source recipes use canonical events: Session start, Click on, Completed a journey goal, View page (filtered to /pricing), Subscription started.
+- PQL/PQA scoring uses Users.the account the user belongs to for account-level rollup.

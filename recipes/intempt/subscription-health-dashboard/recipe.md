@@ -1,12 +1,15 @@
 ---
+frontmatter_id: subscription-health-dashboard
+slash_command: /subscription-health-dashboard
 description: Review subscription revenue compounding or erosion using the subscription page's fixed NRR curve and MRR movement waterfall.
 author:
+  name: Sid Chaudhary
   first_name: Sid
   last_name: Chaudhary
+  company: Intempt
   job_title: Founder & CEO
   avatar: https://cdn.intempt.com/assets/author-profile-pics/sid.png
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ai
@@ -30,7 +33,7 @@ Board-level configuration:
 - exclusionPeriod: incomplete_periods
 - visibility: project
 - boardFilters: none by default
-- boardBreakdowns: plan_name (pushed down where applicable)
+- boardBreakdowns: Plan (pushed down where applicable)
 Layout: 4 rows.
 Row 1: Subscription health KPIs (heightPx: 200, four metric cards at widthUnits: 3):
 - Card 1: Insights metric to source recipe: mrr-trend, vizType: metric, titleOverride: "MRR (Current)"
@@ -51,6 +54,6 @@ Annotations:
 - Row 2 (MRR movement waterfall, full-width) is the single most important view in subscription analytics. Reading it: green stacks (New + Expansion + Reactivation) should consistently outweigh red stacks (Contraction + Churn). Months where it doesn't are the moments to investigate.
 - Row 4 surfaces the operational levers: dunning recovery rate of 70% is healthy; expansion revenue ≥30% of new MRR is healthy; both can be operationally improved without changing the product.
 Taxonomy notes:
-- mrr-movement-decomposition and net-revenue-retention-by-cohort both depend on subscription_updated.changed_fields parsing for expansion/contraction split: see those recipes' notes.
-- All other source recipes use canonical events: subscription_created, subscription_cancelled, subscription_updated, subscription_resumed, invoice_paid, invoice_payment_failed, revenue_completed.
+- mrr-movement-decomposition and net-revenue-retention-by-cohort both depend on Subscription updated.changed_fields parsing for expansion/contraction split: see those recipes' notes.
+- All other source recipes use canonical events: Subscription started, Subscription canceled, Subscription updated, subscription_resumed, Invoice paid, Invoice payment failed, Revenue completed.
 - monthly-logo-retention-trend annualizes the monthly retention rate; surface the annual implication directly (e.g., "95% monthly = 54% annual retention").

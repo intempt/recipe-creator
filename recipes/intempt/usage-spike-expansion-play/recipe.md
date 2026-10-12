@@ -1,12 +1,15 @@
 ---
+frontmatter_id: usage-spike-expansion-play
+slash_command: /usage-spike-expansion-play
 description: When an existing paying account crosses usage thresholds, enroll the contact in an expansion journey and send upgrade-focused messages to that same profile. Report journey activity in dashboards.
 author:
+  name: Somya Nayak
   first_name: Somya
   last_name: Nayak
+  company: Intempt
   job_title: Marketing Lead
   avatar: https://cdn.intempt.com/assets/author-profile-pics/somya.png
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ai
@@ -39,7 +42,7 @@ Configure a recommendation surface 'Expansion features' that activates when the 
 
 ## Step 6: Work the account over two weeks
 
-Build a multi-stakeholder journey triggered when an account enters expansion-ready segment. Touch 1 (Day 0): champion email: 'you're growing fast / using deeply / hitting limits' content. Touch 2 (Day 3): in-app upgrade-comparison surface activates for admin users at the account on next session. Touch 3 (Day 7): economic-buyer email with ROI summary and AE meeting CTA. Touch 4 (Day 14): if no AE meeting booked, create AE task with the full account context attached (signals, decision-makers, recommended package). Recommendation surface stays active for 60 days. Exit on: meeting_scheduled (handoff to AE), upgrade_completed (success (celebrate), deal_created (AE-owned from here), or expansion_signal drops below 50 for 30 days (false signal) exit gracefully). Use the result of "Score the expansion signals", "Find accounts outgrowing the plan", "Write to the champion", "Write to the budget holder", "Show the plan above theirs".
+Build a multi-stakeholder journey triggered when an account enters expansion-ready segment. Touch 1 (Day 0): champion email: 'you're growing fast / using deeply / hitting limits' content. Touch 2 (Day 3): in-app upgrade-comparison surface activates for admin users at the account on next session. Touch 3 (Day 7): economic-buyer email with ROI summary and AE meeting CTA. Touch 4 (Day 14): if no AE meeting booked, create AE task with the full account context attached (signals, decision-makers, recommended package). Recommendation surface stays active for 60 days. Exit on: Meeting scheduled (handoff to AE), upgrade_completed (success (celebrate), Deal created (AE-owned from here), or expansion_signal drops below 50 for 30 days (false signal) exit gracefully). Use the result of "Score the expansion signals", "Find accounts outgrowing the plan", "Write to the champion", "Write to the budget holder", "Show the plan above theirs".
 
 ## Step 7: Measure the expansion it makes
 

@@ -1,12 +1,15 @@
 ---
+frontmatter_id: hubspot-pql-to-deal
+slash_command: /hubspot-pql-to-deal
 description: Update a HubSpot property, add a contact to a list, or create a HubSpot task when product usage signals readiness, so HubSpot reflects product evidence.
 author:
+  name: Trishik Shrestha
   first_name: Trishik
   last_name: Shrestha
+  company: Intempt
   job_title: Growth Marketer
   avatar: https://cdn.intempt.com/assets/author-profile-pics/trishik.png
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ai

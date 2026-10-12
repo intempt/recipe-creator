@@ -1,12 +1,15 @@
 ---
+frontmatter_id: no-show-recovery
+slash_command: /no-show-recovery
 description: Assumes a diary clash rather than disinterest and offers an easy reschedule three times over a week, then hands the prospect to nurture.
 author:
+  name: Somya Nayak
   first_name: Somya
   last_name: Nayak
+  company: Intempt
   job_title: Marketing Lead
   avatar: https://cdn.intempt.com/assets/author-profile-pics/somya.png
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ai
@@ -27,7 +30,7 @@ Generate 3-touch recovery email content. Touch 1 (1 hour after no-show): assumes
 
 ## Step 3: Send at 1 hour, 2 days, 5 days
 
-Build a 3-touch journey wired to the no-show segment: send touch 1 at 1 hour after no-show, touch 2 at 48 hours after no-show (skip if user has rescheduled), touch 3 at 5 days after no-show (skip if user has rescheduled or replied). After touch 3 with no engagement: move user into the standard nurture journey (handoff). Exit conditions: meeting_scheduled (rescheduled), email_replied, or user opted out. Use the result of "Find who missed a meeting", "Write three reschedule notes".
+Build a 3-touch journey wired to the no-show segment: send touch 1 at 1 hour after no-show, touch 2 at 48 hours after no-show (skip if user has rescheduled), touch 3 at 5 days after no-show (skip if user has rescheduled or replied). After touch 3 with no engagement: move user into the standard nurture journey (handoff). Exit conditions: Meeting scheduled (rescheduled), email_replied, or user opted out. Use the result of "Find who missed a meeting", "Write three reschedule notes".
 
 ## Step 4: Watch the no show rate
 

@@ -1,12 +1,15 @@
 ---
+frontmatter_id: net-new-prospects
+slash_command: /net-new-prospects
 description: Accounts created in the last week that have barely done anything yet, so SDRs know who to contact first.
 author:
+  name: Harish Kumar
   first_name: Harish
   last_name: Kumar
+  company: Intempt
   job_title: Growth Marketer
   avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ai
@@ -22,7 +25,7 @@ Slash command: /net-new-prospects
 
 Build a segment of accounts named "Net-New Prospects".
 An account is in the segment only when all of these are true:
-- its created_at attribute is within the last 7 days
-- its total_events attribute is 5 or less
-- its account_lifecycle attribute is "prospect"
-- its has_open_deal attribute is false
+- its Created date attribute is within the last 7 days
+- its Total events attribute is 5 or less
+- its Lifecycle stage attribute is "prospect"
+- its Has an open deal attribute is false

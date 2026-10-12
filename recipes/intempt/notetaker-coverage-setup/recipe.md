@@ -1,12 +1,15 @@
 ---
+frontmatter_id: notetaker-coverage-setup
+slash_command: /notetaker-coverage-setup
 description: Configures the Blu notetaker auto-join setting using one of five coarse modes. It sets broad meeting coverage, not opt-out or deal value rules.
 author:
+  name: Sid Chaudhary
   first_name: Sid
   last_name: Chaudhary
+  company: Intempt
   job_title: Founder & CEO
   avatar: https://cdn.intempt.com/assets/author-profile-pics/sid.png
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ai

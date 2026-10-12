@@ -1,12 +1,15 @@
 ---
+frontmatter_id: next-best-action-orchestration
+slash_command: /next-best-action-orchestration
 description: A rules-based journey that routes each person to a next step from a candidate set using attributes and segment membership at branch points.
 author:
+  name: Somya Nayak
   first_name: Somya
   last_name: Nayak
+  company: Intempt
   job_title: Marketing Lead
   avatar: https://cdn.intempt.com/assets/author-profile-pics/somya.png
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ai
@@ -40,7 +43,7 @@ Configure a recommendation surface 'NBA-driven product/content recs' that activa
 
 ## Step 6: Re-read the signal at each gate
 
-Build an adaptive journey wired to the NBA segment. At each gate (signup+7d, +14d, +30d, +60d, ongoing weekly), the journey reads next_best_action attribute and routes the user down the matching branch: educate to email variant a; nurture to email variant b; offer to email variant c with discount; surface-feature to in-app tooltip + email variant d; surface-recommendations to activate recommendation surface + email digest with recs; handoff-to-agent to trigger agent conversation; wait to skip touch, recompute next gate. Each branch's outcome (clicked / engaged / converted / ignored) feeds back into the next NBA computation so the decisioning learns. Exit on: conversion event (deal_created / subscription_created / activation_milestone: depending on lifecycle), unsubscribe, or sustained no-engagement (NBA returns wait 3 gates in a row to suppress). Use the result of "Decide the next step per user", "Only route confident calls", "Write an email per action", "Write the in app versions", "Build the recommendation set".
+Build an adaptive journey wired to the NBA segment. At each gate (signup+7d, +14d, +30d, +60d, ongoing weekly), the journey reads next_best_action attribute and routes the user down the matching branch: educate to email variant a; nurture to email variant b; offer to email variant c with discount; surface-feature to in-app tooltip + email variant d; surface-recommendations to activate recommendation surface + email digest with recs; handoff-to-agent to trigger agent conversation; wait to skip touch, recompute next gate. Each branch's outcome (clicked / engaged / converted / ignored) feeds back into the next NBA computation so the decisioning learns. Exit on: conversion event (Deal created / Subscription started / activation_milestone: depending on lifecycle), unsubscribe, or sustained no-engagement (NBA returns wait 3 gates in a row to suppress). Use the result of "Decide the next step per user", "Only route confident calls", "Write an email per action", "Write the in app versions", "Build the recommendation set".
 
 ## Step 7: Check the model against a control
 

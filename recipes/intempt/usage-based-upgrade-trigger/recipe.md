@@ -1,12 +1,15 @@
 ---
+frontmatter_id: usage-based-upgrade-trigger
+slash_command: /usage-based-upgrade-trigger
 description: Catches an account nearing its plan limits, shows the decision maker an upgrade inside the app, and calls an AE in on the bigger ones.
 author:
+  name: Trishik Shrestha
   first_name: Trishik
   last_name: Shrestha
+  company: Intempt
   job_title: Growth Marketer
   avatar: https://cdn.intempt.com/assets/author-profile-pics/trishik.png
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ai

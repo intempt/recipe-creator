@@ -1,12 +1,15 @@
 ---
+frontmatter_id: post-demo-nurture
+slash_command: /post-demo-nurture
 description: Keeps a demo warm for 90 days with a playbook, a case study, an ROI calculator and a customer story, and pulls the AE in early if they bite.
 author:
+  name: Somya Nayak
   first_name: Somya
   last_name: Nayak
+  company: Intempt
   job_title: Marketing Lead
   avatar: https://cdn.intempt.com/assets/author-profile-pics/somya.png
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ai
@@ -29,7 +32,7 @@ Generate 5-touch post-demo content. Touch 1 (Day 7): value content - a playbook 
 
 ## Step 3: Send over 90 days
 
-Build a 5-touch journey wired to the post-demo segment: touch 1 at Day 7, touch 2 at Day 14, touch 3 at Day 30, touch 4 at Day 60, touch 5 at Day 90, all relative to meeting_completed. Add a high-engagement branch: if the prospect clicks on touch 1 or 2, route to a dedicated AE-outreach task instead of continuing the automated cadence (signal of buying intent). Exit conditions: deal_created, meeting_scheduled (re-engagement), or unsubscribe. Use the result of "Find recent demo attendees", "Write five follow ups".
+Build a 5-touch journey wired to the post-demo segment: touch 1 at Day 7, touch 2 at Day 14, touch 3 at Day 30, touch 4 at Day 60, touch 5 at Day 90, all relative to meeting_completed. Add a high-engagement branch: if the prospect clicks on touch 1 or 2, route to a dedicated AE-outreach task instead of continuing the automated cadence (signal of buying intent). Exit conditions: Deal created, Meeting scheduled (re-engagement), or unsubscribe. Use the result of "Find recent demo attendees", "Write five follow ups".
 
 ## Step 4: Track demo to deal
 

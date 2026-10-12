@@ -1,12 +1,15 @@
 ---
+frontmatter_id: friction-point-detected-intervention
+slash_command: /friction-point-detected-intervention
 description: Detects friction from behavioral signals, segments those users, and sends email, SMS, push, or Slack follow- ups through a journey. Reply-agent adds 3-way sentiment tags to replies for triage.
 author:
+  name: Somya Nayak
   first_name: Somya
   last_name: Nayak
+  company: Intempt
   job_title: Marketing Lead
   avatar: https://cdn.intempt.com/assets/author-profile-pics/somya.png
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ai

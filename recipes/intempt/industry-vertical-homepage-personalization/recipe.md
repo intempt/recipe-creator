@@ -1,11 +1,14 @@
 ---
+frontmatter_id: industry-vertical-homepage-personalization
+slash_command: /industry-vertical-homepage-personalization
 description: Visitors you can identify, such as known accounts or logged in users, see a homepage hero and proof points matched to their segment. Unidentified visitors see the generic one.
 author:
+  name: V Ranadheer
   first_name: V
   last_name: Ranadheer
-  job_title: Design Engineer
   company: Intempt
-org_name: intempt
+  job_title: Design Engineer
+  org_name: intempt
 classification:
   industry:
   - ai
@@ -38,8 +41,8 @@ Targeting:
 - Devices: any
 - Display frequency: always
 Metrics:
-- form_submitted on demo-request form per industry segment
-- click_on on primary CTA per segment
+- Form submitted on demo-request form per industry segment
+- Click on on primary CTA per segment
 - Demo-request conversion rate per industry (typically the most important downstream metric)
 Schedule: continuous
 ═══ PATH 2: Variant HTML content (Visual Editor) ═══

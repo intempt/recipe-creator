@@ -1,12 +1,15 @@
 ---
+frontmatter_id: google-sheets-list-as-source
+slash_command: /google-sheets-list-as-source
 description: Turns a sheet your team keeps by hand, target accounts or an event list or a suppression list, into records you can segment and act on.
 author:
+  name: Trishik Shrestha
   first_name: Trishik
   last_name: Shrestha
+  company: Intempt
   job_title: Growth Marketer
   avatar: https://cdn.intempt.com/assets/author-profile-pics/trishik.png
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - b2b-saas

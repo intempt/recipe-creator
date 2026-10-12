@@ -1,11 +1,14 @@
 ---
+frontmatter_id: compound-funnel-activated-and-paying
+slash_command: /compound-funnel-activated-and-paying
 description: Reports signups with activation and payment events so you can compare activated and paying groups. It does not filter for habitual use or a combined activated-and-paying condition.
 author:
+  name: Aman Tiwari
   first_name: Aman
   last_name: Tiwari
-  job_title: Product Manager
   company: Intempt
-org_name: intempt
+  job_title: Product Manager
+  org_name: intempt
 classification:
   industry:
   - ai
@@ -21,12 +24,12 @@ Slash command: /compound-funnel-activated-and-paying
 
 Create a Funnel report called "Activated AND Paying".
 Steps:
-1. Event "user_created": "Signed Up"
-2. Event "goal_completed_in_journey" where journey_id matches the activation journey: "Activated" (uses core feature)
-3. Event "goal_completed_in_journey" with frequency: 3+ occurrences within the same 7-day window for the same user: "Habitual Use"
-4. Compound condition: Step 3 reached AND a subscription_created event exists for the same customer_id where trial_end is null (real paid subscription, not trial): "Activated AND Paying"
+1. Event "User created": "Signed Up"
+2. Event "Completed a journey goal" where journey_id matches the activation journey: "Activated" (uses core feature)
+3. Event "Completed a journey goal" with frequency: 3+ occurrences within the same 7-day window for the same user: "Habitual Use"
+4. Compound condition: Step 3 reached AND a Subscription started event exists for the same customer_id where trial_end is null (real paid subscription, not trial): "Activated AND Paying"
 Conversion window: 30 days
-Breakdown: By Users.utm_source
+Breakdown: By Users.UTM source
 Compare: Previous period (prior 30 days)
 For each step, also surface:
 - Median time-to-convert from previous step
@@ -38,4 +41,4 @@ Annotations:
 - Highlight sources where Step 4 conversion exceeds 15%.
 The activation-paywall conversion gap (Activated alone vs. Activated AND Paying) is the difference between vanity activation and real activation.
 Taxonomy notes:
-- "Habituated Use" and "Activated AND Paying" require Lovable to compute compound conditions from event sequences. The canonical events are all real (goal_completed_in_journey, subscription_created); the compounds are derived.
+- "Habituated Use" and "Activated AND Paying" require Lovable to compute compound conditions from event sequences. The canonical events are all real (Completed a journey goal, Subscription started); the compounds are derived.

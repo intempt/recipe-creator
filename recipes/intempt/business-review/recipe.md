@@ -1,12 +1,15 @@
 ---
+frontmatter_id: business-review
+slash_command: /business-review
 description: Builds the weekly scorecard, writes the narrative on what moved and why, and posts both to Slack on the cadence you pick.
 author:
+  name: Sid Chaudhary
   first_name: Sid
   last_name: Chaudhary
+  company: Intempt
   job_title: Founder & CEO
   avatar: https://cdn.intempt.com/assets/author-profile-pics/sid.png
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ai

@@ -1,12 +1,15 @@
 ---
+frontmatter_id: post-meeting-followup
+slash_command: /post-meeting-followup
 description: Builds a post-meeting follow-up journey that creates tasks with owners and due dates from action items you provide, and can send a structured follow-up email to attendees.
 author:
+  name: Trishik Shrestha
   first_name: Trishik
   last_name: Shrestha
+  company: Intempt
   job_title: Growth Marketer
   avatar: https://cdn.intempt.com/assets/author-profile-pics/trishik.png
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ai

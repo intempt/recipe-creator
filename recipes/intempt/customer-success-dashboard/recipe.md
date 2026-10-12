@@ -1,12 +1,15 @@
 ---
+frontmatter_id: customer-success-dashboard
+slash_command: /customer-success-dashboard
 description: Shows account health and customer base health using return-rate retention and NPS.
 author:
+  name: Sid Chaudhary
   first_name: Sid
   last_name: Chaudhary
+  company: Intempt
   job_title: Founder & CEO
   avatar: https://cdn.intempt.com/assets/author-profile-pics/sid.png
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ai
@@ -48,6 +51,6 @@ Annotations:
 - Row 2 (the full-width account table) is the centerpiece. CSMs work this list weekly: top of the "decline" sort = save plays; top of the "rise" sort = expansion outreach.
 - Row 4 is leading-indicator territory: support spikes precede churn by 2-4 weeks, and pre-churn behavioral signals surface 30 days out. Use these to fire intervention before retention erosion shows up in Row 3's NRR curves.
 Taxonomy notes:
-- All source recipes use canonical events: session_start, click_on, ticket_created, subscription_cancelled, subscription_updated, feedback_submitted.
-- Account-level rollups via Users.primary_account_id.
+- All source recipes use canonical events: Session start, Click on, Ticket created, Subscription canceled, Subscription updated, Feedback submitted.
+- Account-level rollups via Users.the account the user belongs to.
 - accounts-at-risk-count, monthly-logo-retention-trend, and nps-tracking are new v5 recipes designed to fill the headline-KPI slots cleanly.
