@@ -30,6 +30,16 @@
       "description": "Build a segment of users named \"Trial Expiring Soon\". A user is in the segment only when all of these are true: their Plan attribute is \"trial\", their Subscription end date attribute is within the next 7 days, and they did not do the Subscription started event in the last 14 days.",
       "command": "create_segment",
       "entity": "segment",
+      "integration": [
+        "web",
+        "ios",
+        "android",
+        "react-native",
+        "nodejs",
+        "php",
+        "python",
+        "api"
+      ],
       "kind": "static",
       "modelConfig": []
     }

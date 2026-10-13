@@ -29,7 +29,9 @@
       "description": "Build a segment of users named \"Replenishment-Ready\". A user is in the segment only when all of these are true: they did the Placed order event at least once between 30 and 60 days ago; they did not do the Placed order event in the last 30 days.",
       "command": "create_segment",
       "entity": "segment",
-      "integration": "orders",
+      "integration": [
+        "Shopify"
+      ],
       "kind": "static",
       "modelConfig": []
     }

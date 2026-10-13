@@ -31,6 +31,12 @@
       "description": "Build a segment of users named \"Engaged Free Users\". A user is in the segment only when all of these are true: their Plan attribute is \"free\"; their Engagement score attribute is \"High\"; their Days since last activity attribute is 7 or less; they did the Session start event 5 or more times in the last 14 days.",
       "command": "create_segment",
       "entity": "segment",
+      "integration": [
+        "web",
+        "ios",
+        "android",
+        "react-native"
+      ],
       "kind": "static",
       "modelConfig": []
     }

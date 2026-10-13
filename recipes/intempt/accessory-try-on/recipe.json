@@ -32,7 +32,10 @@
       "description": "Generate one image from the accessory photo attached to this run. Show that exact accessory worn by an AI model, on the face, wrist or body, wherever that accessory is worn. Frame the model from the shoulders up, in a candid pose, with real skin texture. Use soft window light and a plain neutral backdrop. Do not change the accessory's shape, colour, material, markings or proportions.",
       "command": "generate_image",
       "entity": "image",
-      "integration": "products",
+      "integration": [
+        "Shopify",
+        "web"
+      ],
       "kind": "dynamic",
       "modelConfig": [],
       "arguments": [

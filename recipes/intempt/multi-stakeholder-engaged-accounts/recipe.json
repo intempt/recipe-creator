@@ -30,6 +30,12 @@
       "description": "Build a segment of accounts named \"Multi-Stakeholder Engaged Accounts\". An account is in the segment only when all of these are true: its users_count attribute is 3 or more; the users in the account together did the session_start event 5 or more times in the last 14 days; the users in the account together did the page_viewed event 10 or more times in the last 14 days.",
       "command": "create_segment",
       "entity": "segment",
+      "integration": [
+        "web",
+        "ios",
+        "android",
+        "react-native"
+      ],
       "kind": "static",
       "modelConfig": []
     }

@@ -31,7 +31,10 @@
       "description": "Edit the top-down flatlay product image attached to this run. Add complementary props arranged around the product. Keep the product in the same position, and keep the top-down angle and the lighting unchanged.",
       "command": "generate_image",
       "entity": "image",
-      "integration": "products",
+      "integration": [
+        "Shopify",
+        "web"
+      ],
       "kind": "dynamic",
       "modelConfig": [],
       "arguments": [

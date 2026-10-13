@@ -31,7 +31,10 @@
       "description": "Edit the image attached to this run. Replace only the product with the new product chosen for this run, at identical size and position. Keep the scene, lighting, shadow and backdrop unchanged.",
       "command": "generate_image",
       "entity": "image",
-      "integration": "products",
+      "integration": [
+        "Shopify",
+        "web"
+      ],
       "kind": "dynamic",
       "modelConfig": [],
       "arguments": [

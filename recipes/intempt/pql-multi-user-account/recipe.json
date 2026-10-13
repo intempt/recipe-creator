@@ -31,6 +31,16 @@
       "description": "Build a segment of accounts named \"PQL: Multi-User Account\". An account is in the segment only when all of these are true: its users_count attribute is 2 or more; the users in the account together did the session_start event 3 or more times in the last 14 days; the users in the account together did the goal_completed_in_journey event at least once in the last 14 days.",
       "command": "create_segment",
       "entity": "segment",
+      "integration": [
+        "web",
+        "ios",
+        "android",
+        "react-native",
+        "nodejs",
+        "php",
+        "python",
+        "api"
+      ],
       "kind": "static",
       "modelConfig": []
     }
