@@ -25,12 +25,6 @@
   "permissions": [
     "segment:create"
   ],
-  "prerequisites": {
-    "events": [
-      "Subscribed consent",
-      "Unsubscribed consent"
-    ]
-  },
   "steps": [
     {
       "id": "s1",

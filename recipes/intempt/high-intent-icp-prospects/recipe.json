@@ -23,11 +23,6 @@
   "permissions": [
     "segment:create"
   ],
-  "prerequisites": {
-    "events": [
-      "View page"
-    ]
-  },
   "steps": [
     {
       "id": "s1",

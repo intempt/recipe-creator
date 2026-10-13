@@ -26,12 +26,6 @@
   "permissions": [
     "segment:create"
   ],
-  "prerequisites": {
-    "events": [
-      "Session start",
-      "Click on"
-    ]
-  },
   "steps": [
     {
       "id": "s1",

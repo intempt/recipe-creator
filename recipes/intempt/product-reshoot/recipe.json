@@ -24,11 +24,6 @@
   "permissions": [
     "content:create"
   ],
-  "prerequisites": {
-    "integrations": [
-      "products"
-    ]
-  },
   "steps": [
     {
       "id": "s1",
@@ -36,6 +31,7 @@
       "description": "Edit the product photo attached to this run. Relight it with physically accurate light falloff, using the setting, lighting direction and camera angle chosen for this run. Do not change the product itself.",
       "command": "generate_image",
       "entity": "image",
+      "integration": "products",
       "kind": "dynamic",
       "modelConfig": [],
       "arguments": [

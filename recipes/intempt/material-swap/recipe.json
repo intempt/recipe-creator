@@ -24,11 +24,6 @@
   "permissions": [
     "content:create"
   ],
-  "prerequisites": {
-    "integrations": [
-      "products"
-    ]
-  },
   "steps": [
     {
       "id": "s1",
@@ -36,6 +31,7 @@
       "description": "Edit the product image attached to this run. Change only the product's surface material to the new material chosen for this run. Keep the frame, the pose, the camera angle and the shadow identical.",
       "command": "generate_image",
       "entity": "image",
+      "integration": "products",
       "kind": "dynamic",
       "modelConfig": [],
       "arguments": [

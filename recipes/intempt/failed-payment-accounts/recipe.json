@@ -25,14 +25,6 @@
   "permissions": [
     "segment:create"
   ],
-  "prerequisites": {
-    "events": [
-      "Payment failed",
-      "Invoice payment failed",
-      "Billing failed",
-      "Charge failed"
-    ]
-  },
   "steps": [
     {
       "id": "s1",

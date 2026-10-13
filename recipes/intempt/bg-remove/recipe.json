@@ -24,11 +24,6 @@
   "permissions": [
     "content:create"
   ],
-  "prerequisites": {
-    "integrations": [
-      "products"
-    ]
-  },
   "steps": [
     {
       "id": "s1",
@@ -36,6 +31,7 @@
       "description": "Edit the product image attached to this run. Remove the backdrop and the shadow and replace them with a transparent background. Keep the product in exactly the same position, and do not re-render or alter it.",
       "command": "generate_image",
       "entity": "image",
+      "integration": "products",
       "kind": "dynamic",
       "modelConfig": [],
       "arguments": [

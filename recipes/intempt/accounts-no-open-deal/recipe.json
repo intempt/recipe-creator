@@ -23,11 +23,6 @@
   "permissions": [
     "segment:create"
   ],
-  "prerequisites": {
-    "events": [
-      "Session start"
-    ]
-  },
   "steps": [
     {
       "id": "s1",

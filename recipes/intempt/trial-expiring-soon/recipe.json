@@ -23,11 +23,6 @@
   "permissions": [
     "segment:create"
   ],
-  "prerequisites": {
-    "events": [
-      "Subscription started"
-    ]
-  },
   "steps": [
     {
       "id": "s1",

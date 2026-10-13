@@ -24,11 +24,6 @@
   "permissions": [
     "content:create"
   ],
-  "prerequisites": {
-    "integrations": [
-      "products"
-    ]
-  },
   "steps": [
     {
       "id": "s1",
@@ -36,6 +31,7 @@
       "description": "Generate one lifestyle product photo. Show the identity-locked avatar chosen for this run wearing or holding the catalog product chosen for this run, in the scene chosen for this run. If pose references are chosen for this run, match the avatar's pose to them. Keep the avatar's identity the same as in its earlier images.",
       "command": "generate_image",
       "entity": "image",
+      "integration": "products",
       "kind": "dynamic",
       "modelConfig": [],
       "arguments": [

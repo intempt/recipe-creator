@@ -22,11 +22,6 @@
   "permissions": [
     "segment:create"
   ],
-  "prerequisites": {
-    "integrations": [
-      "orders"
-    ]
-  },
   "steps": [
     {
       "id": "s1",
@@ -34,6 +29,7 @@
       "description": "Build a segment of users named \"Second-Purchase Window\". A user is in the segment only when all of these are true: they did the Placed order event exactly 1 time, at any time; that Placed order event happened in the last 30 days.",
       "command": "create_segment",
       "entity": "segment",
+      "integration": "orders",
       "kind": "static",
       "modelConfig": []
     }

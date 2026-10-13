@@ -23,11 +23,6 @@
   "permissions": [
     "segment:create"
   ],
-  "prerequisites": {
-    "events": [
-      "Completed a journey goal"
-    ]
-  },
   "steps": [
     {
       "id": "s1",

@@ -24,11 +24,6 @@
   "permissions": [
     "content:create"
   ],
-  "prerequisites": {
-    "integrations": [
-      "products"
-    ]
-  },
   "steps": [
     {
       "id": "s1",
@@ -36,6 +31,7 @@
       "description": "Generate one finished ad image. Show the catalog product chosen for this run. Use the headline written for this run as the ad's headline text. Take the colours, fonts and layout from the Brand Kit ad recipe chosen for this run.",
       "command": "generate_image",
       "entity": "image",
+      "integration": "products",
       "kind": "dynamic",
       "modelConfig": [],
       "arguments": [
