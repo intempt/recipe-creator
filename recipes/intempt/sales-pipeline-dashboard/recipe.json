@@ -1,0 +1,25 @@
+{
+  "frontmatter_id": "sales-pipeline-dashboard",
+  "title": "Deals to work this week",
+  "slash_command": "/sales-pipeline-dashboard",
+  "description": "Answers which open deals need attention now using weighted forecast and risk or engagement scores on active pipeline.",
+  "markdown": "# Deals to work this week\n\n## Description\n\nAnswers which open deals need attention now using weighted forecast and risk or engagement scores on active pipeline.\n\n## Steps\n\n### Step 1: Build the pipeline board\n\nCreate a Dash board (12-column composition canvas) titled \"Sales Pipeline\".\nPersona: Account Executive or Sales Manager. Question answered: \"What deals do I work this week?\": current-state operational view, this-quarter horizon, per-deal/per-rep granularity.\nThis dashboard is intentionally distinct from the Revenue Operations Dashboard. Sales Pipeline is operational (deals to work now); Revenue Operations is strategic (GTM trends and health).\nBoard-level configuration:\n- defaultDateRange: last_30_days (rolling, since open deals are point-in-time)\n- exclusionPeriod: none\n- visibility: project\n- boardFilters: none by default (each card scopes its own population per recipe definition)\n- boardBreakdowns: owner_id (rep): pushed down so each card decomposes by rep where applicable\nLayout: 4 rows.\nRow 1: Operational KPIs (heightPx: 200, four metric cards at widthUnits: 3):\n- Card 1: Insights metric to source recipe: pipeline-value-snapshot, vizType: metric, titleOverride: \"Open Pipeline Value\"\n- Card 2: Insights metric to source recipe: multi-threading-coverage-by-deal, vizType: metric, titleOverride: \"Single-threaded Deals\"\n- Card 3: Insights metric to source recipe: accounts-at-risk-count, vizType: metric, titleOverride: \"Accounts at Risk\"\n- Card 4: Insights metric to source recipe: deal-velocity-by-stage, vizType: metric, titleOverride: \"Median Sales Cycle (days)\"\nRow 2: Deal health (heightPx: 440, two cards at widthUnits: 6):\n- Card 1: Insights to source recipe: deal-velocity-by-stage, displayMode: chart, vizType: bar (horizontal bar per stage with median time-in-stage)\n- Card 2: Insights to source recipe: multi-threading-coverage-by-deal, displayMode: chart, vizType: stacked_bar (threading distribution per stage)\nRow 3: Account-level intelligence (heightPx: 400, full-width single card at widthUnits: 12):\n- Card 1: Insights to source recipe: account-engagement-score-trend, displayMode: table (top 30 accounts ranked by current engagement, with trend sparkline; sortable by week-over-week change)\nRow 4: Behavioral signals (heightPx: 400, two cards at widthUnits: 6):\n- Card 1: Funnel to source recipe: lead-customer-sales, displayMode: chart, vizType: funnel_steps (high-level pipeline progression)\n- Card 2: Insights to source recipe: pipeline-value-snapshot, displayMode: chart, vizType: bar (full pipeline-value-by-stage view from the recipe)\nAnnotations:\n- Row 1's four KPIs are the daily-check numbers: what's in pipeline, what's at risk (single-threaded), what accounts need saving, and how fast we move.\n- Row 3 (the full-width account table) is the key actionable artifact: sorted by week-over-week engagement change, it surfaces both expansion candidates (rising) and churn-risk accounts (falling).\nTaxonomy notes:\n- All source recipes use canonical Intempt events: Deal stage changed, Deal won, Deal lost, Deal created, Meeting scheduled, Session start, Click on, Ticket created.\n- pipeline-value-snapshot includes weighted-forecast computation (each deal's amount × historical close-rate of its current stage).\n",
+  "classification": {
+    "industry": [
+      "b2b-saas",
+      "media"
+    ]
+  },
+  "author": {
+    "name": "Sid Chaudhary",
+    "first_name": "Sid",
+    "last_name": "Chaudhary",
+    "company": "Intempt",
+    "job_title": "Founder & CEO",
+    "avatar": "https://cdn.intempt.com/assets/author-profile-pics/sid.png",
+    "org_name": "intempt"
+  },
+  "permissions": [],
+  "steps": [],
+  "availability": "coming_soon"
+}

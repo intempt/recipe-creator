@@ -1,0 +1,24 @@
+{
+  "frontmatter_id": "post-purchase-upsell-on-page-placement",
+  "title": "Post-purchase upsell placement test",
+  "slash_command": "/post-purchase-upsell-on-page-placement",
+  "description": "Compares three places to put the upsell on the order confirmation page, scored on extra revenue within 24 hours.",
+  "markdown": "# Post-purchase upsell placement test\n\n## Description\n\nCompares three places to put the upsell on the order confirmation page, scored on extra revenue within 24 hours.\n\n## Steps\n\n### Step 1: Set up the upsell placement test\n\nCreate a CLIENT EXPERIMENT on /experiences titled \"Post-Purchase Upsell: On-Page Placement\".\nNOTE: This recipe was previously authored with email and push notification variants. The current product scope is website-only personalizations and experiments: email and push are outside the product. The recipe now focuses exclusively on the on-page placement dimension.\n═══ PATH 1: Top-level configuration ═══\nExperience type: client_experiment\nVariants:\n- Control (34%): upsell carousel above order details on the confirmation page\n- Variant B (33%): upsell strip below order details on the confirmation page\n- Variant C (33%): inline modal that appears 5 seconds after order confirmation page loads\nTargeting:\n- Pages: page URL contains \"/order-confirmation\" OR \"/thank-you\"\n- Devices: any\n- Audience: customers who just completed an Placed order event\n- Display frequency: once (per order)\nPrimary metric: goal_completed_in_experience where experience_id = <this> (goal fires on additional Placed order within 24 hours of upsell exposure: incremental revenue)\nSecondary metrics:\n- Click on where target_id starts with \"upsell-product-\" (upsell engagement rate)\n- Add-to-second-order rate (Cart created within 1 hour for any user shown the upsell)\n- Average upsell value when accepted\nGuardrail: customer satisfaction (Feedback submitted score within 7 days of order) must not drop; modal-dismiss rate (variant C) must not exceed 80% (high dismissal = annoyance signal)\nSchedule: 30 days\n═══ PATH 2: Variant HTML content (Visual Editor) ═══\nVariant: Control (above order details)\n HTML target selector: .order-confirmation (insert before)\n Variant DOM:\n <section class=\"post-purchase-upsell\" data-variant=\"control\" data-placement=\"above-order\">\n <h2>Customers like you also bought</h2>\n <div class=\"upsell-carousel\">\n <article class=\"upsell-product\"><img /><h3>[Product]</h3><span>[$X.XX]</span><button id=\"upsell-product-1\">Add to Order</button></article>\n <article class=\"upsell-product\"><img /><h3>[Product]</h3><span>[$X.XX]</span><button id=\"upsell-product-2\">Add to Order</button></article>\n <article class=\"upsell-product\"><img /><h3>[Product]</h3><span>[$X.XX]</span><button id=\"upsell-product-3\">Add to Order</button></article>\n </div>\n </section>\nVariant: B (below order details)\n HTML target selector: .order-confirmation (append after)\n Same upsell carousel HTML as Control.\nVariant: C (inline modal, 5s delay)\n HTML target selector: body (append modal)\n Variant DOM:\n <div class=\"upsell-modal-overlay\" data-variant=\"c\" data-trigger=\"5s-delay\" hidden>\n <div class=\"upsell-modal\">\n <button class=\"modal-close\" id=\"upsell-modal-dismiss\" aria-label=\"Close\">×</button>\n <h2>One more thing: customers also love these</h2>\n <div class=\"upsell-carousel\">\n <!-- 3 upsell products with id=\"upsell-product-1/2/3\" -->\n </div>\n </div>\n </div>\n Trigger JS: setTimeout 5000ms after View page on /order-confirmation, set overlay hidden=false. Pair with a CSS modal animation.\nTaxonomy notes:\n- Email and push variants from the original template are explicitly removed because the product scope is website-only.\n- The \"incremental revenue\" measurement requires the upsell-attributed Placed order to be distinguished from the original purchase: typically done by session tracking joining Click on (target_id starts with \"upsell-\") to a subsequent Placed order within the attribution window.\n",
+  "classification": {
+    "industry": [
+      "ecommerce",
+      "finance"
+    ]
+  },
+  "author": {
+    "name": "V Ranadheer",
+    "first_name": "V",
+    "last_name": "Ranadheer",
+    "company": "Intempt",
+    "job_title": "Design Engineer",
+    "org_name": "intempt"
+  },
+  "permissions": [],
+  "steps": [],
+  "availability": "coming_soon"
+}

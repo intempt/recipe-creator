@@ -1,0 +1,24 @@
+{
+  "frontmatter_id": "landing-page-sticky-cta-test",
+  "title": "Sticky CTA bar test",
+  "slash_command": "/landing-page-sticky-cta-test",
+  "description": "Compares an always-visible sticky CTA bar, one that fades in after the hero, and no sticky bar at all on marketing pages.",
+  "markdown": "# Sticky CTA bar test\n\n## Description\n\nCompares an always-visible sticky CTA bar, one that fades in after the hero, and no sticky bar at all on marketing pages.\n\n## Steps\n\n### Step 1: Set up the sticky CTA test\n\nCreate a CLIENT EXPERIMENT on /experiences titled \"Landing Page Sticky CTA\".\n═══ PATH 1: Top-level configuration ═══\nExperience type: client_experiment\nVariants:\n- Control (34%): no sticky CTA (existing landing page: CTA only in hero)\n- Variant B (33%): always-visible sticky CTA bar at top of page (appears immediately on page load)\n- Variant C (33%): fade-in sticky CTA bar (appears after the user scrolls past the hero, ~600px scroll depth)\nTargeting:\n- Pages: marketing landing pages: homepage \"/\", /solutions, /features, /product, /pricing\n- Devices: any (mobile + desktop both benefit; mobile especially given long-scroll pages)\n- Audience: all visitors\n- Display frequency: always (within session)\nPrimary metric: goal_completed_in_experience where experience_id = <this> (goal: Form submitted on demo-request OR User created via signup, within session of exposure)\nSecondary metrics:\n- Click on where target_id = \"sticky-cta-button\" (sticky CTA engagement rate)\n- Click on where target_id = \"hero-cta-button\" (does sticky cannibalize hero clicks?)\n- Bounce rate per variant (variant B's always-visible may feel pushy)\n- Scroll depth (does sticky reduce scroll engagement?)\nGuardrail: bounce rate must not increase >5%; scroll-depth-to-50% rate must not drop >10%\nSchedule: 14 days, 1,500 unique visitors per variant minimum\n═══ PATH 2: Variant HTML content (Visual Editor) ═══\nVariant: Control (no DOM changes)\nVariant: B (always-visible sticky CTA)\n HTML target selector: body (prepend fixed-position bar)\n Variant DOM:\n <div class=\"sticky-cta-bar sticky-cta-bar--top\" data-variant=\"b\" data-trigger=\"immediate\" style=\"position:fixed;top:0;left:0;right:0;background:#fff;border-bottom:1px solid #eee;padding:12px 24px;z-index:1000;display:flex;align-items:center;justify-content:space-between;\">\n <div class=\"sticky-cta-message\">\n <strong>[Brand]</strong>: see it in action in 15 minutes\n </div>\n <button class=\"sticky-cta-button\" id=\"sticky-cta-button\" data-variant=\"b\">Book a demo</button>\n </div>\n Adjust body padding-top to compensate for the bar's height (so existing content isn't hidden behind it).\nVariant: C (fade-in sticky CTA)\n Same DOM as Variant B but with data-variant=\"c\" and data-trigger=\"scroll-600px\".\n Lightweight JS the user refines in the Visual Editor:\n - Listen for scroll events\n - When window.scrollY > 600 (or after the hero CTA scrolls out of view), set the bar visible with a smooth fade-in transition (300ms)\n - When the user scrolls back above the threshold, hide the bar smoothly\nThe Visual Editor allows the user to refine the sticky bar's color, copy, button styling, and animation timing. Mobile note: ensure the sticky bar respects the iOS Safari URL bar and doesn't double-stack with mobile browser chrome.\nTaxonomy notes:\n- This is distinct from mobile-sticky-add-to-cart-test (which is ecommerce PDP-specific, mobile-only). Landing-page sticky CTA applies to SaaS marketing pages on all devices.\n- target_id=\"sticky-cta-button\" must be preserved across variants B and C for consistent Click on aggregation.\n- Variant C's fade-in is generally less intrusive but has slightly lower engagement than Variant B's always-visible. The test answers: which tradeoff wins for your audience?\n- For dark-launching: ship Variant B first to a small traffic slice (5%) to confirm no layout regressions before full experiment ramp.\n",
+  "classification": {
+    "industry": [
+      "ai",
+      "b2b-saas"
+    ]
+  },
+  "author": {
+    "name": "V Ranadheer",
+    "first_name": "V",
+    "last_name": "Ranadheer",
+    "company": "Intempt",
+    "job_title": "Design Engineer",
+    "org_name": "intempt"
+  },
+  "permissions": [],
+  "steps": [],
+  "availability": "coming_soon"
+}

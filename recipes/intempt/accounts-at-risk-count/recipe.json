@@ -1,0 +1,25 @@
+{
+  "frontmatter_id": "accounts-at-risk-count",
+  "title": "Accounts at risk",
+  "slash_command": "/accounts-at-risk-count",
+  "description": "Counts accounts in predefined engagement-decline segments and tracks the weekly total. Uses fixed segments as an approximate at-risk signal.",
+  "markdown": "# Accounts at risk\n\n## Description\n\nCounts accounts in predefined engagement-decline segments and tracks the weekly total. Uses fixed segments as an approximate at-risk signal.\n\n## Steps\n\n### Step 1: Count accounts going quiet\n\nCreate an Insights report called \"Accounts at Risk\".\nDefinition of \"at risk\":\nAn account (Users.the account the user belongs to) qualifies as at-risk if ALL of the following hold for the trailing 4 weeks vs. the prior 8-week baseline:\n - Distinct active users in the account dropped by ≥30% (count of unique users from the account who emitted a Session start)\n - OR the dominant user (most-active user on the account) has emitted zero Session start events in the last 14 days (champion-departure proxy)\n - OR the account's primary_user_id has emitted ≥1 Ticket created with priority = high or P1 in the last 30 days\nSeries A: Count Unique values of the account the user belongs to satisfying the at-risk criteria, time granularity: Weekly snapshot, label: \"Accounts at Risk\"\nSeries B: Count Unique values of the account the user belongs to NOT satisfying the criteria but whose engagement dropped 10: 30% (early-warning band), label: \"Accounts to Watch\"\nSeries C: Sum of subscription amount (most-recent active Subscription started.amount) across at-risk accounts: the dollar revenue at risk, unit: $, label: \"Revenue at Risk\"\nTime range: Last 12 weeks\nBreakdown: By the account the user belongs to segment if the project has account-tier metadata (Enterprise / Mid-Market / SMB) on the Accounts object; otherwise by trailing-30d engagement-volume bucket\nCompare: Previous period (prior 12 weeks)\nChart type: Stacked area chart for Series A and B over time, with Series C ($) as a secondary line on a right axis\nAnnotations:\n- Flag any week where Series A grew by ≥20% vs. the trailing 4-week average (acute risk spike: investigate what happened that week).\n- Surface the top 5 accounts currently in Series A by subscription amount (highest-value at-risk accounts get priority CSM action).\n- Flag if Series A as % of total active accounts exceeds 15% (broad-base health issue, not isolated account problems).\n- Highlight the dominant trigger: which of the three at-risk criteria fires most often? If \"distinct users dropped\" dominates, the issue is account-level disengagement; if \"champion departure\" dominates, the issue is single-threading; if \"high-priority tickets\" dominates, the issue is product quality.\nUse case: the canonical CS headline metric. Most CS teams maintain this list manually in a spreadsheet; this recipe automates it. Distinct from account-engagement-score-trend (which is the per-account engagement timeline): this is the count headline.\nTaxonomy notes:\n- Session start, Ticket created are canonical events. Users.the account the user belongs to is the canonical account-level relation.\n- \"Champion\" identification = the user with the highest count of Session start events on the account in the trailing 30 days. \"Departure\" = zero Session start events from that user in the last 14 days.\n- Ticket created.priority is a real property; the \"high-priority\" classification depends on the project's priority enum (typically P1, P2, P3, P4 or High/Medium/Low).\n- Subscription amount lookup: the account's primary_user_id's most-recent active Subscription started.amount, summed across users on the account if the workspace has multi-subscription accounts.\n",
+  "classification": {
+    "industry": [
+      "ai",
+      "b2b-saas",
+      "media"
+    ]
+  },
+  "author": {
+    "name": "Aman Tiwari",
+    "first_name": "Aman",
+    "last_name": "Tiwari",
+    "company": "Intempt",
+    "job_title": "Product Manager",
+    "org_name": "intempt"
+  },
+  "permissions": [],
+  "steps": [],
+  "availability": "coming_soon"
+}

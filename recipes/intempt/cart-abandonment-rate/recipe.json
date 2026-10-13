@@ -1,0 +1,23 @@
+{
+  "frontmatter_id": "cart-abandonment-rate",
+  "title": "Cart abandonment rate",
+  "slash_command": "/cart-abandonment-rate",
+  "description": "Shows what share of shoppers who add to cart never order, week by week and by device, against the 70% industry line.",
+  "markdown": "# Cart abandonment rate\n\n## Description\n\nShows what share of shoppers who add to cart never order, week by week and by device, against the 70% industry line.\n\n## Steps\n\n### Step 1: Track carts that never convert\n\nCreate an Insights report called \"Cart Abandonment Rate\".\nSeries A: Event \"Cart created\", aggregation: Count Unique Users\nSeries B: Event \"Placed order\", aggregation: Count Unique Users\nFormula: ((A - B) / A) × 100, unit: %, label: \"Abandonment Rate\"\nTime granularity: Weekly\nTime range: Last 8 weeks\nBreakdown: By \"device_type\" attribute on the Users object (desktop, mobile, tablet)\nCompare: Previous period (previous 8 weeks)\nChart type: Line chart with previous-period overlay\nAnnotations:\n- Add a horizontal benchmark line at 70% (industry baseline; abandonment above this is losing material revenue).\n- Highlight any week where abandonment rate exceeded the previous period by 5 percentage points or more.\nIdentify which device type has the highest abandonment rate and whether the gap between mobile and desktop is widening over time.\nTaxonomy notes:\n- \"Cart created\" and \"Placed order\" are canonical events. Cart created carries cart_id and items.\n- Users object has device_type as an enum attribute.\n",
+  "classification": {
+    "industry": [
+      "ecommerce"
+    ]
+  },
+  "author": {
+    "name": "Aman Tiwari",
+    "first_name": "Aman",
+    "last_name": "Tiwari",
+    "company": "Intempt",
+    "job_title": "Product Manager",
+    "org_name": "intempt"
+  },
+  "permissions": [],
+  "steps": [],
+  "availability": "coming_soon"
+}

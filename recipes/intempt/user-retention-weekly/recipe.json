@@ -1,0 +1,25 @@
+{
+  "frontmatter_id": "user-retention-weekly",
+  "title": "Weekly user retention",
+  "slash_command": "/user-retention-weekly",
+  "description": "Shows what share of each week's signups are still coming back at weeks 1, 4 and 12, and which acquisition sources hold up best.",
+  "markdown": "# Weekly user retention\n\n## Description\n\nShows what share of each week's signups are still coming back at weeks 1, 4 and 12, and which acquisition sources hold up best.\n\n## Steps\n\n### Step 1: Track weekly signup cohorts\n\nCreate a Retention report called \"Weekly User Retention\".\nAnchor event: User created\nReturn event: Session start\nCohort granularity: Weekly\nTime range: Last 12 weeks (require cohorts to have completed full 12-week return window where possible)\nBreakdown: By Users.UTM source (acquisition source)\nCompare: Previous period (prior 12 weeks of cohorts)\nChart type: Retention curve (line per cohort) plus cohort table with W1 / W4 / W12 columns\nAnnotations:\n- Add horizontal benchmarks: W1 retention 40% (B2B SaaS median), W4 25%, W12 15%.\n- Flag any cohort where W1 retention dropped >5 percentage points vs. the prior cohort.\n- Highlight the source with the strongest W12 retention (highest-quality acquisition channel).\n- Identify whether retention curves are flattening over time (good (natural retention forming a plateau) or continuously decaying (bad) no stable user base forming).\nSurface the source-by-source retention gap at W4: the moment by which most low-quality signups have churned out.\nTaxonomy notes:\n- User created and Session start are canonical. Users.UTM source is the canonical first-touch attribute.\n",
+  "classification": {
+    "industry": [
+      "ai",
+      "b2b-saas",
+      "media"
+    ]
+  },
+  "author": {
+    "name": "Aman Tiwari",
+    "first_name": "Aman",
+    "last_name": "Tiwari",
+    "company": "Intempt",
+    "job_title": "Product Manager",
+    "org_name": "intempt"
+  },
+  "permissions": [],
+  "steps": [],
+  "availability": "coming_soon"
+}

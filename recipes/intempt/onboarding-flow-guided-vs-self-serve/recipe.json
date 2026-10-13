@@ -1,0 +1,24 @@
+{
+  "frontmatter_id": "onboarding-flow-guided-vs-self-serve",
+  "title": "Guided vs self-serve onboarding",
+  "slash_command": "/onboarding-flow-guided-vs-self-serve",
+  "description": "Compares a self-serve checklist, a guided wizard and a video-first walkthrough, scored on activation within 7 days.",
+  "markdown": "# Guided vs self-serve onboarding\n\n## Description\n\nCompares a self-serve checklist, a guided wizard and a video-first walkthrough, scored on activation within 7 days.\n\n## Steps\n\n### Step 1: Set up the onboarding test\n\nCreate a CLIENT EXPERIMENT on /experiences titled \"Onboarding Flow: Guided vs Self-Serve\".\n═══ PATH 1: Top-level configuration ═══\nExperience type: client_experiment\nVariants:\n- Control (34%): self-serve checklist (current: list of clickable steps)\n- Variant B (33%): guided wizard with progressive steps and contextual tooltips\n- Variant C (33%): video-first onboarding with embedded walkthrough\nTargeting:\n- Pages: in-app onboarding page (typically /onboarding or post-signup landing)\n- Audience: new signups only: segment: User created within 1 hour\n- Devices: any\n- Display frequency: once (sticky to user's first session)\nPrimary metric: goal_completed_in_experience where experience_id = <this> (goal fires on the activation event, e.g. Completed a journey goal for the activation journey, within 7 days of exposure)\nSecondary metrics:\n- Median time from exposed_to_experience to first key Click on (the canonical \"time to value\" measurement)\n- Session start day-2 (returned-after-signup rate: engagement persistence)\n- Onboarding completion rate (Click on on the final step's target_id)\nGuardrail: bounce-from-onboarding rate (Session end without any Click on after onboarding render) must not increase >10%\nSchedule: 30 days minimum\n═══ PATH 2: Variant HTML content (Visual Editor) ═══\nVariant: Control (self-serve checklist: no DOM changes)\n Existing onboarding checklist remains in place.\nVariant: B (guided wizard)\n HTML target selector: .onboarding-container (replace contents)\n Replacement HTML:\n <div class=\"onboarding-wizard\" data-variant=\"b\">\n <div class=\"wizard-progress\">\n <div class=\"wizard-step active\" data-step=\"1\">1. Welcome</div>\n <div class=\"wizard-step\" data-step=\"2\">2. Connect data</div>\n <div class=\"wizard-step\" data-step=\"3\">3. Invite team</div>\n <div class=\"wizard-step\" data-step=\"4\">4. Create report</div>\n </div>\n <main class=\"wizard-content\">\n <h2 class=\"wizard-step-title\">Welcome to [Product]</h2>\n <p class=\"wizard-step-body\">Let's get you set up in 4 quick steps.</p>\n <div class=\"wizard-tooltip\" role=\"tooltip\">Hover here for tips to </div>\n <div class=\"wizard-actions\">\n <button class=\"wizard-prev\" disabled>Back</button>\n <button class=\"wizard-next\" id=\"wizard-next-1\">Continue</button>\n </div>\n </main>\n </div>\nVariant: C (video-first)\n HTML target selector: .onboarding-container (replace contents)\n Replacement HTML:\n <div class=\"onboarding-video\" data-variant=\"c\">\n <div class=\"video-hero\">\n <video controls autoplay muted poster=\"/onboarding-poster.jpg\">\n <source src=\"/onboarding-walkthrough.mp4\" type=\"video/mp4\" />\n </video>\n </div>\n <div class=\"video-secondary-actions\">\n <h3>Or jump straight in</h3>\n <button class=\"quickstart-cta\" id=\"quickstart-cta\">Skip and start exploring</button>\n </div>\n </div>\nThe user supplies their actual onboarding copy, video file, and styling in the Visual Editor.\nTaxonomy notes:\n- \"Time to first key Click on\" is computed by Lovable from exposed_to_experience timestamp to the first downstream Click on event for the same user. Median across users = the variant's TTV.\n- The \"key Click on\" identifier (which Click on target_id counts as activation) is project-defined; typically it's the first interaction with a core product feature.\n",
+  "classification": {
+    "industry": [
+      "ai",
+      "b2b-saas"
+    ]
+  },
+  "author": {
+    "name": "V Ranadheer",
+    "first_name": "V",
+    "last_name": "Ranadheer",
+    "company": "Intempt",
+    "job_title": "Design Engineer",
+    "org_name": "intempt"
+  },
+  "permissions": [],
+  "steps": [],
+  "availability": "coming_soon"
+}

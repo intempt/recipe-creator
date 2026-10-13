@@ -1,0 +1,25 @@
+{
+  "frontmatter_id": "scheduled-data-quality-audit",
+  "title": "Weekly CRM hygiene audit",
+  "slash_command": "/scheduled-data-quality-audit",
+  "description": "Runs weekly filter queries across account and user records to surface stale records, missing required fields, and abandoned data for RevOps review.",
+  "markdown": "# Weekly CRM hygiene audit\n\n## Description\n\nRuns weekly filter queries across account and user records to surface stale records, missing required fields, and abandoned data for RevOps review.\n\n## Steps\n\n### Step 1: Turn cleanup into a routine\n\nCreate a workflow 'Weekly data quality audit' that scans the CRM for hygiene issues and produces a structured cleanup queue. Goal: replace the ad-hoc 'we should clean the CRM someday' problem with a continuous, low-effort hygiene program.\n\n### Step 2: Run it on Sunday night\n\nThis step builds a workflow.\nConfigure scheduled trigger: every Sunday night, run the full audit so the cleanup queue is ready for RevOps Monday morning. Skip if last audit completed within 5 days (avoid duplicate work). Use the result of \"Turn cleanup into a routine\".\n\n### Step 3: Find the duplicates\n\nThis step builds a workflow.\nConfigure find-records step that identifies likely duplicate Accounts (same domain, similar names, same legal name with different formatting) and likely duplicate Users (same email, same name+phone). Outputs: list of duplicate-candidate pairs/groups with similarity score. Use the result of \"Turn cleanup into a routine\", \"Run it on Sunday night\".\n\n### Step 4: Find the stale records\n\nThis step builds a workflow.\nConfigure second find-records step for stale data: Accounts with no activity in 365+ days that aren't customers, Users with bounced emails older than 90 days, Deals stuck in early stages for 180+ days. These aren't always cuts (sometimes just need re-engagement) but they bloat reporting and slow segmentation. Outputs the staleness list with category labels. Use the result of \"Turn cleanup into a routine\", \"Run it on Sunday night\".\n\n### Step 5: Find the gaps\n\nConfigure third find-records step for incomplete records: Accounts missing industry / size / region, Users missing role / company, Deals missing close-date / amount. Outputs list of incomplete records by completeness category: informs whether to trigger enrichment workflows or queue for manual review. Use the result of \"Turn cleanup into a routine\", \"Run it on Sunday night\".\n\n### Step 6: Propose the merges\n\nThis step builds a workflow.\nConfigure AI research step that examines the duplicate candidates and suggests merge actions: which record is the survivor (most-complete, most-recent activity), what data to merge in from the duplicate, what conflicts to flag for human resolution (e.g. different industry classifications between dup records). Outputs structured merge-suggestions with confidence scores. Use the result of \"Turn cleanup into a routine\", \"Find the duplicates\", \"Find the stale records\", \"Find the gaps\".\n\n### Step 7: Send the queue for approval\n\nConfigure webhook step that hands off the merge-and-cleanup queue to the bulk-update-review-workflow for human approval. Includes: total findings count, summary by category, AI-confidence distribution, links to the underlying records. RevOps reviews Monday morning, approves the high-confidence batch, manually handles the edge cases. Use the result of \"Turn cleanup into a routine\", \"Propose the merges\".\n\n### Step 8: Report the week's hygiene\n\nThis step builds a workflow.\nConfigure Slack step posting the weekly hygiene report to #revops: duplicate count, stale count, incompleteness rate, week-over-week trends. Highlights celebrations (CRM completeness up 3%) and concerns (stale-record pile growing: symptom of slow follow-up upstream). Surfaces hygiene as an ongoing program, not a fire drill. Use the result of \"Turn cleanup into a routine\", \"Propose the merges\", \"Send the queue for approval\".\n\n### Step 9: Publish and watch the trend\n\nValidate and publish. Monitor: weekly run completion, find-volume trends (a growing pile suggests upstream issues: sales not closing out leads, no enrichment on signup), and post-cleanup CRM-completeness metric. The hygiene KPI nobody had before this workflow. Use the result of \"Turn cleanup into a routine\", \"Report the week's hygiene\".\n",
+  "classification": {
+    "industry": [
+      "ai",
+      "b2b-saas"
+    ]
+  },
+  "author": {
+    "name": "Trishik Shrestha",
+    "first_name": "Trishik",
+    "last_name": "Shrestha",
+    "company": "Intempt",
+    "job_title": "Growth Marketer",
+    "avatar": "https://cdn.intempt.com/assets/author-profile-pics/trishik.png",
+    "org_name": "intempt"
+  },
+  "permissions": [],
+  "steps": [],
+  "availability": "coming_soon"
+}

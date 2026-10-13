@@ -1,0 +1,24 @@
+{
+  "frontmatter_id": "personalization-recs",
+  "title": "Product recommendations across channels",
+  "slash_command": "/personalization-recs",
+  "description": "Generates catalog-aware product recommendations tailored to user cohorts and evaluates their performance with A/B experiments.",
+  "markdown": "# Product recommendations across channels\n\n## Description\n\nGenerates catalog-aware product recommendations tailored to user cohorts and evaluates their performance with A/B experiments.\n\n## Steps\n\n### Step 1: Build the recommendation model\n\nConfigure recommendation engine sourcing from product catalog with collaborative-filtering and item-similarity models.\n\n### Step 2: Place them on each surface\n\nConfigure personalization rules serving recommendations on PDP, cart, post-purchase, and email surfaces. Use the result of \"Build the recommendation model\".\n\n### Step 3: Split shoppers into cohorts\n\nSegment users into recommendation cohorts (new visitor, browsing, returning, lapsed) for tuned strategies. Use the result of \"Build the recommendation model\", \"Place them on each surface\".\n\n### Step 4: Test against the alternatives\n\nAdd A/B variants comparing personalized recs vs trending products vs editor's-pick. Use the result of \"Build the recommendation model\", \"Place them on each surface\", \"Split shoppers into cohorts\".\n\n### Step 5: Build the email modules\n\nGenerate email modules that surface recommendations within campaign and journey emails. Use the result of \"Build the recommendation model\", \"Place them on each surface\", \"Split shoppers into cohorts\", \"Test against the alternatives\".\n\n### Step 6: Follow up with high-intent browsers\n\nBuild a journey delivering personalized product picks to high-intent browsers. Use the result of \"Build the recommendation model\", \"Place them on each surface\", \"Split shoppers into cohorts\", \"Test against the alternatives\", \"Build the email modules\".\n\n### Step 7: Track what recommendations earn\n\nCompose a dashboard tracking recommendation CTR, attributed revenue, and per-surface performance. Use the result of \"Build the recommendation model\", \"Place them on each surface\", \"Split shoppers into cohorts\", \"Test against the alternatives\", \"Build the email modules\", \"Follow up with high-intent browsers\".\n",
+  "classification": {
+    "industry": [
+      "ai",
+      "ecommerce"
+    ]
+  },
+  "author": {
+    "name": "V Ranadheer",
+    "first_name": "V",
+    "last_name": "Ranadheer",
+    "company": "Intempt",
+    "job_title": "Design Engineer",
+    "org_name": "intempt"
+  },
+  "permissions": [],
+  "steps": [],
+  "availability": "coming_soon"
+}

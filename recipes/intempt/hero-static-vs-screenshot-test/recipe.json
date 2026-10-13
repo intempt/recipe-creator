@@ -1,0 +1,25 @@
+{
+  "frontmatter_id": "hero-static-vs-screenshot-test",
+  "title": "Landing page hero image test",
+  "slash_command": "/hero-static-vs-screenshot-test",
+  "description": "Compares your current hero image against a real product screenshot and a photo of customers or the team. Static images only.",
+  "markdown": "# Landing page hero image test\n\n## Description\n\nCompares your current hero image against a real product screenshot and a photo of customers or the team. Static images only.\n\n## Steps\n\n### Step 1: Set up the hero image test\n\nCreate a CLIENT EXPERIMENT on /experiences titled \"Hero Image Test\".\n═══ PATH 1: Top-level configuration ═══\nExperience type: client_experiment\nVariants:\n- Control (34%): existing hero image (whatever is currently on the page)\n- Variant B (33%): static product screenshot: a clean, real product UI screenshot showing the dashboard or core feature\n- Variant C (33%): customer/team photo: authentic photo of real users or the team using the product\n(Note: animated variants are out of scope for this recipe. Static images only.)\nTargeting:\n- Pages: homepage \"/\" and key landing pages\n- Devices: any (note: customer-photo variant should have mobile-cropped versions)\n- Audience: all visitors\n- Display frequency: always\nPrimary metric: goal_completed_in_experience where experience_id = <this> (goal: Form submitted on demo / contact / signup, OR User created within session of exposure)\nSecondary metrics:\n- Click on on primary CTA (does the hero image affect CTA click-through?)\n- Bounce rate (does the hero image keep visitors engaged?)\n- Time-on-page (proxy for engagement)\n- Scroll-depth-to-50% (does the hero compel visitors to scroll?)\nGuardrail: bounce rate must not increase >5%; mobile load time must not exceed +200ms (image swaps must use optimized formats: WebP, lazy loading)\nSchedule: 21 days, 1,500 visitors per variant minimum\n═══ PATH 2: Variant HTML content (Visual Editor) ═══\nVariant: Control (no DOM changes)\nVariant: B (product screenshot)\n HTML target selector: .hero-image (the existing hero image element)\n Replacement HTML:\n <picture class=\"hero-image hero-image--screenshot\" data-variant=\"b\" data-image-type=\"screenshot\">\n <source media=\"(min-width: 1024px)\" srcset=\"/hero-screenshots/dashboard-desktop.webp\" type=\"image/webp\" />\n <source media=\"(min-width: 768px)\" srcset=\"/hero-screenshots/dashboard-tablet.webp\" type=\"image/webp\" />\n <img src=\"/hero-screenshots/dashboard-mobile.webp\"\n alt=\"[Brand] dashboard showing [key feature]\"\n loading=\"eager\"\n width=\"800\"\n height=\"500\" />\n </picture>\n The screenshot should show a real, recognizable product UI: the dashboard, the main feature in use, or a typical user view. Avoid heavily annotated or marketing-overlaid screenshots; clean and authentic outperforms polished.\nVariant: C (customer/team photo)\n HTML target selector: .hero-image\n Replacement HTML:\n <picture class=\"hero-image hero-image--photo\" data-variant=\"c\" data-image-type=\"customer-photo\">\n <source media=\"(min-width: 1024px)\" srcset=\"/hero-photos/team-desktop.webp\" type=\"image/webp\" />\n <source media=\"(min-width: 768px)\" srcset=\"/hero-photos/team-tablet.webp\" type=\"image/webp\" />\n <img src=\"/hero-photos/team-mobile.webp\"\n alt=\"[Customer name] team using [Brand]\"\n loading=\"eager\"\n width=\"800\"\n height=\"500\" />\n </picture>\n The photo should be authentic: a real team or customer, not stock photography. If you don't have rights to a real customer photo, use your own team or skip this variant.\nThe Visual Editor allows the user to swap actual image assets and adjust alt-text, sizing, and positioning. Critical: ensure all image variants are properly sized and compressed for fast load: image swaps that hurt page speed will lose regardless of design quality.\nTaxonomy notes:\n- 2026 SaaS research strongly favors authentic visuals over stock illustrations. Real product screenshots often outperform abstract illustrations for product-led teams; real customer photos often outperform for service/enterprise teams.\n- Page-speed monitoring is critical: measure Largest Contentful Paint (LCP) per variant. The winning hero image must also load fast.\n- A static-image test is the foundation; animated/video heroes (Lottie embeds, MP4 background, etc.) are out of scope for this recipe and can be authored as a future extension once the static winner is determined.\n- Mobile-specific image variants are essential: desktop hero images cropped down to mobile usually look poor and convert worse than mobile-designed versions.\n",
+  "classification": {
+    "industry": [
+      "ai",
+      "b2b-saas",
+      "ecommerce"
+    ]
+  },
+  "author": {
+    "name": "V Ranadheer",
+    "first_name": "V",
+    "last_name": "Ranadheer",
+    "company": "Intempt",
+    "job_title": "Design Engineer",
+    "org_name": "intempt"
+  },
+  "permissions": [],
+  "steps": [],
+  "availability": "coming_soon"
+}

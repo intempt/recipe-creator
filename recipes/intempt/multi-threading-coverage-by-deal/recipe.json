@@ -1,0 +1,23 @@
+{
+  "frontmatter_id": "multi-threading-coverage-by-deal",
+  "title": "Multi threading coverage",
+  "slash_command": "/multi-threading-coverage-by-deal",
+  "description": "Shows distinct stakeholders engaged per open deal from deal and contact data.",
+  "markdown": "# Multi threading coverage\n\n## Description\n\nShows distinct stakeholders engaged per open deal from deal and contact data.\n\n## Steps\n\n### Step 1: Count contacts on each deal\n\nCreate an Insights report called \"Multi-Threading Coverage by Deal\".\nSeries A: Event \"Deal stage changed\", scope: per active deal_id, aggregation: Count Unique users from the user_ids property (the distinct stakeholders attached to the deal across all stage events)\nSeries B: Same per-deal computation but counting only Meeting scheduled events linked to the deal (via deal_ids relation): distinct users who actually attended a meeting\nSeries C: Computed: Series A bucketed into \"Single-threaded (1 contact)\" / \"Lightly threaded (2-3)\" / \"Multi-threaded (4-6)\" / \"Deeply threaded (7+)\"\nBreakdown: By deal stage (open deals only, group by current stage from Deal stage changed.new_stage)\nTime range: All open deals + last 90 days of closed deals\nChart type: Stacked bar chart: bar per stage, segments showing the threading-bucket distribution\nAlso include a parallel \"win-rate by threading level\" view:\n- For closed deals (Deal won + Deal lost) in the last 12 months, compute win rate by threading bucket\n- Surface: single-threaded deals win X%, multi-threaded deals win Y%, with the gap quantified\nAnnotations:\n- Flag any open deals (especially in late-stage proposal/negotiation) that are still single-threaded: these are at acute risk and need multi-threading action by the AE.\n- Add the Gartner benchmark: B2B deals with 5+ engaged stakeholders close at 1.8× the rate of single-threaded deals.\n- Highlight the share of pipeline value (sum of deal amount) currently sitting in single-threaded deals: this is the dollar amount at risk.\n- Flag any deals where threading shrank vs. prior period (a stakeholder went silent: investigate champion-departure risk).\nUse case: the standard B2B sales hygiene report. AEs are notoriously single-threaded; this report makes the risk visible and quantifies it in dollars. Top-performing sales orgs make this their #1 weekly review.\nTaxonomy notes:\n- Deal stage changed.user_ids is a relation (multi-value) carrying associated users.\n- Meeting scheduled.user_ids and Meeting scheduled.deal_ids together let us count meeting-attended stakeholders per deal.\n- Deal \"current threading count\" is computed across all events linked to the deal_id (Deal stage changed, Meeting scheduled, Call completed, Email sent).\n",
+  "classification": {
+    "industry": [
+      "b2b-saas"
+    ]
+  },
+  "author": {
+    "name": "Aman Tiwari",
+    "first_name": "Aman",
+    "last_name": "Tiwari",
+    "company": "Intempt",
+    "job_title": "Product Manager",
+    "org_name": "intempt"
+  },
+  "permissions": [],
+  "steps": [],
+  "availability": "coming_soon"
+}

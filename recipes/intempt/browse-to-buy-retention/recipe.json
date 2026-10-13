@@ -1,0 +1,24 @@
+{
+  "frontmatter_id": "browse-to-buy-retention",
+  "title": "Browse to buy retention",
+  "slash_command": "/browse-to-buy-retention",
+  "description": "Measures how long first time visitors take to place an order, by acquisition source, so you can tell fast converting channels from slow ones.",
+  "markdown": "# Browse to buy retention\n\n## Description\n\nMeasures how long first time visitors take to place an order, by acquisition source, so you can tell fast converting channels from slow ones.\n\n## Steps\n\n### Step 1: Track first visit to first order\n\nCreate a Retention report called \"Browse to Buy Retention\".\nAnchor event: Session start (each user's first Session start)\nReturn event: Placed order\nCohort granularity: Weekly\nTime range: Last 12 weeks\nBreakdown: By Users.UTM source (top 6 sources)\nCompare: Previous period (prior 12 weeks of cohorts)\nChart type: Retention curve plus cohort table with W1 / W2 / W4 / W8 / W12 columns\nAnnotations:\n- Add benchmarks: W1 first-purchase rate of 5% is typical for considered-purchase DTC, 10%+ for impulse-buy.\n- Flag any source where W12 first-purchase rate is below 8% (browse-to-buy gap).\n- Highlight the source with the fastest first-purchase rate (steepest W1 conversion).\n- Highlight the source with the highest W12 conversion (best overall, even if slower).\nSurface which sources produce \"fast converters\" vs \"slow converters.\"\nTaxonomy notes:\n- Session start and Placed order are canonical. Users.UTM source is canonical.\n- \"first session\" per-user is determined by the earliest Session start for that customer_id.\n",
+  "classification": {
+    "industry": [
+      "ecommerce",
+      "media"
+    ]
+  },
+  "author": {
+    "name": "Aman Tiwari",
+    "first_name": "Aman",
+    "last_name": "Tiwari",
+    "company": "Intempt",
+    "job_title": "Product Manager",
+    "org_name": "intempt"
+  },
+  "permissions": [],
+  "steps": [],
+  "availability": "coming_soon"
+}

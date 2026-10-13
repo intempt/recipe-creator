@@ -1,0 +1,25 @@
+{
+  "frontmatter_id": "replenishment-cross-sell",
+  "title": "Replenishment and cross sell",
+  "slash_command": "/replenishment-cross-sell",
+  "description": "Reminds people to reorder before they run out, at the pace they actually get through it, and suggests what pairs with it.",
+  "markdown": "# Replenishment and cross sell\n\n## Description\n\nReminds people to reorder before they run out, at the pace they actually get through it, and suggests what pairs with it.\n\n## Steps\n\n### Step 1: Work out when they run out\n\nThis step builds a segment.\nIdentify users approaching their typical reorder window for consumable products based on purchase history.\n\n### Step 2: Write the reorder reminder\n\nGenerate reorder-reminder emails timed to the user's consumption pattern, with one-click reorder link. Use the result of \"Work out when they run out\".\n\n### Step 3: Remind before they run dry\n\nBuild a journey sending reorder reminders at appropriate intervals before depletion. Use the result of \"Work out when they run out\", \"Write the reorder reminder\".\n\n### Step 4: Pick what pairs with it\n\nGenerate cross-sell recommendations for complementary products based on the customer's purchase history. Use the result of \"Work out when they run out\", \"Write the reorder reminder\", \"Remind before they run dry\".\n\n### Step 5: Test when to cross sell\n\nAdd A/B variants on cross-sell timing (with-reorder vs separate-touch). Use the result of \"Work out when they run out\", \"Write the reorder reminder\", \"Remind before they run dry\", \"Pick what pairs with it\".\n\n### Step 6: Track reorders and attach rate\n\nCompose a dashboard tracking reorder rate, cross-sell attach rate, and 12-month repeat-purchase value. Use the result of \"Work out when they run out\", \"Write the reorder reminder\", \"Remind before they run dry\", \"Pick what pairs with it\", \"Test when to cross sell\".\n",
+  "classification": {
+    "industry": [
+      "ecommerce",
+      "social"
+    ]
+  },
+  "author": {
+    "name": "Somya Nayak",
+    "first_name": "Somya",
+    "last_name": "Nayak",
+    "company": "Intempt",
+    "job_title": "Marketing Lead",
+    "avatar": "https://cdn.intempt.com/assets/author-profile-pics/somya.png",
+    "org_name": "intempt"
+  },
+  "permissions": [],
+  "steps": [],
+  "availability": "coming_soon"
+}

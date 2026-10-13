@@ -1,0 +1,24 @@
+{
+  "frontmatter_id": "revenue-by-channel",
+  "title": "Revenue by acquisition channel",
+  "slash_command": "/revenue-by-channel",
+  "description": "Shows which channels brought in revenue over the last 30 days, each channel's share, and how the mix has shifted since last year.",
+  "markdown": "# Revenue by acquisition channel\n\n## Description\n\nShows which channels brought in revenue over the last 30 days, each channel's share, and how the mix has shifted since last year.\n\n## Steps\n\n### Step 1: Split revenue by channel\n\nCreate an Insights report called \"Revenue by Acquisition Channel\".\nSeries A: Event \"Placed order\", aggregation: Sum of \"total_price\" property, unit: $, label: \"Revenue\"\nSeries B: Computed: Series A / total revenue × 100, unit: %, label: \"Share of Revenue\"\nBreakdown: By UTM source: use the User.UTM source attribute (Users object has UTM source as a User-scope text attribute) to attribute each order to a channel. Top 8 by revenue, group remainder as \"Other\".\nTime range: Last 30 days\nCompare: Previous period (prior 30 days) AND year-over-year (same 30 days last year)\nChart type: Horizontal bar chart for Series A with overlaid period comparison; separate small-multiple area chart for share-of-revenue over time\nAnnotations:\n- Add absolute revenue and YoY % change next to each channel bar.\n- Flag any channel whose share of revenue shifted by 5+ percentage points YoY (mix shift).\n- Highlight channels with revenue growth but declining share (growing slower than overall) and channels with declining revenue but stable share (overall slowdown, not channel-specific).\nThe mix-shift view is what reveals whether the business is becoming more or less channel-concentrated.\nTaxonomy notes:\n- Users.UTM source is a real text attribute; per-order channel attribution uses the User's first-touch UTM source as authored on the user record.\n- Placed order.total_price is the order value (Shopify-sourced). \"order_total\" is not a real property.\n",
+  "classification": {
+    "industry": [
+      "ecommerce",
+      "finance"
+    ]
+  },
+  "author": {
+    "name": "Aman Tiwari",
+    "first_name": "Aman",
+    "last_name": "Tiwari",
+    "company": "Intempt",
+    "job_title": "Product Manager",
+    "org_name": "intempt"
+  },
+  "permissions": [],
+  "steps": [],
+  "availability": "coming_soon"
+}

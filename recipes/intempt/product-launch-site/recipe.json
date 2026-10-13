@@ -1,0 +1,26 @@
+{
+  "frontmatter_id": "product-launch-site",
+  "title": "Product launch microsite",
+  "slash_command": "/product-launch-site",
+  "description": "Generates a product launch page artifact with hero, feature, call to action, and footer content in your brand styling.",
+  "markdown": "# Product launch microsite\n\n## Description\n\nGenerates a product launch page artifact with hero, feature, call to action, and footer content in your brand styling.\n\n## Steps\n\n### Step 1: Build the launch microsite\n\nCreate a product launch microsite.\nBuild a multi-page site with: hero section, feature/benefit pages, call-to-action, and footer. Apply project brand tokens. Deploy-ready in one click.\nOutput: multi-page microsite\n",
+  "classification": {
+    "industry": [
+      "b2b-saas",
+      "ecommerce",
+      "media",
+      "social"
+    ]
+  },
+  "author": {
+    "name": "Aurobind Venu",
+    "first_name": "Aurobind",
+    "last_name": "Venu",
+    "company": "Intempt",
+    "job_title": "Creative Director",
+    "org_name": "intempt"
+  },
+  "permissions": [],
+  "steps": [],
+  "availability": "coming_soon"
+}

@@ -1,0 +1,26 @@
+{
+  "frontmatter_id": "image-to-dialogue",
+  "title": "Talking portrait",
+  "slash_command": "/image-to-dialogue",
+  "description": "Generates spoken audio from your script and animates a portrait with subtle motion to accompany the voiceover.",
+  "markdown": "# Talking portrait\n\n## Description\n\nGenerates spoken audio from your script and animates a portrait with subtle motion to accompany the voiceover.\n\n## Steps\n\n### Step 1: Make the portrait speak\n\nGenerate a talking-portrait video.\nInputs:\n- image: portrait photo (file upload)\n- script: dialogue script (rich text)\n- voiceId: voice preset\nPipeline: kling-clip + elevenlabs-tts\nLip-sync the portrait (Avatar or any face) to the generated speech. Identity and facial features preserved.\n",
+  "classification": {
+    "industry": [
+      "b2b-saas",
+      "ecommerce",
+      "media",
+      "social"
+    ]
+  },
+  "author": {
+    "name": "Aurobind Venu",
+    "first_name": "Aurobind",
+    "last_name": "Venu",
+    "company": "Intempt",
+    "job_title": "Creative Director",
+    "org_name": "intempt"
+  },
+  "permissions": [],
+  "steps": [],
+  "availability": "coming_soon"
+}

@@ -1,0 +1,24 @@
+{
+  "frontmatter_id": "activation-funnel-with-velocity",
+  "title": "Activation funnel with velocity",
+  "slash_command": "/activation-funnel-with-velocity",
+  "description": "Shows where new users drop out across key onboarding steps to pinpoint activation bottlenecks.",
+  "markdown": "# Activation funnel with velocity\n\n## Description\n\nShows where new users drop out across key onboarding steps to pinpoint activation bottlenecks.\n\n## Steps\n\n### Step 1: Time each step to activation\n\nCreate a Funnel report called \"Activation with Step Velocity\".\nSteps:\n1. Event \"User created\": \"Signed Up\"\n2. Event \"Session start\" within 24h of User created: \"First Return\"\n3. Event \"Completed a journey goal\" where journey_id matches the setup journey: \"Completed Setup\"\n4. Event \"Completed a journey goal\" where journey_id matches the core-feature journey: \"Used Core Feature\"\n5. Event \"Completed a journey goal\" where journey_id matches the activation journey, with frequency: Occurred date appears 3+ times in the 7 days following step 4: \"Activated (Habituated)\"\nConversion window: 14 days\nBreakdown: By Users.UTM source\nCompare: Previous period (prior 14 days)\nFor each step, in addition to conversion rate, surface:\n- Median time-to-convert from previous step\n- 75th-percentile time-to-convert\n- Stall rate: % of users at this step who have NOT advanced after 24h, after 72h, after 7 days\nAnnotations:\n- Add benchmarks: median signup to setup-complete ≤ 24 hours is the activation gold standard.\n- Flag any step where p75 time-to-convert exceeds 7 days (long tail of stalled users).\n- Flag any step where the stall-rate-at-72h is above 60%.\n- Highlight the step where reducing time-to-convert by 50% would have the biggest downstream activation lift.\nVelocity is the activation lever: drop-off tells you where users die, velocity tells you where they're stuck.\nTaxonomy notes:\n- \"Habituated\" Step 5 requires Lovable to compute the \"3+ goal completions in 7 days\" rule from Completed a journey goal timestamps grouped by user.\n",
+  "classification": {
+    "industry": [
+      "ai",
+      "b2b-saas"
+    ]
+  },
+  "author": {
+    "name": "Aman Tiwari",
+    "first_name": "Aman",
+    "last_name": "Tiwari",
+    "company": "Intempt",
+    "job_title": "Product Manager",
+    "org_name": "intempt"
+  },
+  "permissions": [],
+  "steps": [],
+  "availability": "coming_soon"
+}

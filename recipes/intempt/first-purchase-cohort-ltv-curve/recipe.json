@@ -1,0 +1,24 @@
+{
+  "frontmatter_id": "first-purchase-cohort-ltv-curve",
+  "title": "First purchase LTV curve",
+  "slash_command": "/first-purchase-cohort-ltv-curve",
+  "description": "Compare revenue trends across monthly customer cohorts over calendar time. Use the report to see how cohort revenue changes as calendar dates progress.",
+  "markdown": "# First purchase LTV curve\n\n## Description\n\nCompare revenue trends across monthly customer cohorts over calendar time. Use the report to see how cohort revenue changes as calendar dates progress.\n\n## Steps\n\n### Step 1: Plot revenue per cohort by age\n\nCreate an Insights report called \"First-Purchase Cohort LTV Curve\".\nSeries A: Event \"Placed order\", aggregation: Sum of \"total_price\", scoped per user, cumulative from each user's first Placed order\nSeries B: Computed: Series A / cohort size, unit: $, label: \"Cumulative Revenue per Cohort Member\"\nCohort: Monthly cohort defined by month of first Placed order (each user's first Placed order event determines their cohort)\nTime range: Last 12 months of cohorts (allow some cohorts to have shorter LTV tails: surface \"incomplete cohort\" labels for the most recent ones)\nBreakdown: By Users.UTM source (the user's first-touch acquisition channel, from the Users object)\nChart type: Multi-line chart: each line is a cohort, X axis is cohort age in months (0, 1, 2, ..., 12), Y axis is cumulative revenue per cohort member\nAnnotations:\n- Highlight the highest-LTV cohort and lowest-LTV cohort at month 6 and month 12.\n- Flag any cohort where LTV growth flattens prematurely (LTV-curve \"going horizontal\" by month 3-6 indicates a one-time-buyer cohort).\n- Highlight channels where cohort LTV is increasing across recent cohorts (acquisition quality improving).\nTaxonomy notes:\n- \"First purchase\" is determined per-user by the earliest Placed order event for that customer_id.\n- Users.UTM source is a real first-touch attribution attribute on the Users object.\n- LTV is cumulative sum of Placed order.total_price per user from first purchase onward.\n",
+  "classification": {
+    "industry": [
+      "ecommerce",
+      "finance"
+    ]
+  },
+  "author": {
+    "name": "Aman Tiwari",
+    "first_name": "Aman",
+    "last_name": "Tiwari",
+    "company": "Intempt",
+    "job_title": "Product Manager",
+    "org_name": "intempt"
+  },
+  "permissions": [],
+  "steps": [],
+  "availability": "coming_soon"
+}

@@ -1,0 +1,27 @@
+{
+  "frontmatter_id": "cro-program",
+  "title": "Conversion optimization program",
+  "slash_command": "/cro-program",
+  "description": "Find the worst drop-off, run an A/B experiment with random variant assignment, and review lift and significance on the Result tab. Use Personalization separately for per-variant targeting.",
+  "markdown": "# Conversion optimization program\n\n## Description\n\nFind the worst drop-off, run an A/B experiment with random variant assignment, and review lift and significance on the Result tab. Use Personalization separately for per-variant targeting.\n\n## Steps\n\n### Step 1: Find the worst drop-off\n\nBuild funnel report identifying highest-impact drop-off step in conversion path.\n\n### Step 2: Design the test\n\nDefine experiment hypothesis, variants, primary metric, sample-size target, and stop conditions. Use the result of \"Find the worst drop-off\".\n\n### Step 3: Target the right visitors\n\nConfigure personalization rule that serves variant content to assigned cohort. Use the result of \"Find the worst drop-off\", \"Design the test\".\n\n### Step 4: Write the variant content\n\nThis step builds a designed marketing email (HTML).\nGenerate variant content (copy, layout, CTA changes) per the experiment design. Use the result of \"Find the worst drop-off\", \"Design the test\", \"Target the right visitors\".\n\n### Step 5: Build the results dashboard\n\nCompose a dashboard tracking experiment lift, statistical significance, and segment-level performance. Use the result of \"Find the worst drop-off\", \"Design the test\", \"Target the right visitors\", \"Write the variant content\".\n",
+  "classification": {
+    "industry": [
+      "ai",
+      "b2b-saas",
+      "ecommerce",
+      "media",
+      "social"
+    ]
+  },
+  "author": {
+    "name": "V Ranadheer",
+    "first_name": "V",
+    "last_name": "Ranadheer",
+    "company": "Intempt",
+    "job_title": "Design Engineer",
+    "org_name": "intempt"
+  },
+  "permissions": [],
+  "steps": [],
+  "availability": "coming_soon"
+}

@@ -1,0 +1,24 @@
+{
+  "frontmatter_id": "product-category-performance",
+  "title": "Category performance",
+  "slash_command": "/product-category-performance",
+  "description": "Shows revenue by product category using native bar or pie charts.",
+  "markdown": "# Category performance\n\n## Description\n\nShows revenue by product category using native bar or pie charts.\n\n## Steps\n\n### Step 1: Compare categories on revenue\n\nCreate an Insights report called \"Category Performance\".\nSeries A: Event \"Placed order\", aggregation: Sum of \"total_price\", unit: $, label: \"Revenue\"\nSeries B: Event \"Placed order\", aggregation: Sum of items count (number of line items per order), label: \"Units Sold\"\nSeries C: Computed: Series A / Series B, unit: $, label: \"AOV per Category\"\nBreakdown: By product category: extracted from Placed order.items (each line item carries product_id; resolve to category via the Products record-object). Top 12 categories, group remainder as \"Other\".\nTime range: Last 30 days\nCompare: Previous period (prior 30 days) AND year-over-year (same 30 days last year)\nChart type: Treemap sized by Series A revenue, color-coded by YoY % change (green = growing, red = declining)\nAnnotations:\n- For each category, label with: revenue, % share of total, MoM change, YoY change.\n- Flag categories with declining revenue AND declining units (true demand softening).\n- Flag categories with rising units but flat revenue (price/discount erosion).\n- Highlight the top 3 momentum categories (highest YoY growth combined with >5% share).\nTaxonomy notes:\n- Placed order.items is flattened (product_id, title, quantity, price, sku). Category lookup goes through the Products record-object.\n- \"product_category\" is not a property on Placed order: it's a derived join.\n",
+  "classification": {
+    "industry": [
+      "ecommerce",
+      "finance"
+    ]
+  },
+  "author": {
+    "name": "Aman Tiwari",
+    "first_name": "Aman",
+    "last_name": "Tiwari",
+    "company": "Intempt",
+    "job_title": "Product Manager",
+    "org_name": "intempt"
+  },
+  "permissions": [],
+  "steps": [],
+  "availability": "coming_soon"
+}

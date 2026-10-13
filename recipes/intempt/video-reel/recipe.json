@@ -1,0 +1,26 @@
+{
+  "frontmatter_id": "video-reel",
+  "title": "Short video reel",
+  "slash_command": "/video-reel",
+  "description": "Builds a 5 or 10 second reel from a script, using your avatar, a catalog product, or a scene on its own, with voice and music.",
+  "markdown": "# Short video reel\n\n## Description\n\nBuilds a 5 or 10 second reel from a script, using your avatar, a catalog product, or a scene on its own, with voice and music.\n\n## Steps\n\n### Step 1: Generate the reel\n\nGenerate a short video reel.\nInputs:\n- subjectMode: Avatar | Product | Scene-only\n- modelId (if Avatar): identity-locked Avatar\n- productIds (if Product): catalog SKUs\n- sceneId (optional): background scene\n- script: script or prompt (rich text)\n- duration: 5s or 10s\nPipeline: kling v2.1 i2v + elevenlabs-tts\nRunner: video-reel (custom)\nIn Avatar mode, the Avatar is identity-locked in the first frame with voice + music. In Product mode, the catalog SKU anchors the first frame. Scene-only uses text-to-video.\n",
+  "classification": {
+    "industry": [
+      "b2b-saas",
+      "ecommerce",
+      "media",
+      "social"
+    ]
+  },
+  "author": {
+    "name": "Aurobind Venu",
+    "first_name": "Aurobind",
+    "last_name": "Venu",
+    "company": "Intempt",
+    "job_title": "Creative Director",
+    "org_name": "intempt"
+  },
+  "permissions": [],
+  "steps": [],
+  "availability": "coming_soon"
+}

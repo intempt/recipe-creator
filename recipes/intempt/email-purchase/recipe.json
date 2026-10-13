@@ -1,0 +1,24 @@
+{
+  "frontmatter_id": "email-purchase",
+  "title": "Email to purchase",
+  "slash_command": "/email-purchase",
+  "description": "Shows how many people who open an email go on to click, view a product and buy, and which campaigns actually earn revenue.",
+  "markdown": "# Email to purchase\n\n## Description\n\nShows how many people who open an email go on to click, view a product and buy, and which campaigns actually earn revenue.\n\n## Steps\n\n### Step 1: Follow email opens to orders\n\nCreate a Funnel report called \"Email to Purchase\".\nSteps:\n1. Event \"Email opened\": \"Opened Email\"\n2. Event \"Email clicked\": \"Clicked Link\"\n3. Event \"View page\" where Page URL contains /products/ within session of Email clicked: \"Viewed Product\"\n4. Event \"Placed order\": \"Purchased\"\nConversion window: 7 days\nBreakdown: By \"campaign_id\": derive from Email sent.campaign_id (cross-reference: Email sent.campaign_id maps to the campaign for emails the user opened/clicked). Top 10 campaigns by send volume.\nCompare: Previous period (prior 7 days)\nFor each step, also surface:\n- Median time-to-convert (days from Email opened to next step)\n- Per-campaign conversion rate at each step\n- Revenue per email opened (Sum of Placed order.total_price / Step 1 user count)\nAnnotations:\n- Flag the campaign with the highest revenue-per-open (best ROI).\n- Flag the campaign with the highest open-to-click rate but lowest click-to-purchase (good creative, broken landing page).\n- Flag the campaign with the lowest open-to-click rate (subject-line / preheader issue).\nTaxonomy notes:\n- Email sent has campaign_id and sent_at. Email opened and Email clicked are separate events keyed by email/masterID.\n- Linking the open/click to a specific campaign requires joining via the email's campaign_id from the sending event.\n- \"campaign_name\" is not a property; campaign_id is the canonical handle.\n",
+  "classification": {
+    "industry": [
+      "ecommerce",
+      "finance"
+    ]
+  },
+  "author": {
+    "name": "Aman Tiwari",
+    "first_name": "Aman",
+    "last_name": "Tiwari",
+    "company": "Intempt",
+    "job_title": "Product Manager",
+    "org_name": "intempt"
+  },
+  "permissions": [],
+  "steps": [],
+  "availability": "coming_soon"
+}

@@ -1,0 +1,25 @@
+{
+  "frontmatter_id": "paid-user-retention",
+  "title": "Paid user retention",
+  "slash_command": "/paid-user-retention",
+  "description": "See whether paying customers continue logging in, tracked month by month and compared by plan.",
+  "markdown": "# Paid user retention\n\n## Description\n\nSee whether paying customers continue logging in, tracked month by month and compared by plan.\n\n## Steps\n\n### Step 1: Split logo and revenue retention\n\nCreate a Retention report called \"Paid User Monthly Retention\".\nAnchor event: Subscription started where trial_end is null (paid signup, not trial)\nReturn event: Session start (logo retention) AND Revenue completed (revenue retention): render as two views\nCohort granularity: Monthly\nTime range: Last 6 months\nBreakdown: By Plan (from Subscription started.Plan)\nCompare: Previous period (prior 6 months of cohorts)\nChart type: Retention curve plus cohort table with M1 through M6 columns\nLogo Retention view:\n- Cell value = % of cohort users who emitted at least one Session start in month N\nRevenue Retention view:\n- Cell value = Sum of Revenue completed.amount in month N from cohort users / Sum of Revenue completed.amount in month 0 from cohort users × 100, unit: %\n- This separates \"do users stay?\" from \"do they pay the same or more?\"\nAnnotations:\n- Add benchmarks: 95% monthly logo retention is industry-good for self-serve SaaS; 85% is below par.\n- Flag any plan tier where M3 logo retention is below 80%.\n- Flag any cohort where revenue retention exceeded logo retention by 10+ percentage points (expansion offsetting churn: good).\n- Highlight the highest-retaining plan tier.\nSurface whether enterprise tiers retain materially better than starter tiers.\nTaxonomy notes:\n- Subscription started with trial_end=null marks paid (non-trial) starts.\n- Revenue completed has amount, customer_id, type: the canonical recurring revenue marker.\n- \"any_active_event\" as a return signal can be substituted with Session start (most reliable active marker).\n",
+  "classification": {
+    "industry": [
+      "ai",
+      "b2b-saas",
+      "media"
+    ]
+  },
+  "author": {
+    "name": "Aman Tiwari",
+    "first_name": "Aman",
+    "last_name": "Tiwari",
+    "company": "Intempt",
+    "job_title": "Product Manager",
+    "org_name": "intempt"
+  },
+  "permissions": [],
+  "steps": [],
+  "availability": "coming_soon"
+}

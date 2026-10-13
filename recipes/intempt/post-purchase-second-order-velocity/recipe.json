@@ -1,0 +1,23 @@
+{
+  "frontmatter_id": "post-purchase-second-order-velocity",
+  "title": "Time to second purchase",
+  "slash_command": "/post-purchase-second-order-velocity",
+  "description": "Measure the time from a customer's first order to their second order. Use the median and conversion percentages to guide when to send replenishment reminders.",
+  "markdown": "# Time to second purchase\n\n## Description\n\nMeasure the time from a customer's first order to their second order. Use the median and conversion percentages to guide when to send replenishment reminders.\n\n## Steps\n\n### Step 1: Measure the gap to order two\n\nCreate an Insights report called \"Time from 1st to 2nd Purchase\".\nSeries A: Distribution histogram of days between each user's 1st Placed order and 2nd Placed order (only users who have at least 2 orders)\nSeries B: Cumulative percentage: what % of repeat-buyers make their 2nd purchase within X days\nBuckets for Series A: 0-3 days / 4-7 days / 8-14 days / 15-30 days / 31-60 days / 61-90 days / 91-180 days / 181-365 days / 365+ days\nTime range: Users whose 1st order was 6+ months ago (so we have a full follow-up window for measuring 2nd-purchase timing)\nBreakdown: By first-order product category (derived from first Placed order.items to Products.category): top 6 categories\nCompare: Previous period (cohorts whose 1st order was 12-18 months ago: answers: is repeat-velocity getting faster or slower?)\nChart type: Histogram chart with the cumulative % overlay as a secondary line\nAnnotations:\n- Highlight the median time-to-second-purchase per category: this is the right delay to set on replenishment journey triggers.\n- Flag any category where median time-to-second-purchase is <14 days (high-velocity replenishment: candidate for subscribe-and-save offering).\n- Flag any category where median time-to-second-purchase is >180 days (long-cycle category: replenishment journeys should fire at 6-9 months, not 30 days).\n- Highlight the share of repeat-buyers who returned within 30 days (the \"early loyalty\" group). This share growing over time = improving retention; shrinking = deteriorating.\nUse case: distinct from the existing purchase-retention recipe (which is cohort %). This is the histogram that tells you the actual time distribution: critical for journey-trigger timing. Most brands use a generic 30-day or 60-day replenishment delay; this recipe surfaces the right delay per category.\nTaxonomy notes:\n- \"First order\" and \"second order\" per user are derived from the temporal order of Placed order events for the same customer_id.\n- Placed order.items contains product_id which resolves to category via the Products record-object.\n",
+  "classification": {
+    "industry": [
+      "ecommerce"
+    ]
+  },
+  "author": {
+    "name": "Aman Tiwari",
+    "first_name": "Aman",
+    "last_name": "Tiwari",
+    "company": "Intempt",
+    "job_title": "Product Manager",
+    "org_name": "intempt"
+  },
+  "permissions": [],
+  "steps": [],
+  "availability": "coming_soon"
+}

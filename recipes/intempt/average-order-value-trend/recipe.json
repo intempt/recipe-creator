@@ -1,0 +1,23 @@
+{
+  "frontmatter_id": "average-order-value-trend",
+  "title": "Average order value trend",
+  "slash_command": "/average-order-value-trend",
+  "description": "Tracks average order value weekly and splits the movement into how many items people buy versus what they pay per item, for new and returning customers.",
+  "markdown": "# Average order value trend\n\n## Description\n\nTracks average order value weekly and splits the movement into how many items people buy versus what they pay per item, for new and returning customers.\n\n## Steps\n\n### Step 1: Break down AOV week by week\n\nCreate an Insights report called \"AOV Trend\".\nSeries A: Event \"Placed order\", aggregation: Average of \"total_price\" property, unit: $, label: \"AOV\"\nSeries B: Event \"Placed order\", aggregation: Average of items length (count of line items in items array), label: \"Units per Order\"\nSeries C: Computed: Series A / Series B, unit: $, label: \"Average Price per Unit\"\nTime granularity: Weekly\nTime range: Last 12 weeks\nBreakdown: By customer type: derive new vs returning from the User.Lifetime value computed attribute (Lifetime value > 0 at the time of the order = returning, otherwise new) OR from User.orders_count.\nCompare: Previous period (previous 12 weeks)\nChart type: Multi-line chart with all three series, separate axes for AOV/Price-per-Unit ($) and Units-per-Order (#)\nAnnotations:\n- Add a callout showing the period-over-period change in each component (AOV, Units/Order, Price/Unit).\n- Flag any week where AOV moved >5%: and identify whether the move came from units, price, or both.\n- Highlight the AOV gap between new and returning customers (returning typically 1.5: 2× new for healthy DTC).\nAOV moving via price suggests merchandising/pricing impact; AOV moving via units suggests bundling/cross-sell impact.\nTaxonomy notes:\n- Placed order has total_price (Shopify) and items (flattened: product_id, title, quantity, price, sku). \"order_total\" is not a real property.\n- Users.Lifetime value and User.orders_count (system-computed) are real attributes.\n",
+  "classification": {
+    "industry": [
+      "ecommerce"
+    ]
+  },
+  "author": {
+    "name": "Aman Tiwari",
+    "first_name": "Aman",
+    "last_name": "Tiwari",
+    "company": "Intempt",
+    "job_title": "Product Manager",
+    "org_name": "intempt"
+  },
+  "permissions": [],
+  "steps": [],
+  "availability": "coming_soon"
+}

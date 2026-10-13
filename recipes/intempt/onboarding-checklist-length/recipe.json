@@ -1,0 +1,24 @@
+{
+  "frontmatter_id": "onboarding-checklist-length",
+  "title": "Onboarding checklist length test",
+  "slash_command": "/onboarding-checklist-length",
+  "description": "Compares a 3, 5 and 7 step onboarding checklist for new signups, scored on activation within 7 days.",
+  "markdown": "# Onboarding checklist length test\n\n## Description\n\nCompares a 3, 5 and 7 step onboarding checklist for new signups, scored on activation within 7 days.\n\n## Steps\n\n### Step 1: Set up the checklist length test\n\nCreate a CLIENT EXPERIMENT on /experiences titled \"Onboarding Checklist Length\".\n═══ PATH 1: Top-level configuration ═══\nExperience type: client_experiment\nVariants:\n- Control (34%): 3 steps: Connect data, Invite team, Create first report\n- Variant B (33%): 5 steps: adds Set goals, Customize dashboard\n- Variant C (33%): 7 steps: adds Watch tutorial, Configure notifications\nTargeting:\n- Pages: in-app dashboard URL where the onboarding checklist component renders\n- Audience: new signups only: segment definition: User created within 24 hours\n- Devices: any\n- Display frequency: always (during user's first session) or once (sticky to first visit)\nPrimary metric: goal_completed_in_experience where experience_id = <this> (the goal fires when the user completes their nominated activation milestone within 7 days of exposure)\nSecondary metrics:\n- Click on per checklist step (per-step completion rate)\n- Completed a journey goal within 7 days (existing activation journey completion)\n- Session start day-2 / day-7 (engagement after onboarding)\nGuardrail: 14-day Session start retention must not drop >3 percentage points\nSchedule: 30 days\n═══ PATH 2: Variant HTML content (Visual Editor) ═══\nVariant: Control (3 steps)\n HTML target selector: .onboarding-checklist\n Replacement HTML:\n <div class=\"onboarding-checklist\" data-variant=\"control\" data-step-count=\"3\">\n <h2>Get started in 3 steps</h2>\n <ol class=\"checklist-steps\">\n <li class=\"checklist-step\" id=\"step-1\"><a href=\"/setup/data\">Connect your data</a></li>\n <li class=\"checklist-step\" id=\"step-2\"><a href=\"/team/invite\">Invite your team</a></li>\n <li class=\"checklist-step\" id=\"step-3\"><a href=\"/reports/new\">Create your first report</a></li>\n </ol>\n <div class=\"checklist-progress\" data-completed=\"0\" data-total=\"3\"></div>\n </div>\nVariant: B (5 steps)\n Same wrapper, add 2 additional <li> entries:\n <li class=\"checklist-step\" id=\"step-4\"><a href=\"/goals/setup\">Set your goals</a></li>\n <li class=\"checklist-step\" id=\"step-5\"><a href=\"/dashboard/customize\">Customize your dashboard</a></li>\nVariant: C (7 steps)\n Same wrapper, add 2 more:\n <li class=\"checklist-step\" id=\"step-6\"><a href=\"/tutorial\">Watch the tutorial</a></li>\n <li class=\"checklist-step\" id=\"step-7\"><a href=\"/settings/notifications\">Configure notifications</a></li>\nUser refines the step copy, icons, and ordering in the Visual Editor. Ensure each step has a stable target_id (step-1, step-2, etc.) so per-step Click on metrics roll up consistently.\nTaxonomy notes:\n- The \"activation milestone\" is project-defined: typically Completed a journey goal for the activation journey. This recipe assumes the activation journey is configured separately.\n- Session start is the canonical engagement signal.\n",
+  "classification": {
+    "industry": [
+      "ai",
+      "b2b-saas"
+    ]
+  },
+  "author": {
+    "name": "V Ranadheer",
+    "first_name": "V",
+    "last_name": "Ranadheer",
+    "company": "Intempt",
+    "job_title": "Design Engineer",
+    "org_name": "intempt"
+  },
+  "permissions": [],
+  "steps": [],
+  "availability": "coming_soon"
+}
