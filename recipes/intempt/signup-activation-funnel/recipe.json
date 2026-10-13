@@ -1,0 +1,30 @@
+{
+  "frontmatter_id": "signup-activation-funnel",
+  "title": "Signup to activation",
+  "slash_command": "/signup-activation-funnel",
+  "description": "Shows how many new signups come back, use the core feature and activate within two weeks, and which signup source produces the best ones.",
+  "markdown": "# Signup to activation\n\n## Description\n\nShows how many new signups come back, use the core feature and activate within two weeks, and which signup source produces the best ones.\n\n## Steps\n\n### Step 1: Follow signups to activation\n\nCreate a Funnel report called \"Signup to Activation\".\nSteps:\n1. Event \"User created\": \"Signed Up\"\n2. Event \"Session start\" within 24 hours of User created: \"Returned After Signup\" (proxy for engagement after creation)\n3. Event \"Completed a journey goal\" where journey_id matches the onboarding/activation journey: \"Used Core Feature\"\n4. Event \"Completed a journey goal\" where journey_id matches the activation journey AND Occurred date - signup_at <= 14 days: \"Activated\"\nConversion window: 14 days\nBreakdown: By Users.UTM source (signup source: top 6 channels: organic, paid_search, paid_social, content, referral, direct)\nCompare: Previous period (prior 14 days)\nFor each step, also surface:\n- Median and 75th-percentile time-to-convert from previous step\n- Per-source conversion rate at each stage\nAnnotations:\n- Add benchmark: activation rate (Step 4 / Step 1) of 30% is typical PLG SaaS.\n- Flag any source with activation rate <15% (poor lead quality or onboarding mismatch).\n- Flag any step where median time-to-convert exceeds 24 hours for \"Returned After Signup\" or 7 days for \"Used Core Feature\".\n- Highlight sources with activation rate >40%.\nIdentify which signup source produces the highest-activating users at sufficient volume.\nTaxonomy notes:\n- User created and Completed a journey goal are canonical. Completed a journey goal carries journey_id, Occurred date, user_id.\n- \"signup_completed\", \"onboarding_started\" as standalone events do not exist; the activation journey itself emits Completed a journey goal when the user hits the activation goal.\n- Users.UTM source is the canonical first-touch source attribute.\n",
+  "classification": {
+    "industry": [
+      "ai",
+      "b2b-saas"
+    ]
+  },
+  "author": {
+    "name": "Aman Tiwari",
+    "first_name": "Aman",
+    "last_name": "Tiwari",
+    "company": "Intempt",
+    "job_title": "Product Manager",
+    "org_name": "intempt"
+  },
+  "permissions": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Follow signups to activation",
+      "description": "Create a Funnel report called \"Signup to Activation\".\nSteps:\n1. Event \"User created\": \"Signed Up\"\n2. Event \"Session start\" within 24 hours of User created: \"Returned After Signup\" (proxy for engagement after creation)\n3. Event \"Completed a journey goal\" where journey_id matches the onboarding/activation journey: \"Used Core Feature\"\n4. Event \"Completed a journey goal\" where journey_id matches the activation journey AND Occurred date - signup_at <= 14 days: \"Activated\"\nConversion window: 14 days\nBreakdown: By Users.UTM source (signup source: top 6 channels: organic, paid_search, paid_social, content, referral, direct)\nCompare: Previous period (prior 14 days)\nFor each step, also surface:\n- Median and 75th-percentile time-to-convert from previous step\n- Per-source conversion rate at each stage\nAnnotations:\n- Add benchmark: activation rate (Step 4 / Step 1) of 30% is typical PLG SaaS.\n- Flag any source with activation rate <15% (poor lead quality or onboarding mismatch).\n- Flag any step where median time-to-convert exceeds 24 hours for \"Returned After Signup\" or 7 days for \"Used Core Feature\".\n- Highlight sources with activation rate >40%.\nIdentify which signup source produces the highest-activating users at sufficient volume.\nTaxonomy notes:\n- User created and Completed a journey goal are canonical. Completed a journey goal carries journey_id, Occurred date, user_id.\n- \"signup_completed\", \"onboarding_started\" as standalone events do not exist; the activation journey itself emits Completed a journey goal when the user hits the activation goal.\n- Users.UTM source is the canonical first-touch source attribute."
+    }
+  ],
+  "availability": "coming_soon"
+}

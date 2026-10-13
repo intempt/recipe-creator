@@ -1,0 +1,32 @@
+{
+  "frontmatter_id": "reel-cut",
+  "title": "Vertical reel cut",
+  "slash_command": "/reel-cut",
+  "description": "Generate a new 9:16 vertical clip for a reel. This creates a vertical video rather than reframing an existing landscape clip.",
+  "markdown": "# Vertical reel cut\n\n## Description\n\nGenerate a new 9:16 vertical clip for a reel. This creates a vertical video rather than reframing an existing landscape clip.\n\n## Steps\n\n### Step 1: Reframe to 9:16\n\nReformat a landscape still/clip to a 9:16 vertical reel.\nSubject re-framed vertical with subtle Ken Burns push and drifting motion particles. Social-ready short format.\nPipeline: image to video at 9:16\n",
+  "classification": {
+    "industry": [
+      "b2b-saas",
+      "ecommerce",
+      "media",
+      "social"
+    ]
+  },
+  "author": {
+    "name": "Aurobind Venu",
+    "first_name": "Aurobind",
+    "last_name": "Venu",
+    "company": "Intempt",
+    "job_title": "Creative Director",
+    "org_name": "intempt"
+  },
+  "permissions": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Reframe to 9:16",
+      "description": "Reformat a landscape still/clip to a 9:16 vertical reel.\nSubject re-framed vertical with subtle Ken Burns push and drifting motion particles. Social-ready short format.\nPipeline: image to video at 9:16"
+    }
+  ],
+  "availability": "coming_soon"
+}

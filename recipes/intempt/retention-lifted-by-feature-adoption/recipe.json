@@ -1,0 +1,31 @@
+{
+  "frontmatter_id": "retention-lifted-by-feature-adoption",
+  "title": "Retention lift from a feature",
+  "slash_command": "/retention-lifted-by-feature-adoption",
+  "description": "Compares how long users stay when they adopt a given feature in their first week against users who never touch it.",
+  "markdown": "# Retention lift from a feature\n\n## Description\n\nCompares how long users stay when they adopt a given feature in their first week against users who never touch it.\n\n## Steps\n\n### Step 1: Compare adopters and non adopters\n\nCreate a Retention report called \"Retention Lifted by Feature Adoption\".\nConfiguration: this recipe runs for a configurable target feature, identified by Click on.target_id (default: the most-clicked target_id matching the feature pattern in the last 30 days; user can specify).\nCohort definitions:\n- Cohort A: users who emitted a Click on event with the target_id within their first 7 days after User created (\"early adopters\")\n- Cohort B: users who did NOT emit a Click on with the target_id within their first 7 days (\"non-adopters\")\nAnchor event: User created\nReturn event: Session start\nCohort granularity: Weekly (signup cohorts based on User created)\nTime range: Last 12 weeks\nChart type: Two retention curves overlaid (Cohort A in one color, Cohort B in another) plus delta line showing absolute retention gap at each week\nFor each week (W1, W2, W4, W8, W12), surface:\n- Cohort A retention rate\n- Cohort B retention rate\n- Absolute retention gap (A − B) in percentage points\n- Cohort sizes\nAnnotations:\n- Flag the week where the retention gap is largest (the \"magic moment\").\n- Flag if W4 retention gap is >15 percentage points (the feature is a strong retention lever).\n- Flag if W12 retention gap is <5 percentage points (feature isn't actually retention-driving).\n- Highlight the cohort size of \"early adopters\": if it's <30% of the base, the feature isn't getting enough first-week exposure.\nSurface whether the target feature is genuinely retention-correlated. This is the canonical \"magic moment\" / \"north-star action\" analysis.\nTaxonomy notes:\n- Click on.target_id is the canonical feature handle. User created and Session start are canonical.\n- Cohort A/B split is computed from the existence of a Click on event with the matching target_id within 7 days of User created.\n",
+  "classification": {
+    "industry": [
+      "ai",
+      "b2b-saas",
+      "media"
+    ]
+  },
+  "author": {
+    "name": "Aman Tiwari",
+    "first_name": "Aman",
+    "last_name": "Tiwari",
+    "company": "Intempt",
+    "job_title": "Product Manager",
+    "org_name": "intempt"
+  },
+  "permissions": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Compare adopters and non adopters",
+      "description": "Create a Retention report called \"Retention Lifted by Feature Adoption\".\nConfiguration: this recipe runs for a configurable target feature, identified by Click on.target_id (default: the most-clicked target_id matching the feature pattern in the last 30 days; user can specify).\nCohort definitions:\n- Cohort A: users who emitted a Click on event with the target_id within their first 7 days after User created (\"early adopters\")\n- Cohort B: users who did NOT emit a Click on with the target_id within their first 7 days (\"non-adopters\")\nAnchor event: User created\nReturn event: Session start\nCohort granularity: Weekly (signup cohorts based on User created)\nTime range: Last 12 weeks\nChart type: Two retention curves overlaid (Cohort A in one color, Cohort B in another) plus delta line showing absolute retention gap at each week\nFor each week (W1, W2, W4, W8, W12), surface:\n- Cohort A retention rate\n- Cohort B retention rate\n- Absolute retention gap (A − B) in percentage points\n- Cohort sizes\nAnnotations:\n- Flag the week where the retention gap is largest (the \"magic moment\").\n- Flag if W4 retention gap is >15 percentage points (the feature is a strong retention lever).\n- Flag if W12 retention gap is <5 percentage points (feature isn't actually retention-driving).\n- Highlight the cohort size of \"early adopters\": if it's <30% of the base, the feature isn't getting enough first-week exposure.\nSurface whether the target feature is genuinely retention-correlated. This is the canonical \"magic moment\" / \"north-star action\" analysis.\nTaxonomy notes:\n- Click on.target_id is the canonical feature handle. User created and Session start are canonical.\n- Cohort A/B split is computed from the existence of a Click on event with the matching target_id within 7 days of User created."
+    }
+  ],
+  "availability": "coming_soon"
+}

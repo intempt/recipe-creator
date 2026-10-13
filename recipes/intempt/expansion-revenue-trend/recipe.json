@@ -1,0 +1,32 @@
+{
+  "frontmatter_id": "expansion-revenue-trend",
+  "title": "Expansion revenue trend",
+  "slash_command": "/expansion-revenue-trend",
+  "description": "Shows month over month MRR change per subscription from Subscription updated change events, comparing each subscription's amount before and after the update.",
+  "markdown": "# Expansion revenue trend\n\n## Description\n\nShows month over month MRR change per subscription from Subscription updated change events, comparing each subscription's amount before and after the update.\n\n## Steps\n\n### Step 1: Split upgrades from seat growth\n\nCreate an Insights report called \"Expansion Revenue Trend\".\nSeries A: Event \"Subscription updated\" where changed_fields indicates a plan upgrade (parsed from the changed_fields text property: e.g. contains \"plan_id\" or \"plan_items\" with a higher-priced target), aggregation: Sum of the resulting subscription amount delta\n Computation: for each Subscription updated event, compare new amount vs. prior amount on the same subscription_id. Positive delta with plan change = upgrade. Sum positive deltas, unit: $, label: \"Upgrade Revenue\".\nSeries B: Event \"Subscription updated\" where changed_fields indicates seat/quantity increase (e.g. plan_items quantity went up), aggregation: Sum of positive amount delta, unit: $, label: \"Seat / Quantity Expansion Revenue\"\nSeries C: Computed: (A + B) / new_mrr_in_period × 100, unit: %, label: \"Expansion as % of New MRR\"\n where new_mrr = sum of Subscription started.amount in the period\nTime granularity: Monthly\nBreakdown: By Plan: show which starting plan tiers produce the most expansion\nTime range: Last 12 months\nCompare: Year-over-year\nChart type: Stacked bar for A and B with Series C as a line on a secondary axis\nAnnotations:\n- Add benchmarks: expansion as % of new MRR ≥ 30% is healthy; ≥ 50% is best-in-class.\n- Flag any month where total expansion revenue declined MoM by more than 15% (expansion engine stalling).\n- Highlight whether upgrade-driven expansion or seat-driven expansion dominates, and whether the mix is shifting.\nTaxonomy notes:\n- The canonical taxonomy has Subscription updated with a changed_fields text property and a plan_items property (flattenable to price_id, quantity, product). It does NOT have separate subscription_upgraded / subscription_downgraded events.\n- Computing upgrade vs downgrade requires comparing new vs prior subscription state: operationally this means: when Subscription updated fires, look up the prior Subscription started.amount and compute the delta. Positive delta = expansion, negative = contraction.\n- \"subscription_payment\" is not a canonical event. Use Revenue completed or Invoice paid for actual revenue capture.\n",
+  "classification": {
+    "industry": [
+      "ai",
+      "b2b-saas",
+      "finance",
+      "media"
+    ]
+  },
+  "author": {
+    "name": "Aman Tiwari",
+    "first_name": "Aman",
+    "last_name": "Tiwari",
+    "company": "Intempt",
+    "job_title": "Product Manager",
+    "org_name": "intempt"
+  },
+  "permissions": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Split upgrades from seat growth",
+      "description": "Create an Insights report called \"Expansion Revenue Trend\".\nSeries A: Event \"Subscription updated\" where changed_fields indicates a plan upgrade (parsed from the changed_fields text property: e.g. contains \"plan_id\" or \"plan_items\" with a higher-priced target), aggregation: Sum of the resulting subscription amount delta\n Computation: for each Subscription updated event, compare new amount vs. prior amount on the same subscription_id. Positive delta with plan change = upgrade. Sum positive deltas, unit: $, label: \"Upgrade Revenue\".\nSeries B: Event \"Subscription updated\" where changed_fields indicates seat/quantity increase (e.g. plan_items quantity went up), aggregation: Sum of positive amount delta, unit: $, label: \"Seat / Quantity Expansion Revenue\"\nSeries C: Computed: (A + B) / new_mrr_in_period × 100, unit: %, label: \"Expansion as % of New MRR\"\n where new_mrr = sum of Subscription started.amount in the period\nTime granularity: Monthly\nBreakdown: By Plan: show which starting plan tiers produce the most expansion\nTime range: Last 12 months\nCompare: Year-over-year\nChart type: Stacked bar for A and B with Series C as a line on a secondary axis\nAnnotations:\n- Add benchmarks: expansion as % of new MRR ≥ 30% is healthy; ≥ 50% is best-in-class.\n- Flag any month where total expansion revenue declined MoM by more than 15% (expansion engine stalling).\n- Highlight whether upgrade-driven expansion or seat-driven expansion dominates, and whether the mix is shifting.\nTaxonomy notes:\n- The canonical taxonomy has Subscription updated with a changed_fields text property and a plan_items property (flattenable to price_id, quantity, product). It does NOT have separate subscription_upgraded / subscription_downgraded events.\n- Computing upgrade vs downgrade requires comparing new vs prior subscription state: operationally this means: when Subscription updated fires, look up the prior Subscription started.amount and compute the delta. Positive delta = expansion, negative = contraction.\n- \"subscription_payment\" is not a canonical event. Use Revenue completed or Invoice paid for actual revenue capture."
+    }
+  ],
+  "availability": "coming_soon"
+}

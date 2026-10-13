@@ -324,6 +324,11 @@ today is **Install now**; the rest are **Coming soon**, and the catalog says whi
 waiting on. The counts are in [references/entities.md](./references/entities.md), generated from
 the recipes.
 
+A recipe that has not been through recipe-git-validate yet still gets a `recipe.json`, written
+by `scripts/build_coming_soon_json.py`: its steps from the `## Step N:` sections (title and
+prose only, no command or entity), and `"availability": "coming_soon"`, which llm-wrapper
+serves as stored. It is listed as Coming soon and cannot be run until it is validated.
+
 ## Where finished recipes live
 
 - **[examples/](./examples/README.md)** is a curated set to copy from, chosen because it meets the

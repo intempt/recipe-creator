@@ -1,0 +1,30 @@
+{
+  "frontmatter_id": "google-sheets-deal-won-row",
+  "title": "Log won deals to a sheet",
+  "slash_command": "/google-sheets-deal-won-row",
+  "description": "Adds a row to a Google Sheet every time a deal is won, so finance and ops keep working in the sheet they already have.",
+  "markdown": "# Log won deals to a sheet\n\n## Description\n\nAdds a row to a Google Sheet every time a deal is won, so finance and ops keep working in the sheet they already have.\n\n## Steps\n\n### Step 1: Append a row on every win\n\nCreate a workflow triggered on deal stage changing to Closed Won. One step: append a row to the chosen Google Sheet with deal name, account, amount, close date, owner and source. Map columns by header name, never by position, so someone inserting a column in the sheet does not silently redirect every write after it. Failure policy is skip-and-record: a sheet that is momentarily locked should not fail the run, and the skipped rows need to be recoverable.\n",
+  "classification": {
+    "industry": [
+      "b2b-saas"
+    ]
+  },
+  "author": {
+    "name": "Trishik Shrestha",
+    "first_name": "Trishik",
+    "last_name": "Shrestha",
+    "company": "Intempt",
+    "job_title": "Growth Marketer",
+    "avatar": "https://cdn.intempt.com/assets/author-profile-pics/trishik.png",
+    "org_name": "intempt"
+  },
+  "permissions": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Append a row on every win",
+      "description": "Create a workflow triggered on deal stage changing to Closed Won. One step: append a row to the chosen Google Sheet with deal name, account, amount, close date, owner and source. Map columns by header name, never by position, so someone inserting a column in the sheet does not silently redirect every write after it. Failure policy is skip-and-record: a sheet that is momentarily locked should not fail the run, and the skipped rows need to be recoverable."
+    }
+  ],
+  "availability": "coming_soon"
+}

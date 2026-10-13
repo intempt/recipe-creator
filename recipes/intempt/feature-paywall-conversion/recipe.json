@@ -1,0 +1,32 @@
+{
+  "frontmatter_id": "feature-paywall-conversion",
+  "title": "Feature to paywall conversion",
+  "slash_command": "/feature-paywall-conversion",
+  "description": "Reports per-feature engagement among free users and their pricing page views, to inform feature-gating strategy. It does not sequence feature use to payment or show quadrants.",
+  "markdown": "# Feature to paywall conversion\n\n## Description\n\nReports per-feature engagement among free users and their pricing page views, to inform feature-gating strategy. It does not sequence feature use to payment or show quadrants.\n\n## Steps\n\n### Step 1: Rank features by paid conversion\n\nCreate an Insights report called \"Feature to Paywall Conversion\".\nSeries A: Event \"Click on\" filtered by target_id matching a feature pattern, scoped to free-plan users (users without a paid Subscription started), aggregation: Count Unique Users per target_id, label: \"Free Users Who Tried Feature\"\nSeries B: Of the users in Series A, those who subsequently emitted a View page where Page URL contains \"/pricing\" within 30 days of the feature click, label: \"Reached Paywall\"\nSeries C: Of the users in Series A, those who subsequently emitted Subscription started (with trial_end null: paid, non-trial) within 30 days, label: \"Converted to Paid\"\nSeries D: Computed: Series B / Series A × 100, unit: %, label: \"Feature to Paywall Rate\"\nSeries E: Computed: Series C / Series A × 100, unit: %, label: \"Feature to Paid Rate\"\nBreakdown: By target_id (the specific feature)\nTime range: Last 90 days\nCompare: Previous period (prior 90 days)\nChart type: Scatter plot: X axis = Feature to Paywall Rate (Series D), Y axis = Feature to Paid Rate (Series E), bubble size = Series A volume (free users who tried). Each bubble is a feature.\nAnnotations:\n- Quadrant labeling on the scatter:\n - High Paywall + High Paid: features that drive monetization (gate them, or use them as the upgrade pitch). Promote in upgrade prompts.\n - High Paywall + Low Paid: features that intrigue but don't close (paywall view is happening but pricing isn't compelling: pricing/positioning issue).\n - Low Paywall + High Paid: stealth-monetization features (users convert without going through pricing: already sold; no need to gate).\n - Low Paywall + Low Paid: low-monetization features (giveaways: keep in free tier, don't gate, but also don't over-invest).\n- Flag any feature with high free-tier usage AND zero conversion lift: these features are pure cost; consider deprecating or gating.\n- Highlight the top 3 features by Feature to Paid Rate (Series E): these are the paywall-optimal features.\n- Surface the feature with the largest Free to Paywall conversion gap (Series D much higher than Series E): pricing-perception issue specific to that feature.\nUse case: Kyle Poyar's (OpenView) most-shared Amplitude template. Tells the product team which features to gate behind the paywall vs. which to give away vs. which to deprecate. The single most-actionable monetization analysis a SaaS product can run.\nTaxonomy notes:\n- Click on.target_id is the canonical feature handle.\n- View page.Page URL filtered to /pricing identifies paywall views.\n- Subscription started.trial_end null distinguishes paid from trial.\n",
+  "classification": {
+    "industry": [
+      "ai",
+      "b2b-saas",
+      "finance",
+      "media"
+    ]
+  },
+  "author": {
+    "name": "Aman Tiwari",
+    "first_name": "Aman",
+    "last_name": "Tiwari",
+    "company": "Intempt",
+    "job_title": "Product Manager",
+    "org_name": "intempt"
+  },
+  "permissions": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Rank features by paid conversion",
+      "description": "Create an Insights report called \"Feature to Paywall Conversion\".\nSeries A: Event \"Click on\" filtered by target_id matching a feature pattern, scoped to free-plan users (users without a paid Subscription started), aggregation: Count Unique Users per target_id, label: \"Free Users Who Tried Feature\"\nSeries B: Of the users in Series A, those who subsequently emitted a View page where Page URL contains \"/pricing\" within 30 days of the feature click, label: \"Reached Paywall\"\nSeries C: Of the users in Series A, those who subsequently emitted Subscription started (with trial_end null: paid, non-trial) within 30 days, label: \"Converted to Paid\"\nSeries D: Computed: Series B / Series A × 100, unit: %, label: \"Feature to Paywall Rate\"\nSeries E: Computed: Series C / Series A × 100, unit: %, label: \"Feature to Paid Rate\"\nBreakdown: By target_id (the specific feature)\nTime range: Last 90 days\nCompare: Previous period (prior 90 days)\nChart type: Scatter plot: X axis = Feature to Paywall Rate (Series D), Y axis = Feature to Paid Rate (Series E), bubble size = Series A volume (free users who tried). Each bubble is a feature.\nAnnotations:\n- Quadrant labeling on the scatter:\n - High Paywall + High Paid: features that drive monetization (gate them, or use them as the upgrade pitch). Promote in upgrade prompts.\n - High Paywall + Low Paid: features that intrigue but don't close (paywall view is happening but pricing isn't compelling: pricing/positioning issue).\n - Low Paywall + High Paid: stealth-monetization features (users convert without going through pricing: already sold; no need to gate).\n - Low Paywall + Low Paid: low-monetization features (giveaways: keep in free tier, don't gate, but also don't over-invest).\n- Flag any feature with high free-tier usage AND zero conversion lift: these features are pure cost; consider deprecating or gating.\n- Highlight the top 3 features by Feature to Paid Rate (Series E): these are the paywall-optimal features.\n- Surface the feature with the largest Free to Paywall conversion gap (Series D much higher than Series E): pricing-perception issue specific to that feature.\nUse case: Kyle Poyar's (OpenView) most-shared Amplitude template. Tells the product team which features to gate behind the paywall vs. which to give away vs. which to deprecate. The single most-actionable monetization analysis a SaaS product can run.\nTaxonomy notes:\n- Click on.target_id is the canonical feature handle.\n- View page.Page URL filtered to /pricing identifies paywall views.\n- Subscription started.trial_end null distinguishes paid from trial."
+    }
+  ],
+  "availability": "coming_soon"
+}

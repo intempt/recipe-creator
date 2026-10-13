@@ -1,0 +1,38 @@
+{
+  "frontmatter_id": "hubspot-lifecycle-writeback",
+  "title": "Write lifecycle back to HubSpot",
+  "slash_command": "/hubspot-lifecycle-writeback",
+  "description": "Pushes the lifecycle stage computed from real product and billing behaviour onto the HubSpot contact, so sales and marketing read the same thing.",
+  "markdown": "# Write lifecycle back to HubSpot\n\n## Description\n\nPushes the lifecycle stage computed from real product and billing behaviour onto the HubSpot contact, so sales and marketing read the same thing.\n\n## Steps\n\n### Step 1: Define the lifecycle honestly\n\nCreate the lifecycle attribute from product and billing reality (trialing, active, at risk, churned) rather than from whatever a form last said. This is the value worth having in two systems.\n\n### Step 2: Push it one way to HubSpot\n\nCreate a workflow updating the HubSpot contact property when the lifecycle changes. The direction is one way on this field: Intempt owns it, HubSpot displays it. A field written from both sides needs a stated winner, and pretending otherwise is how a CRM and a CDP quietly disagree for months. Use the result of \"Define the lifecycle honestly\".\n",
+  "classification": {
+    "industry": [
+      "ai",
+      "b2b-saas",
+      "ecommerce",
+      "finance"
+    ]
+  },
+  "author": {
+    "name": "Trishik Shrestha",
+    "first_name": "Trishik",
+    "last_name": "Shrestha",
+    "company": "Intempt",
+    "job_title": "Growth Marketer",
+    "avatar": "https://cdn.intempt.com/assets/author-profile-pics/trishik.png",
+    "org_name": "intempt"
+  },
+  "permissions": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Define the lifecycle honestly",
+      "description": "Create the lifecycle attribute from product and billing reality (trialing, active, at risk, churned) rather than from whatever a form last said. This is the value worth having in two systems."
+    },
+    {
+      "id": "s2",
+      "title": "Push it one way to HubSpot",
+      "description": "Create a workflow updating the HubSpot contact property when the lifecycle changes. The direction is one way on this field: Intempt owns it, HubSpot displays it. A field written from both sides needs a stated winner, and pretending otherwise is how a CRM and a CDP quietly disagree for months. Use the result of \"Define the lifecycle honestly\"."
+    }
+  ],
+  "availability": "coming_soon"
+}

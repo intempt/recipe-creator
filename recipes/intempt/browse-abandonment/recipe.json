@@ -1,0 +1,55 @@
+{
+  "frontmatter_id": "browse-abandonment",
+  "title": "Browse abandonment follow up",
+  "slash_command": "/browse-abandonment",
+  "description": "Reminds people who looked at products but never added anything to the cart, showing the items they viewed and a few they might prefer.",
+  "markdown": "# Browse abandonment follow up\n\n## Description\n\nReminds people who looked at products but never added anything to the cart, showing the items they viewed and a few they might prefer.\n\n## Steps\n\n### Step 1: Find people who only browsed\n\nThis step builds a segment.\nIdentify users with product_viewed events in last 7 days who did NOT trigger cart_added.\n\n### Step 2: Write the browse reminder\n\nGenerate browse-recovery email content highlighting the viewed products and similar items. Use the result of \"Find people who only browsed\".\n\n### Step 3: Send at 24 and 72 hours\n\nBuild a 2-touch journey sending product reminder emails at 24hr and 72hr after browse. Use the result of \"Find people who only browsed\", \"Write the browse reminder\".\n\n### Step 4: Pick items for each shopper\n\nGenerate product recommendations for each browser based on their viewed items and purchase history. Use the result of \"Find people who only browsed\", \"Write the browse reminder\", \"Send at 24 and 72 hours\".\n\n### Step 5: Test picks against best sellers\n\nAdd A/B variants comparing personalized recommendations vs trending products. Use the result of \"Find people who only browsed\", \"Write the browse reminder\", \"Send at 24 and 72 hours\", \"Pick items for each shopper\".\n\n### Step 6: Follow browse through to sale\n\nCompose a funnel report tracking browse to email-open to email-click to cart-add to purchase. Use the result of \"Find people who only browsed\", \"Write the browse reminder\", \"Send at 24 and 72 hours\", \"Pick items for each shopper\", \"Test picks against best sellers\".\n",
+  "classification": {
+    "industry": [
+      "ecommerce"
+    ]
+  },
+  "author": {
+    "name": "Somya Nayak",
+    "first_name": "Somya",
+    "last_name": "Nayak",
+    "company": "Intempt",
+    "job_title": "Marketing Lead",
+    "avatar": "https://cdn.intempt.com/assets/author-profile-pics/somya.png",
+    "org_name": "intempt"
+  },
+  "permissions": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Find people who only browsed",
+      "description": "This step builds a segment.\nIdentify users with product_viewed events in last 7 days who did NOT trigger cart_added."
+    },
+    {
+      "id": "s2",
+      "title": "Write the browse reminder",
+      "description": "Generate browse-recovery email content highlighting the viewed products and similar items. Use the result of \"Find people who only browsed\"."
+    },
+    {
+      "id": "s3",
+      "title": "Send at 24 and 72 hours",
+      "description": "Build a 2-touch journey sending product reminder emails at 24hr and 72hr after browse. Use the result of \"Find people who only browsed\", \"Write the browse reminder\"."
+    },
+    {
+      "id": "s4",
+      "title": "Pick items for each shopper",
+      "description": "Generate product recommendations for each browser based on their viewed items and purchase history. Use the result of \"Find people who only browsed\", \"Write the browse reminder\", \"Send at 24 and 72 hours\"."
+    },
+    {
+      "id": "s5",
+      "title": "Test picks against best sellers",
+      "description": "Add A/B variants comparing personalized recommendations vs trending products. Use the result of \"Find people who only browsed\", \"Write the browse reminder\", \"Send at 24 and 72 hours\", \"Pick items for each shopper\"."
+    },
+    {
+      "id": "s6",
+      "title": "Follow browse through to sale",
+      "description": "Compose a funnel report tracking browse to email-open to email-click to cart-add to purchase. Use the result of \"Find people who only browsed\", \"Write the browse reminder\", \"Send at 24 and 72 hours\", \"Pick items for each shopper\", \"Test picks against best sellers\"."
+    }
+  ],
+  "availability": "coming_soon"
+}

@@ -1,0 +1,56 @@
+{
+  "frontmatter_id": "b2b-nurture",
+  "title": "B2B lead nurture and routing",
+  "slash_command": "/b2b-nurture",
+  "description": "Scores inbound leads, hands the sales ready ones to a rep with an owner and a task, and keeps the rest warm with content matched to how close they are.",
+  "markdown": "# B2B lead nurture and routing\n\n## Description\n\nScores inbound leads, hands the sales ready ones to a rep with an owner and a task, and keeps the rest warm with content matched to how close they are.\n\n## Steps\n\n### Step 1: Score every lead\n\nDefine a Qualification scoring attribute weighting firmographic fit, intent signals, and engagement depth.\n\n### Step 2: Split into hot, warm and cold\n\nSegment leads into hot (sales-ready), warm (nurture), and cold (long-cycle) buckets based on score. Use the result of \"Score every lead\".\n\n### Step 3: Hand hot leads to a rep\n\nCreate a workflow routing hot leads to sales (assign owner, create task) and adding warm/cold leads to nurture journeys. Use the result of \"Score every lead\", \"Split into hot, warm and cold\".\n\n### Step 4: Write content for each bucket\n\nThis step builds a designed marketing email (HTML).\nGenerate nurture content tailored per segment: hot=demo offer, warm=case studies + ROI calc, cold=education content. Use the result of \"Score every lead\", \"Split into hot, warm and cold\", \"Hand hot leads to a rep\".\n\n### Step 5: Nurture at the right pace\n\nBuild per-segment nurture journeys with appropriate cadence and content. Use the result of \"Score every lead\", \"Split into hot, warm and cold\", \"Hand hot leads to a rep\", \"Write content for each bucket\".\n\n### Step 6: Track handoffs and conversion\n\nCompose a dashboard tracking score distribution, hot-lead handoff rate, and nurture-to-MQL conversion. Use the result of \"Score every lead\", \"Split into hot, warm and cold\", \"Hand hot leads to a rep\", \"Write content for each bucket\", \"Nurture at the right pace\".\n",
+  "classification": {
+    "industry": [
+      "ai",
+      "b2b-saas"
+    ]
+  },
+  "author": {
+    "name": "Somya Nayak",
+    "first_name": "Somya",
+    "last_name": "Nayak",
+    "company": "Intempt",
+    "job_title": "Marketing Lead",
+    "avatar": "https://cdn.intempt.com/assets/author-profile-pics/somya.png",
+    "org_name": "intempt"
+  },
+  "permissions": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Score every lead",
+      "description": "Define a Qualification scoring attribute weighting firmographic fit, intent signals, and engagement depth."
+    },
+    {
+      "id": "s2",
+      "title": "Split into hot, warm and cold",
+      "description": "Segment leads into hot (sales-ready), warm (nurture), and cold (long-cycle) buckets based on score. Use the result of \"Score every lead\"."
+    },
+    {
+      "id": "s3",
+      "title": "Hand hot leads to a rep",
+      "description": "Create a workflow routing hot leads to sales (assign owner, create task) and adding warm/cold leads to nurture journeys. Use the result of \"Score every lead\", \"Split into hot, warm and cold\"."
+    },
+    {
+      "id": "s4",
+      "title": "Write content for each bucket",
+      "description": "This step builds a designed marketing email (HTML).\nGenerate nurture content tailored per segment: hot=demo offer, warm=case studies + ROI calc, cold=education content. Use the result of \"Score every lead\", \"Split into hot, warm and cold\", \"Hand hot leads to a rep\"."
+    },
+    {
+      "id": "s5",
+      "title": "Nurture at the right pace",
+      "description": "Build per-segment nurture journeys with appropriate cadence and content. Use the result of \"Score every lead\", \"Split into hot, warm and cold\", \"Hand hot leads to a rep\", \"Write content for each bucket\"."
+    },
+    {
+      "id": "s6",
+      "title": "Track handoffs and conversion",
+      "description": "Compose a dashboard tracking score distribution, hot-lead handoff rate, and nurture-to-MQL conversion. Use the result of \"Score every lead\", \"Split into hot, warm and cold\", \"Hand hot leads to a rep\", \"Write content for each bucket\", \"Nurture at the right pace\"."
+    }
+  ],
+  "availability": "coming_soon"
+}

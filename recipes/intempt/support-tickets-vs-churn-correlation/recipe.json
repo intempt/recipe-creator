@@ -1,0 +1,32 @@
+{
+  "frontmatter_id": "support-tickets-vs-churn-correlation",
+  "title": "Support volume versus churn",
+  "slash_command": "/support-tickets-vs-churn-correlation",
+  "description": "Compare weekly support ticket volume with weekly subscription cancellations to see how the counts change over time.",
+  "markdown": "# Support volume versus churn\n\n## Description\n\nCompare weekly support ticket volume with weekly subscription cancellations to see how the counts change over time.\n\n## Steps\n\n### Step 1: Line up tickets against churn\n\nCreate an Insights report called \"Support Volume vs Churn\".\nSeries A: Event \"Ticket created\", aggregation: Count, label: \"Tickets\"\nSeries B: Event \"Subscription canceled\", aggregation: Count, label: \"Churns\"\nTime granularity: Weekly\nBreakdown for Series A: By \"priority\" property on Ticket created (the canonical event has priority as a property)\nBreakdown for Series B: By \"reason\" property on Subscription canceled (text: group by cleaned/tokenized reason categories)\nTime range: Last 12 weeks\nCompare: Previous period (prior 12 weeks)\nChart type: Dual-axis chart: left axis tickets (stacked area by priority), right axis churns (lines by reason group)\nAnnotations:\n- Highlight any week where high-priority tickets exceeded the trailing 8-week average by 50% or more.\n- For each spike in churns, surface the leading 2-week ticket volume: flag if elevated by more than 30% vs. baseline.\nSurface whether high-priority ticket spikes precede churn spikes (typical lag is 2-4 weeks). If correlation is strong, identify which Subscription canceled.reason categories are most associated with prior support load.\nTaxonomy notes:\n- Ticket created is canonical (no \"support_\" prefix). Properties: ticket_id, priority, source_type, status, subject.\n- Subscription canceled (British spelling) carries reason as a free-text field. Cluster reasons before breakdown.\n",
+  "classification": {
+    "industry": [
+      "ai",
+      "b2b-saas",
+      "finance",
+      "media"
+    ]
+  },
+  "author": {
+    "name": "Aman Tiwari",
+    "first_name": "Aman",
+    "last_name": "Tiwari",
+    "company": "Intempt",
+    "job_title": "Product Manager",
+    "org_name": "intempt"
+  },
+  "permissions": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Line up tickets against churn",
+      "description": "Create an Insights report called \"Support Volume vs Churn\".\nSeries A: Event \"Ticket created\", aggregation: Count, label: \"Tickets\"\nSeries B: Event \"Subscription canceled\", aggregation: Count, label: \"Churns\"\nTime granularity: Weekly\nBreakdown for Series A: By \"priority\" property on Ticket created (the canonical event has priority as a property)\nBreakdown for Series B: By \"reason\" property on Subscription canceled (text: group by cleaned/tokenized reason categories)\nTime range: Last 12 weeks\nCompare: Previous period (prior 12 weeks)\nChart type: Dual-axis chart: left axis tickets (stacked area by priority), right axis churns (lines by reason group)\nAnnotations:\n- Highlight any week where high-priority tickets exceeded the trailing 8-week average by 50% or more.\n- For each spike in churns, surface the leading 2-week ticket volume: flag if elevated by more than 30% vs. baseline.\nSurface whether high-priority ticket spikes precede churn spikes (typical lag is 2-4 weeks). If correlation is strong, identify which Subscription canceled.reason categories are most associated with prior support load.\nTaxonomy notes:\n- Ticket created is canonical (no \"support_\" prefix). Properties: ticket_id, priority, source_type, status, subject.\n- Subscription canceled (British spelling) carries reason as a free-text field. Cluster reasons before breakdown."
+    }
+  ],
+  "availability": "coming_soon"
+}

@@ -1,0 +1,31 @@
+{
+  "frontmatter_id": "account-engagement-score-trend",
+  "title": "Account engagement score trend",
+  "slash_command": "/account-engagement-score-trend",
+  "description": "Builds a report that calculates a custom weighted engagement score for each account from user activity and click data. The weighting is arbitrary and not a native product score.",
+  "markdown": "# Account engagement score trend\n\n## Description\n\nBuilds a report that calculates a custom weighted engagement score for each account from user activity and click data. The weighting is arbitrary and not a native product score.\n\n## Steps\n\n### Step 1: Score account engagement weekly\n\nCreate an Insights report called \"Account Engagement Score Trend\".\nSeries A: Event \"Session start\", aggregation: Count Unique Users: rolled up by Users.the account the user belongs to (so each account's score = number of distinct users from that account who emitted a Session start in the period)\nSeries B: Event \"Click on\", aggregation: Count, rolled up by Users.the account the user belongs to (raw activity volume per account)\nSeries C: Computed engagement score per account = (Series A × 5) + (Series B × 0.1): a weighted blend giving each account a single number reflecting both breadth (distinct users) and depth (activity volume)\nTime granularity: Weekly\nTime range: Last 12 weeks\nBreakdown: By Account record (top 30 accounts by current engagement score)\nCompare: Previous period (prior 12 weeks)\nChart type: Multi-line chart with one line per account, plus a heatmap small-multiple showing score change week-over-week\nAnnotations:\n- Flag accounts whose engagement score dropped >30% in the last 4 weeks vs. trailing 8-week baseline (acute disengagement: churn risk).\n- Flag accounts whose engagement score grew >50% in the last 4 weeks (expansion candidates: sales should reach out).\n- Flag accounts where Series A (distinct users) is shrinking but Series B (activity) is stable: the account is consolidating to a smaller power-user group; risky if that user departs (single-threaded account).\n- Highlight the top 5 accounts by absolute engagement score AND the top 5 by week-over-week growth rate: different lists, both worth sales attention.\nUse case: the canonical B2B account-health view. Single-user metrics miss the real story in B2B; an account where 1 user is hyperactive while 20 others ignore the product is at risk despite high \"activity.\" This recipe rolls up to the account level.\nTaxonomy notes:\n- Users.the account the user belongs to is the canonical relation linking users to accounts.\n- The Accounts object has 58 attributes including engagement-score relation possibilities.\n- Session start and Click on are canonical engagement signals.\n",
+  "classification": {
+    "industry": [
+      "ai",
+      "b2b-saas",
+      "media"
+    ]
+  },
+  "author": {
+    "name": "Aman Tiwari",
+    "first_name": "Aman",
+    "last_name": "Tiwari",
+    "company": "Intempt",
+    "job_title": "Product Manager",
+    "org_name": "intempt"
+  },
+  "permissions": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Score account engagement weekly",
+      "description": "Create an Insights report called \"Account Engagement Score Trend\".\nSeries A: Event \"Session start\", aggregation: Count Unique Users: rolled up by Users.the account the user belongs to (so each account's score = number of distinct users from that account who emitted a Session start in the period)\nSeries B: Event \"Click on\", aggregation: Count, rolled up by Users.the account the user belongs to (raw activity volume per account)\nSeries C: Computed engagement score per account = (Series A × 5) + (Series B × 0.1): a weighted blend giving each account a single number reflecting both breadth (distinct users) and depth (activity volume)\nTime granularity: Weekly\nTime range: Last 12 weeks\nBreakdown: By Account record (top 30 accounts by current engagement score)\nCompare: Previous period (prior 12 weeks)\nChart type: Multi-line chart with one line per account, plus a heatmap small-multiple showing score change week-over-week\nAnnotations:\n- Flag accounts whose engagement score dropped >30% in the last 4 weeks vs. trailing 8-week baseline (acute disengagement: churn risk).\n- Flag accounts whose engagement score grew >50% in the last 4 weeks (expansion candidates: sales should reach out).\n- Flag accounts where Series A (distinct users) is shrinking but Series B (activity) is stable: the account is consolidating to a smaller power-user group; risky if that user departs (single-threaded account).\n- Highlight the top 5 accounts by absolute engagement score AND the top 5 by week-over-week growth rate: different lists, both worth sales attention.\nUse case: the canonical B2B account-health view. Single-user metrics miss the real story in B2B; an account where 1 user is hyperactive while 20 others ignore the product is at risk despite high \"activity.\" This recipe rolls up to the account level.\nTaxonomy notes:\n- Users.the account the user belongs to is the canonical relation linking users to accounts.\n- The Accounts object has 58 attributes including engagement-score relation possibilities.\n- Session start and Click on are canonical engagement signals."
+    }
+  ],
+  "availability": "coming_soon"
+}

@@ -1,0 +1,32 @@
+{
+  "frontmatter_id": "product-in-motion",
+  "title": "Turntable product spin",
+  "slash_command": "/product-in-motion",
+  "description": "Turns a product packshot into a slow 360 degree turntable spin video on the same backdrop.",
+  "markdown": "# Turntable product spin\n\n## Description\n\nTurns a product packshot into a slow 360 degree turntable spin video on the same backdrop.\n\n## Steps\n\n### Step 1: Spin the product\n\nGenerate a product turntable spin video.\nCamera fixed. Slow elegant turntable rotation of the product, same backdrop. Luxury e-commerce 360° spin. No text, no logo.\nPipeline: image to video (camera-fixed, turntable)\n",
+  "classification": {
+    "industry": [
+      "b2b-saas",
+      "ecommerce",
+      "media",
+      "social"
+    ]
+  },
+  "author": {
+    "name": "Aurobind Venu",
+    "first_name": "Aurobind",
+    "last_name": "Venu",
+    "company": "Intempt",
+    "job_title": "Creative Director",
+    "org_name": "intempt"
+  },
+  "permissions": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Spin the product",
+      "description": "Generate a product turntable spin video.\nCamera fixed. Slow elegant turntable rotation of the product, same backdrop. Luxury e-commerce 360° spin. No text, no logo.\nPipeline: image to video (camera-fixed, turntable)"
+    }
+  ],
+  "availability": "coming_soon"
+}

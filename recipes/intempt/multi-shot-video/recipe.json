@@ -1,0 +1,32 @@
+{
+  "frontmatter_id": "multi-shot-video",
+  "title": "Multi-shot video from a shot list",
+  "slash_command": "/multi-shot-video",
+  "description": "Generates each shot in your shot list as a separate Kling v3 text-to-video clip. Use the merge-video workflow node to join clips into one reel.",
+  "markdown": "# Multi-shot video from a shot list\n\n## Description\n\nGenerates each shot in your shot list as a separate Kling v3 text-to-video clip. Use the merge-video workflow node to join clips into one reel.\n\n## Steps\n\n### Step 1: Render and join the shots\n\nGenerate a multi-shot video from a shot list.\nInputs:\n- shotList: one prompt per shot (multi-string)\n- scene: shared scene/look across all shots\n- durationPerShot: 3s or 5s per shot\nPipeline: kling v2.1 master t2v × N + concat\nRender each shot with consistent visual style, then concatenate into a single reel.\n",
+  "classification": {
+    "industry": [
+      "b2b-saas",
+      "ecommerce",
+      "media",
+      "social"
+    ]
+  },
+  "author": {
+    "name": "Aurobind Venu",
+    "first_name": "Aurobind",
+    "last_name": "Venu",
+    "company": "Intempt",
+    "job_title": "Creative Director",
+    "org_name": "intempt"
+  },
+  "permissions": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Render and join the shots",
+      "description": "Generate a multi-shot video from a shot list.\nInputs:\n- shotList: one prompt per shot (multi-string)\n- scene: shared scene/look across all shots\n- durationPerShot: 3s or 5s per shot\nPipeline: kling v2.1 master t2v × N + concat\nRender each shot with consistent visual style, then concatenate into a single reel."
+    }
+  ],
+  "availability": "coming_soon"
+}

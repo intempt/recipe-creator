@@ -1,0 +1,32 @@
+{
+  "frontmatter_id": "cinemagraph",
+  "title": "Cinemagraph loop",
+  "slash_command": "/cinemagraph",
+  "description": "Turns a still photo into a looping clip where one element moves, such as steam or a pour, and everything else stays frozen.",
+  "markdown": "# Cinemagraph loop\n\n## Description\n\nTurns a still photo into a looping clip where one element moves, such as steam or a pour, and everything else stays frozen.\n\n## Steps\n\n### Step 1: Animate one element\n\nGenerate a cinemagraph from a still image.\nCamera stays fixed. Everything stays frozen except one element (gentle steam, single leaf in breeze, liquid pour). Subtle hypnotic loop with no visible cut.\nPipeline: image to video (camera-fixed, loop)\n",
+  "classification": {
+    "industry": [
+      "b2b-saas",
+      "ecommerce",
+      "media",
+      "social"
+    ]
+  },
+  "author": {
+    "name": "Aurobind Venu",
+    "first_name": "Aurobind",
+    "last_name": "Venu",
+    "company": "Intempt",
+    "job_title": "Creative Director",
+    "org_name": "intempt"
+  },
+  "permissions": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Animate one element",
+      "description": "Generate a cinemagraph from a still image.\nCamera stays fixed. Everything stays frozen except one element (gentle steam, single leaf in breeze, liquid pour). Subtle hypnotic loop with no visible cut.\nPipeline: image to video (camera-fixed, loop)"
+    }
+  ],
+  "availability": "coming_soon"
+}

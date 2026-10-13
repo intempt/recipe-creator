@@ -1,0 +1,32 @@
+{
+  "frontmatter_id": "interior-staging",
+  "title": "Virtual interior staging",
+  "slash_command": "/interior-staging",
+  "description": "Furnishes a photo of an empty room, leaving the walls, floor, windows and daylight exactly as they were shot.",
+  "markdown": "# Virtual interior staging\n\n## Description\n\nFurnishes a photo of an empty room, leaving the walls, floor, windows and daylight exactly as they were shot.\n\n## Steps\n\n### Step 1: Furnish the empty room\n\nEdit the photo of an empty room attached to this run.\nFurnish it with furniture, a coffee table, a vase, a floor lamp and other staging that suits the room.\nKeep the room geometry, walls, flooring, windows and daylight unchanged.\n",
+  "classification": {
+    "industry": [
+      "b2b-saas",
+      "ecommerce",
+      "media",
+      "social"
+    ]
+  },
+  "author": {
+    "name": "Aurobind Venu",
+    "first_name": "Aurobind",
+    "last_name": "Venu",
+    "company": "Intempt",
+    "job_title": "Creative Director",
+    "org_name": "intempt"
+  },
+  "permissions": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Furnish the empty room",
+      "description": "Edit the photo of an empty room attached to this run.\nFurnish it with furniture, a coffee table, a vase, a floor lamp and other staging that suits the room.\nKeep the room geometry, walls, flooring, windows and daylight unchanged."
+    }
+  ],
+  "availability": "coming_soon"
+}

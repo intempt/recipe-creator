@@ -1,0 +1,43 @@
+{
+  "frontmatter_id": "renewal-call-summary-recipe",
+  "title": "Renewal call summary fields",
+  "slash_command": "/renewal-call-summary-recipe",
+  "description": "Customizes AI summaries for Renewal calls, extracting usage patterns, expansion signals, churn risks, stakeholder confirmation and contract changes.",
+  "markdown": "# Renewal call summary fields\n\n## Description\n\nCustomizes AI summaries for Renewal calls, extracting usage patterns, expansion signals, churn risks, stakeholder confirmation and contract changes.\n\n## Steps\n\n### Step 1: Check the Renewal meeting type\n\nRetrieve the Renewal meeting type from the meeting taxonomy. Confirm exists with notetaker autojoin enabled.\n\n### Step 2: Set what renewals capture\n\nConfigure the AI summary recipe for the Renewal meeting type. Extract: (1) Usage Patterns (features the customer mentioned actively using vs. struggling with vs. never tried; (2) Expansion Signals) explicit interest in additional seats, modules, tier upgrades; budget signal for expansion (verbatim quotes); (3) Contraction Risks: explicit signals of churn intent, reduced usage, team changes affecting fit, competitor evaluation; (4) Stakeholder Confirmation: was the decision-maker present, did stakeholders confirm continued commitment, any champion changes (departures, role changes); (5) Contract Terms Discussion (pricing pushback, term length preference, payment terms, custom contractual asks; (6) Health Score Movement) sentiment shift from prior interactions; (7) Next Step: proposal needed, additional stakeholders to loop in, agreement to terms. Use the result of \"Check the Renewal meeting type\".\n\n### Step 3: Track renewal risk and upside\n\nCompose a renewal risk + expansion dashboard reading from summaries: (1) at-risk renewals (accounts with contraction signals or unresolved competitor evaluation, sorted by renewal date; (2) expansion-ready) accounts with explicit interest signals, sorted by ARR opportunity; (3) churn precursors (accounts where champion departed or stakeholders signaled disengagement; (4) renewal-call coverage) % of upcoming renewals where the call has happened (target: 100% by 60 days before renewal date); (5) win/loss patterns from past renewal-call summaries. Group by CSM owner. Use the result of \"Check the Renewal meeting type\", \"Set what renewals capture\".\n",
+  "classification": {
+    "industry": [
+      "ai",
+      "b2b-saas",
+      "finance",
+      "media"
+    ]
+  },
+  "author": {
+    "name": "Sid Chaudhary",
+    "first_name": "Sid",
+    "last_name": "Chaudhary",
+    "company": "Intempt",
+    "job_title": "Founder & CEO",
+    "avatar": "https://cdn.intempt.com/assets/author-profile-pics/sid.png",
+    "org_name": "intempt"
+  },
+  "permissions": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Check the Renewal meeting type",
+      "description": "Retrieve the Renewal meeting type from the meeting taxonomy. Confirm exists with notetaker autojoin enabled."
+    },
+    {
+      "id": "s2",
+      "title": "Set what renewals capture",
+      "description": "Configure the AI summary recipe for the Renewal meeting type. Extract: (1) Usage Patterns (features the customer mentioned actively using vs. struggling with vs. never tried; (2) Expansion Signals) explicit interest in additional seats, modules, tier upgrades; budget signal for expansion (verbatim quotes); (3) Contraction Risks: explicit signals of churn intent, reduced usage, team changes affecting fit, competitor evaluation; (4) Stakeholder Confirmation: was the decision-maker present, did stakeholders confirm continued commitment, any champion changes (departures, role changes); (5) Contract Terms Discussion (pricing pushback, term length preference, payment terms, custom contractual asks; (6) Health Score Movement) sentiment shift from prior interactions; (7) Next Step: proposal needed, additional stakeholders to loop in, agreement to terms. Use the result of \"Check the Renewal meeting type\"."
+    },
+    {
+      "id": "s3",
+      "title": "Track renewal risk and upside",
+      "description": "Compose a renewal risk + expansion dashboard reading from summaries: (1) at-risk renewals (accounts with contraction signals or unresolved competitor evaluation, sorted by renewal date; (2) expansion-ready) accounts with explicit interest signals, sorted by ARR opportunity; (3) churn precursors (accounts where champion departed or stakeholders signaled disengagement; (4) renewal-call coverage) % of upcoming renewals where the call has happened (target: 100% by 60 days before renewal date); (5) win/loss patterns from past renewal-call summaries. Group by CSM owner. Use the result of \"Check the Renewal meeting type\", \"Set what renewals capture\"."
+    }
+  ],
+  "availability": "coming_soon"
+}

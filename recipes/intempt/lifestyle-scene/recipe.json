@@ -1,0 +1,32 @@
+{
+  "frontmatter_id": "lifestyle-scene",
+  "title": "Product in a real setting",
+  "slash_command": "/lifestyle-scene",
+  "description": "Moves a studio packshot into a real-world setting such as a kitchen, office or outdoors, with natural light and depth of field.",
+  "markdown": "# Product in a real setting\n\n## Description\n\nMoves a studio packshot into a real-world setting such as a kitchen, office or outdoors, with natural light and depth of field.\n\n## Steps\n\n### Step 1: Place the product in a scene\n\nEdit the studio packshot attached to this run.\nRe-render the product in a real-world kitchen, with natural ambient light and realistic depth of field.\nDo not change the product itself.\n",
+  "classification": {
+    "industry": [
+      "b2b-saas",
+      "ecommerce",
+      "media",
+      "social"
+    ]
+  },
+  "author": {
+    "name": "Aurobind Venu",
+    "first_name": "Aurobind",
+    "last_name": "Venu",
+    "company": "Intempt",
+    "job_title": "Creative Director",
+    "org_name": "intempt"
+  },
+  "permissions": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Place the product in a scene",
+      "description": "Edit the studio packshot attached to this run.\nRe-render the product in a real-world kitchen, with natural ambient light and realistic depth of field.\nDo not change the product itself."
+    }
+  ],
+  "availability": "coming_soon"
+}

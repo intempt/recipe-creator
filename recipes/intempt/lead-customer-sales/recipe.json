@@ -1,0 +1,29 @@
+{
+  "frontmatter_id": "lead-customer-sales",
+  "title": "Lead to customer",
+  "slash_command": "/lead-customer-sales",
+  "description": "Shows how many demo requests turn into booked meetings, completed demos, proposals and closed deals, and which lead sources actually convert.",
+  "markdown": "# Lead to customer\n\n## Description\n\nShows how many demo requests turn into booked meetings, completed demos, proposals and closed deals, and which lead sources actually convert.\n\n## Steps\n\n### Step 1: Trace demo requests to closed deals\n\nCreate a Funnel report called \"Lead to Customer\".\nSteps:\n1. Event \"Form submitted\" where form_id matches a demo-request form: \"Requested Demo\"\n (alternative: Deal created with stage matching \"Discovery\" or similar)\n2. Event \"Meeting scheduled\" linked to the user (via primary_user_id or user_ids): \"Scheduled Demo\"\n3. Event \"Meeting scheduled\" where canceled_at is null AND end_time < now (i.e. meeting actually happened, no subsequent meeting_canceled): \"Completed Demo\"\n4. Event \"Deal stage changed\" where new_stage matches a \"Proposal\" pattern: \"Proposal Sent\"\n5. Event \"Deal won\": \"Deal Closed\"\nConversion window: 60 days\nBreakdown: By Users.UTM source attribute (first-touch lead source on the User record). Top 8 sources.\nCompare: Previous period (prior 60 days)\nFor each step, also surface:\n- Median time-to-convert from previous step (stage velocity)\n- Per-source conversion rate at each stage\n- Forecast revenue: Sum of Deal created.amount (or current Deal stage changed.amount) for deals currently at this stage × historical conversion-to-won rate\nAnnotations:\n- Flag the lead source with highest end-to-end win rate AND volume: invest more there.\n- Flag any stage where median velocity exceeded 14 days (deal-stalled signal).\n- Highlight any source with rising volume but falling win rate (lead-quality erosion).\nSurface the projected closed-won revenue for the period based on current pipeline volumes.\nTaxonomy notes:\n- \"demo_requested\", \"demo_completed\", \"proposal_sent\" as standalone events do not exist. They are derived from Form submitted, Meeting scheduled, and Deal stage changed.new_stage respectively.\n- Deal stage changed has previous_stage and new_stage properties; deal stages are project-configured (the Deals object has stage as a relation attribute).\n- Meeting scheduled has canceled_at, start_time, end_time: completion is derived from these.\n- Users.UTM source is the canonical lead-source User attribute.\n",
+  "classification": {
+    "industry": [
+      "b2b-saas"
+    ]
+  },
+  "author": {
+    "name": "Aman Tiwari",
+    "first_name": "Aman",
+    "last_name": "Tiwari",
+    "company": "Intempt",
+    "job_title": "Product Manager",
+    "org_name": "intempt"
+  },
+  "permissions": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Trace demo requests to closed deals",
+      "description": "Create a Funnel report called \"Lead to Customer\".\nSteps:\n1. Event \"Form submitted\" where form_id matches a demo-request form: \"Requested Demo\"\n (alternative: Deal created with stage matching \"Discovery\" or similar)\n2. Event \"Meeting scheduled\" linked to the user (via primary_user_id or user_ids): \"Scheduled Demo\"\n3. Event \"Meeting scheduled\" where canceled_at is null AND end_time < now (i.e. meeting actually happened, no subsequent meeting_canceled): \"Completed Demo\"\n4. Event \"Deal stage changed\" where new_stage matches a \"Proposal\" pattern: \"Proposal Sent\"\n5. Event \"Deal won\": \"Deal Closed\"\nConversion window: 60 days\nBreakdown: By Users.UTM source attribute (first-touch lead source on the User record). Top 8 sources.\nCompare: Previous period (prior 60 days)\nFor each step, also surface:\n- Median time-to-convert from previous step (stage velocity)\n- Per-source conversion rate at each stage\n- Forecast revenue: Sum of Deal created.amount (or current Deal stage changed.amount) for deals currently at this stage × historical conversion-to-won rate\nAnnotations:\n- Flag the lead source with highest end-to-end win rate AND volume: invest more there.\n- Flag any stage where median velocity exceeded 14 days (deal-stalled signal).\n- Highlight any source with rising volume but falling win rate (lead-quality erosion).\nSurface the projected closed-won revenue for the period based on current pipeline volumes.\nTaxonomy notes:\n- \"demo_requested\", \"demo_completed\", \"proposal_sent\" as standalone events do not exist. They are derived from Form submitted, Meeting scheduled, and Deal stage changed.new_stage respectively.\n- Deal stage changed has previous_stage and new_stage properties; deal stages are project-configured (the Deals object has stage as a relation attribute).\n- Meeting scheduled has canceled_at, start_time, end_time: completion is derived from these.\n- Users.UTM source is the canonical lead-source User attribute."
+    }
+  ],
+  "availability": "coming_soon"
+}
