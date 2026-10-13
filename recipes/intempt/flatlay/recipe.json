@@ -1,0 +1,53 @@
+{
+  "frontmatter_id": "flatlay",
+  "title": "Styled flatlay",
+  "slash_command": "/flatlay",
+  "description": "Arranges your product in a top-down flatlay with complementary props styled around it.",
+  "markdown": "# Styled flatlay\n\n## Description\n\nArranges your product in a top-down flatlay with complementary props styled around it.\n\n## Steps\n\n### Step 1: Style the flatlay\n\nEdit the top-down flatlay product image attached to this run.\nAdd complementary props arranged around the product.\nKeep the product in the same position, and keep the top-down angle and the lighting unchanged.\n",
+  "classification": {
+    "industry": [
+      "b2b-saas",
+      "ecommerce",
+      "media",
+      "social"
+    ]
+  },
+  "complexity": "quick",
+  "author": {
+    "name": "Aurobind Venu",
+    "first_name": "Aurobind",
+    "last_name": "Venu",
+    "company": "Intempt",
+    "job_title": "Creative Director",
+    "org_name": "intempt"
+  },
+  "permissions": [
+    "content:create"
+  ],
+  "prerequisites": {
+    "integrations": [
+      "products"
+    ]
+  },
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Style the flatlay",
+      "description": "Edit the top-down flatlay product image attached to this run. Add complementary props arranged around the product. Keep the product in the same position, and keep the top-down angle and the lighting unchanged.",
+      "command": "generate_image",
+      "entity": "image",
+      "kind": "dynamic",
+      "modelConfig": [],
+      "arguments": [
+        {
+          "key": "product_s1",
+          "type": "asset_reference",
+          "label": "Flatlay product image",
+          "entity": "product",
+          "phrase": "the top-down flatlay product image attached to this run",
+          "required": true
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "frontmatter_id": "product-swap",
+  "title": "Product swap in a scene",
+  "slash_command": "/product-swap",
+  "description": "Replaces the product in a shot you already have with a different one, keeping the scene, lighting and shadow the same.",
+  "markdown": "# Product swap in a scene\n\n## Description\n\nReplaces the product in a shot you already have with a different one, keeping the scene, lighting and shadow the same.\n\n## Steps\n\n### Step 1: Swap in the new product\n\nEdit the image attached to this run.\nReplace only the product with the new product chosen for this run, at identical size and position.\nKeep the scene, lighting, shadow and backdrop unchanged.\n",
+  "classification": {
+    "industry": [
+      "b2b-saas",
+      "ecommerce",
+      "media",
+      "social"
+    ]
+  },
+  "complexity": "quick",
+  "author": {
+    "name": "Aurobind Venu",
+    "first_name": "Aurobind",
+    "last_name": "Venu",
+    "company": "Intempt",
+    "job_title": "Creative Director",
+    "org_name": "intempt"
+  },
+  "permissions": [
+    "content:create"
+  ],
+  "prerequisites": {
+    "integrations": [
+      "products"
+    ]
+  },
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Swap in the new product",
+      "description": "Edit the image attached to this run. Replace only the product with the new product chosen for this run, at identical size and position. Keep the scene, lighting, shadow and backdrop unchanged.",
+      "command": "generate_image",
+      "entity": "image",
+      "kind": "dynamic",
+      "modelConfig": [],
+      "arguments": [
+        {
+          "key": "image_s1",
+          "type": "attachment",
+          "label": "Image to edit",
+          "entity": "image",
+          "phrase": "the image attached to this run",
+          "required": true
+        },
+        {
+          "key": "product_s1",
+          "type": "asset_reference",
+          "label": "New product",
+          "entity": "product",
+          "phrase": "the new product chosen for this run",
+          "required": true
+        }
+      ]
+    }
+  ]
+}

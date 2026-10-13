@@ -1,0 +1,38 @@
+{
+  "frontmatter_id": "net-new-prospects",
+  "title": "Net-new prospect accounts",
+  "slash_command": "/net-new-prospects",
+  "description": "Accounts created in the last week that have barely done anything yet, so SDRs know who to contact first.",
+  "markdown": "# Net-new prospect accounts\n\n## Description\n\nAccounts created in the last week that have barely done anything yet, so SDRs know who to contact first.\n\n## Steps\n\n### Step 1: Build the net-new account list\n\nBuild a segment of accounts named \"Net-New Prospects\".\nAn account is in the segment only when all of these are true:\n- its Created date attribute is within the last 7 days\n- its Total events attribute is 5 or less\n- its Lifecycle stage attribute is \"prospect\"\n- its Has an open deal attribute is false\n",
+  "classification": {
+    "industry": [
+      "ai",
+      "b2b-saas",
+      "media"
+    ]
+  },
+  "complexity": "quick",
+  "author": {
+    "name": "Harish Kumar",
+    "first_name": "Harish",
+    "last_name": "Kumar",
+    "company": "Intempt",
+    "job_title": "Growth Marketer",
+    "avatar": "https://cdn.intempt.com/assets/author-profile-pics/harish.jpg",
+    "org_name": "intempt"
+  },
+  "permissions": [
+    "segment:create"
+  ],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Build the net-new account list",
+      "description": "Build a segment of accounts named \"Net-New Prospects\". An account is in the segment only when all of these are true: its created_at attribute is within the last 7 days; its total_events attribute is 5 or less; its account_lifecycle attribute is \"prospect\"; its has_open_deal attribute is false",
+      "command": "create_segment",
+      "entity": "segment",
+      "kind": "static",
+      "modelConfig": []
+    }
+  ]
+}

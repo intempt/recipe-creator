@@ -1,0 +1,48 @@
+{
+  "frontmatter_id": "cinematic-studio",
+  "title": "Cinematic look board",
+  "slash_command": "/cinematic-studio",
+  "description": "Returns a board of nine cinematic looks from one image, so you can pick the grade you want.",
+  "markdown": "# Cinematic look board\n\n## Description\n\nReturns a board of nine cinematic looks from one image, so you can pick the grade you want.\n\n## Steps\n\n### Step 1: Render nine cinematic looks\n\nGenerate nine images from the image attached to this run, laid out as a 3 by 3 board.\nGive each image the look of a different cinematographer: Wes Anderson, Roger Deakins, Emmanuel Lubezki, Christopher Doyle, Bradford Young, and four others, with no cinematographer used twice.\n",
+  "classification": {
+    "industry": [
+      "b2b-saas",
+      "ecommerce",
+      "media",
+      "social"
+    ]
+  },
+  "complexity": "quick",
+  "author": {
+    "name": "Aurobind Venu",
+    "first_name": "Aurobind",
+    "last_name": "Venu",
+    "company": "Intempt",
+    "job_title": "Creative Director",
+    "org_name": "intempt"
+  },
+  "permissions": [
+    "content:create"
+  ],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Render nine cinematic looks",
+      "description": "Generate nine images from the image attached to this run, laid out as a 3 by 3 board. Give each image the look of a different cinematographer: Wes Anderson, Roger Deakins, Emmanuel Lubezki, Christopher Doyle, Bradford Young, and four others, with no cinematographer used twice.",
+      "command": "generate_image",
+      "entity": "image",
+      "kind": "dynamic",
+      "modelConfig": [],
+      "arguments": [
+        {
+          "key": "image_s1",
+          "type": "attachment",
+          "label": "Source image",
+          "entity": "image",
+          "phrase": "the image attached to this run",
+          "required": true
+        }
+      ]
+    }
+  ]
+}

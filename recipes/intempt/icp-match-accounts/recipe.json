@@ -1,0 +1,37 @@
+{
+  "frontmatter_id": "icp-match-accounts",
+  "title": "Accounts matching your ICP",
+  "slash_command": "/icp-match-accounts",
+  "description": "Accounts that fit your ideal customer profile on size, industry, and country, as the base list for account-based targeting.",
+  "markdown": "# Accounts matching your ICP\n\n## Description\n\nAccounts that fit your ideal customer profile on size, industry, and country, as the base list for account-based targeting.\n\n## Steps\n\n### Step 1: Build the ICP list\n\nBuild a segment of accounts named \"ICP Match Accounts\".\nAn account is in the segment only when all of these are true:\n- its employees attribute is between 50 and 500\n- its industry attribute is one of \"SaaS\", \"Technology\" or \"Financial Services\"\n- its country attribute is one of \"US\", \"UK\", \"CA\" or \"AU\"\n",
+  "classification": {
+    "industry": [
+      "ai",
+      "b2b-saas"
+    ]
+  },
+  "complexity": "quick",
+  "author": {
+    "name": "Harish Kumar",
+    "first_name": "Harish",
+    "last_name": "Kumar",
+    "company": "Intempt",
+    "job_title": "Growth Marketer",
+    "avatar": "https://cdn.intempt.com/assets/author-profile-pics/harish.jpg",
+    "org_name": "intempt"
+  },
+  "permissions": [
+    "segment:create"
+  ],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Build the ICP list",
+      "description": "Build a segment of accounts named \"ICP Match Accounts\". An account is in the segment only when all of these are true: its employees attribute is between 50 and 500, its industry attribute is one of \"SaaS\", \"Technology\" or \"Financial Services\", and its country attribute is one of \"US\", \"UK\", \"CA\" or \"AU\".",
+      "command": "create_segment",
+      "entity": "segment",
+      "kind": "static",
+      "modelConfig": []
+    }
+  ]
+}

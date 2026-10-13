@@ -1,0 +1,49 @@
+{
+  "frontmatter_id": "editorial-model",
+  "title": "Editorial lookbook shot",
+  "slash_command": "/editorial-model",
+  "description": "Produces a full-body editorial fashion photo of an AI model on location, then varies the lighting while holding pose and framing.",
+  "markdown": "# Editorial lookbook shot\n\n## Description\n\nProduces a full-body editorial fashion photo of an AI model on location, then varies the lighting while holding pose and framing.\n\n## Steps\n\n### Step 1: Relight the lookbook shot\n\nEdit the editorial lookbook image attached to this run: a full-body AI model wearing the outfit on location.\nChange only the lighting, to golden hour with long raking shadows.\nKeep the model's identity, the outfit, the pose, the street and the framing identical.\n",
+  "classification": {
+    "industry": [
+      "ai",
+      "b2b-saas",
+      "ecommerce",
+      "media",
+      "social"
+    ]
+  },
+  "complexity": "quick",
+  "author": {
+    "name": "Aurobind Venu",
+    "first_name": "Aurobind",
+    "last_name": "Venu",
+    "company": "Intempt",
+    "job_title": "Creative Director",
+    "org_name": "intempt"
+  },
+  "permissions": [
+    "content:create"
+  ],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Relight the lookbook shot",
+      "description": "Edit the editorial lookbook image attached to this run: a full-body AI model wearing the outfit on location. Change only the lighting, to golden hour with long raking shadows. Keep the model's identity, the outfit, the pose, the street and the framing identical.",
+      "command": "generate_image",
+      "entity": "image",
+      "kind": "dynamic",
+      "modelConfig": [],
+      "arguments": [
+        {
+          "key": "image_s1",
+          "type": "attachment",
+          "label": "Editorial lookbook image",
+          "entity": "image",
+          "phrase": "the editorial lookbook image attached to this run",
+          "required": true
+        }
+      ]
+    }
+  ]
+}

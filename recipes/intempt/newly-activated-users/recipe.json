@@ -1,0 +1,52 @@
+{
+  "frontmatter_id": "newly-activated-users",
+  "title": "Newly activated users",
+  "slash_command": "/newly-activated-users",
+  "description": "Paying users who hit their activation milestone in the last week, while they are warm enough to say yes to more.",
+  "markdown": "# Newly activated users\n\n## Description\n\nPaying users who hit their activation milestone in the last week, while they are warm enough to say yes to more.\n\n## Steps\n\n### Step 1: Build the newly-activated list\n\nBuild a segment of users named \"Newly Activated Users\".\nA user is in the segment only when all of these are true:\n- they did the Completed a journey goal event at least once in the last 7 days, with a journey_id equal to the activation journey chosen for this run\n- their Plan attribute is not \"free\"\n",
+  "classification": {
+    "industry": [
+      "ai",
+      "b2b-saas"
+    ]
+  },
+  "complexity": "quick",
+  "author": {
+    "name": "Harish Kumar",
+    "first_name": "Harish",
+    "last_name": "Kumar",
+    "company": "Intempt",
+    "job_title": "Growth Marketer",
+    "avatar": "https://cdn.intempt.com/assets/author-profile-pics/harish.jpg",
+    "org_name": "intempt"
+  },
+  "permissions": [
+    "segment:create"
+  ],
+  "prerequisites": {
+    "events": [
+      "Completed a journey goal"
+    ]
+  },
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Build the newly-activated list",
+      "description": "Build a segment of users named \"Newly Activated Users\". A user is in the segment only when all of these are true: they did the Completed a journey goal event at least once in the last 7 days, with a journey_id equal to the activation journey chosen for this run; their Plan attribute is not \"free\".",
+      "command": "create_segment",
+      "entity": "segment",
+      "kind": "static",
+      "modelConfig": [],
+      "arguments": [
+        {
+          "key": "journey_s1",
+          "type": "asset_reference",
+          "label": "Activation journey",
+          "entity": "journey",
+          "phrase": "the activation journey chosen for this run",
+          "required": true
+        }
+      ]
+    }
+  ]
+}

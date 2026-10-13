@@ -1,0 +1,43 @@
+{
+  "frontmatter_id": "engaged-free-users",
+  "title": "Engaged free users",
+  "slash_command": "/engaged-free-users",
+  "description": "Identify free-plan users using their computed Engagement score to help prioritize upgrade outreach. The score is a number, not a High-tier match.",
+  "markdown": "# Engaged free users\n\n## Description\n\nIdentify free-plan users using their computed Engagement score to help prioritize upgrade outreach. The score is a number, not a High-tier match.\n\n## Steps\n\n### Step 1: Build the engaged free list\n\nBuild a segment of users named \"Engaged Free Users\".\nA user is in the segment only when all of these are true:\n- their Plan attribute is \"free\"\n- their Engagement score attribute is \"High\"\n- their Days since last activity attribute is 7 or less\n- they did the Session start event 5 or more times in the last 14 days\n",
+  "classification": {
+    "industry": [
+      "ai",
+      "b2b-saas",
+      "media"
+    ]
+  },
+  "complexity": "quick",
+  "author": {
+    "name": "Harish Kumar",
+    "first_name": "Harish",
+    "last_name": "Kumar",
+    "company": "Intempt",
+    "job_title": "Growth Marketer",
+    "avatar": "https://cdn.intempt.com/assets/author-profile-pics/harish.jpg",
+    "org_name": "intempt"
+  },
+  "permissions": [
+    "segment:create"
+  ],
+  "prerequisites": {
+    "events": [
+      "Session start"
+    ]
+  },
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Build the engaged free list",
+      "description": "Build a segment of users named \"Engaged Free Users\". A user is in the segment only when all of these are true: their Plan attribute is \"free\"; their Engagement score attribute is \"High\"; their Days since last activity attribute is 7 or less; they did the Session start event 5 or more times in the last 14 days.",
+      "command": "create_segment",
+      "entity": "segment",
+      "kind": "static",
+      "modelConfig": []
+    }
+  ]
+}

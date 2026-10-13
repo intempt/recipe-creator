@@ -1,0 +1,43 @@
+{
+  "frontmatter_id": "trial-users-high-engagement",
+  "title": "Trials most likely to convert",
+  "slash_command": "/trial-users-high-engagement",
+  "description": "Trial users with high numeric engagement scores and two weeks remaining in their trial period.",
+  "markdown": "# Trials most likely to convert\n\n## Description\n\nTrial users with high numeric engagement scores and two weeks remaining in their trial period.\n\n## Steps\n\n### Step 1: Build the strong-trial list\n\nBuild a segment of users named \"Trial Users: High Engagement\".\nA user is in the segment only when all of these are true:\n- their Plan attribute is \"trial\"\n- their Subscription end date attribute is within the next 14 days\n- their Engagement score attribute is \"High\"\n- they did the Completed a journey goal event 3 or more times in the last 14 days\n",
+  "classification": {
+    "industry": [
+      "ai",
+      "b2b-saas",
+      "media"
+    ]
+  },
+  "complexity": "quick",
+  "author": {
+    "name": "Harish Kumar",
+    "first_name": "Harish",
+    "last_name": "Kumar",
+    "company": "Intempt",
+    "job_title": "Growth Marketer",
+    "avatar": "https://cdn.intempt.com/assets/author-profile-pics/harish.jpg",
+    "org_name": "intempt"
+  },
+  "permissions": [
+    "segment:create"
+  ],
+  "prerequisites": {
+    "events": [
+      "Completed a journey goal"
+    ]
+  },
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Build the strong-trial list",
+      "description": "Build a segment of users named \"Trial Users: High Engagement\". A user is in the segment only when all of these are true: their Plan attribute is \"trial\"; their Subscription end date attribute is within the next 14 days; their Engagement score attribute is \"High\"; they did the Completed a journey goal event 3 or more times in the last 14 days.",
+      "command": "create_segment",
+      "entity": "segment",
+      "kind": "static",
+      "modelConfig": []
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "frontmatter_id": "power-users",
+  "title": "Power users",
+  "slash_command": "/power-users",
+  "description": "Segment your most active users based on frequent sessions and high activity thresholds over the last 30 days.",
+  "markdown": "# Power users\n\n## Description\n\nSegment your most active users based on frequent sessions and high activity thresholds over the last 30 days.\n\n## Steps\n\n### Step 1: Build the power-user list\n\nBuild a segment of users named \"Power Users\".\nA user is in the segment only when all of these are true:\n- they did the Session start event 10 or more times in the last 30 days\n- they did the Click on event 20 or more times in the last 30 days\n- their Engagement score attribute is \"High\"\n- their Last seen attribute is within the last 7 days\n",
+  "classification": {
+    "industry": [
+      "ai",
+      "b2b-saas",
+      "ecommerce",
+      "finance",
+      "media"
+    ]
+  },
+  "complexity": "quick",
+  "author": {
+    "name": "Harish Kumar",
+    "first_name": "Harish",
+    "last_name": "Kumar",
+    "company": "Intempt",
+    "job_title": "Growth Marketer",
+    "avatar": "https://cdn.intempt.com/assets/author-profile-pics/harish.jpg",
+    "org_name": "intempt"
+  },
+  "permissions": [
+    "segment:create"
+  ],
+  "prerequisites": {
+    "events": [
+      "Session start",
+      "Click on"
+    ]
+  },
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Build the power-user list",
+      "description": "Build a segment of users named \"Power Users\". A user is in the segment only when all of these are true: they did the Session start event 10 or more times in the last 30 days; they did the Click on event 20 or more times in the last 30 days; their Engagement score attribute is \"High\"; their Last seen attribute is within the last 7 days.",
+      "command": "create_segment",
+      "entity": "segment",
+      "kind": "static",
+      "modelConfig": []
+    }
+  ]
+}

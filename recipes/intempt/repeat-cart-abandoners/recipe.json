@@ -1,0 +1,41 @@
+{
+  "frontmatter_id": "repeat-cart-abandoners",
+  "title": "Repeat cart abandoners",
+  "slash_command": "/repeat-cart-abandoners",
+  "description": "People who have walked away from checkout twice or more this month without buying, usually a sign of friction or price resistance.",
+  "markdown": "# Repeat cart abandoners\n\n## Description\n\nPeople who have walked away from checkout twice or more this month without buying, usually a sign of friction or price resistance.\n\n## Steps\n\n### Step 1: Build the repeat-abandoner list\n\nBuild a segment of users named \"Repeat Cart Abandoners\".\nA user is in the segment only when all of these are true:\n- they did the Abandoned checkout event 2 or more times in the last 30 days\n- they did not do the Placed order event in the last 30 days\n",
+  "classification": {
+    "industry": [
+      "ecommerce"
+    ]
+  },
+  "complexity": "quick",
+  "author": {
+    "name": "Harish Kumar",
+    "first_name": "Harish",
+    "last_name": "Kumar",
+    "company": "Intempt",
+    "job_title": "Growth Marketer",
+    "avatar": "https://cdn.intempt.com/assets/author-profile-pics/harish.jpg",
+    "org_name": "intempt"
+  },
+  "permissions": [
+    "segment:create"
+  ],
+  "prerequisites": {
+    "integrations": [
+      "orders"
+    ]
+  },
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Build the repeat-abandoner list",
+      "description": "Build a segment of users named \"Repeat Cart Abandoners\". A user is in the segment only when all of these are true: they did the Abandoned checkout event 2 or more times in the last 30 days; they did not do the Placed order event in the last 30 days.",
+      "command": "create_segment",
+      "entity": "segment",
+      "kind": "static",
+      "modelConfig": []
+    }
+  ]
+}

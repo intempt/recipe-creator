@@ -1,0 +1,42 @@
+{
+  "frontmatter_id": "vip-customers-high-ltv",
+  "title": "VIP customers",
+  "slash_command": "/vip-customers-high-ltv",
+  "description": "Customers who have spent 1,000 or more across repeat orders, the base list for rewards, early access, and concierge support.",
+  "markdown": "# VIP customers\n\n## Description\n\nCustomers who have spent 1,000 or more across repeat orders, the base list for rewards, early access, and concierge support.\n\n## Steps\n\n### Step 1: Build the VIP list\n\nBuild a segment of users named \"VIP Customers\".\nA user is in the segment only when all of these are true:\n- their Lifetime value attribute is 1000 or more\n- they did the Placed order event 2 or more times, at any time\n",
+  "classification": {
+    "industry": [
+      "ecommerce",
+      "finance"
+    ]
+  },
+  "complexity": "quick",
+  "author": {
+    "name": "Harish Kumar",
+    "first_name": "Harish",
+    "last_name": "Kumar",
+    "company": "Intempt",
+    "job_title": "Growth Marketer",
+    "avatar": "https://cdn.intempt.com/assets/author-profile-pics/harish.jpg",
+    "org_name": "intempt"
+  },
+  "permissions": [
+    "segment:create"
+  ],
+  "prerequisites": {
+    "integrations": [
+      "orders"
+    ]
+  },
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Build the VIP list",
+      "description": "Build a segment of users named \"VIP Customers\". A user is in the segment only when all of these are true: their Lifetime value attribute is 1000 or more; they did the Placed order event 2 or more times, at any time.",
+      "command": "create_segment",
+      "entity": "segment",
+      "kind": "static",
+      "modelConfig": []
+    }
+  ]
+}

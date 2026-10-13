@@ -1,0 +1,41 @@
+{
+  "frontmatter_id": "discount-only-buyers",
+  "title": "Discount-only buyers",
+  "slash_command": "/discount-only-buyers",
+  "description": "Customers who have never bought anything without a discount code, so you can keep them out of full-price campaigns and protect your margin.",
+  "markdown": "# Discount-only buyers\n\n## Description\n\nCustomers who have never bought anything without a discount code, so you can keep them out of full-price campaigns and protect your margin.\n\n## Steps\n\n### Step 1: Build the discount-only list\n\nBuild a segment of users named \"Discount-Only Buyers\".\nA user is in the segment only when all of these are true:\n- they did the Placed order event with a Discount code value that is not empty 2 or more times, at any time\n- they never did the Placed order event with an empty Discount code value\n",
+  "classification": {
+    "industry": [
+      "ecommerce"
+    ]
+  },
+  "complexity": "quick",
+  "author": {
+    "name": "Harish Kumar",
+    "first_name": "Harish",
+    "last_name": "Kumar",
+    "company": "Intempt",
+    "job_title": "Growth Marketer",
+    "avatar": "https://cdn.intempt.com/assets/author-profile-pics/harish.jpg",
+    "org_name": "intempt"
+  },
+  "permissions": [
+    "segment:create"
+  ],
+  "prerequisites": {
+    "integrations": [
+      "orders"
+    ]
+  },
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Build the discount-only list",
+      "description": "Build a segment of users named \"Discount-Only Buyers\". A user is in the segment only when all of these are true: they did the Placed order event with a Discount code value that is not empty 2 or more times, at any time; they never did the Placed order event with an empty Discount code value.",
+      "command": "create_segment",
+      "entity": "segment",
+      "kind": "static",
+      "modelConfig": []
+    }
+  ]
+}

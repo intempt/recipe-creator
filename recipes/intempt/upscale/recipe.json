@@ -1,0 +1,48 @@
+{
+  "frontmatter_id": "upscale",
+  "title": "Image upscale",
+  "slash_command": "/upscale",
+  "description": "Enlarges a soft or low-resolution image to four times the size with sharper detail and nothing re-rendered.",
+  "markdown": "# Image upscale\n\n## Description\n\nEnlarges a soft or low-resolution image to four times the size with sharper detail and nothing re-rendered.\n\n## Steps\n\n### Step 1: Upscale to 4x\n\nUpscale the image attached to this run to 4 times its width and height.\nEnhance detail only: keep the composition, colours and subject the same, and do not re-render the subject.\n",
+  "classification": {
+    "industry": [
+      "b2b-saas",
+      "ecommerce",
+      "media",
+      "social"
+    ]
+  },
+  "complexity": "quick",
+  "author": {
+    "name": "Aurobind Venu",
+    "first_name": "Aurobind",
+    "last_name": "Venu",
+    "company": "Intempt",
+    "job_title": "Creative Director",
+    "org_name": "intempt"
+  },
+  "permissions": [
+    "content:create"
+  ],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Upscale to 4x",
+      "description": "Upscale the image attached to this run to 4 times its width and height. Enhance detail only: keep the composition, colours and subject the same, and do not re-render the subject.",
+      "command": "generate_image",
+      "entity": "image",
+      "kind": "dynamic",
+      "modelConfig": [],
+      "arguments": [
+        {
+          "key": "image_s1",
+          "type": "attachment",
+          "label": "Image to upscale",
+          "entity": "image",
+          "phrase": "the image attached to this run",
+          "required": true
+        }
+      ]
+    }
+  ]
+}

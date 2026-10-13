@@ -1,0 +1,44 @@
+{
+  "frontmatter_id": "winnable-churned-users",
+  "title": "Winnable churned users",
+  "slash_command": "/winnable-churned-users",
+  "description": "People who cancelled in the last two months but used the product heavily before they left, the best odds for a win-back.",
+  "markdown": "# Winnable churned users\n\n## Description\n\nPeople who cancelled in the last two months but used the product heavily before they left, the best odds for a win-back.\n\n## Steps\n\n### Step 1: Build the win-back list\n\nBuild a segment of users named \"Winnable Churned Users\".\nA user is in the segment only when all of these are true:\n- they did the Subscription canceled event at least once in the last 60 days\n- their Lifetime value attribute is more than 0\n- their Total events attribute is 50 or more\n",
+  "classification": {
+    "industry": [
+      "ai",
+      "b2b-saas",
+      "ecommerce",
+      "media"
+    ]
+  },
+  "complexity": "quick",
+  "author": {
+    "name": "Harish Kumar",
+    "first_name": "Harish",
+    "last_name": "Kumar",
+    "company": "Intempt",
+    "job_title": "Growth Marketer",
+    "avatar": "https://cdn.intempt.com/assets/author-profile-pics/harish.jpg",
+    "org_name": "intempt"
+  },
+  "permissions": [
+    "segment:create"
+  ],
+  "prerequisites": {
+    "events": [
+      "Subscription canceled"
+    ]
+  },
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Build the win-back list",
+      "description": "Build a segment of users named \"Winnable Churned Users\". A user is in the segment only when all of these are true: they did the Subscription canceled event at least once in the last 60 days; their Lifetime value attribute is more than 0; their Total events attribute is 50 or more.",
+      "command": "create_segment",
+      "entity": "segment",
+      "kind": "static",
+      "modelConfig": []
+    }
+  ]
+}

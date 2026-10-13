@@ -1,0 +1,45 @@
+{
+  "frontmatter_id": "compliance-setup",
+  "title": "Marketing consent suppression list",
+  "slash_command": "/compliance-setup",
+  "description": "A list of people who never gave marketing consent or have since opted out, so you can exclude them from every marketing send.",
+  "markdown": "# Marketing consent suppression list\n\n## Description\n\nA list of people who never gave marketing consent or have since opted out, so you can exclude them from every marketing send.\n\n## Steps\n\n### Step 1: Build the suppression list\n\nBuild a segment of users named \"Marketing Consent Suppression List\".\nA user is in the segment when any of these is true:\n- they have never done the Subscribed consent event\n- they did the Unsubscribed consent event after their most recent Subscribed consent event\n",
+  "classification": {
+    "industry": [
+      "ai",
+      "b2b-saas",
+      "ecommerce",
+      "finance"
+    ]
+  },
+  "complexity": "quick",
+  "author": {
+    "name": "Harish Kumar",
+    "first_name": "Harish",
+    "last_name": "Kumar",
+    "company": "Intempt",
+    "job_title": "Growth Marketer",
+    "avatar": "https://cdn.intempt.com/assets/author-profile-pics/harish.jpg",
+    "org_name": "intempt"
+  },
+  "permissions": [
+    "segment:create"
+  ],
+  "prerequisites": {
+    "events": [
+      "Subscribed consent",
+      "Unsubscribed consent"
+    ]
+  },
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Build the suppression list",
+      "description": "Build a segment of users named \"Marketing Consent Suppression List\". A user is in the segment when any of these is true: they have never done the Subscribed consent event; they did the Unsubscribed consent event after their most recent Subscribed consent event.",
+      "command": "create_segment",
+      "entity": "segment",
+      "kind": "static",
+      "modelConfig": []
+    }
+  ]
+}
