@@ -23,6 +23,32 @@
     "org_name": "intempt"
   },
   "permissions": [],
-  "steps": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Find new subscribers",
+      "description": "This step builds a segment.\nIdentify users who subscribed within the last 30 days and have not received a welcome email yet."
+    },
+    {
+      "id": "s2",
+      "title": "Write the four emails",
+      "description": "Generate a 4-email welcome sequence introducing the brand, product, and value props using brand voice. Use the result of \"Find new subscribers\"."
+    },
+    {
+      "id": "s3",
+      "title": "Send across the first week",
+      "description": "Build a 4-touch welcome journey sending the emails at 0hr, 1day, 3day, and 7day after subscription. Use the result of \"Find new subscribers\", \"Write the four emails\"."
+    },
+    {
+      "id": "s4",
+      "title": "Test subject lines and offer",
+      "description": "Add A/B variants on subject lines and welcome offer presence. Use the result of \"Find new subscribers\", \"Write the four emails\", \"Send across the first week\"."
+    },
+    {
+      "id": "s5",
+      "title": "Track the first purchase",
+      "description": "Compose a dashboard tracking open rates, click rates, conversion rate, and time-to-first-purchase from the welcome journey. Use the result of \"Find new subscribers\", \"Write the four emails\", \"Send across the first week\", \"Test subject lines and offer\"."
+    }
+  ],
   "availability": "coming_soon"
 }

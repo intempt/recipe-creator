@@ -21,6 +21,12 @@
     "org_name": "intempt"
   },
   "permissions": [],
-  "steps": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Build the launch microsite",
+      "description": "Create a product launch microsite.\nBuild a multi-page site with: hero section, feature/benefit pages, call-to-action, and footer. Apply project brand tokens. Deploy-ready in one click.\nOutput: multi-page microsite"
+    }
+  ],
   "availability": "coming_soon"
 }

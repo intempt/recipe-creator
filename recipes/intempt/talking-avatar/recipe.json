@@ -21,6 +21,12 @@
     "org_name": "intempt"
   },
   "permissions": [],
-  "steps": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Animate the portrait",
+      "description": "Generate a talking avatar video from a portrait still.\nCamera fixed. 5s natural talking-head loop: subtle lip movement, gentle eye contact, single blink. Identity preserved exactly.\nPipeline: image to video (camera-fixed, talking-head)"
+    }
+  ],
   "availability": "coming_soon"
 }

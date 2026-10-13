@@ -22,6 +22,27 @@
     "org_name": "intempt"
   },
   "permissions": [],
-  "steps": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Find genuine upgrades",
+      "description": "Build a segment 'Free-to-paid converters - last 7 days' capturing users where Subscription started fired in the last 7 days AND the user previously had subscription_status = free OR trialing (true conversion, not net-new direct-paid signup, those go through a different flow). Excludes users where the subscription is < $50 MRR (consumer-tier; doesn't get CSM motion)."
+    },
+    {
+      "id": "s2",
+      "title": "Write the pre call brief",
+      "description": "Create an AI-derived attribute 'preconversion_history' on the User object, computed at Subscription started time. Capture: (a) days from signup to paid conversion; (b) features most-used in free period; (c) features NEVER touched (potential expansion drivers later); (d) team-member signal: how many users from the same account are also on free / paid; (e) source: how they got to signup (organic / paid / referral / outbound). This becomes the CSM's pre-call brief."
+    },
+    {
+      "id": "s3",
+      "title": "Assign a CSM and kick off",
+      "description": "Create a workflow firing on Subscription started for free-to-paid converters. Step sequence: (1) compute preconversion_history attribute; (2) assign CSM via territory + plan-tier rules (enterprise tier gets named CSM, SMB tier gets pooled CSM); (3) create CSM kickoff task with the preconversion history pre-attached, due within 5 business days; (4) trigger the structured onboarding journey (separate recipe) for the user; (5) update account lifecycle to 'new-customer'; (6) post Slack notification to the assigned CSM and a celebration message to #wins. Use the result of \"Find genuine upgrades\", \"Write the pre call brief\"."
+    },
+    {
+      "id": "s4",
+      "title": "Prove the handoff matters",
+      "description": "Compose a PLG-to-CS handoff quality dashboard: free-to-paid conversion volume per week, CSM-task completion rate within 5 business days (target: 95%+), median days from signup-to-conversion (PLG funnel speed), and 90-day retention of free-to-paid converters split by 'CSM kickoff completed within 5 days' vs. 'CSM kickoff missed': typically the gap is 15-25 percentage points (the proof-of-value for human CSM motion). Use the result of \"Find genuine upgrades\", \"Write the pre call brief\", \"Assign a CSM and kick off\"."
+    }
+  ],
   "availability": "coming_soon"
 }

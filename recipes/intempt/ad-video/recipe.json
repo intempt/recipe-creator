@@ -21,6 +21,12 @@
     "org_name": "intempt"
   },
   "permissions": [],
-  "steps": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Animate the product still",
+      "description": "Generate a cinematic ad video from a product still.\nSeed on the product still. Produce a cinematic 5s product spot with smooth subtle camera drift, soft dust particles, same backdrop. No text, no logo overlay.\nPipeline: image to video (kling/seedance)"
+    }
+  ],
   "availability": "coming_soon"
 }

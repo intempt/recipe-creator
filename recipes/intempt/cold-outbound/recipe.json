@@ -20,6 +20,32 @@
     "org_name": "intempt"
   },
   "permissions": [],
-  "steps": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Build the target list",
+      "description": "This step builds a segment.\nBuild target prospect list from ICP criteria (firmographic + intent signals)."
+    },
+    {
+      "id": "s2",
+      "title": "Write the outbound emails",
+      "description": "Generate personalized cold-outbound email templates with brand voice and prospect-specific personalization tokens. Use the result of \"Build the target list\"."
+    },
+    {
+      "id": "s3",
+      "title": "Run the touches, then break off",
+      "description": "Build a multi-touch outbound journey with appropriate cadence and break-up logic. Use the result of \"Build the target list\", \"Write the outbound emails\"."
+    },
+    {
+      "id": "s4",
+      "title": "Set up the booking link",
+      "description": "Configure the booking link reps include in outreach, with availability and meeting-type config. Use the result of \"Build the target list\", \"Write the outbound emails\", \"Run the touches, then break off\"."
+    },
+    {
+      "id": "s5",
+      "title": "Track replies and meetings",
+      "description": "Compose a dashboard tracking outreach volume, reply rate, meeting-booked rate, and pipeline contribution. Use the result of \"Build the target list\", \"Write the outbound emails\", \"Run the touches, then break off\", \"Set up the booking link\"."
+    }
+  ],
   "availability": "coming_soon"
 }

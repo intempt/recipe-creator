@@ -24,6 +24,22 @@
     "org_name": "intempt"
   },
   "permissions": [],
-  "steps": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Build the headline scorecard",
+      "description": "Compose a business review dashboard with headline KPIs, WoW deltas, top wins, and top concerns."
+    },
+    {
+      "id": "s2",
+      "title": "Write the period narrative",
+      "description": "Generate a narrative report summarizing the period: what changed, why, and recommended actions. Use the result of \"Build the headline scorecard\"."
+    },
+    {
+      "id": "s3",
+      "title": "Send it to Slack on a cadence",
+      "description": "Create a workflow that delivers the dashboard and narrative as a scheduled Slack digest at the chosen cadence. Use the result of \"Build the headline scorecard\", \"Write the period narrative\"."
+    }
+  ],
   "availability": "coming_soon"
 }

@@ -20,6 +20,32 @@
     "org_name": "intempt"
   },
   "permissions": [],
-  "steps": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Score how the trial is going",
+      "description": "Define an AI-derived trial_health_score attribute computed from event signals (logins, key feature usage, team invites, data uploaded)."
+    },
+    {
+      "id": "s2",
+      "title": "Split trials into three tiers",
+      "description": "Segment trial users into risk tiers (high-engagement, moderate, at-risk) based on trial_health_score. Use the result of \"Score how the trial is going\"."
+    },
+    {
+      "id": "s3",
+      "title": "Write onboarding per tier",
+      "description": "Generate tier-specific onboarding email content emphasizing relevant aha-moment features per tier. Use the result of \"Score how the trial is going\", \"Split trials into three tiers\"."
+    },
+    {
+      "id": "s4",
+      "title": "Route each tier differently",
+      "description": "Build a tiered onboarding journey routing each tier through appropriate education and conversion touches. Use the result of \"Score how the trial is going\", \"Split trials into three tiers\", \"Write onboarding per tier\"."
+    },
+    {
+      "id": "s5",
+      "title": "Track trial to paid",
+      "description": "Compose a funnel report tracking trial-signup to key-event-1 to key-event-2 to paid-conversion with retention overlay. Use the result of \"Score how the trial is going\", \"Split trials into three tiers\", \"Write onboarding per tier\", \"Route each tier differently\"."
+    }
+  ],
   "availability": "coming_soon"
 }

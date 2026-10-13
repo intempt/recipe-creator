@@ -20,6 +20,37 @@
     "org_name": "intempt"
   },
   "permissions": [],
-  "steps": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Rank customers by value",
+      "description": "Define an AI-derived customer_value_tier attribute using LTV, frequency, and recency."
+    },
+    {
+      "id": "s2",
+      "title": "Set the silver and gold lines",
+      "description": "Segment VIPs into tiers (silver, gold, platinum) by value tier with thresholds. Use the result of \"Rank customers by value\"."
+    },
+    {
+      "id": "s3",
+      "title": "Give each tier something",
+      "description": "Configure VIP-only personalizations: early access, exclusive products, free shipping. Use the result of \"Rank customers by value\", \"Set the silver and gold lines\"."
+    },
+    {
+      "id": "s4",
+      "title": "Thank them, show the next tier",
+      "description": "Build a VIP-specific journey with appreciation touches and tier-up encouragement. Use the result of \"Rank customers by value\", \"Set the silver and gold lines\", \"Give each tier something\"."
+    },
+    {
+      "id": "s5",
+      "title": "Test which reward works",
+      "description": "Add experiments comparing reward types (discount vs experience vs status). Use the result of \"Rank customers by value\", \"Set the silver and gold lines\", \"Give each tier something\", \"Thank them, show the next tier\"."
+    },
+    {
+      "id": "s6",
+      "title": "Track retention by tier",
+      "description": "Compose a dashboard tracking VIP retention rate, average revenue per tier, and tier-up rate. Use the result of \"Rank customers by value\", \"Set the silver and gold lines\", \"Give each tier something\", \"Thank them, show the next tier\", \"Test which reward works\"."
+    }
+  ],
   "availability": "coming_soon"
 }

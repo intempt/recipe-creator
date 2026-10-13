@@ -19,6 +19,37 @@
     "org_name": "intempt"
   },
   "permissions": [],
-  "steps": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Find people who only browsed",
+      "description": "This step builds a segment.\nIdentify users with product_viewed events in last 7 days who did NOT trigger cart_added."
+    },
+    {
+      "id": "s2",
+      "title": "Write the browse reminder",
+      "description": "Generate browse-recovery email content highlighting the viewed products and similar items. Use the result of \"Find people who only browsed\"."
+    },
+    {
+      "id": "s3",
+      "title": "Send at 24 and 72 hours",
+      "description": "Build a 2-touch journey sending product reminder emails at 24hr and 72hr after browse. Use the result of \"Find people who only browsed\", \"Write the browse reminder\"."
+    },
+    {
+      "id": "s4",
+      "title": "Pick items for each shopper",
+      "description": "Generate product recommendations for each browser based on their viewed items and purchase history. Use the result of \"Find people who only browsed\", \"Write the browse reminder\", \"Send at 24 and 72 hours\"."
+    },
+    {
+      "id": "s5",
+      "title": "Test picks against best sellers",
+      "description": "Add A/B variants comparing personalized recommendations vs trending products. Use the result of \"Find people who only browsed\", \"Write the browse reminder\", \"Send at 24 and 72 hours\", \"Pick items for each shopper\"."
+    },
+    {
+      "id": "s6",
+      "title": "Follow browse through to sale",
+      "description": "Compose a funnel report tracking browse to email-open to email-click to cart-add to purchase. Use the result of \"Find people who only browsed\", \"Write the browse reminder\", \"Send at 24 and 72 hours\", \"Pick items for each shopper\", \"Test picks against best sellers\"."
+    }
+  ],
   "availability": "coming_soon"
 }

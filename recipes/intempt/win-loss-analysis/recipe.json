@@ -19,6 +19,22 @@
     "org_name": "intempt"
   },
   "permissions": [],
-  "steps": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Compare won and lost deals",
+      "description": "This step builds a report.\nAnalyze closed deals (won and lost) to extract patterns: competitive mentions, objection themes, decision criteria."
+    },
+    {
+      "id": "s2",
+      "title": "Write the battlecard",
+      "description": "This step builds a page.\nGenerate a battlecard content asset summarizing competitive positioning, common objections, and counter-messaging. Use the result of \"Compare won and lost deals\"."
+    },
+    {
+      "id": "s3",
+      "title": "Track the patterns over time",
+      "description": "Compose a dashboard surfacing win/loss patterns by competitor, objection type, and deal size. Use the result of \"Compare won and lost deals\", \"Write the battlecard\"."
+    }
+  ],
   "availability": "coming_soon"
 }

@@ -20,6 +20,32 @@
     "org_name": "intempt"
   },
   "permissions": [],
-  "steps": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Score every lead",
+      "description": "Define a Qualification attribute weighting firmographic fit, intent, and engagement."
+    },
+    {
+      "id": "s2",
+      "title": "Split into hot, warm and cold",
+      "description": "Segment leads into hot/warm/cold tiers based on qualification score. Use the result of \"Score every lead\"."
+    },
+    {
+      "id": "s3",
+      "title": "Route hot leads round robin",
+      "description": "Create a workflow assigning hot leads to sales reps (round-robin within team) and creating tasks with context. Use the result of \"Score every lead\", \"Split into hot, warm and cold\"."
+    },
+    {
+      "id": "s4",
+      "title": "Nurture warm and cold leads",
+      "description": "Build nurture journeys for warm and cold leads with appropriate cadence. Use the result of \"Score every lead\", \"Split into hot, warm and cold\", \"Route hot leads round robin\"."
+    },
+    {
+      "id": "s5",
+      "title": "Track handoff to opportunity",
+      "description": "Compose a dashboard tracking lead volume, score distribution, handoff rate, and conversion to opportunity. Use the result of \"Score every lead\", \"Split into hot, warm and cold\", \"Route hot leads round robin\", \"Nurture warm and cold leads\"."
+    }
+  ],
   "availability": "coming_soon"
 }

@@ -21,6 +21,12 @@
     "org_name": "intempt"
   },
   "permissions": [],
-  "steps": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Reframe to 9:16",
+      "description": "Reformat a landscape still/clip to a 9:16 vertical reel.\nSubject re-framed vertical with subtle Ken Burns push and drifting motion particles. Social-ready short format.\nPipeline: image to video at 9:16"
+    }
+  ],
   "availability": "coming_soon"
 }

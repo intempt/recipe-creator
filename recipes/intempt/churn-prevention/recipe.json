@@ -21,6 +21,42 @@
     "org_name": "intempt"
   },
   "permissions": [],
-  "steps": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Score churn risk",
+      "description": "Define an AI-derived churn_risk_score attribute using engagement decline, support ticket sentiment, and feature-usage signals."
+    },
+    {
+      "id": "s2",
+      "title": "Split into low, medium and high",
+      "description": "Segment users into low/medium/high churn-risk buckets. Use the result of \"Score churn risk\"."
+    },
+    {
+      "id": "s3",
+      "title": "Tell the CSM about high risk",
+      "description": "Create a workflow alerting CSMs when high-risk users cross the threshold, with context payload to Slack. Use the result of \"Score churn risk\", \"Split into low, medium and high\"."
+    },
+    {
+      "id": "s4",
+      "title": "Write the win back emails",
+      "description": "Generate re-engagement content: win-back-feature emails, success-story emails, value-reminder emails. Use the result of \"Score churn risk\", \"Split into low, medium and high\", \"Tell the CSM about high risk\"."
+    },
+    {
+      "id": "s5",
+      "title": "Reach medium risk first",
+      "description": "Build a journey for medium-risk users with auto-engagement before CSM intervention is needed. Use the result of \"Score churn risk\", \"Split into low, medium and high\", \"Tell the CSM about high risk\", \"Write the win back emails\"."
+    },
+    {
+      "id": "s6",
+      "title": "Compare churn by risk tier",
+      "description": "Compose a retention report tracking churn rate by risk tier and intervention type. Use the result of \"Score churn risk\", \"Split into low, medium and high\", \"Tell the CSM about high risk\", \"Write the win back emails\", \"Reach medium risk first\"."
+    },
+    {
+      "id": "s7",
+      "title": "See if the saves are working",
+      "description": "Compose a dashboard showing risk distribution, intervention success rate, and net retention impact. Use the result of \"Score churn risk\", \"Split into low, medium and high\", \"Tell the CSM about high risk\", \"Write the win back emails\", \"Reach medium risk first\", \"Compare churn by risk tier\"."
+    }
+  ],
   "availability": "coming_soon"
 }

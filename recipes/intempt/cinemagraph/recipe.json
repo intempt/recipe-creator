@@ -21,6 +21,12 @@
     "org_name": "intempt"
   },
   "permissions": [],
-  "steps": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Animate one element",
+      "description": "Generate a cinemagraph from a still image.\nCamera stays fixed. Everything stays frozen except one element (gentle steam, single leaf in breeze, liquid pour). Subtle hypnotic loop with no visible cut.\nPipeline: image to video (camera-fixed, loop)"
+    }
+  ],
   "availability": "coming_soon"
 }

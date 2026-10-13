@@ -21,6 +21,12 @@
     "org_name": "intempt"
   },
   "permissions": [],
-  "steps": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Make the portrait speak",
+      "description": "Generate a talking-portrait video.\nInputs:\n- image: portrait photo (file upload)\n- script: dialogue script (rich text)\n- voiceId: voice preset\nPipeline: kling-clip + elevenlabs-tts\nLip-sync the portrait (Avatar or any face) to the generated speech. Identity and facial features preserved."
+    }
+  ],
   "availability": "coming_soon"
 }

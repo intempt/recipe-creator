@@ -21,6 +21,12 @@
     "org_name": "intempt"
   },
   "permissions": [],
-  "steps": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Render and join the shots",
+      "description": "Generate a multi-shot video from a shot list.\nInputs:\n- shotList: one prompt per shot (multi-string)\n- scene: shared scene/look across all shots\n- durationPerShot: 3s or 5s per shot\nPipeline: kling v2.1 master t2v × N + concat\nRender each shot with consistent visual style, then concatenate into a single reel."
+    }
+  ],
   "availability": "coming_soon"
 }

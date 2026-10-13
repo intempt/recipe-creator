@@ -21,6 +21,12 @@
     "org_name": "intempt"
   },
   "permissions": [],
-  "steps": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Spin the product",
+      "description": "Generate a product turntable spin video.\nCamera fixed. Slow elegant turntable rotation of the product, same backdrop. Luxury e-commerce 360° spin. No text, no logo.\nPipeline: image to video (camera-fixed, turntable)"
+    }
+  ],
   "availability": "coming_soon"
 }

@@ -19,6 +19,17 @@
     "org_name": "intempt"
   },
   "permissions": [],
-  "steps": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Import the rows on a schedule",
+      "description": "Create a scheduled workflow that reads rows from the named sheet and upserts them as records, matched on a key column such as email or domain. Report accepted, skipped and rejected counts per run with a reason per row: a hand-maintained sheet always has malformed rows, and a silent total teaches nobody which ones to fix."
+    },
+    {
+      "id": "s2",
+      "title": "Turn them into an audience",
+      "description": "Create a segment over the imported records so the list is usable everywhere else. This is the point of importing rather than reading the sheet at the moment of use: the list becomes an audience the rest of the platform understands. Use the result of \"Import the rows on a schedule\"."
+    }
+  ],
   "availability": "coming_soon"
 }

@@ -325,8 +325,9 @@ waiting on. The counts are in [references/entities.md](./references/entities.md)
 the recipes.
 
 A recipe that has not been through recipe-git-validate yet still gets a `recipe.json`, written
-by `scripts/build_coming_soon_json.py`: no steps, and `"availability": "coming_soon"`, which
-llm-wrapper serves as stored. It is listed as Coming soon and cannot be run until it is validated.
+by `scripts/build_coming_soon_json.py`: its steps from the `## Step N:` sections (title and
+prose only, no command or entity), and `"availability": "coming_soon"`, which llm-wrapper
+serves as stored. It is listed as Coming soon and cannot be run until it is validated.
 
 ## Where finished recipes live
 

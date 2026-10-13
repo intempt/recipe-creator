@@ -23,6 +23,32 @@
     "org_name": "intempt"
   },
   "permissions": [],
-  "steps": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Find who stopped reading",
+      "description": "This step builds a segment.\nIdentify subscribers who have not opened or clicked any email in 180+ days."
+    },
+    {
+      "id": "s2",
+      "title": "Write the last chance email",
+      "description": "Generate a final-attempt email asking the user to confirm interest with a clear opt-in CTA. Use the result of \"Find who stopped reading\"."
+    },
+    {
+      "id": "s3",
+      "title": "Send it, then wait 14 days",
+      "description": "Build a 2-touch journey sending the final-attempt email and waiting 14 days for response. Use the result of \"Find who stopped reading\", \"Write the last chance email\"."
+    },
+    {
+      "id": "s4",
+      "title": "Suppress anyone who ignores it",
+      "description": "Create a workflow automatically adding non-responders to the suppression list after the 14-day window. Use the result of \"Find who stopped reading\", \"Write the last chance email\", \"Send it, then wait 14 days\"."
+    },
+    {
+      "id": "s5",
+      "title": "Watch your deliverability",
+      "description": "Compose a dashboard tracking deliverability metrics: send rate, open rate, complaint rate, bounce rate, inbox-placement. Use the result of \"Find who stopped reading\", \"Write the last chance email\", \"Send it, then wait 14 days\", \"Suppress anyone who ignores it\"."
+    }
+  ],
   "availability": "coming_soon"
 }

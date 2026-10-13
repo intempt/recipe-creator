@@ -21,6 +21,12 @@
     "org_name": "intempt"
   },
   "permissions": [],
-  "steps": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Pin clips and fan out",
+      "description": "Generate branded video variations from reference pins.\nInputs:\n- references: 1: 4 video references (clip, scene, avatar, product)\n- fanout: number of variations (default: 4)\nPipeline: kling v3 i2v multi-ref\nRunner: video-remix (custom)\nFan out branded reel variants anchored to the reference clips."
+    }
+  ],
   "availability": "coming_soon"
 }

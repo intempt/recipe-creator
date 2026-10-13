@@ -21,6 +21,12 @@
     "org_name": "intempt"
   },
   "permissions": [],
-  "steps": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Animate the product",
+      "description": "Generate a product shot video from a static image.\nInputs:\n- productId: catalog product\n- scene: motion style (360° rotation, dolly-in, floating reveal)\n- script (optional): additional direction\n- music: enable music bed (default: true)\nPipeline: kling i2v + mmaudio-v2\nProduce a 5-second clip (360° rotation, dolly-in, or floating reveal) with optional music bed."
+    }
+  ],
   "availability": "coming_soon"
 }

@@ -18,6 +18,12 @@
     "org_name": "intempt"
   },
   "permissions": [],
-  "steps": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Trace category page to order",
+      "description": "Create a Funnel report called \"Browse to Purchase\".\nSteps:\n1. Event \"View page\" where content_type indicates a category/listing page (or Page URL contains /collections/ or /category/): \"Browsed Category\"\n2. Event \"View page\" where Page URL indicates a product detail page (e.g. contains /products/): \"Viewed Product Detail\"\n3. Event \"Cart created\": \"Added to Cart\"\n4. Event \"Checkout created\": \"Started Checkout\"\n5. Event \"Placed order\": \"Completed Purchase\"\nConversion window: 7 days\nBreakdown: By \"device_type\" attribute on the Users object (desktop, mobile, tablet)\nCompare: Previous period (prior 7 days)\nFor each step, also surface:\n- Median time-to-convert from previous step\n- Per-device conversion rate at each step\nAnnotations:\n- Flag the step with the largest drop-off (the primary bottleneck).\n- Flag any step where mobile conversion lags desktop by >10 percentage points (mobile UX issue).\n- Highlight any step where overall drop-off worsened by >3 percentage points vs. previous period.\nIndustry benchmarks: 2-3% browse-to-buy for fashion, 4-6% for electronics.\nTaxonomy notes:\n- \"product_list_viewed\" and \"product_viewed\" as standalone events do not exist. Page-type discrimination is done via View page.Page URL path patterns or View page.content_type.\n- \"checkout_started\" does not exist; Checkout created is the canonical pre-payment marker.\n- Placed order is the canonical purchase event (cart_converted is also valid for cart-source attribution)."
+    }
+  ],
   "availability": "coming_soon"
 }

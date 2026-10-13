@@ -21,6 +21,12 @@
     "org_name": "intempt"
   },
   "permissions": [],
-  "steps": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Reshoot as a candid photo",
+      "description": "Edit the studio packshot attached to this run.\nRe-render it as a candid handheld selfie: a real person holding the same product at arm's length, a kitchen or bathroom counter behind them, real skin texture, the face cropped at half, and slightly underexposed.\nMake it look authentic, not glamorous, and do not change the product."
+    }
+  ],
   "availability": "coming_soon"
 }

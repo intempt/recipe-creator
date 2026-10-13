@@ -20,6 +20,32 @@
     "org_name": "intempt"
   },
   "permissions": [],
-  "steps": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Find losses worth revisiting",
+      "description": "Build a segment 'Closed-lost revival candidates' capturing deals where Deal lost event fired 90-180 days ago AND lost_reason is NOT 'wrong-fit' or 'competitor-won-firm-commitment' (those won't revive). Includes deals lost to: timing, budget, no-decision, internal-resourcing, postponed. Excludes accounts that have entered closed-lost more than twice (3-strikes rule: stop pestering)."
+    },
+    {
+      "id": "s2",
+      "title": "Write two revival emails",
+      "description": "Generate 2-touch revival email content. Touch 1 (Day 0): 'It's been a few months: wanted to check in. Last time we talked, [original_lost_reason]. Has anything changed?' Reference specific prior conversation context. Soft re-open, not a sales pitch. Touch 2 (Day 14, if no reply): share a relevant product update or customer story from a similar account that addresses their original objection. Send-from: the original AE owner. Tone: warm, low-pressure, acknowledging the prior 'no'. Use the result of \"Find losses worth revisiting\"."
+    },
+    {
+      "id": "s3",
+      "title": "Check what changed first",
+      "description": "Create a workflow firing daily for newly-eligible revival candidates. Step sequence: (1) refresh account enrichment (champion still there? new leadership? funding announced? product launched?); (2) IF significant change detected (new champion-role hire, funding round, etc.): create urgent AE task to manually reach out; ELSE trigger the standard 2-touch revival journey. Track responses and any new meeting bookings as revival_signal events on the original closed-lost deal record. Use the result of \"Find losses worth revisiting\", \"Write two revival emails\"."
+    },
+    {
+      "id": "s4",
+      "title": "Send at day 0 and day 14",
+      "description": "Build a 2-touch journey triggered by the revival workflow. Touch 1 at Day 0, Touch 2 at Day 14 (skipped if user replies or books meeting). Audience: the original deal's primary contact. Exit on: Meeting scheduled (revival success: open new deal), email_replied (warm handoff to AE), unsubscribe, or 30-day max duration. Use the result of \"Find losses worth revisiting\", \"Write two revival emails\", \"Check what changed first\"."
+    },
+    {
+      "id": "s5",
+      "title": "See what comes back to life",
+      "description": "Compose a revival performance dashboard: closed-lost deals entering revival per month, reply rate to revival outreach, meeting-booked rate from revival, revived-deal-to-win rate (final conversion), and ARR resurrected this quarter from revival pipeline. Break down by original lost_reason: which lost-reasons most often turn into revivals (informs sales coaching on when 'no' was actually 'not yet'). Use the result of \"Find losses worth revisiting\", \"Write two revival emails\", \"Check what changed first\", \"Send at day 0 and day 14\"."
+    }
+  ],
   "availability": "coming_soon"
 }

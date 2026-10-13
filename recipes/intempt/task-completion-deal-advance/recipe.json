@@ -20,6 +20,22 @@
     "org_name": "intempt"
   },
   "permissions": [],
-  "steps": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Map tasks to the stage they gate",
+      "description": "Create an attribute on the Task object: 'advances_deal_to_stage'. For each task template, define the deal stage that completion should advance to. Examples: 'Send proposal' to advances deal to Proposal stage if currently Demo or earlier; 'Contract sent' to advances to Closing if currently Proposal; 'POC kickoff' to advances to Technical Evaluation. Tasks not on this list don't trigger advancement (they're informational tasks, not stage-gates)."
+    },
+    {
+      "id": "s2",
+      "title": "Move it forward, never back",
+      "description": "Create a workflow firing on Task completed. Step sequence: (1) check whether the task has 'advances_deal_to_stage' set; (2) look up the linked deal: IF the deal's current stage is earlier than the task's target stage, advance the deal via move_deal_stage; (3) if the deal is already at or past the target stage, skip (no regression, no double-advance); (4) on stage change, post a brief Slack notification to the AE owner ('Deal X advanced to Proposal: task Y completed') so they have realtime visibility; (5) if the advancement skips multiple stages (e.g. Discovery to Closing in one task), require human confirmation: don't auto-skip stages. Use the result of \"Map tasks to the stage they gate\"."
+    },
+    {
+      "id": "s3",
+      "title": "Audit the mapping",
+      "description": "Compose a stage-hygiene dashboard: stage-advancement rate (deals advanced via task-completion auto-advance vs. manual stage edit by rep), tasks completed without expected stage advance (signal of wrong task to stage mapping, OR rep marking task complete without doing the work), and median time-in-stage by stage (should decrease with reliable auto-advancement). Auditing tool for RevOps to validate the mapping is sane and reps are using tasks honestly. Use the result of \"Map tasks to the stage they gate\", \"Move it forward, never back\"."
+    }
+  ],
   "availability": "coming_soon"
 }

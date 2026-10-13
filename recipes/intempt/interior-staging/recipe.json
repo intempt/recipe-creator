@@ -21,6 +21,12 @@
     "org_name": "intempt"
   },
   "permissions": [],
-  "steps": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Furnish the empty room",
+      "description": "Edit the photo of an empty room attached to this run.\nFurnish it with furniture, a coffee table, a vase, a floor lamp and other staging that suits the room.\nKeep the room geometry, walls, flooring, windows and daylight unchanged."
+    }
+  ],
   "availability": "coming_soon"
 }

@@ -19,6 +19,12 @@
     "org_name": "intempt"
   },
   "permissions": [],
-  "steps": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Find the most refunded products",
+      "description": "Create an Insights report called \"Refund Rate by Product\".\nSeries A: Event \"Order refunded\", aggregation: Count\nSeries B: Event \"Placed order\", aggregation: Count\nFormula: (A / B) × 100, unit: %, label: \"Refund Rate\"\nBreakdown: By product_id (extracted from Placed order.items, which flattens product_id, title, quantity, price, sku): top 20 products by absolute refund count\nTime range: Last 90 days\nCompare: Previous period (prior 90 days)\nChart type: Bar chart sorted by refund rate descending, secondary view grouping the same products into product-category buckets if the Products object has category metadata available\nAnnotations:\n- Flag any product whose refund rate exceeds 8% (typical apparel/consumer-goods quality threshold).\n- Flag any item whose refund rate increased by more than 3 percentage points vs. the prior period.\n- Highlight items with both rising rate AND rising volume: the highest-priority quality issues.\nTaxonomy notes:\n- Placed order.items contains product_id, title, quantity, price, sku per line item. Resolve product to category by joining product_id against the Products record-object (Products has 27 attributes including category metadata).\n- Order refunded carries order_id (relation to Orders), refund_amount, reason, and Order total. Reason text is unstructured; not used for grouping here."
+    }
+  ],
   "availability": "coming_soon"
 }

@@ -20,6 +20,37 @@
     "org_name": "intempt"
   },
   "permissions": [],
-  "steps": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Score every lead",
+      "description": "Define a Qualification scoring attribute weighting firmographic fit, intent signals, and engagement depth."
+    },
+    {
+      "id": "s2",
+      "title": "Split into hot, warm and cold",
+      "description": "Segment leads into hot (sales-ready), warm (nurture), and cold (long-cycle) buckets based on score. Use the result of \"Score every lead\"."
+    },
+    {
+      "id": "s3",
+      "title": "Hand hot leads to a rep",
+      "description": "Create a workflow routing hot leads to sales (assign owner, create task) and adding warm/cold leads to nurture journeys. Use the result of \"Score every lead\", \"Split into hot, warm and cold\"."
+    },
+    {
+      "id": "s4",
+      "title": "Write content for each bucket",
+      "description": "This step builds a designed marketing email (HTML).\nGenerate nurture content tailored per segment: hot=demo offer, warm=case studies + ROI calc, cold=education content. Use the result of \"Score every lead\", \"Split into hot, warm and cold\", \"Hand hot leads to a rep\"."
+    },
+    {
+      "id": "s5",
+      "title": "Nurture at the right pace",
+      "description": "Build per-segment nurture journeys with appropriate cadence and content. Use the result of \"Score every lead\", \"Split into hot, warm and cold\", \"Hand hot leads to a rep\", \"Write content for each bucket\"."
+    },
+    {
+      "id": "s6",
+      "title": "Track handoffs and conversion",
+      "description": "Compose a dashboard tracking score distribution, hot-lead handoff rate, and nurture-to-MQL conversion. Use the result of \"Score every lead\", \"Split into hot, warm and cold\", \"Hand hot leads to a rep\", \"Write content for each bucket\", \"Nurture at the right pace\"."
+    }
+  ],
   "availability": "coming_soon"
 }

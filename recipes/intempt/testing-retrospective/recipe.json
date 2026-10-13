@@ -23,6 +23,22 @@
     "org_name": "intempt"
   },
   "permissions": [],
-  "steps": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Compile the quarter's results",
+      "description": "This step builds a report.\nCompile results across all experiments run in the period: winners, losers, inconclusive."
+    },
+    {
+      "id": "s2",
+      "title": "Find the patterns that repeat",
+      "description": "Generate insights report extracting patterns: which hypothesis families won, which traffic sources differed, best surfaces. Use the result of \"Compile the quarter's results\"."
+    },
+    {
+      "id": "s3",
+      "title": "Track cadence and impact",
+      "description": "Compose a dashboard summarizing testing cadence, win rate, and revenue impact. Use the result of \"Compile the quarter's results\", \"Find the patterns that repeat\"."
+    }
+  ],
   "availability": "coming_soon"
 }

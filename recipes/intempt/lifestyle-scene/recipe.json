@@ -21,6 +21,12 @@
     "org_name": "intempt"
   },
   "permissions": [],
-  "steps": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Place the product in a scene",
+      "description": "Edit the studio packshot attached to this run.\nRe-render the product in a real-world kitchen, with natural ambient light and realistic depth of field.\nDo not change the product itself."
+    }
+  ],
   "availability": "coming_soon"
 }

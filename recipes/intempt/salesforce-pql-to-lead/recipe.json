@@ -20,6 +20,17 @@
     "org_name": "intempt"
   },
   "permissions": [],
-  "steps": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Agree the qualifying signal",
+      "description": "Create a segment describing the product-qualified signal (the usage threshold, the feature reached, the seats added) rather than encoding it inside the workflow. The definition is the thing sales and product will argue about, so it needs to live somewhere both can see it."
+    },
+    {
+      "id": "s2",
+      "title": "Upsert the lead, never double",
+      "description": "Create a workflow enrolling members of the segment and creating a Salesforce lead for each. Use upsert with an external ID rather than create, because a create without a match key is a duplicate generator and the rep pays for it. Map only fields Intempt owns (the score, the signal, the source) and leave Salesforce-owned fields alone. Failure policy is skip-and-record so one rejected lead does not stop the rest. Use the result of \"Agree the qualifying signal\"."
+    }
+  ],
   "availability": "coming_soon"
 }

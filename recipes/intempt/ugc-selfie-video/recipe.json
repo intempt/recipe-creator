@@ -21,6 +21,12 @@
     "org_name": "intempt"
   },
   "permissions": [],
-  "steps": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Animate the selfie",
+      "description": "Generate a UGC selfie video from a still.\nSeed on the selfie still. 5s candid handheld selfie clip: subtle head turn, natural smile, real kitchen light, slight handheld drift. Authentic, not glamour.\nPipeline: image to video (candid motion)"
+    }
+  ],
   "availability": "coming_soon"
 }

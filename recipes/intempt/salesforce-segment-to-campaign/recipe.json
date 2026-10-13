@@ -20,6 +20,17 @@
     "org_name": "intempt"
   },
   "permissions": [],
-  "steps": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Define the audience once",
+      "description": "Create the segment whose members belong in the campaign. Keep the definition here rather than duplicating it in Salesforce, so there is one answer to who is in the audience."
+    },
+    {
+      "id": "s2",
+      "title": "Add members without doubling",
+      "description": "Create a workflow that adds each member to the named Salesforce campaign with a campaign member status. Adding is idempotent (a member already in the campaign is left alone rather than duplicated) and removal is deliberately not part of this recipe, because campaign membership is a record of who was contacted and deleting it destroys attribution. Use the result of \"Define the audience once\"."
+    }
+  ],
   "availability": "coming_soon"
 }

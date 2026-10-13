@@ -11,7 +11,9 @@ Coming soon recipe (Beso 2026-10-13):
   markdown                         `# title`, `## Description`, then each `## Step N: …`
                                    section as `### Step N: …` under `## Steps` — the layout
                                    recipe-git-validate writes — prose kept byte for byte
-  steps                            []: nothing is runnable until the recipe is validated
+  steps                            one per `## Step N: …` section: `id` (s1, s2…), `title`,
+                                   `description` = the section's prose. No command / entity:
+                                   those come from recipe-git-validate, so nothing is runnable
   availability                     "coming_soon": llm-wrapper serves a stored availability
                                    as-is, instead of reading a step-less recipe as install_now
   permissions                      []
@@ -41,10 +43,13 @@ def build(front: dict, md_text: str) -> dict:
     body = body_of(md_text)
     title = re.search(r"^# (.+)$", body, re.M).group(1).strip()
     heads = list(STEP.finditer(body))
-    sections = []
+    sections, steps = [], []
     for i, m in enumerate(heads):
         end = heads[i + 1].start() if i + 1 < len(heads) else len(body)
-        sections.append(f"### {m.group(1).strip()}\n\n{body[m.end():end].strip()}\n")
+        heading, prose = m.group(1).strip(), body[m.end():end].strip()
+        sections.append(f"### {heading}\n\n{prose}\n")
+        steps.append({"id": f"s{i + 1}", "title": heading.split(":", 1)[1].strip(),
+                      "description": prose})
     markdown = f"# {title}\n\n## Description\n\n{front['description']}\n"
     if sections:
         markdown += "\n## Steps\n\n" + "\n".join(sections)
@@ -57,7 +62,7 @@ def build(front: dict, md_text: str) -> dict:
     }
     if front.get("classification") is not None:
         record["classification"] = front["classification"]
-    record.update({"author": front["author"], "permissions": [], "steps": [],
+    record.update({"author": front["author"], "permissions": [], "steps": steps,
                    "availability": "coming_soon"})
     return record
 

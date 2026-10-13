@@ -21,6 +21,17 @@
     "org_name": "intempt"
   },
   "permissions": [],
-  "steps": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Define the cohort to tag",
+      "description": "Create the segment to tag: high lifetime value, repeat buyer, lapsed, whatever the store wants to treat differently. The segment is the definition; the tag is only its shadow in Shopify."
+    },
+    {
+      "id": "s2",
+      "title": "Write the tag into Shopify",
+      "description": "Create a workflow that tags each member in Shopify. Tags are additive and the workflow states which tag it manages, because a tag the store team also edits by hand will otherwise be fought over silently. Shopify's own rejection is surfaced verbatim: a tag limit and a permission error need different responses. Use the result of \"Define the cohort to tag\"."
+    }
+  ],
   "availability": "coming_soon"
 }

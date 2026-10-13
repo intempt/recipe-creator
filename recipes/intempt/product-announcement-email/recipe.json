@@ -21,6 +21,12 @@
     "org_name": "intempt"
   },
   "permissions": [],
-  "steps": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Write the announcement email",
+      "description": "Create a product announcement email.\nApply the project's brand tokens (colors, fonts, logo). Include a product hero block with the featured product image. Write an announcement subject line and body copy optimized for open rate and click-through.\nOutput: ready-to-send email template"
+    }
+  ],
   "availability": "coming_soon"
 }

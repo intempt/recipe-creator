@@ -23,6 +23,32 @@
     "org_name": "intempt"
   },
   "permissions": [],
-  "steps": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Sort lapsed users by the gap",
+      "description": "Segment lapsed users into tiers: 30-60 days inactive, 60-120 days inactive, 120+ days inactive."
+    },
+    {
+      "id": "s2",
+      "title": "Write content per tier",
+      "description": "This step builds a designed marketing email (HTML).\nGenerate tier-appropriate win-back content: gentle for early-lapsed, value-reminder for mid, exclusive offer for deep-lapsed. Use the result of \"Sort lapsed users by the gap\"."
+    },
+    {
+      "id": "s3",
+      "title": "Escalate the offer by tier",
+      "description": "Build a multi-arm journey routing each tier through appropriate touches with escalating incentives. Use the result of \"Sort lapsed users by the gap\", \"Write content per tier\"."
+    },
+    {
+      "id": "s4",
+      "title": "Measure who comes back",
+      "description": "Compose a retention report measuring re-engagement rates per tier over a 90-day window post-journey. Use the result of \"Sort lapsed users by the gap\", \"Write content per tier\", \"Escalate the offer by tier\"."
+    },
+    {
+      "id": "s5",
+      "title": "Test what brings them back",
+      "description": "Add A/B variants on incentive type (discount vs free gift vs value-only). Use the result of \"Sort lapsed users by the gap\", \"Write content per tier\", \"Escalate the offer by tier\", \"Measure who comes back\"."
+    }
+  ],
   "availability": "coming_soon"
 }
