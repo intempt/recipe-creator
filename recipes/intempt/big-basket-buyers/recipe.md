@@ -1,12 +1,15 @@
 ---
+frontmatter_id: big-basket-buyers
+slash_command: /big-basket-buyers
 description: Customers who spend heavily on every single order, so premium bundles and higher tiers go to people who already buy big.
 author:
+  name: Harish Kumar
   first_name: Harish
   last_name: Kumar
+  company: Intempt
   job_title: Growth Marketer
   avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ecommerce
@@ -20,6 +23,6 @@ Slash command: /big-basket-buyers
 
 Build a segment of users named "Big-Basket Buyers".
 A user is in the segment only when all of these are true:
-- their avg_order_value attribute is 150 or more
-- they did the order_created event 2 or more times, at any time
-- their lifetime_value attribute is 300 or more
+- their Average order value attribute is 150 or more
+- they did the Placed order event 2 or more times, at any time
+- their Lifetime value attribute is 300 or more

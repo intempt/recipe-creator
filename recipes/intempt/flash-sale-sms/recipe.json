@@ -1,0 +1,48 @@
+{
+  "frontmatter_id": "flash-sale-sms",
+  "title": "Flash sale text message",
+  "slash_command": "/flash-sale-sms",
+  "description": "Writes a short text message for a time-limited offer, inside SMS character limits, with a short link to the offer page.",
+  "markdown": "# Flash sale text message\n\n## Description\n\nWrites a short text message for a time-limited offer, inside SMS character limits, with a short link to the offer page.\n\n## Steps\n\n### Step 1: Write the flash sale SMS\n\nCreate a flash sale SMS message.\nWrite urgency-driven short copy optimized for SMS character limits. Include a short.link preview card for the offer landing page. Tone: direct, time-limited, action-oriented.\nOutput: SMS message with link preview\n",
+  "classification": {
+    "industry": [
+      "b2b-saas",
+      "ecommerce",
+      "media",
+      "social"
+    ]
+  },
+  "complexity": "quick",
+  "author": {
+    "name": "Aurobind Venu",
+    "first_name": "Aurobind",
+    "last_name": "Venu",
+    "company": "Intempt",
+    "job_title": "Creative Director",
+    "org_name": "intempt"
+  },
+  "permissions": [
+    "content:create"
+  ],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Write the flash sale SMS",
+      "description": "Create a flash sale SMS message. Write urgency-driven short copy optimized for SMS character limits. Include a short.link preview card for the offer landing page. Tone: direct, time-limited, action-oriented. Output: SMS message with link preview",
+      "command": "create_sms_content",
+      "entity": "sms",
+      "kind": "dynamic",
+      "modelConfig": [],
+      "arguments": [
+        {
+          "key": "url_s1",
+          "type": "string",
+          "label": "Offer landing page link",
+          "phrase": "the offer landing page",
+          "required": true,
+          "value_kind": "url"
+        }
+      ]
+    }
+  ]
+}

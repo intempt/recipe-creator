@@ -1,0 +1,38 @@
+{
+  "frontmatter_id": "expansion-candidates",
+  "title": "Users close to their plan limit",
+  "slash_command": "/expansion-candidates",
+  "description": "Users grouped by Plan for plan-based upgrade targeting.",
+  "markdown": "# Users close to their plan limit\n\n## Description\n\nUsers grouped by Plan for plan-based upgrade targeting.\n\n## Steps\n\n### Step 1: Build the near-limit list\n\nBuild a segment of users named \"Expansion Candidates\".\nA user is in the segment only when all of these are true:\n- their Plan attribute is not \"enterprise\"\n- their Usage percentage attribute is 80 or more\n",
+  "classification": {
+    "industry": [
+      "ai",
+      "b2b-saas",
+      "social"
+    ]
+  },
+  "complexity": "quick",
+  "author": {
+    "name": "Harish Kumar",
+    "first_name": "Harish",
+    "last_name": "Kumar",
+    "company": "Intempt",
+    "job_title": "Growth Marketer",
+    "avatar": "https://cdn.intempt.com/assets/author-profile-pics/harish.jpg",
+    "org_name": "intempt"
+  },
+  "permissions": [
+    "segment:create"
+  ],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Build the near-limit list",
+      "description": "Build a segment of users named \"Expansion Candidates\". A user is in the segment only when all of these are true: their Plan attribute is not \"enterprise\"; their Usage percentage attribute is 80 or more.",
+      "command": "create_segment",
+      "entity": "segment",
+      "kind": "static",
+      "modelConfig": []
+    }
+  ]
+}

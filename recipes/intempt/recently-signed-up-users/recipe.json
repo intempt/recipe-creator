@@ -1,0 +1,39 @@
+{
+  "frontmatter_id": "recently-signed-up-users",
+  "title": "Recent signups",
+  "slash_command": "/recently-signed-up-users",
+  "description": "Everyone who created an account in the last month, the audience for your welcome and first-week activation emails.",
+  "markdown": "# Recent signups\n\n## Description\n\nEveryone who created an account in the last month, the audience for your welcome and first-week activation emails.\n\n## Steps\n\n### Step 1: Build the new signup list\n\nBuild a segment of users named \"Recently Signed-Up Users\".\nA user is in the segment only when all of these are true:\n- their First seen attribute is within the last 30 days\n",
+  "classification": {
+    "industry": [
+      "ai",
+      "b2b-saas",
+      "ecommerce",
+      "media"
+    ]
+  },
+  "complexity": "quick",
+  "author": {
+    "name": "Harish Kumar",
+    "first_name": "Harish",
+    "last_name": "Kumar",
+    "company": "Intempt",
+    "job_title": "Growth Marketer",
+    "avatar": "https://cdn.intempt.com/assets/author-profile-pics/harish.jpg",
+    "org_name": "intempt"
+  },
+  "permissions": [
+    "segment:create"
+  ],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Build the new signup list",
+      "description": "Build a segment of users named \"Recently Signed-Up Users\". A user is in the segment only when all of these are true: their First seen attribute is within the last 30 days",
+      "command": "create_segment",
+      "entity": "segment",
+      "kind": "static",
+      "modelConfig": []
+    }
+  ]
+}

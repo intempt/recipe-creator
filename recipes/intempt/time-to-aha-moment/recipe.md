@@ -1,11 +1,14 @@
 ---
+frontmatter_id: time-to-aha-moment
+slash_command: /time-to-aha-moment
 description: Measure the median time for new users to reach their first activation goal. Use funnel percentiles to assess how quickly users activate.
 author:
+  name: Aman Tiwari
   first_name: Aman
   last_name: Tiwari
-  job_title: Product Manager
   company: Intempt
-org_name: intempt
+  job_title: Product Manager
+  org_name: intempt
 classification:
   industry:
   - ai
@@ -19,11 +22,11 @@ Slash command: /time-to-aha-moment
 ## Step 1: Chart time from signup to first goal
 
 Create an Insights report called "Time to Aha Moment".
-Series A: Distribution histogram of time elapsed between each user's user_created and their first goal_completed_in_journey for the activation journey
+Series A: Distribution histogram of time elapsed between each user's User created and their first Completed a journey goal for the activation journey
 Series B: Cumulative percentage: what % of new users hit the aha moment within X time
 Buckets for Series A: 0-5 min / 5-30 min / 30 min-2 hr / 2-6 hr / 6-24 hr / 1-3 days / 3-7 days / 7-14 days / never (haven't hit aha within 14 days)
 Time range: Users created in the last 90 days (those who have had 14+ days to activate)
-Breakdown: By Users.utm_source (signup source: top 6 channels)
+Breakdown: By Users.UTM source (signup source: top 6 channels)
 Compare: Previous period (prior 90 days of cohort)
 Chart type: Histogram with the cumulative % overlay as a secondary line
 Annotations:
@@ -34,5 +37,5 @@ Annotations:
 - Flag the source with the worst aha-time: this is either an ICP mismatch or an onboarding sequence issue specific to that channel's audience.
 Use case: distinct from the activation funnel (which is conversion %). This is the time-distribution view: answers "WHEN do users get value?" not just "DO they?" Time-to-value is the leading indicator of retention; users who hit aha fast retain at materially higher rates.
 Taxonomy notes:
-- user_created and goal_completed_in_journey are canonical. The activation journey is project-specific (configurable journey_id).
-- Users.utm_source is the canonical first-touch source.
+- User created and Completed a journey goal are canonical. The activation journey is project-specific (configurable journey_id).
+- Users.UTM source is the canonical first-touch source.

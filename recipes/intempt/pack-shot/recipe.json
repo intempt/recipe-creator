@@ -1,0 +1,38 @@
+{
+  "frontmatter_id": "pack-shot",
+  "title": "Studio product shots",
+  "slash_command": "/pack-shot",
+  "description": "Generates clean studio stills of one catalog product, in a background and lighting you pick.",
+  "markdown": "# Studio product shots\n\n## Description\n\nGenerates clean studio stills of one catalog product, in a background and lighting you pick.\n\n## Steps\n\n### Step 1: Render the product\n\nGenerate four studio images of the catalog product chosen for this run: front, three-quarter, a detail close-up, and a lifestyle insert.\nUse the background and lighting of the scene chosen for this run.\n",
+  "classification": {
+    "industry": [
+      "b2b-saas",
+      "ecommerce",
+      "media",
+      "social"
+    ]
+  },
+  "complexity": "quick",
+  "author": {
+    "name": "Aurobind Venu",
+    "first_name": "Aurobind",
+    "last_name": "Venu",
+    "company": "Intempt",
+    "job_title": "Creative Director",
+    "org_name": "intempt"
+  },
+  "permissions": [
+    "content:create"
+  ],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Render front image",
+      "description": "Generate a studio image of the catalog product chosen for this run, shot from the front, using the background and lighting of the scene chosen for this run.",
+      "command": "generate_image",
+      "entity": "image",
+      "kind": "dynamic",
+      "modelConfig": []
+    }
+  ]
+}

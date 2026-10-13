@@ -1,0 +1,60 @@
+{
+  "frontmatter_id": "product-reshoot",
+  "title": "Product relight",
+  "slash_command": "/product-reshoot",
+  "description": "Re-lights a product photo you already have, using a setting, lighting direction and camera angle that you choose.",
+  "markdown": "# Product relight\n\n## Description\n\nRe-lights a product photo you already have, using a setting, lighting direction and camera angle that you choose.\n\n## Steps\n\n### Step 1: Relight the product\n\nEdit the product photo attached to this run.\nRelight it with physically accurate light falloff, using the setting, lighting direction and camera angle chosen for this run.\nDo not change the product itself.\n",
+  "classification": {
+    "industry": [
+      "b2b-saas",
+      "ecommerce",
+      "media",
+      "social"
+    ]
+  },
+  "complexity": "quick",
+  "author": {
+    "name": "Aurobind Venu",
+    "first_name": "Aurobind",
+    "last_name": "Venu",
+    "company": "Intempt",
+    "job_title": "Creative Director",
+    "org_name": "intempt"
+  },
+  "permissions": [
+    "content:create"
+  ],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Relight the product",
+      "description": "Edit the product photo attached to this run. Relight it with physically accurate light falloff, using the setting, lighting direction and camera angle chosen for this run. Do not change the product itself.",
+      "command": "generate_image",
+      "entity": "image",
+      "integration": [
+        "Shopify",
+        "web"
+      ],
+      "kind": "dynamic",
+      "modelConfig": [],
+      "arguments": [
+        {
+          "key": "product_s1",
+          "type": "asset_reference",
+          "label": "Product photo",
+          "entity": "product",
+          "phrase": "the product photo attached to this run",
+          "required": true
+        },
+        {
+          "key": "scene_s1",
+          "type": "asset_reference",
+          "label": "Setting",
+          "entity": "scene",
+          "phrase": "the setting chosen for this run",
+          "required": true
+        }
+      ]
+    }
+  ]
+}

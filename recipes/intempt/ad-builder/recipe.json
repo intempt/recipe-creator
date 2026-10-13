@@ -1,0 +1,52 @@
+{
+  "frontmatter_id": "ad-builder",
+  "title": "Branded ad from a product",
+  "slash_command": "/ad-builder",
+  "description": "Turns a catalog product and a headline into a finished ad laid out in your Brand Kit colours, fonts and layout.",
+  "markdown": "# Branded ad from a product\n\n## Description\n\nTurns a catalog product and a headline into a finished ad laid out in your Brand Kit colours, fonts and layout.\n\n## Steps\n\n### Step 1: Build the ad\n\nGenerate one finished ad image.\nShow the catalog product chosen for this run.\nUse the headline written for this run as the ad's headline text.\nTake the colours, fonts and layout from the Brand Kit ad recipe chosen for this run.\n",
+  "classification": {
+    "industry": [
+      "b2b-saas",
+      "ecommerce",
+      "media",
+      "social"
+    ]
+  },
+  "complexity": "quick",
+  "author": {
+    "name": "Aurobind Venu",
+    "first_name": "Aurobind",
+    "last_name": "Venu",
+    "company": "Intempt",
+    "job_title": "Creative Director",
+    "org_name": "intempt"
+  },
+  "permissions": [
+    "content:create"
+  ],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Build the ad",
+      "description": "Generate one finished ad image. Show the catalog product chosen for this run. Use the headline written for this run as the ad's headline text. Take the colours, fonts and layout from the Brand Kit ad recipe chosen for this run.",
+      "command": "generate_image",
+      "entity": "image",
+      "integration": [
+        "Shopify",
+        "web"
+      ],
+      "kind": "dynamic",
+      "modelConfig": [],
+      "arguments": [
+        {
+          "key": "product_s1",
+          "type": "asset_reference",
+          "label": "Catalog product",
+          "entity": "product",
+          "phrase": "the catalog product chosen for this run",
+          "required": true
+        }
+      ]
+    }
+  ]
+}

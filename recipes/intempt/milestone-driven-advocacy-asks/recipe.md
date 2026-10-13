@@ -1,12 +1,15 @@
 ---
+frontmatter_id: milestone-driven-advocacy-asks
+slash_command: /milestone-driven-advocacy-asks
 description: Asks for a review, a referral or a case study just after a customer wins something, and never asks the same person twice inside 90 days.
 author:
+  name: Somya Nayak
   first_name: Somya
   last_name: Nayak
+  company: Intempt
   job_title: Marketing Lead
   avatar: https://cdn.intempt.com/assets/author-profile-pics/somya.png
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ai

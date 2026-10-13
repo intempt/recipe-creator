@@ -1,12 +1,15 @@
 ---
+frontmatter_id: demo-call-summary-recipe
+slash_command: /demo-call-summary-recipe
 description: 'Built in Demo call summary recipe: one of nine fixed recipes that summarizes demo meetings.'
 author:
+  name: Sid Chaudhary
   first_name: Sid
   last_name: Chaudhary
+  company: Intempt
   job_title: Founder & CEO
   avatar: https://cdn.intempt.com/assets/author-profile-pics/sid.png
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ai

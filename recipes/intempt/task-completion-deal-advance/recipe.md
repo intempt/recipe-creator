@@ -1,12 +1,15 @@
 ---
+frontmatter_id: task-completion-deal-advance
+slash_command: /task-completion-deal-advance
 description: Moves a deal to the next stage when the task that gates it is completed, so the pipeline report is not wrong because somebody forgot.
 author:
+  name: Trishik Shrestha
   first_name: Trishik
   last_name: Shrestha
+  company: Intempt
   job_title: Growth Marketer
   avatar: https://cdn.intempt.com/assets/author-profile-pics/trishik.png
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ai
@@ -23,7 +26,7 @@ Create an attribute on the Task object: 'advances_deal_to_stage'. For each task 
 
 ## Step 2: Move it forward, never back
 
-Create a workflow firing on task_completed. Step sequence: (1) check whether the task has 'advances_deal_to_stage' set; (2) look up the linked deal: IF the deal's current stage is earlier than the task's target stage, advance the deal via move_deal_stage; (3) if the deal is already at or past the target stage, skip (no regression, no double-advance); (4) on stage change, post a brief Slack notification to the AE owner ('Deal X advanced to Proposal: task Y completed') so they have realtime visibility; (5) if the advancement skips multiple stages (e.g. Discovery to Closing in one task), require human confirmation: don't auto-skip stages. Use the result of "Map tasks to the stage they gate".
+Create a workflow firing on Task completed. Step sequence: (1) check whether the task has 'advances_deal_to_stage' set; (2) look up the linked deal: IF the deal's current stage is earlier than the task's target stage, advance the deal via move_deal_stage; (3) if the deal is already at or past the target stage, skip (no regression, no double-advance); (4) on stage change, post a brief Slack notification to the AE owner ('Deal X advanced to Proposal: task Y completed') so they have realtime visibility; (5) if the advancement skips multiple stages (e.g. Discovery to Closing in one task), require human confirmation: don't auto-skip stages. Use the result of "Map tasks to the stage they gate".
 
 ## Step 3: Audit the mapping
 

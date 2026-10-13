@@ -1,12 +1,15 @@
 ---
-description: Users grouped by plan_name for plan-based upgrade targeting.
+frontmatter_id: expansion-candidates
+slash_command: /expansion-candidates
+description: Users grouped by Plan for plan-based upgrade targeting.
 author:
+  name: Harish Kumar
   first_name: Harish
   last_name: Kumar
+  company: Intempt
   job_title: Growth Marketer
   avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ai
@@ -22,5 +25,5 @@ Slash command: /expansion-candidates
 
 Build a segment of users named "Expansion Candidates".
 A user is in the segment only when all of these are true:
-- their plan_name attribute is not "enterprise"
-- their usage_pct attribute is 80 or more
+- their Plan attribute is not "enterprise"
+- their Usage percentage attribute is 80 or more

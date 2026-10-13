@@ -1,11 +1,14 @@
 ---
+frontmatter_id: purchase-retention
+slash_command: /purchase-retention
 description: Shows what share of first time buyers come back to buy again, by month and by the category they bought first.
 author:
+  name: Aman Tiwari
   first_name: Aman
   last_name: Tiwari
-  job_title: Product Manager
   company: Intempt
-org_name: intempt
+  job_title: Product Manager
+  org_name: intempt
 classification:
   industry:
   - ecommerce
@@ -19,8 +22,8 @@ Slash command: /purchase-retention
 ## Step 1: Track buyers back for more
 
 Create a Retention report called "Purchase Retention".
-Anchor event: order_created (per user, scope: their first order_created to cohort by month of first purchase)
-Return event: order_created (any subsequent order)
+Anchor event: Placed order (per user, scope: their first Placed order to cohort by month of first purchase)
+Return event: Placed order (any subsequent order)
 Cohort granularity: Monthly
 Time range: Last 12 months
 Breakdown: By the first-purchase product category: derived from the first order's items.product_id resolved via Products object
@@ -34,5 +37,5 @@ Annotations:
 - Highlight categories with M3 repeat rate > 30% (high natural-replenishment products: candidates for subscribe-and-save).
 Surface the median time from 1st to 2nd purchase per category: this is the right delay for replenishment journeys.
 Taxonomy notes:
-- "first_order_created" as an event does not exist. "First order" is computed as the earliest order_created per customer_id.
+- "first_order_created" as an event does not exist. "First order" is computed as the earliest Placed order per customer_id.
 - "first_purchase_category" is derived from first order's items.product_id to Products.category.

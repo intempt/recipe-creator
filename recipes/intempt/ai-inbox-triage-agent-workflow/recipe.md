@@ -1,12 +1,15 @@
 ---
+frontmatter_id: ai-inbox-triage-agent-workflow
+slash_command: /ai-inbox-triage-agent-workflow
 description: Classifies inbound messages received through a webhook by intent, such as sales, support, billing, partnership, or spam. Routes each message to the appropriate team and can create a follow-up task.
 author:
+  name: Trishik Shrestha
   first_name: Trishik
   last_name: Shrestha
+  company: Intempt
   job_title: Growth Marketer
   avatar: https://cdn.intempt.com/assets/author-profile-pics/trishik.png
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ai

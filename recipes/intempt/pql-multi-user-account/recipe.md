@@ -1,12 +1,15 @@
 ---
+frontmatter_id: pql-multi-user-account
+slash_command: /pql-multi-user-account
 description: Identify product-qualified leads by segmenting free and trial users who log multiple sessions and complete key activation goals.
 author:
+  name: Harish Kumar
   first_name: Harish
   last_name: Kumar
+  company: Intempt
   job_title: Growth Marketer
   avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ai
@@ -22,6 +25,6 @@ Slash command: /pql-multi-user-account
 
 Build a segment of accounts named "PQL: Multi-User Account".
 An account is in the segment only when all of these are true:
-- its users_count attribute is 2 or more
-- the users in the account together did the session_start event 3 or more times in the last 14 days
-- the users in the account together did the goal_completed_in_journey event at least once in the last 14 days
+- its User count attribute is 2 or more
+- the users in the account together did the Session start event 3 or more times in the last 14 days
+- the users in the account together did the Completed a journey goal event at least once in the last 14 days

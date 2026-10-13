@@ -1,12 +1,15 @@
 ---
+frontmatter_id: recently-won-accounts
+slash_command: /recently-won-accounts
 description: Accounts that became customers in the last quarter, so onboarding and implementation start from one current list.
 author:
+  name: Harish Kumar
   first_name: Harish
   last_name: Kumar
+  company: Intempt
   job_title: Growth Marketer
   avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ai
@@ -21,6 +24,6 @@ Slash command: /recently-won-accounts
 
 Build a segment of accounts named "Recently-Won Accounts".
 An account is in the segment only when all of these are true:
-- its lifecycle_changed_at attribute is within the last 90 days
-- its account_lifecycle attribute is "customer"
-- its has_open_deal attribute is false
+- its Lifecycle changed date attribute is within the last 90 days
+- its Lifecycle stage attribute is "customer"
+- its Has an open deal attribute is false

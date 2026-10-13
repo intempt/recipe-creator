@@ -1,12 +1,15 @@
 ---
+frontmatter_id: ai-action-approval-queue
+slash_command: /ai-action-approval-queue
 description: Holds riskier actions an AI workflow wants to take, such as a mass update or a send to a big account, in an approval gate and queue for human review before execution.
 author:
+  name: Trishik Shrestha
   first_name: Trishik
   last_name: Shrestha
+  company: Intempt
   job_title: Growth Marketer
   avatar: https://cdn.intempt.com/assets/author-profile-pics/trishik.png
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ai

@@ -1,12 +1,15 @@
 ---
+frontmatter_id: failed-payment-accounts
+slash_command: /failed-payment-accounts
 description: Users whose payment was declined in the last two weeks, so you can recover the money before the subscription lapses.
 author:
+  name: Harish Kumar
   first_name: Harish
   last_name: Kumar
+  company: Intempt
   job_title: Growth Marketer
   avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ai
@@ -23,7 +26,7 @@ Slash command: /failed-payment-accounts
 
 Build a segment of users named "Failed-Payment Users".
 A user is in the segment when any of these is true:
-- they did the payment_failed event at least once in the last 14 days
-- they did the invoice_payment_failed event at least once in the last 14 days
-- they did the billing_failed event at least once in the last 14 days
-- they did the charge_failed event at least once in the last 14 days
+- they did the Payment failed event at least once in the last 14 days
+- they did the Invoice payment failed event at least once in the last 14 days
+- they did the Billing failed event at least once in the last 14 days
+- they did the Charge failed event at least once in the last 14 days

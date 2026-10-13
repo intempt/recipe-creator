@@ -1,0 +1,55 @@
+{
+  "frontmatter_id": "image-remix",
+  "title": "Reference-anchored remix",
+  "slash_command": "/image-remix",
+  "description": "Pin up to four reference images with a weight on each, and get back variations anchored to them (four by default).",
+  "markdown": "# Reference-anchored remix\n\n## Description\n\nPin up to four reference images with a weight on each, and get back variations anchored to them (four by default).\n\n## Steps\n\n### Step 1: Pin references and fan out\n\nGenerate four image variations from the reference images pinned to this run.\nUse between one and four references, each with a weight of Light, Medium or Strong.\nA Strong reference shapes each variation most, Medium less, and Light least.\n",
+  "classification": {
+    "industry": [
+      "b2b-saas",
+      "ecommerce",
+      "media",
+      "social"
+    ]
+  },
+  "complexity": "quick",
+  "author": {
+    "name": "Aurobind Venu",
+    "first_name": "Aurobind",
+    "last_name": "Venu",
+    "company": "Intempt",
+    "job_title": "Creative Director",
+    "org_name": "intempt"
+  },
+  "permissions": [
+    "content:create"
+  ],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Pin references and fan out",
+      "description": "Generate four image variations from the reference images pinned to this run. Use between one and four references, each with a weight of Light, Medium or Strong. A Strong reference shapes each variation most, Medium less, and Light least.",
+      "command": "generate_image",
+      "entity": "image",
+      "kind": "dynamic",
+      "modelConfig": [],
+      "arguments": [
+        {
+          "key": "image_s1",
+          "max": 3,
+          "many": true,
+          "type": "attachment",
+          "label": "Reference images",
+          "entity": "image",
+          "phrase": "reference images pinned to this run",
+          "weights": [
+            "light",
+            "medium",
+            "strong"
+          ],
+          "required": true
+        }
+      ]
+    }
+  ]
+}

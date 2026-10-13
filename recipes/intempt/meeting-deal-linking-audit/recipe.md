@@ -1,12 +1,15 @@
 ---
+frontmatter_id: meeting-deal-linking-audit
+slash_command: /meeting-deal-linking-audit
 description: Displays meetings in widgets so teams can review meeting activity in one place.
 author:
+  name: Sid Chaudhary
   first_name: Sid
   last_name: Chaudhary
+  company: Intempt
   job_title: Founder & CEO
   avatar: https://cdn.intempt.com/assets/author-profile-pics/sid.png
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ai

@@ -1,11 +1,14 @@
 ---
+frontmatter_id: personalization-recs
+slash_command: /personalization-recs
 description: Generates catalog-aware product recommendations tailored to user cohorts and evaluates their performance with A/B experiments.
 author:
+  name: V Ranadheer
   first_name: V
   last_name: Ranadheer
-  job_title: Design Engineer
   company: Intempt
-org_name: intempt
+  job_title: Design Engineer
+  org_name: intempt
 classification:
   industry:
   - ai

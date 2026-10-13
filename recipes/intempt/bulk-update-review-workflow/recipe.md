@@ -1,12 +1,15 @@
 ---
+frontmatter_id: bulk-update-review-workflow
+slash_command: /bulk-update-review-workflow
 description: Pauses mass field changes, merges, or deletes above a set size for human review before execution. The recipe creates the approval gate and routes the queued change to a reviewer.
 author:
+  name: Trishik Shrestha
   first_name: Trishik
   last_name: Shrestha
+  company: Intempt
   job_title: Growth Marketer
   avatar: https://cdn.intempt.com/assets/author-profile-pics/trishik.png
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ai

@@ -1,12 +1,15 @@
 ---
+frontmatter_id: browse-abandonment
+slash_command: /browse-abandonment
 description: Reminds people who looked at products but never added anything to the cart, showing the items they viewed and a few they might prefer.
 author:
+  name: Somya Nayak
   first_name: Somya
   last_name: Nayak
+  company: Intempt
   job_title: Marketing Lead
   avatar: https://cdn.intempt.com/assets/author-profile-pics/somya.png
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ecommerce

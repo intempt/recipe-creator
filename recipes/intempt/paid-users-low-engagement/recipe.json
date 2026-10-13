@@ -1,0 +1,38 @@
+{
+  "frontmatter_id": "paid-users-low-engagement",
+  "title": "Paid users losing interest",
+  "slash_command": "/paid-users-low-engagement",
+  "description": "Paying customers with lower numeric engagement scores, useful for early retention outreach.",
+  "markdown": "# Paid users losing interest\n\n## Description\n\nPaying customers with lower numeric engagement scores, useful for early retention outreach.\n\n## Steps\n\n### Step 1: Build the low-engagement list\n\nBuild a segment of users named \"Paid Users: Low Engagement\".\nA user is in the segment only when all of these are true:\n- their Plan attribute is neither \"free\" nor \"trial\"\n- their Days since last activity attribute is between 7 and 21\n- their Engagement score attribute is \"Low\"\n",
+  "classification": {
+    "industry": [
+      "ai",
+      "b2b-saas",
+      "media"
+    ]
+  },
+  "complexity": "quick",
+  "author": {
+    "name": "Harish Kumar",
+    "first_name": "Harish",
+    "last_name": "Kumar",
+    "company": "Intempt",
+    "job_title": "Growth Marketer",
+    "avatar": "https://cdn.intempt.com/assets/author-profile-pics/harish.jpg",
+    "org_name": "intempt"
+  },
+  "permissions": [
+    "segment:create"
+  ],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Build the low-engagement list",
+      "description": "Build a segment of users named \"Paid Users: Low Engagement\". A user is in the segment only when all of these are true: their Plan attribute is neither \"free\" nor \"trial\"; their Days since last activity attribute is between 7 and 21; their Engagement score attribute is \"Low\".",
+      "command": "create_segment",
+      "entity": "segment",
+      "kind": "static",
+      "modelConfig": []
+    }
+  ]
+}

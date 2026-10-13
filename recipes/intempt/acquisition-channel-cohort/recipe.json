@@ -1,0 +1,41 @@
+{
+  "frontmatter_id": "acquisition-channel-cohort",
+  "title": "Customers by acquisition channel",
+  "slash_command": "/acquisition-channel-cohort",
+  "description": "Customers grouped by the channel that brought them in, so you can compare how well each channel's buyers stick around.",
+  "markdown": "# Customers by acquisition channel\n\n## Description\n\nCustomers grouped by the channel that brought them in, so you can compare how well each channel's buyers stick around.\n\n## Steps\n\n### Step 1: Build the channel cohort\n\nBuild a segment of users named \"Google Paid Acquired\".\nA user is in the segment only when all of these are true:\n- their UTM source attribute is \"google\"\n- their UTM medium attribute is \"cpc\"\n- they did the Placed order event at least once, at any time\n",
+  "classification": {
+    "industry": [
+      "ai",
+      "b2b-saas",
+      "ecommerce"
+    ]
+  },
+  "complexity": "quick",
+  "author": {
+    "name": "Harish Kumar",
+    "first_name": "Harish",
+    "last_name": "Kumar",
+    "company": "Intempt",
+    "job_title": "Growth Marketer",
+    "avatar": "https://cdn.intempt.com/assets/author-profile-pics/harish.jpg",
+    "org_name": "intempt"
+  },
+  "permissions": [
+    "segment:create"
+  ],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Build the channel cohort",
+      "description": "Build a segment of users named \"Google Paid Acquired\". A user is in the segment only when all of these are true: their UTM source attribute is \"google\", their UTM medium attribute is \"cpc\", they did the Placed order event at least once, at any time.",
+      "command": "create_segment",
+      "entity": "segment",
+      "integration": [
+        "Shopify"
+      ],
+      "kind": "static",
+      "modelConfig": []
+    }
+  ]
+}

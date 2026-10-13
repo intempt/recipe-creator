@@ -1,12 +1,15 @@
 ---
+frontmatter_id: account-engagement-score-orchestration
+slash_command: /account-engagement-score-orchestration
 description: Scores each account from 0 to 100 on how its whole team uses the product, then runs a different play for healthy, slipping, declining and inactive accounts.
 author:
+  name: Somya Nayak
   first_name: Somya
   last_name: Nayak
+  company: Intempt
   job_title: Marketing Lead
   avatar: https://cdn.intempt.com/assets/author-profile-pics/somya.png
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ai
@@ -37,7 +40,7 @@ Configure an in-app personalization on the admin dashboard that varies by accoun
 
 ## Step 5: Run the play for each tier
 
-Build a tiered journey wired to account-engagement-tiered segment. Branch on account_engagement tier at entry AND re-evaluate weekly. GREEN: Touch 1 monthly (expansion-leaning content to champion. Personalization activates for admin. Touch 2 quarterly) handoff to customer-progress-business-case journey. YELLOW: Touch 1 Day 0 (reactivation content to admin. Touch 2 Day 7) CSM task to reach out if score hasn't recovered. RED: Touch 1 Day 0 (urgent content + CSM task SAME-DAY. Touch 2 Day 3) executive-sponsor task if no CSM contact made. DORMANT: Touch 1 Day 0 (last-chance email. Touch 2 Day 14) final outreach + warning before suppression. Exit on: tier escalation back to green (recovered: log retention_win), subscription_canceled (handoff to post-cancel-winback), or sustained dormancy 60+ days (suppress). Use the result of "Score each account daily", "Group paying accounts by tier", "Write an email per tier", "Change what the admin sees".
+Build a tiered journey wired to account-engagement-tiered segment. Branch on account_engagement tier at entry AND re-evaluate weekly. GREEN: Touch 1 monthly (expansion-leaning content to champion. Personalization activates for admin. Touch 2 quarterly) handoff to customer-progress-business-case journey. YELLOW: Touch 1 Day 0 (reactivation content to admin. Touch 2 Day 7) CSM task to reach out if score hasn't recovered. RED: Touch 1 Day 0 (urgent content + CSM task SAME-DAY. Touch 2 Day 3) executive-sponsor task if no CSM contact made. DORMANT: Touch 1 Day 0 (last-chance email. Touch 2 Day 14) final outreach + warning before suppression. Exit on: tier escalation back to green (recovered: log retention_win), Subscription canceled (handoff to post-cancel-winback), or sustained dormancy 60+ days (suppress). Use the result of "Score each account daily", "Group paying accounts by tier", "Write an email per tier", "Change what the admin sees".
 
 ## Step 6: See where the book is heading
 

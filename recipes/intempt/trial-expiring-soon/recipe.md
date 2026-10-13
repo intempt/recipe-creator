@@ -1,12 +1,15 @@
 ---
+frontmatter_id: trial-expiring-soon
+slash_command: /trial-expiring-soon
 description: Trial users whose trial runs out within a week and who have not paid yet, your last chance to convert them.
 author:
+  name: Harish Kumar
   first_name: Harish
   last_name: Kumar
+  company: Intempt
   job_title: Growth Marketer
   avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ai
@@ -21,6 +24,6 @@ Slash command: /trial-expiring-soon
 
 Build a segment of users named "Trial Expiring Soon".
 A user is in the segment only when all of these are true:
-- their plan_name attribute is "trial"
-- their end_date attribute is within the next 7 days
-- they did not do the subscription_created event in the last 14 days
+- their Plan attribute is "trial"
+- their Subscription end date attribute is within the next 7 days
+- they did not do the Subscription started event in the last 14 days

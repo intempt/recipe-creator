@@ -1,0 +1,48 @@
+{
+  "frontmatter_id": "packaging-mockup",
+  "title": "Label wrapped on a package",
+  "slash_command": "/packaging-mockup",
+  "description": "Wraps your flat label artwork photorealistically around a 3D can, bottle or box, with the label content unchanged.",
+  "markdown": "# Label wrapped on a package\n\n## Description\n\nWraps your flat label artwork photorealistically around a 3D can, bottle or box, with the label content unchanged.\n\n## Steps\n\n### Step 1: Wrap the label\n\nEdit the flat label artwork attached to this run.\nWrap it photorealistically around a 3D package on the same backdrop.\nKeep the wordmark, the layout and every element of the label exactly as they are.\n",
+  "classification": {
+    "industry": [
+      "b2b-saas",
+      "ecommerce",
+      "media",
+      "social"
+    ]
+  },
+  "complexity": "quick",
+  "author": {
+    "name": "Aurobind Venu",
+    "first_name": "Aurobind",
+    "last_name": "Venu",
+    "company": "Intempt",
+    "job_title": "Creative Director",
+    "org_name": "intempt"
+  },
+  "permissions": [
+    "content:create"
+  ],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Wrap the label",
+      "description": "Edit the flat label artwork attached to this run. Wrap it photorealistically around a 3D package on the same backdrop. Keep the wordmark, the layout and every element of the label exactly as they are.",
+      "command": "generate_image",
+      "entity": "image",
+      "kind": "dynamic",
+      "modelConfig": [],
+      "arguments": [
+        {
+          "key": "image_s1",
+          "type": "attachment",
+          "label": "Label artwork",
+          "entity": "image",
+          "phrase": "the flat label artwork attached to this run",
+          "required": true
+        }
+      ]
+    }
+  ]
+}

@@ -1,12 +1,15 @@
 ---
+frontmatter_id: compliance-setup
+slash_command: /compliance-setup
 description: A list of people who never gave marketing consent or have since opted out, so you can exclude them from every marketing send.
 author:
+  name: Harish Kumar
   first_name: Harish
   last_name: Kumar
+  company: Intempt
   job_title: Growth Marketer
   avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ai
@@ -23,5 +26,5 @@ Slash command: /compliance-setup
 
 Build a segment of users named "Marketing Consent Suppression List".
 A user is in the segment when any of these is true:
-- they have never done the consent_granted event
-- they did the consent_revoked event after their most recent consent_granted event
+- they have never done the Subscribed consent event
+- they did the Unsubscribed consent event after their most recent Subscribed consent event

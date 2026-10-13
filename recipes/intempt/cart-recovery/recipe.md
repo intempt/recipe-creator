@@ -1,12 +1,15 @@
 ---
+frontmatter_id: cart-recovery
+slash_command: /cart-recovery
 description: Emails shoppers who left items behind, three times over three days, and measures how much revenue comes back.
 author:
+  name: Somya Nayak
   first_name: Somya
   last_name: Nayak
+  company: Intempt
   job_title: Marketing Lead
   avatar: https://cdn.intempt.com/assets/author-profile-pics/somya.png
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ecommerce
@@ -21,7 +24,7 @@ Slash command: /cart-recovery
 ## Step 1: Find who abandoned a cart
 
 This step builds a segment.
-Identify users with cart_abandoned event in last 30 days who have NOT placed an order for that cart.
+Identify users with Abandoned cart event in last 30 days who have NOT placed an order for that cart.
 
 ## Step 2: Write the three emails
 

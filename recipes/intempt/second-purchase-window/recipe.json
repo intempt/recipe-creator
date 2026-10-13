@@ -1,0 +1,39 @@
+{
+  "frontmatter_id": "second-purchase-window",
+  "title": "First-time buyers in the repeat window",
+  "slash_command": "/second-purchase-window",
+  "description": "Customers who bought for the first time in the last month, the period when most second purchases happen.",
+  "markdown": "# First-time buyers in the repeat window\n\n## Description\n\nCustomers who bought for the first time in the last month, the period when most second purchases happen.\n\n## Steps\n\n### Step 1: Build the second-purchase list\n\nBuild a segment of users named \"Second-Purchase Window\".\nA user is in the segment only when all of these are true:\n- they did the Placed order event exactly 1 time, at any time\n- that Placed order event happened in the last 30 days\n",
+  "classification": {
+    "industry": [
+      "ecommerce"
+    ]
+  },
+  "complexity": "quick",
+  "author": {
+    "name": "Harish Kumar",
+    "first_name": "Harish",
+    "last_name": "Kumar",
+    "company": "Intempt",
+    "job_title": "Growth Marketer",
+    "avatar": "https://cdn.intempt.com/assets/author-profile-pics/harish.jpg",
+    "org_name": "intempt"
+  },
+  "permissions": [
+    "segment:create"
+  ],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Build the second-purchase list",
+      "description": "Build a segment of users named \"Second-Purchase Window\". A user is in the segment only when all of these are true: they did the Placed order event exactly 1 time, at any time; that Placed order event happened in the last 30 days.",
+      "command": "create_segment",
+      "entity": "segment",
+      "integration": [
+        "Shopify"
+      ],
+      "kind": "static",
+      "modelConfig": []
+    }
+  ]
+}

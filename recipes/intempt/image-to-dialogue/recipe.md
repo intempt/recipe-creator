@@ -1,11 +1,14 @@
 ---
+frontmatter_id: image-to-dialogue
+slash_command: /image-to-dialogue
 description: Generates spoken audio from your script and animates a portrait with subtle motion to accompany the voiceover.
 author:
+  name: Aurobind Venu
   first_name: Aurobind
   last_name: Venu
-  job_title: Creative Director
   company: Intempt
-org_name: intempt
+  job_title: Creative Director
+  org_name: intempt
 classification:
   industry:
   - b2b-saas

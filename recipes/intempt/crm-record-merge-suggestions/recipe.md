@@ -1,12 +1,15 @@
 ---
+frontmatter_id: crm-record-merge-suggestions
+slash_command: /crm-record-merge-suggestions
 description: On new account or contact creation, checks existing CRM records with exact-match filters and creates a review task when a possible duplicate is found.
 author:
+  name: Trishik Shrestha
   first_name: Trishik
   last_name: Shrestha
+  company: Intempt
   job_title: Growth Marketer
   avatar: https://cdn.intempt.com/assets/author-profile-pics/trishik.png
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ai
@@ -19,7 +22,7 @@ Slash command: /crm-record-merge-suggestions
 
 ## Step 1: Check at the moment of creation
 
-Create a workflow 'Real-time CRM dedup' triggered immediately on account_created OR user_created events. Goal: catch duplicates at creation moment rather than letting them propagate, then needing cleanup later.
+Create a workflow 'Real-time CRM dedup' triggered immediately on account_created OR User created events. Goal: catch duplicates at creation moment rather than letting them propagate, then needing cleanup later.
 
 ## Step 2: Look for a match
 

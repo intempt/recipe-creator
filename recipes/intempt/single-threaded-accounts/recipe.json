@@ -1,0 +1,37 @@
+{
+  "frontmatter_id": "single-threaded-accounts",
+  "title": "Single-threaded open deals",
+  "slash_command": "/single-threaded-accounts",
+  "description": "Open deals at larger companies where only one person is engaged, so an AE can bring more stakeholders in before it stalls.",
+  "markdown": "# Single-threaded open deals\n\n## Description\n\nOpen deals at larger companies where only one person is engaged, so an AE can bring more stakeholders in before it stalls.\n\n## Steps\n\n### Step 1: Build the single-threaded list\n\nBuild a segment of accounts named \"Single-Threaded Accounts\".\nAn account is in the segment only when all of these are true:\n- its employees attribute is more than 50\n- its User count attribute is exactly 1\n- its Has an open deal attribute is true\n",
+  "classification": {
+    "industry": [
+      "ai",
+      "b2b-saas"
+    ]
+  },
+  "complexity": "quick",
+  "author": {
+    "name": "Harish Kumar",
+    "first_name": "Harish",
+    "last_name": "Kumar",
+    "company": "Intempt",
+    "job_title": "Growth Marketer",
+    "avatar": "https://cdn.intempt.com/assets/author-profile-pics/harish.jpg",
+    "org_name": "intempt"
+  },
+  "permissions": [
+    "segment:create"
+  ],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Build the single-threaded list",
+      "description": "Build a segment of accounts named \"Single-Threaded Accounts\". An account is in the segment only when all of these are true: its employees attribute is more than 50, its User count attribute is exactly 1, its Has an open deal attribute is true.",
+      "command": "create_segment",
+      "entity": "segment",
+      "kind": "static",
+      "modelConfig": []
+    }
+  ]
+}

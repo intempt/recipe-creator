@@ -1,11 +1,14 @@
 ---
+frontmatter_id: discount-impact-on-aov-and-margin
+slash_command: /discount-impact-on-aov-and-margin
 description: Tracks orders that applied a discount code and their basket totals, code by code.
 author:
+  name: Aman Tiwari
   first_name: Aman
   last_name: Tiwari
-  job_title: Product Manager
   company: Intempt
-org_name: intempt
+  job_title: Product Manager
+  org_name: intempt
 classification:
   industry:
   - ecommerce
@@ -18,8 +21,8 @@ Slash command: /discount-impact-on-aov-and-margin
 ## Step 1: Test whether discounts grow baskets
 
 Create an Insights report called "Discount Impact on AOV".
-Series A: Event "order_created" filtered to orders with a linked discount_applied event (orders with discount), aggregation: Average of total_price, label: "AOV with Discount"
-Series B: Event "order_created" filtered to orders with NO linked discount_applied event, aggregation: Average of total_price, label: "AOV without Discount"
+Series A: Event "Placed order" filtered to orders with a linked discount_applied event (orders with discount), aggregation: Average of total_price, label: "AOV with Discount"
+Series B: Event "Placed order" filtered to orders with NO linked discount_applied event, aggregation: Average of total_price, label: "AOV without Discount"
 Series C: Computed: Series A − Series B, unit: $, label: "AOV Lift from Discount"
 Series D: Computed: Sum of discount_applied.amount across all discounted orders, unit: $, label: "Total Discount Cost"
 Series E: Computed: (Sum of total_price for discounted orders − Series D) − (count of discounted orders × Series B), label: "Net Revenue Impact": answers: did discounts grow the pie or just shift it?
@@ -36,5 +39,5 @@ Annotations:
 Use case: the cannibalization question is the most important and most-avoided ecommerce analysis. Most brands track discount usage but never measure whether discounts CREATE orders that wouldn't otherwise happen, vs. just SHIFTING demand to discounted moments. This recipe makes the distinction visible.
 Taxonomy notes:
 - discount_applied has amount, code, currency, customer_id, order_id, type (and amount_off / percent_off depending on source).
-- order_created has total_price (Shopify) and items.
+- Placed order has total_price (Shopify) and items.
 - Linking an order to a discount uses discount_applied.order_id.

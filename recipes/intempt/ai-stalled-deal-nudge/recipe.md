@@ -1,12 +1,15 @@
 ---
+frontmatter_id: ai-stalled-deal-nudge
+slash_command: /ai-stalled-deal-nudge
 description: Drafts a personalized re-engagement email for stalled deals using CRM deal context, leaving it for the rep to review and send.
 author:
+  name: Trishik Shrestha
   first_name: Trishik
   last_name: Shrestha
+  company: Intempt
   job_title: Growth Marketer
   avatar: https://cdn.intempt.com/assets/author-profile-pics/trishik.png
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ai

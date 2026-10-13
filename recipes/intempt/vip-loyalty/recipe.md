@@ -1,12 +1,15 @@
 ---
+frontmatter_id: vip-loyalty
+slash_command: /vip-loyalty
 description: Ranks your best customers into tiers, gives each tier something worth having, and tests which rewards actually keep them.
 author:
+  name: Somya Nayak
   first_name: Somya
   last_name: Nayak
+  company: Intempt
   job_title: Marketing Lead
   avatar: https://cdn.intempt.com/assets/author-profile-pics/somya.png
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ecommerce

@@ -1,12 +1,15 @@
 ---
+frontmatter_id: ecommerce-lifecycle-dashboard
+slash_command: /ecommerce-lifecycle-dashboard
 description: Shows lifecycle distribution, when shoppers reorder, and whether discount codes add revenue or eat into it.
 author:
+  name: Sid Chaudhary
   first_name: Sid
   last_name: Chaudhary
+  company: Intempt
   job_title: Founder & CEO
   avatar: https://cdn.intempt.com/assets/author-profile-pics/sid.png
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ecommerce
@@ -28,7 +31,7 @@ Board-level configuration:
 - exclusionPeriod: incomplete_periods
 - visibility: project
 - boardFilters: none by default
-- boardBreakdowns: lifecycle_score (canonical 6-stage enum)
+- boardBreakdowns: Lifecycle score (canonical 6-stage enum)
 Layout: 4 rows.
 Row 1: Lifecycle health KPIs (heightPx: 200, four metric cards at widthUnits: 3):
 - Card 1: Insights metric to source recipe: customer-lifecycle-distribution, vizType: metric, titleOverride: "% in Champions"
@@ -48,5 +51,5 @@ Annotations:
 - Row 3 turns insight into operational levers.
 - Row 4 closes the loop: post-conversion paths + retention by category.
 Taxonomy notes:
-- Users.lifecycle_score is the canonical 6-stage enum.
-- All source recipes use canonical events: order_created, discount_applied, page_viewed, session_start, subscription_created.
+- Users.Lifecycle score is the canonical 6-stage enum.
+- All source recipes use canonical events: Placed order, discount_applied, View page, Session start, Subscription started.

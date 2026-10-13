@@ -1,0 +1,45 @@
+{
+  "frontmatter_id": "high-intent-anonymous-visitors",
+  "title": "High-intent anonymous visitors",
+  "slash_command": "/high-intent-anonymous-visitors",
+  "description": "Visitors you cannot email yet who keep coming back, so you can retarget them with ads or try to capture an address.",
+  "markdown": "# High-intent anonymous visitors\n\n## Description\n\nVisitors you cannot email yet who keep coming back, so you can retarget them with ads or try to capture an address.\n\n## Steps\n\n### Step 1: Build the anonymous visitor list\n\nBuild a segment of users named \"High-Intent Anonymous Visitors\".\nA user is in the segment only when all of these are true:\n- their Total events attribute is 5 or more\n- their email attribute is empty\n- they did the View page event 3 or more times in the last 7 days\n- they did the Session start event 2 or more times in the last 7 days\n",
+  "classification": {
+    "industry": [
+      "ai",
+      "b2b-saas",
+      "ecommerce",
+      "media"
+    ]
+  },
+  "complexity": "quick",
+  "author": {
+    "name": "Harish Kumar",
+    "first_name": "Harish",
+    "last_name": "Kumar",
+    "company": "Intempt",
+    "job_title": "Growth Marketer",
+    "avatar": "https://cdn.intempt.com/assets/author-profile-pics/harish.jpg",
+    "org_name": "intempt"
+  },
+  "permissions": [
+    "segment:create"
+  ],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Build the anonymous visitor list",
+      "description": "Build a segment of users named \"High-Intent Anonymous Visitors\". A user is in the segment only when all of these are true: their Total events attribute is 5 or more, their email attribute is empty, they did the View page event 3 or more times in the last 7 days, they did the Session start event 2 or more times in the last 7 days.",
+      "command": "create_segment",
+      "entity": "segment",
+      "integration": [
+        "web",
+        "ios",
+        "android",
+        "react-native"
+      ],
+      "kind": "static",
+      "modelConfig": []
+    }
+  ]
+}

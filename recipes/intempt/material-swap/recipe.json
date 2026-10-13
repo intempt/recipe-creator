@@ -1,0 +1,60 @@
+{
+  "frontmatter_id": "material-swap",
+  "title": "Material and finish swap",
+  "slash_command": "/material-swap",
+  "description": "Changes the material, finish or colour of a product while the shape, pose, camera angle and shadow stay exactly as shot.",
+  "markdown": "# Material and finish swap\n\n## Description\n\nChanges the material, finish or colour of a product while the shape, pose, camera angle and shadow stay exactly as shot.\n\n## Steps\n\n### Step 1: Swap the material\n\nEdit the product image attached to this run.\nChange only the product's surface material to the new material chosen for this run.\nKeep the frame, the pose, the camera angle and the shadow identical.\n",
+  "classification": {
+    "industry": [
+      "b2b-saas",
+      "ecommerce",
+      "media",
+      "social"
+    ]
+  },
+  "complexity": "quick",
+  "author": {
+    "name": "Aurobind Venu",
+    "first_name": "Aurobind",
+    "last_name": "Venu",
+    "company": "Intempt",
+    "job_title": "Creative Director",
+    "org_name": "intempt"
+  },
+  "permissions": [
+    "content:create"
+  ],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Swap the material",
+      "description": "Edit the product image attached to this run. Change only the product's surface material to the new material chosen for this run. Keep the frame, the pose, the camera angle and the shadow identical.",
+      "command": "generate_image",
+      "entity": "image",
+      "integration": [
+        "Shopify",
+        "web"
+      ],
+      "kind": "dynamic",
+      "modelConfig": [],
+      "arguments": [
+        {
+          "key": "product_s1",
+          "type": "asset_reference",
+          "label": "Product image",
+          "entity": "product",
+          "phrase": "the product image attached to this run",
+          "required": true
+        },
+        {
+          "key": "text_s1",
+          "type": "string",
+          "label": "New material",
+          "phrase": "the new material chosen for this run",
+          "required": true,
+          "value_kind": "text"
+        }
+      ]
+    }
+  ]
+}

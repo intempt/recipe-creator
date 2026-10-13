@@ -1,12 +1,15 @@
 ---
+frontmatter_id: auto-enrich-new-accounts
+slash_command: /auto-enrich-new-accounts
 description: Fills in industry, size, revenue and tech stack for every new account within minutes, scores the fit, and routes the best ones to an owner.
 author:
+  name: Trishik Shrestha
   first_name: Trishik
   last_name: Shrestha
+  company: Intempt
   job_title: Growth Marketer
   avatar: https://cdn.intempt.com/assets/author-profile-pics/trishik.png
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ai

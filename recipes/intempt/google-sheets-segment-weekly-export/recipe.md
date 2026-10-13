@@ -1,12 +1,15 @@
 ---
+frontmatter_id: google-sheets-segment-weekly-export
+slash_command: /google-sheets-segment-weekly-export
 description: Writes a segment into a Google Sheet every week, replacing the CSV someone downloads and re-uploads by hand.
 author:
+  name: Trishik Shrestha
   first_name: Trishik
   last_name: Shrestha
+  company: Intempt
   job_title: Growth Marketer
   avatar: https://cdn.intempt.com/assets/author-profile-pics/trishik.png
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ai

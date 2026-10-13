@@ -1,11 +1,14 @@
 ---
+frontmatter_id: material-swap
+slash_command: /material-swap
 description: Changes the material, finish or colour of a product while the shape, pose, camera angle and shadow stay exactly as shot.
 author:
+  name: Aurobind Venu
   first_name: Aurobind
   last_name: Venu
-  job_title: Creative Director
   company: Intempt
-org_name: intempt
+  job_title: Creative Director
+  org_name: intempt
 classification:
   industry:
   - b2b-saas

@@ -1,11 +1,14 @@
 ---
+frontmatter_id: lifestyle-scene
+slash_command: /lifestyle-scene
 description: Moves a studio packshot into a real-world setting such as a kitchen, office or outdoors, with natural light and depth of field.
 author:
+  name: Aurobind Venu
   first_name: Aurobind
   last_name: Venu
-  job_title: Creative Director
   company: Intempt
-org_name: intempt
+  job_title: Creative Director
+  org_name: intempt
 classification:
   industry:
   - b2b-saas

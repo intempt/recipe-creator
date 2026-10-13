@@ -1,0 +1,43 @@
+{
+  "frontmatter_id": "decision-maker-prospects",
+  "title": "Decision makers checking pricing",
+  "slash_command": "/decision-maker-prospects",
+  "description": "Senior people who looked at your pricing in the last month, so AEs can talk to whoever actually holds the budget.",
+  "markdown": "# Decision makers checking pricing\n\n## Description\n\nSenior people who looked at your pricing in the last month, so AEs can talk to whoever actually holds the budget.\n\n## Steps\n\n### Step 1: Build the decision-maker list\n\nBuild a segment of users named \"Decision-Maker Prospects\".\nA user is in the segment only when all of these are true:\n- their Job title attribute contains any of \"CEO\", \"CTO\", \"CFO\", \"CMO\", \"COO\", \"VP\", \"Vice President\", \"Director\", \"Head of\" or \"Chief\"\n- they did the View page event with a Page URL that contains \"/pricing\" at least once in the last 30 days\n- their email attribute is not empty\n",
+  "classification": {
+    "industry": [
+      "ai",
+      "b2b-saas"
+    ]
+  },
+  "complexity": "quick",
+  "author": {
+    "name": "Harish Kumar",
+    "first_name": "Harish",
+    "last_name": "Kumar",
+    "company": "Intempt",
+    "job_title": "Growth Marketer",
+    "avatar": "https://cdn.intempt.com/assets/author-profile-pics/harish.jpg",
+    "org_name": "intempt"
+  },
+  "permissions": [
+    "segment:create"
+  ],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Build the decision-maker list",
+      "description": "Build a segment of users named \"Decision-Maker Prospects\". A user is in the segment only when all of these are true: their Job title attribute contains any of \"CEO\", \"CTO\", \"CFO\", \"CMO\", \"COO\", \"VP\", \"Vice President\", \"Director\", \"Head of\" or \"Chief\"; they did the View page event with a Page URL that contains \"/pricing\" at least once in the last 30 days; their email attribute is not empty.",
+      "command": "create_segment",
+      "entity": "segment",
+      "integration": [
+        "web",
+        "ios",
+        "android",
+        "react-native"
+      ],
+      "kind": "static",
+      "modelConfig": []
+    }
+  ]
+}

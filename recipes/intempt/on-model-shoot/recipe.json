@@ -1,0 +1,78 @@
+{
+  "frontmatter_id": "on-model-shoot",
+  "title": "On-model product shot",
+  "slash_command": "/on-model-shoot",
+  "description": "Puts your identity-locked avatar in a scene wearing or holding a catalog product, for lifestyle product photography.",
+  "markdown": "# On-model product shot\n\n## Description\n\nPuts your identity-locked avatar in a scene wearing or holding a catalog product, for lifestyle product photography.\n\n## Steps\n\n### Step 1: Compose the on-model shot\n\nGenerate one lifestyle product photo.\nShow the identity-locked avatar chosen for this run wearing or holding the catalog product chosen for this run, in the scene chosen for this run.\nIf pose references are chosen for this run, match the avatar's pose to them.\nKeep the avatar's identity the same as in its earlier images.\n",
+  "classification": {
+    "industry": [
+      "b2b-saas",
+      "ecommerce",
+      "media",
+      "social"
+    ]
+  },
+  "complexity": "quick",
+  "author": {
+    "name": "Aurobind Venu",
+    "first_name": "Aurobind",
+    "last_name": "Venu",
+    "company": "Intempt",
+    "job_title": "Creative Director",
+    "org_name": "intempt"
+  },
+  "permissions": [
+    "content:create"
+  ],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Compose the on-model shot",
+      "description": "Generate one lifestyle product photo. Show the identity-locked avatar chosen for this run wearing or holding the catalog product chosen for this run, in the scene chosen for this run. If pose references are chosen for this run, match the avatar's pose to them. Keep the avatar's identity the same as in its earlier images.",
+      "command": "generate_image",
+      "entity": "image",
+      "integration": [
+        "Shopify",
+        "web"
+      ],
+      "kind": "dynamic",
+      "modelConfig": [],
+      "arguments": [
+        {
+          "key": "avatar_s1",
+          "type": "asset_reference",
+          "label": "Identity-locked avatar",
+          "entity": "avatar",
+          "phrase": "the identity-locked avatar chosen for this run",
+          "required": true
+        },
+        {
+          "key": "product_s1",
+          "type": "asset_reference",
+          "label": "Catalog product",
+          "entity": "product",
+          "phrase": "the catalog product chosen for this run",
+          "required": true
+        },
+        {
+          "key": "scene_s1",
+          "type": "asset_reference",
+          "label": "Scene",
+          "entity": "scene",
+          "phrase": "the scene chosen for this run",
+          "required": true
+        },
+        {
+          "key": "pose_s1",
+          "max": 3,
+          "many": true,
+          "type": "asset_reference",
+          "label": "Pose references",
+          "entity": "pose",
+          "phrase": "pose references are chosen for this run",
+          "required": false
+        }
+      ]
+    }
+  ]
+}

@@ -1,12 +1,15 @@
 ---
+frontmatter_id: predictive-churn-tiered-intervention
+slash_command: /predictive-churn-tiered-intervention
 description: 'Scores churn risk daily and routes each band to email, SMS, push, or Slack: nurture content at low risk, personalized messages at medium, and CSM or founder outreach at high and critical.'
 author:
+  name: Somya Nayak
   first_name: Somya
   last_name: Nayak
+  company: Intempt
   job_title: Marketing Lead
   avatar: https://cdn.intempt.com/assets/author-profile-pics/somya.png
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ai
@@ -41,7 +44,7 @@ Configure a recommendation surface specifically for high+critical tier users: su
 
 ## Step 6: Treat each band differently
 
-Build a tiered journey wired to the churn-risk segment. Branch on churn_risk tier at entry AND re-evaluate weekly: LOW tier (light-touch nurture email at Day 7 (no urgency, just value content). MEDIUM tier) Touch 1 email Day 0 (helpful tip), Touch 2 in-app at next login (deep-link to retention feature), Touch 3 email Day 7 with recommendation surface highlighting cohort-success features. HIGH tier: Touch 1 email Day 0 from CSM with offer of help, in-app urgent banner on next session, CSM task created same-day. CRITICAL tier: within 4 hours: founder/CEO personal email + agent handoff offering 1:1 call + urgent CSM task + executive-sponsor task. Tier RECOMPUTED weekly: users de-escalate (engagement returned) exit gracefully; users escalate get tier-appropriate next-touch. Exit on: churn_risk drops below 30 for 14+ days (recovered: log retention_win), subscription_canceled (handoff to post-cancel-winback), or unsubscribe. Use the result of "Score churn risk daily", "Take everyone above 30", "Write an email per band", "Catch them when they log in", "Recommend what keeps people".
+Build a tiered journey wired to the churn-risk segment. Branch on churn_risk tier at entry AND re-evaluate weekly: LOW tier (light-touch nurture email at Day 7 (no urgency, just value content). MEDIUM tier) Touch 1 email Day 0 (helpful tip), Touch 2 in-app at next login (deep-link to retention feature), Touch 3 email Day 7 with recommendation surface highlighting cohort-success features. HIGH tier: Touch 1 email Day 0 from CSM with offer of help, in-app urgent banner on next session, CSM task created same-day. CRITICAL tier: within 4 hours: founder/CEO personal email + agent handoff offering 1:1 call + urgent CSM task + executive-sponsor task. Tier RECOMPUTED weekly: users de-escalate (engagement returned) exit gracefully; users escalate get tier-appropriate next-touch. Exit on: churn_risk drops below 30 for 14+ days (recovered: log retention_win), Subscription canceled (handoff to post-cancel-winback), or unsubscribe. Use the result of "Score churn risk daily", "Take everyone above 30", "Write an email per band", "Catch them when they log in", "Recommend what keeps people".
 
 ## Step 7: See if the bands hold up
 

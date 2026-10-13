@@ -1,12 +1,15 @@
 ---
+frontmatter_id: cohort-acquisition-ltv-dashboard
+slash_command: /cohort-acquisition-ltv-dashboard
 description: Monitor acquisition performance with line plots of selected metrics over calendar time. Use the trends to see how measures such as revenue or repeat purchases change over time.
 author:
+  name: Sid Chaudhary
   first_name: Sid
   last_name: Chaudhary
+  company: Intempt
   job_title: Founder & CEO
   avatar: https://cdn.intempt.com/assets/author-profile-pics/sid.png
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ecommerce
@@ -27,7 +30,7 @@ Board-level configuration:
 - exclusionPeriod: incomplete_periods (recent cohorts haven't had time to mature)
 - visibility: project
 - boardFilters: none by default
-- boardBreakdowns: utm_source: pushed down throughout (the canonical acquisition-channel dimension)
+- boardBreakdowns: UTM source: pushed down throughout (the canonical acquisition-channel dimension)
 Layout: 4 rows.
 Row 1: Cohort headline KPIs (heightPx: 200, four metric cards at widthUnits: 3):
 - Card 1: Insights metric to source recipe: first-purchase-cohort-ltv-curve, vizType: metric, titleOverride: "Average LTV (M6)"
@@ -35,7 +38,7 @@ Row 1: Cohort headline KPIs (heightPx: 200, four metric cards at widthUnits: 3):
 - Card 3: Retention metric to source recipe: purchase-retention, vizType: metric, titleOverride: "M3 Repeat Purchase Rate"
 - Card 4: Insights metric to source recipe: post-purchase-second-order-velocity, vizType: metric, titleOverride: "Median Days to 2nd Order"
 Row 2: Cohort LTV curves by channel (heightPx: 480, full-width single card at widthUnits: 12):
-- Card 1: Insights to source recipe: first-purchase-cohort-ltv-curve, displayMode: chart, vizType: line (multi-line: each line = a cohort, X-axis = months since first purchase, Y-axis = cumulative revenue per cohort member, broken down by acquisition channel via utm_source). The strategic centerpiece: answers "which channels acquire customers worth keeping."
+- Card 1: Insights to source recipe: first-purchase-cohort-ltv-curve, displayMode: chart, vizType: line (multi-line: each line = a cohort, X-axis = months since first purchase, Y-axis = cumulative revenue per cohort member, broken down by acquisition channel via UTM source). The strategic centerpiece: answers "which channels acquire customers worth keeping."
 Row 3: Repeat-purchase mechanics (heightPx: 440, two cards at widthUnits: 6):
 - Card 1: Retention to source recipe: purchase-retention, displayMode: chart, vizType: retention_curve (cohort by first-purchase month: repeat-purchase % over time, by first-order category)
 - Card 2: Insights to source recipe: post-purchase-second-order-velocity, displayMode: chart (histogram of days from 1st to 2nd order: informs replenishment journey timing per category)
@@ -51,7 +54,7 @@ Annotations:
 - Row 4 ties it together: which channels are currently producing revenue (Card 1), and what customer types are they acquiring (Card 2). A channel with high current revenue but acquiring mostly At Risk segments is a leading indicator of revenue erosion.
 - Recommended cadence: read this dashboard monthly. Cohort LTV is slow-moving: weekly views over-rotate on noise.
 Taxonomy notes:
-- All source recipes use canonical events: order_created (with items, total_price, customer_id), session_start, page_viewed.
-- Users.utm_source is the canonical first-touch acquisition channel.
-- Users.lifecycle_score is the canonical 6-stage lifecycle enum (At risk / Needs attention / New customers / Promising / Regulars / Champions).
+- All source recipes use canonical events: Placed order (with items, total_price, customer_id), Session start, View page.
+- Users.UTM source is the canonical first-touch acquisition channel.
+- Users.Lifecycle score is the canonical 6-stage lifecycle enum (At risk / Needs attention / New customers / Promising / Regulars / Champions).
 - This dashboard does NOT include CAC or ROAS metrics because ad-spend events are not in canonical taxonomy V2.1. It surfaces LTV cohort quality; CAC must be computed externally and combined for full unit economics analysis.

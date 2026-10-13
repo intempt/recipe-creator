@@ -1,12 +1,15 @@
 ---
+frontmatter_id: smb-accounts
+slash_command: /smb-accounts
 description: Companies under 100 employees, the list your self-serve nurture and in-product prompts should run against.
 author:
+  name: Harish Kumar
   first_name: Harish
   last_name: Kumar
+  company: Intempt
   job_title: Growth Marketer
   avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ai

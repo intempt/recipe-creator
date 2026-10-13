@@ -1,12 +1,15 @@
 ---
+frontmatter_id: sales-activity-coaching-dashboard
+slash_command: /sales-activity-coaching-dashboard
 description: Shows sales rep activity volume for calls, emails and meetings alongside the revenue it produced, so managers can identify coaching needs and performance differences.
 author:
+  name: Sid Chaudhary
   first_name: Sid
   last_name: Chaudhary
+  company: Intempt
   job_title: Founder & CEO
   avatar: https://cdn.intempt.com/assets/author-profile-pics/sid.png
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - b2b-saas
@@ -49,6 +52,6 @@ Annotations:
 - Row 4 surfaces deal-hygiene issues that compound: single-threaded deals are pure coaching gold (advise the rep to multi-thread before proposal stage). Per-rep attainment with team-average overlay surfaces both the bottom (intervention) and top (replicate) of the distribution.
 - Recommended cadence: read this dashboard before weekly 1:1s and Friday team standups. The rising-stars sort changes weekly; the patterns view changes monthly.
 Taxonomy notes:
-- rep-activity-leaderboard pulls from call_completed, call_logged, messaged_email (direction=outbound), meeting_scheduled, task_completed, deal_won: all canonical events.
+- rep-activity-leaderboard pulls from Call completed, call_logged, Messaged email (direction=outbound), Meeting scheduled, Task completed, Deal won: all canonical events.
 - "Rep" identification is unified across events through created_by / assignee_id / owner_id resolving to the same Users object (owner_id is canonical).
 - quota-attainment-by-rep depends on workspace-level quota target configuration: see that recipe's notes.

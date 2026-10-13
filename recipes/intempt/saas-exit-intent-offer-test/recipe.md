@@ -1,11 +1,14 @@
 ---
+frontmatter_id: saas-exit-intent-offer-test
+slash_command: /saas-exit-intent-offer-test
 description: 'Compares what to offer a visitor about to leave: a discount, a comparison guide, a content download, a survey, or nothing.'
 author:
+  name: V Ranadheer
   first_name: V
   last_name: Ranadheer
-  job_title: Design Engineer
   company: Intempt
-org_name: intempt
+  job_title: Design Engineer
+  org_name: intempt
 classification:
   industry:
   - ai
@@ -37,10 +40,10 @@ Targeting:
 - Display frequency: once_per_session (don't show twice)
 Primary metric: goal_completed_in_experience where experience_id = <this> (goal varies by variant: see secondary metrics)
 Secondary metrics (per variant):
-- Variant B: form_submitted on the discount-claim form: discount-redemption rate
-- Variant C: click_on the comparison-guide download: guide-download rate
-- Variant D: form_submitted with email captured: lead-capture rate
-- Variant E: form_submitted on the exit survey: survey-completion rate
+- Variant B: Form submitted on the discount-claim form: discount-redemption rate
+- Variant C: Click on the comparison-guide download: guide-download rate
+- Variant D: Form submitted with email captured: lead-capture rate
+- Variant E: Form submitted on the exit survey: survey-completion rate
 - Cross-variant: 7-day return visit rate, 14-day demo-request conversion rate (which offer brings the highest-quality leads back?)
 Guardrail: bounce rate must not increase >5%; popup-dismiss rate must not exceed 80% (high dismissal = annoyance signal)
 Schedule: 21 days, 1,000 exit-intents triggered per variant minimum (note: only ~20-30% of visitors trigger exit-intent)

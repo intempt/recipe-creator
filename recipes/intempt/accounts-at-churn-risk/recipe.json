@@ -1,0 +1,39 @@
+{
+  "frontmatter_id": "accounts-at-churn-risk",
+  "title": "Accounts at churn risk",
+  "slash_command": "/accounts-at-churn-risk",
+  "description": "Paying accounts the health score has flagged as at risk, with no renewal deal in flight, so your CSMs can step in before they leave.",
+  "markdown": "# Accounts at churn risk\n\n## Description\n\nPaying accounts the health score has flagged as at risk, with no renewal deal in flight, so your CSMs can step in before they leave.\n\n## Steps\n\n### Step 1: Build the at-risk account list\n\nBuild a segment of accounts named \"Accounts At Churn Risk\".\nAn account is in the segment only when all of these are true:\n- its Account health attribute is \"at_risk\"\n- its Has a renewal deal attribute is false\n- its Account lifetime value attribute is more than 0\n- its User count attribute is 1 or more\n",
+  "classification": {
+    "industry": [
+      "ai",
+      "b2b-saas",
+      "finance",
+      "media"
+    ]
+  },
+  "complexity": "quick",
+  "author": {
+    "name": "Harish Kumar",
+    "first_name": "Harish",
+    "last_name": "Kumar",
+    "company": "Intempt",
+    "job_title": "Growth Marketer",
+    "avatar": "https://cdn.intempt.com/assets/author-profile-pics/harish.jpg",
+    "org_name": "intempt"
+  },
+  "permissions": [
+    "segment:create"
+  ],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Build the at-risk account list",
+      "description": "Build a segment of accounts named \"Accounts At Churn Risk\". An account is in the segment only when all of these are true: its Account health attribute is \"at_risk\", its Has a renewal deal attribute is false, its Account lifetime value attribute is more than 0, its User count attribute is 1 or more.",
+      "command": "create_segment",
+      "entity": "segment",
+      "kind": "static",
+      "modelConfig": []
+    }
+  ]
+}

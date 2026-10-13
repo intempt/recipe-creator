@@ -1,11 +1,14 @@
 ---
+frontmatter_id: on-model-shoot
+slash_command: /on-model-shoot
 description: Puts your identity-locked avatar in a scene wearing or holding a catalog product, for lifestyle product photography.
 author:
+  name: Aurobind Venu
   first_name: Aurobind
   last_name: Venu
-  job_title: Creative Director
   company: Intempt
-org_name: intempt
+  job_title: Creative Director
+  org_name: intempt
 classification:
   industry:
   - b2b-saas

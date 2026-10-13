@@ -1,12 +1,15 @@
 ---
+frontmatter_id: high-intent-anonymous-visitors
+slash_command: /high-intent-anonymous-visitors
 description: Visitors you cannot email yet who keep coming back, so you can retarget them with ads or try to capture an address.
 author:
+  name: Harish Kumar
   first_name: Harish
   last_name: Kumar
+  company: Intempt
   job_title: Growth Marketer
   avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ai
@@ -23,7 +26,7 @@ Slash command: /high-intent-anonymous-visitors
 
 Build a segment of users named "High-Intent Anonymous Visitors".
 A user is in the segment only when all of these are true:
-- their total_events attribute is 5 or more
+- their Total events attribute is 5 or more
 - their email attribute is empty
-- they did the page_viewed event 3 or more times in the last 7 days
-- they did the session_start event 2 or more times in the last 7 days
+- they did the View page event 3 or more times in the last 7 days
+- they did the Session start event 2 or more times in the last 7 days

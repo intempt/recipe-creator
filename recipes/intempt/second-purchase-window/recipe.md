@@ -1,12 +1,15 @@
 ---
+frontmatter_id: second-purchase-window
+slash_command: /second-purchase-window
 description: Customers who bought for the first time in the last month, the period when most second purchases happen.
 author:
+  name: Harish Kumar
   first_name: Harish
   last_name: Kumar
+  company: Intempt
   job_title: Growth Marketer
   avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ecommerce
@@ -20,5 +23,5 @@ Slash command: /second-purchase-window
 
 Build a segment of users named "Second-Purchase Window".
 A user is in the segment only when all of these are true:
-- they did the order_created event exactly 1 time, at any time
-- that order_created event happened in the last 30 days
+- they did the Placed order event exactly 1 time, at any time
+- that Placed order event happened in the last 30 days

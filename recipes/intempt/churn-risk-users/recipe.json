@@ -1,0 +1,44 @@
+{
+  "frontmatter_id": "churn-risk-users",
+  "title": "Paid users going quiet",
+  "slash_command": "/churn-risk-users",
+  "description": "Paying users who used to log in regularly and have not shown up for a month, so you can reach them before they cancel.",
+  "markdown": "# Paid users going quiet\n\n## Description\n\nPaying users who used to log in regularly and have not shown up for a month, so you can reach them before they cancel.\n\n## Steps\n\n### Step 1: Build the silent paid-user list\n\nBuild a segment of users named \"Churn Risk Users\".\nA user is in the segment only when all of these are true:\n- they did the Session start event 5 or more times between 60 and 90 days ago\n- they did not do the Session start event in the last 30 days\n- their Plan attribute is not \"free\"\n",
+  "classification": {
+    "industry": [
+      "ai",
+      "b2b-saas",
+      "media"
+    ]
+  },
+  "complexity": "quick",
+  "author": {
+    "name": "Harish Kumar",
+    "first_name": "Harish",
+    "last_name": "Kumar",
+    "company": "Intempt",
+    "job_title": "Growth Marketer",
+    "avatar": "https://cdn.intempt.com/assets/author-profile-pics/harish.jpg",
+    "org_name": "intempt"
+  },
+  "permissions": [
+    "segment:create"
+  ],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Build the silent paid-user list",
+      "description": "Build a segment of users named \"Churn Risk Users\". A user is in the segment only when all of these are true: they did the Session start event 5 or more times between 60 and 90 days ago; they did not do the Session start event in the last 30 days; their Plan attribute is not \"free\".",
+      "command": "create_segment",
+      "entity": "segment",
+      "integration": [
+        "web",
+        "ios",
+        "android",
+        "react-native"
+      ],
+      "kind": "static",
+      "modelConfig": []
+    }
+  ]
+}

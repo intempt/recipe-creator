@@ -1,0 +1,48 @@
+{
+  "frontmatter_id": "pql-multi-user-account",
+  "title": "Free accounts with a team trying it",
+  "slash_command": "/pql-multi-user-account",
+  "description": "Identify product-qualified leads by segmenting free and trial users who log multiple sessions and complete key activation goals.",
+  "markdown": "# Free accounts with a team trying it\n\n## Description\n\nIdentify product-qualified leads by segmenting free and trial users who log multiple sessions and complete key activation goals.\n\n## Steps\n\n### Step 1: Build the team-trial list\n\nBuild a segment of accounts named \"PQL: Multi-User Account\".\nAn account is in the segment only when all of these are true:\n- its User count attribute is 2 or more\n- the users in the account together did the Session start event 3 or more times in the last 14 days\n- the users in the account together did the Completed a journey goal event at least once in the last 14 days\n",
+  "classification": {
+    "industry": [
+      "ai",
+      "b2b-saas",
+      "ecommerce"
+    ]
+  },
+  "complexity": "quick",
+  "author": {
+    "name": "Harish Kumar",
+    "first_name": "Harish",
+    "last_name": "Kumar",
+    "company": "Intempt",
+    "job_title": "Growth Marketer",
+    "avatar": "https://cdn.intempt.com/assets/author-profile-pics/harish.jpg",
+    "org_name": "intempt"
+  },
+  "permissions": [
+    "segment:create"
+  ],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Build the team-trial list",
+      "description": "Build a segment of accounts named \"PQL: Multi-User Account\". An account is in the segment only when all of these are true: its users_count attribute is 2 or more; the users in the account together did the session_start event 3 or more times in the last 14 days; the users in the account together did the goal_completed_in_journey event at least once in the last 14 days.",
+      "command": "create_segment",
+      "entity": "segment",
+      "integration": [
+        "web",
+        "ios",
+        "android",
+        "react-native",
+        "nodejs",
+        "php",
+        "python",
+        "api"
+      ],
+      "kind": "static",
+      "modelConfig": []
+    }
+  ]
+}

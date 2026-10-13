@@ -1,12 +1,15 @@
 ---
+frontmatter_id: pqa-account-engagement-to-ae-task
+slash_command: /pqa-account-engagement-to-ae-task
 description: When several people from one company start using the product in the same fortnight, it briefs an AE and asks them to open a deal.
 author:
+  name: Trishik Shrestha
   first_name: Trishik
   last_name: Shrestha
+  company: Intempt
   job_title: Growth Marketer
   avatar: https://cdn.intempt.com/assets/author-profile-pics/trishik.png
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ai
@@ -33,4 +36,4 @@ Create a workflow firing when pqa_score crosses 70. Step sequence: (1) refresh a
 
 ## Step 4: Compare against cold outbound
 
-Compose a PQA dashboard tracking: PQA detection volume (accounts crossing threshold per month), AE response time (median time from PQA-flag to deal_created), PQA-to-deal conversion rate, PQA-to-meeting rate, ARR-weighted PQA value (deals from PQAs vs. non-PQA outbound). Compare PQA-sourced deals vs. cold-outbound-sourced deals on win-rate and cycle time: usually PQAs win 2-3x more reliably. Use the result of "Score the whole account", "Find accounts crossing 70", "Brief an AE to open a deal".
+Compose a PQA dashboard tracking: PQA detection volume (accounts crossing threshold per month), AE response time (median time from PQA-flag to Deal created), PQA-to-deal conversion rate, PQA-to-meeting rate, ARR-weighted PQA value (deals from PQAs vs. non-PQA outbound). Compare PQA-sourced deals vs. cold-outbound-sourced deals on win-rate and cycle time: usually PQAs win 2-3x more reliably. Use the result of "Score the whole account", "Find accounts crossing 70", "Brief an AE to open a deal".

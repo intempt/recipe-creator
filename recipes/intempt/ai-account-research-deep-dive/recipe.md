@@ -1,12 +1,15 @@
 ---
+frontmatter_id: ai-account-research-deep-dive
+slash_command: /ai-account-research-deep-dive
 description: Reads a target account's website, pulls out the decision makers, scores the fit against your ICP, and drafts an opener for the rep to edit.
 author:
+  name: Trishik Shrestha
   first_name: Trishik
   last_name: Shrestha
+  company: Intempt
   job_title: Growth Marketer
   avatar: https://cdn.intempt.com/assets/author-profile-pics/trishik.png
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ai

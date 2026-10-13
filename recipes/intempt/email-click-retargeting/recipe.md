@@ -1,12 +1,15 @@
 ---
+frontmatter_id: email-click-retargeting
+slash_command: /email-click-retargeting
 description: Treats a click on pricing, a feature page or a case study as interest and sends more on that exact topic, at most once a week.
 author:
+  name: Somya Nayak
   first_name: Somya
   last_name: Nayak
+  company: Intempt
   job_title: Marketing Lead
   avatar: https://cdn.intempt.com/assets/author-profile-pics/somya.png
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ai
@@ -24,7 +27,7 @@ Create an AI-derived attribute 'recent_click_topics' on the User object. Capture
 
 ## Step 2: Find the meaningful clicks
 
-Build a segment 'Recent email clickers - last 14 days' capturing users with email_clicked event in the last 14 days where the click was on a high-signal link (pricing, feature page, case study, not generic 'view in browser' or footer). Partitioned by click_topic. Excludes users who already engaged downstream (e.g. visited pricing page, started trial, those are getting other journeys). Use the result of "Log what they clicked".
+Build a segment 'Recent email clickers - last 14 days' capturing users with Email clicked event in the last 14 days where the click was on a high-signal link (pricing, feature page, case study, not generic 'view in browser' or footer). Partitioned by click_topic. Excludes users who already engaged downstream (e.g. visited pricing page, started trial, those are getting other journeys). Use the result of "Log what they clicked".
 
 ## Step 3: Write a reply per topic
 
@@ -32,7 +35,7 @@ Generate retargeting email content per click topic. Pricing-page click: 'You loo
 
 ## Step 4: Follow up once, nudge once
 
-Build a 2-touch journey triggered when email_clicked fires on a high-signal link. Touch 1 (Day 1): topic-matched follow-up. Touch 2 (Day 5): if no further engagement, offer a soft CTA (book a chat / try free / talk to AE based on company size). If user clicks something during this journey, reset to a fresh topic-matched cadence. Exit on: meeting_scheduled, deal_created, or 10-day timeout. Throttle hard: never trigger this journey more than once per week per user: clicks happen constantly, don't bombard. Use the result of "Log what they clicked", "Find the meaningful clicks", "Write a reply per topic".
+Build a 2-touch journey triggered when Email clicked fires on a high-signal link. Touch 1 (Day 1): topic-matched follow-up. Touch 2 (Day 5): if no further engagement, offer a soft CTA (book a chat / try free / talk to AE based on company size). If user clicks something during this journey, reset to a fresh topic-matched cadence. Exit on: Meeting scheduled, Deal created, or 10-day timeout. Throttle hard: never trigger this journey more than once per week per user: clicks happen constantly, don't bombard. Use the result of "Log what they clicked", "Find the meaningful clicks", "Write a reply per topic".
 
 ## Step 5: Compare against no follow up
 

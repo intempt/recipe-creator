@@ -1,12 +1,15 @@
 ---
+frontmatter_id: discount-only-buyers
+slash_command: /discount-only-buyers
 description: Customers who have never bought anything without a discount code, so you can keep them out of full-price campaigns and protect your margin.
 author:
+  name: Harish Kumar
   first_name: Harish
   last_name: Kumar
+  company: Intempt
   job_title: Growth Marketer
   avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
-  company: Intempt
-org_name: intempt
+  org_name: intempt
 classification:
   industry:
   - ecommerce
@@ -20,5 +23,5 @@ Slash command: /discount-only-buyers
 
 Build a segment of users named "Discount-Only Buyers".
 A user is in the segment only when all of these are true:
-- they did the order_created event with a discount_codes value that is not empty 2 or more times, at any time
-- they never did the order_created event with an empty discount_codes value
+- they did the Placed order event with a Discount code value that is not empty 2 or more times, at any time
+- they never did the Placed order event with an empty Discount code value

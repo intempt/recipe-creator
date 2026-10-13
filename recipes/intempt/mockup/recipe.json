@@ -1,0 +1,56 @@
+{
+  "frontmatter_id": "mockup",
+  "title": "Artwork on a mockup",
+  "slash_command": "/mockup",
+  "description": "Puts your artwork onto a t-shirt, mug, billboard or package with realistic lighting, perspective and material.",
+  "markdown": "# Artwork on a mockup\n\n## Description\n\nPuts your artwork onto a t-shirt, mug, billboard or package with realistic lighting, perspective and material.\n\n## Steps\n\n### Step 1: Composite the artwork\n\nGenerate one mockup image.\nComposite the artwork attached to this run onto the mockup scene chosen for this run: a t-shirt, a mug, a billboard or packaging.\nApply realistic lighting, perspective warping and rendering that suits the material.\n",
+  "classification": {
+    "industry": [
+      "b2b-saas",
+      "ecommerce",
+      "media",
+      "social"
+    ]
+  },
+  "complexity": "quick",
+  "author": {
+    "name": "Aurobind Venu",
+    "first_name": "Aurobind",
+    "last_name": "Venu",
+    "company": "Intempt",
+    "job_title": "Creative Director",
+    "org_name": "intempt"
+  },
+  "permissions": [
+    "content:create"
+  ],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Composite the artwork",
+      "description": "Generate one mockup image. Composite the artwork attached to this run onto the mockup scene chosen for this run: a t-shirt, a mug, a billboard or packaging. Apply realistic lighting, perspective warping and rendering that suits the material.",
+      "command": "generate_image",
+      "entity": "image",
+      "kind": "dynamic",
+      "modelConfig": [],
+      "arguments": [
+        {
+          "key": "image_s1",
+          "type": "attachment",
+          "label": "Artwork to composite",
+          "entity": "image",
+          "phrase": "the artwork attached to this run",
+          "required": true
+        },
+        {
+          "key": "scene_s1",
+          "type": "asset_reference",
+          "label": "Mockup scene",
+          "entity": "scene",
+          "phrase": "the mockup scene chosen for this run: a t-shirt, a mug, a billboard or packaging",
+          "required": true
+        }
+      ]
+    }
+  ]
+}
