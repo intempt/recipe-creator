@@ -3,12 +3,9 @@ frontmatter_id: google-sheets-deal-won-row
 slash_command: /google-sheets-deal-won-row
 description: Adds a row to a Google Sheet every time a deal is won, so finance and ops keep working in the sheet they already have.
 author:
-  name: Trishik Shrestha
-  first_name: Trishik
-  last_name: Shrestha
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/trishik.png
   org_name: intempt
 classification:
   industry:

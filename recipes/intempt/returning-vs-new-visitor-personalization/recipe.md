@@ -3,11 +3,9 @@ frontmatter_id: returning-vs-new-visitor-personalization
 slash_command: /returning-vs-new-visitor-personalization
 description: First-time visitors get the value proposition. Returning visitors get picked up where they left off, with their abandoned cart if they have one.
 author:
-  name: V Ranadheer
-  first_name: V
-  last_name: Ranadheer
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Design Engineer
   org_name: intempt
 classification:
   industry:

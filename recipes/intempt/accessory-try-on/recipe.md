@@ -3,11 +3,9 @@ frontmatter_id: accessory-try-on
 slash_command: /accessory-try-on
 description: Takes a packshot of eyewear, jewelry or a watch and shows it worn by an AI model, with the accessory itself unchanged.
 author:
-  name: Aurobind Venu
-  first_name: Aurobind
-  last_name: Venu
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Creative Director
   org_name: intempt
 classification:
   industry:

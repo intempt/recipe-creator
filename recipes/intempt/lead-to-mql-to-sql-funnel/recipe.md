@@ -3,11 +3,9 @@ frontmatter_id: lead-to-mql-to-sql-funnel
 slash_command: /lead-to-mql-to-sql-funnel
 description: Shows how leads move through MQL, SQL, demo and closed won, where they stall, and how long the whole cycle takes.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:

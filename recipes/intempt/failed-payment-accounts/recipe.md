@@ -3,12 +3,9 @@ frontmatter_id: failed-payment-accounts
 slash_command: /failed-payment-accounts
 description: Users whose payment was declined in the last two weeks, so you can recover the money before the subscription lapses.
 author:
-  name: Harish Kumar
-  first_name: Harish
-  last_name: Kumar
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
   org_name: intempt
 classification:
   industry:

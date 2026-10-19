@@ -3,11 +3,9 @@ frontmatter_id: time-to-aha-moment
 slash_command: /time-to-aha-moment
 description: Measure the median time for new users to reach their first activation goal. Use funnel percentiles to assess how quickly users activate.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:

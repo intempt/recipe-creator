@@ -3,12 +3,9 @@ frontmatter_id: account-engagement-score-orchestration
 slash_command: /account-engagement-score-orchestration
 description: Scores each account from 0 to 100 on how its whole team uses the product, then runs a different play for healthy, slipping, declining and inactive accounts.
 author:
-  name: Somya Nayak
-  first_name: Somya
-  last_name: Nayak
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Marketing Lead
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/somya.png
   org_name: intempt
 classification:
   industry:

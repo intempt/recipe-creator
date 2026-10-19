@@ -3,11 +3,9 @@ frontmatter_id: campaign-performance-leaderboard
 slash_command: /campaign-performance-leaderboard
 description: Reports on email and SMS campaign performance over the last 90 days, ranking campaigns by attributed revenue alongside sends, clicks, and conversions.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:

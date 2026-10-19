@@ -3,12 +3,9 @@ frontmatter_id: expansion-candidates
 slash_command: /expansion-candidates
 description: Users grouped by Plan for plan-based upgrade targeting.
 author:
-  name: Harish Kumar
-  first_name: Harish
-  last_name: Kumar
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
   org_name: intempt
 classification:
   industry:

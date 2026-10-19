@@ -3,11 +3,9 @@ frontmatter_id: user-retention-weekly
 slash_command: /user-retention-weekly
 description: Shows what share of each week's signups are still coming back at weeks 1, 4 and 12, and which acquisition sources hold up best.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:

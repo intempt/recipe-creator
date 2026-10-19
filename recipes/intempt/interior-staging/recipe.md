@@ -3,11 +3,9 @@ frontmatter_id: interior-staging
 slash_command: /interior-staging
 description: Furnishes a photo of an empty room, leaving the walls, floor, windows and daylight exactly as they were shot.
 author:
-  name: Aurobind Venu
-  first_name: Aurobind
-  last_name: Venu
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Creative Director
   org_name: intempt
 classification:
   industry:

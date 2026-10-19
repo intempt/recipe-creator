@@ -3,12 +3,9 @@ frontmatter_id: customer-onboarding
 slash_command: /customer-onboarding
 description: Sets up a new account, gives the CSM a dated checklist, books the kickoff, and walks the customer through to go live.
 author:
-  name: Somya Nayak
-  first_name: Somya
-  last_name: Nayak
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Marketing Lead
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/somya.png
   org_name: intempt
 classification:
   industry:

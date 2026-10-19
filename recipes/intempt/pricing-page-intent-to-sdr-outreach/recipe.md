@@ -3,12 +3,9 @@ frontmatter_id: pricing-page-intent-to-sdr-outreach
 slash_command: /pricing-page-intent-to-sdr-outreach
 description: Treats a repeat pricing page visit, or one after real product use, as a buying signal and puts it on an SDR with the visit context attached.
 author:
-  name: Trishik Shrestha
-  first_name: Trishik
-  last_name: Shrestha
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/trishik.png
   org_name: intempt
 classification:
   industry:

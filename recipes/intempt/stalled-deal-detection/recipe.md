@@ -3,12 +3,9 @@ frontmatter_id: stalled-deal-detection
 slash_command: /stalled-deal-detection
 description: Finds deals sitting in a stage far longer than usual with no activity, drafts a nudge that fits the stage, and escalates if they stay stuck.
 author:
-  name: Trishik Shrestha
-  first_name: Trishik
-  last_name: Shrestha
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/trishik.png
   org_name: intempt
 classification:
   industry:

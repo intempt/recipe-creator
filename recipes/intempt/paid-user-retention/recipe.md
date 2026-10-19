@@ -3,11 +3,9 @@ frontmatter_id: paid-user-retention
 slash_command: /paid-user-retention
 description: See whether paying customers continue logging in, tracked month by month and compared by plan.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:

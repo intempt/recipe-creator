@@ -3,11 +3,9 @@ frontmatter_id: ad-video
 slash_command: /ad-video
 description: Turns one product still into a 5 second cinematic spot using Kling image to video, with no text or logo.
 author:
-  name: Aurobind Venu
-  first_name: Aurobind
-  last_name: Venu
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Creative Director
   org_name: intempt
 classification:
   industry:

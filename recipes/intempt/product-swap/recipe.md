@@ -3,11 +3,9 @@ frontmatter_id: product-swap
 slash_command: /product-swap
 description: Replaces the product in a shot you already have with a different one, keeping the scene, lighting and shadow the same.
 author:
-  name: Aurobind Venu
-  first_name: Aurobind
-  last_name: Venu
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Creative Director
   org_name: intempt
 classification:
   industry:

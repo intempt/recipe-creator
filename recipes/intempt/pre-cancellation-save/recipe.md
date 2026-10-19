@@ -3,12 +3,9 @@ frontmatter_id: pre-cancellation-save
 slash_command: /pre-cancellation-save
 description: Catches people who open the cancel flow but have not finished it, and answers the reason they gave with a pause, a downgrade, a discount or a call.
 author:
-  name: Somya Nayak
-  first_name: Somya
-  last_name: Nayak
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Marketing Lead
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/somya.png
   org_name: intempt
 classification:
   industry:

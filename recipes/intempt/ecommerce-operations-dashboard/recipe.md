@@ -3,12 +3,9 @@ frontmatter_id: ecommerce-operations-dashboard
 slash_command: /ecommerce-operations-dashboard
 description: Answers whether orders are shipping on time and where return spikes occur by tracking fulfillment rates, returns, and refunds by product.
 author:
-  name: Sid Chaudhary
-  first_name: Sid
-  last_name: Chaudhary
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Founder & CEO
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/sid.png
   org_name: intempt
 classification:
   industry:

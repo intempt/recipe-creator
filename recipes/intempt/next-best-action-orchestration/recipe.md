@@ -3,12 +3,9 @@ frontmatter_id: next-best-action-orchestration
 slash_command: /next-best-action-orchestration
 description: A rules-based journey that routes each person to a next step from a candidate set using attributes and segment membership at branch points.
 author:
-  name: Somya Nayak
-  first_name: Somya
-  last_name: Nayak
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Marketing Lead
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/somya.png
   org_name: intempt
 classification:
   industry:

@@ -3,11 +3,9 @@ frontmatter_id: customer-lifecycle-distribution
 slash_command: /customer-lifecycle-distribution
 description: See how your customers are distributed across the six lifecycle stages today, with revenue in each stage.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:

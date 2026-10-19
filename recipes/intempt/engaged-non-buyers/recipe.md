@@ -3,12 +3,9 @@ frontmatter_id: engaged-non-buyers
 slash_command: /engaged-non-buyers
 description: People who use your site a lot but have never placed an order, so you can aim a first-purchase offer at them.
 author:
-  name: Harish Kumar
-  first_name: Harish
-  last_name: Kumar
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
   org_name: intempt
 classification:
   industry:

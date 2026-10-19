@@ -3,11 +3,9 @@ frontmatter_id: search-results-ranking-test
 slash_command: /search-results-ranking-test
 description: Compares ranking search results by text relevance, by sales velocity, or by profit margin, scored on revenue after a search.
 author:
-  name: V Ranadheer
-  first_name: V
-  last_name: Ranadheer
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Design Engineer
   org_name: intempt
 classification:
   industry:

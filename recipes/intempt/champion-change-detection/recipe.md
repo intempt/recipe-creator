@@ -3,12 +3,9 @@ frontmatter_id: champion-change-detection
 slash_command: /champion-change-detection
 description: Flags when a deal contact goes quiet using engagement recency, and triggers a rep re-engagement workflow before the deal stalls.
 author:
-  name: Trishik Shrestha
-  first_name: Trishik
-  last_name: Shrestha
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/trishik.png
   org_name: intempt
 classification:
   industry:

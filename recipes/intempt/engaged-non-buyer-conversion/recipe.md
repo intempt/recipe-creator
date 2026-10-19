@@ -3,12 +3,9 @@ frontmatter_id: engaged-non-buyer-conversion
 slash_command: /engaged-non-buyer-conversion
 description: Identifies highly engaged free users who have not converted, sending targeted email check-ins and routing replies using sentiment analysis.
 author:
-  name: Somya Nayak
-  first_name: Somya
-  last_name: Nayak
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Marketing Lead
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/somya.png
   org_name: intempt
 classification:
   industry:

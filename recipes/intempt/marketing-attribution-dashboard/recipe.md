@@ -3,12 +3,9 @@ frontmatter_id: marketing-attribution-dashboard
 slash_command: /marketing-attribution-dashboard
 description: Answers where revenue comes from across paid, organic, email and search. ROAS and CAC need an ad-spend integration and are not included.
 author:
-  name: Sid Chaudhary
-  first_name: Sid
-  last_name: Chaudhary
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Founder & CEO
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/sid.png
   org_name: intempt
 classification:
   industry:

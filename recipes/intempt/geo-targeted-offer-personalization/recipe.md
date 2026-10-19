@@ -3,11 +3,9 @@ frontmatter_id: geo-targeted-offer-personalization
 slash_command: /geo-targeted-offer-personalization
 description: Visitors from the US, UK and EU, and APAC see region-specific homepage offer content instead of one global message. The recipe uses visitor geography to swap promotion copy.
 author:
-  name: V Ranadheer
-  first_name: V
-  last_name: Ranadheer
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Design Engineer
   org_name: intempt
 classification:
   industry:

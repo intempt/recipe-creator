@@ -3,11 +3,9 @@ frontmatter_id: ugc-photo
 slash_command: /ugc-photo
 description: Re-shoots a studio packshot as a candid handheld phone photo of a real person holding the product.
 author:
-  name: Aurobind Venu
-  first_name: Aurobind
-  last_name: Venu
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Creative Director
   org_name: intempt
 classification:
   industry:

@@ -3,11 +3,9 @@ frontmatter_id: mobile-sticky-add-to-cart-test
 slash_command: /mobile-sticky-add-to-cart-test
 description: Compares a standard add-to-cart button against two sticky bottom bars on mobile product pages, scored on carts created.
 author:
-  name: V Ranadheer
-  first_name: V
-  last_name: Ranadheer
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Design Engineer
   org_name: intempt
 classification:
   industry:

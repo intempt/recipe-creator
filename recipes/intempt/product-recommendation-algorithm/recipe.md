@@ -3,11 +3,9 @@ frontmatter_id: product-recommendation-algorithm
 slash_command: /product-recommendation-algorithm
 description: Compares three ways of picking recommended products (also bought, recently viewed, trending) on cross-sell revenue.
 author:
-  name: V Ranadheer
-  first_name: V
-  last_name: Ranadheer
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Design Engineer
   org_name: intempt
 classification:
   industry:

@@ -3,12 +3,9 @@ frontmatter_id: icp-match-accounts
 slash_command: /icp-match-accounts
 description: Accounts that fit your ideal customer profile on size, industry, and country, as the base list for account-based targeting.
 author:
-  name: Harish Kumar
-  first_name: Harish
-  last_name: Kumar
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
   org_name: intempt
 classification:
   industry:

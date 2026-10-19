@@ -3,12 +3,9 @@ frontmatter_id: no-show-recovery
 slash_command: /no-show-recovery
 description: Assumes a diary clash rather than disinterest and offers an easy reschedule three times over a week, then hands the prospect to nurture.
 author:
-  name: Somya Nayak
-  first_name: Somya
-  last_name: Nayak
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Marketing Lead
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/somya.png
   org_name: intempt
 classification:
   industry:

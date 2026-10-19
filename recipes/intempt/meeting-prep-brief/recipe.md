@@ -3,12 +3,9 @@ frontmatter_id: meeting-prep-brief
 slash_command: /meeting-prep-brief
 description: 'Sends the host a brief 24 hours before a meeting: who is coming, how the account is doing, every prior touch, and what to talk about.'
 author:
-  name: Trishik Shrestha
-  first_name: Trishik
-  last_name: Shrestha
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/trishik.png
   org_name: intempt
 classification:
   industry:

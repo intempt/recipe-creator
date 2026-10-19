@@ -3,11 +3,9 @@ frontmatter_id: form-length-test
 slash_command: /form-length-test
 description: Compares a 3, 5 and 7 field demo request form, so you can see what each extra field costs you in submissions.
 author:
-  name: V Ranadheer
-  first_name: V
-  last_name: Ranadheer
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Design Engineer
   org_name: intempt
 classification:
   industry:

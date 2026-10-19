@@ -3,11 +3,9 @@ frontmatter_id: saas-exit-intent-offer-test
 slash_command: /saas-exit-intent-offer-test
 description: 'Compares what to offer a visitor about to leave: a discount, a comparison guide, a content download, a survey, or nothing.'
 author:
-  name: V Ranadheer
-  first_name: V
-  last_name: Ranadheer
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Design Engineer
   org_name: intempt
 classification:
   industry:

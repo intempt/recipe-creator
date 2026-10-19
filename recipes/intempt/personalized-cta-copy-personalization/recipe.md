@@ -3,11 +3,9 @@ frontmatter_id: personalized-cta-copy-personalization
 slash_command: /personalized-cta-copy-personalization
 description: The main button reads differently for a first-time visitor, a returning one, someone mid-trial, a free-plan user and a paying customer, instead of one generic prompt.
 author:
-  name: V Ranadheer
-  first_name: V
-  last_name: Ranadheer
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Design Engineer
   org_name: intempt
 classification:
   industry:

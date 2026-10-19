@@ -3,11 +3,9 @@ frontmatter_id: stickiness-ratios-dau-wau-mau
 slash_command: /stickiness-ratios-dau-wau-mau
 description: Report active-user counts over time to monitor engagement trends.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:

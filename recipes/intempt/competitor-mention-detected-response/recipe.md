@@ -3,12 +3,9 @@ frontmatter_id: competitor-mention-detected-response
 slash_command: /competitor-mention-detected-response
 description: Uses AI attribute scores from first-party events to spot competitive intent and trigger a personalized email plus a CSM follow-up task.
 author:
-  name: Somya Nayak
-  first_name: Somya
-  last_name: Nayak
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Marketing Lead
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/somya.png
   org_name: intempt
 classification:
   industry:

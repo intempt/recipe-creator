@@ -3,11 +3,9 @@ frontmatter_id: talking-avatar
 slash_command: /talking-avatar
 description: Turns a portrait still into a 5 second talking-head loop with subtle lip movement and eye contact.
 author:
-  name: Aurobind Venu
-  first_name: Aurobind
-  last_name: Venu
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Creative Director
   org_name: intempt
 classification:
   industry:

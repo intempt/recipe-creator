@@ -3,11 +3,9 @@ frontmatter_id: free-trial-cta-copy-test
 slash_command: /free-trial-cta-copy-test
 description: Compares three wordings of the trial signup button to see which one gets more people to sign up.
 author:
-  name: V Ranadheer
-  first_name: V
-  last_name: Ranadheer
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Design Engineer
   org_name: intempt
 classification:
   industry:

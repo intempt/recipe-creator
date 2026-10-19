@@ -3,11 +3,9 @@ frontmatter_id: weekly-active-users-trend
 slash_command: /weekly-active-users-trend
 description: Shows weekly active users and monthly active users, plus the WAU to MAU ratio, to indicate engagement stickiness.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:

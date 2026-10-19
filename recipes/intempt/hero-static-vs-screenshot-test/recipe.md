@@ -3,11 +3,9 @@ frontmatter_id: hero-static-vs-screenshot-test
 slash_command: /hero-static-vs-screenshot-test
 description: Compares your current hero image against a real product screenshot and a photo of customers or the team. Static images only.
 author:
-  name: V Ranadheer
-  first_name: V
-  last_name: Ranadheer
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Design Engineer
   org_name: intempt
 classification:
   industry:

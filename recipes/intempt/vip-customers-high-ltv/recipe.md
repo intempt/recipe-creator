@@ -3,12 +3,9 @@ frontmatter_id: vip-customers-high-ltv
 slash_command: /vip-customers-high-ltv
 description: Customers who have spent 1,000 or more across repeat orders, the base list for rewards, early access, and concierge support.
 author:
-  name: Harish Kumar
-  first_name: Harish
-  last_name: Kumar
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
   org_name: intempt
 classification:
   industry:

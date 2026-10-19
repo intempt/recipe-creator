@@ -3,11 +3,9 @@ frontmatter_id: ad-variants
 slash_command: /ad-variants
 description: Takes an ad you already have and returns six variants, one for each dimension you choose to vary.
 author:
-  name: Aurobind Venu
-  first_name: Aurobind
-  last_name: Venu
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Creative Director
   org_name: intempt
 classification:
   industry:

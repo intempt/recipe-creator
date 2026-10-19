@@ -3,11 +3,9 @@ frontmatter_id: trial-to-paid-conversion-rate
 slash_command: /trial-to-paid-conversion-rate
 description: Shows what share of trials turn into paying customers each week, by signup source, against the 18% industry median.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:

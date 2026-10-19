@@ -3,12 +3,9 @@ frontmatter_id: product-health-dashboard
 slash_command: /product-health-dashboard
 description: Answers whether the product is getting more or less engaging, which features users return to, and how users say they feel. The cohort heatmap output is in Retention, not Insights.
 author:
-  name: Sid Chaudhary
-  first_name: Sid
-  last_name: Chaudhary
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Founder & CEO
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/sid.png
   org_name: intempt
 classification:
   industry:

@@ -3,11 +3,9 @@ frontmatter_id: pack-shot
 slash_command: /pack-shot
 description: Generates clean studio stills of one catalog product, in a background and lighting you pick.
 author:
-  name: Aurobind Venu
-  first_name: Aurobind
-  last_name: Venu
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Creative Director
   org_name: intempt
 classification:
   industry:

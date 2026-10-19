@@ -3,11 +3,9 @@ frontmatter_id: feature-adoption-by-plan
 slash_command: /feature-adoption-by-plan
 description: Shows feature adoption across plan tiers using a breakdown of active users.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:

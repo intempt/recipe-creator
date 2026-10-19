@@ -3,12 +3,9 @@ frontmatter_id: customer-360-dashboard
 slash_command: /customer-360-dashboard
 description: Displays the breakdown of customers across lifecycle stages and tracks repeat-purchase metrics on a centralized dashboard.
 author:
-  name: Sid Chaudhary
-  first_name: Sid
-  last_name: Chaudhary
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Founder & CEO
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/sid.png
   org_name: intempt
 classification:
   industry:

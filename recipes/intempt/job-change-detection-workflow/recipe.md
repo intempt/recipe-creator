@@ -3,12 +3,9 @@ frontmatter_id: job-change-detection-workflow
 slash_command: /job-change-detection-workflow
 description: 'Given a known contact job change, routes two task plays: an AE task to protect the old account and an SDR task to pursue the new account.'
 author:
-  name: Trishik Shrestha
-  first_name: Trishik
-  last_name: Shrestha
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/trishik.png
   org_name: intempt
 classification:
   industry:

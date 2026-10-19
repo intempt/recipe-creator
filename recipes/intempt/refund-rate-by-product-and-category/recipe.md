@@ -3,11 +3,9 @@ frontmatter_id: refund-rate-by-product-and-category
 slash_command: /refund-rate-by-product-and-category
 description: Shows which products get refunded most often and which ones are getting worse, over the last 90 days.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:

@@ -3,12 +3,9 @@ frontmatter_id: saas-growth-command-center
 slash_command: /saas-growth-command-center
 description: 'Shows whether you are growing and whether growth is healthy on one dashboard: weekly actives, MRR, trial conversion, activation, retention and feature adoption.'
 author:
-  name: Sid Chaudhary
-  first_name: Sid
-  last_name: Chaudhary
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Founder & CEO
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/sid.png
   org_name: intempt
 classification:
   industry:

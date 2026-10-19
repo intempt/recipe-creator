@@ -3,12 +3,9 @@ frontmatter_id: replenishment-cross-sell
 slash_command: /replenishment-cross-sell
 description: Reminds people to reorder before they run out, at the pace they actually get through it, and suggests what pairs with it.
 author:
-  name: Somya Nayak
-  first_name: Somya
-  last_name: Nayak
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Marketing Lead
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/somya.png
   org_name: intempt
 classification:
   industry:

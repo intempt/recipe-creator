@@ -3,12 +3,9 @@ frontmatter_id: replenishment-ready
 slash_command: /replenishment-ready
 description: Customers whose last order was one to two months ago and who are about due for another, the moment a running-low reminder lands best.
 author:
-  name: Harish Kumar
-  first_name: Harish
-  last_name: Kumar
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
   org_name: intempt
 classification:
   industry:

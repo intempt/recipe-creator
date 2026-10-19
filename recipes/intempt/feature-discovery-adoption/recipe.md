@@ -3,11 +3,9 @@ frontmatter_id: feature-discovery-adoption
 slash_command: /feature-discovery-adoption
 description: Shows how many people encounter a feature and go on to try it for the first time, using feature interaction events.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:

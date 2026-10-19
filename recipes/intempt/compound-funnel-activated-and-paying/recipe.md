@@ -3,11 +3,9 @@ frontmatter_id: compound-funnel-activated-and-paying
 slash_command: /compound-funnel-activated-and-paying
 description: Reports signups with activation and payment events so you can compare activated and paying groups. It does not filter for habitual use or a combined activated-and-paying condition.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:

@@ -3,12 +3,9 @@ frontmatter_id: high-intent-visitors
 slash_command: /high-intent-visitors
 description: Free and unregistered users who read both your pricing and your docs in the last two weeks, the clearest sign somebody is close to buying.
 author:
-  name: Harish Kumar
-  first_name: Harish
-  last_name: Kumar
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
   org_name: intempt
 classification:
   industry:

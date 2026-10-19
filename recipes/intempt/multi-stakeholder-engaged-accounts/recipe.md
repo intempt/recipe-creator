@@ -3,12 +3,9 @@ frontmatter_id: multi-stakeholder-engaged-accounts
 slash_command: /multi-stakeholder-engaged-accounts
 description: Individual users who logged 5 or more Session start and 10 or more View page events in the last 14 days, a high-engagement segment per user.
 author:
-  name: Harish Kumar
-  first_name: Harish
-  last_name: Kumar
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
   org_name: intempt
 classification:
   industry:

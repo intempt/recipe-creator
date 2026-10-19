@@ -3,12 +3,9 @@ frontmatter_id: cold-outbound
 slash_command: /cold-outbound
 description: Builds a target list from your ICP, runs a multi touch sequence with a booking link in it, and shows what pipeline came out.
 author:
-  name: Somya Nayak
-  first_name: Somya
-  last_name: Nayak
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Marketing Lead
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/somya.png
   org_name: intempt
 classification:
   industry:

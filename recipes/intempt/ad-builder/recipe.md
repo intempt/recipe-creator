@@ -3,11 +3,9 @@ frontmatter_id: ad-builder
 slash_command: /ad-builder
 description: Turns a catalog product and a headline into a finished ad laid out in your Brand Kit colours, fonts and layout.
 author:
-  name: Aurobind Venu
-  first_name: Aurobind
-  last_name: Venu
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Creative Director
   org_name: intempt
 classification:
   industry:

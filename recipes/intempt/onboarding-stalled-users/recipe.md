@@ -3,12 +3,9 @@ frontmatter_id: onboarding-stalled-users
 slash_command: /onboarding-stalled-users
 description: People who signed up a few weeks ago and still drop in now and then, but have never finished setup, so you can help them over the line.
 author:
-  name: Harish Kumar
-  first_name: Harish
-  last_name: Kumar
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
   org_name: intempt
 classification:
   industry:

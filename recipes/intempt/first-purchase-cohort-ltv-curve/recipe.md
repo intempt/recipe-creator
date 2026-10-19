@@ -3,11 +3,9 @@ frontmatter_id: first-purchase-cohort-ltv-curve
 slash_command: /first-purchase-cohort-ltv-curve
 description: Compare revenue trends across monthly customer cohorts over calendar time. Use the report to see how cohort revenue changes as calendar dates progress.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:

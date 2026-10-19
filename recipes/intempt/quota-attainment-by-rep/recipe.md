@@ -3,11 +3,9 @@ frontmatter_id: quota-attainment-by-rep
 slash_command: /quota-attainment-by-rep
 description: See revenue by rep to compare each rep's closed revenue over the selected period.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:

@@ -3,11 +3,9 @@ frontmatter_id: image-remix
 slash_command: /image-remix
 description: Pin up to four reference images with a weight on each, and get back variations anchored to them (four by default).
 author:
-  name: Aurobind Venu
-  first_name: Aurobind
-  last_name: Venu
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Creative Director
   org_name: intempt
 classification:
   industry:

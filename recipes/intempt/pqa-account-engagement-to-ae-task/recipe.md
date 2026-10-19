@@ -3,12 +3,9 @@ frontmatter_id: pqa-account-engagement-to-ae-task
 slash_command: /pqa-account-engagement-to-ae-task
 description: When several people from one company start using the product in the same fortnight, it briefs an AE and asks them to open a deal.
 author:
-  name: Trishik Shrestha
-  first_name: Trishik
-  last_name: Shrestha
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/trishik.png
   org_name: intempt
 classification:
   industry:

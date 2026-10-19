@@ -3,11 +3,9 @@ frontmatter_id: video-remix
 slash_command: /video-remix
 description: Pin one image reference and get back a branded reel variant anchored to it.
 author:
-  name: Aurobind Venu
-  first_name: Aurobind
-  last_name: Venu
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Creative Director
   org_name: intempt
 classification:
   industry:

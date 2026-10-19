@@ -3,11 +3,9 @@ frontmatter_id: revenue-by-channel
 slash_command: /revenue-by-channel
 description: Shows which channels brought in revenue over the last 30 days, each channel's share, and how the mix has shifted since last year.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:

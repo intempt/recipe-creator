@@ -3,12 +3,9 @@ frontmatter_id: funding-event-triggered-outreach
 slash_command: /funding-event-triggered-outreach
 description: Catches an account raising money, refreshes who works there now, drafts a congratulations with a budget angle, and asks the AE to act within a day.
 author:
-  name: Trishik Shrestha
-  first_name: Trishik
-  last_name: Shrestha
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/trishik.png
   org_name: intempt
 classification:
   industry:

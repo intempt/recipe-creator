@@ -3,11 +3,9 @@ frontmatter_id: weekly-business-review-summary
 slash_command: /weekly-business-review-summary
 description: 'One scorecard with the six numbers to look at every Monday: new signups, new paying customers, churn, revenue, net new customers and engagement.'
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:

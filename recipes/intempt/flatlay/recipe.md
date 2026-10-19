@@ -3,11 +3,9 @@ frontmatter_id: flatlay
 slash_command: /flatlay
 description: Arranges your product in a top-down flatlay with complementary props styled around it.
 author:
-  name: Aurobind Venu
-  first_name: Aurobind
-  last_name: Venu
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Creative Director
   org_name: intempt
 classification:
   industry:

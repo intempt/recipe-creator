@@ -3,12 +3,9 @@ frontmatter_id: salesforce-usage-to-opportunity
 slash_command: /salesforce-usage-to-opportunity
 description: Keeps the usage fields on an open opportunity current, so the forecast reflects what the account is doing rather than what was said on a call.
 author:
-  name: Trishik Shrestha
-  first_name: Trishik
-  last_name: Shrestha
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/trishik.png
   org_name: intempt
 classification:
   industry:

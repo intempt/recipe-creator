@@ -3,11 +3,9 @@ frontmatter_id: activation-funnel-with-velocity
 slash_command: /activation-funnel-with-velocity
 description: Shows where new users drop out across key onboarding steps to pinpoint activation bottlenecks.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:

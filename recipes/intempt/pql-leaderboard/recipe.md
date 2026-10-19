@@ -3,11 +3,9 @@ frontmatter_id: pql-leaderboard
 slash_command: /pql-leaderboard
 description: Scores free users with a custom formula and includes contact details, so sales can prioritize outreach.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:

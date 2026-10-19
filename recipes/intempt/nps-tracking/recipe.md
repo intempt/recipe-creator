@@ -3,11 +3,9 @@ frontmatter_id: nps-tracking
 slash_command: /nps-tracking
 description: Tracks your Net Promoter Score month by month with the promoter, passive and detractor split behind it.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:

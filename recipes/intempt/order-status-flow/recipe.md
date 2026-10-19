@@ -3,11 +3,9 @@ frontmatter_id: order-status-flow
 slash_command: /order-status-flow
 description: Shows daily order volume alongside how many get fulfilled, refunded or cancelled, and the rate for each.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:

@@ -3,12 +3,9 @@ frontmatter_id: big-basket-buyers
 slash_command: /big-basket-buyers
 description: Customers who spend heavily on every single order, so premium bundles and higher tiers go to people who already buy big.
 author:
-  name: Harish Kumar
-  first_name: Harish
-  last_name: Kumar
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
   org_name: intempt
 classification:
   industry:

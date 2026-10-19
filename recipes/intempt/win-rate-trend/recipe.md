@@ -3,11 +3,9 @@ frontmatter_id: win-rate-trend
 slash_command: /win-rate-trend
 description: Tracks win rate month by month with a 90 day rolling line, so you can see the direction without the noise of a single month.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:

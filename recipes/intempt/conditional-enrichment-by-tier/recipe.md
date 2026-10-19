@@ -3,12 +3,9 @@ frontmatter_id: conditional-enrichment-by-tier
 slash_command: /conditional-enrichment-by-tier
 description: Routes accounts by ICP tier and runs enrichment only on the tiers you choose. Provider selection stays the same across all branches.
 author:
-  name: Trishik Shrestha
-  first_name: Trishik
-  last_name: Shrestha
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/trishik.png
   org_name: intempt
 classification:
   industry:

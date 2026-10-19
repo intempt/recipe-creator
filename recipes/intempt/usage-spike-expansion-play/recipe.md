@@ -3,12 +3,9 @@ frontmatter_id: usage-spike-expansion-play
 slash_command: /usage-spike-expansion-play
 description: When an existing paying account crosses usage thresholds, enroll the contact in an expansion journey and send upgrade-focused messages to that same profile. Report journey activity in dashboards.
 author:
-  name: Somya Nayak
-  first_name: Somya
-  last_name: Nayak
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Marketing Lead
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/somya.png
   org_name: intempt
 classification:
   industry:

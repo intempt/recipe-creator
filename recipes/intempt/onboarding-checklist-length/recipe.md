@@ -3,11 +3,9 @@ frontmatter_id: onboarding-checklist-length
 slash_command: /onboarding-checklist-length
 description: Compares a 3, 5 and 7 step onboarding checklist for new signups, scored on activation within 7 days.
 author:
-  name: V Ranadheer
-  first_name: V
-  last_name: Ranadheer
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Design Engineer
   org_name: intempt
 classification:
   industry:

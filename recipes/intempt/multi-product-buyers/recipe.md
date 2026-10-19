@@ -3,12 +3,9 @@ frontmatter_id: multi-product-buyers
 slash_command: /multi-product-buyers
 description: Customers who have bought more than once and spent a meaningful amount, so cross-sell offers reach people with broad interest.
 author:
-  name: Harish Kumar
-  first_name: Harish
-  last_name: Kumar
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
   org_name: intempt
 classification:
   industry:

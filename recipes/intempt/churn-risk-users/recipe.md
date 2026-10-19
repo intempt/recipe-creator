@@ -3,12 +3,9 @@ frontmatter_id: churn-risk-users
 slash_command: /churn-risk-users
 description: Paying users who used to log in regularly and have not shown up for a month, so you can reach them before they cancel.
 author:
-  name: Harish Kumar
-  first_name: Harish
-  last_name: Kumar
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
   org_name: intempt
 classification:
   industry:

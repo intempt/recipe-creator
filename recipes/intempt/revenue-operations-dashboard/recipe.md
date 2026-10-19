@@ -3,12 +3,9 @@ frontmatter_id: revenue-operations-dashboard
 slash_command: /revenue-operations-dashboard
 description: Answers where the go-to-market machine leaks over a trailing 90 days, by source and cohort rather than by rep, so you can move spend and fix process.
 author:
-  name: Sid Chaudhary
-  first_name: Sid
-  last_name: Chaudhary
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Founder & CEO
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/sid.png
   org_name: intempt
 classification:
   industry:

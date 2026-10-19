@@ -3,12 +3,9 @@ frontmatter_id: crm-record-merge-suggestions
 slash_command: /crm-record-merge-suggestions
 description: On new account or contact creation, checks existing CRM records with exact-match filters and creates a review task when a possible duplicate is found.
 author:
-  name: Trishik Shrestha
-  first_name: Trishik
-  last_name: Shrestha
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/trishik.png
   org_name: intempt
 classification:
   industry:

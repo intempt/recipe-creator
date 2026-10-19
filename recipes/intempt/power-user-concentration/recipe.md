@@ -3,11 +3,9 @@ frontmatter_id: power-user-concentration
 slash_command: /power-user-concentration
 description: Ranks users by event volume and shows each user's share of total events.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:

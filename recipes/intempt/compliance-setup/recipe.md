@@ -3,12 +3,9 @@ frontmatter_id: compliance-setup
 slash_command: /compliance-setup
 description: A list of people who never gave marketing consent or have since opted out, so you can exclude them from every marketing send.
 author:
-  name: Harish Kumar
-  first_name: Harish
-  last_name: Kumar
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
   org_name: intempt
 classification:
   industry:

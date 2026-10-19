@@ -3,12 +3,9 @@ frontmatter_id: free-to-paid-csm-kickoff
 slash_command: /free-to-paid-csm-kickoff
 description: Every upgrade from free to paid creates a CSM kickoff task carrying the customer's whole free period history, due inside five working days.
 author:
-  name: Trishik Shrestha
-  first_name: Trishik
-  last_name: Shrestha
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/trishik.png
   org_name: intempt
 classification:
   industry:

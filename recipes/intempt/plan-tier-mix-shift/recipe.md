@@ -3,11 +3,9 @@ frontmatter_id: plan-tier-mix-shift
 slash_command: /plan-tier-mix-shift
 description: Shows how revenue is spread across plans over time and whether revenue mix is drifting up market or down market.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:

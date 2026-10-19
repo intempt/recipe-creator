@@ -3,12 +3,9 @@ frontmatter_id: demo-request-fast-path
 slash_command: /demo-request-fast-path
 description: Enriches a demo request the moment it lands, puts a same day task on the right AE, and posts it to Slack, aiming for first contact inside an hour.
 author:
-  name: Trishik Shrestha
-  first_name: Trishik
-  last_name: Shrestha
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/trishik.png
   org_name: intempt
 classification:
   industry:

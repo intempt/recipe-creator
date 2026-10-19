@@ -3,11 +3,9 @@ frontmatter_id: upscale
 slash_command: /upscale
 description: Enlarges a soft or low-resolution image to four times the size with sharper detail and nothing re-rendered.
 author:
-  name: Aurobind Venu
-  first_name: Aurobind
-  last_name: Venu
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Creative Director
   org_name: intempt
 classification:
   industry:

@@ -3,11 +3,9 @@ frontmatter_id: free-shipping-threshold-test
 slash_command: /free-shipping-threshold-test
 description: Finds which free shipping threshold (50, 75, 99 dollars, or none) earns the most revenue per session, served as a server-side flag.
 author:
-  name: V Ranadheer
-  first_name: V
-  last_name: Ranadheer
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Design Engineer
   org_name: intempt
 classification:
   industry:

@@ -3,12 +3,9 @@ frontmatter_id: high-intent-icp-prospects
 slash_command: /high-intent-icp-prospects
 description: Accounts that match your ideal customer profile by account attributes and have no open deal yet.
 author:
-  name: Harish Kumar
-  first_name: Harish
-  last_name: Kumar
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
   org_name: intempt
 classification:
   industry:

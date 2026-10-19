@@ -3,11 +3,9 @@ frontmatter_id: active-vs-passive-users
 slash_command: /active-vs-passive-users
 description: Classifies each user with custom multi-threshold rules on their event activity, and outputs a report for segmenting active and passive users.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:

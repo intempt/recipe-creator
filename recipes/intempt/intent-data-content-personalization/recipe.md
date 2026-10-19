@@ -3,11 +3,9 @@ frontmatter_id: intent-data-content-personalization
 slash_command: /intent-data-content-personalization
 description: 'What someone has been reading on your site decides what they see next: two pricing visits brings up the ROI calculator, a security page visit brings up the security case study.'
 author:
-  name: V Ranadheer
-  first_name: V
-  last_name: Ranadheer
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Design Engineer
   org_name: intempt
 classification:
   industry:

@@ -3,11 +3,9 @@ frontmatter_id: browse-purchase-funnel
 slash_command: /browse-purchase-funnel
 description: Shows how many shoppers move from a category page to a product page, cart, checkout and a completed order, and where you lose them on each device.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:

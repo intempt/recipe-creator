@@ -3,12 +3,9 @@ frontmatter_id: active-research-surge-accounts
 slash_command: /active-research-surge-accounts
 description: Users who viewed your pricing page 3 or more times in the past 7 days, so an AE can reach out while they are still looking.
 author:
-  name: Harish Kumar
-  first_name: Harish
-  last_name: Kumar
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
   org_name: intempt
 classification:
   industry:

@@ -3,12 +3,9 @@ frontmatter_id: post-demo-nurture
 slash_command: /post-demo-nurture
 description: Keeps a demo warm for 90 days with a playbook, a case study, an ROI calculator and a customer story, and pulls the AE in early if they bite.
 author:
-  name: Somya Nayak
-  first_name: Somya
-  last_name: Nayak
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Marketing Lead
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/somya.png
   org_name: intempt
 classification:
   industry:

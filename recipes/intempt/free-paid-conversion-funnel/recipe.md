@@ -3,11 +3,9 @@ frontmatter_id: free-paid-conversion-funnel
 slash_command: /free-paid-conversion-funnel
 description: Shows how many trials go on to view pricing, start checkout and pay, and which plan loses people at which step.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:

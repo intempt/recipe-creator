@@ -3,11 +3,9 @@ frontmatter_id: mockup
 slash_command: /mockup
 description: Puts your artwork onto a t-shirt, mug, billboard or package with realistic lighting, perspective and material.
 author:
-  name: Aurobind Venu
-  first_name: Aurobind
-  last_name: Venu
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Creative Director
   org_name: intempt
 classification:
   industry:

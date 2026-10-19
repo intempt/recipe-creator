@@ -3,11 +3,9 @@ frontmatter_id: mrr-trend
 slash_command: /mrr-trend
 description: Shows recurring revenue by plan over the last 12 months, with the month on month change and how each month compares with the same month last year.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:

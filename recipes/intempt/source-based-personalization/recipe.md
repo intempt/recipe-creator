@@ -3,11 +3,9 @@ frontmatter_id: source-based-personalization
 slash_command: /source-based-personalization
 description: The hero repeats the promise of the ad the visitor clicked, so a competitor search, a LinkedIn enterprise ad and a partner referral each land somewhere that matches.
 author:
-  name: V Ranadheer
-  first_name: V
-  last_name: Ranadheer
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Design Engineer
   org_name: intempt
 classification:
   industry:

@@ -3,11 +3,9 @@ frontmatter_id: support-tickets-vs-churn-correlation
 slash_command: /support-tickets-vs-churn-correlation
 description: Compare weekly support ticket volume with weekly subscription cancellations to see how the counts change over time.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:

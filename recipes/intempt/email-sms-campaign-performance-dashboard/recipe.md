@@ -3,12 +3,9 @@ frontmatter_id: email-sms-campaign-performance-dashboard
 slash_command: /email-sms-campaign-performance-dashboard
 description: Ranks every email and SMS send by the revenue it produced, so you can see which subject lines, offers and content earn their place.
 author:
-  name: Sid Chaudhary
-  first_name: Sid
-  last_name: Chaudhary
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Founder & CEO
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/sid.png
   org_name: intempt
 classification:
   industry:

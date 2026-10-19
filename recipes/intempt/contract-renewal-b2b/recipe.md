@@ -3,12 +3,9 @@ frontmatter_id: contract-renewal-b2b
 slash_command: /contract-renewal-b2b
 description: For B2B accounts approaching contract end, run a renewal journey at 90, 60, and 30 days to the enrolled profile.
 author:
-  name: Somya Nayak
-  first_name: Somya
-  last_name: Nayak
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Marketing Lead
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/somya.png
   org_name: intempt
 classification:
   industry:

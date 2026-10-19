@@ -3,11 +3,9 @@ frontmatter_id: post-purchase-second-order-velocity
 slash_command: /post-purchase-second-order-velocity
 description: Measure the time from a customer's first order to their second order. Use the median and conversion percentages to guide when to send replenishment reminders.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:

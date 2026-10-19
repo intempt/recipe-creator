@@ -3,12 +3,9 @@ frontmatter_id: high-intent-anonymous-visitors
 slash_command: /high-intent-anonymous-visitors
 description: Visitors you cannot email yet who keep coming back, so you can retarget them with ads or try to capture an address.
 author:
-  name: Harish Kumar
-  first_name: Harish
-  last_name: Kumar
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
   org_name: intempt
 classification:
   industry:

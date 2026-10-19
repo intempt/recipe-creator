@@ -3,11 +3,9 @@ frontmatter_id: product-page-layout-test
 slash_command: /product-page-layout-test
 description: Compares your current product page against a full-width hero with a floating details panel and a video-first layout.
 author:
-  name: V Ranadheer
-  first_name: V
-  last_name: Ranadheer
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Design Engineer
   org_name: intempt
 classification:
   industry:

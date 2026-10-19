@@ -3,12 +3,9 @@ frontmatter_id: winnable-churned-users
 slash_command: /winnable-churned-users
 description: People who cancelled in the last two months but used the product heavily before they left, the best odds for a win-back.
 author:
-  name: Harish Kumar
-  first_name: Harish
-  last_name: Kumar
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
   org_name: intempt
 classification:
   industry:

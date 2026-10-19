@@ -3,11 +3,9 @@ frontmatter_id: accounts-at-risk-count
 slash_command: /accounts-at-risk-count
 description: Counts accounts in predefined engagement-decline segments and tracks the weekly total. Uses fixed segments as an approximate at-risk signal.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:

@@ -3,11 +3,9 @@ frontmatter_id: net-revenue-retention-by-cohort
 slash_command: /net-revenue-retention-by-cohort
 description: Tracks monthly cohort retention rates over time to measure ongoing customer and user engagement.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:

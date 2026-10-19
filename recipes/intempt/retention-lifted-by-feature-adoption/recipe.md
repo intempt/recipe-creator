@@ -3,11 +3,9 @@ frontmatter_id: retention-lifted-by-feature-adoption
 slash_command: /retention-lifted-by-feature-adoption
 description: Compares how long users stay when they adopt a given feature in their first week against users who never touch it.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:

@@ -3,11 +3,9 @@ frontmatter_id: deal-velocity-by-stage
 slash_command: /deal-velocity-by-stage
 description: Shows how long deals sit in each sales stage and which stage is the bottleneck, with won deals set against lost ones.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:

@@ -3,11 +3,9 @@ frontmatter_id: email-purchase
 slash_command: /email-purchase
 description: Shows how many people who open an email go on to click, view a product and buy, and which campaigns actually earn revenue.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:

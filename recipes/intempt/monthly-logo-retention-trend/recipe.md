@@ -3,11 +3,9 @@ frontmatter_id: monthly-logo-retention-trend
 slash_command: /monthly-logo-retention-trend
 description: 'Shows a single trailing logo-retention rate: the share of customers still subscribed at the end of the current period. Uses subscription status data for the current period.'
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:

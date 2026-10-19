@@ -3,11 +3,9 @@ frontmatter_id: loyalty-program-entry-offer-test
 slash_command: /loyalty-program-entry-offer-test
 description: Compares four checkout offers for joining the loyalty programme, scored on how many first-time buyers actually join.
 author:
-  name: V Ranadheer
-  first_name: V
-  last_name: Ranadheer
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Design Engineer
   org_name: intempt
 classification:
   industry:

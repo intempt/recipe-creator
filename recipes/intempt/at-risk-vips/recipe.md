@@ -3,12 +3,9 @@ frontmatter_id: at-risk-vips
 slash_command: /at-risk-vips
 description: Your biggest spenders who have gone quiet for about six weeks, so you can reach out personally before they drift away for good.
 author:
-  name: Harish Kumar
-  first_name: Harish
-  last_name: Kumar
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
   org_name: intempt
 classification:
   industry:

@@ -3,12 +3,9 @@ frontmatter_id: sunset-hygiene
 slash_command: /sunset-hygiene
 description: Gives subscribers who have ignored six months of email one chance to say they still want it, then stops mailing them to protect deliverability.
 author:
-  name: Somya Nayak
-  first_name: Somya
-  last_name: Nayak
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Marketing Lead
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/somya.png
   org_name: intempt
 classification:
   industry:

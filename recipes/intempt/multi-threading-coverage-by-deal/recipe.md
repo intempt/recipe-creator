@@ -3,11 +3,9 @@ frontmatter_id: multi-threading-coverage-by-deal
 slash_command: /multi-threading-coverage-by-deal
 description: Shows distinct stakeholders engaged per open deal from deal and contact data.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:

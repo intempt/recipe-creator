@@ -3,12 +3,9 @@ frontmatter_id: mid-market-accounts
 slash_command: /mid-market-accounts
 description: Companies with 100 to 1,000 employees, so your inside sales team works from one list.
 author:
-  name: Harish Kumar
-  first_name: Harish
-  last_name: Kumar
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
   org_name: intempt
 classification:
   industry:

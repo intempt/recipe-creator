@@ -3,12 +3,9 @@ frontmatter_id: daily-sdr-task-queue
 slash_command: /daily-sdr-task-queue
 description: Build a prioritized report of each SDR's open tasks, ranked by signal strength and recency.
 author:
-  name: Trishik Shrestha
-  first_name: Trishik
-  last_name: Shrestha
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/trishik.png
   org_name: intempt
 classification:
   industry:

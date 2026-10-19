@@ -3,11 +3,9 @@ frontmatter_id: demo-vs-self-serve-routing-personalization
 slash_command: /demo-vs-self-serve-routing-personalization
 description: Use the personalization engine to show different CTAs to visitor audiences you define. It does not use firmographic company-size data.
 author:
-  name: V Ranadheer
-  first_name: V
-  last_name: Ranadheer
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Design Engineer
   org_name: intempt
 classification:
   industry:

@@ -3,12 +3,9 @@ frontmatter_id: webinar-followup
 slash_command: /webinar-followup
 description: Sends attendees the recording and a next step, sends no shows the on demand link, and shows which webinars actually create deals.
 author:
-  name: Somya Nayak
-  first_name: Somya
-  last_name: Nayak
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Marketing Lead
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/somya.png
   org_name: intempt
 classification:
   industry:
