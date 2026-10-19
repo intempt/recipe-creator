@@ -9,10 +9,7 @@ author:
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - ecommerce
-  - media
+  - saas-b2b-tech
 ---
 
 # Account level signal to AE task

@@ -9,7 +9,7 @@ author:
   org_name: intempt
 classification:
   industry:
-  - ecommerce
+  - ecommerce-retail
 ---
 
 # Average order value trend

@@ -6,9 +6,7 @@
   "markdown": "# Free accounts with a team trying it\n\n## Description\n\nIdentify product-qualified leads by segmenting free and trial users who log multiple sessions and complete key activation goals.\n\n## Steps\n\n### Step 1: Build the team-trial list\n\nBuild a segment of accounts named \"PQL: Multi-User Account\".\nAn account is in the segment only when all of these are true:\n- its User count attribute is 2 or more\n- the users in the account together did the Session start event 3 or more times in the last 14 days\n- the users in the account together did the Completed a journey goal event at least once in the last 14 days\n",
   "classification": {
     "industry": [
-      "ai",
-      "b2b-saas",
-      "ecommerce"
+      "saas-b2b-tech"
     ]
   },
   "complexity": "quick",

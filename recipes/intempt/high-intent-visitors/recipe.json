@@ -6,8 +6,7 @@
   "markdown": "# High-intent visitors\n\n## Description\n\nFree and unregistered users who read both your pricing and your docs in the last two weeks, the clearest sign somebody is close to buying.\n\n## Steps\n\n### Step 1: Build the high-intent list\n\nBuild a segment of users named \"High-Intent Visitors\".\nA user is in the segment only when all of these are true:\n- they did the View page event with a Page URL that contains \"/pricing\" at least once in the last 14 days\n- they did the View page event with a Page URL that contains \"/docs\" at least once in the last 14 days\n- their Plan attribute is empty or is \"free\"\n",
   "classification": {
     "industry": [
-      "ai",
-      "b2b-saas"
+      "industry-agnostic"
     ]
   },
   "complexity": "quick",

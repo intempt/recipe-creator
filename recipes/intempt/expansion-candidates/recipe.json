@@ -6,9 +6,7 @@
   "markdown": "# Users close to their plan limit\n\n## Description\n\nUsers grouped by Plan for plan-based upgrade targeting.\n\n## Steps\n\n### Step 1: Build the near-limit list\n\nBuild a segment of users named \"Expansion Candidates\".\nA user is in the segment only when all of these are true:\n- their Plan attribute is not \"enterprise\"\n- their Usage percentage attribute is 80 or more\n",
   "classification": {
     "industry": [
-      "ai",
-      "b2b-saas",
-      "social"
+      "saas-b2b-tech"
     ]
   },
   "complexity": "quick",

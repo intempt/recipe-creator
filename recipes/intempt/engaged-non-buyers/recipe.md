@@ -9,7 +9,7 @@ author:
   org_name: intempt
 classification:
   industry:
-  - ecommerce
+  - ecommerce-retail
 ---
 
 # Engaged visitors who never bought

@@ -9,10 +9,7 @@ author:
   org_name: intempt
 classification:
   industry:
-  - b2b-saas
-  - ecommerce
-  - media
-  - social
+  - ecommerce-retail
 ---
 
 # Label wrapped on a package

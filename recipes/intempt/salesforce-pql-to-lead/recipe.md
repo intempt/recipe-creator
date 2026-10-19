@@ -9,8 +9,7 @@ author:
   org_name: intempt
 classification:
   industry:
-  - b2b-saas
-  - ecommerce
+  - saas-b2b-tech
 ---
 
 # Product qualified signal to a Salesforce lead

@@ -9,7 +9,7 @@ author:
   org_name: intempt
 classification:
   industry:
-  - b2b-saas
+  - industry-agnostic
 ---
 
 # Use a Google Sheet as a list

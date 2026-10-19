@@ -9,10 +9,7 @@ author:
   org_name: intempt
 classification:
   industry:
-  - b2b-saas
-  - ecommerce
-  - media
-  - social
+  - industry-agnostic
 ---
 
 # Multi-shot video from a shot list

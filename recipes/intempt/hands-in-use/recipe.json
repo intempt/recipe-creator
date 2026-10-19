@@ -6,10 +6,7 @@
   "markdown": "# Hands using the product\n\n## Description\n\nShows hands pouring, applying or holding your product, with no face in frame and small props added around it.\n\n## Steps\n\n### Step 1: Shoot hands with the product\n\nEdit the hands-in-use product image attached to this run.\nAdd three small props around the product: a napkin, a sprig and a utensil.\nKeep the same hands, product and surface, and keep the lighting and the camera angle identical.\nNo face may be visible: only hands interacting with the product.\n",
   "classification": {
     "industry": [
-      "b2b-saas",
-      "ecommerce",
-      "media",
-      "social"
+      "ecommerce-retail"
     ]
   },
   "complexity": "quick",

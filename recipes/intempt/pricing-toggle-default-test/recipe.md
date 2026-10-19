@@ -9,9 +9,7 @@ author:
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - finance
+  - saas-b2b-tech
 ---
 
 # Billing toggle default test

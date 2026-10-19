@@ -9,9 +9,7 @@ author:
   org_name: intempt
 classification:
   industry:
-  - b2b-saas
-  - ecommerce
-  - media
+  - ecommerce-retail
 ---
 
 # Tag Shopify customers from a segment

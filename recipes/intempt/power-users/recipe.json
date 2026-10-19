@@ -6,11 +6,7 @@
   "markdown": "# Power users\n\n## Description\n\nSegment your most active users based on frequent sessions and high activity thresholds over the last 30 days.\n\n## Steps\n\n### Step 1: Build the power-user list\n\nBuild a segment of users named \"Power Users\".\nA user is in the segment only when all of these are true:\n- they did the Session start event 10 or more times in the last 30 days\n- they did the Click on event 20 or more times in the last 30 days\n- their Engagement score attribute is \"High\"\n- their Last seen attribute is within the last 7 days\n",
   "classification": {
     "industry": [
-      "ai",
-      "b2b-saas",
-      "ecommerce",
-      "finance",
-      "media"
+      "industry-agnostic"
     ]
   },
   "complexity": "quick",

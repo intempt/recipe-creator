@@ -6,8 +6,7 @@
   "markdown": "# Segment into a Salesforce campaign\n\n## Description\n\nPuts a segment's members into a Salesforce campaign, which is how an audience built here becomes something a sales team can run against.\n\n## Steps\n\n### Step 1: Define the audience once\n\nCreate the segment whose members belong in the campaign. Keep the definition here rather than duplicating it in Salesforce, so there is one answer to who is in the audience.\n\n### Step 2: Add members without doubling\n\nCreate a workflow that adds each member to the named Salesforce campaign with a campaign member status. Adding is idempotent (a member already in the campaign is left alone rather than duplicated) and removal is deliberately not part of this recipe, because campaign membership is a record of who was contacted and deleting it destroys attribution. Use the result of \"Define the audience once\".\n",
   "classification": {
     "industry": [
-      "b2b-saas",
-      "media"
+      "industry-agnostic"
     ]
   },
   "author": {

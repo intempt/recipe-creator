@@ -6,8 +6,7 @@
   "markdown": "# Enterprise accounts\n\n## Description\n\nCompanies with 1,000 or more employees, so your enterprise sellers work from one list.\n\n## Steps\n\n### Step 1: Build the enterprise list\n\nBuild a segment of accounts named \"Enterprise Accounts\".\nAn account is in the segment only when all of these are true:\n- its employees attribute is 1000 or more\n",
   "classification": {
     "industry": [
-      "ai",
-      "b2b-saas"
+      "saas-b2b-tech"
     ]
   },
   "complexity": "quick",

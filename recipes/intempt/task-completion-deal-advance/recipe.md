@@ -9,8 +9,7 @@ author:
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
+  - industry-agnostic
 ---
 
 # Advance the deal when a task is done

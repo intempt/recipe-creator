@@ -9,7 +9,7 @@ author:
   org_name: intempt
 classification:
   industry:
-  - ecommerce
+  - ecommerce-retail
 ---
 
 # Checkout flow length test

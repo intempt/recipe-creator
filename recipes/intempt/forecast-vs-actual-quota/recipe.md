@@ -9,8 +9,7 @@ author:
   org_name: intempt
 classification:
   industry:
-  - b2b-saas
-  - finance
+  - industry-agnostic
 ---
 
 # Forecast versus quota

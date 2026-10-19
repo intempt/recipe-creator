@@ -6,8 +6,7 @@
   "markdown": "# Lead qualification and handoff\n\n## Description\n\nScores inbound leads, sends the sales ready ones round robin to a rep with the context attached, and puts the rest into nurture.\n\n## Steps\n\n### Step 1: Score every lead\n\nDefine a Qualification attribute weighting firmographic fit, intent, and engagement.\n\n### Step 2: Split into hot, warm and cold\n\nSegment leads into hot/warm/cold tiers based on qualification score. Use the result of \"Score every lead\".\n\n### Step 3: Route hot leads round robin\n\nCreate a workflow assigning hot leads to sales reps (round-robin within team) and creating tasks with context. Use the result of \"Score every lead\", \"Split into hot, warm and cold\".\n\n### Step 4: Nurture warm and cold leads\n\nBuild nurture journeys for warm and cold leads with appropriate cadence. Use the result of \"Score every lead\", \"Split into hot, warm and cold\", \"Route hot leads round robin\".\n\n### Step 5: Track handoff to opportunity\n\nCompose a dashboard tracking lead volume, score distribution, handoff rate, and conversion to opportunity. Use the result of \"Score every lead\", \"Split into hot, warm and cold\", \"Route hot leads round robin\", \"Nurture warm and cold leads\".\n",
   "classification": {
     "industry": [
-      "ai",
-      "b2b-saas"
+      "industry-agnostic"
     ]
   },
   "author": {

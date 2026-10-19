@@ -6,10 +6,8 @@
   "markdown": "# UGC selfie clip\n\n## Description\n\nTurns a handheld selfie still into a 5 second candid clip with a subtle head turn and a natural smile.\n\n## Steps\n\n### Step 1: Animate the selfie\n\nGenerate a UGC selfie video from a still.\nSeed on the selfie still. 5s candid handheld selfie clip: subtle head turn, natural smile, real kitchen light, slight handheld drift. Authentic, not glamour.\nPipeline: image to video (candid motion)\n",
   "classification": {
     "industry": [
-      "b2b-saas",
-      "ecommerce",
-      "media",
-      "social"
+      "ecommerce-retail",
+      "social-creator"
     ]
   },
   "author": {

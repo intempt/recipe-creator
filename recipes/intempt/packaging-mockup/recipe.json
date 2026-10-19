@@ -6,10 +6,7 @@
   "markdown": "# Label wrapped on a package\n\n## Description\n\nWraps your flat label artwork photorealistically around a 3D can, bottle or box, with the label content unchanged.\n\n## Steps\n\n### Step 1: Wrap the label\n\nEdit the flat label artwork attached to this run.\nWrap it photorealistically around a 3D package on the same backdrop.\nKeep the wordmark, the layout and every element of the label exactly as they are.\n",
   "classification": {
     "industry": [
-      "b2b-saas",
-      "ecommerce",
-      "media",
-      "social"
+      "ecommerce-retail"
     ]
   },
   "complexity": "quick",

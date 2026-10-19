@@ -6,8 +6,7 @@
   "markdown": "# Decision makers checking pricing\n\n## Description\n\nSenior people who looked at your pricing in the last month, so AEs can talk to whoever actually holds the budget.\n\n## Steps\n\n### Step 1: Build the decision-maker list\n\nBuild a segment of users named \"Decision-Maker Prospects\".\nA user is in the segment only when all of these are true:\n- their Job title attribute contains any of \"CEO\", \"CTO\", \"CFO\", \"CMO\", \"COO\", \"VP\", \"Vice President\", \"Director\", \"Head of\" or \"Chief\"\n- they did the View page event with a Page URL that contains \"/pricing\" at least once in the last 30 days\n- their email attribute is not empty\n",
   "classification": {
     "industry": [
-      "ai",
-      "b2b-saas"
+      "saas-b2b-tech"
     ]
   },
   "complexity": "quick",

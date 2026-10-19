@@ -6,7 +6,7 @@
   "markdown": "# Multi-product buyers\n\n## Description\n\nCustomers who have bought more than once and spent a meaningful amount, so cross-sell offers reach people with broad interest.\n\n## Steps\n\n### Step 1: Build the repeat-spend list\n\nBuild a segment of users named \"Multi-Product Buyers\".\nA user is in the segment only when all of these are true:\n- they did the Placed order event 2 or more times in the last 180 days\n- their Lifetime value attribute is 200 or more\n",
   "classification": {
     "industry": [
-      "ecommerce"
+      "ecommerce-retail"
     ]
   },
   "complexity": "quick",

@@ -6,10 +6,7 @@
   "markdown": "# Recently cancelled customers\n\n## Description\n\nCustomers who cancelled in the last month, while the reason is fresh and a win-back still has a chance.\n\n## Steps\n\n### Step 1: Build the recent-cancel list\n\nBuild a segment of users named \"Recently Churned Users\".\nA user is in the segment only when all of these are true:\n- they did the Subscription canceled event at least once in the last 30 days\n- their Lifetime value attribute is more than 0\n",
   "classification": {
     "industry": [
-      "ai",
-      "b2b-saas",
-      "finance",
-      "media"
+      "industry-agnostic"
     ]
   },
   "complexity": "quick",

@@ -6,8 +6,7 @@
   "markdown": "# Cold outbound sequence\n\n## Description\n\nBuilds a target list from your ICP, runs a multi touch sequence with a booking link in it, and shows what pipeline came out.\n\n## Steps\n\n### Step 1: Build the target list\n\nThis step builds a segment.\nBuild target prospect list from ICP criteria (firmographic + intent signals).\n\n### Step 2: Write the outbound emails\n\nGenerate personalized cold-outbound email templates with brand voice and prospect-specific personalization tokens. Use the result of \"Build the target list\".\n\n### Step 3: Run the touches, then break off\n\nBuild a multi-touch outbound journey with appropriate cadence and break-up logic. Use the result of \"Build the target list\", \"Write the outbound emails\".\n\n### Step 4: Set up the booking link\n\nConfigure the booking link reps include in outreach, with availability and meeting-type config. Use the result of \"Build the target list\", \"Write the outbound emails\", \"Run the touches, then break off\".\n\n### Step 5: Track replies and meetings\n\nCompose a dashboard tracking outreach volume, reply rate, meeting-booked rate, and pipeline contribution. Use the result of \"Build the target list\", \"Write the outbound emails\", \"Run the touches, then break off\", \"Set up the booking link\".\n",
   "classification": {
     "industry": [
-      "b2b-saas",
-      "media"
+      "industry-agnostic"
     ]
   },
   "author": {

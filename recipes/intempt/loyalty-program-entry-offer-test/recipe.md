@@ -9,8 +9,7 @@ author:
   org_name: intempt
 classification:
   industry:
-  - ecommerce
-  - media
+  - ecommerce-retail
 ---
 
 # Loyalty signup offer test

@@ -9,9 +9,7 @@ author:
   org_name: intempt
 classification:
   industry:
-  - b2b-saas
-  - finance
-  - media
+  - industry-agnostic
 ---
 
 # Account expansion funnel

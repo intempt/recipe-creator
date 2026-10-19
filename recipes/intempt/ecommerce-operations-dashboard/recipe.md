@@ -9,8 +9,7 @@ author:
   org_name: intempt
 classification:
   industry:
-  - ecommerce
-  - finance
+  - ecommerce-retail
 ---
 
 # Fulfillment, returns and refunds

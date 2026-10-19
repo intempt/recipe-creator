@@ -9,7 +9,7 @@ author:
   org_name: intempt
 classification:
   industry:
-  - ecommerce
+  - ecommerce-retail
 ---
 
 # Mobile sticky add to cart test

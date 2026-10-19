@@ -9,10 +9,7 @@ author:
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - ecommerce
-  - finance
+  - industry-agnostic
 ---
 
 # Trust badges near the CTA

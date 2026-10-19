@@ -6,8 +6,7 @@
   "markdown": "# Newly activated users\n\n## Description\n\nPaying users who hit their activation milestone in the last week, while they are warm enough to say yes to more.\n\n## Steps\n\n### Step 1: Build the newly-activated list\n\nBuild a segment of users named \"Newly Activated Users\".\nA user is in the segment only when all of these are true:\n- they did the Completed a journey goal event at least once in the last 7 days, with a journey_id equal to the activation journey chosen for this run\n- their Plan attribute is not \"free\"\n",
   "classification": {
     "industry": [
-      "ai",
-      "b2b-saas"
+      "saas-b2b-tech"
     ]
   },
   "complexity": "quick",

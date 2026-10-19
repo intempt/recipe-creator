@@ -9,9 +9,7 @@ author:
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - media
+  - industry-agnostic
 ---
 
 # Demo or self-serve CTA by company size

@@ -9,10 +9,7 @@ author:
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - finance
-  - media
+  - industry-agnostic
 ---
 
 # Renewals due in 90 days

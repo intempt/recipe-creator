@@ -6,8 +6,7 @@
   "markdown": "# High-value cart abandoners\n\n## Description\n\nPeople who walked away from an expensive cart in the last week and have not bought since, so you chase the baskets worth chasing.\n\n## Steps\n\n### Step 1: Build the big-cart list\n\nBuild a segment of users named \"High-Cart-Value Abandoners\".\nA user is in the segment only when all of these are true:\n- they did the Abandoned cart event with a Order total of 200 or more at least once in the last 7 days\n- they did not do the Placed order event in the last 7 days\n",
   "classification": {
     "industry": [
-      "ecommerce",
-      "finance"
+      "ecommerce-retail"
     ]
   },
   "complexity": "quick",

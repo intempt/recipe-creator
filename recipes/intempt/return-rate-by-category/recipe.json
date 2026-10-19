@@ -6,7 +6,7 @@
   "markdown": "# Return rate by category\n\n## Description\n\nShows which product categories get returned most, and which ones have got worse since last quarter.\n\n## Steps\n\n### Step 1: Rank categories by returns\n\nCreate an Insights report called \"Return Rate by Category\".\nSeries A: Event \"Order fulfilled\", aggregation: Count\nSeries B: Event \"Return requested\", aggregation: Count\nFormula: (B / A) × 100, unit: %, label: \"Return Rate\"\nBreakdown: By product category: derive from Return requested.items joined to Products to find category, OR from the source order's items (Return requested carries order_id relation).\nTime range: Last 90 days\nCompare: Previous period (prior 90 days)\nChart type: Bar chart sorted by total return rate descending\nAnnotations:\n- Flag any category where return rate jumped >5 percentage points vs. prior period.\n- Surface top 5 categories by absolute return volume and top 5 by return rate (the lists are usually different and both matter).\nTaxonomy notes:\n- Return requested has items, order_id (relation), return_id, status. Items resolve to categories through the Products record object.\n- Note: there is no canonical \"return_reason\" property on Return requested. Reason analysis would require joining with Order refunded (which has a reason text field) when the return is monetized.\n",
   "classification": {
     "industry": [
-      "ecommerce"
+      "ecommerce-retail"
     ]
   },
   "author": {

@@ -9,9 +9,7 @@ author:
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - ecommerce
+  - saas-b2b-tech
 ---
 
 # Free accounts with a team trying it

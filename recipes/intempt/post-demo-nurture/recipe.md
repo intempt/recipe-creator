@@ -9,9 +9,7 @@ author:
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - media
+  - saas-b2b-tech
 ---
 
 # Post demo nurture

@@ -6,10 +6,7 @@
   "markdown": "# Product in a real setting\n\n## Description\n\nMoves a studio packshot into a real-world setting such as a kitchen, office or outdoors, with natural light and depth of field.\n\n## Steps\n\n### Step 1: Place the product in a scene\n\nEdit the studio packshot attached to this run.\nRe-render the product in a real-world kitchen, with natural ambient light and realistic depth of field.\nDo not change the product itself.\n",
   "classification": {
     "industry": [
-      "b2b-saas",
-      "ecommerce",
-      "media",
-      "social"
+      "ecommerce-retail"
     ]
   },
   "author": {

@@ -6,8 +6,7 @@
   "markdown": "# High-frequency buyers\n\n## Description\n\nCustomers who order at least four times a quarter, so loyalty perks and early access go to the people who buy most often.\n\n## Steps\n\n### Step 1: Build the frequent-buyer list\n\nBuild a segment of users named \"High-Frequency Buyers\".\nA user is in the segment only when all of these are true:\n- they did the Placed order event 4 or more times in the last 90 days\n",
   "classification": {
     "industry": [
-      "ecommerce",
-      "media"
+      "ecommerce-retail"
     ]
   },
   "complexity": "quick",

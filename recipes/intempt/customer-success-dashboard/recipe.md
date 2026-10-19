@@ -9,10 +9,7 @@ author:
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - media
-  - social
+  - industry-agnostic
 ---
 
 # Account health and churn risk

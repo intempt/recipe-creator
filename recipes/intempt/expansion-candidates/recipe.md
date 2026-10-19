@@ -9,9 +9,7 @@ author:
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - social
+  - saas-b2b-tech
 ---
 
 # Users close to their plan limit

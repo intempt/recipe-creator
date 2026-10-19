@@ -9,10 +9,8 @@ author:
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - ecommerce
-  - finance
+  - saas-b2b-tech
+  - media-entertainment
 ---
 
 # Users with a failed payment

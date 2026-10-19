@@ -6,8 +6,8 @@
   "markdown": "# VIP loyalty programme\n\n## Description\n\nRanks your best customers into tiers, gives each tier something worth having, and tests which rewards actually keep them.\n\n## Steps\n\n### Step 1: Rank customers by value\n\nDefine an AI-derived customer_value_tier attribute using LTV, frequency, and recency.\n\n### Step 2: Set the silver and gold lines\n\nSegment VIPs into tiers (silver, gold, platinum) by value tier with thresholds. Use the result of \"Rank customers by value\".\n\n### Step 3: Give each tier something\n\nConfigure VIP-only personalizations: early access, exclusive products, free shipping. Use the result of \"Rank customers by value\", \"Set the silver and gold lines\".\n\n### Step 4: Thank them, show the next tier\n\nBuild a VIP-specific journey with appreciation touches and tier-up encouragement. Use the result of \"Rank customers by value\", \"Set the silver and gold lines\", \"Give each tier something\".\n\n### Step 5: Test which reward works\n\nAdd experiments comparing reward types (discount vs experience vs status). Use the result of \"Rank customers by value\", \"Set the silver and gold lines\", \"Give each tier something\", \"Thank them, show the next tier\".\n\n### Step 6: Track retention by tier\n\nCompose a dashboard tracking VIP retention rate, average revenue per tier, and tier-up rate. Use the result of \"Rank customers by value\", \"Set the silver and gold lines\", \"Give each tier something\", \"Thank them, show the next tier\", \"Test which reward works\".\n",
   "classification": {
     "industry": [
-      "ecommerce",
-      "media"
+      "ecommerce-retail",
+      "travel-hospitality"
     ]
   },
   "author": {

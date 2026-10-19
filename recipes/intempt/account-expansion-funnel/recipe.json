@@ -6,9 +6,7 @@
   "markdown": "# Account expansion funnel\n\n## Description\n\nTracks subscription amount increases as a signal of account expansion. Uses subscription state changes and amount deltas to identify potential upgrades.\n\n## Steps\n\n### Step 1: Chart the path to an upgrade\n\nCreate a Funnel report called \"Account Expansion Funnel\".\nSteps:\n1. Event \"View page\" where Page URL contains \"/pricing\": \"Viewed Pricing\"\n2. Event \"Click on\" where target_id matches an upgrade CTA pattern (e.g. target_id contains \"upgrade\" or \"checkout\"): \"Clicked Upgrade\"\n3. Event \"Checkout created\": \"Started Checkout\"\n4. Event \"Subscription updated\" where the post-update plan_items indicates a higher-tier plan than prior (delta computation): \"Upgraded\"\nConversion window: 30 days\nBreakdown: By Plan: resolved from the user's Subscription started.Plan BEFORE the upgrade (the plan they were upgrading from)\nCompare: Previous period (prior 30 days)\nFor each step, also surface:\n- Median time-to-convert (days from previous step)\n- Drop-off rate vs. previous period\nAnnotations:\n- Flag the largest drop-off step: this is the bottleneck to address first.\n- Flag any step where median time-to-convert exceeds 7 days.\nIdentify which starting plan has the fastest expansion velocity.\nTaxonomy notes:\n- \"rate_limit_hit\" and \"pricing_page_viewed\" as standalone events do not exist. Pricing page views are derived from View page.Page URL. The first \"Hit Plan Limit\" step is intentionally omitted because it has no canonical event; if the workspace emits a custom event for limit hits, it can be substituted.\n- \"subscription_upgraded\" does not exist; upgrades are derived from Subscription updated by comparing pre/post plan amount.\n",
   "classification": {
     "industry": [
-      "b2b-saas",
-      "finance",
-      "media"
+      "industry-agnostic"
     ]
   },
   "author": {

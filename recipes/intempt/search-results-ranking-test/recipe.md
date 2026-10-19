@@ -9,7 +9,8 @@ author:
   org_name: intempt
 classification:
   industry:
-  - ecommerce
+  - ecommerce-retail
+  - marketplaces
 ---
 
 # Search ranking test

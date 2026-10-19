@@ -6,11 +6,8 @@
   "markdown": "# Lapsed customer win back\n\n## Description\n\nSorts lapsed customers by how long they have been gone and escalates the offer with the gap, from a gentle nudge to an exclusive deal.\n\n## Steps\n\n### Step 1: Sort lapsed users by the gap\n\nSegment lapsed users into tiers: 30-60 days inactive, 60-120 days inactive, 120+ days inactive.\n\n### Step 2: Write content per tier\n\nThis step builds a designed marketing email (HTML).\nGenerate tier-appropriate win-back content: gentle for early-lapsed, value-reminder for mid, exclusive offer for deep-lapsed. Use the result of \"Sort lapsed users by the gap\".\n\n### Step 3: Escalate the offer by tier\n\nBuild a multi-arm journey routing each tier through appropriate touches with escalating incentives. Use the result of \"Sort lapsed users by the gap\", \"Write content per tier\".\n\n### Step 4: Measure who comes back\n\nCompose a retention report measuring re-engagement rates per tier over a 90-day window post-journey. Use the result of \"Sort lapsed users by the gap\", \"Write content per tier\", \"Escalate the offer by tier\".\n\n### Step 5: Test what brings them back\n\nAdd A/B variants on incentive type (discount vs free gift vs value-only). Use the result of \"Sort lapsed users by the gap\", \"Write content per tier\", \"Escalate the offer by tier\", \"Measure who comes back\".\n",
   "classification": {
     "industry": [
-      "ai",
-      "b2b-saas",
-      "ecommerce",
-      "finance",
-      "media"
+      "ecommerce-retail",
+      "saas-b2b-tech"
     ]
   },
   "author": {

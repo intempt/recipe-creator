@@ -9,9 +9,7 @@ author:
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - ecommerce
+  - industry-agnostic
 ---
 
 # Landing page matched to the ad

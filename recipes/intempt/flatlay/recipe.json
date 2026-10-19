@@ -6,10 +6,7 @@
   "markdown": "# Styled flatlay\n\n## Description\n\nArranges your product in a top-down flatlay with complementary props styled around it.\n\n## Steps\n\n### Step 1: Style the flatlay\n\nEdit the top-down flatlay product image attached to this run.\nAdd complementary props arranged around the product.\nKeep the product in the same position, and keep the top-down angle and the lighting unchanged.\n",
   "classification": {
     "industry": [
-      "b2b-saas",
-      "ecommerce",
-      "media",
-      "social"
+      "ecommerce-retail"
     ]
   },
   "complexity": "quick",

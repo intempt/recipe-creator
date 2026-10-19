@@ -9,8 +9,7 @@ author:
   org_name: intempt
 classification:
   industry:
-  - ecommerce
-  - social
+  - ecommerce-retail
 ---
 
 # Post purchase follow up

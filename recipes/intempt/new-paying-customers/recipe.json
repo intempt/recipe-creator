@@ -6,10 +6,7 @@
   "markdown": "# New paying customers\n\n## Description\n\nCustomers who started paying in the last month, the window where onboarding decides whether they stay.\n\n## Steps\n\n### Step 1: Build the new-customer list\n\nBuild a segment of users named \"New Paying Customers\".\nA user is in the segment only when all of these are true:\n- they did the Subscription started event at least once in the last 30 days\n- their Plan attribute is not \"free\"\n- their Plan attribute is not \"trial\"\n",
   "classification": {
     "industry": [
-      "ai",
-      "b2b-saas",
-      "finance",
-      "media"
+      "industry-agnostic"
     ]
   },
   "complexity": "quick",

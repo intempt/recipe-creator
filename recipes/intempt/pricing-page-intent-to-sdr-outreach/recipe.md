@@ -9,9 +9,7 @@ author:
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - ecommerce
+  - saas-b2b-tech
 ---
 
 # Pricing page intent to outreach

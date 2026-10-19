@@ -9,8 +9,8 @@ author:
   org_name: intempt
 classification:
   industry:
-  - ecommerce
-  - media
+  - ecommerce-retail
+  - travel-hospitality
 ---
 
 # VIP loyalty programme

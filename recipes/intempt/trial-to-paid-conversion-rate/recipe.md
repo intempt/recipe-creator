@@ -9,10 +9,7 @@ author:
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - finance
-  - media
+  - saas-b2b-tech
 ---
 
 # Trial to paid conversion rate

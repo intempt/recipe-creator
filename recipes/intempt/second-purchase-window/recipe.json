@@ -6,7 +6,7 @@
   "markdown": "# First-time buyers in the repeat window\n\n## Description\n\nCustomers who bought for the first time in the last month, the period when most second purchases happen.\n\n## Steps\n\n### Step 1: Build the second-purchase list\n\nBuild a segment of users named \"Second-Purchase Window\".\nA user is in the segment only when all of these are true:\n- they did the Placed order event exactly 1 time, at any time\n- that Placed order event happened in the last 30 days\n",
   "classification": {
     "industry": [
-      "ecommerce"
+      "ecommerce-retail"
     ]
   },
   "complexity": "quick",

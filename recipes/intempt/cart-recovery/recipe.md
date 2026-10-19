@@ -9,9 +9,7 @@ author:
   org_name: intempt
 classification:
   industry:
-  - ecommerce
-  - finance
-  - media
+  - ecommerce-retail
 ---
 
 # Abandoned cart recovery

@@ -6,10 +6,7 @@
   "markdown": "# Vertical reel cut\n\n## Description\n\nGenerate a new 9:16 vertical clip for a reel. This creates a vertical video rather than reframing an existing landscape clip.\n\n## Steps\n\n### Step 1: Reframe to 9:16\n\nReformat a landscape still/clip to a 9:16 vertical reel.\nSubject re-framed vertical with subtle Ken Burns push and drifting motion particles. Social-ready short format.\nPipeline: image to video at 9:16\n",
   "classification": {
     "industry": [
-      "b2b-saas",
-      "ecommerce",
-      "media",
-      "social"
+      "industry-agnostic"
     ]
   },
   "author": {

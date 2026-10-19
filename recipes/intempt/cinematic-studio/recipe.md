@@ -9,10 +9,8 @@ author:
   org_name: intempt
 classification:
   industry:
-  - b2b-saas
-  - ecommerce
-  - media
-  - social
+  - media-entertainment
+  - social-creator
 ---
 
 # Cinematic look board

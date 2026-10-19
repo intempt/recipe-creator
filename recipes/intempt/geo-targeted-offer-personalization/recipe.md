@@ -9,8 +9,7 @@ author:
   org_name: intempt
 classification:
   industry:
-  - ecommerce
-  - media
+  - industry-agnostic
 ---
 
 # Offers by visitor country

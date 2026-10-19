@@ -6,10 +6,8 @@
   "markdown": "# Users with a failed payment\n\n## Description\n\nUsers whose payment was declined in the last two weeks, so you can recover the money before the subscription lapses.\n\n## Steps\n\n### Step 1: Build the failed-payment list\n\nBuild a segment of users named \"Failed-Payment Users\".\nA user is in the segment when any of these is true:\n- they did the Payment failed event at least once in the last 14 days\n- they did the Invoice payment failed event at least once in the last 14 days\n- they did the Billing failed event at least once in the last 14 days\n- they did the Charge failed event at least once in the last 14 days\n",
   "classification": {
     "industry": [
-      "ai",
-      "b2b-saas",
-      "ecommerce",
-      "finance"
+      "saas-b2b-tech",
+      "media-entertainment"
     ]
   },
   "complexity": "quick",

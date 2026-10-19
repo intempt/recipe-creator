@@ -9,7 +9,7 @@ author:
   org_name: intempt
 classification:
   industry:
-  - ecommerce
+  - industry-agnostic
 ---
 
 # At-risk VIP customers

@@ -6,9 +6,7 @@
   "markdown": "# Customers by acquisition channel\n\n## Description\n\nCustomers grouped by the channel that brought them in, so you can compare how well each channel's buyers stick around.\n\n## Steps\n\n### Step 1: Build the channel cohort\n\nBuild a segment of users named \"Google Paid Acquired\".\nA user is in the segment only when all of these are true:\n- their UTM source attribute is \"google\"\n- their UTM medium attribute is \"cpc\"\n- they did the Placed order event at least once, at any time\n",
   "classification": {
     "industry": [
-      "ai",
-      "b2b-saas",
-      "ecommerce"
+      "industry-agnostic"
     ]
   },
   "complexity": "quick",

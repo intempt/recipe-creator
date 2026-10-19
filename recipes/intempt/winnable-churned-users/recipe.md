@@ -9,10 +9,7 @@ author:
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - ecommerce
-  - media
+  - industry-agnostic
 ---
 
 # Winnable churned users

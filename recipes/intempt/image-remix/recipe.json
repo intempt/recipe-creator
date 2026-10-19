@@ -6,10 +6,7 @@
   "markdown": "# Reference-anchored remix\n\n## Description\n\nPin up to four reference images with a weight on each, and get back variations anchored to them (four by default).\n\n## Steps\n\n### Step 1: Pin references and fan out\n\nGenerate four image variations from the reference images pinned to this run.\nUse between one and four references, each with a weight of Light, Medium or Strong.\nA Strong reference shapes each variation most, Medium less, and Light least.\n",
   "classification": {
     "industry": [
-      "b2b-saas",
-      "ecommerce",
-      "media",
-      "social"
+      "industry-agnostic"
     ]
   },
   "complexity": "quick",

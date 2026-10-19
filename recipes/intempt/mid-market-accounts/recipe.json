@@ -6,8 +6,7 @@
   "markdown": "# Mid-market accounts\n\n## Description\n\nCompanies with 100 to 1,000 employees, so your inside sales team works from one list.\n\n## Steps\n\n### Step 1: Build the mid-market list\n\nBuild a segment of accounts named \"Mid-Market Accounts\".\nAn account is in the segment only when all of these are true:\n- its employees attribute is 100 or more\n- its employees attribute is less than 1000\n",
   "classification": {
     "industry": [
-      "ai",
-      "b2b-saas"
+      "industry-agnostic"
     ]
   },
   "complexity": "quick",

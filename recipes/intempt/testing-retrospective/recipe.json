@@ -6,11 +6,7 @@
   "markdown": "# Quarterly experiment retrospective\n\n## Description\n\nBuilds a quarterly retrospective dashboard tracking exposure events, conversion metrics, and engagement trends across your testing periods.\n\n## Steps\n\n### Step 1: Compile the quarter's results\n\nThis step builds a report.\nCompile results across all experiments run in the period: winners, losers, inconclusive.\n\n### Step 2: Find the patterns that repeat\n\nGenerate insights report extracting patterns: which hypothesis families won, which traffic sources differed, best surfaces. Use the result of \"Compile the quarter's results\".\n\n### Step 3: Track cadence and impact\n\nCompose a dashboard summarizing testing cadence, win rate, and revenue impact. Use the result of \"Compile the quarter's results\", \"Find the patterns that repeat\".\n",
   "classification": {
     "industry": [
-      "ai",
-      "b2b-saas",
-      "ecommerce",
-      "finance",
-      "media"
+      "industry-agnostic"
     ]
   },
   "author": {

@@ -9,9 +9,7 @@ author:
   org_name: intempt
 classification:
   industry:
-  - ai
-  - ecommerce
-  - finance
+  - ecommerce-retail
 ---
 
 # Recommendation algorithm test

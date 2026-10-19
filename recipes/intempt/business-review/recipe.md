@@ -9,12 +9,7 @@ author:
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - ecommerce
-  - finance
-  - media
-  - social
+  - industry-agnostic
 ---
 
 # Weekly business review pack

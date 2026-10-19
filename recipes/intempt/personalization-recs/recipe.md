@@ -9,8 +9,7 @@ author:
   org_name: intempt
 classification:
   industry:
-  - ai
-  - ecommerce
+  - ecommerce-retail
 ---
 
 # Product recommendations across channels

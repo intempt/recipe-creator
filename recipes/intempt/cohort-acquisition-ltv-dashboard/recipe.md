@@ -9,8 +9,7 @@ author:
   org_name: intempt
 classification:
   industry:
-  - ecommerce
-  - finance
+  - industry-agnostic
 ---
 
 # Cohort LTV by acquisition channel

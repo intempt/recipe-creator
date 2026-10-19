@@ -9,9 +9,7 @@ author:
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - social
+  - industry-agnostic
 ---
 
 # Weekly competitive intel briefing

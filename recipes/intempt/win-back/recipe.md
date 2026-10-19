@@ -9,11 +9,8 @@ author:
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - ecommerce
-  - finance
-  - media
+  - ecommerce-retail
+  - saas-b2b-tech
 ---
 
 # Lapsed customer win back

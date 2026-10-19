@@ -6,8 +6,7 @@
   "markdown": "# Post purchase follow up\n\n## Description\n\nThanks the buyer, shows them how to use what they bought, asks for a review, and suggests what goes with it.\n\n## Steps\n\n### Step 1: Split first time from repeat\n\nIdentify users with order_placed event in last 14 days, segmented by first-time vs repeat buyer.\n\n### Step 2: Write the five emails\n\nGenerate post-purchase content: thank-you email, product-care info, review request, and cross-sell suggestions. Use the result of \"Split first time from repeat\".\n\n### Step 3: Send over the first month\n\nBuild a 5-touch journey sending content at 0hr (confirmation), 3day (care), 7day (review), 14day (cross-sell), 30day (loyalty intro). Use the result of \"Split first time from repeat\", \"Write the five emails\".\n\n### Step 4: Pick what goes with it\n\nGenerate cross-sell recommendations based on the purchased items and the customer's profile. Use the result of \"Split first time from repeat\", \"Write the five emails\", \"Send over the first month\".\n\n### Step 5: Test when to ask for a review\n\nAdd A/B variants on review-request timing (3day vs 7day vs 14day). Use the result of \"Split first time from repeat\", \"Write the five emails\", \"Send over the first month\", \"Pick what goes with it\".\n\n### Step 6: Track reviews and repeat orders\n\nCompose a dashboard tracking review-collection rate, second-purchase rate, and AOV uplift from cross-sell. Use the result of \"Split first time from repeat\", \"Write the five emails\", \"Send over the first month\", \"Pick what goes with it\", \"Test when to ask for a review\".\n",
   "classification": {
     "industry": [
-      "ecommerce",
-      "social"
+      "ecommerce-retail"
     ]
   },
   "author": {

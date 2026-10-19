@@ -9,8 +9,7 @@ author:
   org_name: intempt
 classification:
   industry:
-  - b2b-saas
-  - finance
+  - saas-b2b-tech
 ---
 
 # Rep activity leaderboard

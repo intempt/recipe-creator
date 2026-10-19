@@ -6,8 +6,7 @@
   "markdown": "# Cart abandonment push notification\n\n## Description\n\nWrites a lockscreen push that brings shoppers back to an abandoned cart, naming the item they left behind.\n\n## Steps\n\n### Step 1: Write the win-back push\n\nCreate a cart abandonment re-engagement push notification.\nInclude brand icon, win-back title, and body copy. Tone: personal, helpful, not aggressive. Include the abandoned item name if available.\nOutput: push notification (title + body + icon)\n",
   "classification": {
     "industry": [
-      "ecommerce",
-      "media"
+      "ecommerce-retail"
     ]
   },
   "complexity": "quick",
