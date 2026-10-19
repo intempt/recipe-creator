@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
 """Build the public recipe catalog from the recipe .md sources.
 
-This repo is the source of truth. CI writes the catalog into the
-single-metadata recipe database (scripts/sync_marketplace.py), and the website
-and console both read it from there (the website via GET /v1/recipes), so
-neither holds a copy and the two lists cannot describe the same recipe
-differently. The cdn.intempt.com publish was removed on 2026-10-08.
+This repo is the source of truth. A merged recipe is deployed into the
+single-metadata recipe database per recipe by recipe-deploy.yml (a
+create/update/delete tag, scripts/recipe_deploy.py); the website and console
+both read it from there via GET /v1/recipes (llm-wrapper), so neither holds a
+copy and the two lists cannot describe the same recipe differently. This
+--check build runs as a PR and push gate (recipe-prerequisites.yml). The
+cdn.intempt.com publish was removed on 2026-10-08; the bulk publish-catalog
+sync was retired on 2026-10-19.
 
 The catalog is PUBLIC. It carries only scope: global, visibility: published
 recipes, and it never carries step prompts: those are the instructions Blu
