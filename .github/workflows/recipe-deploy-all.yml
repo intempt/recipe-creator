@@ -1,0 +1,67 @@
+name: recipe-deploy-all
+
+# One run deploys every changed recipe to single-metadata, instead of one
+# recipe-deploy run per recipe. It loops scripts/recipe_deploy.py (the same code
+# path a single update uses) with --skip-unchanged, so only recipes whose
+# recipe.json differs from their deployed/<frontmatter_id> marker actually hit SM.
+# Run it from main after a metadata migration lands:
+#   gh workflow run recipe-deploy-all -R intempt/recipe-creator --ref main
+# deployed/** tags start no workflow, so moving the markers here is inert.
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: recipe-deploy-all
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  deploy-all:
+    runs-on: intempt-ubuntu-github-runner
+    steps:
+      - name: Only from main
+        if: github.ref != 'refs/heads/main'
+        run: |
+          echo "::error::run it from main: gh workflow run recipe-deploy-all --ref main (got $GITHUB_REF)"
+          exit 1
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install the YAML parser the scripts need
+        run: pip install --quiet pyyaml
+      - name: Deploy every changed recipe to single-metadata
+        env:
+          RECIPE_GIT_VALIDATE_SECRET: ${{ secrets.RECIPE_GIT_VALIDATE_SECRET }}
+        shell: bash
+        run: |
+          set -uo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          deployed=0; unchanged=0; failed=0; moved=()
+          for j in recipes/*/*/recipe.json; do
+            id=$(python3 -c "import json,sys;print(json.load(open(sys.argv[1])).get('frontmatter_id',''))" "$j")
+            [ -n "$id" ] || { echo "::warning::no frontmatter_id in $j"; continue; }
+            if python3 scripts/recipe_deploy.py "update/$id" --ref HEAD --skip-unchanged --main origin/main > d.out 2>&1; then
+              if grep -q '^DEPLOYED ' d.out; then
+                git tag -f "deployed/$id" HEAD >/dev/null
+                moved+=("refs/tags/deployed/$id")
+                deployed=$((deployed+1))
+              else
+                unchanged=$((unchanged+1))
+              fi
+            else
+              failed=$((failed+1))
+              echo "::error::deploy failed for $id"; tail -3 d.out
+            fi
+          done
+          if [ "${#moved[@]}" -gt 0 ]; then
+            git push -f origin "${moved[@]}"
+          fi
+          echo "deployed=$deployed unchanged=$unchanged failed=$failed"
+          [ "$failed" -eq 0 ]
