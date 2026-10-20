@@ -3,9 +3,13 @@ frontmatter_id: recent-page-viewers-segment
 slash_command: /recent-page-viewers-segment
 description: This recipe helps marketers automatically identify and group users who have viewed any page on their site or app within the past week, making it easy to target recently active visitors.
 author:
-  name: Beso
-  last_name: Gugushvili
-  org_name: intempt-internal-use-only
+  name: Intempt
+  last_name: Technologies
+  company: Intempt
+  org_name: intempt
+classification:
+  industry:
+  - industry-agnostic
 ---
 
 # Recent Page Viewers
