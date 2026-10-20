@@ -3,20 +3,13 @@ frontmatter_id: subscription-health-dashboard
 slash_command: /subscription-health-dashboard
 description: Review subscription revenue compounding or erosion using the subscription page's fixed NRR curve and MRR movement waterfall.
 author:
-  name: Sid Chaudhary
-  first_name: Sid
-  last_name: Chaudhary
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Founder & CEO
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/sid.png
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - finance
-  - media
-  - social
+  - industry-agnostic
 ---
 
 # Subscription revenue health

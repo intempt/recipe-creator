@@ -3,19 +3,13 @@ frontmatter_id: editorial-model
 slash_command: /editorial-model
 description: Produces a full-body editorial fashion photo of an AI model on location, then varies the lighting while holding pose and framing.
 author:
-  name: Aurobind Venu
-  first_name: Aurobind
-  last_name: Venu
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Creative Director
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - ecommerce
-  - media
-  - social
+  - ecommerce-retail
 ---
 
 # Editorial lookbook shot

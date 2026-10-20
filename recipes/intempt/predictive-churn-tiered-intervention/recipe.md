@@ -3,18 +3,13 @@ frontmatter_id: predictive-churn-tiered-intervention
 slash_command: /predictive-churn-tiered-intervention
 description: 'Scores churn risk daily and routes each band to email, SMS, push, or Slack: nurture content at low risk, personalized messages at medium, and CSM or founder outreach at high and critical.'
 author:
-  name: Somya Nayak
-  first_name: Somya
-  last_name: Nayak
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Marketing Lead
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/somya.png
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - media
+  - industry-agnostic
 ---
 
 # Tiered churn intervention

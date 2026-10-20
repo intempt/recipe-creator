@@ -3,20 +3,13 @@ frontmatter_id: welcome-series
 slash_command: /welcome-series
 description: Introduces your brand to new subscribers over their first week in four emails, and tests the subject lines and the opening offer.
 author:
-  name: Somya Nayak
-  first_name: Somya
-  last_name: Nayak
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Marketing Lead
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/somya.png
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - ecommerce
-  - finance
-  - media
+  - industry-agnostic
 ---
 
 # Welcome series

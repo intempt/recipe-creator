@@ -3,16 +3,13 @@ frontmatter_id: browse-to-buy-retention
 slash_command: /browse-to-buy-retention
 description: Measures how long first time visitors take to place an order, by acquisition source, so you can tell fast converting channels from slow ones.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:
-  - ecommerce
-  - media
+  - ecommerce-retail
 ---
 
 # Browse to buy retention

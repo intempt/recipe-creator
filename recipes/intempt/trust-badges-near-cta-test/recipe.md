@@ -3,18 +3,13 @@ frontmatter_id: trust-badges-near-cta-test
 slash_command: /trust-badges-near-cta-test
 description: Compares no badges, security badges, guarantee badges and all of them together beside your main call to action.
 author:
-  name: V Ranadheer
-  first_name: V
-  last_name: Ranadheer
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Design Engineer
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - ecommerce
-  - finance
+  - industry-agnostic
 ---
 
 # Trust badges near the CTA

@@ -6,20 +6,14 @@
   "markdown": "# Recent signups\n\n## Description\n\nEveryone who created an account in the last month, the audience for your welcome and first-week activation emails.\n\n## Steps\n\n### Step 1: Build the new signup list\n\nBuild a segment of users named \"Recently Signed-Up Users\".\nA user is in the segment only when all of these are true:\n- their First seen attribute is within the last 30 days\n",
   "classification": {
     "industry": [
-      "ai",
-      "b2b-saas",
-      "ecommerce",
-      "media"
+      "industry-agnostic"
     ]
   },
   "complexity": "quick",
   "author": {
-    "name": "Harish Kumar",
-    "first_name": "Harish",
-    "last_name": "Kumar",
+    "name": "Intempt",
+    "last_name": "Technologies",
     "company": "Intempt",
-    "job_title": "Growth Marketer",
-    "avatar": "https://cdn.intempt.com/assets/author-profile-pics/harish.jpg",
     "org_name": "intempt"
   },
   "permissions": [

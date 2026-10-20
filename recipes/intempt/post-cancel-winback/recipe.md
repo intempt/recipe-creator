@@ -3,19 +3,13 @@ frontmatter_id: post-cancel-winback
 slash_command: /post-cancel-winback
 description: Goes back to people who cancelled at 30, 60 and 90 days with what has changed, a discount, and a free month, then stops.
 author:
-  name: Somya Nayak
-  first_name: Somya
-  last_name: Nayak
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Marketing Lead
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/somya.png
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - ecommerce
-  - media
+  - industry-agnostic
 ---
 
 # Win back after cancellation

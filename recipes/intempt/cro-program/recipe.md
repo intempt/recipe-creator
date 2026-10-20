@@ -3,19 +3,13 @@ frontmatter_id: cro-program
 slash_command: /cro-program
 description: Find the worst drop-off, run an A/B experiment with random variant assignment, and review lift and significance on the Result tab. Use Personalization separately for per-variant targeting.
 author:
-  name: V Ranadheer
-  first_name: V
-  last_name: Ranadheer
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Design Engineer
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - ecommerce
-  - media
-  - social
+  - industry-agnostic
 ---
 
 # Conversion optimization program

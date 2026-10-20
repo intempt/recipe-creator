@@ -3,18 +3,13 @@ frontmatter_id: product-announcement-email
 slash_command: /product-announcement-email
 description: Writes a launch-day email in your brand colors and fonts, with the product hero image and a subject line written for opens and clicks.
 author:
-  name: Aurobind Venu
-  first_name: Aurobind
-  last_name: Venu
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Creative Director
   org_name: intempt
 classification:
   industry:
-  - b2b-saas
-  - ecommerce
-  - media
-  - social
+  - industry-agnostic
 ---
 
 # Product launch announcement email

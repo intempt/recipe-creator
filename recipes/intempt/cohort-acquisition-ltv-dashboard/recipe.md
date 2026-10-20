@@ -3,17 +3,13 @@ frontmatter_id: cohort-acquisition-ltv-dashboard
 slash_command: /cohort-acquisition-ltv-dashboard
 description: Monitor acquisition performance with line plots of selected metrics over calendar time. Use the trends to see how measures such as revenue or repeat purchases change over time.
 author:
-  name: Sid Chaudhary
-  first_name: Sid
-  last_name: Chaudhary
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Founder & CEO
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/sid.png
   org_name: intempt
 classification:
   industry:
-  - ecommerce
-  - finance
+  - industry-agnostic
 ---
 
 # Cohort LTV by acquisition channel

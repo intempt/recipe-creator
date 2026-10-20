@@ -3,17 +3,13 @@ frontmatter_id: demo-requested-accounts
 slash_command: /demo-requested-accounts
 description: People who submitted a demo form in the last 30 days, so an SDR can follow up the same hour.
 author:
-  name: Harish Kumar
-  first_name: Harish
-  last_name: Kumar
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
+  - saas-b2b-tech
 ---
 
 # Accounts that asked for a demo

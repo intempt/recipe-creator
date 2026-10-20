@@ -3,16 +3,13 @@ frontmatter_id: breakup-sequence
 slash_command: /breakup-sequence
 description: Sends one honest last email to prospects who never replied, which usually gets a faster yes or no than another follow up would.
 author:
-  name: Somya Nayak
-  first_name: Somya
-  last_name: Nayak
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Marketing Lead
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/somya.png
   org_name: intempt
 classification:
   industry:
-  - b2b-saas
+  - saas-b2b-tech
 ---
 
 # Breakup email for silent prospects

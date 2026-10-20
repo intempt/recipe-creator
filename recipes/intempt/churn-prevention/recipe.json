@@ -6,18 +6,13 @@
   "markdown": "# Churn prevention\n\n## Description\n\nFlags customers who are drifting away, reaches them automatically while it is still cheap to fix, and pulls in a CSM when it is not.\n\n## Steps\n\n### Step 1: Score churn risk\n\nDefine an AI-derived churn_risk_score attribute using engagement decline, support ticket sentiment, and feature-usage signals.\n\n### Step 2: Split into low, medium and high\n\nSegment users into low/medium/high churn-risk buckets. Use the result of \"Score churn risk\".\n\n### Step 3: Tell the CSM about high risk\n\nCreate a workflow alerting CSMs when high-risk users cross the threshold, with context payload to Slack. Use the result of \"Score churn risk\", \"Split into low, medium and high\".\n\n### Step 4: Write the win back emails\n\nGenerate re-engagement content: win-back-feature emails, success-story emails, value-reminder emails. Use the result of \"Score churn risk\", \"Split into low, medium and high\", \"Tell the CSM about high risk\".\n\n### Step 5: Reach medium risk first\n\nBuild a journey for medium-risk users with auto-engagement before CSM intervention is needed. Use the result of \"Score churn risk\", \"Split into low, medium and high\", \"Tell the CSM about high risk\", \"Write the win back emails\".\n\n### Step 6: Compare churn by risk tier\n\nCompose a retention report tracking churn rate by risk tier and intervention type. Use the result of \"Score churn risk\", \"Split into low, medium and high\", \"Tell the CSM about high risk\", \"Write the win back emails\", \"Reach medium risk first\".\n\n### Step 7: See if the saves are working\n\nCompose a dashboard showing risk distribution, intervention success rate, and net retention impact. Use the result of \"Score churn risk\", \"Split into low, medium and high\", \"Tell the CSM about high risk\", \"Write the win back emails\", \"Reach medium risk first\", \"Compare churn by risk tier\".\n",
   "classification": {
     "industry": [
-      "ai",
-      "b2b-saas",
-      "media"
+      "industry-agnostic"
     ]
   },
   "author": {
-    "name": "Somya Nayak",
-    "first_name": "Somya",
-    "last_name": "Nayak",
+    "name": "Intempt",
+    "last_name": "Technologies",
     "company": "Intempt",
-    "job_title": "Marketing Lead",
-    "avatar": "https://cdn.intempt.com/assets/author-profile-pics/somya.png",
     "org_name": "intempt"
   },
   "permissions": [],

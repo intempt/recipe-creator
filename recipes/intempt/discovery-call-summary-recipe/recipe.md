@@ -3,17 +3,13 @@ frontmatter_id: discovery-call-summary-recipe
 slash_command: /discovery-call-summary-recipe
 description: Generates an AI summary for Discovery calls from meeting data using the qualification framework in the summary recipe.
 author:
-  name: Sid Chaudhary
-  first_name: Sid
-  last_name: Chaudhary
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Founder & CEO
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/sid.png
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
+  - saas-b2b-tech
 ---
 
 # Discovery call qualification fields

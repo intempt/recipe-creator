@@ -6,16 +6,13 @@
   "markdown": "# Feature usage by signup cohort\n\n## Description\n\nCompare feature usage across signup cohorts to see how adoption differs between groups.\n\n## Steps\n\n### Step 1: Heatmap features against cohorts\n\nCreate an Insights report called \"Feature Usage by Cohort\".\nSeries A: Event \"Click on\" filtered by target_id (matching a defined feature pattern), aggregation: Count Unique Users\nSeries B: Computed: Series A / cohort size × 100, unit: %, label: \"Adoption Rate within Cohort\"\nBreakdown: By target_id (feature) AND by cohort month derived from User.First seen (system-set datetime) bucketed to month\nTime range: Last 90 days of usage; cohorts from Users with First seen in the last 6 months\nChart type: Heatmap (feature on Y axis, cohort month on X axis), cell value = adoption rate %, color intensity scaled\nAnnotations:\n- Flag features that show \"left-side fade\" in the heatmap (older cohorts have higher adoption than newer cohorts): likely an onboarding regression where newer users aren't being introduced to the feature.\n- Flag features that show \"right-side rise\" (newer cohorts adopt at higher rates): recent product or onboarding improvements working.\n- Highlight rows (features) where adoption is uniformly >30% across all cohorts: universally sticky features.\n- Highlight columns (cohorts) where adoption is uniformly low across most features: that cohort's onboarding may have been broken.\nSurface which features need to be re-introduced to recent cohorts and which cohort months had degraded onboarding.\nTaxonomy notes:\n- Users.First seen is a system-set datetime; \"signup_cohort_month\" is a derived bucketing of First seen, not a stored property.\n- Click on.target_id is the canonical feature handle.\n",
   "classification": {
     "industry": [
-      "ai",
-      "b2b-saas"
+      "industry-agnostic"
     ]
   },
   "author": {
-    "name": "Aman Tiwari",
-    "first_name": "Aman",
-    "last_name": "Tiwari",
+    "name": "Intempt",
+    "last_name": "Technologies",
     "company": "Intempt",
-    "job_title": "Product Manager",
     "org_name": "intempt"
   },
   "permissions": [],

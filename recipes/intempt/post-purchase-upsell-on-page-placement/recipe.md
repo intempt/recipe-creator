@@ -3,16 +3,13 @@ frontmatter_id: post-purchase-upsell-on-page-placement
 slash_command: /post-purchase-upsell-on-page-placement
 description: Compares three places to put the upsell on the order confirmation page, scored on extra revenue within 24 hours.
 author:
-  name: V Ranadheer
-  first_name: V
-  last_name: Ranadheer
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Design Engineer
   org_name: intempt
 classification:
   industry:
-  - ecommerce
-  - finance
+  - ecommerce-retail
 ---
 
 # Post-purchase upsell placement test

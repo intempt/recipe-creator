@@ -6,19 +6,14 @@
   "markdown": "# Product swap in a scene\n\n## Description\n\nReplaces the product in a shot you already have with a different one, keeping the scene, lighting and shadow the same.\n\n## Steps\n\n### Step 1: Swap in the new product\n\nEdit the image attached to this run.\nReplace only the product with the new product chosen for this run, at identical size and position.\nKeep the scene, lighting, shadow and backdrop unchanged.\n",
   "classification": {
     "industry": [
-      "b2b-saas",
-      "ecommerce",
-      "media",
-      "social"
+      "ecommerce-retail"
     ]
   },
   "complexity": "quick",
   "author": {
-    "name": "Aurobind Venu",
-    "first_name": "Aurobind",
-    "last_name": "Venu",
+    "name": "Intempt",
+    "last_name": "Technologies",
     "company": "Intempt",
-    "job_title": "Creative Director",
     "org_name": "intempt"
   },
   "permissions": [

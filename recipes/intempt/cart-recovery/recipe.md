@@ -3,18 +3,13 @@ frontmatter_id: cart-recovery
 slash_command: /cart-recovery
 description: Emails shoppers who left items behind, three times over three days, and measures how much revenue comes back.
 author:
-  name: Somya Nayak
-  first_name: Somya
-  last_name: Nayak
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Marketing Lead
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/somya.png
   org_name: intempt
 classification:
   industry:
-  - ecommerce
-  - finance
-  - media
+  - ecommerce-retail
 ---
 
 # Abandoned cart recovery

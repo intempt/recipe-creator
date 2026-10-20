@@ -3,16 +3,13 @@ frontmatter_id: forecast-vs-actual-quota
 slash_command: /forecast-vs-actual-quota
 description: Shows period closed-won revenue alongside pipeline coverage.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:
-  - b2b-saas
-  - finance
+  - industry-agnostic
 ---
 
 # Forecast versus quota

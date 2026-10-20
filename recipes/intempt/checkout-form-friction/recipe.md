@@ -3,16 +3,13 @@ frontmatter_id: checkout-form-friction
 slash_command: /checkout-form-friction
 description: Shows which checkout step loses you orders, how long shoppers sit on each one, and where mobile is worse than desktop.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:
-  - ecommerce
-  - finance
+  - ecommerce-retail
 ---
 
 # Checkout friction

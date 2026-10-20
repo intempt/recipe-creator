@@ -6,19 +6,15 @@
   "markdown": "# Artwork on a mockup\n\n## Description\n\nPuts your artwork onto a t-shirt, mug, billboard or package with realistic lighting, perspective and material.\n\n## Steps\n\n### Step 1: Composite the artwork\n\nGenerate one mockup image.\nComposite the artwork attached to this run onto the mockup scene chosen for this run: a t-shirt, a mug, a billboard or packaging.\nApply realistic lighting, perspective warping and rendering that suits the material.\n",
   "classification": {
     "industry": [
-      "b2b-saas",
-      "ecommerce",
-      "media",
-      "social"
+      "ecommerce-retail",
+      "social-creator"
     ]
   },
   "complexity": "quick",
   "author": {
-    "name": "Aurobind Venu",
-    "first_name": "Aurobind",
-    "last_name": "Venu",
+    "name": "Intempt",
+    "last_name": "Technologies",
     "company": "Intempt",
-    "job_title": "Creative Director",
     "org_name": "intempt"
   },
   "permissions": [

@@ -3,17 +3,13 @@ frontmatter_id: scheduled-data-quality-audit
 slash_command: /scheduled-data-quality-audit
 description: Runs weekly filter queries across account and user records to surface stale records, missing required fields, and abandoned data for RevOps review.
 author:
-  name: Trishik Shrestha
-  first_name: Trishik
-  last_name: Shrestha
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/trishik.png
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
+  - industry-agnostic
 ---
 
 # Weekly CRM hygiene audit

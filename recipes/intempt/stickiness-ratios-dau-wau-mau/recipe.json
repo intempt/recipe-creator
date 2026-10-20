@@ -6,17 +6,13 @@
   "markdown": "# Daily, weekly and monthly stickiness\n\n## Description\n\nReport active-user counts over time to monitor engagement trends.\n\n## Steps\n\n### Step 1: Track daily against monthly use\n\nCreate an Insights report called \"DAU / WAU / MAU Stickiness\".\nSeries A: Event \"Session start\", aggregation: Count Unique Users, time granularity: Daily, label: \"DAU\"\nSeries B: Event \"Session start\", aggregation: Count Unique Users, rolling 7-day window, label: \"WAU\"\nSeries C: Event \"Session start\", aggregation: Count Unique Users, rolling 28-day window, label: \"MAU\"\nSeries D: Computed: Series A / Series B × 100, unit: %, label: \"DAU/WAU Stickiness\"\nSeries E: Computed: Series A / Series C × 100, unit: %, label: \"DAU/MAU Stickiness\"\nTime granularity: Daily (smooth Series D and E with 7-day rolling average to reduce noise)\nTime range: Last 90 days\nBreakdown: By Plan: resolved from the user's most-recent active subscription\nCompare: Year-over-year (same 90-day window prior year)\nChart type: Dual-axis: left axis user counts (A/B/C as lines), right axis stickiness % (D and E as lines)\nAnnotations:\n- Add benchmarks: DAU/MAU ≥ 20% is \"good\" for B2B SaaS; ≥ 50% is best-in-class.\n- Add benchmarks: DAU/WAU ≥ 50% indicates strong daily-habit usage.\n- Flag any plan where DAU/MAU stickiness dropped >3 percentage points vs. previous period (engagement erosion: leading indicator of churn).\n- Flag any plan where MAU is growing but DAU is flat (acquiring users who aren't engaging).\nStickiness leads retention by 1-2 quarters; it's the canary in the coal mine.\nTaxonomy notes:\n- Session start is the canonical \"user is active\" event. Alternative: identify, but Session start is more frequent and reliable.\n- plan_tier as a User property does not exist; Plan comes from the user's Subscription started.\n",
   "classification": {
     "industry": [
-      "ai",
-      "b2b-saas",
-      "media"
+      "industry-agnostic"
     ]
   },
   "author": {
-    "name": "Aman Tiwari",
-    "first_name": "Aman",
-    "last_name": "Tiwari",
+    "name": "Intempt",
+    "last_name": "Technologies",
     "company": "Intempt",
-    "job_title": "Product Manager",
     "org_name": "intempt"
   },
   "permissions": [],

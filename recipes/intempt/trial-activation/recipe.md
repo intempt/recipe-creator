@@ -3,17 +3,13 @@ frontmatter_id: trial-activation
 slash_command: /trial-activation
 description: Scores how well each trial is going and sends different onboarding to the ones racing ahead, the ones drifting, and the ones at risk.
 author:
-  name: Somya Nayak
-  first_name: Somya
-  last_name: Nayak
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Marketing Lead
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/somya.png
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
+  - saas-b2b-tech
 ---
 
 # Trial to paid activation

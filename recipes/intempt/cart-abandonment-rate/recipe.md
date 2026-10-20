@@ -3,15 +3,13 @@ frontmatter_id: cart-abandonment-rate
 slash_command: /cart-abandonment-rate
 description: Shows what share of shoppers who add to cart never order, week by week and by device, against the 70% industry line.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:
-  - ecommerce
+  - ecommerce-retail
 ---
 
 # Cart abandonment rate

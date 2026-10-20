@@ -6,18 +6,14 @@
   "markdown": "# Trials expiring this week\n\n## Description\n\nTrial users whose trial runs out within a week and who have not paid yet, your last chance to convert them.\n\n## Steps\n\n### Step 1: Build the expiring-trial list\n\nBuild a segment of users named \"Trial Expiring Soon\".\nA user is in the segment only when all of these are true:\n- their Plan attribute is \"trial\"\n- their Subscription end date attribute is within the next 7 days\n- they did not do the Subscription started event in the last 14 days\n",
   "classification": {
     "industry": [
-      "ai",
-      "b2b-saas"
+      "saas-b2b-tech"
     ]
   },
   "complexity": "quick",
   "author": {
-    "name": "Harish Kumar",
-    "first_name": "Harish",
-    "last_name": "Kumar",
+    "name": "Intempt",
+    "last_name": "Technologies",
     "company": "Intempt",
-    "job_title": "Growth Marketer",
-    "avatar": "https://cdn.intempt.com/assets/author-profile-pics/harish.jpg",
     "org_name": "intempt"
   },
   "permissions": [

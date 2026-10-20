@@ -3,17 +3,13 @@ frontmatter_id: single-threaded-deal-alert
 slash_command: /single-threaded-deal-alert
 description: Finds late stage deals where only one person on the buyer's side is engaged and gives the rep three other names to bring in.
 author:
-  name: Trishik Shrestha
-  first_name: Trishik
-  last_name: Shrestha
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/trishik.png
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
+  - saas-b2b-tech
 ---
 
 # Single threaded deal alert

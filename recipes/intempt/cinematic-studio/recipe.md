@@ -3,18 +3,14 @@ frontmatter_id: cinematic-studio
 slash_command: /cinematic-studio
 description: Returns a board of nine cinematic looks from one image, so you can pick the grade you want.
 author:
-  name: Aurobind Venu
-  first_name: Aurobind
-  last_name: Venu
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Creative Director
   org_name: intempt
 classification:
   industry:
-  - b2b-saas
-  - ecommerce
-  - media
-  - social
+  - media-entertainment
+  - social-creator
 ---
 
 # Cinematic look board

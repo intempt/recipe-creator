@@ -6,20 +6,14 @@
   "markdown": "# Renewals due in 90 days\n\n## Description\n\nPaid subscriptions that end within the next three months, so renewal conversations start early instead of the week before.\n\n## Steps\n\n### Step 1: Build the renewal list\n\nBuild a segment of users named \"Renewal Window: 90 Days\".\nA user is in the segment only when all of these are true:\n- their Subscription end date attribute is in the future and within the next 90 days\n- their Plan attribute is not \"free\"\n",
   "classification": {
     "industry": [
-      "ai",
-      "b2b-saas",
-      "finance",
-      "media"
+      "industry-agnostic"
     ]
   },
   "complexity": "quick",
   "author": {
-    "name": "Harish Kumar",
-    "first_name": "Harish",
-    "last_name": "Kumar",
+    "name": "Intempt",
+    "last_name": "Technologies",
     "company": "Intempt",
-    "job_title": "Growth Marketer",
-    "avatar": "https://cdn.intempt.com/assets/author-profile-pics/harish.jpg",
     "org_name": "intempt"
   },
   "permissions": [

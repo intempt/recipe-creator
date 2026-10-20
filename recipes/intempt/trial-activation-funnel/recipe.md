@@ -3,18 +3,13 @@ frontmatter_id: trial-activation-funnel
 slash_command: /trial-activation-funnel
 description: Shows how far trial users get through setup and core feature use before the trial ends, and which sources bring trials that activate.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - finance
-  - media
+  - saas-b2b-tech
 ---
 
 # Trial activation funnel

@@ -3,17 +3,13 @@ frontmatter_id: pricing-display-savings-format-test
 slash_command: /pricing-display-savings-format-test
 description: Compares showing a discount as a dollar amount, as a percentage, or as a struck-through compare-at price, scored on revenue.
 author:
-  name: V Ranadheer
-  first_name: V
-  last_name: Ranadheer
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Design Engineer
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - ecommerce
+  - ecommerce-retail
 ---
 
 # Savings format test

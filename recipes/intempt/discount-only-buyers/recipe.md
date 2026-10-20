@@ -3,16 +3,13 @@ frontmatter_id: discount-only-buyers
 slash_command: /discount-only-buyers
 description: Customers who have never bought anything without a discount code, so you can keep them out of full-price campaigns and protect your margin.
 author:
-  name: Harish Kumar
-  first_name: Harish
-  last_name: Kumar
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
   org_name: intempt
 classification:
   industry:
-  - ecommerce
+  - ecommerce-retail
 ---
 
 # Discount-only buyers

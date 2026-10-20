@@ -3,15 +3,13 @@ frontmatter_id: discount-impact-on-aov-and-margin
 slash_command: /discount-impact-on-aov-and-margin
 description: Tracks orders that applied a discount code and their basket totals, code by code.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:
-  - ecommerce
+  - ecommerce-retail
 ---
 
 # Discount impact on order value

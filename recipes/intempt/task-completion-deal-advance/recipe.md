@@ -3,17 +3,13 @@ frontmatter_id: task-completion-deal-advance
 slash_command: /task-completion-deal-advance
 description: Moves a deal to the next stage when the task that gates it is completed, so the pipeline report is not wrong because somebody forgot.
 author:
-  name: Trishik Shrestha
-  first_name: Trishik
-  last_name: Shrestha
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/trishik.png
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
+  - industry-agnostic
 ---
 
 # Advance the deal when a task is done

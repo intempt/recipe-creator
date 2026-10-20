@@ -6,16 +6,13 @@
   "markdown": "# Win/loss patterns from closed deals\n\n## Description\n\nReads your closed deals to show which competitors, objections and decision criteria separate the ones you win from the ones you lose.\n\n## Steps\n\n### Step 1: Compare won and lost deals\n\nThis step builds a report.\nAnalyze closed deals (won and lost) to extract patterns: competitive mentions, objection themes, decision criteria.\n\n### Step 2: Write the battlecard\n\nThis step builds a page.\nGenerate a battlecard content asset summarizing competitive positioning, common objections, and counter-messaging. Use the result of \"Compare won and lost deals\".\n\n### Step 3: Track the patterns over time\n\nCompose a dashboard surfacing win/loss patterns by competitor, objection type, and deal size. Use the result of \"Compare won and lost deals\", \"Write the battlecard\".\n",
   "classification": {
     "industry": [
-      "b2b-saas"
+      "saas-b2b-tech"
     ]
   },
   "author": {
-    "name": "Sid Chaudhary",
-    "first_name": "Sid",
-    "last_name": "Chaudhary",
+    "name": "Intempt",
+    "last_name": "Technologies",
     "company": "Intempt",
-    "job_title": "Founder & CEO",
-    "avatar": "https://cdn.intempt.com/assets/author-profile-pics/sid.png",
     "org_name": "intempt"
   },
   "permissions": [],

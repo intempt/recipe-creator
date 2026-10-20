@@ -6,19 +6,14 @@
   "markdown": "# Branded beauty close-up\n\n## Description\n\nPuts your brand wordmark and cap styling onto the product in a beauty close-up, leaving the model, hands and framing untouched.\n\n## Steps\n\n### Step 1: Brand the product in frame\n\nEdit the beauty close-up image attached to this run.\nApply your brand wordmark and cap styling to the product in the shot.\nKeep the model, skin, hand position, bottle shape and composition exactly as they are.\n",
   "classification": {
     "industry": [
-      "b2b-saas",
-      "ecommerce",
-      "media",
-      "social"
+      "ecommerce-retail"
     ]
   },
   "complexity": "quick",
   "author": {
-    "name": "Aurobind Venu",
-    "first_name": "Aurobind",
-    "last_name": "Venu",
+    "name": "Intempt",
+    "last_name": "Technologies",
     "company": "Intempt",
-    "job_title": "Creative Director",
     "org_name": "intempt"
   },
   "permissions": [

@@ -3,18 +3,13 @@ frontmatter_id: email-click-retargeting
 slash_command: /email-click-retargeting
 description: Treats a click on pricing, a feature page or a case study as interest and sends more on that exact topic, at most once a week.
 author:
-  name: Somya Nayak
-  first_name: Somya
-  last_name: Nayak
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Marketing Lead
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/somya.png
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - ecommerce
+  - saas-b2b-tech
 ---
 
 # Email click follow up

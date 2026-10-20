@@ -1,0 +1,55 @@
+name: recipe-metadata-migration
+
+on:
+  push:
+    branches:
+      - 'migrate/recipe-metadata'
+
+concurrency:
+  group: recipe-metadata-migration
+  cancel-in-progress: false
+
+jobs:
+  materialize:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: intempt-ubuntu-github-runner
+    permissions:
+      contents: write
+      pull-requests: write
+    env:
+      SOURCE_REF: feature/recipe-authors-categories
+      BOT_NAME: 'github-actions[bot]'
+      BOT_EMAIL: '41898282+github-actions[bot]@users.noreply.github.com'
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install the YAML parser the scripts need
+        run: pip install --quiet pyyaml
+      - name: Materialize the reviewed recipes/ content as the write-back bot
+        run: |
+          set -euo pipefail
+          git config user.name "$BOT_NAME"
+          git config user.email "$BOT_EMAIL"
+          git fetch origin "$SOURCE_REF"
+          git checkout "origin/$SOURCE_REF" -- recipes/
+          if git diff --cached --quiet -- recipes/; then
+            echo "recipes/ already matches the reviewed content; nothing to do."
+            exit 0
+          fi
+          git commit -m "recipes: Intempt Technologies authors + 11-vertical taxonomy
+
+          Metadata-only migration: every first-party recipe's author block is
+          Intempt Technologies, and classification.industry is the 11-vertical
+          taxonomy. Steps are unchanged. Content is the reviewed tree from
+          ${SOURCE_REF}, re-authored by the write-back bot so recipes/ stays
+          machine-written (recipe-label)."
+          git push origin HEAD
+      - name: Confirm recipe.md and recipe.json agree on the written tree
+        run: |
+          python3 scripts/check_recipe_consistency.py
+          python3 scripts/check_recipe_identity.py

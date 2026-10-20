@@ -3,16 +3,13 @@ frontmatter_id: one-time-buyers-at-risk
 slash_command: /one-time-buyers-at-risk
 description: Customers who bought once, have not been back in two months, and are not trending well, so you can give them a reason to return.
 author:
-  name: Harish Kumar
-  first_name: Harish
-  last_name: Kumar
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
   org_name: intempt
 classification:
   industry:
-  - ecommerce
+  - ecommerce-retail
 ---
 
 # One-time buyers going cold

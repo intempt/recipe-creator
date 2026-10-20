@@ -3,15 +3,13 @@ frontmatter_id: express-checkout-placement-test
 slash_command: /express-checkout-placement-test
 description: Tests different express checkout button configurations on the product page against a standard checkout flow.
 author:
-  name: V Ranadheer
-  first_name: V
-  last_name: Ranadheer
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Design Engineer
   org_name: intempt
 classification:
   industry:
-  - ecommerce
+  - ecommerce-retail
 ---
 
 # Express checkout placement test

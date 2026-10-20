@@ -3,15 +3,13 @@ frontmatter_id: return-rate-by-category
 slash_command: /return-rate-by-category
 description: Shows which product categories get returned most, and which ones have got worse since last quarter.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:
-  - ecommerce
+  - ecommerce-retail
 ---
 
 # Return rate by category

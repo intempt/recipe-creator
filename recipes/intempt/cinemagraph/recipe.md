@@ -3,18 +3,13 @@ frontmatter_id: cinemagraph
 slash_command: /cinemagraph
 description: Turns a still photo into a looping clip where one element moves, such as steam or a pour, and everything else stays frozen.
 author:
-  name: Aurobind Venu
-  first_name: Aurobind
-  last_name: Venu
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Creative Director
   org_name: intempt
 classification:
   industry:
-  - b2b-saas
-  - ecommerce
-  - media
-  - social
+  - ecommerce-retail
 ---
 
 # Cinemagraph loop

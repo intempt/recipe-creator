@@ -3,17 +3,13 @@ frontmatter_id: enterprise-domain-signup-to-ae-task
 slash_command: /enterprise-domain-signup-to-ae-task
 description: Spots when a self serve signup comes from a large company, enriches it, and puts it in front of an AE instead of leaving it in the free funnel.
 author:
-  name: Trishik Shrestha
-  first_name: Trishik
-  last_name: Shrestha
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/trishik.png
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
+  - saas-b2b-tech
 ---
 
 # Enterprise signup to AE task

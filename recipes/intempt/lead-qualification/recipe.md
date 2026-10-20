@@ -3,17 +3,13 @@ frontmatter_id: lead-qualification
 slash_command: /lead-qualification
 description: Scores inbound leads, sends the sales ready ones round robin to a rep with the context attached, and puts the rest into nurture.
 author:
-  name: Somya Nayak
-  first_name: Somya
-  last_name: Nayak
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Marketing Lead
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/somya.png
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
+  - industry-agnostic
 ---
 
 # Lead qualification and handoff

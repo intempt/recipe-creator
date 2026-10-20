@@ -3,18 +3,13 @@ frontmatter_id: pql-signal-to-sdr-task
 slash_command: /pql-signal-to-sdr-task
 description: When a free user's behaviour says they are ready for a conversation, it creates an SDR task carrying everything needed for the first touch.
 author:
-  name: Trishik Shrestha
-  first_name: Trishik
-  last_name: Shrestha
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/trishik.png
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - ecommerce
+  - saas-b2b-tech
 ---
 
 # Product qualified lead to SDR task

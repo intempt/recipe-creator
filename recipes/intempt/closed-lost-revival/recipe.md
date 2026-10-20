@@ -3,17 +3,13 @@ frontmatter_id: closed-lost-revival
 slash_command: /closed-lost-revival
 description: Goes back to deals lost 90 days ago, checks what has changed at the account, and reopens the conversation where the reason for losing may have expired.
 author:
-  name: Trishik Shrestha
-  first_name: Trishik
-  last_name: Shrestha
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/trishik.png
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
+  - industry-agnostic
 ---
 
 # Closed lost revival

@@ -3,19 +3,13 @@ frontmatter_id: new-paying-customers
 slash_command: /new-paying-customers
 description: Customers who started paying in the last month, the window where onboarding decides whether they stay.
 author:
-  name: Harish Kumar
-  first_name: Harish
-  last_name: Kumar
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - finance
-  - media
+  - industry-agnostic
 ---
 
 # New paying customers

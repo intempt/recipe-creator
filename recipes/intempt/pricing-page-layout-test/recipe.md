@@ -3,17 +3,13 @@ frontmatter_id: pricing-page-layout-test
 slash_command: /pricing-page-layout-test
 description: Compares your current pricing layout against side-by-side cards with a recommended plan and an interactive usage slider.
 author:
-  name: V Ranadheer
-  first_name: V
-  last_name: Ranadheer
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Design Engineer
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - ecommerce
+  - industry-agnostic
 ---
 
 # Pricing page layout test

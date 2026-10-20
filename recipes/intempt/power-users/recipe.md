@@ -3,20 +3,13 @@ frontmatter_id: power-users
 slash_command: /power-users
 description: Segment your most active users based on frequent sessions and high activity thresholds over the last 30 days.
 author:
-  name: Harish Kumar
-  first_name: Harish
-  last_name: Kumar
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - ecommerce
-  - finance
-  - media
+  - industry-agnostic
 ---
 
 # Power users

@@ -6,19 +6,14 @@
   "markdown": "# Image upscale\n\n## Description\n\nEnlarges a soft or low-resolution image to four times the size with sharper detail and nothing re-rendered.\n\n## Steps\n\n### Step 1: Upscale to 4x\n\nUpscale the image attached to this run to 4 times its width and height.\nEnhance detail only: keep the composition, colours and subject the same, and do not re-render the subject.\n",
   "classification": {
     "industry": [
-      "b2b-saas",
-      "ecommerce",
-      "media",
-      "social"
+      "industry-agnostic"
     ]
   },
   "complexity": "quick",
   "author": {
-    "name": "Aurobind Venu",
-    "first_name": "Aurobind",
-    "last_name": "Venu",
+    "name": "Intempt",
+    "last_name": "Technologies",
     "company": "Intempt",
-    "job_title": "Creative Director",
     "org_name": "intempt"
   },
   "permissions": [

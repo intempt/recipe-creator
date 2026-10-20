@@ -3,18 +3,14 @@ frontmatter_id: plg-sales-handoff-dashboard
 slash_command: /plg-sales-handoff-dashboard
 description: Shows paywall conversion and the free-to-paid funnel so teams can see where free users convert to paid.
 author:
-  name: Sid Chaudhary
-  first_name: Sid
-  last_name: Chaudhary
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Founder & CEO
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/sid.png
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - media
+  - saas-b2b-tech
+  - media-entertainment
 ---
 
 # Free users worth calling

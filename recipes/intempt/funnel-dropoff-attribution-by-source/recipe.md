@@ -3,19 +3,13 @@ frontmatter_id: funnel-dropoff-attribution-by-source
 slash_command: /funnel-dropoff-attribution-by-source
 description: Runs the same acquisition to retention funnel separately for each traffic source, so you can see which channels bring people who actually stick.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - ecommerce
-  - finance
-  - media
+  - industry-agnostic
 ---
 
 # Funnel drop off by source

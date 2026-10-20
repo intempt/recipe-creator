@@ -3,18 +3,13 @@ frontmatter_id: feature-discovery-for-paid-users
 slash_command: /feature-discovery-for-paid-users
 description: Shows paying customers the features they have never opened, one at a time, picked for the way they actually use the product.
 author:
-  name: Somya Nayak
-  first_name: Somya
-  last_name: Nayak
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Marketing Lead
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/somya.png
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - media
+  - saas-b2b-tech
 ---
 
 # Feature discovery for paid users

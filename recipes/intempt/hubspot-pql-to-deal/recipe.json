@@ -6,18 +6,13 @@
   "markdown": "# Product qualified signal to a HubSpot deal\n\n## Description\n\nUpdate a HubSpot property, add a contact to a list, or create a HubSpot task when product usage signals readiness, so HubSpot reflects product evidence.\n\n## Steps\n\n### Step 1: Define what ready to buy means\n\nCreate the segment describing the product-qualified account: the usage that means someone is ready to buy, agreed once and reused.\n\n### Step 2: Open the deal, leave the rest\n\nCreate a workflow that creates a HubSpot deal for each qualifying account, matched on a key so a second signal updates the deal instead of opening a duplicate. Set only the fields Intempt owns (source, the signal that triggered it, the score) and leave stage and amount to the rep. Use the result of \"Define what ready to buy means\".\n",
   "classification": {
     "industry": [
-      "ai",
-      "b2b-saas",
-      "ecommerce"
+      "industry-agnostic"
     ]
   },
   "author": {
-    "name": "Trishik Shrestha",
-    "first_name": "Trishik",
-    "last_name": "Shrestha",
+    "name": "Intempt",
+    "last_name": "Technologies",
     "company": "Intempt",
-    "job_title": "Growth Marketer",
-    "avatar": "https://cdn.intempt.com/assets/author-profile-pics/trishik.png",
     "org_name": "intempt"
   },
   "permissions": [],

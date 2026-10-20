@@ -3,18 +3,13 @@ frontmatter_id: trial-users-high-engagement
 slash_command: /trial-users-high-engagement
 description: Trial users with high numeric engagement scores and two weeks remaining in their trial period.
 author:
-  name: Harish Kumar
-  first_name: Harish
-  last_name: Kumar
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - media
+  - saas-b2b-tech
 ---
 
 # Trials most likely to convert

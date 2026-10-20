@@ -6,18 +6,13 @@
   "markdown": "# Talking head from a portrait\n\n## Description\n\nTurns a portrait still into a 5 second talking-head loop with subtle lip movement and eye contact.\n\n## Steps\n\n### Step 1: Animate the portrait\n\nGenerate a talking avatar video from a portrait still.\nCamera fixed. 5s natural talking-head loop: subtle lip movement, gentle eye contact, single blink. Identity preserved exactly.\nPipeline: image to video (camera-fixed, talking-head)\n",
   "classification": {
     "industry": [
-      "b2b-saas",
-      "ecommerce",
-      "media",
-      "social"
+      "industry-agnostic"
     ]
   },
   "author": {
-    "name": "Aurobind Venu",
-    "first_name": "Aurobind",
-    "last_name": "Venu",
+    "name": "Intempt",
+    "last_name": "Technologies",
     "company": "Intempt",
-    "job_title": "Creative Director",
     "org_name": "intempt"
   },
   "permissions": [],

@@ -3,18 +3,13 @@ frontmatter_id: acquisition-channel-cohort
 slash_command: /acquisition-channel-cohort
 description: Customers grouped by the channel that brought them in, so you can compare how well each channel's buyers stick around.
 author:
-  name: Harish Kumar
-  first_name: Harish
-  last_name: Kumar
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - ecommerce
+  - industry-agnostic
 ---
 
 # Customers by acquisition channel

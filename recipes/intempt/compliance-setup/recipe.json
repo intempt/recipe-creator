@@ -6,20 +6,14 @@
   "markdown": "# Marketing consent suppression list\n\n## Description\n\nA list of people who never gave marketing consent or have since opted out, so you can exclude them from every marketing send.\n\n## Steps\n\n### Step 1: Build the suppression list\n\nBuild a segment of users named \"Marketing Consent Suppression List\".\nA user is in the segment when any of these is true:\n- they have never done the Subscribed consent event\n- they did the Unsubscribed consent event after their most recent Subscribed consent event\n",
   "classification": {
     "industry": [
-      "ai",
-      "b2b-saas",
-      "ecommerce",
-      "finance"
+      "industry-agnostic"
     ]
   },
   "complexity": "quick",
   "author": {
-    "name": "Harish Kumar",
-    "first_name": "Harish",
-    "last_name": "Kumar",
+    "name": "Intempt",
+    "last_name": "Technologies",
     "company": "Intempt",
-    "job_title": "Growth Marketer",
-    "avatar": "https://cdn.intempt.com/assets/author-profile-pics/harish.jpg",
     "org_name": "intempt"
   },
   "permissions": [

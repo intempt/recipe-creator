@@ -3,16 +3,13 @@ frontmatter_id: onboarding-flow-guided-vs-self-serve
 slash_command: /onboarding-flow-guided-vs-self-serve
 description: Compares a self-serve checklist, a guided wizard and a video-first walkthrough, scored on activation within 7 days.
 author:
-  name: V Ranadheer
-  first_name: V
-  last_name: Ranadheer
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Design Engineer
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
+  - industry-agnostic
 ---
 
 # Guided vs self-serve onboarding

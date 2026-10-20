@@ -3,16 +3,13 @@ frontmatter_id: win-loss-analysis
 slash_command: /win-loss-analysis
 description: Reads your closed deals to show which competitors, objections and decision criteria separate the ones you win from the ones you lose.
 author:
-  name: Sid Chaudhary
-  first_name: Sid
-  last_name: Chaudhary
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Founder & CEO
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/sid.png
   org_name: intempt
 classification:
   industry:
-  - b2b-saas
+  - saas-b2b-tech
 ---
 
 # Win/loss patterns from closed deals

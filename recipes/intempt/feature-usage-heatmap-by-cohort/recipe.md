@@ -3,16 +3,13 @@ frontmatter_id: feature-usage-heatmap-by-cohort
 slash_command: /feature-usage-heatmap-by-cohort
 description: Compare feature usage across signup cohorts to see how adoption differs between groups.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
+  - industry-agnostic
 ---
 
 # Feature usage by signup cohort

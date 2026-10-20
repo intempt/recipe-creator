@@ -3,16 +3,13 @@ frontmatter_id: signup-activation-funnel
 slash_command: /signup-activation-funnel
 description: Shows how many new signups come back, use the core feature and activate within two weeks, and which signup source produces the best ones.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
+  - industry-agnostic
 ---
 
 # Signup to activation

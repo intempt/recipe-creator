@@ -6,19 +6,14 @@
   "markdown": "# Product relight\n\n## Description\n\nRe-lights a product photo you already have, using a setting, lighting direction and camera angle that you choose.\n\n## Steps\n\n### Step 1: Relight the product\n\nEdit the product photo attached to this run.\nRelight it with physically accurate light falloff, using the setting, lighting direction and camera angle chosen for this run.\nDo not change the product itself.\n",
   "classification": {
     "industry": [
-      "b2b-saas",
-      "ecommerce",
-      "media",
-      "social"
+      "ecommerce-retail"
     ]
   },
   "complexity": "quick",
   "author": {
-    "name": "Aurobind Venu",
-    "first_name": "Aurobind",
-    "last_name": "Venu",
+    "name": "Intempt",
+    "last_name": "Technologies",
     "company": "Intempt",
-    "job_title": "Creative Director",
     "org_name": "intempt"
   },
   "permissions": [

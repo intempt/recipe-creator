@@ -6,17 +6,13 @@
   "markdown": "# Usage onto the Salesforce opportunity\n\n## Description\n\nKeeps the usage fields on an open opportunity current, so the forecast reflects what the account is doing rather than what was said on a call.\n\n## Steps\n\n### Step 1: Describe usage for the forecast\n\nCreate account attributes describing engagement in the terms the forecast cares about: active seats, weekly active proportion, depth of feature adoption, trend over the last month. These are what a rep would otherwise assert from memory.\n\n### Step 2: Update the open opportunity\n\nCreate a workflow that finds the open opportunity for the account and updates the usage fields on it. Only fields Intempt owns are written: never stage, never amount, never close date, which belong to the rep. A CDP that silently moves a stage is a forecasting incident that presents as an integration. Use the result of \"Describe usage for the forecast\".\n",
   "classification": {
     "industry": [
-      "b2b-saas",
-      "ecommerce"
+      "saas-b2b-tech"
     ]
   },
   "author": {
-    "name": "Trishik Shrestha",
-    "first_name": "Trishik",
-    "last_name": "Shrestha",
+    "name": "Intempt",
+    "last_name": "Technologies",
     "company": "Intempt",
-    "job_title": "Growth Marketer",
-    "avatar": "https://cdn.intempt.com/assets/author-profile-pics/trishik.png",
     "org_name": "intempt"
   },
   "permissions": [],

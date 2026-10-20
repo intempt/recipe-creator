@@ -6,16 +6,13 @@
   "markdown": "# Trial CTA copy test\n\n## Description\n\nCompares three wordings of the trial signup button to see which one gets more people to sign up.\n\n## Steps\n\n### Step 1: Set up the CTA copy test\n\nCreate a CLIENT EXPERIMENT on /experiences titled \"Free Trial CTA Copy Test\".\nThis recipe has TWO creation paths: both must be completed:\n═══ PATH 1: Top-level configuration (Setup tab) ═══\nExperience type: client_experiment (random traffic split, no per-variant targeting)\nVariants:\n- Control (33% traffic): existing CTA copy\n- Variant B (33% traffic): \"Try It Free for 14 Days\"\n- Variant C (34% traffic): \"Get Started: No Credit Card\"\nTargeting (experience-wide):\n- Pages: page URL contains \"/\" (the homepage/landing page): adjust to specific landing page paths as needed\n- Devices: any (desktop + mobile + tablet)\n- Audience: all visitors\n- Display frequency: always\nPrimary metric: goal_completed_in_experience where experience_id = <this experience> (the goal fires when the user completes signup after exposure)\nSecondary metrics:\n- Click on where target_id = \"hero-cta\" (CTA click-through rate)\n- User created within 7 days of exposed_to_experience (signup conversion)\nGuardrail: bounce rate (sessions with only one View page) must not increase by >5% vs. control\nSchedule: 14 days minimum, 95% statistical significance required to ship\n═══ PATH 2: Variant HTML content (Visual Editor) ═══\nFor CLIENT experiments, each variant ships an HTML object that the Visual Editor renders. Open each variant in the Visual Editor (/experience/:id/variants/:variantId/editor) and apply the DOM patches below.\nVariant: Control\n HTML (no change: measures the existing CTA):\n <button class=\"hero-cta\" id=\"hero-cta\" data-variant=\"control\">\n [keeps existing CTA copy]\n </button>\nVariant: B\n HTML target selector: #hero-cta\n Replacement HTML:\n <button class=\"hero-cta\" id=\"hero-cta\" data-variant=\"b\">\n Try It Free for 14 Days\n </button>\nVariant: C\n HTML target selector: #hero-cta\n Replacement HTML:\n <button class=\"hero-cta\" id=\"hero-cta\" data-variant=\"c\">\n Get Started: No Credit Card\n </button>\nThe Visual Editor lets the user refine the HTML (typography, color, animation) without leaving the canvas. The exposed_to_experience event fires the moment the variant DOM is applied to the page; goal_completed_in_experience fires when the downstream conversion event matches the configured goal.\nTaxonomy notes:\n- exposed_to_experience and goal_completed_in_experience are canonical platform events; they are emitted automatically by the SDK once the experience is live. The recipe does not need to instrument these manually.\n- Click on.target_id matches the button's id attribute. Ensure the id is preserved across all variants for consistent measurement.\n- User created is the canonical signup event.\n",
   "classification": {
     "industry": [
-      "ai",
-      "b2b-saas"
+      "industry-agnostic"
     ]
   },
   "author": {
-    "name": "V Ranadheer",
-    "first_name": "V",
-    "last_name": "Ranadheer",
+    "name": "Intempt",
+    "last_name": "Technologies",
     "company": "Intempt",
-    "job_title": "Design Engineer",
     "org_name": "intempt"
   },
   "permissions": [],

@@ -3,18 +3,13 @@ frontmatter_id: feature-paywall-conversion
 slash_command: /feature-paywall-conversion
 description: Reports per-feature engagement among free users and their pricing page views, to inform feature-gating strategy. It does not sequence feature use to payment or show quadrants.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - finance
-  - media
+  - saas-b2b-tech
 ---
 
 # Feature to paywall conversion

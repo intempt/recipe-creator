@@ -3,19 +3,13 @@ frontmatter_id: recently-churned-users
 slash_command: /recently-churned-users
 description: Customers who cancelled in the last month, while the reason is fresh and a win-back still has a chance.
 author:
-  name: Harish Kumar
-  first_name: Harish
-  last_name: Kumar
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - finance
-  - media
+  - industry-agnostic
 ---
 
 # Recently cancelled customers

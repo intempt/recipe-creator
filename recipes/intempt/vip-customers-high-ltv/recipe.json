@@ -6,18 +6,14 @@
   "markdown": "# VIP customers\n\n## Description\n\nCustomers who have spent 1,000 or more across repeat orders, the base list for rewards, early access, and concierge support.\n\n## Steps\n\n### Step 1: Build the VIP list\n\nBuild a segment of users named \"VIP Customers\".\nA user is in the segment only when all of these are true:\n- their Lifetime value attribute is 1000 or more\n- they did the Placed order event 2 or more times, at any time\n",
   "classification": {
     "industry": [
-      "ecommerce",
-      "finance"
+      "ecommerce-retail"
     ]
   },
   "complexity": "quick",
   "author": {
-    "name": "Harish Kumar",
-    "first_name": "Harish",
-    "last_name": "Kumar",
+    "name": "Intempt",
+    "last_name": "Technologies",
     "company": "Intempt",
-    "job_title": "Growth Marketer",
-    "avatar": "https://cdn.intempt.com/assets/author-profile-pics/harish.jpg",
     "org_name": "intempt"
   },
   "permissions": [

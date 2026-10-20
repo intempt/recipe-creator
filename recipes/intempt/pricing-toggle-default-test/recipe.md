@@ -3,17 +3,13 @@ frontmatter_id: pricing-toggle-default-test
 slash_command: /pricing-toggle-default-test
 description: Tests whether defaulting the pricing toggle to annual rather than monthly earns more, counting annual plans at full annual value.
 author:
-  name: V Ranadheer
-  first_name: V
-  last_name: Ranadheer
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Design Engineer
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - finance
+  - saas-b2b-tech
 ---
 
 # Billing toggle default test

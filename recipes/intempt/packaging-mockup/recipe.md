@@ -3,18 +3,13 @@ frontmatter_id: packaging-mockup
 slash_command: /packaging-mockup
 description: Wraps your flat label artwork photorealistically around a 3D can, bottle or box, with the label content unchanged.
 author:
-  name: Aurobind Venu
-  first_name: Aurobind
-  last_name: Venu
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Creative Director
   org_name: intempt
 classification:
   industry:
-  - b2b-saas
-  - ecommerce
-  - media
-  - social
+  - ecommerce-retail
 ---
 
 # Label wrapped on a package

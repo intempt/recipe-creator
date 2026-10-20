@@ -3,15 +3,13 @@ frontmatter_id: lead-customer-sales
 slash_command: /lead-customer-sales
 description: Shows how many demo requests turn into booked meetings, completed demos, proposals and closed deals, and which lead sources actually convert.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:
-  - b2b-saas
+  - saas-b2b-tech
 ---
 
 # Lead to customer

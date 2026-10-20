@@ -6,18 +6,13 @@
   "markdown": "# Tag Shopify customers from a segment\n\n## Description\n\nPushes a cohort computed here onto Shopify customers as a tag, so the store can merchandise against it.\n\n## Steps\n\n### Step 1: Define the cohort to tag\n\nCreate the segment to tag: high lifetime value, repeat buyer, lapsed, whatever the store wants to treat differently. The segment is the definition; the tag is only its shadow in Shopify.\n\n### Step 2: Write the tag into Shopify\n\nCreate a workflow that tags each member in Shopify. Tags are additive and the workflow states which tag it manages, because a tag the store team also edits by hand will otherwise be fought over silently. Shopify's own rejection is surfaced verbatim: a tag limit and a permission error need different responses. Use the result of \"Define the cohort to tag\".\n",
   "classification": {
     "industry": [
-      "b2b-saas",
-      "ecommerce",
-      "media"
+      "ecommerce-retail"
     ]
   },
   "author": {
-    "name": "Trishik Shrestha",
-    "first_name": "Trishik",
-    "last_name": "Shrestha",
+    "name": "Intempt",
+    "last_name": "Technologies",
     "company": "Intempt",
-    "job_title": "Growth Marketer",
-    "avatar": "https://cdn.intempt.com/assets/author-profile-pics/trishik.png",
     "org_name": "intempt"
   },
   "permissions": [],

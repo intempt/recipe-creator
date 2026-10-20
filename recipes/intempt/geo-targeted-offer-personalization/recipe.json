@@ -6,16 +6,13 @@
   "markdown": "# Offers by visitor country\n\n## Description\n\nVisitors from the US, UK and EU, and APAC see region-specific homepage offer content instead of one global message. The recipe uses visitor geography to swap promotion copy.\n\n## Steps\n\n### Step 1: Set up the regional offers\n\nCreate a CLIENT PERSONALIZATION on /experiences titled \"Geo-Targeted Offer Personalization\".\n═══ PATH 1: Top-level configuration ═══\nExperience type: client_personalization\nVariants (each binds to geographic audience):\n- Control (audience = all: fallback): default homepage with global shipping messaging\n- Variant B (audience = US visitors): US-specific promo (free shipping over $50, USD prices)\n - Audience: Users.country = \"US\"\n- Variant C (audience = UK + EU visitors): UK/EU-specific promo (free shipping over £50/€50, local currency, GDPR-compliant footer)\n - Audience: Users.country IN (\"GB\", \"DE\", \"FR\", \"ES\", \"IT\", \"NL\")\n- Variant D (audience = APAC visitors): APAC-specific promo (regional shipping, local payment methods callout)\n - Audience: Users.country IN (\"AU\", \"JP\", \"SG\", \"HK\", \"KR\")\nTargeting:\n- Pages: homepage \"/\"\n- Devices: any\n- Display frequency: once_per_session\nMetrics:\n- Placed order per geographic audience\n- Average order value per audience\n- Click on engagement on geo-specific CTAs\nSchedule: continuous\n═══ PATH 2: Variant HTML content (Visual Editor) ═══\nVariant: Control (all: fallback, generic)\n Existing hero with global messaging.\nVariant: B (US visitors)\n HTML target selector: .promo-banner (and .price-display elements)\n Variant DOM:\n <div class=\"promo-banner\" data-variant=\"b\" data-region=\"US\">\n <p>🇺🇸 Free shipping on orders over $50: delivered in 2-5 days</p>\n <a href=\"/sale\" class=\"banner-cta\" id=\"banner-cta-us\">Shop the US Sale</a>\n </div>\n Plus: data attribute on body (data-currency=\"USD\") application reads to format prices.\nVariant: C (UK + EU visitors)\n HTML target selector: .promo-banner\n Variant DOM:\n <div class=\"promo-banner\" data-variant=\"c\" data-region=\"EU\">\n <p>🇪🇺 Free shipping on orders over €50 / £50: delivered in 3-7 days</p>\n <a href=\"/sale-eu\" class=\"banner-cta\" id=\"banner-cta-eu\">Shop the EU Sale</a>\n </div>\n Plus: data-currency=\"GBP\" or \"EUR\" depending on country, and a GDPR notice strip if not already shown.\nVariant: D (APAC visitors)\n HTML target selector: .promo-banner\n Variant DOM:\n <div class=\"promo-banner\" data-variant=\"d\" data-region=\"APAC\">\n <p>🌏 Free shipping to AU, JP, SG, HK, KR: delivered in 5-10 days</p>\n <a href=\"/sale-apac\" class=\"banner-cta\" id=\"banner-cta-apac\">Shop APAC Sale</a>\n <div class=\"local-payment-methods\">Pay with Alipay · GrabPay · KakaoPay</div>\n </div>\nThe Visual Editor lets the user refine the regional messaging, payment-method icons, and shipping promise per region.\nTaxonomy notes:\n- Users.country is canonical (geo-IP enriched at session start). Use the ISO 3166-1 alpha-2 country code.\n- Currency display is application-side; this recipe sets the data-currency attribute, and the application's price-formatting logic reads it.\n- For prices to actually change, the application must read the currency hint and re-format. The recipe assumes price formatting is centralized in a JS helper that respects data-currency.\n",
   "classification": {
     "industry": [
-      "ecommerce",
-      "media"
+      "industry-agnostic"
     ]
   },
   "author": {
-    "name": "V Ranadheer",
-    "first_name": "V",
-    "last_name": "Ranadheer",
+    "name": "Intempt",
+    "last_name": "Technologies",
     "company": "Intempt",
-    "job_title": "Design Engineer",
     "org_name": "intempt"
   },
   "permissions": [],

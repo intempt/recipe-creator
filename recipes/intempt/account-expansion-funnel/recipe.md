@@ -3,17 +3,13 @@ frontmatter_id: account-expansion-funnel
 slash_command: /account-expansion-funnel
 description: Tracks subscription amount increases as a signal of account expansion. Uses subscription state changes and amount deltas to identify potential upgrades.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:
-  - b2b-saas
-  - finance
-  - media
+  - industry-agnostic
 ---
 
 # Account expansion funnel

@@ -6,18 +6,14 @@
   "markdown": "# Accounts researching pricing now\n\n## Description\n\nUsers who viewed your pricing page 3 or more times in the past 7 days, so an AE can reach out while they are still looking.\n\n## Steps\n\n### Step 1: Build the pricing-surge list\n\nBuild a segment of accounts named \"Active Research Surge Accounts\".\nAn account is in the segment only when all of these are true:\n- the users in the account together did the View page event with a Page URL that contains \"/pricing\" 3 or more times in the last 7 days\n- its Has an open deal attribute is false\n",
   "classification": {
     "industry": [
-      "ai",
-      "b2b-saas"
+      "saas-b2b-tech"
     ]
   },
   "complexity": "quick",
   "author": {
-    "name": "Harish Kumar",
-    "first_name": "Harish",
-    "last_name": "Kumar",
+    "name": "Intempt",
+    "last_name": "Technologies",
     "company": "Intempt",
-    "job_title": "Growth Marketer",
-    "avatar": "https://cdn.intempt.com/assets/author-profile-pics/harish.jpg",
     "org_name": "intempt"
   },
   "permissions": [

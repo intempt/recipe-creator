@@ -6,18 +6,13 @@
   "markdown": "# Product launch announcement email\n\n## Description\n\nWrites a launch-day email in your brand colors and fonts, with the product hero image and a subject line written for opens and clicks.\n\n## Steps\n\n### Step 1: Write the announcement email\n\nCreate a product announcement email.\nApply the project's brand tokens (colors, fonts, logo). Include a product hero block with the featured product image. Write an announcement subject line and body copy optimized for open rate and click-through.\nOutput: ready-to-send email template\n",
   "classification": {
     "industry": [
-      "b2b-saas",
-      "ecommerce",
-      "media",
-      "social"
+      "industry-agnostic"
     ]
   },
   "author": {
-    "name": "Aurobind Venu",
-    "first_name": "Aurobind",
-    "last_name": "Venu",
+    "name": "Intempt",
+    "last_name": "Technologies",
     "company": "Intempt",
-    "job_title": "Creative Director",
     "org_name": "intempt"
   },
   "permissions": [],

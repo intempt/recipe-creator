@@ -6,19 +6,14 @@
   "markdown": "# Paid users losing interest\n\n## Description\n\nPaying customers with lower numeric engagement scores, useful for early retention outreach.\n\n## Steps\n\n### Step 1: Build the low-engagement list\n\nBuild a segment of users named \"Paid Users: Low Engagement\".\nA user is in the segment only when all of these are true:\n- their Plan attribute is neither \"free\" nor \"trial\"\n- their Days since last activity attribute is between 7 and 21\n- their Engagement score attribute is \"Low\"\n",
   "classification": {
     "industry": [
-      "ai",
-      "b2b-saas",
-      "media"
+      "industry-agnostic"
     ]
   },
   "complexity": "quick",
   "author": {
-    "name": "Harish Kumar",
-    "first_name": "Harish",
-    "last_name": "Kumar",
+    "name": "Intempt",
+    "last_name": "Technologies",
     "company": "Intempt",
-    "job_title": "Growth Marketer",
-    "avatar": "https://cdn.intempt.com/assets/author-profile-pics/harish.jpg",
     "org_name": "intempt"
   },
   "permissions": [

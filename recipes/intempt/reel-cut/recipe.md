@@ -3,18 +3,13 @@ frontmatter_id: reel-cut
 slash_command: /reel-cut
 description: Generate a new 9:16 vertical clip for a reel. This creates a vertical video rather than reframing an existing landscape clip.
 author:
-  name: Aurobind Venu
-  first_name: Aurobind
-  last_name: Venu
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Creative Director
   org_name: intempt
 classification:
   industry:
-  - b2b-saas
-  - ecommerce
-  - media
-  - social
+  - industry-agnostic
 ---
 
 # Vertical reel cut

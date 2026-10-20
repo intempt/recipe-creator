@@ -3,17 +3,13 @@ frontmatter_id: sales-activity-coaching-dashboard
 slash_command: /sales-activity-coaching-dashboard
 description: Shows sales rep activity volume for calls, emails and meetings alongside the revenue it produced, so managers can identify coaching needs and performance differences.
 author:
-  name: Sid Chaudhary
-  first_name: Sid
-  last_name: Chaudhary
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Founder & CEO
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/sid.png
   org_name: intempt
 classification:
   industry:
-  - b2b-saas
-  - finance
+  - industry-agnostic
 ---
 
 # Rep activity and coaching
