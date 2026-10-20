@@ -3,18 +3,13 @@ frontmatter_id: competitive-intel-monitoring-workflow
 slash_command: /competitive-intel-monitoring-workflow
 description: Weekly scheduled AI agent scrapes competitor websites, review sites, social, and news, then posts a summarized competitive intel briefing to Slack.
 author:
-  name: Trishik Shrestha
-  first_name: Trishik
-  last_name: Shrestha
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/trishik.png
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - social
+  - industry-agnostic
 ---
 
 # Weekly competitive intel briefing

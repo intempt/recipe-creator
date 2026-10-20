@@ -3,18 +3,13 @@ frontmatter_id: pql-multi-user-account
 slash_command: /pql-multi-user-account
 description: Identify product-qualified leads by segmenting free and trial users who log multiple sessions and complete key activation goals.
 author:
-  name: Harish Kumar
-  first_name: Harish
-  last_name: Kumar
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - ecommerce
+  - saas-b2b-tech
 ---
 
 # Free accounts with a team trying it

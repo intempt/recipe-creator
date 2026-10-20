@@ -3,19 +3,13 @@ frontmatter_id: analytics-foundation
 slash_command: /analytics-foundation
 description: 'Set up core analytics from your events: Insights, Funnels, and Retention reports, plus an executive dashboard for headline numbers.'
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - ecommerce
-  - finance
-  - media
+  - industry-agnostic
 ---
 
 # Analytics foundation

@@ -3,16 +3,13 @@ frontmatter_id: repeat-buyers
 slash_command: /repeat-buyers
 description: Customers who have ordered three or more times this quarter and spent real money, the right list for loyalty perks and review requests.
 author:
-  name: Harish Kumar
-  first_name: Harish
-  last_name: Kumar
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
   org_name: intempt
 classification:
   industry:
-  - ecommerce
+  - ecommerce-retail
 ---
 
 # Repeat buyers

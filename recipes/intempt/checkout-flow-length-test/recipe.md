@@ -3,15 +3,13 @@ frontmatter_id: checkout-flow-length-test
 slash_command: /checkout-flow-length-test
 description: Compares a one-page checkout against a three-step checkout, scored on orders completed within an hour of starting.
 author:
-  name: V Ranadheer
-  first_name: V
-  last_name: Ranadheer
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Design Engineer
   org_name: intempt
 classification:
   industry:
-  - ecommerce
+  - ecommerce-retail
 ---
 
 # Checkout flow length test

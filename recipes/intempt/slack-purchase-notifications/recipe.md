@@ -3,20 +3,13 @@ frontmatter_id: slack-purchase-notifications
 slash_command: /slack-purchase-notifications
 description: Posts revenue wins to one Slack channel and at-risk events to another through a configurable workflow. Notifications are static channel posts, with no dynamic owner mentions or DMs.
 author:
-  name: Trishik Shrestha
-  first_name: Trishik
-  last_name: Shrestha
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/trishik.png
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - ecommerce
-  - finance
-  - media
+  - industry-agnostic
 ---
 
 # Revenue notifications in Slack

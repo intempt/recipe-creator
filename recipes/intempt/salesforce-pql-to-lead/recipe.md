@@ -3,17 +3,13 @@ frontmatter_id: salesforce-pql-to-lead
 slash_command: /salesforce-pql-to-lead
 description: Creates a Salesforce lead the moment product usage says someone is ready, so a signal the product saw becomes a record a rep can work.
 author:
-  name: Trishik Shrestha
-  first_name: Trishik
-  last_name: Shrestha
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/trishik.png
   org_name: intempt
 classification:
   industry:
-  - b2b-saas
-  - ecommerce
+  - saas-b2b-tech
 ---
 
 # Product qualified signal to a Salesforce lead

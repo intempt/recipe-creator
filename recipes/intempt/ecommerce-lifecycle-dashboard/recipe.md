@@ -3,18 +3,13 @@ frontmatter_id: ecommerce-lifecycle-dashboard
 slash_command: /ecommerce-lifecycle-dashboard
 description: Shows lifecycle distribution, when shoppers reorder, and whether discount codes add revenue or eat into it.
 author:
-  name: Sid Chaudhary
-  first_name: Sid
-  last_name: Chaudhary
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Founder & CEO
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/sid.png
   org_name: intempt
 classification:
   industry:
-  - ecommerce
-  - finance
-  - media
+  - ecommerce-retail
 ---
 
 # Ecommerce lifecycle and retention

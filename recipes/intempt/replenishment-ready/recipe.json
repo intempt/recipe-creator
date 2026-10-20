@@ -6,17 +6,14 @@
   "markdown": "# Customers due to re-order\n\n## Description\n\nCustomers whose last order was one to two months ago and who are about due for another, the moment a running-low reminder lands best.\n\n## Steps\n\n### Step 1: Build the replenishment list\n\nBuild a segment of users named \"Replenishment-Ready\".\nA user is in the segment only when all of these are true:\n- they did the Placed order event at least once between 30 and 60 days ago\n- they did not do the Placed order event in the last 30 days\n",
   "classification": {
     "industry": [
-      "ecommerce"
+      "ecommerce-retail"
     ]
   },
   "complexity": "quick",
   "author": {
-    "name": "Harish Kumar",
-    "first_name": "Harish",
-    "last_name": "Kumar",
+    "name": "Intempt",
+    "last_name": "Technologies",
     "company": "Intempt",
-    "job_title": "Growth Marketer",
-    "avatar": "https://cdn.intempt.com/assets/author-profile-pics/harish.jpg",
     "org_name": "intempt"
   },
   "permissions": [

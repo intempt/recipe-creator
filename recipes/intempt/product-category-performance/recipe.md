@@ -3,16 +3,13 @@ frontmatter_id: product-category-performance
 slash_command: /product-category-performance
 description: Shows revenue by product category using native bar or pie charts.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:
-  - ecommerce
-  - finance
+  - ecommerce-retail
 ---
 
 # Category performance

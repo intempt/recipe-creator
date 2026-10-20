@@ -3,18 +3,13 @@ frontmatter_id: paid-users-low-engagement
 slash_command: /paid-users-low-engagement
 description: Paying customers with lower numeric engagement scores, useful for early retention outreach.
 author:
-  name: Harish Kumar
-  first_name: Harish
-  last_name: Kumar
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - media
+  - industry-agnostic
 ---
 
 # Paid users losing interest

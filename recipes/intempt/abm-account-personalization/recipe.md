@@ -3,17 +3,13 @@ frontmatter_id: abm-account-personalization
 slash_command: /abm-account-personalization
 description: Personalize the homepage hero with industry-specific messaging for visitor segments you define. The personalization engine serves the variant, using audience data you supply.
 author:
-  name: V Ranadheer
-  first_name: V
-  last_name: Ranadheer
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Design Engineer
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - media
+  - saas-b2b-tech
 ---
 
 # Named-account homepage hero

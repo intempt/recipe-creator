@@ -3,16 +3,13 @@ frontmatter_id: rep-activity-leaderboard
 slash_command: /rep-activity-leaderboard
 description: Shows what each rep actually did last month, calls, emails, meetings and tasks, next to the revenue they closed.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:
-  - b2b-saas
-  - finance
+  - saas-b2b-tech
 ---
 
 # Rep activity leaderboard

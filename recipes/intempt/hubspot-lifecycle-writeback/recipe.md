@@ -3,19 +3,13 @@ frontmatter_id: hubspot-lifecycle-writeback
 slash_command: /hubspot-lifecycle-writeback
 description: Pushes the lifecycle stage computed from real product and billing behaviour onto the HubSpot contact, so sales and marketing read the same thing.
 author:
-  name: Trishik Shrestha
-  first_name: Trishik
-  last_name: Shrestha
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/trishik.png
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - ecommerce
-  - finance
+  - industry-agnostic
 ---
 
 # Write lifecycle back to HubSpot

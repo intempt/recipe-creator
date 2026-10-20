@@ -3,17 +3,13 @@ frontmatter_id: single-threaded-accounts
 slash_command: /single-threaded-accounts
 description: Open deals at larger companies where only one person is engaged, so an AE can bring more stakeholders in before it stalls.
 author:
-  name: Harish Kumar
-  first_name: Harish
-  last_name: Kumar
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
+  - saas-b2b-tech
 ---
 
 # Single-threaded open deals

@@ -6,18 +6,13 @@
   "markdown": "# Cinematic ad spot\n\n## Description\n\nTurns one product still into a 5 second cinematic spot using Kling image to video, with no text or logo.\n\n## Steps\n\n### Step 1: Animate the product still\n\nGenerate a cinematic ad video from a product still.\nSeed on the product still. Produce a cinematic 5s product spot with smooth subtle camera drift, soft dust particles, same backdrop. No text, no logo overlay.\nPipeline: image to video (kling/seedance)\n",
   "classification": {
     "industry": [
-      "b2b-saas",
-      "ecommerce",
-      "media",
-      "social"
+      "ecommerce-retail"
     ]
   },
   "author": {
-    "name": "Aurobind Venu",
-    "first_name": "Aurobind",
-    "last_name": "Venu",
+    "name": "Intempt",
+    "last_name": "Technologies",
     "company": "Intempt",
-    "job_title": "Creative Director",
     "org_name": "intempt"
   },
   "permissions": [],

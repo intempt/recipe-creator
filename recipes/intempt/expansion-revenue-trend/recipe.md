@@ -3,18 +3,13 @@ frontmatter_id: expansion-revenue-trend
 slash_command: /expansion-revenue-trend
 description: Shows month over month MRR change per subscription from Subscription updated change events, comparing each subscription's amount before and after the update.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - finance
-  - media
+  - saas-b2b-tech
 ---
 
 # Expansion revenue trend

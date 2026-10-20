@@ -6,19 +6,14 @@
   "markdown": "# On-model product shot\n\n## Description\n\nPuts your identity-locked avatar in a scene wearing or holding a catalog product, for lifestyle product photography.\n\n## Steps\n\n### Step 1: Compose the on-model shot\n\nGenerate one lifestyle product photo.\nShow the identity-locked avatar chosen for this run wearing or holding the catalog product chosen for this run, in the scene chosen for this run.\nIf pose references are chosen for this run, match the avatar's pose to them.\nKeep the avatar's identity the same as in its earlier images.\n",
   "classification": {
     "industry": [
-      "b2b-saas",
-      "ecommerce",
-      "media",
-      "social"
+      "ecommerce-retail"
     ]
   },
   "complexity": "quick",
   "author": {
-    "name": "Aurobind Venu",
-    "first_name": "Aurobind",
-    "last_name": "Venu",
+    "name": "Intempt",
+    "last_name": "Technologies",
     "company": "Intempt",
-    "job_title": "Creative Director",
     "org_name": "intempt"
   },
   "permissions": [

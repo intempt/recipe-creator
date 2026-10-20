@@ -3,17 +3,13 @@ frontmatter_id: account-engagement-score-trend
 slash_command: /account-engagement-score-trend
 description: Builds a report that calculates a custom weighted engagement score for each account from user activity and click data. The weighting is arbitrary and not a native product score.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - media
+  - industry-agnostic
 ---
 
 # Account engagement score trend

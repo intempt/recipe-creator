@@ -3,17 +3,13 @@ frontmatter_id: industry-vertical-homepage-personalization
 slash_command: /industry-vertical-homepage-personalization
 description: Visitors you can identify, such as known accounts or logged in users, see a homepage hero and proof points matched to their segment. Unidentified visitors see the generic one.
 author:
-  name: V Ranadheer
-  first_name: V
-  last_name: Ranadheer
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Design Engineer
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - social
+  - industry-agnostic
 ---
 
 # Homepage by visitor industry

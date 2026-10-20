@@ -3,19 +3,13 @@ frontmatter_id: accounts-at-churn-risk
 slash_command: /accounts-at-churn-risk
 description: Paying accounts the health score has flagged as at risk, with no renewal deal in flight, so your CSMs can step in before they leave.
 author:
-  name: Harish Kumar
-  first_name: Harish
-  last_name: Kumar
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - finance
-  - media
+  - saas-b2b-tech
 ---
 
 # Accounts at churn risk

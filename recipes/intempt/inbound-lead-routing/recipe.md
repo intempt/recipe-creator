@@ -3,17 +3,13 @@ frontmatter_id: inbound-lead-routing
 slash_command: /inbound-lead-routing
 description: Enriches and scores every inbound lead, then assigns it by named account, territory or round robin so nothing rots in an unassigned queue.
 author:
-  name: Trishik Shrestha
-  first_name: Trishik
-  last_name: Shrestha
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/trishik.png
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
+  - industry-agnostic
 ---
 
 # Inbound lead routing

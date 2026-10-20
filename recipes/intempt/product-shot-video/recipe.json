@@ -6,18 +6,13 @@
   "markdown": "# Product clip from a still\n\n## Description\n\nTurn a static product image into a 5-second video clip with a 360 spin, dolly-in, or floating reveal.\n\n## Steps\n\n### Step 1: Animate the product\n\nGenerate a product shot video from a static image.\nInputs:\n- productId: catalog product\n- scene: motion style (360° rotation, dolly-in, floating reveal)\n- script (optional): additional direction\n- music: enable music bed (default: true)\nPipeline: kling i2v + mmaudio-v2\nProduce a 5-second clip (360° rotation, dolly-in, or floating reveal) with optional music bed.\n",
   "classification": {
     "industry": [
-      "b2b-saas",
-      "ecommerce",
-      "media",
-      "social"
+      "ecommerce-retail"
     ]
   },
   "author": {
-    "name": "Aurobind Venu",
-    "first_name": "Aurobind",
-    "last_name": "Venu",
+    "name": "Intempt",
+    "last_name": "Technologies",
     "company": "Intempt",
-    "job_title": "Creative Director",
     "org_name": "intempt"
   },
   "permissions": [],

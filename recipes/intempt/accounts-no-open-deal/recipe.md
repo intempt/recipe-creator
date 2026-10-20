@@ -3,17 +3,13 @@ frontmatter_id: accounts-no-open-deal
 slash_command: /accounts-no-open-deal
 description: Customer accounts with no open deal and account-level health attributes, plus per-user recent session activity, so AEs can review expansion whitespace.
 author:
-  name: Harish Kumar
-  first_name: Harish
-  last_name: Kumar
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
+  - saas-b2b-tech
 ---
 
 # Healthy accounts with no open deal

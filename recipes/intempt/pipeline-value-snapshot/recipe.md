@@ -3,15 +3,13 @@ frontmatter_id: pipeline-value-snapshot
 slash_command: /pipeline-value-snapshot
 description: Shows the value of your open pipeline today by summing your deal events, broken out by stage.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:
-  - b2b-saas
+  - saas-b2b-tech
 ---
 
 # Pipeline value snapshot

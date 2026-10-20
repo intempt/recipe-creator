@@ -3,16 +3,13 @@ frontmatter_id: free-shipping-progress-bar-test
 slash_command: /free-shipping-progress-bar-test
 description: Compares a cart bar counting down to free shipping against no bar at all, scored on revenue and average order value.
 author:
-  name: V Ranadheer
-  first_name: V
-  last_name: Ranadheer
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Design Engineer
   org_name: intempt
 classification:
   industry:
-  - ecommerce
-  - finance
+  - ecommerce-retail
 ---
 
 # Free shipping progress bar test

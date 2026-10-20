@@ -6,17 +6,13 @@
   "markdown": "# Savings format test\n\n## Description\n\nCompares showing a discount as a dollar amount, as a percentage, or as a struck-through compare-at price, scored on revenue.\n\n## Steps\n\n### Step 1: Set up the savings format test\n\nCreate a CLIENT EXPERIMENT on /experiences titled \"Pricing Display Savings Format\".\n═══ PATH 1: Top-level configuration (Setup tab) ═══\nExperience type: client_experiment\nVariants:\n- Control (25% traffic): existing savings display (whatever the current page shows)\n- Variant B (25%): dollar-amount framing: \"Save $24\" with the discount value as the headline\n- Variant C (25%): percentage framing: \"20% off\" with the percentage as the headline\n- Variant D (25%): compare-at framing: \"$120\" struck through with \"$96\" displayed prominently\nTargeting (experience-wide):\n- Pages: page URL contains \"/pricing\" OR product detail pages where discounts are shown\n- Devices: any\n- Audience: all visitors\n- Display frequency: always\nPrimary metric: goal_completed_in_experience where experience_id = <this> AND value > 0 (revenue from Subscription started OR Placed order within 7 days of exposure)\nSecondary metrics:\n- Click on where target_id starts with \"plan-select-\" or \"add-to-cart-button\" (CTA click-through per variant)\n- Checkout created within 7 days\n- AOV: average value of orders attributed to the variant\nGuardrail: bounce rate on the page must not increase >5%\nSchedule: 21 days, require 1,000 unique visitors per variant minimum\n═══ PATH 2: Variant HTML content (Visual Editor) ═══\nVariant: Control (no DOM changes)\nVariant: B (dollar-amount framing)\n HTML target selector: .pricing-savings-display (or whatever wraps the existing savings text)\n Replacement HTML:\n <div class=\"savings-display\" data-variant=\"b\" data-format=\"dollar-amount\">\n <span class=\"savings-headline\">Save $24</span>\n <span class=\"savings-context\">on annual billing</span>\n </div>\nVariant: C (percentage framing)\n HTML target selector: .pricing-savings-display\n Replacement HTML:\n <div class=\"savings-display\" data-variant=\"c\" data-format=\"percentage\">\n <span class=\"savings-headline\">20% off</span>\n <span class=\"savings-context\">with annual billing</span>\n </div>\nVariant: D (compare-at framing)\n HTML target selector: .pricing-savings-display\n Replacement HTML:\n <div class=\"savings-display\" data-variant=\"d\" data-format=\"compare-at\">\n <span class=\"original-price\"><s>$120</s></span>\n <span class=\"current-price\">$96</span>\n <span class=\"savings-context\">/year</span>\n </div>\nThe Visual Editor allows the user to refine typography, color (red vs. green for savings), and exact dollar/percentage values to match their actual pricing.\nTaxonomy notes:\n- The actual savings amounts ($24, 20%, $120 to $96) must reflect the merchant's real pricing: these are placeholders that the user adjusts in the Visual Editor.\n- For ecommerce, the goal fires on Placed order.total_price; for saas, on Subscription started.amount.\n- Compare-at pricing requires the merchant's actual original price to be available; if pricing varies dynamically, the recipe assumes a stable comparison baseline.\n",
   "classification": {
     "industry": [
-      "ai",
-      "b2b-saas",
-      "ecommerce"
+      "ecommerce-retail"
     ]
   },
   "author": {
-    "name": "V Ranadheer",
-    "first_name": "V",
-    "last_name": "Ranadheer",
+    "name": "Intempt",
+    "last_name": "Technologies",
     "company": "Intempt",
-    "job_title": "Design Engineer",
     "org_name": "intempt"
   },
   "permissions": [],

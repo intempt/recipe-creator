@@ -3,15 +3,13 @@ frontmatter_id: search-conversion
 slash_command: /search-conversion
 description: Shows how many on site searches lead to a click, a cart and an order, and compares that with shoppers who just browse.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:
-  - ecommerce
+  - ecommerce-retail
 ---
 
 # Search to purchase

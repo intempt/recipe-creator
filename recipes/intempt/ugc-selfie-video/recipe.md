@@ -3,18 +3,14 @@ frontmatter_id: ugc-selfie-video
 slash_command: /ugc-selfie-video
 description: Turns a handheld selfie still into a 5 second candid clip with a subtle head turn and a natural smile.
 author:
-  name: Aurobind Venu
-  first_name: Aurobind
-  last_name: Venu
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Creative Director
   org_name: intempt
 classification:
   industry:
-  - b2b-saas
-  - ecommerce
-  - media
-  - social
+  - ecommerce-retail
+  - social-creator
 ---
 
 # UGC selfie clip

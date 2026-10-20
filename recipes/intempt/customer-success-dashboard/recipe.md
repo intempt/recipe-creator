@@ -3,19 +3,13 @@ frontmatter_id: customer-success-dashboard
 slash_command: /customer-success-dashboard
 description: Shows account health and customer base health using return-rate retention and NPS.
 author:
-  name: Sid Chaudhary
-  first_name: Sid
-  last_name: Chaudhary
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Founder & CEO
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/sid.png
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - media
-  - social
+  - industry-agnostic
 ---
 
 # Account health and churn risk

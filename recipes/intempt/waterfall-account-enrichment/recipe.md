@@ -3,17 +3,13 @@ frontmatter_id: waterfall-account-enrichment
 slash_command: /waterfall-account-enrichment
 description: Enriches an account with a single provider. Returns a no-data status when the provider has no match.
 author:
-  name: Trishik Shrestha
-  first_name: Trishik
-  last_name: Shrestha
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/trishik.png
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
+  - industry-agnostic
 ---
 
 # Waterfall account enrichment

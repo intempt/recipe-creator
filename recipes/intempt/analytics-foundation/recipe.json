@@ -6,19 +6,13 @@
   "markdown": "# Analytics foundation\n\n## Description\n\nSet up core analytics from your events: Insights, Funnels, and Retention reports, plus an executive dashboard for headline numbers.\n\n## Steps\n\n### Step 1: Build the core report set\n\nBuild the core report set: Insights (key metrics), Funnels (conversion paths), Retention (cohort analysis), Paths (user flows).\n\n### Step 2: Compose the exec dashboard\n\nCompose an executive dashboard surfacing headline metrics with comparisons and trends. Use the result of \"Build the core report set\".\n",
   "classification": {
     "industry": [
-      "ai",
-      "b2b-saas",
-      "ecommerce",
-      "finance",
-      "media"
+      "industry-agnostic"
     ]
   },
   "author": {
-    "name": "Aman Tiwari",
-    "first_name": "Aman",
-    "last_name": "Tiwari",
+    "name": "Intempt",
+    "last_name": "Technologies",
     "company": "Intempt",
-    "job_title": "Product Manager",
     "org_name": "intempt"
   },
   "permissions": [],

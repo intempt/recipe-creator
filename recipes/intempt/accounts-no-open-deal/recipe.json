@@ -6,18 +6,14 @@
   "markdown": "# Healthy accounts with no open deal\n\n## Description\n\nCustomer accounts with no open deal and account-level health attributes, plus per-user recent session activity, so AEs can review expansion whitespace.\n\n## Steps\n\n### Step 1: Build the whitespace list\n\nBuild a segment of accounts named \"Accounts With No Open Deal\".\nAn account is in the segment only when all of these are true:\n- its Has an open deal attribute is false\n- its Account health attribute is \"healthy\"\n- its User count attribute is 3 or more\n- the users in the account together did the Session start event 5 or more times in the last 30 days\n",
   "classification": {
     "industry": [
-      "ai",
-      "b2b-saas"
+      "saas-b2b-tech"
     ]
   },
   "complexity": "quick",
   "author": {
-    "name": "Harish Kumar",
-    "first_name": "Harish",
-    "last_name": "Kumar",
+    "name": "Intempt",
+    "last_name": "Technologies",
     "company": "Intempt",
-    "job_title": "Growth Marketer",
-    "avatar": "https://cdn.intempt.com/assets/author-profile-pics/harish.jpg",
     "org_name": "intempt"
   },
   "permissions": [

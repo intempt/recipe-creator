@@ -3,21 +3,13 @@ frontmatter_id: founder-weekly-review-dashboard
 slash_command: /founder-weekly-review-dashboard
 description: 'The one page to read before the Monday team meeting: new customers, churn, revenue, retention and engagement, each against last week and last year.'
 author:
-  name: Sid Chaudhary
-  first_name: Sid
-  last_name: Chaudhary
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Founder & CEO
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/sid.png
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - ecommerce
-  - finance
-  - media
-  - social
+  - industry-agnostic
 ---
 
 # Monday morning scorecard

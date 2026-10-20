@@ -3,17 +3,13 @@ frontmatter_id: newly-activated-users
 slash_command: /newly-activated-users
 description: Paying users who hit their activation milestone in the last week, while they are warm enough to say yes to more.
 author:
-  name: Harish Kumar
-  first_name: Harish
-  last_name: Kumar
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
+  - saas-b2b-tech
 ---
 
 # Newly activated users

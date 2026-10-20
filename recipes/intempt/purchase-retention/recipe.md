@@ -3,16 +3,13 @@ frontmatter_id: purchase-retention
 slash_command: /purchase-retention
 description: Shows what share of first time buyers come back to buy again, by month and by the category they bought first.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:
-  - ecommerce
-  - media
+  - ecommerce-retail
 ---
 
 # Repeat purchase retention

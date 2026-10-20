@@ -3,15 +3,13 @@ frontmatter_id: average-order-value-trend
 slash_command: /average-order-value-trend
 description: Tracks average order value weekly and splits the movement into how many items people buy versus what they pay per item, for new and returning customers.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:
-  - ecommerce
+  - ecommerce-retail
 ---
 
 # Average order value trend

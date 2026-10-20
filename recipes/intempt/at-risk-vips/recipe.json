@@ -6,17 +6,14 @@
   "markdown": "# At-risk VIP customers\n\n## Description\n\nYour biggest spenders who have gone quiet for about six weeks, so you can reach out personally before they drift away for good.\n\n## Steps\n\n### Step 1: Build the at-risk VIP list\n\nBuild a segment of users named \"At-Risk VIPs\".\nA user is in the segment only when all of these are true:\n- their Lifetime value attribute is 1000 or more\n- their Days since last activity attribute is between 45 and 90\n- they did the Placed order event 2 or more times, at any time\n- they did not do the Placed order event in the last 45 days\n",
   "classification": {
     "industry": [
-      "ecommerce"
+      "industry-agnostic"
     ]
   },
   "complexity": "quick",
   "author": {
-    "name": "Harish Kumar",
-    "first_name": "Harish",
-    "last_name": "Kumar",
+    "name": "Intempt",
+    "last_name": "Technologies",
     "company": "Intempt",
-    "job_title": "Growth Marketer",
-    "avatar": "https://cdn.intempt.com/assets/author-profile-pics/harish.jpg",
     "org_name": "intempt"
   },
   "permissions": [

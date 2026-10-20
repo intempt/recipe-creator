@@ -6,18 +6,14 @@
   "markdown": "# Users stuck in onboarding\n\n## Description\n\nPeople who signed up a few weeks ago and still drop in now and then, but have never finished setup, so you can help them over the line.\n\n## Steps\n\n### Step 1: Build the stalled-onboarding list\n\nBuild a segment of users named \"Onboarding-Stalled Users\".\nA user is in the segment only when all of these are true:\n- their First seen attribute is between 7 and 30 days ago\n- they have not done the Completed a journey goal event since their First seen date\n- their Days since last activity attribute is 14 or less\n",
   "classification": {
     "industry": [
-      "ai",
-      "b2b-saas"
+      "industry-agnostic"
     ]
   },
   "complexity": "quick",
   "author": {
-    "name": "Harish Kumar",
-    "first_name": "Harish",
-    "last_name": "Kumar",
+    "name": "Intempt",
+    "last_name": "Technologies",
     "company": "Intempt",
-    "job_title": "Growth Marketer",
-    "avatar": "https://cdn.intempt.com/assets/author-profile-pics/harish.jpg",
     "org_name": "intempt"
   },
   "permissions": [

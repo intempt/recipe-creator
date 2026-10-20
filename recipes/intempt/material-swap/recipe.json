@@ -6,19 +6,15 @@
   "markdown": "# Material and finish swap\n\n## Description\n\nChanges the material, finish or colour of a product while the shape, pose, camera angle and shadow stay exactly as shot.\n\n## Steps\n\n### Step 1: Swap the material\n\nEdit the product image attached to this run.\nChange only the product's surface material to the new material chosen for this run.\nKeep the frame, the pose, the camera angle and the shadow identical.\n",
   "classification": {
     "industry": [
-      "b2b-saas",
-      "ecommerce",
-      "media",
-      "social"
+      "ecommerce-retail",
+      "marketplaces"
     ]
   },
   "complexity": "quick",
   "author": {
-    "name": "Aurobind Venu",
-    "first_name": "Aurobind",
-    "last_name": "Venu",
+    "name": "Intempt",
+    "last_name": "Technologies",
     "company": "Intempt",
-    "job_title": "Creative Director",
     "org_name": "intempt"
   },
   "permissions": [

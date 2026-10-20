@@ -6,20 +6,13 @@
   "markdown": "# Welcome series\n\n## Description\n\nIntroduces your brand to new subscribers over their first week in four emails, and tests the subject lines and the opening offer.\n\n## Steps\n\n### Step 1: Find new subscribers\n\nThis step builds a segment.\nIdentify users who subscribed within the last 30 days and have not received a welcome email yet.\n\n### Step 2: Write the four emails\n\nGenerate a 4-email welcome sequence introducing the brand, product, and value props using brand voice. Use the result of \"Find new subscribers\".\n\n### Step 3: Send across the first week\n\nBuild a 4-touch welcome journey sending the emails at 0hr, 1day, 3day, and 7day after subscription. Use the result of \"Find new subscribers\", \"Write the four emails\".\n\n### Step 4: Test subject lines and offer\n\nAdd A/B variants on subject lines and welcome offer presence. Use the result of \"Find new subscribers\", \"Write the four emails\", \"Send across the first week\".\n\n### Step 5: Track the first purchase\n\nCompose a dashboard tracking open rates, click rates, conversion rate, and time-to-first-purchase from the welcome journey. Use the result of \"Find new subscribers\", \"Write the four emails\", \"Send across the first week\", \"Test subject lines and offer\".\n",
   "classification": {
     "industry": [
-      "ai",
-      "b2b-saas",
-      "ecommerce",
-      "finance",
-      "media"
+      "industry-agnostic"
     ]
   },
   "author": {
-    "name": "Somya Nayak",
-    "first_name": "Somya",
-    "last_name": "Nayak",
+    "name": "Intempt",
+    "last_name": "Technologies",
     "company": "Intempt",
-    "job_title": "Marketing Lead",
-    "avatar": "https://cdn.intempt.com/assets/author-profile-pics/somya.png",
     "org_name": "intempt"
   },
   "permissions": [],

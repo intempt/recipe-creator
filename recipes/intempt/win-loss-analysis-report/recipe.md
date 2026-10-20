@@ -3,15 +3,13 @@ frontmatter_id: win-loss-analysis-report
 slash_command: /win-loss-analysis-report
 description: Breaks closed deals into won and lost by lead source, deal size and the stage they died at, so the pattern is visible.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:
-  - b2b-saas
+  - industry-agnostic
 ---
 
 # Win loss analysis

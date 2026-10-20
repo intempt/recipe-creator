@@ -6,16 +6,13 @@
   "markdown": "# Time to first value\n\n## Description\n\nMeasure the median time for new users to reach their first activation goal. Use funnel percentiles to assess how quickly users activate.\n\n## Steps\n\n### Step 1: Chart time from signup to first goal\n\nCreate an Insights report called \"Time to Aha Moment\".\nSeries A: Distribution histogram of time elapsed between each user's User created and their first Completed a journey goal for the activation journey\nSeries B: Cumulative percentage: what % of new users hit the aha moment within X time\nBuckets for Series A: 0-5 min / 5-30 min / 30 min-2 hr / 2-6 hr / 6-24 hr / 1-3 days / 3-7 days / 7-14 days / never (haven't hit aha within 14 days)\nTime range: Users created in the last 90 days (those who have had 14+ days to activate)\nBreakdown: By Users.UTM source (signup source: top 6 channels)\nCompare: Previous period (prior 90 days of cohort)\nChart type: Histogram with the cumulative % overlay as a secondary line\nAnnotations:\n- Add benchmarks: top-quartile PLG products see 30%+ of new users hit aha within 24 hours; median is closer to 10% within 24 hours. Industry \"good\" time-to-value is <48 hours.\n- Highlight the median time-to-aha (the 50th percentile bucket).\n- Highlight the median per signup source: different sources often have wildly different aha-times (organic users often faster than paid; partner referrals often fastest of all).\n- Flag if the \"never\" bucket (didn't activate within 14 days) is >50%: half your signups never experience value; severe activation problem.\n- Flag the source with the worst aha-time: this is either an ICP mismatch or an onboarding sequence issue specific to that channel's audience.\nUse case: distinct from the activation funnel (which is conversion %). This is the time-distribution view: answers \"WHEN do users get value?\" not just \"DO they?\" Time-to-value is the leading indicator of retention; users who hit aha fast retain at materially higher rates.\nTaxonomy notes:\n- User created and Completed a journey goal are canonical. The activation journey is project-specific (configurable journey_id).\n- Users.UTM source is the canonical first-touch source.\n",
   "classification": {
     "industry": [
-      "ai",
-      "b2b-saas"
+      "industry-agnostic"
     ]
   },
   "author": {
-    "name": "Aman Tiwari",
-    "first_name": "Aman",
-    "last_name": "Tiwari",
+    "name": "Intempt",
+    "last_name": "Technologies",
     "company": "Intempt",
-    "job_title": "Product Manager",
     "org_name": "intempt"
   },
   "permissions": [],

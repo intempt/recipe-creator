@@ -3,17 +3,13 @@ frontmatter_id: ecommerce-revenue-dashboard
 slash_command: /ecommerce-revenue-dashboard
 description: Answers how much you are making, which channels drive it, and whether the trend is holding.
 author:
-  name: Sid Chaudhary
-  first_name: Sid
-  last_name: Chaudhary
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Founder & CEO
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/sid.png
   org_name: intempt
 classification:
   industry:
-  - ecommerce
-  - finance
+  - ecommerce-retail
 ---
 
 # Ecommerce revenue overview

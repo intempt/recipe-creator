@@ -3,18 +3,13 @@ frontmatter_id: product-shot-video
 slash_command: /product-shot-video
 description: Turn a static product image into a 5-second video clip with a 360 spin, dolly-in, or floating reveal.
 author:
-  name: Aurobind Venu
-  first_name: Aurobind
-  last_name: Venu
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Creative Director
   org_name: intempt
 classification:
   industry:
-  - b2b-saas
-  - ecommerce
-  - media
-  - social
+  - ecommerce-retail
 ---
 
 # Product clip from a still

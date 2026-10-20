@@ -3,17 +3,15 @@ frontmatter_id: payment-failure-recovery-funnel
 slash_command: /payment-failure-recovery-funnel
 description: Shows how much failed payment revenue you get back, which retry attempt recovers it, and how much is still at risk.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - finance
+  - saas-b2b-tech
+  - media-entertainment
+  - ecommerce-retail
 ---
 
 # Payment recovery funnel

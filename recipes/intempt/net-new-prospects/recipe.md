@@ -3,18 +3,13 @@ frontmatter_id: net-new-prospects
 slash_command: /net-new-prospects
 description: Accounts created in the last week that have barely done anything yet, so SDRs know who to contact first.
 author:
-  name: Harish Kumar
-  first_name: Harish
-  last_name: Kumar
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - media
+  - industry-agnostic
 ---
 
 # Net-new prospect accounts

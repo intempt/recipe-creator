@@ -3,17 +3,13 @@ frontmatter_id: enterprise-accounts
 slash_command: /enterprise-accounts
 description: Companies with 1,000 or more employees, so your enterprise sellers work from one list.
 author:
-  name: Harish Kumar
-  first_name: Harish
-  last_name: Kumar
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
+  - saas-b2b-tech
 ---
 
 # Enterprise accounts

@@ -3,18 +3,13 @@ frontmatter_id: hands-in-use
 slash_command: /hands-in-use
 description: Shows hands pouring, applying or holding your product, with no face in frame and small props added around it.
 author:
-  name: Aurobind Venu
-  first_name: Aurobind
-  last_name: Venu
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Creative Director
   org_name: intempt
 classification:
   industry:
-  - b2b-saas
-  - ecommerce
-  - media
-  - social
+  - ecommerce-retail
 ---
 
 # Hands using the product

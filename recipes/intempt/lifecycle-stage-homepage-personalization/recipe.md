@@ -3,16 +3,13 @@ frontmatter_id: lifecycle-stage-homepage-personalization
 slash_command: /lifecycle-stage-homepage-personalization
 description: Loyal shoppers get a welcome back, lapsed ones get a win-back offer, and new shoppers get an introduction, based on the lifecycle stage already on their profile.
 author:
-  name: V Ranadheer
-  first_name: V
-  last_name: Ranadheer
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Design Engineer
   org_name: intempt
 classification:
   industry:
-  - ecommerce
-  - media
+  - ecommerce-retail
 ---
 
 # Homepage by customer lifecycle stage

@@ -3,15 +3,13 @@ frontmatter_id: time-to-ship-distribution
 slash_command: /time-to-ship-distribution
 description: Shows order fulfillment time from order creation to fulfillment, with median, 75th, and 95th percentile callouts.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:
-  - ecommerce
+  - ecommerce-retail
 ---
 
 # Time to ship

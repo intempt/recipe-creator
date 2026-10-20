@@ -3,17 +3,13 @@ frontmatter_id: decision-maker-prospects
 slash_command: /decision-maker-prospects
 description: Senior people who looked at your pricing in the last month, so AEs can talk to whoever actually holds the budget.
 author:
-  name: Harish Kumar
-  first_name: Harish
-  last_name: Kumar
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
+  - saas-b2b-tech
 ---
 
 # Decision makers checking pricing

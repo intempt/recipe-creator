@@ -3,19 +3,13 @@ frontmatter_id: content-download-nurture
 slash_command: /content-download-nurture
 description: Follows a gated download with two more pieces on the same topic and a soft invite, and fast tracks anyone who reads all three.
 author:
-  name: Somya Nayak
-  first_name: Somya
-  last_name: Nayak
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Marketing Lead
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/somya.png
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - media
-  - social
+  - saas-b2b-tech
 ---
 
 # Content download nurture

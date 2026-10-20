@@ -3,19 +3,13 @@ frontmatter_id: customer-progress-business-case
 slash_command: /customer-progress-business-case
 description: Sends each account a quarterly account of what they got out of the product, in the app and as a PDF they can hand to their own boss.
 author:
-  name: Somya Nayak
-  first_name: Somya
-  last_name: Nayak
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Marketing Lead
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/somya.png
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - ecommerce
-  - finance
+  - industry-agnostic
 ---
 
 # Quarterly customer progress report

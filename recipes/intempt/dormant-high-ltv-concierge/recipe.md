@@ -3,20 +3,13 @@ frontmatter_id: dormant-high-ltv-concierge
 slash_command: /dormant-high-ltv-concierge
 description: When one of your most valuable accounts stops showing up for a month, it briefs the CSM and asks them to call. Nothing is sent automatically.
 author:
-  name: Trishik Shrestha
-  first_name: Trishik
-  last_name: Shrestha
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/trishik.png
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - ecommerce
-  - finance
-  - media
+  - saas-b2b-tech
 ---
 
 # Concierge for dormant big accounts

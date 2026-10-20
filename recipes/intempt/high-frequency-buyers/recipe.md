@@ -3,17 +3,13 @@ frontmatter_id: high-frequency-buyers
 slash_command: /high-frequency-buyers
 description: Customers who order at least four times a quarter, so loyalty perks and early access go to the people who buy most often.
 author:
-  name: Harish Kumar
-  first_name: Harish
-  last_name: Kumar
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
   org_name: intempt
 classification:
   industry:
-  - ecommerce
-  - media
+  - ecommerce-retail
 ---
 
 # High-frequency buyers

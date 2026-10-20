@@ -3,16 +3,13 @@ frontmatter_id: scheduling-setup
 slash_command: /scheduling-setup
 description: Creates a booking link, routes requests to the right host, and supports post-booking journeys and workflows.
 author:
-  name: Sid Chaudhary
-  first_name: Sid
-  last_name: Chaudhary
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Founder & CEO
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/sid.png
   org_name: intempt
 classification:
   industry:
-  - b2b-saas
+  - industry-agnostic
 ---
 
 # Meeting booking and follow-up

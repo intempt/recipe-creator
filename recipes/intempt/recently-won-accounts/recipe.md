@@ -3,17 +3,13 @@ frontmatter_id: recently-won-accounts
 slash_command: /recently-won-accounts
 description: Accounts that became customers in the last quarter, so onboarding and implementation start from one current list.
 author:
-  name: Harish Kumar
-  first_name: Harish
-  last_name: Kumar
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/harish.jpg
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
+  - industry-agnostic
 ---
 
 # Recently won accounts

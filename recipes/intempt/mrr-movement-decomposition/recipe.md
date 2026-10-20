@@ -3,18 +3,13 @@ frontmatter_id: mrr-movement-decomposition
 slash_command: /mrr-movement-decomposition
 description: Reports monthly recurring revenue movement by summing new and churned MRR from subscription data. Shows gross additions and losses by month.
 author:
-  name: Aman Tiwari
-  first_name: Aman
-  last_name: Tiwari
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Product Manager
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - finance
-  - media
+  - saas-b2b-tech
 ---
 
 # MRR movement waterfall

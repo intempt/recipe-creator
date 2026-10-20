@@ -3,15 +3,13 @@ frontmatter_id: cart-abandonment-popup-timing
 slash_command: /cart-abandonment-popup-timing
 description: Compares exit-intent, a 30 second delay and no popup at all on cart pages, scored on orders placed within 24 hours.
 author:
-  name: V Ranadheer
-  first_name: V
-  last_name: Ranadheer
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Design Engineer
   org_name: intempt
 classification:
   industry:
-  - ecommerce
+  - ecommerce-retail
 ---
 
 # Cart popup timing test

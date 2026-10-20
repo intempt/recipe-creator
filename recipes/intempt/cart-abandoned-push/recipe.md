@@ -3,16 +3,13 @@ frontmatter_id: cart-abandoned-push
 slash_command: /cart-abandoned-push
 description: Writes a lockscreen push that brings shoppers back to an abandoned cart, naming the item they left behind.
 author:
-  name: Aurobind Venu
-  first_name: Aurobind
-  last_name: Venu
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Creative Director
   org_name: intempt
 classification:
   industry:
-  - ecommerce
-  - media
+  - ecommerce-retail
 ---
 
 # Cart abandonment push notification

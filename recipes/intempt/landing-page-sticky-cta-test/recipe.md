@@ -3,16 +3,13 @@ frontmatter_id: landing-page-sticky-cta-test
 slash_command: /landing-page-sticky-cta-test
 description: Compares an always-visible sticky CTA bar, one that fades in after the hero, and no sticky bar at all on marketing pages.
 author:
-  name: V Ranadheer
-  first_name: V
-  last_name: Ranadheer
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Design Engineer
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
+  - industry-agnostic
 ---
 
 # Sticky CTA bar test

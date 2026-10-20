@@ -6,20 +6,14 @@
   "markdown": "# Editorial lookbook shot\n\n## Description\n\nProduces a full-body editorial fashion photo of an AI model on location, then varies the lighting while holding pose and framing.\n\n## Steps\n\n### Step 1: Relight the lookbook shot\n\nEdit the editorial lookbook image attached to this run: a full-body AI model wearing the outfit on location.\nChange only the lighting, to golden hour with long raking shadows.\nKeep the model's identity, the outfit, the pose, the street and the framing identical.\n",
   "classification": {
     "industry": [
-      "ai",
-      "b2b-saas",
-      "ecommerce",
-      "media",
-      "social"
+      "ecommerce-retail"
     ]
   },
   "complexity": "quick",
   "author": {
-    "name": "Aurobind Venu",
-    "first_name": "Aurobind",
-    "last_name": "Venu",
+    "name": "Intempt",
+    "last_name": "Technologies",
     "company": "Intempt",
-    "job_title": "Creative Director",
     "org_name": "intempt"
   },
   "permissions": [

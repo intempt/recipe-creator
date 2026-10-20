@@ -3,18 +3,13 @@ frontmatter_id: shopify-segment-to-customer-tag
 slash_command: /shopify-segment-to-customer-tag
 description: Pushes a cohort computed here onto Shopify customers as a tag, so the store can merchandise against it.
 author:
-  name: Trishik Shrestha
-  first_name: Trishik
-  last_name: Shrestha
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Growth Marketer
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/trishik.png
   org_name: intempt
 classification:
   industry:
-  - b2b-saas
-  - ecommerce
-  - media
+  - ecommerce-retail
 ---
 
 # Tag Shopify customers from a segment

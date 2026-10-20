@@ -3,17 +3,13 @@ frontmatter_id: post-purchase
 slash_command: /post-purchase
 description: Thanks the buyer, shows them how to use what they bought, asks for a review, and suggests what goes with it.
 author:
-  name: Somya Nayak
-  first_name: Somya
-  last_name: Nayak
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Marketing Lead
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/somya.png
   org_name: intempt
 classification:
   industry:
-  - ecommerce
-  - social
+  - ecommerce-retail
 ---
 
 # Post purchase follow up

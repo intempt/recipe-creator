@@ -3,19 +3,13 @@ frontmatter_id: aha-moment-activation
 slash_command: /aha-moment-activation
 description: Follows up right after someone hits the action that predicts retention, so the first win turns into a habit instead of a one off.
 author:
-  name: Somya Nayak
-  first_name: Somya
-  last_name: Nayak
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Marketing Lead
-  avatar: https://cdn.intempt.com/assets/author-profile-pics/somya.png
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
-  - ecommerce
-  - media
+  - industry-agnostic
 ---
 
 # Aha moment reinforcement

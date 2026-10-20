@@ -6,19 +6,14 @@
   "markdown": "# Small business accounts\n\n## Description\n\nCompanies under 100 employees, the list your self-serve nurture and in-product prompts should run against.\n\n## Steps\n\n### Step 1: Build the SMB list\n\nBuild a segment of accounts named \"SMB Accounts\".\nAn account is in the segment only when all of these are true:\n- its employees attribute is less than 100\n",
   "classification": {
     "industry": [
-      "ai",
-      "b2b-saas",
-      "ecommerce"
+      "saas-b2b-tech"
     ]
   },
   "complexity": "quick",
   "author": {
-    "name": "Harish Kumar",
-    "first_name": "Harish",
-    "last_name": "Kumar",
+    "name": "Intempt",
+    "last_name": "Technologies",
     "company": "Intempt",
-    "job_title": "Growth Marketer",
-    "avatar": "https://cdn.intempt.com/assets/author-profile-pics/harish.jpg",
     "org_name": "intempt"
   },
   "permissions": [

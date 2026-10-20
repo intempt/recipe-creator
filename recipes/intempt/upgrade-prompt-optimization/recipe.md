@@ -3,16 +3,13 @@ frontmatter_id: upgrade-prompt-optimization
 slash_command: /upgrade-prompt-optimization
 description: Compares four places to show the upgrade prompt to free users, with timing layered in through audience targeting.
 author:
-  name: V Ranadheer
-  first_name: V
-  last_name: Ranadheer
+  name: Intempt
+  last_name: Technologies
   company: Intempt
-  job_title: Design Engineer
   org_name: intempt
 classification:
   industry:
-  - ai
-  - b2b-saas
+  - industry-agnostic
 ---
 
 # Upgrade prompt test
