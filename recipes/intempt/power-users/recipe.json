@@ -9,13 +9,16 @@
       "industry-agnostic"
     ]
   },
+  "complexity": "quick",
   "author": {
     "name": "Intempt",
     "last_name": "Technologies",
     "company": "Intempt",
     "org_name": "intempt"
   },
-  "permissions": [],
+  "permissions": [
+    "segment:create"
+  ],
   "steps": [
     {
       "id": "s1",
