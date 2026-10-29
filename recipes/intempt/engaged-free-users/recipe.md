@@ -1,7 +1,7 @@
 ---
 frontmatter_id: engaged-free-users
 slash_command: /engaged-free-users
-description: Identify free-plan users using their computed Engagement score to help prioritize upgrade outreach. The score is a number, not a High-tier match.
+description: Free-plan users logging in often enough to be ready for a paid plan, offered the upgrade by email and queued for growth outreach.
 author:
   name: Intempt
   last_name: Technologies
@@ -21,6 +21,12 @@ Slash command: /engaged-free-users
 Build a segment of users named "Engaged Free Users".
 A user is in the segment only when all of these are true:
 - their Plan attribute is "free"
-- their Engagement score attribute is "High"
-- their Days since last activity attribute is 7 or less
 - they did the Session start event 5 or more times in the last 14 days
+
+## Step 2: Send an upgrade email
+
+Generate a designed marketing email for the users in "Engaged Free Users" introducing the paid plan's feature most relevant to someone already using the product this often. Three sentences, encouraging tone, no discount language, one button linking to the pricing page. Use the result of "Build the engaged free list".
+
+## Step 3: Notify growth
+
+Generate a plain-text email to the growth team distribution list listing the users in "Engaged Free Users" so outreach can be prioritized by how active each one already is. Use the result of "Build the engaged free list".

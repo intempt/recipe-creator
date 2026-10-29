@@ -1,33 +1,44 @@
 {
   "frontmatter_id": "renewal-window-90-day",
-  "title": "Renewals due in 90 days",
+  "title": "Accounts in the renewal window",
   "slash_command": "/renewal-window-90-day",
-  "description": "Paid subscriptions that end within the next three months, so renewal conversations start early instead of the week before.",
-  "markdown": "# Renewals due in 90 days\n\n## Description\n\nPaid subscriptions that end within the next three months, so renewal conversations start early instead of the week before.\n\n## Steps\n\n### Step 1: Build the renewal list\n\nBuild a segment of users named \"Renewal Window: 90 Days\".\nA user is in the segment only when all of these are true:\n- their Subscription end date attribute is in the future and within the next 90 days\n- their Plan attribute is not \"free\"\n",
+  "description": "Paying subscriptions that started roughly a year ago and are likely due for renewal, flagged to the renewals team and sent a value recap, so the conversation starts early instead of the week before.",
+  "markdown": "# Accounts in the renewal window\n\n## Description\n\nPaying subscriptions that started roughly a year ago and are likely due for renewal, flagged to the renewals team and sent a value recap, so the conversation starts early instead of the week before.\n\n## Steps\n\n### Step 1: Build the renewal list\n\nBuild a segment of users named \"Renewal Window 90 Days\".\nA user is in the segment only when all of these are true:\n- their Plan attribute is not \"free\"\n- they did the Subscription started event at least once between 275 and 365 days ago\n\n### Step 2: Notify the renewals team\n\nGenerate a plain-text email to the renewals team distribution list listing the users in \"Renewal Window 90 Days\" so conversations start months early instead of the week before. Use the result of \"Build the renewal list\".\n\n### Step 3: Send a value recap\n\nGenerate a designed marketing email for the users in \"Renewal Window 90 Days\" recapping one meaningful result they have gotten from the product this year. Three sentences, warm and appreciative tone, no pricing or discount language, one button linking to a call-booking page with their account manager. Use the result of \"Build the renewal list\".\n",
   "classification": {
     "industry": [
       "industry-agnostic"
     ]
   },
-  "complexity": "quick",
   "author": {
     "name": "Intempt",
     "last_name": "Technologies",
     "company": "Intempt",
     "org_name": "intempt"
   },
-  "permissions": [
-    "segment:create"
-  ],
+  "permissions": [],
   "steps": [
     {
       "id": "s1",
       "title": "Build the renewal list",
-      "description": "Build a segment of users named \"Renewal Window: 90 Days\". A user is in the segment only when all of these are true: their Subscription end date attribute is in the future and within the next 90 days; their Plan attribute is not \"free\".",
+      "description": "Build a segment of users named \"Renewal Window 90 Days\". A user is in the segment only when all of these are true: their Plan attribute is not \"free\"; they did the Subscription started event at least once between 275 and 365 days ago.",
       "command": "create_segment",
       "entity": "segment",
       "kind": "static",
       "modelConfig": []
+    },
+    {
+      "id": "s2",
+      "title": "Notify the renewals team",
+      "description": "Generate a plain-text email to the renewals team distribution list listing the users in \"Renewal Window 90 Days\" so conversations start months early instead of the week before. Use the result of \"Build the renewal list\"."
+    },
+    {
+      "id": "s3",
+      "title": "Send a value recap",
+      "description": "Generate a designed marketing email for the users in \"Renewal Window 90 Days\" recapping one meaningful result they have gotten from the product this year. Three sentences, warm and appreciative tone, no pricing or discount language, one button linking to a call-booking page with their account manager. Use the result of \"Build the renewal list\".",
+      "command": "create_email_content",
+      "entity": "email_html",
+      "modelConfig": []
     }
-  ]
+  ],
+  "availability": "coming_soon"
 }

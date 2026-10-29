@@ -1,39 +1,41 @@
 {
   "frontmatter_id": "high-intent-anonymous-visitors",
-  "title": "High-intent anonymous visitors",
+  "title": "Frequent repeat visitors",
   "slash_command": "/high-intent-anonymous-visitors",
-  "description": "Visitors you cannot email yet who keep coming back, so you can retarget them with ads or try to capture an address.",
-  "markdown": "# High-intent anonymous visitors\n\n## Description\n\nVisitors you cannot email yet who keep coming back, so you can retarget them with ads or try to capture an address.\n\n## Steps\n\n### Step 1: Build the anonymous visitor list\n\nBuild a segment of users named \"High-Intent Anonymous Visitors\".\nA user is in the segment only when all of these are true:\n- their Total events attribute is 5 or more\n- their email attribute is empty\n- they did the View page event 3 or more times in the last 7 days\n- they did the Session start event 2 or more times in the last 7 days\n",
+  "description": "Visitors who keep coming back to your site and product, nudged toward a feature by push notification and shared with growth as a retargeting audience.",
+  "markdown": "# Frequent repeat visitors\n\n## Description\n\nVisitors who keep coming back to your site and product, nudged toward a feature by push notification and shared with growth as a retargeting audience.\n\n## Steps\n\n### Step 1: Build the frequent-visitor list\n\nBuild a segment of users named \"Frequent Repeat Visitors\".\nA user is in the segment only when all of these are true:\n- they did the View page event 3 or more times in the last 7 days\n- they did the Session start event 2 or more times in the last 7 days\n\n### Step 2: Nudge toward a feature\n\nGenerate a push notification for the users in \"Frequent Repeat Visitors\" highlighting one feature worth trying given how often they are showing up. Title under 40 characters, one short body line, friendly and curious tone, deep link to that feature. Use the result of \"Build the frequent-visitor list\".\n\n### Step 3: Share the retargeting audience\n\nGenerate a plain-text email to the growth team distribution list listing the users in \"Frequent Repeat Visitors\" as a retargeting audience worth running ads against. Use the result of \"Build the frequent-visitor list\".\n",
   "classification": {
     "industry": [
       "industry-agnostic"
     ]
   },
-  "complexity": "quick",
   "author": {
     "name": "Intempt",
     "last_name": "Technologies",
     "company": "Intempt",
     "org_name": "intempt"
   },
-  "permissions": [
-    "segment:create"
-  ],
+  "permissions": [],
   "steps": [
     {
       "id": "s1",
-      "title": "Build the anonymous visitor list",
-      "description": "Build a segment of users named \"High-Intent Anonymous Visitors\". A user is in the segment only when all of these are true: their Total events attribute is 5 or more, their email attribute is empty, they did the View page event 3 or more times in the last 7 days, they did the Session start event 2 or more times in the last 7 days.",
+      "title": "Build the frequent-visitor list",
+      "description": "Build a segment of users named \"Frequent Repeat Visitors\". A user is in the segment only when all of these are true: they did the View page event 3 or more times in the last 7 days; they did the Session start event 2 or more times in the last 7 days.",
       "command": "create_segment",
       "entity": "segment",
-      "integration": [
-        "web",
-        "ios",
-        "android",
-        "react-native"
-      ],
       "kind": "static",
       "modelConfig": []
+    },
+    {
+      "id": "s2",
+      "title": "Nudge toward a feature",
+      "description": "Generate a push notification for the users in \"Frequent Repeat Visitors\" highlighting one feature worth trying given how often they are showing up. Title under 40 characters, one short body line, friendly and curious tone, deep link to that feature. Use the result of \"Build the frequent-visitor list\"."
+    },
+    {
+      "id": "s3",
+      "title": "Share the retargeting audience",
+      "description": "Generate a plain-text email to the growth team distribution list listing the users in \"Frequent Repeat Visitors\" as a retargeting audience worth running ads against. Use the result of \"Build the frequent-visitor list\"."
     }
-  ]
+  ],
+  "availability": "coming_soon"
 }

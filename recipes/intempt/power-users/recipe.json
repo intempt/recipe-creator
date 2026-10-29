@@ -2,38 +2,40 @@
   "frontmatter_id": "power-users",
   "title": "Power users",
   "slash_command": "/power-users",
-  "description": "Segment your most active users based on frequent sessions and high activity thresholds over the last 30 days.",
-  "markdown": "# Power users\n\n## Description\n\nSegment your most active users based on frequent sessions and high activity thresholds over the last 30 days.\n\n## Steps\n\n### Step 1: Build the power-user list\n\nBuild a segment of users named \"Power Users\".\nA user is in the segment only when all of these are true:\n- they did the Session start event 10 or more times in the last 30 days\n- they did the Click on event 20 or more times in the last 30 days\n- their Engagement score attribute is \"High\"\n- their Last seen attribute is within the last 7 days\n",
+  "description": "Paying users who log in constantly, invited to join the referral program by push notification and shared with growth as advocacy candidates.",
+  "markdown": "# Power users\n\n## Description\n\nPaying users who log in constantly, invited to join the referral program by push notification and shared with growth as advocacy candidates.\n\n## Steps\n\n### Step 1: Build the power-user list\n\nBuild a segment of users named \"Power Users\".\nA user is in the segment only when all of these are true:\n- their Lifetime value attribute is more than 0\n- they did the Session start event 10 or more times in the last 30 days\n\n### Step 2: Invite them to the referral program\n\nGenerate a push notification for the users in \"Power Users\" inviting them to join the referral program. Title under 40 characters, one short body line, friendly and appreciative tone, deep link to the referral program page. Use the result of \"Build the power-user list\".\n\n### Step 3: Share the shortlist with growth\n\nGenerate a plain-text email to the growth team distribution list listing the users in \"Power Users\" as candidates for case studies and advocacy, not just referrals. Use the result of \"Build the power-user list\".\n",
   "classification": {
     "industry": [
       "industry-agnostic"
     ]
   },
-  "complexity": "quick",
   "author": {
     "name": "Intempt",
     "last_name": "Technologies",
     "company": "Intempt",
     "org_name": "intempt"
   },
-  "permissions": [
-    "segment:create"
-  ],
+  "permissions": [],
   "steps": [
     {
       "id": "s1",
       "title": "Build the power-user list",
-      "description": "Build a segment of users named \"Power Users\". A user is in the segment only when all of these are true: they did the Session start event 10 or more times in the last 30 days; they did the Click on event 20 or more times in the last 30 days; their Engagement score attribute is \"High\"; their Last seen attribute is within the last 7 days.",
+      "description": "Build a segment of users named \"Power Users\". A user is in the segment only when all of these are true: their Lifetime value attribute is more than 0; they did the Session start event 10 or more times in the last 30 days.",
       "command": "create_segment",
       "entity": "segment",
-      "integration": [
-        "web",
-        "ios",
-        "android",
-        "react-native"
-      ],
       "kind": "static",
       "modelConfig": []
+    },
+    {
+      "id": "s2",
+      "title": "Invite them to the referral program",
+      "description": "Generate a push notification for the users in \"Power Users\" inviting them to join the referral program. Title under 40 characters, one short body line, friendly and appreciative tone, deep link to the referral program page. Use the result of \"Build the power-user list\"."
+    },
+    {
+      "id": "s3",
+      "title": "Share the shortlist with growth",
+      "description": "Generate a plain-text email to the growth team distribution list listing the users in \"Power Users\" as candidates for case studies and advocacy, not just referrals. Use the result of \"Build the power-user list\"."
     }
-  ]
+  ],
+  "availability": "coming_soon"
 }

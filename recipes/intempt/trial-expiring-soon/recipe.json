@@ -1,9 +1,9 @@
 {
   "frontmatter_id": "trial-expiring-soon",
-  "title": "Trials expiring this week",
+  "title": "Trials nearing the end",
   "slash_command": "/trial-expiring-soon",
-  "description": "Trial users whose trial runs out within a week and who have not paid yet, your last chance to convert them.",
-  "markdown": "# Trials expiring this week\n\n## Description\n\nTrial users whose trial runs out within a week and who have not paid yet, your last chance to convert them.\n\n## Steps\n\n### Step 1: Build the expiring-trial list\n\nBuild a segment of users named \"Trial Expiring Soon\".\nA user is in the segment only when all of these are true:\n- their Plan attribute is \"trial\"\n- their Subscription end date attribute is within the next 7 days\n- they did not do the Subscription started event in the last 14 days\n",
+  "description": "Trial users who started their trial 3 to 4 weeks ago and still have not paid, nudged by email and flagged to sales while there is still time to close them.",
+  "markdown": "# Trials nearing the end\n\n## Description\n\nTrial users who started their trial 3 to 4 weeks ago and still have not paid, nudged by email and flagged to sales while there is still time to close them.\n\n## Steps\n\n### Step 1: Build the expiring-trial list\n\nBuild a segment of users named \"Trial Expiring Soon\".\nA user is in the segment only when all of these are true:\n- their Plan attribute is \"trial\"\n- they did the Subscription started event at least once between 23 and 30 days ago\n\n### Step 2: Send a final nudge\n\nGenerate a designed marketing email for the users in \"Trial Expiring Soon\" letting them know their trial is nearing its end and highlighting the one feature most worth trying before it does. Three sentences, warm and helpful tone, no discount language, one button linking to the upgrade page. Use the result of \"Build the expiring-trial list\".\n\n### Step 3: Alert sales\n\nGenerate a Slack message to the channel chosen for this run listing the users in \"Trial Expiring Soon\" so reps can reach out personally before the window closes. Use the result of \"Build the expiring-trial list\".\n",
   "classification": {
     "industry": [
       "saas-b2b-tech"
@@ -17,27 +17,43 @@
     "org_name": "intempt"
   },
   "permissions": [
-    "segment:create"
+    "segment:create",
+    "content:create"
   ],
   "steps": [
     {
       "id": "s1",
-      "title": "Build expiring-trial segment",
-      "description": "Build a segment of users named \"Trial Expiring Soon\". A user is in the segment only when all of these are true: their Plan attribute is \"trial\", their Subscription end date attribute is within the next 7 days, and they did not do the Subscription started event in the last 14 days.",
+      "title": "Build the expiring-trial list",
+      "description": "Build a segment of users named \"Trial Expiring Soon\". A user is in the segment only when all of these are true: their Plan attribute is \"trial\"; they did the Subscription started event at least once between 23 and 30 days ago.",
       "command": "create_segment",
       "entity": "segment",
-      "integration": [
-        "web",
-        "ios",
-        "android",
-        "react-native",
-        "nodejs",
-        "php",
-        "python",
-        "api"
-      ],
       "kind": "static",
       "modelConfig": []
+    },
+    {
+      "id": "s2",
+      "title": "Send a final nudge",
+      "description": "Generate a designed marketing email for the users in \"Trial Expiring Soon\" letting them know their trial is nearing its end and highlighting the one feature most worth trying before it does. Three sentences, warm and helpful tone, no discount language, one button linking to the upgrade page. Use the result of \"Build the expiring-trial list\".",
+      "command": "create_email_content",
+      "entity": "email_html",
+      "modelConfig": []
+    },
+    {
+      "id": "s3",
+      "title": "Alert sales",
+      "description": "Generate a Slack message to the channel chosen for this run listing the users in \"Trial Expiring Soon\" so reps can reach out personally before the window closes. Use the result of \"Build the expiring-trial list\".",
+      "command": "create_slack_content",
+      "entity": "slack",
+      "modelConfig": [],
+      "arguments": [
+        {
+          "key": "channel_s3",
+          "type": "string",
+          "label": "Slack channel",
+          "phrase": "the channel chosen for this run",
+          "required": true
+        }
+      ]
     }
   ]
 }

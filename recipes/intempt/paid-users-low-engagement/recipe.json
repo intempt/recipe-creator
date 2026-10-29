@@ -1,33 +1,44 @@
 {
   "frontmatter_id": "paid-users-low-engagement",
-  "title": "Paid users losing interest",
+  "title": "Paying users going quiet early",
   "slash_command": "/paid-users-low-engagement",
-  "description": "Paying customers with lower numeric engagement scores, useful for early retention outreach.",
-  "markdown": "# Paid users losing interest\n\n## Description\n\nPaying customers with lower numeric engagement scores, useful for early retention outreach.\n\n## Steps\n\n### Step 1: Build the low-engagement list\n\nBuild a segment of users named \"Paid Users: Low Engagement\".\nA user is in the segment only when all of these are true:\n- their Plan attribute is neither \"free\" nor \"trial\"\n- their Days since last activity attribute is between 7 and 21\n- their Engagement score attribute is \"Low\"\n",
+  "description": "Paying customers who have stopped logging in recently, nudged with a feature reminder and flagged to customer success before they slide into real churn risk.",
+  "markdown": "# Paying users going quiet early\n\n## Description\n\nPaying customers who have stopped logging in recently, nudged with a feature reminder and flagged to customer success before they slide into real churn risk.\n\n## Steps\n\n### Step 1: Build the low-engagement list\n\nBuild a segment of users named \"Paid Users: Low Engagement\".\nA user is in the segment only when all of these are true:\n- their Plan attribute is not \"free\"\n- their Plan attribute is not \"trial\"\n- they did not do the Session start event in the last 14 days\n\n### Step 2: Send a feature reminder\n\nGenerate a designed marketing email for the users in \"Paid Users: Low Engagement\" reminding them of one feature that made them sign up in the first place. Three sentences, friendly and low-pressure tone, no discount language, one button linking back into the product. Use the result of \"Build the low-engagement list\".\n\n### Step 3: Flag to customer success\n\nGenerate a plain-text email to the customer success distribution list listing the users in \"Paid Users: Low Engagement\" so the team can check in before this turns into real churn risk. Use the result of \"Build the low-engagement list\".\n",
   "classification": {
     "industry": [
       "industry-agnostic"
     ]
   },
-  "complexity": "quick",
   "author": {
     "name": "Intempt",
     "last_name": "Technologies",
     "company": "Intempt",
     "org_name": "intempt"
   },
-  "permissions": [
-    "segment:create"
-  ],
+  "permissions": [],
   "steps": [
     {
       "id": "s1",
       "title": "Build the low-engagement list",
-      "description": "Build a segment of users named \"Paid Users: Low Engagement\". A user is in the segment only when all of these are true: their Plan attribute is neither \"free\" nor \"trial\"; their Days since last activity attribute is between 7 and 21; their Engagement score attribute is \"Low\".",
+      "description": "Build a segment of users named \"Paid Users: Low Engagement\". A user is in the segment only when all of these are true: their Plan attribute is not \"free\"; their Plan attribute is not \"trial\"; they did not do the Session start event in the last 14 days.",
       "command": "create_segment",
       "entity": "segment",
       "kind": "static",
       "modelConfig": []
+    },
+    {
+      "id": "s2",
+      "title": "Send a feature reminder",
+      "description": "Generate a designed marketing email for the users in \"Paid Users: Low Engagement\" reminding them of one feature that made them sign up in the first place. Three sentences, friendly and low-pressure tone, no discount language, one button linking back into the product. Use the result of \"Build the low-engagement list\".",
+      "command": "create_email_content",
+      "entity": "email_html",
+      "modelConfig": []
+    },
+    {
+      "id": "s3",
+      "title": "Flag to customer success",
+      "description": "Generate a plain-text email to the customer success distribution list listing the users in \"Paid Users: Low Engagement\" so the team can check in before this turns into real churn risk. Use the result of \"Build the low-engagement list\"."
     }
-  ]
+  ],
+  "availability": "coming_soon"
 }

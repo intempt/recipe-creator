@@ -1,39 +1,44 @@
 {
   "frontmatter_id": "accounts-no-open-deal",
-  "title": "Healthy accounts with no open deal",
+  "title": "Expansion whitespace accounts",
   "slash_command": "/accounts-no-open-deal",
-  "description": "Customer accounts with no open deal and account-level health attributes, plus per-user recent session activity, so AEs can review expansion whitespace.",
-  "markdown": "# Healthy accounts with no open deal\n\n## Description\n\nCustomer accounts with no open deal and account-level health attributes, plus per-user recent session activity, so AEs can review expansion whitespace.\n\n## Steps\n\n### Step 1: Build the whitespace list\n\nBuild a segment of accounts named \"Accounts With No Open Deal\".\nAn account is in the segment only when all of these are true:\n- its Has an open deal attribute is false\n- its Account health attribute is \"healthy\"\n- its User count attribute is 3 or more\n- the users in the account together did the Session start event 5 or more times in the last 30 days\n",
+  "description": "Established accounts whose users log in constantly, checked in on by email and flagged to account executives to review for expansion whitespace.",
+  "markdown": "# Expansion whitespace accounts\n\n## Description\n\nEstablished accounts whose users log in constantly, checked in on by email and flagged to account executives to review for expansion whitespace.\n\n## Steps\n\n### Step 1: Build the whitespace list\n\nBuild a segment of accounts named \"Expansion Whitespace Accounts\".\nAn account is in the segment only when all of these are true:\n- its employees attribute is 50 or more\n- the users in the account together did the Session start event 5 or more times in the last 30 days\n\n### Step 2: Send a value check-in\n\nGenerate a designed marketing email for the accounts in \"Expansion Whitespace Accounts\" checking in on how the team is using the product and surfacing one feature they may not have tried yet. Three sentences, consultative and helpful tone, no pricing language, one button linking to a call-booking page. Use the result of \"Build the whitespace list\".\n\n### Step 3: Flag to account executives\n\nGenerate a plain-text email to the account executive distribution list listing the accounts in \"Expansion Whitespace Accounts\" so they can review each one for expansion opportunity. Use the result of \"Build the whitespace list\".\n",
   "classification": {
     "industry": [
       "saas-b2b-tech"
     ]
   },
-  "complexity": "quick",
   "author": {
     "name": "Intempt",
     "last_name": "Technologies",
     "company": "Intempt",
     "org_name": "intempt"
   },
-  "permissions": [
-    "segment:create"
-  ],
+  "permissions": [],
   "steps": [
     {
       "id": "s1",
       "title": "Build the whitespace list",
-      "description": "Build a segment of accounts named \"Accounts With No Open Deal\". An account is in the segment only when all of these are true: its Has an open deal attribute is false; its Account health attribute is \"healthy\"; its User count attribute is 3 or more; the users in the account together did the Session start event 5 or more times in the last 30 days.",
+      "description": "Build a segment of accounts named \"Expansion Whitespace Accounts\". An account is in the segment only when all of these are true: its employees attribute is 50 or more; the users in the account together did the Session start event 5 or more times in the last 30 days.",
       "command": "create_segment",
       "entity": "segment",
-      "integration": [
-        "web",
-        "ios",
-        "android",
-        "react-native"
-      ],
       "kind": "static",
       "modelConfig": []
+    },
+    {
+      "id": "s2",
+      "title": "Send a value check-in",
+      "description": "Generate a designed marketing email for the accounts in \"Expansion Whitespace Accounts\" checking in on how the team is using the product and surfacing one feature they may not have tried yet. Three sentences, consultative and helpful tone, no pricing language, one button linking to a call-booking page. Use the result of \"Build the whitespace list\".",
+      "command": "create_email_content",
+      "entity": "email_html",
+      "modelConfig": []
+    },
+    {
+      "id": "s3",
+      "title": "Flag to account executives",
+      "description": "Generate a plain-text email to the account executive distribution list listing the accounts in \"Expansion Whitespace Accounts\" so they can review each one for expansion opportunity. Use the result of \"Build the whitespace list\"."
     }
-  ]
+  ],
+  "availability": "coming_soon"
 }

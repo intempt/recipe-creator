@@ -2,23 +2,20 @@
   "frontmatter_id": "new-paying-customers",
   "title": "New paying customers",
   "slash_command": "/new-paying-customers",
-  "description": "Customers who started paying in the last month, the window where onboarding decides whether they stay.",
-  "markdown": "# New paying customers\n\n## Description\n\nCustomers who started paying in the last month, the window where onboarding decides whether they stay.\n\n## Steps\n\n### Step 1: Build the new-customer list\n\nBuild a segment of users named \"New Paying Customers\".\nA user is in the segment only when all of these are true:\n- they did the Subscription started event at least once in the last 30 days\n- their Plan attribute is not \"free\"\n- their Plan attribute is not \"trial\"\n",
+  "description": "Customers who started paying in the last month, welcomed by email and flagged to customer success during the window where onboarding decides whether they stay.",
+  "markdown": "# New paying customers\n\n## Description\n\nCustomers who started paying in the last month, welcomed by email and flagged to customer success during the window where onboarding decides whether they stay.\n\n## Steps\n\n### Step 1: Build the new-customer list\n\nBuild a segment of users named \"New Paying Customers\".\nA user is in the segment only when all of these are true:\n- they did the Subscription started event at least once in the last 30 days\n- their Plan attribute is not \"free\"\n- their Plan attribute is not \"trial\"\n\n### Step 2: Send a welcome email\n\nGenerate a designed marketing email for the users in \"New Paying Customers\" welcoming them and highlighting one feature worth trying in their first week. Three sentences, warm tone, no upsell language, one button linking to that feature inside the product. Use the result of \"Build the new-customer list\".\n\n### Step 3: Notify customer success\n\nGenerate a plain-text email to the customer success distribution list listing the users in \"New Paying Customers\" so the team can check in personally during their first week. Use the result of \"Build the new-customer list\".\n",
   "classification": {
     "industry": [
       "industry-agnostic"
     ]
   },
-  "complexity": "quick",
   "author": {
     "name": "Intempt",
     "last_name": "Technologies",
     "company": "Intempt",
     "org_name": "intempt"
   },
-  "permissions": [
-    "segment:create"
-  ],
+  "permissions": [],
   "steps": [
     {
       "id": "s1",
@@ -26,18 +23,22 @@
       "description": "Build a segment of users named \"New Paying Customers\". A user is in the segment only when all of these are true: they did the Subscription started event at least once in the last 30 days; their Plan attribute is not \"free\"; their Plan attribute is not \"trial\".",
       "command": "create_segment",
       "entity": "segment",
-      "integration": [
-        "web",
-        "ios",
-        "android",
-        "react-native",
-        "nodejs",
-        "php",
-        "python",
-        "api"
-      ],
       "kind": "static",
       "modelConfig": []
+    },
+    {
+      "id": "s2",
+      "title": "Send a welcome email",
+      "description": "Generate a designed marketing email for the users in \"New Paying Customers\" welcoming them and highlighting one feature worth trying in their first week. Three sentences, warm tone, no upsell language, one button linking to that feature inside the product. Use the result of \"Build the new-customer list\".",
+      "command": "create_email_content",
+      "entity": "email_html",
+      "modelConfig": []
+    },
+    {
+      "id": "s3",
+      "title": "Notify customer success",
+      "description": "Generate a plain-text email to the customer success distribution list listing the users in \"New Paying Customers\" so the team can check in personally during their first week. Use the result of \"Build the new-customer list\"."
     }
-  ]
+  ],
+  "availability": "coming_soon"
 }

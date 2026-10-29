@@ -1,9 +1,9 @@
 {
   "frontmatter_id": "trial-users-high-engagement",
-  "title": "Trials most likely to convert",
+  "title": "Fast-starter trials",
   "slash_command": "/trial-users-high-engagement",
-  "description": "Trial users with high numeric engagement scores and two weeks remaining in their trial period.",
-  "markdown": "# Trials most likely to convert\n\n## Description\n\nTrial users with high numeric engagement scores and two weeks remaining in their trial period.\n\n## Steps\n\n### Step 1: Build the strong-trial list\n\nBuild a segment of users named \"Trial Users: High Engagement\".\nA user is in the segment only when all of these are true:\n- their Plan attribute is \"trial\"\n- their Subscription end date attribute is within the next 14 days\n- their Engagement score attribute is \"High\"\n- they did the Completed a journey goal event 3 or more times in the last 14 days\n",
+  "description": "Trial users logging in constantly within their first week, the clearest early signal of a trial about to convert, fast-tracked to sales and offered a personal onboarding session.",
+  "markdown": "# Fast-starter trials\n\n## Description\n\nTrial users logging in constantly within their first week, the clearest early signal of a trial about to convert, fast-tracked to sales and offered a personal onboarding session.\n\n## Steps\n\n### Step 1: Build the fast-starter list\n\nBuild a segment of users named \"Trial Users: High Engagement\".\nA user is in the segment only when all of these are true:\n- their Plan attribute is \"trial\"\n- they did the Subscription started event at least once between 0 and 7 days ago\n- they did the Session start event 5 or more times in the last 7 days\n\n### Step 2: Fast-track to sales\n\nGenerate a Slack message to the channel chosen for this run listing the users in \"Trial Users: High Engagement\" so reps can reach out while interest is at its peak. Use the result of \"Build the fast-starter list\".\n\n### Step 3: Offer a personal onboarding session\n\nGenerate a designed marketing email for the users in \"Trial Users: High Engagement\" congratulating them on their fast start and offering a personal onboarding session. Three sentences, warm and encouraging tone, no discount language, one button linking to a call-booking page. Use the result of \"Build the fast-starter list\".\n",
   "classification": {
     "industry": [
       "saas-b2b-tech"
@@ -17,26 +17,42 @@
     "org_name": "intempt"
   },
   "permissions": [
-    "segment:create"
+    "segment:create",
+    "content:create"
   ],
   "steps": [
     {
       "id": "s1",
-      "title": "Build the strong-trial list",
-      "description": "Build a segment of users named \"Trial Users: High Engagement\". A user is in the segment only when all of these are true: their Plan attribute is \"trial\"; their Subscription end date attribute is within the next 14 days; their Engagement score attribute is \"High\"; they did the Completed a journey goal event 3 or more times in the last 14 days.",
+      "title": "Build the fast-starter list",
+      "description": "Build a segment of users named \"Trial Users: High Engagement\". A user is in the segment only when all of these are true: their Plan attribute is \"trial\"; they did the Subscription started event at least once between 0 and 7 days ago; they did the Session start event 5 or more times in the last 7 days.",
       "command": "create_segment",
       "entity": "segment",
-      "integration": [
-        "web",
-        "ios",
-        "android",
-        "react-native",
-        "nodejs",
-        "php",
-        "python",
-        "api"
-      ],
       "kind": "static",
+      "modelConfig": []
+    },
+    {
+      "id": "s2",
+      "title": "Fast-track to sales",
+      "description": "Generate a Slack message to the channel chosen for this run listing the users in \"Trial Users: High Engagement\" so reps can reach out while interest is at its peak. Use the result of \"Build the fast-starter list\".",
+      "command": "create_slack_content",
+      "entity": "slack",
+      "modelConfig": [],
+      "arguments": [
+        {
+          "key": "channel_s2",
+          "type": "string",
+          "label": "Slack channel",
+          "phrase": "the channel chosen for this run",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "s3",
+      "title": "Offer a personal onboarding session",
+      "description": "Generate a designed marketing email for the users in \"Trial Users: High Engagement\" congratulating them on their fast start and offering a personal onboarding session. Three sentences, warm and encouraging tone, no discount language, one button linking to a call-booking page. Use the result of \"Build the fast-starter list\".",
+      "command": "create_email_content",
+      "entity": "email_html",
       "modelConfig": []
     }
   ]

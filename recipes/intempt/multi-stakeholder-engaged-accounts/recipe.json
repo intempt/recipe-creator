@@ -2,8 +2,8 @@
   "frontmatter_id": "multi-stakeholder-engaged-accounts",
   "title": "Accounts with a buying group active",
   "slash_command": "/multi-stakeholder-engaged-accounts",
-  "description": "Individual users who logged 5 or more Session start and 10 or more View page events in the last 14 days, a high-engagement segment per user.",
-  "markdown": "# Accounts with a buying group active\n\n## Description\n\nIndividual users who logged 5 or more Session start and 10 or more View page events in the last 14 days, a high-engagement segment per user.\n\n## Steps\n\n### Step 1: Build the multi-stakeholder list\n\nBuild a segment of accounts named \"Multi-Stakeholder Engaged Accounts\".\nAn account is in the segment only when all of these are true:\n- its User count attribute is 3 or more\n- the users in the account together did the Session start event 5 or more times in the last 14 days\n- the users in the account together did the View page event 10 or more times in the last 14 days\n",
+  "description": "Accounts where several people are actively using the product at once, the clearest sign a real buying committee has formed, flagged to sales and sent a resource built for teams.",
+  "markdown": "# Accounts with a buying group active\n\n## Description\n\nAccounts where several people are actively using the product at once, the clearest sign a real buying committee has formed, flagged to sales and sent a resource built for teams.\n\n## Steps\n\n### Step 1: Build the multi-stakeholder list\n\nBuild a segment of accounts named \"Multi-Stakeholder Engaged Accounts\".\nAn account is in the segment only when all of these are true:\n- the users in the account together did the Session start event 5 or more times in the last 14 days\n- the users in the account together did the View page event 10 or more times in the last 14 days\n\n### Step 2: Alert sales\n\nGenerate a Slack message to the channel chosen for this run listing the accounts in \"Multi-Stakeholder Engaged Accounts\" so reps know a buying committee may have formed and can act while interest is high. Use the result of \"Build the multi-stakeholder list\".\n\n### Step 3: Send a team resource\n\nGenerate a designed marketing email for the accounts in \"Multi-Stakeholder Engaged Accounts\" offering a resource built for teams evaluating the product together. Three sentences, consultative tone, no discount language, one button linking to a call-booking page. Use the result of \"Build the multi-stakeholder list\".\n",
   "classification": {
     "industry": [
       "industry-agnostic"
@@ -17,22 +17,42 @@
     "org_name": "intempt"
   },
   "permissions": [
-    "segment:create"
+    "segment:create",
+    "content:create"
   ],
   "steps": [
     {
       "id": "s1",
       "title": "Build the multi-stakeholder list",
-      "description": "Build a segment of accounts named \"Multi-Stakeholder Engaged Accounts\". An account is in the segment only when all of these are true: its users_count attribute is 3 or more; the users in the account together did the session_start event 5 or more times in the last 14 days; the users in the account together did the page_viewed event 10 or more times in the last 14 days.",
+      "description": "Build a segment of accounts named \"Multi-Stakeholder Engaged Accounts\". An account is in the segment only when all of these are true: the users in the account together did the Session start event 5 or more times in the last 14 days; the users in the account together did the View page event 10 or more times in the last 14 days.",
       "command": "create_segment",
       "entity": "segment",
-      "integration": [
-        "web",
-        "ios",
-        "android",
-        "react-native"
-      ],
       "kind": "static",
+      "modelConfig": []
+    },
+    {
+      "id": "s2",
+      "title": "Alert sales",
+      "description": "Generate a Slack message to the channel chosen for this run listing the accounts in \"Multi-Stakeholder Engaged Accounts\" so reps know a buying committee may have formed and can act while interest is high. Use the result of \"Build the multi-stakeholder list\".",
+      "command": "create_slack_content",
+      "entity": "slack",
+      "modelConfig": [],
+      "arguments": [
+        {
+          "key": "channel_s2",
+          "type": "string",
+          "label": "Slack channel",
+          "phrase": "the channel chosen for this run",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "s3",
+      "title": "Send a team resource",
+      "description": "Generate a designed marketing email for the accounts in \"Multi-Stakeholder Engaged Accounts\" offering a resource built for teams evaluating the product together. Three sentences, consultative tone, no discount language, one button linking to a call-booking page. Use the result of \"Build the multi-stakeholder list\".",
+      "command": "create_email_content",
+      "entity": "email_html",
       "modelConfig": []
     }
   ]

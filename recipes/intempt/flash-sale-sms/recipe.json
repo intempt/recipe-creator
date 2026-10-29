@@ -2,8 +2,8 @@
   "frontmatter_id": "flash-sale-sms",
   "title": "Flash sale text message",
   "slash_command": "/flash-sale-sms",
-  "description": "Writes a short text message for a time-limited offer, inside SMS character limits, with a short link to the offer page.",
-  "markdown": "# Flash sale text message\n\n## Description\n\nWrites a short text message for a time-limited offer, inside SMS character limits, with a short link to the offer page.\n\n## Steps\n\n### Step 1: Write the flash sale SMS\n\nCreate a flash sale SMS message.\nWrite urgency-driven short copy optimized for SMS character limits. Include a short.link preview card for the offer landing page. Tone: direct, time-limited, action-oriented.\nOutput: SMS message with link preview\n",
+  "description": "Builds the list of recently active shoppers, writes a time-limited offer text naming the discount and deadline, and lets marketing ops see the reach before it sends.",
+  "markdown": "# Flash sale text message\n\n## Description\n\nBuilds the list of recently active shoppers, writes a time-limited offer text naming the discount and deadline, and lets marketing ops see the reach before it sends.\n\n## Steps\n\n### Step 1: Build the flash-sale audience\n\nBuild a segment of users named \"Flash Sale Audience\".\nA user is in the segment only when all of these are true:\n- they did the View page event at least once in the last 14 days\n\n### Step 2: Write the flash sale SMS\n\nGenerate an SMS for the users in \"Flash Sale Audience\" announcing a time-limited discount. State the discount percentage and the exact end date for the offer in the message. Include a short.link preview card for the offer's landing page. One or two sentences, direct and urgent tone. Use the result of \"Build the flash-sale audience\".\n\n### Step 3: Alert marketing ops\n\nGenerate a Slack message to the channel chosen for this run noting the size of \"Flash Sale Audience\" so the team can track reach before the sale goes out. Use the result of \"Build the flash-sale audience\".\n",
   "classification": {
     "industry": [
       "ecommerce-retail"
@@ -17,25 +17,42 @@
     "org_name": "intempt"
   },
   "permissions": [
+    "segment:create",
     "content:create"
   ],
   "steps": [
     {
       "id": "s1",
+      "title": "Build the flash-sale audience",
+      "description": "Build a segment of users named \"Flash Sale Audience\". A user is in the segment only when all of these are true: they did the View page event at least once in the last 14 days.",
+      "command": "create_segment",
+      "entity": "segment",
+      "kind": "static",
+      "modelConfig": []
+    },
+    {
+      "id": "s2",
       "title": "Write the flash sale SMS",
-      "description": "Create a flash sale SMS message. Write urgency-driven short copy optimized for SMS character limits. Include a short.link preview card for the offer landing page. Tone: direct, time-limited, action-oriented. Output: SMS message with link preview",
+      "description": "Generate an SMS for the users in \"Flash Sale Audience\" announcing a time-limited discount. State the discount percentage and the exact end date for the offer in the message. Include a short.link preview card for the offer's landing page. One or two sentences, direct and urgent tone. Use the result of \"Build the flash-sale audience\".",
       "command": "create_sms_content",
       "entity": "sms",
       "kind": "dynamic",
+      "modelConfig": []
+    },
+    {
+      "id": "s3",
+      "title": "Alert marketing ops",
+      "description": "Generate a Slack message to the channel chosen for this run noting the size of \"Flash Sale Audience\" so the team can track reach before the sale goes out. Use the result of \"Build the flash-sale audience\".",
+      "command": "create_slack_content",
+      "entity": "slack",
       "modelConfig": [],
       "arguments": [
         {
-          "key": "url_s1",
+          "key": "channel_s3",
           "type": "string",
-          "label": "Offer landing page link",
-          "phrase": "the offer landing page",
-          "required": true,
-          "value_kind": "url"
+          "label": "Slack channel",
+          "phrase": "the channel chosen for this run",
+          "required": true
         }
       ]
     }

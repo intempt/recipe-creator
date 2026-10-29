@@ -1,33 +1,44 @@
 {
   "frontmatter_id": "net-new-prospects",
-  "title": "Net-new prospect accounts",
+  "title": "Newly active small accounts",
   "slash_command": "/net-new-prospects",
-  "description": "Accounts created in the last week that have barely done anything yet, so SDRs know who to contact first.",
-  "markdown": "# Net-new prospect accounts\n\n## Description\n\nAccounts created in the last week that have barely done anything yet, so SDRs know who to contact first.\n\n## Steps\n\n### Step 1: Build the net-new account list\n\nBuild a segment of accounts named \"Net-New Prospects\".\nAn account is in the segment only when all of these are true:\n- its Created date attribute is within the last 7 days\n- its Total events attribute is 5 or less\n- its Lifecycle stage attribute is \"prospect\"\n- its Has an open deal attribute is false\n",
+  "description": "Small accounts showing their first signs of life, welcomed by email and flagged to SDRs so follow-up happens while the account is still fresh.",
+  "markdown": "# Newly active small accounts\n\n## Description\n\nSmall accounts showing their first signs of life, welcomed by email and flagged to SDRs so follow-up happens while the account is still fresh.\n\n## Steps\n\n### Step 1: Build the net-new account list\n\nBuild a segment of accounts named \"Net-New Prospects\".\nAn account is in the segment only when all of these are true:\n- its employees attribute is less than 100\n- the users in the account together did the Session start event at least once in the last 7 days\n\n### Step 2: Send a welcome email\n\nGenerate a designed marketing email for the accounts in \"Net-New Prospects\" welcoming the team and pointing to the one feature most worth trying first. Three sentences, warm and encouraging tone, no discount language, one button linking to that feature inside the product. Use the result of \"Build the net-new account list\".\n\n### Step 3: Notify SDRs\n\nGenerate a plain-text email to the SDR distribution list listing the accounts in \"Net-New Prospects\" so follow-up happens while the account is still fresh. Use the result of \"Build the net-new account list\".\n",
   "classification": {
     "industry": [
       "industry-agnostic"
     ]
   },
-  "complexity": "quick",
   "author": {
     "name": "Intempt",
     "last_name": "Technologies",
     "company": "Intempt",
     "org_name": "intempt"
   },
-  "permissions": [
-    "segment:create"
-  ],
+  "permissions": [],
   "steps": [
     {
       "id": "s1",
       "title": "Build the net-new account list",
-      "description": "Build a segment of accounts named \"Net-New Prospects\". An account is in the segment only when all of these are true: its created_at attribute is within the last 7 days; its total_events attribute is 5 or less; its account_lifecycle attribute is \"prospect\"; its has_open_deal attribute is false",
+      "description": "Build a segment of accounts named \"Net-New Prospects\". An account is in the segment only when all of these are true: its employees attribute is less than 100; the users in the account together did the Session start event at least once in the last 7 days.",
       "command": "create_segment",
       "entity": "segment",
       "kind": "static",
       "modelConfig": []
+    },
+    {
+      "id": "s2",
+      "title": "Send a welcome email",
+      "description": "Generate a designed marketing email for the accounts in \"Net-New Prospects\" welcoming the team and pointing to the one feature most worth trying first. Three sentences, warm and encouraging tone, no discount language, one button linking to that feature inside the product. Use the result of \"Build the net-new account list\".",
+      "command": "create_email_content",
+      "entity": "email_html",
+      "modelConfig": []
+    },
+    {
+      "id": "s3",
+      "title": "Notify SDRs",
+      "description": "Generate a plain-text email to the SDR distribution list listing the accounts in \"Net-New Prospects\" so follow-up happens while the account is still fresh. Use the result of \"Build the net-new account list\"."
     }
-  ]
+  ],
+  "availability": "coming_soon"
 }
