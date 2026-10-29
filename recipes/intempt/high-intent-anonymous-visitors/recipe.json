@@ -9,13 +9,17 @@
       "industry-agnostic"
     ]
   },
+  "complexity": "quick",
   "author": {
     "name": "Intempt",
     "last_name": "Technologies",
     "company": "Intempt",
     "org_name": "intempt"
   },
-  "permissions": [],
+  "permissions": [
+    "content:create",
+    "segment:create"
+  ],
   "steps": [
     {
       "id": "s1",
@@ -29,13 +33,18 @@
     {
       "id": "s2",
       "title": "Nudge toward a feature",
-      "description": "Generate a push notification for the users in \"Frequent Repeat Visitors\" highlighting one feature worth trying given how often they are showing up. Title under 40 characters, one short body line, friendly and curious tone, deep link to that feature. Use the result of \"Build the frequent-visitor list\"."
+      "description": "Generate a push notification for the users in \"Frequent Repeat Visitors\" highlighting one feature worth trying given how often they are showing up. Title under 40 characters, one short body line, friendly and curious tone, deep link to that feature. Use the result of \"Build the frequent-visitor list\".",
+      "command": "create_push_content",
+      "entity": "push",
+      "modelConfig": []
     },
     {
       "id": "s3",
       "title": "Share the retargeting audience",
-      "description": "Generate a plain-text email to the growth team distribution list listing the users in \"Frequent Repeat Visitors\" as a retargeting audience worth running ads against. Use the result of \"Build the frequent-visitor list\"."
+      "description": "Generate a plain-text email to the growth team distribution list listing the users in \"Frequent Repeat Visitors\" as a retargeting audience worth running ads against. Use the result of \"Build the frequent-visitor list\".",
+      "command": "create_email_content",
+      "entity": "email_plain",
+      "modelConfig": []
     }
-  ],
-  "availability": "coming_soon"
+  ]
 }

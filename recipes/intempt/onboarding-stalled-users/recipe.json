@@ -3,7 +3,7 @@
   "title": "Engaged trial users",
   "slash_command": "/onboarding-stalled-users",
   "description": "Trial users logging in often enough to be ready to buy, offered a personal demo by email while sales still has the window to close them.",
-  "markdown": "# Engaged trial users\n\n## Description\n\nTrial users logging in often enough to be ready to buy, offered a personal demo by email while sales still has the window to close them.\n\n## Steps\n\n### Step 1: Build the engaged-trial list\n\nBuild a segment of users named \"Engaged Trial Users\".\nA user is in the segment only when all of these are true:\n- their Plan attribute is \"trial\"\n- they did the Session start event 5 or more times in the last 14 days\n\n### Step 2: Offer a personal demo\n\nGenerate a designed marketing email for the users in \"Engaged Trial Users\" offering a personal walkthrough of a feature they have not tried yet. Three sentences, warm and helpful tone, no discount language, one button linking to the demo booking page. Use the result of \"Build the engaged-trial list\".\n\n### Step 3: Alert sales\n\nGenerate a Slack message to the channel chosen for this run listing the users in \"Engaged Trial Users\" so reps can reach out while the trial window is still open. Use the result of \"Build the engaged-trial list\".\n",
+  "markdown": "# Engaged trial users\n\n## Description\n\nTrial users logging in often enough to be ready to buy, offered a personal demo by email while sales still has the window to close them.\n\n## Steps\n\n### Step 1: Build the engaged-trial list\n\nBuild a segment of users named \"Engaged Trial Users\".\nA user is in the segment only when all of these are true:\n- their Plan attribute is \"trial\"\n- they did the Session start event 5 or more times in the last 14 days\n\n### Step 2: Offer a personal demo\n\nGenerate a designed marketing email for the users in \"Engaged Trial Users\" offering a personal walkthrough of a feature they have not tried yet. Three sentences, warm and helpful tone, no discount language, one button linking to the demo booking page. Use the result of \"Build the engaged-trial list\".\n\n### Step 3: Alert sales\n\nGenerate a Slack message to the sales channel listing the users in \"Engaged Trial Users\" so reps can reach out while the trial window is still open. Use the result of \"Build the engaged-trial list\".\n",
   "classification": {
     "industry": [
       "industry-agnostic"
@@ -41,19 +41,10 @@
     {
       "id": "s3",
       "title": "Alert sales",
-      "description": "Generate a Slack message to the channel chosen for this run listing the users in \"Engaged Trial Users\" so reps can reach out while the trial window is still open. Use the result of \"Build the engaged-trial list\".",
+      "description": "Generate a Slack message to the sales channel listing the users in \"Engaged Trial Users\" so reps can reach out while the trial window is still open. Use the result of \"Build the engaged-trial list\".",
       "command": "create_slack_content",
       "entity": "slack",
-      "modelConfig": [],
-      "arguments": [
-        {
-          "key": "channel_s3",
-          "type": "string",
-          "label": "Slack channel",
-          "phrase": "the channel chosen for this run",
-          "required": true
-        }
-      ]
+      "modelConfig": []
     }
   ]
 }

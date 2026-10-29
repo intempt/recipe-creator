@@ -9,13 +9,17 @@
       "industry-agnostic"
     ]
   },
+  "complexity": "quick",
   "author": {
     "name": "Intempt",
     "last_name": "Technologies",
     "company": "Intempt",
     "org_name": "intempt"
   },
-  "permissions": [],
+  "permissions": [
+    "content:create",
+    "segment:create"
+  ],
   "steps": [
     {
       "id": "s1",
@@ -29,7 +33,10 @@
     {
       "id": "s2",
       "title": "Notify sales ops",
-      "description": "Generate a plain-text email to the sales ops distribution list listing the accounts in \"Mid-Market Accounts\" so inside sales can assign owners to the newest accounts first. Use the result of \"Build the mid-market list\"."
+      "description": "Generate a plain-text email to the sales ops distribution list listing the accounts in \"Mid-Market Accounts\" so inside sales can assign owners to the newest accounts first. Use the result of \"Build the mid-market list\".",
+      "command": "create_email_content",
+      "entity": "email_plain",
+      "modelConfig": []
     },
     {
       "id": "s3",
@@ -39,6 +46,5 @@
       "entity": "email_html",
       "modelConfig": []
     }
-  ],
-  "availability": "coming_soon"
+  ]
 }

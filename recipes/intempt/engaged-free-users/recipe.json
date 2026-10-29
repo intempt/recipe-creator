@@ -9,13 +9,17 @@
       "saas-b2b-tech"
     ]
   },
+  "complexity": "quick",
   "author": {
     "name": "Intempt",
     "last_name": "Technologies",
     "company": "Intempt",
     "org_name": "intempt"
   },
-  "permissions": [],
+  "permissions": [
+    "content:create",
+    "segment:create"
+  ],
   "steps": [
     {
       "id": "s1",
@@ -37,8 +41,10 @@
     {
       "id": "s3",
       "title": "Notify growth",
-      "description": "Generate a plain-text email to the growth team distribution list listing the users in \"Engaged Free Users\" so outreach can be prioritized by how active each one already is. Use the result of \"Build the engaged free list\"."
+      "description": "Generate a plain-text email to the growth team distribution list listing the users in \"Engaged Free Users\" so outreach can be prioritized by how active each one already is. Use the result of \"Build the engaged free list\".",
+      "command": "create_email_content",
+      "entity": "email_plain",
+      "modelConfig": []
     }
-  ],
-  "availability": "coming_soon"
+  ]
 }

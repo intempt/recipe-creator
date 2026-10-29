@@ -9,13 +9,17 @@
       "industry-agnostic"
     ]
   },
+  "complexity": "quick",
   "author": {
     "name": "Intempt",
     "last_name": "Technologies",
     "company": "Intempt",
     "org_name": "intempt"
   },
-  "permissions": [],
+  "permissions": [
+    "content:create",
+    "segment:create"
+  ],
   "steps": [
     {
       "id": "s1",
@@ -37,8 +41,10 @@
     {
       "id": "s3",
       "title": "Notify SDRs",
-      "description": "Generate a plain-text email to the SDR distribution list listing the accounts in \"Net-New Prospects\" so follow-up happens while the account is still fresh. Use the result of \"Build the net-new account list\"."
+      "description": "Generate a plain-text email to the SDR distribution list listing the accounts in \"Net-New Prospects\" so follow-up happens while the account is still fresh. Use the result of \"Build the net-new account list\".",
+      "command": "create_email_content",
+      "entity": "email_plain",
+      "modelConfig": []
     }
-  ],
-  "availability": "coming_soon"
+  ]
 }

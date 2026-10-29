@@ -9,13 +9,17 @@
       "industry-agnostic"
     ]
   },
+  "complexity": "quick",
   "author": {
     "name": "Intempt",
     "last_name": "Technologies",
     "company": "Intempt",
     "org_name": "intempt"
   },
-  "permissions": [],
+  "permissions": [
+    "content:create",
+    "segment:create"
+  ],
   "steps": [
     {
       "id": "s1",
@@ -29,7 +33,10 @@
     {
       "id": "s2",
       "title": "Notify the renewals team",
-      "description": "Generate a plain-text email to the renewals team distribution list listing the users in \"Renewal Window 90 Days\" so conversations start months early instead of the week before. Use the result of \"Build the renewal list\"."
+      "description": "Generate a plain-text email to the renewals team distribution list listing the users in \"Renewal Window 90 Days\" so conversations start months early instead of the week before. Use the result of \"Build the renewal list\".",
+      "command": "create_email_content",
+      "entity": "email_plain",
+      "modelConfig": []
     },
     {
       "id": "s3",
@@ -39,6 +46,5 @@
       "entity": "email_html",
       "modelConfig": []
     }
-  ],
-  "availability": "coming_soon"
+  ]
 }

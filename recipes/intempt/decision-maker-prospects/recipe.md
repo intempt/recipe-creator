@@ -32,4 +32,4 @@ Generate a designed marketing email for the users in "Long-Time Loyal Customers"
 
 ## Step 3: Alert customer marketing
 
-Generate a Slack message to the channel chosen for this run listing the users in "Long-Time Loyal Customers" as candidates for a testimonial or case study. Use the result of "Build the loyal-customer list".
+Generate a Slack message to the customer marketing channel listing the users in "Long-Time Loyal Customers" as candidates for a testimonial or case study. Use the result of "Build the loyal-customer list".

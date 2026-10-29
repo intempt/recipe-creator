@@ -9,13 +9,17 @@
       "industry-agnostic"
     ]
   },
+  "complexity": "quick",
   "author": {
     "name": "Intempt",
     "last_name": "Technologies",
     "company": "Intempt",
     "org_name": "intempt"
   },
-  "permissions": [],
+  "permissions": [
+    "content:create",
+    "segment:create"
+  ],
   "steps": [
     {
       "id": "s1",
@@ -37,8 +41,10 @@
     {
       "id": "s3",
       "title": "Notify onboarding",
-      "description": "Generate a plain-text email to the onboarding team distribution list listing the accounts in \"Recently-Won Accounts\" so implementation starts from one current list. Use the result of \"Build the recently-won list\"."
+      "description": "Generate a plain-text email to the onboarding team distribution list listing the accounts in \"Recently-Won Accounts\" so implementation starts from one current list. Use the result of \"Build the recently-won list\".",
+      "command": "create_email_content",
+      "entity": "email_plain",
+      "modelConfig": []
     }
-  ],
-  "availability": "coming_soon"
+  ]
 }

@@ -3,7 +3,7 @@
   "title": "VIP customers",
   "slash_command": "/vip-customers-high-ltv",
   "description": "Your highest lifetime value customers who are still active, welcomed into VIP recognition by email and flagged to the concierge team for a personal touch.",
-  "markdown": "# VIP customers\n\n## Description\n\nYour highest lifetime value customers who are still active, welcomed into VIP recognition by email and flagged to the concierge team for a personal touch.\n\n## Steps\n\n### Step 1: Build the VIP list\n\nBuild a segment of users named \"VIP Customers\".\nA user is in the segment only when all of these are true:\n- their Lifetime value attribute is 1000 or more\n- they did the Session start event at least once in the last 7 days\n\n### Step 2: Send a VIP recognition email\n\nGenerate a designed marketing email for the users in \"VIP Customers\" thanking them for their loyalty and inviting them into VIP recognition. Three sentences, warm and appreciative tone, no discount language, one button linking to the rewards or early-access page. Use the result of \"Build the VIP list\".\n\n### Step 3: Alert the concierge team\n\nGenerate a Slack message to the channel chosen for this run listing the users in \"VIP Customers\" so the team can give each one a personal welcome into the program. Use the result of \"Build the VIP list\".\n",
+  "markdown": "# VIP customers\n\n## Description\n\nYour highest lifetime value customers who are still active, welcomed into VIP recognition by email and flagged to the concierge team for a personal touch.\n\n## Steps\n\n### Step 1: Build the VIP list\n\nBuild a segment of users named \"VIP Customers\".\nA user is in the segment only when all of these are true:\n- their Lifetime value attribute is 1000 or more\n- they did the Session start event at least once in the last 7 days\n\n### Step 2: Send a VIP recognition email\n\nGenerate a designed marketing email for the users in \"VIP Customers\" thanking them for their loyalty and inviting them into VIP recognition. Three sentences, warm and appreciative tone, no discount language, one button linking to the rewards or early-access page. Use the result of \"Build the VIP list\".\n\n### Step 3: Alert the concierge team\n\nGenerate a Slack message to the concierge team channel listing the users in \"VIP Customers\" so the team can give each one a personal welcome into the program. Use the result of \"Build the VIP list\".\n",
   "classification": {
     "industry": [
       "ecommerce-retail"
@@ -41,19 +41,10 @@
     {
       "id": "s3",
       "title": "Alert the concierge team",
-      "description": "Generate a Slack message to the channel chosen for this run listing the users in \"VIP Customers\" so the team can give each one a personal welcome into the program. Use the result of \"Build the VIP list\".",
+      "description": "Generate a Slack message to the concierge team channel listing the users in \"VIP Customers\" so the team can give each one a personal welcome into the program. Use the result of \"Build the VIP list\".",
       "command": "create_slack_content",
       "entity": "slack",
-      "modelConfig": [],
-      "arguments": [
-        {
-          "key": "channel_s3",
-          "type": "string",
-          "label": "Slack channel",
-          "phrase": "the channel chosen for this run",
-          "required": true
-        }
-      ]
+      "modelConfig": []
     }
   ]
 }

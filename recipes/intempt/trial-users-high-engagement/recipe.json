@@ -3,7 +3,7 @@
   "title": "Fast-starter trials",
   "slash_command": "/trial-users-high-engagement",
   "description": "Trial users logging in constantly within their first week, the clearest early signal of a trial about to convert, fast-tracked to sales and offered a personal onboarding session.",
-  "markdown": "# Fast-starter trials\n\n## Description\n\nTrial users logging in constantly within their first week, the clearest early signal of a trial about to convert, fast-tracked to sales and offered a personal onboarding session.\n\n## Steps\n\n### Step 1: Build the fast-starter list\n\nBuild a segment of users named \"Trial Users: High Engagement\".\nA user is in the segment only when all of these are true:\n- their Plan attribute is \"trial\"\n- they did the Subscription started event at least once between 0 and 7 days ago\n- they did the Session start event 5 or more times in the last 7 days\n\n### Step 2: Fast-track to sales\n\nGenerate a Slack message to the channel chosen for this run listing the users in \"Trial Users: High Engagement\" so reps can reach out while interest is at its peak. Use the result of \"Build the fast-starter list\".\n\n### Step 3: Offer a personal onboarding session\n\nGenerate a designed marketing email for the users in \"Trial Users: High Engagement\" congratulating them on their fast start and offering a personal onboarding session. Three sentences, warm and encouraging tone, no discount language, one button linking to a call-booking page. Use the result of \"Build the fast-starter list\".\n",
+  "markdown": "# Fast-starter trials\n\n## Description\n\nTrial users logging in constantly within their first week, the clearest early signal of a trial about to convert, fast-tracked to sales and offered a personal onboarding session.\n\n## Steps\n\n### Step 1: Build the fast-starter list\n\nBuild a segment of users named \"Trial Users: High Engagement\".\nA user is in the segment only when all of these are true:\n- their Plan attribute is \"trial\"\n- they did the Subscription started event at least once between 0 and 7 days ago\n- they did the Session start event 5 or more times in the last 7 days\n\n### Step 2: Fast-track to sales\n\nGenerate a Slack message to the sales channel listing the users in \"Trial Users: High Engagement\" so reps can reach out while interest is at its peak. Use the result of \"Build the fast-starter list\".\n\n### Step 3: Offer a personal onboarding session\n\nGenerate a designed marketing email for the users in \"Trial Users: High Engagement\" congratulating them on their fast start and offering a personal onboarding session. Three sentences, warm and encouraging tone, no discount language, one button linking to a call-booking page. Use the result of \"Build the fast-starter list\".\n",
   "classification": {
     "industry": [
       "saas-b2b-tech"
@@ -33,19 +33,10 @@
     {
       "id": "s2",
       "title": "Fast-track to sales",
-      "description": "Generate a Slack message to the channel chosen for this run listing the users in \"Trial Users: High Engagement\" so reps can reach out while interest is at its peak. Use the result of \"Build the fast-starter list\".",
+      "description": "Generate a Slack message to the sales channel listing the users in \"Trial Users: High Engagement\" so reps can reach out while interest is at its peak. Use the result of \"Build the fast-starter list\".",
       "command": "create_slack_content",
       "entity": "slack",
-      "modelConfig": [],
-      "arguments": [
-        {
-          "key": "channel_s2",
-          "type": "string",
-          "label": "Slack channel",
-          "phrase": "the channel chosen for this run",
-          "required": true
-        }
-      ]
+      "modelConfig": []
     },
     {
       "id": "s3",

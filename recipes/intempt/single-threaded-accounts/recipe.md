@@ -32,4 +32,4 @@ Generate a plain-text email for the accounts in "Enterprise Accounts Going Quiet
 
 ## Step 3: Alert the key accounts team
 
-Generate a Slack message to the channel chosen for this run listing the accounts in "Enterprise Accounts Going Quiet" so the team can prioritize outreach before it becomes a renewal problem. Use the result of "Build the quiet-enterprise list".
+Generate a Slack message to the key accounts team channel listing the accounts in "Enterprise Accounts Going Quiet" so the team can prioritize outreach before it becomes a renewal problem. Use the result of "Build the quiet-enterprise list".

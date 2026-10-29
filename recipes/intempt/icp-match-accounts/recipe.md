@@ -28,12 +28,12 @@ An account is in the segment only when all of these are true:
 
 ## Step 2: Alert sales
 
-Generate a Slack message to the channel chosen for this run listing the accounts in "ICP Match Accounts" so reps can prioritize outreach to the newest matches first. Use the result of "Build the ICP list".
+Generate a Slack message to the sales channel listing the accounts in "ICP Match Accounts" so reps can prioritize outreach to the newest matches first. Use the result of "Build the ICP list".
 
 ## Step 3: Send an intro email
 
 Generate a designed marketing email for the accounts in "ICP Match Accounts" introducing the product for a company of their size. Three sentences, confident and consultative tone, no discount language, one button linking to a call-booking page. Use the result of "Build the ICP list".
 
-## Step 4: Tag ICP-fit accounts
+## Step 4: Tag the matched accounts
 
-Create an attribute named "icp_fit" on accounts. Set it to true for every account in "ICP Match Accounts" and false for every other account, refreshed daily, so later segments and reports can filter on fit without rebuilding this logic. Use the result of "Build the ICP list".
+Create an attribute named "icp_fit" on accounts in "ICP Match Accounts", set to true. Use the result of "Build the ICP list".

@@ -3,7 +3,7 @@
   "title": "ICP accounts showing intent",
   "slash_command": "/high-intent-icp-prospects",
   "description": "ICP-sized accounts with recent activity on your site, flagged to sales and sent an outreach email while interest is still warm.",
-  "markdown": "# ICP accounts showing intent\n\n## Description\n\nICP-sized accounts with recent activity on your site, flagged to sales and sent an outreach email while interest is still warm.\n\n## Steps\n\n### Step 1: Build the hot ICP list\n\nBuild a segment of accounts named \"High-Intent ICP Prospects\".\nAn account is in the segment only when all of these are true:\n- its employees attribute is 50 or more\n- its employees attribute is less than 1000\n- the users in the account together did the View page event at least once in the last 7 days\n\n### Step 2: Alert sales\n\nGenerate a Slack message to the channel chosen for this run listing the accounts in \"High-Intent ICP Prospects\" so reps can reach out while interest is still warm. Use the result of \"Build the hot ICP list\".\n\n### Step 3: Send an outreach email\n\nGenerate a designed marketing email for the accounts in \"High-Intent ICP Prospects\" introducing the product's most relevant feature for a company of their size. Three sentences, confident and consultative tone, no discount language, one button linking to a call-booking page. Use the result of \"Build the hot ICP list\".\n",
+  "markdown": "# ICP accounts showing intent\n\n## Description\n\nICP-sized accounts with recent activity on your site, flagged to sales and sent an outreach email while interest is still warm.\n\n## Steps\n\n### Step 1: Build the hot ICP list\n\nBuild a segment of accounts named \"High-Intent ICP Prospects\".\nAn account is in the segment only when all of these are true:\n- its employees attribute is 50 or more\n- its employees attribute is less than 1000\n- the users in the account together did the View page event at least once in the last 7 days\n\n### Step 2: Alert sales\n\nGenerate a Slack message to the sales channel listing the accounts in \"High-Intent ICP Prospects\" so reps can reach out while interest is still warm. Use the result of \"Build the hot ICP list\".\n\n### Step 3: Send an outreach email\n\nGenerate a designed marketing email for the accounts in \"High-Intent ICP Prospects\" introducing the product's most relevant feature for a company of their size. Three sentences, confident and consultative tone, no discount language, one button linking to a call-booking page. Use the result of \"Build the hot ICP list\".\n",
   "classification": {
     "industry": [
       "industry-agnostic"
@@ -33,19 +33,10 @@
     {
       "id": "s2",
       "title": "Alert sales",
-      "description": "Generate a Slack message to the channel chosen for this run listing the accounts in \"High-Intent ICP Prospects\" so reps can reach out while interest is still warm. Use the result of \"Build the hot ICP list\".",
+      "description": "Generate a Slack message to the sales channel listing the accounts in \"High-Intent ICP Prospects\" so reps can reach out while interest is still warm. Use the result of \"Build the hot ICP list\".",
       "command": "create_slack_content",
       "entity": "slack",
-      "modelConfig": [],
-      "arguments": [
-        {
-          "key": "channel_s2",
-          "type": "string",
-          "label": "Slack channel",
-          "phrase": "the channel chosen for this run",
-          "required": true
-        }
-      ]
+      "modelConfig": []
     },
     {
       "id": "s3",

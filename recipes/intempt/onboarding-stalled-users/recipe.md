@@ -32,4 +32,4 @@ Generate a designed marketing email for the users in "Engaged Trial Users" offer
 
 ## Step 3: Alert sales
 
-Generate a Slack message to the channel chosen for this run listing the users in "Engaged Trial Users" so reps can reach out while the trial window is still open. Use the result of "Build the engaged-trial list".
+Generate a Slack message to the sales channel listing the users in "Engaged Trial Users" so reps can reach out while the trial window is still open. Use the result of "Build the engaged-trial list".
