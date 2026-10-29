@@ -17,6 +17,7 @@
     "org_name": "intempt"
   },
   "permissions": [
+    "content:create",
     "segment:create"
   ],
   "steps": [
@@ -32,13 +33,18 @@
     {
       "id": "s2",
       "title": "Invite them to the referral program",
-      "description": "Generate a push notification for the users in \"Power Users\" inviting them to join the referral program. Title under 40 characters, one short body line, friendly and appreciative tone, deep link to the referral program page. Use the result of \"Build the power-user list\"."
+      "description": "Generate a push notification for the users in \"Power Users\" inviting them to join the referral program. Title under 40 characters, one short body line, friendly and appreciative tone, deep link to the referral program page. Use the result of \"Build the power-user list\".",
+      "command": "create_push_content",
+      "entity": "push",
+      "modelConfig": []
     },
     {
       "id": "s3",
       "title": "Share the shortlist with growth",
-      "description": "Generate a plain-text email to the growth team distribution list listing the users in \"Power Users\" as candidates for case studies and advocacy, not just referrals. Use the result of \"Build the power-user list\"."
+      "description": "Generate a plain-text email to the growth team distribution list listing the users in \"Power Users\" as candidates for case studies and advocacy, not just referrals. Use the result of \"Build the power-user list\".",
+      "command": "create_email_content",
+      "entity": "email_plain",
+      "modelConfig": []
     }
-  ],
-  "availability": "coming_soon"
+  ]
 }

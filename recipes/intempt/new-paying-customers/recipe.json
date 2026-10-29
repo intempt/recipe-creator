@@ -41,8 +41,10 @@
     {
       "id": "s3",
       "title": "Notify customer success",
-      "description": "Generate a plain-text email to the customer success distribution list listing the users in \"New Paying Customers\" so the team can check in personally during their first week. Use the result of \"Build the new-customer list\"."
+      "description": "Generate a plain-text email to the customer success distribution list listing the users in \"New Paying Customers\" so the team can check in personally during their first week. Use the result of \"Build the new-customer list\".",
+      "command": "create_email_content",
+      "entity": "email_plain",
+      "modelConfig": []
     }
-  ],
-  "availability": "coming_soon"
+  ]
 }

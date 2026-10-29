@@ -41,8 +41,10 @@
     {
       "id": "s3",
       "title": "Flag to account executives",
-      "description": "Generate a plain-text email to the account executive distribution list listing the accounts in \"Expansion Whitespace Accounts\" so they can review each one for expansion opportunity. Use the result of \"Build the whitespace list\"."
+      "description": "Generate a plain-text email to the account executive distribution list listing the accounts in \"Expansion Whitespace Accounts\" so they can review each one for expansion opportunity. Use the result of \"Build the whitespace list\".",
+      "command": "create_email_content",
+      "entity": "email_plain",
+      "modelConfig": []
     }
-  ],
-  "availability": "coming_soon"
+  ]
 }

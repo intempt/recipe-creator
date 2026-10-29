@@ -41,8 +41,10 @@
     {
       "id": "s3",
       "title": "Notify growth",
-      "description": "Generate a plain-text email to the growth team distribution list listing the users in \"Engaged Free Users\" so outreach can be prioritized by how active each one already is. Use the result of \"Build the engaged free list\"."
+      "description": "Generate a plain-text email to the growth team distribution list listing the users in \"Engaged Free Users\" so outreach can be prioritized by how active each one already is. Use the result of \"Build the engaged free list\".",
+      "command": "create_email_content",
+      "entity": "email_plain",
+      "modelConfig": []
     }
-  ],
-  "availability": "coming_soon"
+  ]
 }

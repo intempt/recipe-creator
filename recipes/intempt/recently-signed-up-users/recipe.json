@@ -41,8 +41,10 @@
     {
       "id": "s3",
       "title": "Notify onboarding",
-      "description": "Generate a plain-text email to the onboarding team distribution list listing the users in \"Recently Signed-Up Users\" so the team can check in while the activation window is still open. Use the result of \"Build the new signup list\"."
+      "description": "Generate a plain-text email to the onboarding team distribution list listing the users in \"Recently Signed-Up Users\" so the team can check in while the activation window is still open. Use the result of \"Build the new signup list\".",
+      "command": "create_email_content",
+      "entity": "email_plain",
+      "modelConfig": []
     }
-  ],
-  "availability": "coming_soon"
+  ]
 }

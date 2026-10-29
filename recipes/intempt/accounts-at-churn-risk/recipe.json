@@ -33,7 +33,10 @@
     {
       "id": "s2",
       "title": "Draft a personal check-in",
-      "description": "Generate a plain-text email for the accounts in \"Accounts At Churn Risk\" written as a personal note from their customer success manager, asking how things are going and offering a quick call. Three sentences, warm and personal tone, no product pitch, no discount language. Use the result of \"Build the at-risk account list\"."
+      "description": "Generate a plain-text email for the accounts in \"Accounts At Churn Risk\" written as a personal note from their customer success manager, asking how things are going and offering a quick call. Three sentences, warm and personal tone, no product pitch, no discount language. Use the result of \"Build the at-risk account list\".",
+      "command": "create_email_content",
+      "entity": "email_plain",
+      "modelConfig": []
     },
     {
       "id": "s3",
@@ -43,6 +46,5 @@
       "entity": "slack",
       "modelConfig": []
     }
-  ],
-  "availability": "coming_soon"
+  ]
 }
