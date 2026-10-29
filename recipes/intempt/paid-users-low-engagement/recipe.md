@@ -1,7 +1,7 @@
 ---
 frontmatter_id: paid-users-low-engagement
 slash_command: /paid-users-low-engagement
-description: Paying customers with lower numeric engagement scores, useful for early retention outreach.
+description: Paying customers who have stopped logging in recently, nudged with a feature reminder and flagged to customer success before they slide into real churn risk.
 author:
   name: Intempt
   last_name: Technologies
@@ -12,7 +12,7 @@ classification:
   - industry-agnostic
 ---
 
-# Paid users losing interest
+# Paying users going quiet early
 
 Slash command: /paid-users-low-engagement
 
@@ -20,6 +20,14 @@ Slash command: /paid-users-low-engagement
 
 Build a segment of users named "Paid Users: Low Engagement".
 A user is in the segment only when all of these are true:
-- their Plan attribute is neither "free" nor "trial"
-- their Days since last activity attribute is between 7 and 21
-- their Engagement score attribute is "Low"
+- their Plan attribute is not "free"
+- their Plan attribute is not "trial"
+- they did not do the Session start event in the last 14 days
+
+## Step 2: Send a feature reminder
+
+Generate a designed marketing email for the users in "Paid Users: Low Engagement" reminding them of one feature that made them sign up in the first place. Three sentences, friendly and low-pressure tone, no discount language, one button linking back into the product. Use the result of "Build the low-engagement list".
+
+## Step 3: Flag to customer success
+
+Generate a plain-text email to the customer success distribution list listing the users in "Paid Users: Low Engagement" so the team can check in before this turns into real churn risk. Use the result of "Build the low-engagement list".

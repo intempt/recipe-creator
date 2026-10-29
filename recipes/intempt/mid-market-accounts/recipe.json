@@ -2,23 +2,20 @@
   "frontmatter_id": "mid-market-accounts",
   "title": "Mid-market accounts",
   "slash_command": "/mid-market-accounts",
-  "description": "Companies with 100 to 1,000 employees, so your inside sales team works from one list.",
-  "markdown": "# Mid-market accounts\n\n## Description\n\nCompanies with 100 to 1,000 employees, so your inside sales team works from one list.\n\n## Steps\n\n### Step 1: Build the mid-market list\n\nBuild a segment of accounts named \"Mid-Market Accounts\".\nAn account is in the segment only when all of these are true:\n- its employees attribute is 100 or more\n- its employees attribute is less than 1000\n",
+  "description": "Companies with 100 to 1,000 employees, flagged to inside sales and sent a getting-started email, so your mid-market motion starts automatically.",
+  "markdown": "# Mid-market accounts\n\n## Description\n\nCompanies with 100 to 1,000 employees, flagged to inside sales and sent a getting-started email, so your mid-market motion starts automatically.\n\n## Steps\n\n### Step 1: Build the mid-market list\n\nBuild a segment of accounts named \"Mid-Market Accounts\".\nAn account is in the segment only when all of these are true:\n- its employees attribute is 100 or more\n- its employees attribute is less than 1000\n\n### Step 2: Notify sales ops\n\nGenerate a plain-text email to the sales ops distribution list listing the accounts in \"Mid-Market Accounts\" so inside sales can assign owners to the newest accounts first. Use the result of \"Build the mid-market list\".\n\n### Step 3: Send a getting-started email\n\nGenerate a designed marketing email for the accounts in \"Mid-Market Accounts\" introducing features relevant to a growing team and inviting them to book a walkthrough. Three sentences, friendly and consultative tone, no discount language, one button linking to the walkthrough booking page. Use the result of \"Build the mid-market list\".\n",
   "classification": {
     "industry": [
       "industry-agnostic"
     ]
   },
-  "complexity": "quick",
   "author": {
     "name": "Intempt",
     "last_name": "Technologies",
     "company": "Intempt",
     "org_name": "intempt"
   },
-  "permissions": [
-    "segment:create"
-  ],
+  "permissions": [],
   "steps": [
     {
       "id": "s1",
@@ -28,6 +25,20 @@
       "entity": "segment",
       "kind": "static",
       "modelConfig": []
+    },
+    {
+      "id": "s2",
+      "title": "Notify sales ops",
+      "description": "Generate a plain-text email to the sales ops distribution list listing the accounts in \"Mid-Market Accounts\" so inside sales can assign owners to the newest accounts first. Use the result of \"Build the mid-market list\"."
+    },
+    {
+      "id": "s3",
+      "title": "Send a getting-started email",
+      "description": "Generate a designed marketing email for the accounts in \"Mid-Market Accounts\" introducing features relevant to a growing team and inviting them to book a walkthrough. Three sentences, friendly and consultative tone, no discount language, one button linking to the walkthrough booking page. Use the result of \"Build the mid-market list\".",
+      "command": "create_email_content",
+      "entity": "email_html",
+      "modelConfig": []
     }
-  ]
+  ],
+  "availability": "coming_soon"
 }

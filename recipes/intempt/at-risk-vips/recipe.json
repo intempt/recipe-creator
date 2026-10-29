@@ -2,35 +2,52 @@
   "frontmatter_id": "at-risk-vips",
   "title": "At-risk VIP customers",
   "slash_command": "/at-risk-vips",
-  "description": "Your biggest spenders who have gone quiet for about six weeks, so you can reach out personally before they drift away for good.",
-  "markdown": "# At-risk VIP customers\n\n## Description\n\nYour biggest spenders who have gone quiet for about six weeks, so you can reach out personally before they drift away for good.\n\n## Steps\n\n### Step 1: Build the at-risk VIP list\n\nBuild a segment of users named \"At-Risk VIPs\".\nA user is in the segment only when all of these are true:\n- their Lifetime value attribute is 1000 or more\n- their Days since last activity attribute is between 45 and 90\n- they did the Placed order event 2 or more times, at any time\n- they did not do the Placed order event in the last 45 days\n",
+  "description": "High lifetime value customers who have stopped logging in, checked on personally by their account manager and flagged to the retention team before they churn.",
+  "markdown": "# At-risk VIP customers\n\n## Description\n\nHigh lifetime value customers who have stopped logging in, checked on personally by their account manager and flagged to the retention team before they churn.\n\n## Steps\n\n### Step 1: Build the at-risk VIP list\n\nBuild a segment of users named \"At-Risk VIP Customers\".\nA user is in the segment only when all of these are true:\n- their Lifetime value attribute is more than 1000\n- they did not do the Session start event in the last 30 days\n\n### Step 2: Draft a personal check-in\n\nGenerate a plain-text email for the users in \"At-Risk VIP Customers\" written as a personal note from their account manager, asking how things are going and offering a quick call. Three sentences, warm and personal tone, no product pitch, no discount language. Use the result of \"Build the at-risk VIP list\".\n\n### Step 3: Alert the retention team\n\nGenerate a Slack message to the channel chosen for this run listing the users in \"At-Risk VIP Customers\" so the team can prioritize outreach to the highest-value accounts first. Use the result of \"Build the at-risk VIP list\".\n",
   "classification": {
     "industry": [
       "industry-agnostic"
     ]
   },
-  "complexity": "quick",
   "author": {
     "name": "Intempt",
     "last_name": "Technologies",
     "company": "Intempt",
     "org_name": "intempt"
   },
-  "permissions": [
-    "segment:create"
-  ],
+  "permissions": [],
   "steps": [
     {
       "id": "s1",
       "title": "Build the at-risk VIP list",
-      "description": "Build a segment of users named \"At-Risk VIPs\". A user is in the segment only when all of these are true: their Lifetime value attribute is 1000 or more; their Days since last activity attribute is between 45 and 90; they did the Placed order event 2 or more times, at any time; they did not do the Placed order event in the last 45 days.",
+      "description": "Build a segment of users named \"At-Risk VIP Customers\". A user is in the segment only when all of these are true: their Lifetime value attribute is more than 1000; they did not do the Session start event in the last 30 days.",
       "command": "create_segment",
       "entity": "segment",
-      "integration": [
-        "Shopify"
-      ],
       "kind": "static",
       "modelConfig": []
+    },
+    {
+      "id": "s2",
+      "title": "Draft a personal check-in",
+      "description": "Generate a plain-text email for the users in \"At-Risk VIP Customers\" written as a personal note from their account manager, asking how things are going and offering a quick call. Three sentences, warm and personal tone, no product pitch, no discount language. Use the result of \"Build the at-risk VIP list\"."
+    },
+    {
+      "id": "s3",
+      "title": "Alert the retention team",
+      "description": "Generate a Slack message to the channel chosen for this run listing the users in \"At-Risk VIP Customers\" so the team can prioritize outreach to the highest-value accounts first. Use the result of \"Build the at-risk VIP list\".",
+      "command": "create_slack_content",
+      "entity": "slack",
+      "modelConfig": [],
+      "arguments": [
+        {
+          "key": "channel_s3",
+          "type": "string",
+          "label": "Slack channel",
+          "phrase": "the channel chosen for this run",
+          "required": true
+        }
+      ]
     }
-  ]
+  ],
+  "availability": "coming_soon"
 }

@@ -2,8 +2,8 @@
   "frontmatter_id": "recently-churned-users",
   "title": "Recently cancelled customers",
   "slash_command": "/recently-churned-users",
-  "description": "Customers who cancelled in the last month, while the reason is fresh and a win-back still has a chance.",
-  "markdown": "# Recently cancelled customers\n\n## Description\n\nCustomers who cancelled in the last month, while the reason is fresh and a win-back still has a chance.\n\n## Steps\n\n### Step 1: Build the recent-cancel list\n\nBuild a segment of users named \"Recently Churned Users\".\nA user is in the segment only when all of these are true:\n- they did the Subscription canceled event at least once in the last 30 days\n- their Lifetime value attribute is more than 0\n",
+  "description": "Customers who cancelled in the last month, sent a win-back email and flagged to the retention team while the reason is still fresh.",
+  "markdown": "# Recently cancelled customers\n\n## Description\n\nCustomers who cancelled in the last month, sent a win-back email and flagged to the retention team while the reason is still fresh.\n\n## Steps\n\n### Step 1: Build the recent-cancel list\n\nBuild a segment of users named \"Recently Churned Users\".\nA user is in the segment only when all of these are true:\n- they did the Subscription canceled event at least once in the last 30 days\n- their Lifetime value attribute is more than 0\n\n### Step 2: Draft a win-back email\n\nGenerate a designed marketing email for the users in \"Recently Churned Users\" inviting them back. Three sentences, warm and non-defensive tone, asking what did not work and offering to help, no discount language, one button linking to the page for restarting their subscription. Use the result of \"Build the recent-cancel list\".\n\n### Step 3: Notify the retention team\n\nGenerate a Slack message to the channel chosen for this run listing the users in \"Recently Churned Users\" so the team can track cancellation volume and follow up personally with the highest-value ones. Use the result of \"Build the recent-cancel list\".\n",
   "classification": {
     "industry": [
       "industry-agnostic"
@@ -17,7 +17,8 @@
     "org_name": "intempt"
   },
   "permissions": [
-    "segment:create"
+    "segment:create",
+    "content:create"
   ],
   "steps": [
     {
@@ -26,18 +27,33 @@
       "description": "Build a segment of users named \"Recently Churned Users\". A user is in the segment only when all of these are true: they did the Subscription canceled event at least once in the last 30 days; their Lifetime value attribute is more than 0.",
       "command": "create_segment",
       "entity": "segment",
-      "integration": [
-        "web",
-        "ios",
-        "android",
-        "react-native",
-        "nodejs",
-        "php",
-        "python",
-        "api"
-      ],
       "kind": "static",
       "modelConfig": []
+    },
+    {
+      "id": "s2",
+      "title": "Draft a win-back email",
+      "description": "Generate a designed marketing email for the users in \"Recently Churned Users\" inviting them back. Three sentences, warm and non-defensive tone, asking what did not work and offering to help, no discount language, one button linking to the page for restarting their subscription. Use the result of \"Build the recent-cancel list\".",
+      "command": "create_email_content",
+      "entity": "email_html",
+      "modelConfig": []
+    },
+    {
+      "id": "s3",
+      "title": "Notify the retention team",
+      "description": "Generate a Slack message to the channel chosen for this run listing the users in \"Recently Churned Users\" so the team can track cancellation volume and follow up personally with the highest-value ones. Use the result of \"Build the recent-cancel list\".",
+      "command": "create_slack_content",
+      "entity": "slack",
+      "modelConfig": [],
+      "arguments": [
+        {
+          "key": "channel_s3",
+          "type": "string",
+          "label": "Slack channel",
+          "phrase": "the channel chosen for this run",
+          "required": true
+        }
+      ]
     }
   ]
 }

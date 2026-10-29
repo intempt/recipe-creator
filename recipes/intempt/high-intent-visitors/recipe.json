@@ -1,39 +1,41 @@
 {
   "frontmatter_id": "high-intent-visitors",
-  "title": "High-intent visitors",
+  "title": "Free users researching heavily",
   "slash_command": "/high-intent-visitors",
-  "description": "Free and unregistered users who read both your pricing and your docs in the last two weeks, the clearest sign somebody is close to buying.",
-  "markdown": "# High-intent visitors\n\n## Description\n\nFree and unregistered users who read both your pricing and your docs in the last two weeks, the clearest sign somebody is close to buying.\n\n## Steps\n\n### Step 1: Build the high-intent list\n\nBuild a segment of users named \"High-Intent Visitors\".\nA user is in the segment only when all of these are true:\n- they did the View page event with a Page URL that contains \"/pricing\" at least once in the last 14 days\n- they did the View page event with a Page URL that contains \"/docs\" at least once in the last 14 days\n- their Plan attribute is empty or is \"free\"\n",
+  "description": "Free-plan users reading your site heavily, nudged toward a relevant paid feature by push notification and shared with growth as a shortlist worth a closer look.",
+  "markdown": "# Free users researching heavily\n\n## Description\n\nFree-plan users reading your site heavily, nudged toward a relevant paid feature by push notification and shared with growth as a shortlist worth a closer look.\n\n## Steps\n\n### Step 1: Build the high-intent list\n\nBuild a segment of users named \"High-Intent Visitors\".\nA user is in the segment only when all of these are true:\n- their Plan attribute is \"free\"\n- they did the View page event 3 or more times in the last 14 days\n\n### Step 2: Nudge toward a paid feature\n\nGenerate a push notification for the users in \"High-Intent Visitors\" highlighting one feature only available on a paid plan. Title under 40 characters, one short body line, helpful and not pushy tone, deep link to the pricing page. Use the result of \"Build the high-intent list\".\n\n### Step 3: Share the shortlist with growth\n\nGenerate a plain-text email to the growth team distribution list listing the users in \"High-Intent Visitors\" so outreach can be timed to their actual research activity. Use the result of \"Build the high-intent list\".\n",
   "classification": {
     "industry": [
       "industry-agnostic"
     ]
   },
-  "complexity": "quick",
   "author": {
     "name": "Intempt",
     "last_name": "Technologies",
     "company": "Intempt",
     "org_name": "intempt"
   },
-  "permissions": [
-    "segment:create"
-  ],
+  "permissions": [],
   "steps": [
     {
       "id": "s1",
       "title": "Build the high-intent list",
-      "description": "Build a segment of users named \"High-Intent Visitors\". A user is in the segment only when all of these are true: they did the View page event with a Page URL that contains \"/pricing\" at least once in the last 14 days; they did the View page event with a Page URL that contains \"/docs\" at least once in the last 14 days; their Plan attribute is empty or is \"free\".",
+      "description": "Build a segment of users named \"High-Intent Visitors\". A user is in the segment only when all of these are true: their Plan attribute is \"free\"; they did the View page event 3 or more times in the last 14 days.",
       "command": "create_segment",
       "entity": "segment",
-      "integration": [
-        "web",
-        "ios",
-        "android",
-        "react-native"
-      ],
       "kind": "static",
       "modelConfig": []
+    },
+    {
+      "id": "s2",
+      "title": "Nudge toward a paid feature",
+      "description": "Generate a push notification for the users in \"High-Intent Visitors\" highlighting one feature only available on a paid plan. Title under 40 characters, one short body line, helpful and not pushy tone, deep link to the pricing page. Use the result of \"Build the high-intent list\"."
+    },
+    {
+      "id": "s3",
+      "title": "Share the shortlist with growth",
+      "description": "Generate a plain-text email to the growth team distribution list listing the users in \"High-Intent Visitors\" so outreach can be timed to their actual research activity. Use the result of \"Build the high-intent list\"."
     }
-  ]
+  ],
+  "availability": "coming_soon"
 }
