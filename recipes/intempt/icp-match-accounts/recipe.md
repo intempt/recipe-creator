@@ -1,7 +1,7 @@
 ---
 frontmatter_id: icp-match-accounts
 slash_command: /icp-match-accounts
-description: Accounts sized right for your ideal customer profile, flagged to sales and sent an intro email so outreach starts the moment they qualify.
+description: Accounts sized right for your ideal customer profile, flagged to sales, sent an intro email, and tagged with an ICP-fit attribute so later segments and reports can reuse the match.
 author:
   name: Intempt
   last_name: Technologies
@@ -33,3 +33,7 @@ Generate a Slack message to the sales channel listing the accounts in "ICP Match
 ## Step 3: Send an intro email
 
 Generate a designed marketing email for the accounts in "ICP Match Accounts" introducing the product for a company of their size. Three sentences, confident and consultative tone, no discount language, one button linking to a call-booking page. Use the result of "Build the ICP list".
+
+## Step 4: Tag the matched accounts
+
+Create an attribute named "icp_fit" on accounts in "ICP Match Accounts", set to true. Use the result of "Build the ICP list".

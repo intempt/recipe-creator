@@ -2,14 +2,14 @@
   "frontmatter_id": "icp-match-accounts",
   "title": "ICP-fit accounts",
   "slash_command": "/icp-match-accounts",
-  "description": "Accounts sized right for your ideal customer profile, flagged to sales and sent an intro email so outreach starts the moment they qualify.",
-  "markdown": "# ICP-fit accounts\n\n## Description\n\nAccounts sized right for your ideal customer profile, flagged to sales and sent an intro email so outreach starts the moment they qualify.\n\n## Steps\n\n### Step 1: Build the ICP list\n\nBuild a segment of accounts named \"ICP Match Accounts\".\nAn account is in the segment only when all of these are true:\n- its employees attribute is 50 or more\n- its employees attribute is less than 500\n\n### Step 2: Alert sales\n\nGenerate a Slack message to the sales channel listing the accounts in \"ICP Match Accounts\" so reps can prioritize outreach to the newest matches first. Use the result of \"Build the ICP list\".\n\n### Step 3: Send an intro email\n\nGenerate a designed marketing email for the accounts in \"ICP Match Accounts\" introducing the product for a company of their size. Three sentences, confident and consultative tone, no discount language, one button linking to a call-booking page. Use the result of \"Build the ICP list\".\n",
+  "description": "Accounts sized right for your ideal customer profile, flagged to sales, sent an intro email, and tagged with an ICP-fit attribute so later segments and reports can reuse the match.",
+  "markdown": "# ICP-fit accounts\n\n## Description\n\nAccounts sized right for your ideal customer profile, flagged to sales, sent an intro email, and tagged with an ICP-fit attribute so later segments and reports can reuse the match.\n\n## Steps\n\n### Step 1: Build the ICP list\n\nBuild a segment of accounts named \"ICP Match Accounts\".\nAn account is in the segment only when all of these are true:\n- its employees attribute is 50 or more\n- its employees attribute is less than 500\n\n### Step 2: Alert sales\n\nGenerate a Slack message to the sales channel listing the accounts in \"ICP Match Accounts\" so reps can prioritize outreach to the newest matches first. Use the result of \"Build the ICP list\".\n\n### Step 3: Send an intro email\n\nGenerate a designed marketing email for the accounts in \"ICP Match Accounts\" introducing the product for a company of their size. Three sentences, confident and consultative tone, no discount language, one button linking to a call-booking page. Use the result of \"Build the ICP list\".\n\n### Step 4: Tag the matched accounts\n\nCreate an attribute named \"icp_fit\" on accounts in \"ICP Match Accounts\", set to true. Use the result of \"Build the ICP list\".\n",
   "classification": {
     "industry": [
       "saas-b2b-tech"
     ]
   },
-  "complexity": "quick",
+  "complexity": "standard",
   "author": {
     "name": "Intempt",
     "last_name": "Technologies",
@@ -17,6 +17,7 @@
     "org_name": "intempt"
   },
   "permissions": [
+    "attribute:create",
     "content:create",
     "segment:create"
   ],
@@ -44,6 +45,14 @@
       "description": "Generate a designed marketing email for the accounts in \"ICP Match Accounts\" introducing the product for a company of their size. Three sentences, confident and consultative tone, no discount language, one button linking to a call-booking page. Use the result of \"Build the ICP list\".",
       "command": "create_email_content",
       "entity": "email_html",
+      "modelConfig": []
+    },
+    {
+      "id": "s4",
+      "title": "Tag the matched accounts",
+      "description": "Create an attribute named \"icp_fit\" on accounts in \"ICP Match Accounts\", set to true. Use the result of \"Build the ICP list\".",
+      "command": "create_attribute",
+      "entity": "attribute",
       "modelConfig": []
     }
   ]
