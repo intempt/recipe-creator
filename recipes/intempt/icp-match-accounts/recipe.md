@@ -36,4 +36,4 @@ Generate a designed marketing email for the accounts in "ICP Match Accounts" int
 
 ## Step 4: Tag ICP-fit accounts
 
-Create an attribute named "icp_fit" on accounts. Set it to true when all of these are true: its employees attribute is 50 or more, its employees attribute is less than 500. Set it to false otherwise. Refreshed daily, so later segments and reports can filter on fit without rebuilding this logic.
+Create an attribute named "icp_fit_tier" on accounts, based on its employees attribute: "fit" when its employees attribute is 50 or more and less than 500, "not_fit" otherwise. Refreshed daily, so later segments and reports can filter on fit without rebuilding this logic.
