@@ -27,7 +27,7 @@ An account is in the segment only when all of these are true:
 
 ## Step 2: Alert sales
 
-Generate a Slack message to the channel chosen for this run listing the accounts in "Active Research Surge Accounts" so reps can reach out while interest is at its peak. Use the result of "Build the research-surge list".
+Generate a Slack message to the sales channel listing the accounts in "Active Research Surge Accounts" so reps can reach out while interest is at its peak. Use the result of "Build the research-surge list".
 
 ## Step 3: Send a relevant resource
 

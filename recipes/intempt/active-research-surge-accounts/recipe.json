@@ -3,7 +3,7 @@
   "title": "Accounts showing a research surge",
   "slash_command": "/active-research-surge-accounts",
   "description": "Accounts whose users are browsing your site heavily right now, flagged to sales while interest is at its peak and sent a relevant resource to keep them moving.",
-  "markdown": "# Accounts showing a research surge\n\n## Description\n\nAccounts whose users are browsing your site heavily right now, flagged to sales while interest is at its peak and sent a relevant resource to keep them moving.\n\n## Steps\n\n### Step 1: Build the research-surge list\n\nBuild a segment of accounts named \"Active Research Surge Accounts\".\nAn account is in the segment only when all of these are true:\n- the users in the account together did the View page event 3 or more times in the last 7 days\n\n### Step 2: Alert sales\n\nGenerate a Slack message to the channel chosen for this run listing the accounts in \"Active Research Surge Accounts\" so reps can reach out while interest is at its peak. Use the result of \"Build the research-surge list\".\n\n### Step 3: Send a relevant resource\n\nGenerate a designed marketing email for the accounts in \"Active Research Surge Accounts\" offering a resource that answers the questions a researching buyer usually has at this stage. Three sentences, helpful and low-pressure tone, no discount language, one button linking to a call-booking page. Use the result of \"Build the research-surge list\".\n",
+  "markdown": "# Accounts showing a research surge\n\n## Description\n\nAccounts whose users are browsing your site heavily right now, flagged to sales while interest is at its peak and sent a relevant resource to keep them moving.\n\n## Steps\n\n### Step 1: Build the research-surge list\n\nBuild a segment of accounts named \"Active Research Surge Accounts\".\nAn account is in the segment only when all of these are true:\n- the users in the account together did the View page event 3 or more times in the last 7 days\n\n### Step 2: Alert sales\n\nGenerate a Slack message to the sales channel listing the accounts in \"Active Research Surge Accounts\" so reps can reach out while interest is at its peak. Use the result of \"Build the research-surge list\".\n\n### Step 3: Send a relevant resource\n\nGenerate a designed marketing email for the accounts in \"Active Research Surge Accounts\" offering a resource that answers the questions a researching buyer usually has at this stage. Three sentences, helpful and low-pressure tone, no discount language, one button linking to a call-booking page. Use the result of \"Build the research-surge list\".\n",
   "classification": {
     "industry": [
       "saas-b2b-tech"
@@ -33,19 +33,10 @@
     {
       "id": "s2",
       "title": "Alert sales",
-      "description": "Generate a Slack message to the channel chosen for this run listing the accounts in \"Active Research Surge Accounts\" so reps can reach out while interest is at its peak. Use the result of \"Build the research-surge list\".",
+      "description": "Generate a Slack message to the sales channel listing the accounts in \"Active Research Surge Accounts\" so reps can reach out while interest is at its peak. Use the result of \"Build the research-surge list\".",
       "command": "create_slack_content",
       "entity": "slack",
-      "modelConfig": [],
-      "arguments": [
-        {
-          "key": "channel_s2",
-          "type": "string",
-          "label": "Slack channel",
-          "phrase": "the channel chosen for this run",
-          "required": true
-        }
-      ]
+      "modelConfig": []
     },
     {
       "id": "s3",

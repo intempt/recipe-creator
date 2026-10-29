@@ -31,4 +31,4 @@ Generate an SMS for the users in "Flash Sale Audience" announcing a time-limited
 
 ## Step 3: Alert marketing ops
 
-Generate a Slack message to the channel chosen for this run noting the size of "Flash Sale Audience" so the team can track reach before the sale goes out. Use the result of "Build the flash-sale audience".
+Generate a Slack message to the marketing ops channel noting the size of "Flash Sale Audience" so the team can track reach before the sale goes out. Use the result of "Build the flash-sale audience".

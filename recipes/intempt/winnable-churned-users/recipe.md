@@ -33,4 +33,4 @@ Generate an SMS for the users in "Winnable Churned Users" letting them know they
 
 ## Step 3: Alert the retention team
 
-Generate a Slack message to the channel chosen for this run listing the users in "Winnable Churned Users" and noting that they are still active despite cancelling, so the team prioritizes them first. Use the result of "Build the win-back list".
+Generate a Slack message to the retention team channel listing the users in "Winnable Churned Users" and noting that they are still active despite cancelling, so the team prioritizes them first. Use the result of "Build the win-back list".

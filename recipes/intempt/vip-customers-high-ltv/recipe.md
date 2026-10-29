@@ -32,4 +32,4 @@ Generate a designed marketing email for the users in "VIP Customers" thanking th
 
 ## Step 3: Alert the concierge team
 
-Generate a Slack message to the channel chosen for this run listing the users in "VIP Customers" so the team can give each one a personal welcome into the program. Use the result of "Build the VIP list".
+Generate a Slack message to the concierge team channel listing the users in "VIP Customers" so the team can give each one a personal welcome into the program. Use the result of "Build the VIP list".

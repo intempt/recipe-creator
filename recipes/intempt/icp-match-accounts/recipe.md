@@ -28,7 +28,7 @@ An account is in the segment only when all of these are true:
 
 ## Step 2: Alert sales
 
-Generate a Slack message to the channel chosen for this run listing the accounts in "ICP Match Accounts" so reps can prioritize outreach to the newest matches first. Use the result of "Build the ICP list".
+Generate a Slack message to the sales channel listing the accounts in "ICP Match Accounts" so reps can prioritize outreach to the newest matches first. Use the result of "Build the ICP list".
 
 ## Step 3: Send an intro email
 

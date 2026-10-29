@@ -29,7 +29,7 @@ A user is in the segment only when all of these are true:
 
 ## Step 2: Fast-track to sales
 
-Generate a Slack message to the channel chosen for this run listing the users in "Trial Users: High Engagement" so reps can reach out while interest is at its peak. Use the result of "Build the fast-starter list".
+Generate a Slack message to the sales channel listing the users in "Trial Users: High Engagement" so reps can reach out while interest is at its peak. Use the result of "Build the fast-starter list".
 
 ## Step 3: Offer a personal onboarding session
 

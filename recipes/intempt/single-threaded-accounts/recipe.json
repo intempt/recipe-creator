@@ -3,7 +3,7 @@
   "title": "Enterprise accounts going quiet",
   "slash_command": "/single-threaded-accounts",
   "description": "Enterprise accounts where nobody has logged in for a month, the highest-stakes version of a churn signal, checked in on personally and flagged to the key accounts team.",
-  "markdown": "# Enterprise accounts going quiet\n\n## Description\n\nEnterprise accounts where nobody has logged in for a month, the highest-stakes version of a churn signal, checked in on personally and flagged to the key accounts team.\n\n## Steps\n\n### Step 1: Build the quiet-enterprise list\n\nBuild a segment of accounts named \"Enterprise Accounts Going Quiet\".\nAn account is in the segment only when all of these are true:\n- its employees attribute is 1000 or more\n- the users in the account together did not do the Session start event in the last 30 days\n\n### Step 2: Draft a personal check-in\n\nGenerate a plain-text email for the accounts in \"Enterprise Accounts Going Quiet\" written as a personal note from their account manager, asking how things are going and offering a quick call. Three sentences, warm and personal tone, no product pitch, no discount language. Use the result of \"Build the quiet-enterprise list\".\n\n### Step 3: Alert the key accounts team\n\nGenerate a Slack message to the channel chosen for this run listing the accounts in \"Enterprise Accounts Going Quiet\" so the team can prioritize outreach before it becomes a renewal problem. Use the result of \"Build the quiet-enterprise list\".\n",
+  "markdown": "# Enterprise accounts going quiet\n\n## Description\n\nEnterprise accounts where nobody has logged in for a month, the highest-stakes version of a churn signal, checked in on personally and flagged to the key accounts team.\n\n## Steps\n\n### Step 1: Build the quiet-enterprise list\n\nBuild a segment of accounts named \"Enterprise Accounts Going Quiet\".\nAn account is in the segment only when all of these are true:\n- its employees attribute is 1000 or more\n- the users in the account together did not do the Session start event in the last 30 days\n\n### Step 2: Draft a personal check-in\n\nGenerate a plain-text email for the accounts in \"Enterprise Accounts Going Quiet\" written as a personal note from their account manager, asking how things are going and offering a quick call. Three sentences, warm and personal tone, no product pitch, no discount language. Use the result of \"Build the quiet-enterprise list\".\n\n### Step 3: Alert the key accounts team\n\nGenerate a Slack message to the key accounts team channel listing the accounts in \"Enterprise Accounts Going Quiet\" so the team can prioritize outreach before it becomes a renewal problem. Use the result of \"Build the quiet-enterprise list\".\n",
   "classification": {
     "industry": [
       "saas-b2b-tech"
@@ -38,19 +38,10 @@
     {
       "id": "s3",
       "title": "Alert the key accounts team",
-      "description": "Generate a Slack message to the channel chosen for this run listing the accounts in \"Enterprise Accounts Going Quiet\" so the team can prioritize outreach before it becomes a renewal problem. Use the result of \"Build the quiet-enterprise list\".",
+      "description": "Generate a Slack message to the key accounts team channel listing the accounts in \"Enterprise Accounts Going Quiet\" so the team can prioritize outreach before it becomes a renewal problem. Use the result of \"Build the quiet-enterprise list\".",
       "command": "create_slack_content",
       "entity": "slack",
-      "modelConfig": [],
-      "arguments": [
-        {
-          "key": "channel_s3",
-          "type": "string",
-          "label": "Slack channel",
-          "phrase": "the channel chosen for this run",
-          "required": true
-        }
-      ]
+      "modelConfig": []
     }
   ],
   "availability": "coming_soon"

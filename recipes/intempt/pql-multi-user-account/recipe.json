@@ -3,7 +3,7 @@
   "title": "Free accounts showing real usage",
   "slash_command": "/pql-multi-user-account",
   "description": "Free accounts showing real product usage, flagged to sales as a product-qualified lead and offered a look at what a paid plan unlocks.",
-  "markdown": "# Free accounts showing real usage\n\n## Description\n\nFree accounts showing real product usage, flagged to sales as a product-qualified lead and offered a look at what a paid plan unlocks.\n\n## Steps\n\n### Step 1: Build the active-free-account list\n\nBuild a segment of accounts named \"PQL: Active Free Accounts\".\nAn account is in the segment only when all of these are true:\n- the users in the account together did the Session start event 3 or more times in the last 14 days\n\n### Step 2: Alert sales\n\nGenerate a Slack message to the channel chosen for this run listing the accounts in \"PQL: Active Free Accounts\" so reps can reach out to this product-qualified lead while usage is fresh. Use the result of \"Build the active-free-account list\".\n\n### Step 3: Send an upgrade email\n\nGenerate a designed marketing email for the accounts in \"PQL: Active Free Accounts\" showing what the team unlocks on a paid plan. Three sentences, confident and helpful tone, no discount language, one button linking to the pricing page. Use the result of \"Build the active-free-account list\".\n",
+  "markdown": "# Free accounts showing real usage\n\n## Description\n\nFree accounts showing real product usage, flagged to sales as a product-qualified lead and offered a look at what a paid plan unlocks.\n\n## Steps\n\n### Step 1: Build the active-free-account list\n\nBuild a segment of accounts named \"PQL: Active Free Accounts\".\nAn account is in the segment only when all of these are true:\n- the users in the account together did the Session start event 3 or more times in the last 14 days\n\n### Step 2: Alert sales\n\nGenerate a Slack message to the sales channel listing the accounts in \"PQL: Active Free Accounts\" so reps can reach out to this product-qualified lead while usage is fresh. Use the result of \"Build the active-free-account list\".\n\n### Step 3: Send an upgrade email\n\nGenerate a designed marketing email for the accounts in \"PQL: Active Free Accounts\" showing what the team unlocks on a paid plan. Three sentences, confident and helpful tone, no discount language, one button linking to the pricing page. Use the result of \"Build the active-free-account list\".\n",
   "classification": {
     "industry": [
       "saas-b2b-tech"
@@ -33,19 +33,10 @@
     {
       "id": "s2",
       "title": "Alert sales",
-      "description": "Generate a Slack message to the channel chosen for this run listing the accounts in \"PQL: Active Free Accounts\" so reps can reach out to this product-qualified lead while usage is fresh. Use the result of \"Build the active-free-account list\".",
+      "description": "Generate a Slack message to the sales channel listing the accounts in \"PQL: Active Free Accounts\" so reps can reach out to this product-qualified lead while usage is fresh. Use the result of \"Build the active-free-account list\".",
       "command": "create_slack_content",
       "entity": "slack",
-      "modelConfig": [],
-      "arguments": [
-        {
-          "key": "channel_s2",
-          "type": "string",
-          "label": "Slack channel",
-          "phrase": "the channel chosen for this run",
-          "required": true
-        }
-      ]
+      "modelConfig": []
     },
     {
       "id": "s3",

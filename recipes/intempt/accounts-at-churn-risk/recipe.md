@@ -32,4 +32,4 @@ Generate a plain-text email for the accounts in "Accounts At Churn Risk" written
 
 ## Step 3: Alert the retention team
 
-Generate a Slack message to the channel chosen for this run listing the accounts in "Accounts At Churn Risk" so the team can prioritize outreach before renewal conversations start. Use the result of "Build the at-risk account list".
+Generate a Slack message to the retention team channel listing the accounts in "Accounts At Churn Risk" so the team can prioritize outreach before renewal conversations start. Use the result of "Build the at-risk account list".

@@ -32,4 +32,4 @@ Generate a designed marketing email for the users in "Trial Expiring Soon" letti
 
 ## Step 3: Alert sales
 
-Generate a Slack message to the channel chosen for this run listing the users in "Trial Expiring Soon" so reps can reach out personally before the window closes. Use the result of "Build the expiring-trial list".
+Generate a Slack message to the sales channel listing the users in "Trial Expiring Soon" so reps can reach out personally before the window closes. Use the result of "Build the expiring-trial list".

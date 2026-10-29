@@ -3,7 +3,7 @@
   "title": "Paying accounts going quiet",
   "slash_command": "/accounts-at-churn-risk",
   "description": "Large paying accounts where nobody has logged in for a month, the clearest detectable churn signal, checked in on personally and flagged to the retention team before it's too late.",
-  "markdown": "# Paying accounts going quiet\n\n## Description\n\nLarge paying accounts where nobody has logged in for a month, the clearest detectable churn signal, checked in on personally and flagged to the retention team before it's too late.\n\n## Steps\n\n### Step 1: Build the at-risk account list\n\nBuild a segment of accounts named \"Accounts At Churn Risk\".\nAn account is in the segment only when all of these are true:\n- its employees attribute is 100 or more\n- the users in the account together did not do the Session start event in the last 30 days\n\n### Step 2: Draft a personal check-in\n\nGenerate a plain-text email for the accounts in \"Accounts At Churn Risk\" written as a personal note from their customer success manager, asking how things are going and offering a quick call. Three sentences, warm and personal tone, no product pitch, no discount language. Use the result of \"Build the at-risk account list\".\n\n### Step 3: Alert the retention team\n\nGenerate a Slack message to the channel chosen for this run listing the accounts in \"Accounts At Churn Risk\" so the team can prioritize outreach before renewal conversations start. Use the result of \"Build the at-risk account list\".\n",
+  "markdown": "# Paying accounts going quiet\n\n## Description\n\nLarge paying accounts where nobody has logged in for a month, the clearest detectable churn signal, checked in on personally and flagged to the retention team before it's too late.\n\n## Steps\n\n### Step 1: Build the at-risk account list\n\nBuild a segment of accounts named \"Accounts At Churn Risk\".\nAn account is in the segment only when all of these are true:\n- its employees attribute is 100 or more\n- the users in the account together did not do the Session start event in the last 30 days\n\n### Step 2: Draft a personal check-in\n\nGenerate a plain-text email for the accounts in \"Accounts At Churn Risk\" written as a personal note from their customer success manager, asking how things are going and offering a quick call. Three sentences, warm and personal tone, no product pitch, no discount language. Use the result of \"Build the at-risk account list\".\n\n### Step 3: Alert the retention team\n\nGenerate a Slack message to the retention team channel listing the accounts in \"Accounts At Churn Risk\" so the team can prioritize outreach before renewal conversations start. Use the result of \"Build the at-risk account list\".\n",
   "classification": {
     "industry": [
       "saas-b2b-tech"
@@ -38,19 +38,10 @@
     {
       "id": "s3",
       "title": "Alert the retention team",
-      "description": "Generate a Slack message to the channel chosen for this run listing the accounts in \"Accounts At Churn Risk\" so the team can prioritize outreach before renewal conversations start. Use the result of \"Build the at-risk account list\".",
+      "description": "Generate a Slack message to the retention team channel listing the accounts in \"Accounts At Churn Risk\" so the team can prioritize outreach before renewal conversations start. Use the result of \"Build the at-risk account list\".",
       "command": "create_slack_content",
       "entity": "slack",
-      "modelConfig": [],
-      "arguments": [
-        {
-          "key": "channel_s3",
-          "type": "string",
-          "label": "Slack channel",
-          "phrase": "the channel chosen for this run",
-          "required": true
-        }
-      ]
+      "modelConfig": []
     }
   ],
   "availability": "coming_soon"

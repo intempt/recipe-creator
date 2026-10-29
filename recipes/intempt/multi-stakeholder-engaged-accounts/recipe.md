@@ -28,7 +28,7 @@ An account is in the segment only when all of these are true:
 
 ## Step 2: Alert sales
 
-Generate a Slack message to the channel chosen for this run listing the accounts in "Multi-Stakeholder Engaged Accounts" so reps know a buying committee may have formed and can act while interest is high. Use the result of "Build the multi-stakeholder list".
+Generate a Slack message to the sales channel listing the accounts in "Multi-Stakeholder Engaged Accounts" so reps know a buying committee may have formed and can act while interest is high. Use the result of "Build the multi-stakeholder list".
 
 ## Step 3: Send a team resource
 
