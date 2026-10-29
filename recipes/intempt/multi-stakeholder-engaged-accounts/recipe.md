@@ -10,6 +10,9 @@ author:
 classification:
   industry:
   - industry-agnostic
+prerequisites:
+  integrations:
+    - { value: slack, severity: recommended }
 ---
 
 # Accounts with a buying group active

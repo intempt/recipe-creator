@@ -10,6 +10,9 @@ author:
 classification:
   industry:
   - saas-b2b-tech
+prerequisites:
+  integrations:
+    - { value: slack, severity: recommended }
 ---
 
 # Enterprise accounts going quiet

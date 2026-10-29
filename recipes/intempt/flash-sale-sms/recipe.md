@@ -10,6 +10,9 @@ author:
 classification:
   industry:
   - ecommerce-retail
+prerequisites:
+  integrations:
+    - { value: slack, severity: recommended }
 ---
 
 # Flash sale text message
