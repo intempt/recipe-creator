@@ -371,5 +371,5 @@ it under `does_not_claim`. A recipe that declares nothing cannot be trusted or c
 
 ## Licence
 
-MIT. See [LICENSE](./LICENSE). You keep the copyright in a recipe you submit; accepted recipes are
-published under MIT with your attribution preserved.
+Proprietary. See [LICENSE](./LICENSE). All rights reserved by Intempt Technologies LLC. You keep the copyright in a recipe you submit; accepted recipes are
+published under Intempt's proprietary license with your attribution preserved.
