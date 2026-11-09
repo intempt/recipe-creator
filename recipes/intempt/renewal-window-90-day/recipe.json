@@ -3,7 +3,7 @@
   "title": "Accounts in the renewal window",
   "slash_command": "/renewal-window-90-day",
   "description": "Paying subscriptions that started roughly a year ago and are likely due for renewal, flagged to the renewals team and sent a value recap, so the conversation starts early instead of the week before.",
-  "markdown": "# Accounts in the renewal window\n\n## Description\n\nPaying subscriptions that started roughly a year ago and are likely due for renewal, flagged to the renewals team and sent a value recap, so the conversation starts early instead of the week before.\n\n## Steps\n\n### Step 1: Build the renewal list\n\nBuild a segment of users named \"Renewal Window 90 Days\".\nA user is in the segment only when all of these are true:\n- their Plan attribute is not \"free\"\n- they did the Subscription started event at least once between 275 and 365 days ago\n\n### Step 2: Notify the renewals team\n\nGenerate a plain-text email to the renewals team distribution list listing the users in \"Renewal Window 90 Days\" so conversations start months early instead of the week before. Use the result of \"Build the renewal list\".\n\n### Step 3: Send a value recap\n\nGenerate a designed marketing email for the users in \"Renewal Window 90 Days\" recapping one meaningful result they have gotten from the product this year. Three sentences, warm and appreciative tone, no pricing or discount language, one button linking to a call-booking page with their account manager. Use the result of \"Build the renewal list\".\n",
+  "markdown": "# Accounts in the renewal window\n\n## Description\n\nPaying subscriptions that started roughly a year ago and are likely due for renewal, flagged to the renewals team and sent a value recap, so the conversation starts early instead of the week before.\n\n## Steps\n\n### Step 1: Build the renewal list\n\nBuild a segment of users named \"Renewal Window 90 Days\".\nA user is in the segment only when all of these are true:\n- their Plan attribute is not \"free\"\n- they did the Subscription started event at least once between 275 and 365 days ago\n\n### Step 2: Notify the renewals team\n\nGenerate a plain-text email to the renewals team distribution list For each user in \"Renewal Window 90 Days\", name their email address, so conversations start months early instead of the week before. Use the result of \"Build the renewal list\".\n\n### Step 3: Send a value recap\n\nGenerate a designed marketing email for the users in \"Renewal Window 90 Days\" recapping one meaningful result they have gotten from the product this year. Three sentences, warm and appreciative tone, no pricing or discount language, one button linking to a call-booking page with their account manager. Use the result of \"Build the renewal list\".\n",
   "classification": {
     "industry": [
       "industry-agnostic"
@@ -33,7 +33,7 @@
     {
       "id": "s2",
       "title": "Notify the renewals team",
-      "description": "Generate a plain-text email to the renewals team distribution list listing the users in \"Renewal Window 90 Days\" so conversations start months early instead of the week before. Use the result of \"Build the renewal list\".",
+      "description": "Generate a plain-text email to the renewals team distribution list For each user in \"Renewal Window 90 Days\", name their email address, so conversations start months early instead of the week before. Use the result of \"Build the renewal list\".",
       "command": "create_email_content",
       "entity": "email_plain",
       "modelConfig": []

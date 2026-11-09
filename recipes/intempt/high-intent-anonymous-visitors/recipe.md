@@ -29,4 +29,4 @@ Generate a push notification for the users in "Frequent Repeat Visitors" highlig
 
 ## Step 3: Share the retargeting audience
 
-Generate a plain-text email to the growth team distribution list listing the users in "Frequent Repeat Visitors" as a retargeting audience worth running ads against. Use the result of "Build the frequent-visitor list".
+Generate a plain-text email to the growth team distribution list For each user in "Frequent Repeat Visitors", name their email address, as a retargeting audience worth running ads against. Use the result of "Build the frequent-visitor list".

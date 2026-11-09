@@ -29,4 +29,4 @@ Generate a designed marketing email for the users in "Recently Signed-Up Users" 
 
 ## Step 3: Notify onboarding
 
-Generate a plain-text email to the onboarding team distribution list listing the users in "Recently Signed-Up Users" so the team can check in while the activation window is still open. Use the result of "Build the new signup list".
+Generate a plain-text email to the onboarding team distribution list For each user in "Recently Signed-Up Users", name their email address, so the team can check in while the activation window is still open. Use the result of "Build the new signup list".

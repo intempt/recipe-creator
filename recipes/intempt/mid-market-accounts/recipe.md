@@ -25,7 +25,7 @@ An account is in the segment only when all of these are true:
 
 ## Step 2: Notify sales ops
 
-Generate a plain-text email to the sales ops distribution list listing the accounts in "Mid-Market Accounts" so inside sales can assign owners to the newest accounts first. Use the result of "Build the mid-market list".
+Generate a plain-text email to the sales ops distribution list For each account in "Mid-Market Accounts", name the account and its employees count, so inside sales can assign owners to the newest accounts first. Use the result of "Build the mid-market list".
 
 ## Step 3: Send a getting-started email
 

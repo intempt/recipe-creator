@@ -28,4 +28,4 @@ Generate a designed marketing email for the accounts in "Recently-Won Accounts" 
 
 ## Step 3: Notify onboarding
 
-Generate a plain-text email to the onboarding team distribution list listing the accounts in "Recently-Won Accounts" so implementation starts from one current list. Use the result of "Build the recently-won list".
+Generate a plain-text email to the onboarding team distribution list For each account in "Recently-Won Accounts", name the account, so implementation starts from one current list. Use the result of "Build the recently-won list".

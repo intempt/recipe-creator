@@ -25,7 +25,7 @@ A user is in the segment only when all of these are true:
 
 ## Step 2: Notify the renewals team
 
-Generate a plain-text email to the renewals team distribution list listing the users in "Renewal Window 90 Days" so conversations start months early instead of the week before. Use the result of "Build the renewal list".
+Generate a plain-text email to the renewals team distribution list For each user in "Renewal Window 90 Days", name their email address, so conversations start months early instead of the week before. Use the result of "Build the renewal list".
 
 ## Step 3: Send a value recap
 

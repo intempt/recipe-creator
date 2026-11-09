@@ -30,4 +30,4 @@ Generate a designed marketing email for the users in "Paid Users: Low Engagement
 
 ## Step 3: Flag to customer success
 
-Generate a plain-text email to the customer success distribution list listing the users in "Paid Users: Low Engagement" so the team can check in before this turns into real churn risk. Use the result of "Build the low-engagement list".
+Generate a plain-text email to the customer success distribution list For each user in "Paid Users: Low Engagement", name their email address, so the team can check in before this turns into real churn risk. Use the result of "Build the low-engagement list".

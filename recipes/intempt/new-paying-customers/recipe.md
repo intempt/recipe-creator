@@ -30,4 +30,4 @@ Generate a designed marketing email for the users in "New Paying Customers" welc
 
 ## Step 3: Notify customer success
 
-Generate a plain-text email to the customer success distribution list listing the users in "New Paying Customers" so the team can check in personally during their first week. Use the result of "Build the new-customer list".
+Generate a plain-text email to the customer success distribution list For each user in "New Paying Customers", name their email address, so the team can check in personally during their first week. Use the result of "Build the new-customer list".

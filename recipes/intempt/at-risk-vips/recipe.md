@@ -32,4 +32,4 @@ Generate a plain-text email for the users in "At-Risk VIP Customers" written as 
 
 ## Step 3: Alert the retention team
 
-Generate a Slack message to the retention team channel listing the users in "At-Risk VIP Customers" so the team can prioritize outreach to the highest-value accounts first. Use the result of "Build the at-risk VIP list".
+Generate a Slack message to the retention team channel For each user in "At-Risk VIP Customers", name their email address and their Lifetime value, so the team can prioritize outreach to the highest-value accounts first. Use the result of "Build the at-risk VIP list".

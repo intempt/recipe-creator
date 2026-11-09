@@ -29,4 +29,4 @@ Generate a designed marketing email for the accounts in "Expansion Whitespace Ac
 
 ## Step 3: Flag to account executives
 
-Generate a plain-text email to the account executive distribution list listing the accounts in "Expansion Whitespace Accounts" so they can review each one for expansion opportunity. Use the result of "Build the whitespace list".
+Generate a plain-text email to the account executive distribution list For each account in "Expansion Whitespace Accounts", name the account and its employees count, so they can review each one for expansion opportunity. Use the result of "Build the whitespace list".

@@ -29,7 +29,7 @@ An account is in the segment only when all of these are true:
 
 ## Step 2: Alert sales
 
-Generate a Slack message to the sales channel listing the accounts in "High-Intent ICP Prospects" so reps can reach out while interest is still warm. Use the result of "Build the hot ICP list".
+Generate a Slack message to the sales channel For each account in "High-Intent ICP Prospects", name the account and its employees count, so reps can reach out while interest is still warm. Use the result of "Build the hot ICP list".
 
 ## Step 3: Send an outreach email
 
