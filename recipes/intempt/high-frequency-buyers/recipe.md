@@ -1,6 +1,6 @@
 ---
-frontmatter_id: engaged-repeat-visitors-segment
-slash_command: /engaged-repeat-visitors-segment
+frontmatter_id: high-frequency-buyers
+slash_command: /high-frequency-buyers
 description: Visitors who both browse repeatedly and click around the site, flagged to marketing as a stronger engagement signal than page views alone.
 author:
   name: Intempt
@@ -17,7 +17,7 @@ prerequisites:
 
 # Engaged Repeat Visitors
 
-Slash command: /engaged-repeat-visitors-segment
+Slash command: /high-frequency-buyers
 
 ## Step 1: Build the engaged repeat visitor list
 

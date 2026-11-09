@@ -1,6 +1,6 @@
 ---
-frontmatter_id: highly-active-multisession-visitors
-slash_command: /highly-active-multisession-visitors
+frontmatter_id: multi-product-buyers
+slash_command: /multi-product-buyers
 description: Visitors who return across several sessions and view many pages, tagged with a reusable attribute and flagged to growth as the strongest organic engagement signal available without any custom tracking.
 author:
   name: Intempt
@@ -17,7 +17,7 @@ prerequisites:
 
 # Highly Active Multi-Session Visitors
 
-Slash command: /highly-active-multisession-visitors
+Slash command: /multi-product-buyers
 
 ## Step 1: Build the highly active visitor list
 

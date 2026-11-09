@@ -1,6 +1,6 @@
 ---
-frontmatter_id: highly-engaged-visitors-segment
-slash_command: /highly-engaged-visitors-segment
+frontmatter_id: engaged-non-buyers
+slash_command: /engaged-non-buyers
 description: Visitors who click around the site a lot, tagged with a reusable attribute so later segments and campaigns can target them without rebuilding the match.
 author:
   name: Intempt
@@ -14,7 +14,7 @@ classification:
 
 # Highly Engaged Visitors
 
-Slash command: /highly-engaged-visitors-segment
+Slash command: /engaged-non-buyers
 
 ## Step 1: Build the highly engaged visitor list
 

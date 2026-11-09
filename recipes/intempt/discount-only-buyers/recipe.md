@@ -1,6 +1,6 @@
 ---
-frontmatter_id: returning-visitors-segment
-slash_command: /returning-visitors-segment
+frontmatter_id: discount-only-buyers
+slash_command: /discount-only-buyers
 description: Visitors who have come back in more than one session, tagged with a reusable attribute so later segments and campaigns can target them without rebuilding the match.
 author:
   name: Intempt
@@ -14,7 +14,7 @@ classification:
 
 # Returning Visitors
 
-Slash command: /returning-visitors-segment
+Slash command: /discount-only-buyers
 
 ## Step 1: Build the returning visitor list
 

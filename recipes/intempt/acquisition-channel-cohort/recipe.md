@@ -1,6 +1,6 @@
 ---
-frontmatter_id: repeat-page-visitors-segment
-slash_command: /repeat-page-visitors-segment
+frontmatter_id: acquisition-channel-cohort
+slash_command: /acquisition-channel-cohort
 description: Visitors who keep coming back to the same pages, tagged with a reusable attribute so later segments and campaigns can target them without rebuilding the match.
 author:
   name: Intempt
@@ -14,7 +14,7 @@ classification:
 
 # Repeat Page Visitors
 
-Slash command: /repeat-page-visitors-segment
+Slash command: /acquisition-channel-cohort
 
 ## Step 1: Build the repeat visitor list
 

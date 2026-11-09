@@ -1,6 +1,6 @@
 ---
-frontmatter_id: instant-lead-alert
-slash_command: /instant-lead-alert
+frontmatter_id: high-cart-value-abandoners
+slash_command: /high-cart-value-abandoners
 description: Visitors who just submitted a form, flagged to sales the same day so follow-up happens while interest is highest.
 author:
   name: Intempt
@@ -17,7 +17,7 @@ prerequisites:
 
 # Instant Lead Alert
 
-Slash command: /instant-lead-alert
+Slash command: /high-cart-value-abandoners
 
 ## Step 1: Build the form submitter list
 

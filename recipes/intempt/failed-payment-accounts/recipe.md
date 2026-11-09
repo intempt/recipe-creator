@@ -1,6 +1,6 @@
 ---
-frontmatter_id: active-form-starters-alert
-slash_command: /active-form-starters-alert
+frontmatter_id: failed-payment-accounts
+slash_command: /failed-payment-accounts
 description: Visitors currently filling out a form, flagged to the team in real time so they can be reached while they are still on the page.
 author:
   name: Intempt
@@ -17,7 +17,7 @@ prerequisites:
 
 # Active Form Starters
 
-Slash command: /active-form-starters-alert
+Slash command: /failed-payment-accounts
 
 ## Step 1: Build the active form starter list
 
