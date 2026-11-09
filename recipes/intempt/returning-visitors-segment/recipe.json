@@ -1,0 +1,41 @@
+{
+  "frontmatter_id": "returning-visitors-segment",
+  "title": "Returning Visitors",
+  "slash_command": "/returning-visitors-segment",
+  "description": "Visitors who have come back in more than one session, tagged with a reusable attribute so later segments and campaigns can target them without rebuilding the match.",
+  "markdown": "# Returning Visitors\n\n## Description\n\nVisitors who have come back in more than one session, tagged with a reusable attribute so later segments and campaigns can target them without rebuilding the match.\n\n## Steps\n\n### Step 1: Build the returning visitor list\n\nBuild a segment of users named \"Returning Visitors\". A user is in the segment only when all of these are true: triggered \"Session start\" at least 2 times in the last 30 days.\n\n### Step 2: Tag the matched visitors\n\nCreate an attribute named \"returning_visitor\" on users in \"Returning Visitors\", set to true. Use the result of \"Build the returning visitor list\".\n",
+  "classification": {
+    "industry": [
+      "industry-agnostic"
+    ]
+  },
+  "complexity": "quick",
+  "author": {
+    "name": "Intempt",
+    "last_name": "Technologies",
+    "company": "Intempt",
+    "org_name": "intempt"
+  },
+  "permissions": [
+    "segment:create",
+    "attribute:create"
+  ],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Build the returning visitor list",
+      "description": "Build a segment of users named \"Returning Visitors\". A user is in the segment only when all of these are true: triggered \"Session start\" at least 2 times in the last 30 days.",
+      "command": "create_segment",
+      "entity": "segment",
+      "modelConfig": []
+    },
+    {
+      "id": "s2",
+      "title": "Tag the matched visitors",
+      "description": "Create an attribute named \"returning_visitor\" on users in \"Returning Visitors\", set to true. Use the result of \"Build the returning visitor list\".",
+      "command": "create_attribute",
+      "entity": "attribute",
+      "modelConfig": []
+    }
+  ]
+}

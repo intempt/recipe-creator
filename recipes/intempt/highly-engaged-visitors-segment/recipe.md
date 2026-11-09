@@ -1,0 +1,25 @@
+---
+frontmatter_id: highly-engaged-visitors-segment
+slash_command: /highly-engaged-visitors-segment
+description: Visitors who click around the site a lot, tagged with a reusable attribute so later segments and campaigns can target them without rebuilding the match.
+author:
+  name: Intempt
+  last_name: Technologies
+  company: Intempt
+  org_name: intempt
+classification:
+  industry:
+  - industry-agnostic
+---
+
+# Highly Engaged Visitors
+
+Slash command: /highly-engaged-visitors-segment
+
+## Step 1: Build the highly engaged visitor list
+
+Build a segment of users named "Highly Engaged Visitors". A user is in the segment only when all of these are true: triggered "Click on" at least 5 times in the last 7 days.
+
+## Step 2: Tag the matched visitors
+
+Create an attribute named "highly_engaged" on users in "Highly Engaged Visitors", set to true. Use the result of "Build the highly engaged visitor list".

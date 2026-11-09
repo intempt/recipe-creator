@@ -1,0 +1,49 @@
+{
+  "frontmatter_id": "engaged-repeat-visitors-segment",
+  "title": "Engaged Repeat Visitors",
+  "slash_command": "/engaged-repeat-visitors-segment",
+  "description": "Visitors who both browse repeatedly and click around the site, flagged to marketing as a stronger engagement signal than page views alone.",
+  "markdown": "# Engaged Repeat Visitors\n\n## Description\n\nVisitors who both browse repeatedly and click around the site, flagged to marketing as a stronger engagement signal than page views alone.\n\n## Steps\n\n### Step 1: Build the engaged repeat visitor list\n\nBuild a segment of users named \"Engaged Repeat Visitors\". A user is in the segment only when all of these are true: triggered \"View page\" at least 3 times in the last 7 days; triggered \"Click on\" at least once in the last 7 days.\n\n### Step 2: Alert marketing\n\nGenerate a Slack message to the marketing team channel. Say how many users are in \"Engaged Repeat Visitors\" right now, so the team knows who is browsing and clicking, not just passing through. Use the result of \"Build the engaged repeat visitor list\".\n",
+  "classification": {
+    "industry": [
+      "industry-agnostic"
+    ]
+  },
+  "complexity": "quick",
+  "author": {
+    "name": "Intempt",
+    "last_name": "Technologies",
+    "company": "Intempt",
+    "org_name": "intempt"
+  },
+  "permissions": [
+    "segment:create",
+    "content:create"
+  ],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Build the engaged repeat visitor list",
+      "description": "Build a segment of users named \"Engaged Repeat Visitors\". A user is in the segment only when all of these are true: triggered \"View page\" at least 3 times in the last 7 days; triggered \"Click on\" at least once in the last 7 days.",
+      "command": "create_segment",
+      "entity": "segment",
+      "modelConfig": []
+    },
+    {
+      "id": "s2",
+      "title": "Alert marketing",
+      "description": "Generate a Slack message to the marketing team channel. Say how many users are in \"Engaged Repeat Visitors\" right now, so the team knows who is browsing and clicking, not just passing through. Use the result of \"Build the engaged repeat visitor list\".",
+      "command": "create_slack_content",
+      "entity": "slack",
+      "modelConfig": []
+    }
+  ],
+  "prerequisites": {
+    "integrations": [
+      {
+        "value": "slack",
+        "severity": "recommended"
+      }
+    ]
+  }
+}
