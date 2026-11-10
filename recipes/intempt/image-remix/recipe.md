@@ -1,7 +1,7 @@
 ---
 frontmatter_id: image-remix
 slash_command: /image-remix
-description: Visitors who clicked around actively in one visit and then disappeared for days, tagged and nudged back with a push notification.
+description: Visitors who clicked around actively in one visit and then disappeared for days, tagged with a ready-to-send push nudge drafted to bring them back.
 author:
   name: Intempt
   last_name: Technologies
@@ -24,6 +24,6 @@ Build a segment of users named "Clicked But Didn't Return". A user is in the seg
 
 Create an attribute named "clicked_then_gone" on users in "Clicked But Didn't Return", set to true. Use the result of "Build the clicked-but-gone list".
 
-## Step 3: Send a nudge push
+## Step 3: Draft a nudge push
 
-Generate a push notification for the users in "Clicked But Didn't Return" inviting them back to pick up where they left off. Title under 40 characters, one short body line, friendly tone. Use the result of "Build the clicked-but-gone list".
+Generate a push notification for the users in "Clicked But Didn't Return" inviting them back to pick up where they left off. Title under 40 characters, one short body line, friendly tone. Use the result of "Build the clicked-but-gone list". This drafts the push only; a person still sends it.

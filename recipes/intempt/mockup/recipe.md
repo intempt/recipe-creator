@@ -1,7 +1,7 @@
 ---
 frontmatter_id: mockup
 slash_command: /mockup
-description: Visitors returning on a near-daily basis, tagged as a power-user pool and invited into an early-access or loyalty list.
+description: Visitors returning on a near-daily basis, tagged as a power-user pool with a ready-to-send early-access or loyalty invite email drafted.
 author:
   name: Intempt
   last_name: Technologies
@@ -24,6 +24,6 @@ Build a segment of users named "Daily Habit Visitors". A user is in the segment 
 
 Create an attribute named "daily_habit_user" on users in "Daily Habit Visitors", set to true. Use the result of "Build the daily habit visitor list".
 
-## Step 3: Invite them to early access
+## Step 3: Draft an early-access invite email
 
-Generate a designed marketing email for the users in "Daily Habit Visitors" inviting them into an early-access or loyalty list in recognition of how often they show up. Three sentences, warm and appreciative tone, no discount language, one button to join. Use the result of "Build the daily habit visitor list".
+Generate a designed marketing email for the users in "Daily Habit Visitors" inviting them into an early-access or loyalty list in recognition of how often they show up. Three sentences, warm and appreciative tone, no discount language, one button to join. Use the result of "Build the daily habit visitor list". This drafts the email only; a person still sends it.

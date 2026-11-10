@@ -2,8 +2,8 @@
   "frontmatter_id": "editorial-model",
   "title": "Submitted And Still Engaged",
   "slash_command": "/editorial-model",
-  "description": "Visitors who submitted a form today and kept browsing right afterward, the hottest possible same-day lead signal, flagged to sales with a follow-up email ready to go.",
-  "markdown": "# Submitted And Still Engaged\n\n## Description\n\nVisitors who submitted a form today and kept browsing right afterward, the hottest possible same-day lead signal, flagged to sales with a follow-up email ready to go.\n\n## Steps\n\n### Step 1: Build the still-engaged submitter list\n\nBuild a segment of users named \"Submitted And Still Engaged\". A user is in the segment only when all of these are true: triggered \"Submit on\" at least once in the last 1 day; triggered \"View page\" at least 3 times in the last 1 day.\n\n### Step 2: Alert sales\n\nGenerate a Slack message to the sales team channel. Say how many users are in \"Submitted And Still Engaged\" right now, so reps can follow up while the user is still active on the site today. Use the result of \"Build the still-engaged submitter list\".\n\n### Step 3: Send a next-step email\n\nGenerate a designed marketing email for the users in \"Submitted And Still Engaged\" confirming their submission and naming the one next step worth taking right now. Three sentences, confident and helpful tone, no discount language, one button linking to that next step. Use the result of \"Build the still-engaged submitter list\".\n",
+  "description": "Visitors who submitted a form today and kept browsing right afterward, the hottest possible same-day lead signal, surfaced to sales with a follow-up email drafted and ready to review.",
+  "markdown": "# Submitted And Still Engaged\n\n## Description\n\nVisitors who submitted a form today and kept browsing right afterward, the hottest possible same-day lead signal, surfaced to sales with a follow-up email drafted and ready to review.\n\n## Steps\n\n### Step 1: Build the still-engaged submitter list\n\nBuild a segment of users named \"Submitted And Still Engaged\". A user is in the segment only when all of these are true: triggered \"Submit on\" at least once in the last 1 day; triggered \"View page\" at least 3 times in the last 1 day.\n\n### Step 2: Draft a sales alert\n\nGenerate a Slack message to the sales team channel. Say how many users are in \"Submitted And Still Engaged\" right now, so reps can follow up while the user is still active on the site today. Use the result of \"Build the still-engaged submitter list\". This drafts the Slack message only; a person on the team still posts it.\n\n### Step 3: Draft a next-step email\n\nGenerate a designed marketing email for the users in \"Submitted And Still Engaged\" confirming their submission and naming the one next step worth taking right now. Three sentences, confident and helpful tone, no discount language, one button linking to that next step. Use the result of \"Build the still-engaged submitter list\". This drafts the email only; a person still sends it.\n",
   "classification": {
     "industry": [
       "industry-agnostic"
@@ -31,16 +31,16 @@
     },
     {
       "id": "s2",
-      "title": "Alert sales",
-      "description": "Generate a Slack message to the sales team channel. Say how many users are in \"Submitted And Still Engaged\" right now, so reps can follow up while the user is still active on the site today. Use the result of \"Build the still-engaged submitter list\".",
+      "title": "Draft a sales alert",
+      "description": "Generate a Slack message to the sales team channel. Say how many users are in \"Submitted And Still Engaged\" right now, so reps can follow up while the user is still active on the site today. Use the result of \"Build the still-engaged submitter list\". This drafts the Slack message only; a person on the team still posts it.",
       "command": "create_slack_content",
       "entity": "slack",
       "modelConfig": []
     },
     {
       "id": "s3",
-      "title": "Send a next-step email",
-      "description": "Generate a designed marketing email for the users in \"Submitted And Still Engaged\" confirming their submission and naming the one next step worth taking right now. Three sentences, confident and helpful tone, no discount language, one button linking to that next step. Use the result of \"Build the still-engaged submitter list\".",
+      "title": "Draft a next-step email",
+      "description": "Generate a designed marketing email for the users in \"Submitted And Still Engaged\" confirming their submission and naming the one next step worth taking right now. Three sentences, confident and helpful tone, no discount language, one button linking to that next step. Use the result of \"Build the still-engaged submitter list\". This drafts the email only; a person still sends it.",
       "command": "create_email_content",
       "entity": "email_html",
       "modelConfig": []

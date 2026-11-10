@@ -1,7 +1,7 @@
 ---
 frontmatter_id: multi-product-buyers
 slash_command: /multi-product-buyers
-description: Visitors who return across several sessions and view many pages, tagged with a reusable attribute and flagged to growth as the strongest organic engagement signal available without any custom tracking.
+description: Visitors who return across several sessions and view many pages, tagged with a reusable attribute and surfaced to growth as a draft alert, the strongest organic engagement signal available without any custom tracking.
 author:
   name: Intempt
   last_name: Technologies
@@ -27,6 +27,6 @@ Build a segment of users named "Highly Active Multi-Session Visitors". A user is
 
 Create an attribute named "power_browser" on users in "Highly Active Multi-Session Visitors", set to true. Use the result of "Build the highly active visitor list".
 
-## Step 3: Alert growth
+## Step 3: Draft a growth alert
 
-Generate a Slack message to the growth team channel. Say how many users are in "Highly Active Multi-Session Visitors" right now, so the team has a ready-made shortlist worth a closer look. Use the result of "Build the highly active visitor list".
+Generate a Slack message to the growth team channel. Say how many users are in "Highly Active Multi-Session Visitors" right now, so the team has a ready-made shortlist worth a closer look. Use the result of "Build the highly active visitor list". This drafts the Slack message only; a person on the team still posts it.

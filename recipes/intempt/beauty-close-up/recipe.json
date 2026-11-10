@@ -2,8 +2,8 @@
   "frontmatter_id": "beauty-close-up",
   "title": "First-Day High-Intent Visitors",
   "slash_command": "/beauty-close-up",
-  "description": "Brand-new visitors already clicking around heavily on their first day, flagged to sales as a hot lead and nudged back with a push notification.",
-  "markdown": "# First-Day High-Intent Visitors\n\n## Description\n\nBrand-new visitors already clicking around heavily on their first day, flagged to sales as a hot lead and nudged back with a push notification.\n\n## Steps\n\n### Step 1: Build the first-day high-intent list\n\nBuild a segment of users named \"First-Day High-Intent Visitors\". A user is in the segment only when all of these are true: triggered \"Session start\" at least once in the last 1 day; did not trigger \"Session start\" more than 1 day ago; triggered \"Click on\" at least 5 times in the last 1 day.\n\n### Step 2: Alert sales\n\nGenerate a Slack message to the sales team channel. Say how many users are in \"First-Day High-Intent Visitors\" right now, so reps know a brand-new visitor is already showing strong interest today. Use the result of \"Build the first-day high-intent list\".\n\n### Step 3: Send a nudge push\n\nGenerate a push notification for the users in \"First-Day High-Intent Visitors\" inviting them back to pick up where they left off. Title under 40 characters, one short body line, friendly and curious tone. Use the result of \"Build the first-day high-intent list\".\n",
+  "description": "Brand-new visitors already clicking around heavily on their first day, surfaced to sales as a hot-lead draft with a ready-to-send push nudge back to the site.",
+  "markdown": "# First-Day High-Intent Visitors\n\n## Description\n\nBrand-new visitors already clicking around heavily on their first day, surfaced to sales as a hot-lead draft with a ready-to-send push nudge back to the site.\n\n## Steps\n\n### Step 1: Build the first-day high-intent list\n\nBuild a segment of users named \"First-Day High-Intent Visitors\". A user is in the segment only when all of these are true: triggered \"Session start\" at least once in the last 1 day; did not trigger \"Session start\" more than 1 day ago; triggered \"Click on\" at least 5 times in the last 1 day.\n\n### Step 2: Draft a sales alert\n\nGenerate a Slack message to the sales team channel. Say how many users are in \"First-Day High-Intent Visitors\" right now, so reps know a brand-new visitor is already showing strong interest today. Use the result of \"Build the first-day high-intent list\". This drafts the Slack message only; a person on the team still posts it.\n\n### Step 3: Draft a nudge push\n\nGenerate a push notification for the users in \"First-Day High-Intent Visitors\" inviting them back to pick up where they left off. Title under 40 characters, one short body line, friendly and curious tone. Use the result of \"Build the first-day high-intent list\". This drafts the push only; a person still sends it.\n",
   "classification": {
     "industry": [
       "industry-agnostic"
@@ -31,16 +31,16 @@
     },
     {
       "id": "s2",
-      "title": "Alert sales",
-      "description": "Generate a Slack message to the sales team channel. Say how many users are in \"First-Day High-Intent Visitors\" right now, so reps know a brand-new visitor is already showing strong interest today. Use the result of \"Build the first-day high-intent list\".",
+      "title": "Draft a sales alert",
+      "description": "Generate a Slack message to the sales team channel. Say how many users are in \"First-Day High-Intent Visitors\" right now, so reps know a brand-new visitor is already showing strong interest today. Use the result of \"Build the first-day high-intent list\". This drafts the Slack message only; a person on the team still posts it.",
       "command": "create_slack_content",
       "entity": "slack",
       "modelConfig": []
     },
     {
       "id": "s3",
-      "title": "Send a nudge push",
-      "description": "Generate a push notification for the users in \"First-Day High-Intent Visitors\" inviting them back to pick up where they left off. Title under 40 characters, one short body line, friendly and curious tone. Use the result of \"Build the first-day high-intent list\".",
+      "title": "Draft a nudge push",
+      "description": "Generate a push notification for the users in \"First-Day High-Intent Visitors\" inviting them back to pick up where they left off. Title under 40 characters, one short body line, friendly and curious tone. Use the result of \"Build the first-day high-intent list\". This drafts the push only; a person still sends it.",
       "command": "create_push_content",
       "entity": "push",
       "modelConfig": []

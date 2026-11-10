@@ -2,8 +2,8 @@
   "frontmatter_id": "image-remix",
   "title": "Clicked But Didn't Return",
   "slash_command": "/image-remix",
-  "description": "Visitors who clicked around actively in one visit and then disappeared for days, tagged and nudged back with a push notification.",
-  "markdown": "# Clicked But Didn't Return\n\n## Description\n\nVisitors who clicked around actively in one visit and then disappeared for days, tagged and nudged back with a push notification.\n\n## Steps\n\n### Step 1: Build the clicked-but-gone list\n\nBuild a segment of users named \"Clicked But Didn't Return\". A user is in the segment only when all of these are true: triggered \"Click on\" at least 3 times in the last 1 day; did not trigger \"Session start\" in the last 3 days.\n\n### Step 2: Tag the matched visitors\n\nCreate an attribute named \"clicked_then_gone\" on users in \"Clicked But Didn't Return\", set to true. Use the result of \"Build the clicked-but-gone list\".\n\n### Step 3: Send a nudge push\n\nGenerate a push notification for the users in \"Clicked But Didn't Return\" inviting them back to pick up where they left off. Title under 40 characters, one short body line, friendly tone. Use the result of \"Build the clicked-but-gone list\".\n",
+  "description": "Visitors who clicked around actively in one visit and then disappeared for days, tagged with a ready-to-send push nudge drafted to bring them back.",
+  "markdown": "# Clicked But Didn't Return\n\n## Description\n\nVisitors who clicked around actively in one visit and then disappeared for days, tagged with a ready-to-send push nudge drafted to bring them back.\n\n## Steps\n\n### Step 1: Build the clicked-but-gone list\n\nBuild a segment of users named \"Clicked But Didn't Return\". A user is in the segment only when all of these are true: triggered \"Click on\" at least 3 times in the last 1 day; did not trigger \"Session start\" in the last 3 days.\n\n### Step 2: Tag the matched visitors\n\nCreate an attribute named \"clicked_then_gone\" on users in \"Clicked But Didn't Return\", set to true. Use the result of \"Build the clicked-but-gone list\".\n\n### Step 3: Draft a nudge push\n\nGenerate a push notification for the users in \"Clicked But Didn't Return\" inviting them back to pick up where they left off. Title under 40 characters, one short body line, friendly tone. Use the result of \"Build the clicked-but-gone list\". This drafts the push only; a person still sends it.\n",
   "classification": {
     "industry": [
       "industry-agnostic"
@@ -40,8 +40,8 @@
     },
     {
       "id": "s3",
-      "title": "Send a nudge push",
-      "description": "Generate a push notification for the users in \"Clicked But Didn't Return\" inviting them back to pick up where they left off. Title under 40 characters, one short body line, friendly tone. Use the result of \"Build the clicked-but-gone list\".",
+      "title": "Draft a nudge push",
+      "description": "Generate a push notification for the users in \"Clicked But Didn't Return\" inviting them back to pick up where they left off. Title under 40 characters, one short body line, friendly tone. Use the result of \"Build the clicked-but-gone list\". This drafts the push only; a person still sends it.",
       "command": "create_push_content",
       "entity": "push",
       "modelConfig": []

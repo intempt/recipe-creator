@@ -1,7 +1,7 @@
 ---
 frontmatter_id: cinematic-studio
 slash_command: /cinematic-studio
-description: Visitors who browsed lightly a few weeks ago and are browsing a lot more now, tagged and flagged to growth as an escalating-interest signal worth a closer look.
+description: Visitors who browsed lightly a few weeks ago and are browsing a lot more now, tagged and surfaced to growth as an escalating-interest signal draft worth a closer look.
 author:
   name: Intempt
   last_name: Technologies
@@ -27,6 +27,6 @@ Build a segment of users named "Warming Up Visitors". A user is in the segment o
 
 Create an attribute named "warming_up" on users in "Warming Up Visitors", set to true. Use the result of "Build the warming-up visitor list".
 
-## Step 3: Alert growth
+## Step 3: Draft a growth alert
 
-Generate a Slack message to the growth team channel. Say how many users are in "Warming Up Visitors" right now, so the team has a ready-made shortlist of visitors trending toward higher engagement. Use the result of "Build the warming-up visitor list".
+Generate a Slack message to the growth team channel. Say how many users are in "Warming Up Visitors" right now, so the team has a ready-made shortlist of visitors trending toward higher engagement. Use the result of "Build the warming-up visitor list". This drafts the Slack message only; a person on the team still posts it.
