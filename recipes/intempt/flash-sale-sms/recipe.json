@@ -2,14 +2,14 @@
   "frontmatter_id": "flash-sale-sms",
   "title": "Flash sale text message",
   "slash_command": "/flash-sale-sms",
-  "description": "Builds the list of recently active shoppers, writes a time-limited offer text naming the discount and deadline, and lets marketing ops see the reach before it sends.",
-  "markdown": "# Flash sale text message\n\n## Description\n\nBuilds the list of recently active shoppers, writes a time-limited offer text naming the discount and deadline, and lets marketing ops see the reach before it sends.\n\n## Steps\n\n### Step 1: Build the flash-sale audience\n\nBuild a segment of users named \"Flash Sale Audience\".\nA user is in the segment only when all of these are true:\n- they did the View page event at least once in the last 14 days\n\n### Step 2: Write the flash sale SMS\n\nGenerate an SMS for the users in \"Flash Sale Audience\" announcing a time-limited discount. State the discount percentage and the exact end date for the offer in the message. Include a short.link preview card for the offer's landing page. One or two sentences, direct and urgent tone. Use the result of \"Build the flash-sale audience\".\n\n### Step 3: Alert marketing ops\n\nGenerate a Slack message to the marketing ops channel noting the size of \"Flash Sale Audience\" so the team can track reach before the sale goes out. Use the result of \"Build the flash-sale audience\".\n",
+  "description": "Builds the list of recently active shoppers, drafts a time-limited offer text without inventing a discount or deadline it does not have, and drafts a reach note for marketing ops to review before anything sends.",
+  "markdown": "# Flash sale text message\n\n## Description\n\nBuilds the list of recently active shoppers, drafts a time-limited offer text without inventing a discount or deadline it does not have, and drafts a reach note for marketing ops to review before anything sends.\n\n## Steps\n\n### Step 1: Build the flash-sale audience\n\nBuild a segment of users named \"Flash Sale Audience\". A user is in the segment only when all of these are true: triggered \"View page\" at least 3 times in the last 7 days.\n\n### Step 2: Write the flash sale SMS\n\nGenerate an SMS for the users in \"Flash Sale Audience\" announcing a limited-time discount on their next purchase. Use the discount percentage and the offer's end date chosen for this run; do not invent either if neither is supplied. Include a short.link preview card for the offer's landing page. One or two sentences, direct and urgent tone. Use the result of \"Build the flash-sale audience\". This drafts the SMS only; a person still sends it.\n\n### Step 3: Draft a note for marketing ops\n\nGenerate a Slack message to the marketing ops channel noting the size of \"Flash Sale Audience\" so the team can track reach before the sale goes out. Use the result of \"Build the flash-sale audience\". This drafts the Slack message only; a person on the team still posts it.\n",
   "classification": {
     "industry": [
-      "ecommerce-retail"
+      "industry-agnostic"
     ]
   },
-  "complexity": "quick",
+  "complexity": "standard",
   "author": {
     "name": "Intempt",
     "last_name": "Technologies",
@@ -24,28 +24,34 @@
     {
       "id": "s1",
       "title": "Build the flash-sale audience",
-      "description": "Build a segment of users named \"Flash Sale Audience\". A user is in the segment only when all of these are true: they did the View page event at least once in the last 14 days.",
+      "description": "Build a segment of users named \"Flash Sale Audience\". A user is in the segment only when all of these are true: triggered \"View page\" at least 3 times in the last 7 days.",
       "command": "create_segment",
       "entity": "segment",
-      "kind": "static",
       "modelConfig": []
     },
     {
       "id": "s2",
       "title": "Write the flash sale SMS",
-      "description": "Generate an SMS for the users in \"Flash Sale Audience\" announcing a time-limited discount. State the discount percentage and the exact end date for the offer in the message. Include a short.link preview card for the offer's landing page. One or two sentences, direct and urgent tone. Use the result of \"Build the flash-sale audience\".",
+      "description": "Generate an SMS for the users in \"Flash Sale Audience\" announcing a limited-time discount on their next purchase. Use the discount percentage and the offer's end date chosen for this run; do not invent either if neither is supplied. Include a short.link preview card for the offer's landing page. One or two sentences, direct and urgent tone. Use the result of \"Build the flash-sale audience\". This drafts the SMS only; a person still sends it.",
       "command": "create_sms_content",
       "entity": "sms",
-      "kind": "dynamic",
       "modelConfig": []
     },
     {
       "id": "s3",
-      "title": "Alert marketing ops",
-      "description": "Generate a Slack message to the marketing ops channel noting the size of \"Flash Sale Audience\" so the team can track reach before the sale goes out. Use the result of \"Build the flash-sale audience\".",
+      "title": "Draft a note for marketing ops",
+      "description": "Generate a Slack message to the marketing ops channel noting the size of \"Flash Sale Audience\" so the team can track reach before the sale goes out. Use the result of \"Build the flash-sale audience\". This drafts the Slack message only; a person on the team still posts it.",
       "command": "create_slack_content",
       "entity": "slack",
       "modelConfig": []
     }
-  ]
+  ],
+  "prerequisites": {
+    "integrations": [
+      {
+        "value": "slack",
+        "severity": "recommended"
+      }
+    ]
+  }
 }

@@ -1,7 +1,7 @@
 ---
 frontmatter_id: high-cart-value-abandoners
 slash_command: /high-cart-value-abandoners
-description: People who walked away from an expensive cart in the last week and have not bought since, so you chase the baskets worth chasing.
+description: Visitors who just submitted a form today, surfaced to sales as a same-day lead alert draft while interest is highest.
 author:
   name: Intempt
   last_name: Technologies
@@ -9,16 +9,20 @@ author:
   org_name: intempt
 classification:
   industry:
-  - ecommerce-retail
+  - industry-agnostic
+prerequisites:
+  integrations:
+    - { value: slack, severity: recommended }
 ---
 
-# High-value cart abandoners
+# Same-Day Form Submitters
 
 Slash command: /high-cart-value-abandoners
 
-## Step 1: Build the big-cart list
+## Step 1: Build the form submitter list
 
-Build a segment of users named "High-Cart-Value Abandoners".
-A user is in the segment only when all of these are true:
-- they did the Abandoned cart event with a Order total of 200 or more at least once in the last 7 days
-- they did not do the Placed order event in the last 7 days
+Build a segment of users named "Form Submitters Today". A user is in the segment only when all of these are true: triggered "Submit on" at least once in the last 1 day.
+
+## Step 2: Draft a sales alert
+
+Generate a Slack message to the sales team channel. Say how many users are in "Form Submitters Today" right now, so reps know when a form submission just came in. Use the result of "Build the form submitter list". This drafts the Slack message only; a person on the team still posts it.

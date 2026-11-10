@@ -1,7 +1,7 @@
 ---
 frontmatter_id: failed-payment-accounts
 slash_command: /failed-payment-accounts
-description: Users whose payment was declined in the last two weeks, so you can recover the money before the subscription lapses.
+description: Visitors currently filling out a form, surfaced to the team as a real-time draft alert so they can be reached while still on the page.
 author:
   name: Intempt
   last_name: Technologies
@@ -9,19 +9,20 @@ author:
   org_name: intempt
 classification:
   industry:
-  - saas-b2b-tech
-  - media-entertainment
+  - industry-agnostic
+prerequisites:
+  integrations:
+    - { value: slack, severity: recommended }
 ---
 
-# Users with a failed payment
+# Active Form Starters
 
 Slash command: /failed-payment-accounts
 
-## Step 1: Build the failed-payment list
+## Step 1: Build the active form starter list
 
-Build a segment of users named "Failed-Payment Users".
-A user is in the segment when any of these is true:
-- they did the Payment failed event at least once in the last 14 days
-- they did the Invoice payment failed event at least once in the last 14 days
-- they did the Billing failed event at least once in the last 14 days
-- they did the Charge failed event at least once in the last 14 days
+Build a segment of users named "Active Form Starters". A user is in the segment only when all of these are true: triggered "Change on" at least once in the last 1 day.
+
+## Step 2: Draft an alert for the team
+
+Generate a Slack message to the support team channel. Say how many users are in "Active Form Starters" right now, so the team knows someone is actively filling out a form today. Use the result of "Build the active form starter list". This drafts the Slack message only; a person on the team still posts it.

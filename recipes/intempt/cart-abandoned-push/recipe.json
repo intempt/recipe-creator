@@ -1,15 +1,15 @@
 {
   "frontmatter_id": "cart-abandoned-push",
-  "title": "Cart abandonment push notification",
+  "title": "Long-Tenure Returning Visitors",
   "slash_command": "/cart-abandoned-push",
-  "description": "Writes a lockscreen push that brings shoppers back to an abandoned cart, naming the item they left behind.",
-  "markdown": "# Cart abandonment push notification\n\n## Description\n\nWrites a lockscreen push that brings shoppers back to an abandoned cart, naming the item they left behind.\n\n## Steps\n\n### Step 1: Write the win-back push\n\nCreate a cart abandonment re-engagement push notification.\nInclude brand icon, win-back title, and body copy. Tone: personal, helpful, not aggressive. Include the abandoned item name if available.\nOutput: push notification (title + body + icon)\n",
+  "description": "Visitors active again this week who first showed up months ago, with a ready-to-send welcome-back email drafted and a heads-up drafted for the lifecycle team.",
+  "markdown": "# Long-Tenure Returning Visitors\n\n## Description\n\nVisitors active again this week who first showed up months ago, with a ready-to-send welcome-back email drafted and a heads-up drafted for the lifecycle team.\n\n## Steps\n\n### Step 1: Build the long-tenure returning visitor list\n\nBuild a segment of users named \"Long-Tenure Returning Visitors\". A user is in the segment only when all of these are true: triggered \"Session start\" at least once in the last 7 days; triggered \"Session start\" at least once between 60 and 90 days ago.\n\n### Step 2: Draft a welcome-back email\n\nGenerate a designed marketing email for the users in \"Long-Tenure Returning Visitors\" welcoming them back and pointing to what is new in the product since they last visited regularly. Three sentences, warm tone, no discount language, one button linking to the product. Use the result of \"Build the long-tenure returning visitor list\". This drafts the email only; a person still sends it.\n\n### Step 3: Draft a note for the lifecycle team\n\nGenerate a Slack message to the lifecycle team channel. Say how many users are in \"Long-Tenure Returning Visitors\" right now, so the team knows a batch of long-time users is active again. Use the result of \"Build the long-tenure returning visitor list\". This drafts the Slack message only; a person on the team still posts it.\n",
   "classification": {
     "industry": [
-      "ecommerce-retail"
+      "industry-agnostic"
     ]
   },
-  "complexity": "quick",
+  "complexity": "standard",
   "author": {
     "name": "Intempt",
     "last_name": "Technologies",
@@ -17,17 +17,41 @@
     "org_name": "intempt"
   },
   "permissions": [
+    "segment:create",
     "content:create"
   ],
   "steps": [
     {
       "id": "s1",
-      "title": "Write the win-back push",
-      "description": "Create a cart abandonment re-engagement push notification. Include brand icon, win-back title, and body copy. Tone: personal, helpful, not aggressive. Include the abandoned item name if available. Output: push notification (title + body + icon)",
-      "command": "create_sms_content",
-      "entity": "push",
-      "kind": "dynamic",
+      "title": "Build the long-tenure returning visitor list",
+      "description": "Build a segment of users named \"Long-Tenure Returning Visitors\". A user is in the segment only when all of these are true: triggered \"Session start\" at least once in the last 7 days; triggered \"Session start\" at least once between 60 and 90 days ago.",
+      "command": "create_segment",
+      "entity": "segment",
+      "modelConfig": []
+    },
+    {
+      "id": "s2",
+      "title": "Draft a welcome-back email",
+      "description": "Generate a designed marketing email for the users in \"Long-Tenure Returning Visitors\" welcoming them back and pointing to what is new in the product since they last visited regularly. Three sentences, warm tone, no discount language, one button linking to the product. Use the result of \"Build the long-tenure returning visitor list\". This drafts the email only; a person still sends it.",
+      "command": "create_email_content",
+      "entity": "email_html",
+      "modelConfig": []
+    },
+    {
+      "id": "s3",
+      "title": "Draft a note for the lifecycle team",
+      "description": "Generate a Slack message to the lifecycle team channel. Say how many users are in \"Long-Tenure Returning Visitors\" right now, so the team knows a batch of long-time users is active again. Use the result of \"Build the long-tenure returning visitor list\". This drafts the Slack message only; a person on the team still posts it.",
+      "command": "create_slack_content",
+      "entity": "slack",
       "modelConfig": []
     }
-  ]
+  ],
+  "prerequisites": {
+    "integrations": [
+      {
+        "value": "slack",
+        "severity": "recommended"
+      }
+    ]
+  }
 }

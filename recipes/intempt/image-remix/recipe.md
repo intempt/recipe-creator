@@ -1,7 +1,7 @@
 ---
 frontmatter_id: image-remix
 slash_command: /image-remix
-description: Pin up to four reference images with a weight on each, and get back variations anchored to them (four by default).
+description: Visitors who clicked around actively in one visit and then disappeared for days, tagged with a ready-to-send push nudge drafted to bring them back.
 author:
   name: Intempt
   last_name: Technologies
@@ -12,12 +12,18 @@ classification:
   - industry-agnostic
 ---
 
-# Reference-anchored remix
+# Clicked But Didn't Return
 
 Slash command: /image-remix
 
-## Step 1: Pin references and fan out
+## Step 1: Build the clicked-but-gone list
 
-Generate four image variations from the reference images pinned to this run.
-Use between one and four references, each with a weight of Light, Medium or Strong.
-A Strong reference shapes each variation most, Medium less, and Light least.
+Build a segment of users named "Clicked But Didn't Return". A user is in the segment only when all of these are true: triggered "Click on" at least 3 times in the last 1 day; did not trigger "Session start" in the last 3 days.
+
+## Step 2: Tag the matched visitors
+
+Create an attribute named "clicked_then_gone" on users in "Clicked But Didn't Return", set to true. Use the result of "Build the clicked-but-gone list".
+
+## Step 3: Draft a nudge push
+
+Generate a push notification for the users in "Clicked But Didn't Return" inviting them back to pick up where they left off. Title under 40 characters, one short body line, friendly tone. Use the result of "Build the clicked-but-gone list". This drafts the push only; a person still sends it.

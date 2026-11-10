@@ -1,7 +1,7 @@
 ---
 frontmatter_id: multi-product-buyers
 slash_command: /multi-product-buyers
-description: Customers who have bought more than once and spent a meaningful amount, so cross-sell offers reach people with broad interest.
+description: Visitors who return across several sessions and view many pages, tagged with a reusable attribute and surfaced to growth as a draft alert, the strongest organic engagement signal available without any custom tracking.
 author:
   name: Intempt
   last_name: Technologies
@@ -9,16 +9,24 @@ author:
   org_name: intempt
 classification:
   industry:
-  - ecommerce-retail
+  - industry-agnostic
+prerequisites:
+  integrations:
+    - { value: slack, severity: recommended }
 ---
 
-# Multi-product buyers
+# Highly Active Multi-Session Visitors
 
 Slash command: /multi-product-buyers
 
-## Step 1: Build the repeat-spend list
+## Step 1: Build the highly active visitor list
 
-Build a segment of users named "Multi-Product Buyers".
-A user is in the segment only when all of these are true:
-- they did the Placed order event 2 or more times in the last 180 days
-- their Lifetime value attribute is 200 or more
+Build a segment of users named "Highly Active Multi-Session Visitors". A user is in the segment only when all of these are true: triggered "Session start" at least 3 times in the last 30 days; triggered "View page" at least 5 times in the last 30 days.
+
+## Step 2: Tag the matched visitors
+
+Create an attribute named "power_browser" on users in "Highly Active Multi-Session Visitors", set to true. Use the result of "Build the highly active visitor list".
+
+## Step 3: Draft a growth alert
+
+Generate a Slack message to the growth team channel. Say how many users are in "Highly Active Multi-Session Visitors" right now, so the team has a ready-made shortlist worth a closer look. Use the result of "Build the highly active visitor list". This drafts the Slack message only; a person on the team still posts it.

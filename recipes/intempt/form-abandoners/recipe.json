@@ -1,0 +1,41 @@
+{
+  "frontmatter_id": "form-abandoners",
+  "title": "Form Abandoners",
+  "slash_command": "/form-abandoners",
+  "description": "Users who started filling out a form and never finished, tagged while their intent is still fresh for a quick nudge or retargeting.",
+  "markdown": "# Form Abandoners\n\n## Description\n\nUsers who started filling out a form and never finished, tagged while their intent is still fresh for a quick nudge or retargeting.\n\n## Steps\n\n### Step 1: Build the form abandoner list\n\nBuild a segment of users named \"Form Abandoners\". A user is in the segment only when all of these are true: triggered \"Change on\" at least once in the last 3 days; did not trigger \"Submit on\" in the last 3 days.\n\n### Step 2: Tag the matched users\n\nCreate an attribute named \"form_abandoner\" on users in \"Form Abandoners\", set to true. Use the result of \"Build the form abandoner list\".\n",
+  "classification": {
+    "industry": [
+      "industry-agnostic"
+    ]
+  },
+  "complexity": "quick",
+  "author": {
+    "name": "Intempt",
+    "last_name": "Technologies",
+    "company": "Intempt",
+    "org_name": "intempt"
+  },
+  "permissions": [
+    "segment:create",
+    "attribute:create"
+  ],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Build the form abandoner list",
+      "description": "Build a segment of users named \"Form Abandoners\". A user is in the segment only when all of these are true: triggered \"Change on\" at least once in the last 3 days; did not trigger \"Submit on\" in the last 3 days.",
+      "command": "create_segment",
+      "entity": "segment",
+      "modelConfig": []
+    },
+    {
+      "id": "s2",
+      "title": "Tag the matched users",
+      "description": "Create an attribute named \"form_abandoner\" on users in \"Form Abandoners\", set to true. Use the result of \"Build the form abandoner list\".",
+      "command": "create_attribute",
+      "entity": "attribute",
+      "modelConfig": []
+    }
+  ]
+}

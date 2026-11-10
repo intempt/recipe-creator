@@ -29,4 +29,4 @@ Generate a designed marketing email for the accounts in "Net-New Prospects" welc
 
 ## Step 3: Notify SDRs
 
-Generate a plain-text email to the SDR distribution list listing the accounts in "Net-New Prospects" so follow-up happens while the account is still fresh. Use the result of "Build the net-new account list".
+Generate a plain-text email to the SDR distribution list For each account in "Net-New Prospects", name the account and its employees count, so follow-up happens while the account is still fresh. Use the result of "Build the net-new account list".

@@ -1,7 +1,7 @@
 ---
 frontmatter_id: engaged-non-buyers
 slash_command: /engaged-non-buyers
-description: People who use your site a lot but have never placed an order, so you can aim a first-purchase offer at them.
+description: Visitors who click around the site a lot, tagged with a reusable attribute so later segments and campaigns can target them without rebuilding the match.
 author:
   name: Intempt
   last_name: Technologies
@@ -9,18 +9,17 @@ author:
   org_name: intempt
 classification:
   industry:
-  - ecommerce-retail
+  - industry-agnostic
 ---
 
-# Engaged visitors who never bought
+# Highly Engaged Visitors
 
 Slash command: /engaged-non-buyers
 
-## Step 1: Build the non-buyer list
+## Step 1: Build the highly engaged visitor list
 
-Build a segment of users named "Engaged Non-Buyers".
-A user is in the segment only when all of these are true:
-- their Total events attribute is 10 or more
-- they have never done the Placed order event
-- their Days since last activity attribute is 7 or less
-- their email attribute is not empty
+Build a segment of users named "Highly Engaged Visitors". A user is in the segment only when all of these are true: triggered "Click on" at least 5 times in the last 7 days.
+
+## Step 2: Tag the matched visitors
+
+Create an attribute named "highly_engaged" on users in "Highly Engaged Visitors", set to true. Use the result of "Build the highly engaged visitor list".

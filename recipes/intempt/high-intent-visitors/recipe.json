@@ -3,7 +3,7 @@
   "title": "Free users researching heavily",
   "slash_command": "/high-intent-visitors",
   "description": "Free-plan users reading your site heavily, nudged toward a relevant paid feature by push notification and shared with growth as a shortlist worth a closer look.",
-  "markdown": "# Free users researching heavily\n\n## Description\n\nFree-plan users reading your site heavily, nudged toward a relevant paid feature by push notification and shared with growth as a shortlist worth a closer look.\n\n## Steps\n\n### Step 1: Build the high-intent list\n\nBuild a segment of users named \"High-Intent Visitors\".\nA user is in the segment only when all of these are true:\n- their Plan attribute is \"free\"\n- they did the View page event 3 or more times in the last 14 days\n\n### Step 2: Nudge toward a paid feature\n\nGenerate a push notification for the users in \"High-Intent Visitors\" highlighting one feature only available on a paid plan. Title under 40 characters, one short body line, helpful and not pushy tone, deep link to the pricing page. Use the result of \"Build the high-intent list\".\n\n### Step 3: Share the shortlist with growth\n\nGenerate a plain-text email to the growth team distribution list listing the users in \"High-Intent Visitors\" so outreach can be timed to their actual research activity. Use the result of \"Build the high-intent list\".\n",
+  "markdown": "# Free users researching heavily\n\n## Description\n\nFree-plan users reading your site heavily, nudged toward a relevant paid feature by push notification and shared with growth as a shortlist worth a closer look.\n\n## Steps\n\n### Step 1: Build the high-intent list\n\nBuild a segment of users named \"High-Intent Visitors\".\nA user is in the segment only when all of these are true:\n- their Plan attribute is \"free\"\n- they did the View page event 3 or more times in the last 14 days\n\n### Step 2: Nudge toward a paid feature\n\nGenerate a push notification for the users in \"High-Intent Visitors\" highlighting one feature only available on a paid plan. Title under 40 characters, one short body line, helpful and not pushy tone, deep link to the pricing page. Use the result of \"Build the high-intent list\".\n\n### Step 3: Share the shortlist with growth\n\nGenerate a plain-text email to the growth team distribution list For each user in \"High-Intent Visitors\", name their email address, so outreach can be timed to their actual research activity. Use the result of \"Build the high-intent list\".\n",
   "classification": {
     "industry": [
       "industry-agnostic"
@@ -41,10 +41,11 @@
     {
       "id": "s3",
       "title": "Share the shortlist with growth",
-      "description": "Generate a plain-text email to the growth team distribution list listing the users in \"High-Intent Visitors\" so outreach can be timed to their actual research activity. Use the result of \"Build the high-intent list\".",
+      "description": "Generate a plain-text email to the growth team distribution list For each user in \"High-Intent Visitors\", name their email address, so outreach can be timed to their actual research activity. Use the result of \"Build the high-intent list\".",
       "command": "create_email_content",
       "entity": "email_plain",
       "modelConfig": []
     }
-  ]
+  ],
+  "availability": "coming_soon"
 }

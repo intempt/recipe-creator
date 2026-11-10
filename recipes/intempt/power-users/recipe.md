@@ -29,4 +29,4 @@ Generate a push notification for the users in "Power Users" inviting them to joi
 
 ## Step 3: Share the shortlist with growth
 
-Generate a plain-text email to the growth team distribution list listing the users in "Power Users" as candidates for case studies and advocacy, not just referrals. Use the result of "Build the power-user list".
+Generate a plain-text email to the growth team distribution list For each user in "Power Users", name their email address, as candidates for case studies and advocacy, not just referrals. Use the result of "Build the power-user list".

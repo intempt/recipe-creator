@@ -32,4 +32,4 @@ Generate a designed marketing email for the users in "Recently Churned Users" in
 
 ## Step 3: Notify the retention team
 
-Generate a Slack message to the retention team channel listing the users in "Recently Churned Users" so the team can track cancellation volume and follow up personally with the highest-value ones. Use the result of "Build the recent-cancel list".
+Generate a Slack message to the retention team channel For each user in "Recently Churned Users", name their email address and their Lifetime value, so the team can track cancellation volume and follow up personally with the highest-value ones. Use the result of "Build the recent-cancel list".

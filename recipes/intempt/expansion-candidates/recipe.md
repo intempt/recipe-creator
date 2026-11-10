@@ -29,4 +29,4 @@ Generate a designed marketing email for the users in "Expansion Candidates" high
 
 ## Step 3: Notify growth
 
-Generate a plain-text email to the growth team distribution list listing the users in "Expansion Candidates" so outreach can be timed to their actual usage instead of a generic drip. Use the result of "Build the expansion-candidate list".
+Generate a plain-text email to the growth team distribution list For each user in "Expansion Candidates", name their email address, so outreach can be timed to their actual usage instead of a generic drip. Use the result of "Build the expansion-candidate list".

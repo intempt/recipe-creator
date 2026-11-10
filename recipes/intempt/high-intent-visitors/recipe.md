@@ -29,4 +29,4 @@ Generate a push notification for the users in "High-Intent Visitors" highlightin
 
 ## Step 3: Share the shortlist with growth
 
-Generate a plain-text email to the growth team distribution list listing the users in "High-Intent Visitors" so outreach can be timed to their actual research activity. Use the result of "Build the high-intent list".
+Generate a plain-text email to the growth team distribution list For each user in "High-Intent Visitors", name their email address, so outreach can be timed to their actual research activity. Use the result of "Build the high-intent list".

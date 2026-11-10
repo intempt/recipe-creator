@@ -3,7 +3,7 @@
   "title": "Highly engaged users below enterprise",
   "slash_command": "/expansion-candidates",
   "description": "Users on a plan below enterprise who log in often enough to be your clearest upgrade signal, offered the next tier by email and routed to growth for outreach.",
-  "markdown": "# Highly engaged users below enterprise\n\n## Description\n\nUsers on a plan below enterprise who log in often enough to be your clearest upgrade signal, offered the next tier by email and routed to growth for outreach.\n\n## Steps\n\n### Step 1: Build the expansion-candidate list\n\nBuild a segment of users named \"Expansion Candidates\".\nA user is in the segment only when all of these are true:\n- their Plan attribute is not \"enterprise\"\n- they did the Session start event 8 or more times in the last 14 days\n\n### Step 2: Send an upgrade email\n\nGenerate a designed marketing email for the users in \"Expansion Candidates\" highlighting one feature available only on a higher plan. Three sentences, confident and helpful tone, no discount language, one button linking to the upgrade page. Use the result of \"Build the expansion-candidate list\".\n\n### Step 3: Notify growth\n\nGenerate a plain-text email to the growth team distribution list listing the users in \"Expansion Candidates\" so outreach can be timed to their actual usage instead of a generic drip. Use the result of \"Build the expansion-candidate list\".\n",
+  "markdown": "# Highly engaged users below enterprise\n\n## Description\n\nUsers on a plan below enterprise who log in often enough to be your clearest upgrade signal, offered the next tier by email and routed to growth for outreach.\n\n## Steps\n\n### Step 1: Build the expansion-candidate list\n\nBuild a segment of users named \"Expansion Candidates\".\nA user is in the segment only when all of these are true:\n- their Plan attribute is not \"enterprise\"\n- they did the Session start event 8 or more times in the last 14 days\n\n### Step 2: Send an upgrade email\n\nGenerate a designed marketing email for the users in \"Expansion Candidates\" highlighting one feature available only on a higher plan. Three sentences, confident and helpful tone, no discount language, one button linking to the upgrade page. Use the result of \"Build the expansion-candidate list\".\n\n### Step 3: Notify growth\n\nGenerate a plain-text email to the growth team distribution list For each user in \"Expansion Candidates\", name their email address, so outreach can be timed to their actual usage instead of a generic drip. Use the result of \"Build the expansion-candidate list\".\n",
   "classification": {
     "industry": [
       "saas-b2b-tech"
@@ -41,10 +41,11 @@
     {
       "id": "s3",
       "title": "Notify growth",
-      "description": "Generate a plain-text email to the growth team distribution list listing the users in \"Expansion Candidates\" so outreach can be timed to their actual usage instead of a generic drip. Use the result of \"Build the expansion-candidate list\".",
+      "description": "Generate a plain-text email to the growth team distribution list For each user in \"Expansion Candidates\", name their email address, so outreach can be timed to their actual usage instead of a generic drip. Use the result of \"Build the expansion-candidate list\".",
       "command": "create_email_content",
       "entity": "email_plain",
       "modelConfig": []
     }
-  ]
+  ],
+  "availability": "coming_soon"
 }

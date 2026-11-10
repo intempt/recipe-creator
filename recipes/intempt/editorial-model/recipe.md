@@ -1,7 +1,7 @@
 ---
 frontmatter_id: editorial-model
 slash_command: /editorial-model
-description: Produces a full-body editorial fashion photo of an AI model on location, then varies the lighting while holding pose and framing.
+description: Visitors who submitted a form today and kept browsing right afterward, the hottest possible same-day lead signal, surfaced to sales with a follow-up email drafted and ready to review.
 author:
   name: Intempt
   last_name: Technologies
@@ -9,15 +9,24 @@ author:
   org_name: intempt
 classification:
   industry:
-  - ecommerce-retail
+  - industry-agnostic
+prerequisites:
+  integrations:
+    - { value: slack, severity: recommended }
 ---
 
-# Editorial lookbook shot
+# Submitted And Still Engaged
 
 Slash command: /editorial-model
 
-## Step 1: Relight the lookbook shot
+## Step 1: Build the still-engaged submitter list
 
-Edit the editorial lookbook image attached to this run: a full-body AI model wearing the outfit on location.
-Change only the lighting, to golden hour with long raking shadows.
-Keep the model's identity, the outfit, the pose, the street and the framing identical.
+Build a segment of users named "Submitted And Still Engaged". A user is in the segment only when all of these are true: triggered "Submit on" at least once in the last 1 day; triggered "View page" at least 3 times in the last 1 day.
+
+## Step 2: Draft a sales alert
+
+Generate a Slack message to the sales team channel. Say how many users are in "Submitted And Still Engaged" right now, so reps can follow up while the user is still active on the site today. Use the result of "Build the still-engaged submitter list". This drafts the Slack message only; a person on the team still posts it.
+
+## Step 3: Draft a next-step email
+
+Generate a designed marketing email for the users in "Submitted And Still Engaged" confirming their submission and naming the one next step worth taking right now. Three sentences, confident and helpful tone, no discount language, one button linking to that next step. Use the result of "Build the still-engaged submitter list". This drafts the email only; a person still sends it.

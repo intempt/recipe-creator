@@ -1,7 +1,7 @@
 ---
 frontmatter_id: high-intent-anonymous-visitors
 slash_command: /high-intent-anonymous-visitors
-description: Visitors who keep coming back to your site and product, nudged toward a feature by push notification and shared with growth as a retargeting audience.
+description: Visitors who keep coming back to your site and product, with a feature-nudge push drafted and a retargeting audience drafted for growth.
 author:
   name: Intempt
   last_name: Technologies
@@ -18,15 +18,12 @@ Slash command: /high-intent-anonymous-visitors
 
 ## Step 1: Build the frequent-visitor list
 
-Build a segment of users named "Frequent Repeat Visitors".
-A user is in the segment only when all of these are true:
-- they did the View page event 3 or more times in the last 7 days
-- they did the Session start event 2 or more times in the last 7 days
+Build a segment of users named "Frequent Repeat Visitors". A user is in the segment only when all of these are true: they did the View page event 3 or more times in the last 7 days; they did the Session start event 2 or more times in the last 7 days.
 
-## Step 2: Nudge toward a feature
+## Step 2: Draft a feature-nudge push
 
-Generate a push notification for the users in "Frequent Repeat Visitors" highlighting one feature worth trying given how often they are showing up. Title under 40 characters, one short body line, friendly and curious tone, deep link to that feature. Use the result of "Build the frequent-visitor list".
+Generate a push notification for the users in "Frequent Repeat Visitors" highlighting one feature of the product worth trying, chosen for this run given how often they are showing up. Title under 40 characters, one short body line, friendly and curious tone, deep link to that feature. Use the result of "Build the frequent-visitor list". This drafts the push only; a person still sends it.
 
-## Step 3: Share the retargeting audience
+## Step 3: Draft the retargeting audience email
 
-Generate a plain-text email to the growth team distribution list listing the users in "Frequent Repeat Visitors" as a retargeting audience worth running ads against. Use the result of "Build the frequent-visitor list".
+Generate a plain-text email to the growth team distribution list. For each user in "Frequent Repeat Visitors", name their email address, as a retargeting audience worth running ads against. Use the result of "Build the frequent-visitor list". This drafts the email only; a person still sends it.

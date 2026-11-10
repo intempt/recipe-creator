@@ -29,4 +29,4 @@ Generate a designed marketing email for the users in "Engaged Free Users" introd
 
 ## Step 3: Notify growth
 
-Generate a plain-text email to the growth team distribution list listing the users in "Engaged Free Users" so outreach can be prioritized by how active each one already is. Use the result of "Build the engaged free list".
+Generate a plain-text email to the growth team distribution list For each user in "Engaged Free Users", name their email address, so outreach can be prioritized by how active each one already is. Use the result of "Build the engaged free list".

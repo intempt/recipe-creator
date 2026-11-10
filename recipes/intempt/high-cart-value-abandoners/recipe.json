@@ -1,12 +1,12 @@
 {
   "frontmatter_id": "high-cart-value-abandoners",
-  "title": "High-value cart abandoners",
+  "title": "Same-Day Form Submitters",
   "slash_command": "/high-cart-value-abandoners",
-  "description": "People who walked away from an expensive cart in the last week and have not bought since, so you chase the baskets worth chasing.",
-  "markdown": "# High-value cart abandoners\n\n## Description\n\nPeople who walked away from an expensive cart in the last week and have not bought since, so you chase the baskets worth chasing.\n\n## Steps\n\n### Step 1: Build the big-cart list\n\nBuild a segment of users named \"High-Cart-Value Abandoners\".\nA user is in the segment only when all of these are true:\n- they did the Abandoned cart event with a Order total of 200 or more at least once in the last 7 days\n- they did not do the Placed order event in the last 7 days\n",
+  "description": "Visitors who just submitted a form today, surfaced to sales as a same-day lead alert draft while interest is highest.",
+  "markdown": "# Same-Day Form Submitters\n\n## Description\n\nVisitors who just submitted a form today, surfaced to sales as a same-day lead alert draft while interest is highest.\n\n## Steps\n\n### Step 1: Build the form submitter list\n\nBuild a segment of users named \"Form Submitters Today\". A user is in the segment only when all of these are true: triggered \"Submit on\" at least once in the last 1 day.\n\n### Step 2: Draft a sales alert\n\nGenerate a Slack message to the sales team channel. Say how many users are in \"Form Submitters Today\" right now, so reps know when a form submission just came in. Use the result of \"Build the form submitter list\". This drafts the Slack message only; a person on the team still posts it.\n",
   "classification": {
     "industry": [
-      "ecommerce-retail"
+      "industry-agnostic"
     ]
   },
   "complexity": "quick",
@@ -17,21 +17,33 @@
     "org_name": "intempt"
   },
   "permissions": [
-    "segment:create"
+    "segment:create",
+    "content:create"
   ],
   "steps": [
     {
       "id": "s1",
-      "title": "Build the big-cart list",
-      "description": "Build a segment of users named \"High-Cart-Value Abandoners\". A user is in the segment only when all of these are true: they did the Abandoned cart event with a Order total of 200 or more at least once in the last 7 days; they did not do the Placed order event in the last 7 days",
+      "title": "Build the form submitter list",
+      "description": "Build a segment of users named \"Form Submitters Today\". A user is in the segment only when all of these are true: triggered \"Submit on\" at least once in the last 1 day.",
       "command": "create_segment",
       "entity": "segment",
-      "integration": [
-        "Shopify"
-      ],
-      "kind": "static",
+      "modelConfig": []
+    },
+    {
+      "id": "s2",
+      "title": "Draft a sales alert",
+      "description": "Generate a Slack message to the sales team channel. Say how many users are in \"Form Submitters Today\" right now, so reps know when a form submission just came in. Use the result of \"Build the form submitter list\". This drafts the Slack message only; a person on the team still posts it.",
+      "command": "create_slack_content",
+      "entity": "slack",
       "modelConfig": []
     }
   ],
-  "availability": "coming_soon"
+  "prerequisites": {
+    "integrations": [
+      {
+        "value": "slack",
+        "severity": "recommended"
+      }
+    ]
+  }
 }

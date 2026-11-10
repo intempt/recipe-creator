@@ -3,7 +3,7 @@
   "title": "Engaged free users",
   "slash_command": "/engaged-free-users",
   "description": "Free-plan users logging in often enough to be ready for a paid plan, offered the upgrade by email and queued for growth outreach.",
-  "markdown": "# Engaged free users\n\n## Description\n\nFree-plan users logging in often enough to be ready for a paid plan, offered the upgrade by email and queued for growth outreach.\n\n## Steps\n\n### Step 1: Build the engaged free list\n\nBuild a segment of users named \"Engaged Free Users\".\nA user is in the segment only when all of these are true:\n- their Plan attribute is \"free\"\n- they did the Session start event 5 or more times in the last 14 days\n\n### Step 2: Send an upgrade email\n\nGenerate a designed marketing email for the users in \"Engaged Free Users\" introducing the paid plan's feature most relevant to someone already using the product this often. Three sentences, encouraging tone, no discount language, one button linking to the pricing page. Use the result of \"Build the engaged free list\".\n\n### Step 3: Notify growth\n\nGenerate a plain-text email to the growth team distribution list listing the users in \"Engaged Free Users\" so outreach can be prioritized by how active each one already is. Use the result of \"Build the engaged free list\".\n",
+  "markdown": "# Engaged free users\n\n## Description\n\nFree-plan users logging in often enough to be ready for a paid plan, offered the upgrade by email and queued for growth outreach.\n\n## Steps\n\n### Step 1: Build the engaged free list\n\nBuild a segment of users named \"Engaged Free Users\".\nA user is in the segment only when all of these are true:\n- their Plan attribute is \"free\"\n- they did the Session start event 5 or more times in the last 14 days\n\n### Step 2: Send an upgrade email\n\nGenerate a designed marketing email for the users in \"Engaged Free Users\" introducing the paid plan's feature most relevant to someone already using the product this often. Three sentences, encouraging tone, no discount language, one button linking to the pricing page. Use the result of \"Build the engaged free list\".\n\n### Step 3: Notify growth\n\nGenerate a plain-text email to the growth team distribution list For each user in \"Engaged Free Users\", name their email address, so outreach can be prioritized by how active each one already is. Use the result of \"Build the engaged free list\".\n",
   "classification": {
     "industry": [
       "saas-b2b-tech"
@@ -41,10 +41,11 @@
     {
       "id": "s3",
       "title": "Notify growth",
-      "description": "Generate a plain-text email to the growth team distribution list listing the users in \"Engaged Free Users\" so outreach can be prioritized by how active each one already is. Use the result of \"Build the engaged free list\".",
+      "description": "Generate a plain-text email to the growth team distribution list For each user in \"Engaged Free Users\", name their email address, so outreach can be prioritized by how active each one already is. Use the result of \"Build the engaged free list\".",
       "command": "create_email_content",
       "entity": "email_plain",
       "modelConfig": []
     }
-  ]
+  ],
+  "availability": "coming_soon"
 }

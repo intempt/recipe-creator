@@ -1,15 +1,15 @@
 {
   "frontmatter_id": "editorial-model",
-  "title": "Editorial lookbook shot",
+  "title": "Submitted And Still Engaged",
   "slash_command": "/editorial-model",
-  "description": "Produces a full-body editorial fashion photo of an AI model on location, then varies the lighting while holding pose and framing.",
-  "markdown": "# Editorial lookbook shot\n\n## Description\n\nProduces a full-body editorial fashion photo of an AI model on location, then varies the lighting while holding pose and framing.\n\n## Steps\n\n### Step 1: Relight the lookbook shot\n\nEdit the editorial lookbook image attached to this run: a full-body AI model wearing the outfit on location.\nChange only the lighting, to golden hour with long raking shadows.\nKeep the model's identity, the outfit, the pose, the street and the framing identical.\n",
+  "description": "Visitors who submitted a form today and kept browsing right afterward, the hottest possible same-day lead signal, surfaced to sales with a follow-up email drafted and ready to review.",
+  "markdown": "# Submitted And Still Engaged\n\n## Description\n\nVisitors who submitted a form today and kept browsing right afterward, the hottest possible same-day lead signal, surfaced to sales with a follow-up email drafted and ready to review.\n\n## Steps\n\n### Step 1: Build the still-engaged submitter list\n\nBuild a segment of users named \"Submitted And Still Engaged\". A user is in the segment only when all of these are true: triggered \"Submit on\" at least once in the last 1 day; triggered \"View page\" at least 3 times in the last 1 day.\n\n### Step 2: Draft a sales alert\n\nGenerate a Slack message to the sales team channel. Say how many users are in \"Submitted And Still Engaged\" right now, so reps can follow up while the user is still active on the site today. Use the result of \"Build the still-engaged submitter list\". This drafts the Slack message only; a person on the team still posts it.\n\n### Step 3: Draft a next-step email\n\nGenerate a designed marketing email for the users in \"Submitted And Still Engaged\" confirming their submission and naming the one next step worth taking right now. Three sentences, confident and helpful tone, no discount language, one button linking to that next step. Use the result of \"Build the still-engaged submitter list\". This drafts the email only; a person still sends it.\n",
   "classification": {
     "industry": [
-      "ecommerce-retail"
+      "industry-agnostic"
     ]
   },
-  "complexity": "quick",
+  "complexity": "standard",
   "author": {
     "name": "Intempt",
     "last_name": "Technologies",
@@ -17,27 +17,41 @@
     "org_name": "intempt"
   },
   "permissions": [
+    "segment:create",
     "content:create"
   ],
   "steps": [
     {
       "id": "s1",
-      "title": "Relight the lookbook shot",
-      "description": "Edit the editorial lookbook image attached to this run: a full-body AI model wearing the outfit on location. Change only the lighting, to golden hour with long raking shadows. Keep the model's identity, the outfit, the pose, the street and the framing identical.",
-      "command": "generate_image",
-      "entity": "image",
-      "kind": "dynamic",
-      "modelConfig": [],
-      "arguments": [
-        {
-          "key": "image_s1",
-          "type": "attachment",
-          "label": "Editorial lookbook image",
-          "entity": "image",
-          "phrase": "the editorial lookbook image attached to this run",
-          "required": true
-        }
-      ]
+      "title": "Build the still-engaged submitter list",
+      "description": "Build a segment of users named \"Submitted And Still Engaged\". A user is in the segment only when all of these are true: triggered \"Submit on\" at least once in the last 1 day; triggered \"View page\" at least 3 times in the last 1 day.",
+      "command": "create_segment",
+      "entity": "segment",
+      "modelConfig": []
+    },
+    {
+      "id": "s2",
+      "title": "Draft a sales alert",
+      "description": "Generate a Slack message to the sales team channel. Say how many users are in \"Submitted And Still Engaged\" right now, so reps can follow up while the user is still active on the site today. Use the result of \"Build the still-engaged submitter list\". This drafts the Slack message only; a person on the team still posts it.",
+      "command": "create_slack_content",
+      "entity": "slack",
+      "modelConfig": []
+    },
+    {
+      "id": "s3",
+      "title": "Draft a next-step email",
+      "description": "Generate a designed marketing email for the users in \"Submitted And Still Engaged\" confirming their submission and naming the one next step worth taking right now. Three sentences, confident and helpful tone, no discount language, one button linking to that next step. Use the result of \"Build the still-engaged submitter list\". This drafts the email only; a person still sends it.",
+      "command": "create_email_content",
+      "entity": "email_html",
+      "modelConfig": []
     }
-  ]
+  ],
+  "prerequisites": {
+    "integrations": [
+      {
+        "value": "slack",
+        "severity": "recommended"
+      }
+    ]
+  }
 }
