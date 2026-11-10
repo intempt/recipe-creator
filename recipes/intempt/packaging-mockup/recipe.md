@@ -1,7 +1,7 @@
 ---
 frontmatter_id: packaging-mockup
 slash_command: /packaging-mockup
-description: Wraps your flat label artwork photorealistically around a 3D can, bottle or box, with the label content unchanged.
+description: Visitors who keep coming back without ever clicking anything, nudged with a push notification and flagged to the content team as a possible low-interaction signal.
 author:
   name: Intempt
   last_name: Technologies
@@ -9,15 +9,24 @@ author:
   org_name: intempt
 classification:
   industry:
-  - ecommerce-retail
+  - industry-agnostic
+prerequisites:
+  integrations:
+    - { value: slack, severity: recommended }
 ---
 
-# Label wrapped on a package
+# Quiet Returning Visitors
 
 Slash command: /packaging-mockup
 
-## Step 1: Wrap the label
+## Step 1: Build the quiet returning visitor list
 
-Edit the flat label artwork attached to this run.
-Wrap it photorealistically around a 3D package on the same backdrop.
-Keep the wordmark, the layout and every element of the label exactly as they are.
+Build a segment of users named "Quiet Returning Visitors". A user is in the segment only when all of these are true: triggered "Session start" at least 2 times in the last 14 days; did not trigger "Click on" in the last 14 days.
+
+## Step 2: Send a nudge push
+
+Generate a push notification for the users in "Quiet Returning Visitors" highlighting one thing worth clicking on, chosen for this run. Title under 40 characters, one short body line, friendly and inviting tone. Use the result of "Build the quiet returning visitor list".
+
+## Step 3: Flag to the content team
+
+Generate a Slack message to the content team channel. Say how many users are in "Quiet Returning Visitors" right now, so the team knows a group of returning visitors is not finding anything worth clicking on. Use the result of "Build the quiet returning visitor list".

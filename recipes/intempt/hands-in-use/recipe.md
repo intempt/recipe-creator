@@ -1,7 +1,7 @@
 ---
 frontmatter_id: hands-in-use
 slash_command: /hands-in-use
-description: Shows hands pouring, applying or holding your product, with no face in frame and small props added around it.
+description: Accounts where several people together are reading a lot of pages, tagged and flagged to sales as a broad research-intensity signal worth account-based outreach.
 author:
   name: Intempt
   last_name: Technologies
@@ -9,16 +9,24 @@ author:
   org_name: intempt
 classification:
   industry:
-  - ecommerce-retail
+  - industry-agnostic
+prerequisites:
+  integrations:
+    - { value: slack, severity: recommended }
 ---
 
-# Hands using the product
+# Multi-Page Account Researchers
 
 Slash command: /hands-in-use
 
-## Step 1: Shoot hands with the product
+## Step 1: Build the research-intensive account list
 
-Edit the hands-in-use product image attached to this run.
-Add three small props around the product: a napkin, a sprig and a utensil.
-Keep the same hands, product and surface, and keep the lighting and the camera angle identical.
-No face may be visible: only hands interacting with the product.
+Build a segment of accounts named "Multi-Page Account Researchers". An account is in the segment only when all of these are true: the users in the account together did the View page event 15 or more times in the last 7 days.
+
+## Step 2: Tag the matched accounts
+
+Create an attribute named "research_intensive" on accounts in "Multi-Page Account Researchers", set to true. Use the result of "Build the research-intensive account list".
+
+## Step 3: Alert sales
+
+Generate a Slack message to the sales channel. For each account in "Multi-Page Account Researchers", name the account, so reps can prioritize outreach while research activity is high. Use the result of "Build the research-intensive account list".

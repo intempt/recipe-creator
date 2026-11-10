@@ -1,16 +1,15 @@
 {
   "frontmatter_id": "mockup",
-  "title": "Artwork on a mockup",
+  "title": "Daily Habit Visitors",
   "slash_command": "/mockup",
-  "description": "Puts your artwork onto a t-shirt, mug, billboard or package with realistic lighting, perspective and material.",
-  "markdown": "# Artwork on a mockup\n\n## Description\n\nPuts your artwork onto a t-shirt, mug, billboard or package with realistic lighting, perspective and material.\n\n## Steps\n\n### Step 1: Composite the artwork\n\nGenerate one mockup image.\nComposite the artwork attached to this run onto the mockup scene chosen for this run: a t-shirt, a mug, a billboard or packaging.\nApply realistic lighting, perspective warping and rendering that suits the material.\n",
+  "description": "Visitors returning on a near-daily basis, tagged as a power-user pool and invited into an early-access or loyalty list.",
+  "markdown": "# Daily Habit Visitors\n\n## Description\n\nVisitors returning on a near-daily basis, tagged as a power-user pool and invited into an early-access or loyalty list.\n\n## Steps\n\n### Step 1: Build the daily habit visitor list\n\nBuild a segment of users named \"Daily Habit Visitors\". A user is in the segment only when all of these are true: triggered \"Session start\" at least 4 times in the last 4 days.\n\n### Step 2: Tag the matched visitors\n\nCreate an attribute named \"daily_habit_user\" on users in \"Daily Habit Visitors\", set to true. Use the result of \"Build the daily habit visitor list\".\n\n### Step 3: Invite them to early access\n\nGenerate a designed marketing email for the users in \"Daily Habit Visitors\" inviting them into an early-access or loyalty list in recognition of how often they show up. Three sentences, warm and appreciative tone, no discount language, one button to join. Use the result of \"Build the daily habit visitor list\".\n",
   "classification": {
     "industry": [
-      "ecommerce-retail",
-      "social-creator"
+      "industry-agnostic"
     ]
   },
-  "complexity": "quick",
+  "complexity": "standard",
   "author": {
     "name": "Intempt",
     "last_name": "Technologies",
@@ -18,35 +17,34 @@
     "org_name": "intempt"
   },
   "permissions": [
+    "segment:create",
+    "attribute:create",
     "content:create"
   ],
   "steps": [
     {
       "id": "s1",
-      "title": "Composite the artwork",
-      "description": "Generate one mockup image. Composite the artwork attached to this run onto the mockup scene chosen for this run: a t-shirt, a mug, a billboard or packaging. Apply realistic lighting, perspective warping and rendering that suits the material.",
-      "command": "generate_image",
-      "entity": "image",
-      "kind": "dynamic",
-      "modelConfig": [],
-      "arguments": [
-        {
-          "key": "image_s1",
-          "type": "attachment",
-          "label": "Artwork to composite",
-          "entity": "image",
-          "phrase": "the artwork attached to this run",
-          "required": true
-        },
-        {
-          "key": "scene_s1",
-          "type": "asset_reference",
-          "label": "Mockup scene",
-          "entity": "scene",
-          "phrase": "the mockup scene chosen for this run: a t-shirt, a mug, a billboard or packaging",
-          "required": true
-        }
-      ]
+      "title": "Build the daily habit visitor list",
+      "description": "Build a segment of users named \"Daily Habit Visitors\". A user is in the segment only when all of these are true: triggered \"Session start\" at least 4 times in the last 4 days.",
+      "command": "create_segment",
+      "entity": "segment",
+      "modelConfig": []
+    },
+    {
+      "id": "s2",
+      "title": "Tag the matched visitors",
+      "description": "Create an attribute named \"daily_habit_user\" on users in \"Daily Habit Visitors\", set to true. Use the result of \"Build the daily habit visitor list\".",
+      "command": "create_attribute",
+      "entity": "attribute",
+      "modelConfig": []
+    },
+    {
+      "id": "s3",
+      "title": "Invite them to early access",
+      "description": "Generate a designed marketing email for the users in \"Daily Habit Visitors\" inviting them into an early-access or loyalty list in recognition of how often they show up. Three sentences, warm and appreciative tone, no discount language, one button to join. Use the result of \"Build the daily habit visitor list\".",
+      "command": "create_email_content",
+      "entity": "email_html",
+      "modelConfig": []
     }
   ]
 }

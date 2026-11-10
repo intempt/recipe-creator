@@ -1,15 +1,15 @@
 {
   "frontmatter_id": "beauty-close-up",
-  "title": "Branded beauty close-up",
+  "title": "First-Day High-Intent Visitors",
   "slash_command": "/beauty-close-up",
-  "description": "Puts your brand wordmark and cap styling onto the product in a beauty close-up, leaving the model, hands and framing untouched.",
-  "markdown": "# Branded beauty close-up\n\n## Description\n\nPuts your brand wordmark and cap styling onto the product in a beauty close-up, leaving the model, hands and framing untouched.\n\n## Steps\n\n### Step 1: Brand the product in frame\n\nEdit the beauty close-up image attached to this run.\nApply your brand wordmark and cap styling to the product in the shot.\nKeep the model, skin, hand position, bottle shape and composition exactly as they are.\n",
+  "description": "Brand-new visitors already clicking around heavily on their first day, flagged to sales as a hot lead and nudged back with a push notification.",
+  "markdown": "# First-Day High-Intent Visitors\n\n## Description\n\nBrand-new visitors already clicking around heavily on their first day, flagged to sales as a hot lead and nudged back with a push notification.\n\n## Steps\n\n### Step 1: Build the first-day high-intent list\n\nBuild a segment of users named \"First-Day High-Intent Visitors\". A user is in the segment only when all of these are true: triggered \"Session start\" at least once in the last 1 day; did not trigger \"Session start\" more than 1 day ago; triggered \"Click on\" at least 5 times in the last 1 day.\n\n### Step 2: Alert sales\n\nGenerate a Slack message to the sales team channel. Say how many users are in \"First-Day High-Intent Visitors\" right now, so reps know a brand-new visitor is already showing strong interest today. Use the result of \"Build the first-day high-intent list\".\n\n### Step 3: Send a nudge push\n\nGenerate a push notification for the users in \"First-Day High-Intent Visitors\" inviting them back to pick up where they left off. Title under 40 characters, one short body line, friendly and curious tone. Use the result of \"Build the first-day high-intent list\".\n",
   "classification": {
     "industry": [
-      "ecommerce-retail"
+      "industry-agnostic"
     ]
   },
-  "complexity": "quick",
+  "complexity": "standard",
   "author": {
     "name": "Intempt",
     "last_name": "Technologies",
@@ -17,27 +17,41 @@
     "org_name": "intempt"
   },
   "permissions": [
+    "segment:create",
     "content:create"
   ],
   "steps": [
     {
       "id": "s1",
-      "title": "Brand the product in frame",
-      "description": "Edit the beauty close-up image attached to this run. Apply your brand wordmark and cap styling to the product in the shot. Keep the model, skin, hand position, bottle shape and composition exactly as they are.",
-      "command": "generate_image",
-      "entity": "image",
-      "kind": "dynamic",
-      "modelConfig": [],
-      "arguments": [
-        {
-          "key": "image_s1",
-          "type": "attachment",
-          "label": "Beauty close-up image",
-          "entity": "image",
-          "phrase": "the beauty close-up image attached to this run",
-          "required": true
-        }
-      ]
+      "title": "Build the first-day high-intent list",
+      "description": "Build a segment of users named \"First-Day High-Intent Visitors\". A user is in the segment only when all of these are true: triggered \"Session start\" at least once in the last 1 day; did not trigger \"Session start\" more than 1 day ago; triggered \"Click on\" at least 5 times in the last 1 day.",
+      "command": "create_segment",
+      "entity": "segment",
+      "modelConfig": []
+    },
+    {
+      "id": "s2",
+      "title": "Alert sales",
+      "description": "Generate a Slack message to the sales team channel. Say how many users are in \"First-Day High-Intent Visitors\" right now, so reps know a brand-new visitor is already showing strong interest today. Use the result of \"Build the first-day high-intent list\".",
+      "command": "create_slack_content",
+      "entity": "slack",
+      "modelConfig": []
+    },
+    {
+      "id": "s3",
+      "title": "Send a nudge push",
+      "description": "Generate a push notification for the users in \"First-Day High-Intent Visitors\" inviting them back to pick up where they left off. Title under 40 characters, one short body line, friendly and curious tone. Use the result of \"Build the first-day high-intent list\".",
+      "command": "create_push_content",
+      "entity": "push",
+      "modelConfig": []
     }
-  ]
+  ],
+  "prerequisites": {
+    "integrations": [
+      {
+        "value": "slack",
+        "severity": "recommended"
+      }
+    ]
+  }
 }
