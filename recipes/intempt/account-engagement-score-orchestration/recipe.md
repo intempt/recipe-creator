@@ -1,41 +1,36 @@
 ---
 frontmatter_id: account-engagement-score-orchestration
 slash_command: /account-engagement-score-orchestration
-description: Scores each account from 0 to 100 on how its whole team uses the product, then runs a different play for healthy, slipping, declining and inactive accounts.
+description: This recipe scores every business account each day on how engaged it is, sorts accounts into health tiers, and runs a different retention or growth play for each tier. It is built for B2B SaaS customer success and lifecycle marketing teams.
 author:
-  name: Intempt
+  name: Intempt Technologies
+  first_name: Intempt
   last_name: Technologies
-  company: Intempt
   org_name: intempt
-classification:
-  industry:
-  - saas-b2b-tech
 ---
 
 # Account engagement scoring and plays
 
-Slash command: /account-engagement-score-orchestration
-
 ## Step 1: Score each account daily
 
-Create an AI-derived attribute 'account_engagement_score' on the Account object, refreshed daily. Aggregates ACROSS all users at the account: (a) active-user ratio (active users / total seats); (b) engagement velocity (sessions/events trending up or down at account level); (c) feature breadth (count of features used by anyone at the account); (d) stakeholder distribution (engagement coming from multiple roles vs. single-user dependence); (e) sentiment signals from support tickets. Output: numeric 0-100 with tier: green (75-100 healthy growing) / yellow (40-74 stable but warning signs) / red (15-39 declining quickly) / dormant (<15 effectively inactive). The account-as-unit aggregation is the differentiator: most CDPs score users, this scores the buying entity.
+Create an AI-derived attribute "account_engagement_score" on the Account object, refreshed daily, aggregated across every user at the account. Inputs: active-user ratio, meaning active users divided by total seats; engagement velocity, meaning sessions and events trending up or down at the account level; feature breadth, meaning the count of distinct features used by anyone at the account; stakeholder distribution, meaning whether engagement comes from multiple roles or depends on a single user; and sentiment signals from support tickets. Output: a score from 0 to 100 with a tier: green is 75 to 100, yellow is 40 to 74, red is 15 to 39, dormant is below 15.
 
 ## Step 2: Group paying accounts by tier
 
-Build a segment 'B2B accounts tiered by engagement' capturing all paying B2B accounts, partitioned by account_engagement_score tier. Refreshed daily. Excludes accounts <30 days old (need history) and accounts in active sales-led save-flows (avoid double-orchestration). The journey routes from this segment based on tier. Use the result of "Score each account daily".
+Build a segment of accounts named "B2B accounts tiered by engagement", covering all paying business accounts, partitioned by their account_engagement_score tier. Refresh daily. Exclude accounts less than 30 days old, and accounts already in an active sales-led save effort. Use the result of "Score each account daily".
 
 ## Step 3: Write an email per tier
 
-Generate per-tier email content. GREEN (expansion-leaning content sent to champion: 'Your team is in the top 25% of [Product] users) here's what high-growth accounts do next.' Plus subtle expansion CTA. YELLOW (reactivation content sent to admin: 'Noticing a few of your team members aren't logging in as often) want help re-engaging the team?' With a CSM-meeting CTA. RED (urgent personalized content sent to admin + executive sponsor: 'Your team's engagement has shifted) we'd like to understand what's going on. 15-minute call?' Direct CSM offer. DORMANT (last-chance content sent to champion: 'It's been a while) we miss you. Here's what's new since you last logged in.' With a fresh-start onboarding offer. Use the result of "Score each account daily", "Group paying accounts by tier".
+Generate per-tier email content for "B2B accounts tiered by engagement". Green tier: expansion-leaning content sent to the account's champion, naming that the account's usage places it among the most engaged accounts and pointing to what similarly engaged accounts typically do next, with a light expansion call to action. Yellow tier: reactivation content sent to the account's admin, noting that fewer team members have been logging in recently and offering help re-engaging the team, with a call to action to meet the customer success manager. Red tier: urgent, personalized content sent to the admin and the executive sponsor, stating that engagement has shifted and asking directly for a short call to understand what changed, with a direct offer from the customer success manager. Dormant tier: content sent to the champion summarizing what has shipped since their last session, with a fresh-start onboarding offer. Use the result of "Score each account daily", "Group paying accounts by tier".
 
 ## Step 4: Change what the admin sees
 
-Configure an in-app personalization on the admin dashboard that varies by account tier. Green: shows expansion roadmap + power-features for healthy growth. Yellow: shows team-engagement health stats + 'invite team members' nudges + use-case templates relevant to slow-adoption rescue. Red: shows direct-CSM-connect button + 'troubleshoot setup' resources prominently. Dormant: doesn't render account-engagement personalization (won't help: the user isn't logging in anyway; reach them via email instead). Use the result of "Score each account daily", "Group paying accounts by tier".
+Configure an in-app personalization on the admin dashboard that varies by account tier. Green: an expansion roadmap and power features for continued growth. Yellow: team engagement statistics, prompts to invite more team members, and use-case templates aimed at slow-adoption rescue. Red: a direct-to-customer-success-manager contact action and setup-troubleshooting resources shown prominently. Dormant: no personalization is rendered on this surface, since dormant users are not logging in to see it; dormant accounts are reached by email instead. Use the result of "Score each account daily", "Group paying accounts by tier".
 
 ## Step 5: Run the play for each tier
 
-Build a tiered journey wired to account-engagement-tiered segment. Branch on account_engagement tier at entry AND re-evaluate weekly. GREEN: Touch 1 monthly (expansion-leaning content to champion. Personalization activates for admin. Touch 2 quarterly) handoff to customer-progress-business-case journey. YELLOW: Touch 1 Day 0 (reactivation content to admin. Touch 2 Day 7) CSM task to reach out if score hasn't recovered. RED: Touch 1 Day 0 (urgent content + CSM task SAME-DAY. Touch 2 Day 3) executive-sponsor task if no CSM contact made. DORMANT: Touch 1 Day 0 (last-chance email. Touch 2 Day 14) final outreach + warning before suppression. Exit on: tier escalation back to green (recovered: log retention_win), Subscription canceled (handoff to post-cancel-winback), or sustained dormancy 60+ days (suppress). Use the result of "Score each account daily", "Group paying accounts by tier", "Write an email per tier", "Change what the admin sees".
+Build a tiered journey wired to "B2B accounts tiered by engagement". Branch on tier at entry, and re-evaluate weekly. Green: a monthly email from "Write an email per tier" to the champion, with the admin personalization active; on a quarterly cadence, hand off to "customer-progress-business-case". Yellow: a day-0 reactivation email to the admin, and on day 7, if the score has not recovered, a task for the customer success manager to reach out. Red: a day-0 urgent email plus a same-day task for the customer success manager, and on day 3, if no contact has been made, a task for an executive sponsor. Dormant: a day-0 last-chance email, and on day 14, a final outreach email before the account is suppressed from this journey. Exit the journey when the tier recovers to green, logged as a retention win; on Subscription canceled, handing off to "win-back"; or after 60 or more consecutive days of dormancy, which suppresses further touches. Use the result of "Score each account daily", "Group paying accounts by tier", "Write an email per tier", "Change what the admin sees".
 
 ## Step 6: See where the book is heading
 
-Compose an account-engagement dashboard: tier distribution across the book of business (green/yellow/red/dormant proportions: the health-of-business snapshot), tier-migration trends week-over-week (which direction are accounts moving), ARR-weighted at-risk pile (red + dormant tier sum), red-tier-to-recovered conversion rate (proof the intervention works), and per-CSM tier distribution (some CSMs handle red-heavy portfolios: informs workload balancing). The strategic NRR view for leadership. Use the result of "Score each account daily", "Group paying accounts by tier", "Write an email per tier", "Change what the admin sees", "Run the play for each tier".
+Compose an account-engagement dashboard showing: the distribution of accounts across tiers, as a snapshot of overall book health; week-over-week tier-migration trends; the ARR-weighted total of red and dormant tier accounts; the conversion rate from red tier back to a healthier tier, as proof the intervention works; and the tier distribution per customer success manager, to inform workload balancing. Use the result of "Score each account daily", "Group paying accounts by tier", "Write an email per tier", "Change what the admin sees", "Run the play for each tier".

@@ -1,42 +1,44 @@
 ---
 frontmatter_id: trial-activation-funnel
 slash_command: /trial-activation-funnel
-description: Shows how far trial users get through setup and core feature use before the trial ends, and which sources bring trials that activate.
+description: This recipe helps SaaS marketing and lifecycle teams see how free trials move from sign-up to full activation, then automatically re-engage trial users who stall. It combines a funnel report, a segment of stalled users and a follow-up journey.
 author:
-  name: Intempt
+  name: Intempt Technologies
+  first_name: Intempt
   last_name: Technologies
-  company: Intempt
   org_name: intempt
-classification:
-  industry:
-  - saas-b2b-tech
 ---
 
 # Trial activation funnel
-
-Slash command: /trial-activation-funnel
 
 ## Step 1: Track trials through setup
 
 Create a Funnel report called "Trial Activation Funnel".
 Steps:
 1. Event "Subscription started" where trial_end and trial_start are populated: "Started Trial"
-2. Event "Session start" by the same user within 24h of step 1: "First Return Session"
+2. Event "Session start" by the same user within 24 hours of step 1: "First Return Session"
 3. Event "Completed a journey goal" where journey_id matches the integration/setup journey: "Completed Setup Goal"
 4. Event "Completed a journey goal" where journey_id matches the core-feature-use journey: "Used Core Feature"
-5. Event "Completed a journey goal" where journey_id matches the full-activation journey AND occurred within 14 days of trial start: "Fully Activated"
+5. Event "Completed a journey goal" where journey_id matches the full-activation journey and occurred within 14 days of trial start: "Fully Activated"
 Conversion window: 14 days
 Breakdown: By Users.UTM source
 Compare: Previous period (prior 14 days)
 For each step, also surface:
-- Median time-to-convert from previous step
+- Median time-to-convert from the previous step
 - Per-source conversion rate at each stage
 Annotations:
-- Flag if the % of trials that hit Step 3 within 24 hours is below 50%: first-day setup is a strong activation predictor.
-- Flag if median time from Step 1 to Step 4 exceeds 48 hours: the time-to-value benchmark for self-serve PLG.
-- Flag any source where Step 5 (full activation) rate is below 15%.
-- Highlight sources where Step 5 rate exceeds 35%.
-Surface the single highest-leverage step to optimize: largest drop-off × largest downstream lift on Step 5.
+- Flag if the percent of trials that hit Step 3 within 24 hours is below 50 percent.
+- Flag if median time from Step 1 to Step 4 exceeds 48 hours.
+- Flag any source where Step 5 (full activation) rate is below 15 percent.
+- Highlight sources where Step 5 rate exceeds 35 percent.
 Taxonomy notes:
 - "integration_connected" and "onboarding_started" as standalone events do not exist. Setup milestones are tracked via Completed a journey goal events emitted by the relevant onboarding journey.
 - Each onboarding milestone (setup, core-feature use, full activation) corresponds to a different journey_id in the project's journey configuration.
+
+## Step 2: Nudge trials stalled before full activation
+
+Build a segment of users named "Stalled Trial Users". A user is in the segment only when all of these are true: they completed "Started Trial" more than 48 hours ago; they have not completed the full-activation journey goal; their trial has not yet ended. Use the result of "Track trials through setup".
+
+## Step 3: Re-engage stalled trials before they expire
+
+Build a journey for the users in "Stalled Trial Users". On entry, send an email naming the specific setup or core-feature step they have not completed and linking directly to it. If the user still has not reached "Used Core Feature" 48 hours after that email, create a task for the onboarding owner with the user's current funnel stage and trial end date attached. Exit the journey when the user reaches "Fully Activated" or when the trial ends. Use the result of "Track trials through setup", "Nudge trials stalled before full activation".
