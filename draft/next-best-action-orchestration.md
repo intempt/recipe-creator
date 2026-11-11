@@ -13,7 +13,7 @@ Create an AI-derived attribute "next_best_action" on the User object, refreshed 
 
 ## Step 2: Only route confident calls
 
-Build a segment of users named "NBA-orchestrated users". A user is in the segment only when both of these are true: they are active; their next_best_action.confidence is 50 or more; and they are not currently in another high-priority journey. Refresh continuously as next_best_action changes. Use the result of "Decide the next step per user".
+Build a segment of users named "NBA-orchestrated users". A user is in the segment only when both of these are true: they did the Session start event in the last 14 days; their next_best_action.confidence is 50 or more. Refresh continuously as next_best_action changes. Use the result of "Decide the next step per user".
 
 ## Step 3: Write an email per action
 
@@ -26,7 +26,8 @@ Generate in-app message variants for the surface-feature and surface-recommendat
 
 ## Step 5: Build the recommendation set
 
-Configure a recommendation surface named "NBA-driven product and content recommendations" that activates when a user's next_best_action.recommended_action is surface-recommendations. Source the recommendations from the user's prior interaction history, usage patterns of similar users, and what is currently trending in the user's segment. Render it in the in-app sidebar, inside email content blocks, and in any page personalization the user encounters. Refresh weekly. Use the result of "Decide the next step per user", "Only route confident calls".
+This step builds a page.
+Configure an in-app sidebar card named "NBA-driven recommendations" that renders when a user's next_best_action.recommended_action is surface-recommendations. Source the recommendations from the user's prior interaction history, usage patterns of similar users, and what is currently trending in the user's segment. Refresh weekly. Use the result of "Decide the next step per user", "Only route confident calls".
 
 ## Step 6: Re-read the signal at each gate
 

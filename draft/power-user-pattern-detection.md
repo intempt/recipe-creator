@@ -13,7 +13,7 @@ Create an AI-derived attribute "detected_manual_patterns" on the User object, re
 
 ## Step 2: Find who could automate it
 
-Build a segment of users named "Manual-pattern detected". A paying user is in the segment only when their detected_manual_patterns list is not empty and they have not yet used the recommended automation feature. Partition the segment by which feature is being recommended. Exclude users who have dismissed a feature recommendation 3 or more times, and users whose plan does not include the recommended feature. Use the result of "Spot work done the hard way".
+Build a segment of users named "Manual-pattern detected". A paying user is in the segment only when their detected_manual_patterns list is not empty and they have not yet used the recommended automation feature. Exclude users who have dismissed a feature recommendation 3 or more times, and users whose plan does not include the recommended feature. Use the result of "Spot work done the hard way".
 
 ## Step 3: Nudge them mid task
 
