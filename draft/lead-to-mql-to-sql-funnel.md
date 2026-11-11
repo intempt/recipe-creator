@@ -1,0 +1,40 @@
+---
+frontmatter_id: lead-to-mql-to-sql-funnel
+author:
+  name: Intempt
+  last_name: Technologies
+  org_name: intempt
+---
+# Lead qualification funnel
+
+## Step 1: Track leads through qualification
+
+Create a Funnel report called "Lead Qualification Funnel".
+Steps:
+1. Event "User created" where Users.UTM source is not empty: "Lead Created"
+2. Event "Lead stage changed" where new_stage matches the MQL stage in the project's lead-stage configuration, aggregation: Count Unique Users per lead: "Reached MQL"
+3. Event "Deal created" linked to the user via primary_user_id or user_ids: "SQL Created"
+4. Event "Meeting scheduled" where canceled_at is null and end_time is in the past: "Demo Completed"
+5. Event "Deal won": "Closed Won"
+Conversion window: 90 days
+Breakdown: By Users.UTM source (top 6 sources)
+Compare: Previous period (prior 90 days)
+For each step, also surface:
+- Median time-to-convert from previous step
+- Per-source conversion rate at each stage
+- Stage velocity from Step 1 to Step 5 (full sales-cycle length)
+Annotations:
+- Flag the largest stage drop-off.
+- Flag any source where MQL-to-SQL conversion is below 20 percent.
+- Flag any source where SQL-to-Closed-Won is below 15 percent.
+Taxonomy notes:
+- "lead_score" as a property is not canonical. Lead progression is tracked via Lead stage changed events, which include score, intent_trend and stage_changed_by properties. The lead_stage relation on the User points to a configured lead-stage record.
+- The MQL and SQL boundary is project-specific; the recipe uses the Lead stage changed.new_stage relation against the project's stage configuration.
+
+## Step 2: Route newly-qualified leads to a rep
+
+Build a workflow triggered when a user's "Lead stage changed" event sets new_stage to the SQL stage in the project's configuration. Assign the lead to a sales rep by round robin among reps with fewer than 20 open leads, or by the territory rule configured for the lead's UTM source when one exists. Create a task for the assigned rep with the lead's source, lead-stage history and company, due within 1 business day. Use the result of "Track leads through qualification".
+
+## Step 3: Flag sources that qualify leads but do not close them
+
+Build a workflow that runs weekly, reading the per-source conversion rates from "Track leads through qualification". For any source where MQL-to-SQL conversion is below 20 percent for 2 consecutive weeks, create a task for the demand generation owner naming the source and the two weeks of conversion rates. For any source where SQL-to-Closed-Won is below 15 percent for 2 consecutive weeks, create a separate task for the sales enablement owner naming the source. Use the result of "Track leads through qualification", "Route newly-qualified leads to a rep".
