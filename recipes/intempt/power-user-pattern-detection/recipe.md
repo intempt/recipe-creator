@@ -1,46 +1,41 @@
 ---
 frontmatter_id: power-user-pattern-detection
 slash_command: /power-user-pattern-detection
-description: 'Detects users with daily or batch patterns of repeated manual work: 5+ same task in 7 days, one-at-a-time batch operations, or repeat exports.'
+description: This recipe finds users who repeat tasks by hand when the product already has a feature that would automate them, then guides them to that feature and asks happy adopters for reviews and referrals. It suits product-led and lifecycle marketers who want more people using the product's time-saving features.
 author:
-  name: Intempt
+  name: Intempt Technologies
+  first_name: Intempt
   last_name: Technologies
-  company: Intempt
   org_name: intempt
-classification:
-  industry:
-  - industry-agnostic
 ---
 
 # Power user pattern detection
 
-Slash command: /power-user-pattern-detection
-
 ## Step 1: Spot work done the hard way
 
-Create an AI-derived attribute 'detected_manual_patterns' on the User object, refreshed daily. Detects repeated manual sequences that have automated counterparts in the product. Example patterns: (a) user runs same multi-step report 5+ times in 7 days (has unused 'scheduled reports' feature), (b) user exports data manually 3+ times in 7 days (has unused API/webhook feature), (c) user assigns same task type repeatedly (has unused task templates feature), (d) user filters dashboard same way 10+ times in 14 days (has unused saved-view feature). Output: list of detected patterns with the automate-it feature name and adoption-likelihood score (based on user's plan, skill level, prior automation adoption).
+Create an AI-derived attribute "detected_manual_patterns" on the User object, refreshed daily. Detects repeated manual sequences that have an automated counterpart in the product: running the same multi-step report 5 or more times in 7 days, where a scheduled-reports feature exists and is unused; exporting data manually 3 or more times in 7 days, where an API or webhook export feature exists and is unused; assigning the same task type repeatedly, where a task-template feature exists and is unused; and filtering a dashboard the same way 10 or more times in 14 days, where a saved-view feature exists and is unused. Output: a list of detected patterns, each naming the automate-it feature and an adoption-likelihood score based on the user's plan, skill level and prior automation adoption.
 
 ## Step 2: Find who could automate it
 
-Build a segment 'Manual-pattern detected' capturing paying users where detected_manual_patterns is non-empty AND the user hasn't yet used the recommended automation feature. Partitioned by feature-to-introduce. Excludes users who have dismissed feature-recommendations 3+ times (respect the no) and users with plan limits that exclude the suggested feature. Use the result of "Spot work done the hard way".
+Build a segment of users named "Manual-pattern detected". A paying user is in the segment only when their detected_manual_patterns list is not empty and they have not yet used the recommended automation feature. Exclude users who have dismissed a feature recommendation 3 or more times, and users whose plan does not include the recommended feature. Use the result of "Spot work done the hard way".
 
 ## Step 3: Nudge them mid task
 
 This step builds a page.
-Generate in-app nudge content per detected pattern. Format: tooltip or floating card that appears WHEN the user is mid-pattern (e.g. on their 6th manual export). Content: 'You've done this 6 times this week: did you know [Product] can automate this?' + 60-second 'how it works' GIF + 'enable now' CTA + dismiss option. Renders at the exact moment of friction, not in a generic feature-discovery surface. The contextual timing is the magic: this is the 4x feature-adoption uplift pattern from the research. Use the result of "Spot work done the hard way", "Find who could automate it".
+Generate an in-app nudge for each detected pattern, shown while the user is in the middle of the manual pattern, such as on their sixth manual export this week. Content: a statement of how many times they have repeated the task this week, a short explanation of the automated alternative with a link to a short walkthrough, an enable-now action, and a dismiss option. Render it at the moment of friction, not in a generic feature-discovery surface. Use the result of "Spot work done the hard way", "Find who could automate it".
 
 ## Step 4: List their power features
 
-Configure a recommendation surface 'Power features for your workflow' on the user's dashboard. Pulls: the top 3 detected_manual_patterns with their automate-it counterparts, ranked by adoption-likelihood. Each recommendation: 1-line description + 'try it' deep link. Updates when user adopts a feature (rotates in the next-best). Renders persistently for 30 days after detection. Use the result of "Spot work done the hard way", "Find who could automate it".
+Configure a recommendation surface named "Power features for your workflow" on the user's dashboard. Source it from the user's top 3 detected_manual_patterns and their automate-it counterparts, ranked by adoption-likelihood score, each with a one-line description and a try-it link. Update the list when the user adopts a feature, rotating in the next-best pattern. Keep it rendered for 30 days after detection. Use the result of "Spot work done the hard way", "Find who could automate it".
 
 ## Step 5: Ask adopters for a review
 
-Generate follow-up email content sent 14 days after a user adopts a recommended automation feature. Content: 'Congrats on automating [feature]: you've saved an estimated [time] per week. Mind sharing your experience?' Two CTAs: write a review on G2/Capterra (with deep-link to the right product page), refer a peer (with referral program info). This is where power-user-detection becomes an advocacy pipeline: the user just had a positive experience, the moment is warm. Use the result of "Spot work done the hard way", "Find who could automate it".
+Generate a follow-up email sent 14 days after a user adopts a recommended automation feature. Content: a note naming the feature they adopted and the estimated time saved per week based on how often they previously did the task manually, followed by two actions: write a review with a deep link to the review page for the product, or refer a peer with the referral program link. Use the result of "Spot work done the hard way", "Find who could automate it".
 
 ## Step 6: Nudge, remind, then let it go
 
-Build a journey wired to manual-pattern-detected segment. Touch 1 (real-time, on the 5th+ pattern repetition mid-session): in-app contextual nudge fires. Recommendation surface activates persistently. Touch 2 (Day 3, if user didn't dismiss): email reinforcement with the same feature pitch + a customer story of someone who automated it. Touch 3 (Day 14, IF user has adopted the feature): advocacy follow-up email asking for review/referral. Touch 4 (Day 14, IF user has NOT adopted): exit gracefully: pattern stays detected, surface stays active, but stop pushing. Exit on: feature adoption + advocacy ask sent, explicit dismiss, or 30-day timeout. Use the result of "Spot work done the hard way", "Find who could automate it", "Nudge them mid task", "List their power features", "Ask adopters for a review".
+Build a journey wired to the "Manual-pattern detected" segment. In real time, on the fifth or later repetition of the pattern mid-session: fire the in-app nudge from "Nudge them mid task" and activate the recommendation surface from "List their power features". Day 3, if the user has not dismissed it: send an email reinforcement with the same feature recommendation and a relevant customer story. Day 14, if the user has adopted the feature: send the advocacy email from "Ask adopters for a review". Day 14, if the user has not adopted it: stop sending touches, but keep the pattern detected and the recommendation surface active. Exit the journey when the feature is adopted and the advocacy email is sent, on explicit dismissal, or after a 30-day timeout. Use the result of "Spot work done the hard way", "Find who could automate it", "Nudge them mid task", "List their power features", "Ask adopters for a review".
 
 ## Step 7: See which features stay hidden
 
-Compose a power-user detection dashboard: top 10 detected manual patterns by frequency (which features have the biggest discoverability gap (informs in-app UI redesign priorities), in-app-nudge-to-adoption rate (the headline metric) target: 15%+, baseline generic feature emails get 4-6%), 30-day retention of adopters vs. non-adopters (proves the journey's value beyond direct adoption), and advocacy-ask conversion (% of adopters who write a review or refer: this is the unexpected revenue side-effect of feature discovery). Use the result of "Spot work done the hard way", "Find who could automate it", "Nudge them mid task", "List their power features", "Ask adopters for a review", "Nudge, remind, then let it go".
+Compose a power-user detection dashboard showing: the top 10 detected manual patterns by frequency, as a discoverability-gap signal for product design; the conversion rate from in-app nudge to feature adoption, against a 15 percent target, with generic feature-announcement emails as the baseline comparison at 4 to 6 percent; the 30-day retention of adopters against non-adopters; and the conversion rate from feature adoption to a review or referral. Use the result of "Spot work done the hard way", "Find who could automate it", "Nudge them mid task", "List their power features", "Ask adopters for a review", "Nudge, remind, then let it go".

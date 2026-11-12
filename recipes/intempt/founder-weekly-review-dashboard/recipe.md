@@ -1,53 +1,49 @@
 ---
 frontmatter_id: founder-weekly-review-dashboard
 slash_command: /founder-weekly-review-dashboard
-description: 'The one page to read before the Monday team meeting: new customers, churn, revenue, retention and engagement, each against last week and last year.'
+description: Builds a compact one-page weekly scorecard for founders, CEOs and heads of operations to read before the Monday team meeting, then adds an automatic alert that flags weeks needing a conversation. It adapts to whether the business is SaaS, ecommerce or a mix of both.
 author:
-  name: Intempt
+  name: Intempt Technologies
+  first_name: Intempt
   last_name: Technologies
-  company: Intempt
   org_name: intempt
-classification:
-  industry:
-  - industry-agnostic
 ---
 
 # Monday morning scorecard
 
-Slash command: /founder-weekly-review-dashboard
-
 ## Step 1: Build the weekly scorecard
 
 Create a Dash board (12-column composition canvas) titled "Founder Weekly Review".
-Persona: Founder, CEO, or Head-of-Operations running the weekly cadence. Question answered: "What's the one-pager I look at every Monday before my team meeting?"
-This dashboard is mode-agnostic: it auto-adapts to the workspace's primary mode (saas, ecommerce, or mixed). The cards default to the most relevant configuration per mode.
+Persona: a founder, CEO or head of operations running the weekly cadence. Question answered: what is the one page to read before the Monday team meeting.
+This dashboard adapts to the workspace's primary mode, SaaS, ecommerce or mixed, and defaults each card to the configuration most relevant to that mode.
 Board-level configuration:
-- defaultDateRange: last_7_days (this-week view): but cards default to comparing against prior week and YoY
+- defaultDateRange: last_7_days, with cards also comparing against the prior week and the same week last year
 - exclusionPeriod: incomplete_periods
 - visibility: project
 - boardFilters: none by default
 - boardBreakdowns: none
-Layout: 3 rows (intentionally compact: this is a one-pager).
+Layout: 3 rows, intentionally compact as a one-pager.
 Row 1: Headline scorecard (heightPx: 240, six metric cards at widthUnits: 2 each):
-- Card 1: Insights metric to source recipe: weekly-business-review-summary, vizType: metric, titleOverride: "New Signups (WoW)"
+- Card 1: Insights metric to source recipe: weekly-business-review-summary, vizType: metric, titleOverride: "New Signups (Week over Week)"
 - Card 2: Insights metric to source recipe: weekly-business-review-summary, vizType: metric, titleOverride: "New Paying Customers"
 - Card 3: Insights metric to source recipe: weekly-business-review-summary, vizType: metric, titleOverride: "Net New Customers"
-- Card 4: Insights metric to source recipe: weekly-business-review-summary, vizType: metric, titleOverride: "Revenue (WoW)"
-- Card 5: Insights metric to source recipe: weekly-business-review-summary, vizType: metric, titleOverride: "Active Users (DAU 7d avg)"
+- Card 4: Insights metric to source recipe: weekly-business-review-summary, vizType: metric, titleOverride: "Revenue (Week over Week)"
+- Card 5: Insights metric to source recipe: weekly-business-review-summary, vizType: metric, titleOverride: "Active Users (7-day average)"
 - Card 6: Insights metric to source recipe: weekly-business-review-summary, vizType: metric, titleOverride: "Churned Customers"
 Row 2: Trend strip (heightPx: 280, three cards at widthUnits: 4 each):
 - Card 1: Insights to source recipe: weekly-business-review-summary, displayMode: chart, vizType: line, titleOverride: "Revenue 12-Week Trend"
 - Card 2: Insights to source recipe: weekly-business-review-summary, displayMode: chart, vizType: line, titleOverride: "Net New Customers Trend"
-- Card 3: Insights to source recipe: weekly-business-review-summary, displayMode: chart, vizType: line, titleOverride: "Engagement Trend (DAU)"
+- Card 3: Insights to source recipe: weekly-business-review-summary, displayMode: chart, vizType: line, titleOverride: "Engagement Trend (Daily Active Users)"
 Row 3: Mode-specific anchor (heightPx: 360, full-width single card at widthUnits: 12):
-- Mode = saas: Card 1: Insights to source recipe: mrr-movement-decomposition, displayMode: chart, vizType: stacked_column (waterfall view)
-- Mode = ecommerce: Card 1: Insights to source recipe: customer-lifecycle-distribution, displayMode: chart (lifecycle distribution with migration view)
-- Mode = all (mixed): Card 1: Insights to source recipe: weekly-business-review-summary, displayMode: table (the full WBR scorecard table)
+- Workspace mode SaaS: Card 1: Insights to source recipe: mrr-movement-decomposition, displayMode: chart, vizType: stacked_column, the waterfall view
+- Workspace mode ecommerce: Card 1: Insights to source recipe: customer-lifecycle-distribution, displayMode: chart, lifecycle distribution with migration view
+- Workspace mode mixed: Card 1: Insights to source recipe: weekly-business-review-summary, displayMode: table, the full weekly business review table
 Annotations:
-- This dashboard is intentionally compact (3 rows, ~880px total height) so it fits on a single screen for a Monday-morning scan.
-- Row 1's six metric cards each show: current week value, week-over-week % change, year-over-year % change.
-- Row 3 is the strategic anchor for the week. SaaS founders watch the MRR waterfall; ecommerce founders watch lifecycle migration.
-- Row 1 and Row 2 cards are intentionally all sourced from weekly-business-review-summary: that recipe is a multi-series report designed to power exactly this dashboard. Each card pulls a different series (Series A through Series F) of the same report.
-Taxonomy notes:
-- weekly-business-review-summary is mode-aware and adapts its underlying queries based on the workspace's primary mode.
-- All cards reference canonical events through their source recipes.
+- This dashboard is intentionally compact, 3 rows at roughly 880 pixels total height, so it fits on one screen for a Monday-morning scan.
+- Each Row 1 card shows the current week's value, its week-over-week percent change, and its year-over-year percent change.
+- Row 3 is the strategic anchor for the week: a SaaS founder reads the MRR waterfall there, an ecommerce founder reads the lifecycle migration view.
+- Row 1 and Row 2 all draw from weekly-business-review-summary, a multi-series report built to power exactly this dashboard; each card pulls a different series from that same report.
+
+## Step 2: Flag the week that needs a conversation
+
+Create a workflow called "Founder Weekly Review Alert" that runs on the same weekly cadence the dashboard is read on. When Churned Customers for the week exceeds New Paying Customers, or when Revenue (Week over Week) is negative for 2 consecutive weeks, create a task for the founder titled "Review this week's scorecard" with the specific metrics that triggered it attached. When neither condition is met, no task is created. Use the result of "Build the weekly scorecard".
