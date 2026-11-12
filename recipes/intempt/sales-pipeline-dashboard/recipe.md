@@ -10,6 +10,146 @@ author:
 classification:
   industry:
   - industry-agnostic
+portable:
+  summary: Shows which open deals and accounts need attention this week, using weighted pipeline value, deal threading, stage
+    velocity, and account engagement trends on one dashboard.
+  parameters:
+  - name: defaultDateRange
+    type: enum
+    label: Default date range
+    default: last_30_days
+    required: false
+    options:
+    - last_30_days
+  - name: dashboardTitle
+    type: string
+    label: Dashboard title
+    default: Sales Pipeline
+    required: false
+  - name: tableTopN
+    type: number
+    label: Accounts shown in engagement table
+    default: 30
+    required: false
+  requirements:
+  - slot: deal_stage_changed_event
+    kind: event
+    meaning: A deal moved to a different pipeline stage
+    properties:
+    - name: owner_id
+      type: string
+      meaning: Rep who owns the deal
+      optional: false
+    - name: stage
+      type: string
+      meaning: Stage the deal moved to
+      optional: false
+  - slot: deal_won_event
+    kind: event
+    meaning: A customer closed a deal as won
+    properties:
+    - name: amount
+      type: number
+      meaning: Value of the won deal
+      optional: false
+    - name: owner_id
+      type: string
+      meaning: Rep who owns the deal
+      optional: false
+  - slot: deal_lost_event
+    kind: event
+    meaning: A deal was closed as lost
+    properties:
+    - name: owner_id
+      type: string
+      meaning: Rep who owns the deal
+      optional: false
+  - slot: deal_created_event
+    kind: event
+    meaning: A new deal was created
+    properties:
+    - name: amount
+      type: number
+      meaning: Deal amount
+      optional: false
+    - name: owner_id
+      type: string
+      meaning: Rep who owns the deal
+      optional: false
+  - slot: meeting_scheduled_event
+    kind: event
+    meaning: A customer meeting was scheduled with a deal contact
+    properties:
+    - name: owner_id
+      type: string
+      meaning: Rep who owns the deal
+      optional: false
+  - slot: session_start_event
+    kind: event
+    meaning: A customer started a product session
+    properties:
+    - name: account_id
+      type: string
+      meaning: Account the session belongs to
+      optional: false
+  - slot: click_on_event
+    kind: event
+    meaning: A customer clicked on a tracked element
+    properties:
+    - name: account_id
+      type: string
+      meaning: Account the click belongs to
+      optional: false
+  - slot: ticket_created_event
+    kind: event
+    meaning: A customer support ticket was created
+    properties:
+    - name: account_id
+      type: string
+      meaning: Account the ticket belongs to
+      optional: false
+  - slot: owner_id_attribute
+    kind: attribute
+    meaning: The sales rep who owns a deal or account
+  - slot: deal_amount_attribute
+    kind: attribute
+    meaning: The monetary amount of a deal
+  - slot: sales_pipeline_stage_close_rate
+    kind: attribute
+    meaning: Historical close rate for each pipeline stage, used to weight open deals
+  steps:
+  - id: s1
+    builds: dashboard
+    uses:
+    - deal_stage_changed_event
+    - deal_won_event
+    - deal_lost_event
+    - deal_created_event
+    - meeting_scheduled_event
+    - session_start_event
+    - click_on_event
+    - ticket_created_event
+    - owner_id_attribute
+    - deal_amount_attribute
+    - sales_pipeline_stage_close_rate
+    - defaultDateRange
+    - dashboardTitle
+    - tableTopN
+    instruction: 'Create a 12-column dashboard titled "{dashboardTitle}" for account executives and sales managers to see
+      which deals to work this week. Set the default date range to {defaultDateRange} (rolling), no exclusion period, project
+      visibility, and no board-level filters; each card scopes its own population. Push the owner_id breakdown down so each
+      card can split by rep where applicable. Use 4 rows. Row 1 (height 200 px): four metric cards, each 3 units wide: "Open
+      Pipeline Value" (metric from the pipeline value snapshot, which weights each open deal''s amount by the historical close
+      rate of its current stage), "Single-threaded Deals" (metric from multi-threading coverage by deal), "Accounts at Risk"
+      (metric from the accounts-at-risk count), and "Median Sales Cycle (days)" (metric from deal velocity by stage). Row
+      2 (height 440 px): two cards, each 6 units wide: a horizontal bar chart of median time-in-stage per stage from deal
+      velocity by stage, and a stacked bar chart of threading distribution per stage from multi-threading coverage by deal.
+      Row 3 (height 400 px): one full-width table of the top {tableTopN} accounts ranked by current engagement from the account
+      engagement score trend, with a trend sparkline, sortable by week-over-week change. Row 4 (height 400 px): two cards,
+      each 6 units wide: a funnel-steps chart of pipeline progression from the lead-to-customer-sales funnel, and a bar chart
+      of pipeline value by stage from the pipeline value snapshot. Annotation: row 1 is the daily check; row 3 is the key
+      actionable artifact, since sorting by week-over-week engagement change surfaces both expansion candidates (rising) and
+      churn-risk accounts (falling).'
 ---
 
 # Deals to work this week

@@ -10,6 +10,73 @@ author:
 classification:
   industry:
   - saas-b2b-tech
+portable:
+  summary: Creates a Salesforce lead as soon as product usage shows a prospect is ready, so the signal becomes a record a
+    rep can work, without creating duplicates.
+  parameters:
+  - name: usage_threshold
+    type: string
+    label: Usage threshold that qualifies a user
+    default: <UNKNOWN>
+    required: false
+  - name: failure_policy
+    type: enum
+    label: Failure policy when a lead is rejected
+    default: skip_and_record
+    required: false
+    options:
+    - skip_and_record
+    - stop_all
+  requirements:
+  - slot: product_qualified_signal
+    kind: segment
+    meaning: Users who reached the product-qualified usage signal (usage threshold, feature reached, or seats added)
+    creatable: true
+    definition: users who reached {usage_threshold} on product usage
+  - slot: salesforce_integration
+    kind: integration
+    meaning: A connected Salesforce account that can create and upsert leads
+    channel: salesforce
+  - slot: lead_external_id
+    kind: attribute
+    meaning: An external ID field on the Salesforce lead used as the upsert match key
+  - slot: lead_score
+    kind: attribute
+    meaning: A customer score attribute owned by the project
+    optional: true
+  - slot: qualifying_signal
+    kind: attribute
+    meaning: An attribute recording which product signal qualified the user
+    optional: true
+  - slot: lead_source
+    kind: attribute
+    meaning: An attribute recording the source of the user
+    optional: true
+  steps:
+  - id: s1
+    builds: segment
+    uses:
+    - usage_threshold
+    - product_qualified_signal
+    instruction: Create the segment {product_qualified_signal} describing the product-qualified signal using {usage_threshold}
+      (usage threshold, feature reached, or seats added). Keep the definition in the segment so sales and product can both
+      review it.
+  - id: s2
+    builds: automation
+    uses:
+    - s1
+    - product_qualified_signal
+    - salesforce_integration
+    - lead_external_id
+    - lead_score
+    - qualifying_signal
+    - lead_source
+    - failure_policy
+    instruction: 'Create a workflow that enrolls members of the segment from "Agree the qualifying signal" and, for each member,
+      upserts a Salesforce lead through {salesforce_integration} using {lead_external_id} as the match key. Do not use plain
+      create. Map only the fields the project owns: {lead_score}, {qualifying_signal} and {lead_source}. Leave all Salesforce-owned
+      fields untouched. Set the failure policy to {failure_policy} so a rejected lead is skipped and recorded without stopping
+      the remaining leads.'
 ---
 
 # Product qualified signal to a Salesforce lead

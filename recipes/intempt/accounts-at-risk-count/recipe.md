@@ -10,6 +10,126 @@ author:
 classification:
   industry:
   - industry-agnostic
+portable:
+  summary: Tracks weekly counts of accounts showing engagement decline or high-priority ticket signals, plus the subscription
+    revenue tied to at-risk accounts.
+  parameters:
+  - name: trailingWindow
+    type: duration
+    label: Trailing comparison window
+    default: 4 w
+    required: false
+  - name: baselineWindow
+    type: duration
+    label: Baseline window
+    default: 8 w
+    required: false
+  - name: distinctUserDropThreshold
+    type: number
+    label: Distinct active user drop threshold (%)
+    default: 30
+    required: false
+  - name: earlyWarningDropThreshold
+    type: number
+    label: Early-warning drop threshold (%)
+    default: 10
+    required: false
+  - name: championInactivityWindow
+    type: duration
+    label: Champion inactivity window
+    default: 14 d
+    required: false
+  - name: ticketLookback
+    type: duration
+    label: High-priority ticket lookback
+    default: 30 d
+    required: false
+  - name: reportTimeRange
+    type: duration
+    label: Report time range
+    default: 12 w
+    required: false
+  - name: spikeThreshold
+    type: number
+    label: Weekly spike alert threshold (%)
+    default: 20
+    required: false
+  - name: broadHealthThreshold
+    type: number
+    label: Broad-base health alert threshold (% of active accounts)
+    default: 15
+    required: false
+  - name: topAccountCount
+    type: number
+    label: Number of top at-risk accounts to surface
+    default: 5
+    required: false
+  requirements:
+  - slot: session_start
+    kind: event
+    meaning: A user started a session in the product
+  - slot: ticket_created
+    kind: event
+    meaning: A customer created a support ticket
+    properties:
+    - name: priority
+      type: string
+      meaning: Priority level of the ticket (e.g. P1-P4 or High/Medium/Low)
+      optional: false
+  - slot: subscription_started
+    kind: event
+    meaning: A customer started a subscription
+    properties:
+    - name: amount
+      type: number
+      meaning: Subscription amount in dollars
+      optional: false
+  - slot: account_of_user
+    kind: attribute
+    meaning: The account a user belongs to
+  - slot: account_primary_user
+    kind: attribute
+    meaning: The primary user ID of an account
+  - slot: account_tier
+    kind: attribute
+    meaning: Account tier such as Enterprise, Mid-Market or SMB, if present on accounts
+    optional: true
+  steps:
+  - id: s1
+    builds: report
+    uses:
+    - session_start
+    - ticket_created
+    - subscription_started
+    - account_of_user
+    - account_primary_user
+    - account_tier
+    - trailingWindow
+    - baselineWindow
+    - distinctUserDropThreshold
+    - earlyWarningDropThreshold
+    - championInactivityWindow
+    - ticketLookback
+    - reportTimeRange
+    - spikeThreshold
+    - broadHealthThreshold
+    - topAccountCount
+    instruction: 'Create an Insights report named "Accounts at Risk". Define an account as at-risk when, comparing the trailing
+      {trailingWindow} against the prior {baselineWindow} baseline, any one of these holds: (a) distinct users from the account
+      who fired {session_start} dropped by at least {distinctUserDropThreshold}%; (b) the champion user, defined as the account
+      user with the most {session_start} events in the trailing 30 days, has fired zero {session_start} events in the last
+      {championInactivityWindow}; (c) the account''s {account_primary_user} fired {ticket_created} with {ticket_created.priority}
+      equal to the high-priority level (P1 or High) in the last {ticketLookback}. Series A: count unique accounts (via {account_of_user})
+      that are at-risk, weekly snapshot, labeled "Accounts at Risk". Series B: count unique accounts not at-risk whose distinct
+      active user count dropped by at least {earlyWarningDropThreshold}% but less than {distinctUserDropThreshold}%, labeled
+      "Accounts to Watch". Series C: sum of the most recent active {subscription_started.amount} for each at-risk account''s
+      primary user (summed across users on the account where multiple subscriptions exist), in dollars, labeled "Revenue at
+      Risk". Time range: last {reportTimeRange}. Compare against the previous period of equal length. Breakdown by {account_tier}
+      if available; otherwise by trailing-30-day engagement-volume bucket. Chart: stacked area for Series A and B over time,
+      with Series C as a secondary line on a right axis. Annotations: flag any week where Series A grew by at least {spikeThreshold}%
+      versus the trailing 4-week average; list the top {topAccountCount} accounts in Series A ranked by subscription amount;
+      flag when Series A exceeds {broadHealthThreshold}% of total active accounts; report which of the three at-risk triggers
+      (a, b, c) fires most often and name the dominant one.'
 ---
 
 # Accounts at risk

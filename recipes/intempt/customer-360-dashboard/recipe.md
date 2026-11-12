@@ -10,6 +10,68 @@ author:
 classification:
   industry:
   - ecommerce-retail
+portable:
+  summary: Gives a centralized dashboard of customers across six lifecycle stages, with migration, repeat-purchase timing,
+    cohort lifetime value, and post-purchase first-session paths.
+  parameters:
+  - name: date_range
+    type: enum
+    label: Default date range
+    default: last_90_days
+    required: false
+    options:
+    - last_30_days
+    - last_90_days
+    - last_12_months
+  - name: ltv_window
+    type: string
+    label: LTV window (cohort months)
+    default: M6
+    required: false
+  requirements:
+  - slot: lifecycle_distribution_insight
+    kind: knowledge
+    meaning: A customer lifecycle distribution insight that breaks customers down by the lifecycle score stages and shows
+      stage migration
+  - slot: ltv_cohort_insight
+    kind: knowledge
+    meaning: A first-purchase cohort lifetime value curve insight showing cumulative LTV per cohort
+  - slot: retention_analysis
+    kind: knowledge
+    meaning: A purchase retention analysis that shows retention curves for cohorts by first-purchase month
+  - slot: second_order_velocity_insight
+    kind: knowledge
+    meaning: A post-purchase second-order velocity insight showing days from first to second order
+  - slot: post_conversion_paths
+    kind: knowledge
+    meaning: A post-conversion onboarding paths analysis showing what new paying customers do in their first session
+  - slot: customer_placed_order
+    kind: event
+    meaning: A customer placed an order
+    properties:
+    - name: items
+      type: text
+      meaning: Items in the order
+      optional: true
+    - name: total_price
+      type: number
+      meaning: Total price of the order
+      optional: true
+  - slot: users_lifecycle_score
+    kind: attribute
+    meaning: The lifecycle score of a user with the six stages At risk, Needs attention, New customers, Promising, Regulars,
+      Champions
+  steps:
+  - id: s1
+    builds: dashboard
+    uses:
+    - date_range
+    - users_lifecycle_score
+    instruction: 'Create a Dash board (12-column composition canvas) titled "Customer 360". Set defaultDateRange to {date_range},
+      exclusionPeriod to incomplete_periods, visibility to project, and boardFilters to none by default. Set boardBreakdowns
+      to {users_lifecycle_score} using the six canonical stages (At risk, Needs attention, New customers, Promising, Regulars,
+      Champions). Persona: CRM Lead, Lifecycle Marketer, or Retention/Loyalty Lead. Question answered: "Where are my customers
+      in their lifecycle, and how do they progress?"'
 ---
 
 # Customer lifecycle overview

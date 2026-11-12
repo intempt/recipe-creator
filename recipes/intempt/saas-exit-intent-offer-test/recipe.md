@@ -10,6 +10,81 @@ author:
 classification:
   industry:
   - industry-agnostic
+portable:
+  summary: Tests which offer to show desktop visitors leaving SaaS marketing pages (discount, comparison guide, content download,
+    exit survey, or nothing) to find the best lead-generating exit popup.
+  parameters:
+  - name: experimentName
+    type: string
+    label: Experiment name
+    default: SaaS Exit-Intent Offer
+  - name: testDurationDays
+    type: duration
+    label: Test duration
+    default: 21 d
+  - name: minExitIntentsPerVariant
+    type: number
+    label: Minimum exit-intents per variant
+    default: 1000
+  - name: engagementThresholdSeconds
+    type: number
+    label: Minimum time on page before popup (seconds)
+    default: 30
+  - name: displayFrequency
+    type: enum
+    label: Popup display frequency
+    default: once_per_session
+    options:
+    - once_per_session
+    - once_per_visit
+    - every_time
+  - name: discountOffer
+    type: text
+    label: Discount offer headline for Variant B
+    default: 'Stay 30 more days: get 50% off your first month'
+  - name: bounceRateGuardrailPercent
+    type: number
+    label: Maximum bounce rate increase (%)
+    default: 5
+  - name: dismissRateGuardrailPercent
+    type: number
+    label: Maximum popup dismiss rate (%)
+    default: 80
+  requirements:
+  - slot: marketing_pages_visit_event
+    kind: event
+    meaning: A visitor viewed a SaaS marketing page such as pricing, features, solutions, or a key landing page
+    properties:
+    - name: page_path
+      type: text
+      meaning: URL path of the marketing page viewed
+      optional: false
+  steps:
+  - id: s1
+    builds: experiment
+    uses:
+    - marketing_pages_visit_event
+    - experimentName
+    - testDurationDays
+    - minExitIntentsPerVariant
+    - engagementThresholdSeconds
+    - displayFrequency
+    - discountOffer
+    - bounceRateGuardrailPercent
+    - dismissRateGuardrailPercent
+    instruction: 'Create a client-side experiment named "{experimentName}" on the experimentation platform, with type client_experiment.
+      Test WHAT content to show in an exit-intent popup on SaaS marketing pages (pricing, features, solutions, key landing
+      pages; not checkout or signup). Desktop only. Audience: visitors who have spent at least {engagementThresholdSeconds}
+      seconds on the page and have not yet converted. Display frequency: {displayFrequency}. Variants at 20% each: Control
+      shows no popup. Variant B shows a discount offer headline "{discountOffer}". Variant C shows a comparison guide download.
+      Variant D shows a content download (lead magnet). Variant E shows an exit survey asking what stopped the visitor from
+      booking a demo today. Trigger: mouseleave on the document root when the mouse exits the top of the viewport, after the
+      engagement threshold, and only if the visitor has not converted. Primary metric: goal completed in the experience. Secondary
+      metrics: Variant B discount-claim form submission rate; Variant C guide download click rate; Variant D email-captured
+      form submission rate; Variant E survey form submission rate; all variants: 7-day return visit rate and 14-day demo-request
+      conversion rate. Guardrails: bounce rate must not increase more than {bounceRateGuardrailPercent}%; popup dismiss rate
+      must not exceed {dismissRateGuardrailPercent}%. Run for {testDurationDays} with at least {minExitIntentsPerVariant}
+      exit-intents triggered per variant. Treat the Variant E survey responses as research input in addition to conversion.'
 ---
 
 # Exit-intent offer test

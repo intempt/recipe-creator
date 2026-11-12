@@ -10,6 +10,108 @@ author:
 classification:
   industry:
   - ecommerce-retail
+portable:
+  summary: Gives operations teams a 30-day dashboard showing whether orders ship on time and where returns and refunds cluster
+    by product category.
+  parameters:
+  - name: dateRange
+    type: string
+    label: Default date range
+    default: last_30_days
+  - name: exclusionPeriod
+    type: string
+    label: Exclusion period (data lag)
+    default: today
+  - name: fulfillmentTargetPct
+    type: number
+    label: Fulfillment rate alert threshold (%)
+    default: 90
+  requirements:
+  - slot: placed_order_event
+    kind: event
+    meaning: A customer placed an order
+    properties:
+    - name: order_id
+      type: string
+      meaning: Identifier of the order
+      optional: false
+    - name: product_category
+      type: string
+      meaning: Category of the items in the order
+      optional: true
+  - slot: order_fulfilled_event
+    kind: event
+    meaning: An order was fulfilled and shipped
+    properties:
+    - name: order_id
+      type: string
+      meaning: Identifier of the order
+      optional: false
+  - slot: order_refunded_event
+    kind: event
+    meaning: An order was refunded
+    properties:
+    - name: order_id
+      type: string
+      meaning: Identifier of the order
+      optional: false
+    - name: product_category
+      type: string
+      meaning: Category of the refunded product
+      optional: true
+  - slot: order_cancelled_event
+    kind: event
+    meaning: An order was cancelled
+    properties:
+    - name: order_id
+      type: string
+      meaning: Identifier of the order
+      optional: false
+  - slot: ticket_created_event
+    kind: event
+    meaning: A customer support ticket was created
+  - slot: checkout_step_event
+    kind: event
+    meaning: A customer progressed through a checkout step
+    properties:
+    - name: checkout_step
+      type: string
+      meaning: Name of the checkout step reached
+      optional: false
+  - slot: operations_dashboard_destination
+    kind: destination
+    meaning: Project space where the operations dashboard is stored and shared with project members
+    optional: true
+    channel: hubspot
+  steps:
+  - id: s1
+    builds: dashboard
+    uses:
+    - placed_order_event
+    - order_fulfilled_event
+    - order_refunded_event
+    - order_cancelled_event
+    - ticket_created_event
+    - checkout_step_event
+    - dateRange
+    - exclusionPeriod
+    - fulfillmentTargetPct
+    - operations_dashboard_destination
+    instruction: 'Create a 12-column dashboard titled "E-commerce Operations" with project visibility, default date range
+      {dateRange}, and an exclusion period of {exclusionPeriod} because operations data lags by hours. Leave board filters
+      empty and apply a product_category breakdown, derived from the items in each order, to every card where it applies.
+      Build four rows. Row 1 (height 200 px) holds four metric cards, each 3 units wide: ''Orders (30d)'' from the order status
+      flow of {placed_order_event}, {order_fulfilled_event}, {order_refunded_event} and {order_cancelled_event}; ''Fulfillment
+      Rate'' from the same order status flow, where a value below {fulfillmentTargetPct}% signals a backlog or capacity issue;
+      ''Return Rate (30d)'' from the return rate by category; ''Refund Rate (30d)'' from the refund rate by product and category.
+      Row 2 (height 400 px) holds two cards, each 6 units wide: a stacked column chart of the order status flow over time
+      showing created, fulfilled, refunded and cancelled counts, and a bar histogram with a cumulative line of time-to-ship,
+      computed as the difference between the {order_fulfilled_event} created date and the {placed_order_event} created date,
+      joined on order_id. Row 3 (height 440 px) holds two 6-unit bar charts: return rate by category and refund rate by product
+      and category. Categories with both high return and high refund rates are the inventory-quality problem areas. Row 4
+      (height 400 px) holds two 6-unit cards: a funnel-steps chart of per-step checkout friction using {checkout_step_event.checkout_step},
+      and a path chart of the paths that precede {ticket_created_event}. Keep the cards non-overlapping and distinct from
+      the revenue dashboard, which covers the order-placement stage only.'
 ---
 
 # Fulfillment, returns and refunds

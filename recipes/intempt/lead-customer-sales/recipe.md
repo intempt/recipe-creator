@@ -10,6 +10,137 @@ author:
 classification:
   industry:
   - saas-b2b-tech
+portable:
+  summary: Shows how demo requests progress to booked meetings, completed demos, proposals and closed deals, and which lead
+    sources convert best.
+  parameters:
+  - name: conversionWindow
+    type: duration
+    label: Conversion window
+    default: 60 d
+    required: false
+  - name: comparisonPeriod
+    type: enum
+    label: Comparison period
+    default: previous_period
+    required: false
+    options:
+    - previous_period
+    - none
+  - name: topSources
+    type: number
+    label: Number of lead sources to break down
+    default: 8
+    required: false
+  - name: deadStageDays
+    type: number
+    label: Median stage velocity alert threshold (days)
+    default: 14
+    required: false
+  requirements:
+  - slot: demo_request_form_event
+    kind: event
+    meaning: A customer submitted a form, including demo-request forms
+    properties:
+    - name: form_id
+      type: string
+      meaning: Identifier of the submitted form, used to match the demo-request form
+      optional: false
+  - slot: meeting_scheduled_event
+    kind: event
+    meaning: A meeting was scheduled with a lead or customer user
+    properties:
+    - name: primary_user_id
+      type: string
+      meaning: User the meeting is linked to
+      optional: true
+    - name: user_ids
+      type: array
+      meaning: Users attached to the meeting
+      optional: true
+    - name: canceled_at
+      type: date
+      meaning: Time the meeting was canceled, empty if not canceled
+      optional: true
+    - name: start_time
+      type: date
+      meaning: Meeting start time
+      optional: false
+    - name: end_time
+      type: date
+      meaning: Meeting end time
+      optional: false
+  - slot: deal_stage_changed_event
+    kind: event
+    meaning: A deal moved to a different stage in the sales pipeline
+    properties:
+    - name: previous_stage
+      type: string
+      meaning: Stage the deal left
+      optional: true
+    - name: new_stage
+      type: string
+      meaning: Stage the deal entered, used to match the proposal stage
+      optional: false
+    - name: amount
+      type: number
+      meaning: Deal amount
+      optional: true
+  - slot: deal_won_event
+    kind: event
+    meaning: A deal was marked as won (closed customer deal)
+    properties:
+    - name: amount
+      type: number
+      meaning: Amount of the won deal
+      optional: true
+  - slot: deal_created_event
+    kind: event
+    meaning: A new deal was created, used as an alternative start for the funnel
+    properties:
+    - name: stage
+      type: string
+      meaning: Stage the deal was created in, used to match discovery stage
+      optional: true
+    - name: amount
+      type: number
+      meaning: Deal amount
+      optional: true
+    optional: true
+  - slot: user_utm_source_attribute
+    kind: attribute
+    meaning: The first-touch lead source (UTM source) recorded on the user record
+  - slot: deal_stage_attribute
+    kind: attribute
+    meaning: The current sales pipeline stage of a deal
+    optional: true
+  steps:
+  - id: s1
+    builds: report
+    uses:
+    - demo_request_form_event
+    - deal_created_event
+    - meeting_scheduled_event
+    - deal_stage_changed_event
+    - deal_won_event
+    - user_utm_source_attribute
+    - deal_stage_attribute
+    - conversionWindow
+    - comparisonPeriod
+    - topSources
+    - deadStageDays
+    instruction: 'Create a funnel report named "Lead to Customer" with these steps in order: 1) {demo_request_form_event}
+      where form_id matches the demo-request form (alternative start: {deal_created_event} with stage matching Discovery or
+      similar); 2) {meeting_scheduled_event} linked to the same user via primary_user_id or user_ids; 3) {meeting_scheduled_event}
+      where canceled_at is empty and end_time is before now, with no later meeting cancellation; 4) {deal_stage_changed_event}
+      where new_stage matches a Proposal pattern; 5) {deal_won_event}. Use a conversion window of {conversionWindow}. Break
+      down by the {user_utm_source_attribute} attribute and show the top {topSources} sources. Compare against the {comparisonPeriod}
+      of equal length. For each step show median time-to-convert from the previous step, per-source conversion rate at each
+      stage, and forecast revenue as the sum of amounts for deals currently at that stage (from {deal_stage_attribute} and
+      {deal_stage_changed_event.amount}) multiplied by historical conversion-to-won rate. Surface projected closed-won revenue
+      for the period from current pipeline volumes. Annotations: flag the source with the highest end-to-end win rate and
+      volume as the place to invest more; flag any stage whose median velocity exceeds {deadStageDays} days as a deal-stalled
+      signal; highlight any source with rising volume but falling win rate as lead-quality erosion.'
 ---
 
 # Lead to customer

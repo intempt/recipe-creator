@@ -10,6 +10,98 @@ author:
 classification:
   industry:
   - industry-agnostic
+portable:
+  summary: Builds a weekly report scoring each account's engagement from distinct active users and click volume, with flags
+    for drops, growth, and single-threaded accounts.
+  parameters:
+  - name: score_user_weight
+    type: number
+    label: Weight per distinct active user
+    default: 5
+  - name: score_activity_weight
+    type: number
+    label: Weight per click-on event
+    default: 0.1
+  - name: report_window
+    type: duration
+    label: Report time range
+    default: 12 w
+  - name: comparison_window
+    type: duration
+    label: Recent window for trend flags
+    default: 4 w
+  - name: baseline_window
+    type: duration
+    label: Trailing baseline window
+    default: 8 w
+  - name: drop_threshold
+    type: number
+    label: Acute drop threshold (percent)
+    default: 30
+  - name: growth_threshold
+    type: number
+    label: Expansion growth threshold (percent)
+    default: 50
+  - name: top_account_count
+    type: number
+    label: Number of accounts to break down
+    default: 30
+  - name: highlight_count
+    type: number
+    label: Top accounts to highlight per list
+    default: 5
+  requirements:
+  - slot: session_start_event
+    kind: event
+    meaning: A user started a session in the product
+    properties:
+    - name: user
+      type: text
+      meaning: The user who started the session
+      optional: false
+  - slot: click_event
+    kind: event
+    meaning: A user clicked on an element in the product
+    properties:
+    - name: user
+      type: text
+      meaning: The user who clicked
+      optional: false
+  - slot: user_account_relation
+    kind: attribute
+    meaning: The account that a user belongs to
+  - slot: account_record
+    kind: attribute
+    meaning: An account record that groups users into a company
+  steps:
+  - id: s1
+    builds: report
+    uses:
+    - session_start_event
+    - click_event
+    - user_account_relation
+    - account_record
+    - score_user_weight
+    - score_activity_weight
+    - report_window
+    - comparison_window
+    - baseline_window
+    - drop_threshold
+    - growth_threshold
+    - top_account_count
+    - highlight_count
+    instruction: 'Create an Insights report named "Account Engagement Score Trend". Series A: count unique users of {session_start_event}
+      rolled up by the account each user belongs to via {user_account_relation}. Series B: count of {click_event} rolled up
+      by the account each user belongs to via {user_account_relation}. Series C: computed engagement score per account = (Series
+      A x {score_user_weight}) + (Series B x {score_activity_weight}). Use weekly time granularity over the last {report_window},
+      with the previous period as comparison. Break down by {account_record} for the top {top_account_count} accounts by current
+      engagement score. Chart as a multi-line chart with one line per account, plus a heatmap small-multiple showing week-over-week
+      change in score. Annotations: flag accounts whose score dropped more than {drop_threshold} percent over the last {comparison_window}
+      versus the trailing {baseline_window} baseline as acute disengagement (churn risk). Flag accounts whose score grew more
+      than {growth_threshold} percent over the last {comparison_window} as expansion candidates for sales outreach. Flag accounts
+      where Series A is shrinking while Series B is stable as consolidating to a smaller power-user group (single-threaded
+      risk). Highlight the top {highlight_count} accounts by absolute score and the top {highlight_count} accounts by week-over-week
+      growth rate as two separate lists.'
 ---
 
 # Account engagement score trend

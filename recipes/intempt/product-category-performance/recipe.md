@@ -10,6 +10,76 @@ author:
 classification:
   industry:
   - ecommerce-retail
+portable:
+  summary: Shows revenue, units and average order value by product category in a treemap, flagging demand softening, price
+    erosion and top momentum categories over the last 30 days.
+  parameters:
+  - name: window
+    type: duration
+    label: Analysis time range
+    default: 30 d
+    required: false
+  - name: topCategories
+    type: number
+    label: Number of categories shown before grouping the rest as Other
+    default: 12
+    required: false
+  - name: momentumMinShare
+    type: number
+    label: Minimum revenue share (%) for momentum highlight
+    default: 5
+    required: false
+  - name: revenueChangeFlat
+    type: number
+    label: Change (%) treated as flat for price erosion flag
+    default: 0
+    required: false
+  requirements:
+  - slot: placed_order_event
+    kind: event
+    meaning: A customer placed an order
+    properties:
+    - name: total_price
+      type: number
+      meaning: Total order price
+      optional: false
+    - name: items
+      type: array
+      meaning: Line items in the order, each with product_id, title, quantity, price and sku
+      optional: false
+  - slot: products_record
+    kind: attribute
+    meaning: Product records that map a product_id to its product category
+    properties:
+    - name: product_id
+      type: string
+      meaning: Unique product identifier
+      optional: false
+    - name: product_category
+      type: string
+      meaning: Category the product belongs to
+      optional: false
+  steps:
+  - id: s1
+    builds: report
+    uses:
+    - placed_order_event
+    - products_record
+    - window
+    - topCategories
+    - momentumMinShare
+    - revenueChangeFlat
+    instruction: 'Create an Insights report called "Category Performance". Series A: event {placed_order_event}, aggregation
+      Sum of {placed_order_event.total_price}, unit $, label "Revenue". Series B: event {placed_order_event}, aggregation
+      Sum of number of line items per order (count of {placed_order_event.items}), label "Units Sold". Series C: computed
+      Series A divided by Series B, unit $, label "AOV per Category". Breakdown: by product category extracted from {placed_order_event.items},
+      resolving each line item''s product_id to its category via {products_record}. Show the top {topCategories} categories
+      and group the remainder as "Other". Time range: last {window}. Compare to the previous period (prior {window}) and to
+      the same period last year. Chart type: treemap sized by Series A revenue, colored by year-over-year % change (green
+      for growing, red for declining). Annotations: for each category, label revenue, % share of total, MoM change and YoY
+      change. Flag categories where revenue and units both decline (demand softening). Flag categories where units rise but
+      revenue is flat within {revenueChangeFlat}% (price or discount erosion). Highlight the top 3 momentum categories, ranked
+      by highest YoY growth among those with at least {momentumMinShare}% revenue share.'
 ---
 
 # Category performance

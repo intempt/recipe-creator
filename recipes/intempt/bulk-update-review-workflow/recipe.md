@@ -10,6 +10,153 @@ author:
 classification:
   industry:
   - industry-agnostic
+portable:
+  summary: Pauses large bulk field updates, merges, or deletes for a human reviewer who sees a diff sample and AI risk rating
+    before anything is applied, with an audit trail and rollback snapshot.
+  parameters:
+  - name: record_threshold
+    type: number
+    label: Record count above which a bulk operation requires review
+    default: 500
+    required: false
+  - name: sample_size
+    type: number
+    label: Number of records in the diff preview sample
+    default: 20
+    required: false
+  - name: normal_timeout
+    type: duration
+    label: Decision timeout for normal-risk operations
+    default: 24 h
+    required: false
+  - name: high_risk_timeout
+    type: duration
+    label: Decision timeout for high-risk operations
+    default: 4 h
+    required: false
+  - name: rollback_window
+    type: duration
+    label: Window in which a mass revert is possible after execution
+    default: 24 h
+    required: false
+  - name: review_channel_name
+    type: string
+    label: Slack channel for review cards
+    default: '#revops-bulk-reviews'
+    required: false
+  requirements:
+  - slot: bulk_operation_event
+    kind: event
+    meaning: A bulk change operation was requested (field update, record merge, segment move, or mass delete) affecting many
+      records
+    properties:
+    - name: operation_type
+      type: text
+      meaning: 'Kind of bulk operation: field_update, record_merge, segment_move, or mass_delete'
+      optional: false
+    - name: record_count
+      type: number
+      meaning: Number of records the operation affects
+      optional: false
+    - name: diff_preview
+      type: json
+      meaning: Before and after values for a sample of the first affected records
+      optional: true
+    - name: originator
+      type: text
+      meaning: Who or what initiated the operation
+      optional: false
+  - slot: revops_slack
+    kind: integration
+    meaning: Slack workspace connection able to post interactive review cards to the RevOps bulk review channel
+    channel: slack
+  - slot: revops_lead
+    kind: attribute
+    meaning: The RevOps lead user who is escalated to and @mentioned for critical or timed-out operations
+  steps:
+  - id: s1
+    builds: automation
+    uses:
+    - record_threshold
+    instruction: Create a workflow named 'Bulk update review gate' that intercepts mass-change operations (record merge suggestions,
+      segment moves, and field updates affecting more than {record_threshold} records) and holds them for human review with
+      a diff preview before anything is applied.
+  - id: s2
+    builds: webhook
+    uses:
+    - s1
+    - bulk_operation_event
+    - record_threshold
+    instruction: Configure a webhook trigger, callable by other workflows or manual operations, that accepts {bulk_operation_event.operation_type},
+      {bulk_operation_event.record_count} (processed only when greater than {record_threshold}), {bulk_operation_event.diff_preview}
+      and {bulk_operation_event.originator}.
+  - id: s3
+    builds: automation
+    uses:
+    - s1
+    - s2
+    - sample_size
+    instruction: Loop over the first {sample_size} records in the bulk operation and, for each, show the current value next
+      to the proposed value to build a representative diff preview that the reviewer can check instead of reviewing every
+      record.
+  - id: s4
+    builds: agent
+    uses:
+    - s1
+    - s3
+    instruction: Run an AI assessment of the bulk operation's risk using scope (record count), change magnitude (small field
+      tweak versus status reset), data sensitivity (personal, financial, or lifecycle stage data), reversibility, and historical
+      precedent of similar bulk operations going wrong. Output a risk_score of low, medium, high, or critical and a list of
+      specific concerns for the reviewer.
+  - id: s5
+    builds: slack
+    uses:
+    - s1
+    - s4
+    - revops_slack
+    - revops_lead
+    - review_channel_name
+    instruction: Post a review card to {review_channel_name} via {revops_slack} containing the operation summary, record count,
+      risk_score, the diff preview sample from "Build a sample of the diff", and the concerns from "Rate how risky it is".
+      Include buttons Approve All, Approve Sample Only, and Reject. For critical-risk operations also @mention {revops_lead}.
+  - id: s6
+    builds: automation
+    uses:
+    - s1
+    - s5
+    - normal_timeout
+    - high_risk_timeout
+    - revops_lead
+    instruction: Pause until an approval decision is received on the review card. Use a timeout of {normal_timeout} for normal
+      operations and {high_risk_timeout} for high-risk or critical operations. On timeout, treat as reject and escalate to
+      {revops_lead}.
+  - id: s7
+    builds: automation
+    uses:
+    - s1
+    - s6
+    - sample_size
+    - revops_lead
+    instruction: 'Branch on the decision from "Put the diff to a human": Approve All applies the change to all records; Approve
+      Sample Only applies the change to the {sample_size} sample records and holds the remaining records for further review;
+      Reject archives the operation and notifies the originator with the reason; Timeout is handled as reject with escalation
+      to {revops_lead}.'
+  - id: s8
+    builds: automation
+    uses:
+    - s1
+    - s7
+    - rollback_window
+    instruction: Execute the approved scope and call back the originator workflow with the approved scope (all or sample only).
+      Log the execution time, approver name, scope record count, and originator workflow as a full audit trail. Store a snapshot
+      of pre-change values so the change can be mass-reverted within {rollback_window}.
+  - id: s9
+    builds: dashboard
+    uses:
+    - s1
+    - s8
+    instruction: Validate and publish the workflow. Monitor weekly bulk-operation volume, approval-rate distribution by originator,
+      average time to decision, and post-execution rollback rate.
 ---
 
 # Review gate for bulk updates

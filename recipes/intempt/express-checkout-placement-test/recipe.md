@@ -10,6 +10,110 @@ author:
 classification:
   industry:
   - ecommerce-retail
+portable:
+  summary: Runs a placement test of express checkout buttons (Apple Pay, Google Pay, Shop Pay) on the product page and cart
+    drawer against standard checkout to see which setup lifts revenue.
+  parameters:
+  - name: experiment_title
+    type: string
+    label: Experiment title
+    default: Express Checkout Placement
+    required: false
+  - name: duration_days
+    type: duration
+    label: Test duration
+    default: 14 d
+    required: false
+  - name: min_mobile_sessions_per_variant
+    type: number
+    label: Minimum mobile sessions per variant
+    default: 3000
+    required: false
+  - name: control_traffic_percent
+    type: number
+    label: Traffic share per variant (%)
+    default: 25
+    required: false
+  - name: revenue_goal_window
+    type: duration
+    label: Attribution window for revenue after exposure
+    default: session
+    required: false
+  requirements:
+  - slot: experiment_exposure_event
+    kind: event
+    meaning: A visitor was exposed to a client experiment variant
+  - slot: cart_created_event
+    kind: event
+    meaning: A visitor created a cart or opened the cart drawer
+  - slot: order_placed_event
+    kind: event
+    meaning: A customer placed an order
+    properties:
+    - name: payment_method
+      type: string
+      meaning: Payment method used for the order (e.g. apple_pay, google_pay, shop_pay)
+      optional: false
+    - name: order_value
+      type: number
+      meaning: Total value of the order
+      optional: false
+  - slot: express_button_click_event
+    kind: event
+    meaning: A visitor clicked an express checkout button
+    properties:
+    - name: target_id
+      type: string
+      meaning: Identifier of the clicked element (apple-pay-button, google-pay-button, shop-pay-button)
+      optional: false
+  - slot: experiment_goal_event
+    kind: event
+    meaning: A goal was completed within a client experiment exposure
+    properties:
+    - name: experience_id
+      type: string
+      meaning: Identifier of the experiment experience
+      optional: false
+    - name: value
+      type: number
+      meaning: Revenue value attributed to the goal
+      optional: false
+  - slot: mobile_device_attribute
+    kind: attribute
+    meaning: The device type of a visitor (mobile or desktop)
+  - slot: ecommerce_website
+    kind: destination
+    meaning: The storefront where the client experiment runs
+    channel: shopify
+  steps:
+  - id: s1
+    builds: experiment
+    uses:
+    - experiment_title
+    - duration_days
+    - min_mobile_sessions_per_variant
+    - control_traffic_percent
+    - revenue_goal_window
+    - experiment_exposure_event
+    - cart_created_event
+    - order_placed_event
+    - express_button_click_event
+    - experiment_goal_event
+    - mobile_device_attribute
+    - ecommerce_website
+    instruction: 'Create a client experiment titled "{experiment_title}" on the storefront {ecommerce_website}. Use four variants
+      at {control_traffic_percent}% traffic each: Control (express checkout only on cart and checkout pages, no DOM change);
+      Variant B (express checkout buttons placed above Add to Cart on the product page); Variant C (express checkout buttons
+      placed in the cart drawer, shown when it opens); Variant D (combined placement on product page, cart drawer and checkout).
+      Targeting: Variant B on pages whose URL contains /products/; Variant C on any page where the cart drawer opens after
+      {cart_created_event}; Variant D on all pages where the buttons are visible. Include all devices, all visitors, display
+      frequency always. Run for {duration_days}, with at least {min_mobile_sessions_per_variant} mobile sessions per variant.
+      Primary metric: revenue from {order_placed_event} within {revenue_goal_window} of exposure, measured through {experiment_goal_event}
+      where value is greater than 0. Secondary metrics: clicks on {express_button_click_event} by target_id (apple-pay-button,
+      google-pay-button, shop-pay-button); share of {order_placed_event} where payment_method is apple_pay, google_pay or
+      shop_pay per variant; mobile versus desktop conversion split using {mobile_device_attribute}; average order value per
+      variant from {order_placed_event.order_value}. Guardrail: standard checkout completion rate must not drop. Do not run
+      concurrently with a checkout-flow-length test.'
 ---
 
 # Express checkout placement test

@@ -74,3 +74,12 @@ and "What this recipe does not claim".
 
 `builds` must be a value from [references/entities.md](./references/entities.md). Use only
 the Install now list if you want the recipe runnable on day one.
+
+## The portable block
+
+Every recipe also carries a `portable:` block in its front matter: the summary, the parameters
+(values a person may change, with defaults), the typed requirements (what the project must
+already have, matched by meaning when the recipe runs) and per step what it builds, what it uses
+and its instruction written with `{slot}` / `{parameter}` instead of real names. The format is in
+[references/recipe-contract.md](./references/recipe-contract.md#the-portable-block-the-catalog-the-blu-engine-runs);
+check it with `python3 scripts/build_catalog.py --check`.

@@ -10,6 +10,92 @@ author:
 classification:
   industry:
   - industry-agnostic
+portable:
+  summary: Shows how concentrated activity is across users by ranking them by event volume and reporting each percentile group's
+    share of total events, compared with the prior period.
+  parameters:
+  - name: time_window
+    type: duration
+    label: Analysis time range
+    default: 30 d
+    required: false
+  - name: comparison_window
+    type: duration
+    label: Comparison period (prior window)
+    default: 30 d
+    required: false
+  - name: breakdown_mode
+    type: enum
+    label: Breakdown mode
+    default: saas
+    required: false
+    options:
+    - saas
+    - ecommerce
+  - name: top_share_alert_pct
+    type: number
+    label: Heavy-tail alert threshold for top 1% share (%)
+    default: 25
+    required: false
+  - name: long_tail_alert_pct
+    type: number
+    label: Long-tail alert threshold for bottom 50% share (%)
+    default: 10
+    required: false
+  requirements:
+  - slot: session_start_event
+    kind: event
+    meaning: A customer started a session in the product
+    optional: true
+  - slot: user_total_events
+    kind: attribute
+    meaning: Total number of events recorded for each user
+  - slot: placed_order_event
+    kind: event
+    meaning: A customer placed an order
+    properties:
+    - name: total_price
+      type: number
+      meaning: Total price of the placed order
+      optional: true
+    - name: customer_id
+      type: string
+      meaning: Identifier of the customer who placed the order
+      optional: true
+    optional: true
+  - slot: plan_attribute
+    kind: attribute
+    meaning: The subscription plan a user belongs to
+    optional: true
+  - slot: lifetime_value_attribute
+    kind: attribute
+    meaning: The lifetime value bucket of a user
+    optional: true
+  steps:
+  - id: s1
+    builds: report
+    uses:
+    - session_start_event
+    - user_total_events
+    - placed_order_event
+    - plan_attribute
+    - lifetime_value_attribute
+    - time_window
+    - comparison_window
+    - breakdown_mode
+    - top_share_alert_pct
+    - long_tail_alert_pct
+    instruction: 'Create a report named "Power-User Concentration". Series A: count of {session_start_event} by user, or use
+      {user_total_events} directly as the per-user event total. Series B: rank users by Series A in descending order, then
+      for each percentile bucket (top 1%, top 5%, top 10%, top 25%, top 50%, bottom 50%) sum events in the bucket and divide
+      by total events times 100, unit %, labeled "Share of Total Events". Time range: {time_window}. Compare against the prior
+      {comparison_window}. Breakdown: by {plan_attribute} when {breakdown_mode} is saas, or by {lifetime_value_attribute}
+      when {breakdown_mode} is ecommerce. Chart type: Pareto bar chart showing share of total events per percentile bucket
+      with a cumulative line overlay. Annotations: flag the top 1% share when it is above {top_share_alert_pct}% as heavy-tail
+      concentration; flag the bottom 50% share when it is below {long_tail_alert_pct}% as an unengaged long tail; highlight
+      whether concentration is rising or falling versus the comparison period. If {breakdown_mode} is ecommerce, replace events
+      with revenue: sum {placed_order_event.total_price} per {placed_order_event.customer_id}, then run the same percentile
+      decomposition.'
 ---
 
 # Power user concentration

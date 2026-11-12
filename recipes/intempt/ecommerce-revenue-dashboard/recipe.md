@@ -10,6 +10,91 @@ author:
 classification:
   industry:
   - ecommerce-retail
+portable:
+  summary: Shows how much revenue you are making, which channels drive it, and whether the trend is holding, on one weekly
+    dashboard for founders and CMOs.
+  parameters:
+  - name: date_range
+    type: duration
+    label: Default date range
+    default: 30 d
+    required: false
+  - name: breakdown_property
+    type: string
+    label: Breakdown property pushed down to cards
+    default: device_type
+    required: false
+  requirements:
+  - slot: placed_order_event
+    kind: event
+    meaning: A customer placed an order
+    properties:
+    - name: channel
+      type: string
+      meaning: Acquisition channel of the order
+      optional: false
+    - name: device_type
+      type: string
+      meaning: Device the customer used to order
+      optional: true
+    - name: order_value
+      type: number
+      meaning: Total value of the order
+      optional: false
+    - name: units
+      type: number
+      meaning: Number of units in the order
+      optional: false
+    - name: product_category
+      type: string
+      meaning: Category of the purchased product
+      optional: true
+  - slot: cart_created_event
+    kind: event
+    meaning: A customer created a shopping cart
+    properties:
+    - name: device_type
+      type: string
+      meaning: Device the customer used
+      optional: true
+  - slot: view_page_event
+    kind: event
+    meaning: A customer viewed a page
+    properties:
+    - name: device_type
+      type: string
+      meaning: Device the customer used
+      optional: true
+  - slot: checkout_created_event
+    kind: event
+    meaning: A customer started checkout
+    properties:
+    - name: device_type
+      type: string
+      meaning: Device the customer used
+      optional: true
+  steps:
+  - id: s1
+    builds: dashboard
+    uses:
+    - date_range
+    - breakdown_property
+    - placed_order_event
+    - cart_created_event
+    - checkout_created_event
+    - view_page_event
+    instruction: 'Create a 12-column composition dashboard titled "E-commerce Revenue" with default date range {date_range},
+      incomplete periods excluded, visible to the whole project, no board filters by default, and breakdown by {breakdown_property}
+      pushed down to applicable cards. Lay it out in four rows. Row 1 (height 200px, four metric cards each 3 columns wide):
+      "Total Revenue (30d)" from {placed_order_event} grouped by {placed_order_event.channel}; "AOV" from {placed_order_event.order_value}
+      averaged per order; "Cart Abandonment Rate" from {cart_created_event} and {checkout_created_event}; "Top Category Revenue
+      Share" from {placed_order_event.product_category}. Row 2 (height 400px, two cards each 6 columns wide): horizontal bar
+      chart of revenue by {placed_order_event.channel} with year-over-year comparison; multi-line chart of AOV, units per
+      order ({placed_order_event.units}) and price per unit decomposition. Row 3 (height 400px, two cards each 6 columns wide):
+      funnel steps chart across {view_page_event}, {cart_created_event}, {checkout_created_event} and {placed_order_event}
+      with device breakdown; line chart of cart abandonment rate with previous-period overlay. Row 4 (height 440px, two cards
+      each 6 columns wide): treemap of revenue by {placed_order_event.product_category}; retention curve for repeat purchases
+      of {placed_order_event}.'
 ---
 
 # Ecommerce revenue overview

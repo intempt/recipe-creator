@@ -10,6 +10,88 @@ author:
 classification:
   industry:
   - saas-b2b-tech
+portable:
+  summary: Runs a split test of 3, 5 and 7 field demo request forms to show how many submissions each extra field costs, and
+    whether longer forms produce better-qualified leads.
+  parameters:
+  - name: test_duration
+    type: duration
+    label: Test duration
+    default: 21 d
+    required: false
+  - name: min_views_per_variant
+    type: number
+    label: Minimum form views per variant
+    default: 500
+    required: false
+  - name: control_traffic_share
+    type: number
+    label: Control variant traffic share (%)
+    default: 34
+    required: false
+  - name: variant_b_traffic_share
+    type: number
+    label: Variant B traffic share (%)
+    default: 33
+    required: false
+  - name: variant_c_traffic_share
+    type: number
+    label: Variant C traffic share (%)
+    default: 33
+    required: false
+  - name: lead_quality_window
+    type: duration
+    label: Lead quality measurement window after form submit
+    default: 14 d
+    required: false
+  requirements:
+  - slot: demo_form_page
+    kind: knowledge
+    meaning: The website pages where the demo request form lives, matched by URL containing /demo, /contact or /get-started
+  - slot: demo_form_submitted
+    kind: event
+    meaning: A visitor submitted the demo request form
+    properties:
+    - name: form_id
+      type: text
+      meaning: Identifier of the form that was submitted
+      optional: false
+  - slot: experiment_goal
+    kind: event
+    meaning: A visitor completed the form submission goal within an experiment exposure
+  - slot: deal_created
+    kind: event
+    meaning: A deal or sales opportunity was created for a lead
+  - slot: form_experiment_platform
+    kind: integration
+    meaning: A client-side experimentation tool able to serve HTML variants of a page element and track exposures and goals
+    channel: email
+  steps:
+  - id: s1
+    builds: experiment
+    uses:
+    - demo_form_page
+    - demo_form_submitted
+    - experiment_goal
+    - deal_created
+    - form_experiment_platform
+    - test_duration
+    - min_views_per_variant
+    - control_traffic_share
+    - variant_b_traffic_share
+    - variant_c_traffic_share
+    - lead_quality_window
+    instruction: 'Create a client-side experiment titled "Demo Request Form Length" on {form_experiment_platform}, targeting
+      {demo_form_page} for all visitors who reach the form, on any device, displaying always. Define three variants of the
+      form element in the .demo-request-form selector: Control with 3 fields (name, work email, company) at {control_traffic_share}%
+      traffic; Variant B with 5 fields (adds job title and a team size dropdown with options 1-10, 11-50, 51-200, 201-1000,
+      1000+) at {variant_b_traffic_share}% traffic; Variant C with 7 fields (adds optional phone and a required use case text
+      area) at {variant_c_traffic_share}% traffic. Keep the submit button with the same id on every variant. Primary metric:
+      experiment goal completed in the experience, defined as {demo_form_submitted} with form_id of the demo form within the
+      session of exposure. Secondary metrics: form submitted rate per variant, per-field abandonment rate, and SQL rate per
+      variant measured at {deal_created} within {lead_quality_window}. Guardrail: SQL rate must not drop more than the inverse
+      of the conversion lift; document the tradeoff in the results. Run for {test_duration} with at least {min_views_per_variant}
+      form views per variant.'
 ---
 
 # Demo form length test

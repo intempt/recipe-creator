@@ -10,6 +10,70 @@ author:
 classification:
   industry:
   - saas-b2b-tech
+portable:
+  summary: Gives a sales manager a weekly per-rep leaderboard of calls, emails, meetings and tasks next to revenue closed,
+    with ratios, sorts, and flags for coaching and engagement drops.
+  parameters:
+  - name: time_window
+    type: duration
+    label: Reporting window
+    default: 30 d
+    required: false
+  - name: comparison_window
+    type: duration
+    label: Comparison window (prior period)
+    default: 30 d
+    required: false
+  - name: engagement_drop_threshold
+    type: number
+    label: Week-over-week activity drop that triggers a check-in (%)
+    default: 30
+    required: false
+  - name: efficiency_benchmark_factor
+    type: number
+    label: Efficiency warning factor applied to team average revenue per call
+    default: 0.5
+    required: false
+  - name: default_sort
+    type: enum
+    label: Default leaderboard sort
+    default: revenue_closed
+    required: false
+    options:
+    - revenue_closed
+    - calls
+    - revenue_per_100_calls
+    - activity_velocity
+  requirements:
+  - slot: call_completed_event
+    kind: event
+    meaning: A sales rep completed a call with a prospect or customer
+    properties:
+    - name: created_by
+      type: string
+      meaning: Rep who made the call
+      optional: false
+    - name: owner_id
+      type: string
+      meaning: Owner of the call record
+      optional: true
+  steps:
+  - id: s1
+    builds: report
+    uses:
+    - call_completed_event
+    - time_window
+    - comparison_window
+    instruction: 'Create an Insights report titled "Rep Activity Leaderboard" showing the last {time_window} broken down by
+      rep, with the previous {comparison_window} as the comparison period. Build these series: (A) Count of {call_completed_event}
+      or call logged event events grouped by owner, labeled "Calls". (B) Count of messaged email event events where messaged
+      email event is outbound, grouped by the rep who created it, labeled "Outbound Emails". (C) Count of meeting scheduled
+      event events where meeting scheduled event is empty, grouped by the rep who created it, labeled "Meetings Booked". (D)
+      Count of task completed event events grouped by task completed event, labeled "Tasks Completed". (E) Sum of deal won
+      event grouped by deal won event, in dollars, labeled "Revenue Closed". (F) Computed: Series E divided by Series A multiplied
+      by 100, labeled "Revenue per 100 Calls". Resolve the rep identifiers from all events to the same user record so each
+      row is one rep. Display as a sortable table with rep name, all activity counts, revenue closed and the ratios, plus
+      a secondary stacked bar chart of activity volume per rep.'
 ---
 
 # Rep activity leaderboard

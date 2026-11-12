@@ -10,6 +10,95 @@ author:
 classification:
   industry:
   - industry-agnostic
+portable:
+  summary: Tests your current landing page hero image against a real product screenshot and a customer or team photo to find
+    which image drives more form submissions and sign-ups.
+  parameters:
+  - name: experiment_title
+    type: string
+    label: Experiment title
+    default: Hero Image Test
+    required: false
+  - name: test_duration_days
+    type: duration
+    label: Test duration
+    default: 21 d
+    required: false
+  - name: min_visitors_per_variant
+    type: number
+    label: Minimum visitors per variant
+    default: 1500
+    required: false
+  - name: control_traffic_pct
+    type: number
+    label: Control traffic share (%)
+    default: 34
+    required: false
+  - name: variant_b_traffic_pct
+    type: number
+    label: Product screenshot variant traffic share (%)
+    default: 33
+    required: false
+  - name: variant_c_traffic_pct
+    type: number
+    label: Customer/team photo variant traffic share (%)
+    default: 33
+    required: false
+  - name: bounce_rate_guardrail_pct
+    type: number
+    label: Maximum allowed bounce rate increase (%)
+    default: 5
+    required: false
+  - name: mobile_load_time_guardrail_ms
+    type: number
+    label: Maximum allowed mobile load time increase (ms)
+    default: 200
+    required: false
+  requirements:
+  - slot: landing_page_hero
+    kind: knowledge
+    meaning: The landing pages (homepage and key landing pages) that show a hero image element with the class hero-image
+  - slot: demo_form_submitted
+    kind: event
+    meaning: A visitor submitted a demo, contact, or signup form
+  - slot: user_created
+    kind: event
+    meaning: A new user account was created
+    optional: true
+  - slot: primary_cta_clicked
+    kind: event
+    meaning: A visitor clicked the primary call-to-action on a landing page
+  - slot: page_bounced
+    kind: event
+    meaning: A visitor left a landing page without any further interaction
+  steps:
+  - id: s1
+    builds: experiment
+    uses:
+    - landing_page_hero
+    - demo_form_submitted
+    - user_created
+    - primary_cta_clicked
+    - page_bounced
+    - experiment_title
+    - test_duration_days
+    - min_visitors_per_variant
+    - control_traffic_pct
+    - variant_b_traffic_pct
+    - variant_c_traffic_pct
+    - bounce_rate_guardrail_pct
+    - mobile_load_time_guardrail_ms
+    instruction: 'Create a client experiment titled "{experiment_title}" on the homepage and key landing pages. Variants:
+      Control ("{control_traffic_pct}%" traffic) keeps the existing hero image with no DOM changes; Variant B ("{variant_b_traffic_pct}%"
+      traffic) replaces the {landing_page_hero} hero image element with a clean, authentic static product screenshot of the
+      dashboard or core feature; Variant C ("{variant_c_traffic_pct}%" traffic) replaces the same element with an authentic
+      photo of real customers or the team using the product. Target all devices and all visitors, with display frequency set
+      to always. Primary metric: a goal completed within the experience, where the goal is a {demo_form_submitted} form submission
+      or a {user_created} user creation within session of exposure. Secondary metrics: clicks on {primary_cta_clicked}, bounce
+      rate from {page_bounced}, time on page, and scroll depth reaching 50%. Guardrails: bounce rate must not increase by
+      more than {bounce_rate_guardrail_pct}%, and mobile load time must not increase by more than {mobile_load_time_guardrail_ms}
+      ms. Run for {test_duration_days} with at least {min_visitors_per_variant} visitors per variant. Track Largest Contentful
+      Paint per variant.'
 ---
 
 # Landing page hero image test

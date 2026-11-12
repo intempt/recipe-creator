@@ -10,6 +10,126 @@ author:
 classification:
   industry:
   - ecommerce-retail
+portable:
+  summary: Tests which free shipping threshold ($50, $75, $99, or none) earns the most revenue per session, served as a server-side
+    flag with sticky assignment.
+  parameters:
+  - name: experiment_title
+    type: string
+    label: Experiment title
+    default: Free Shipping Threshold
+    required: false
+  - name: flag_key
+    type: string
+    label: Feature flag key
+    default: free_shipping_threshold
+    required: false
+  - name: control_threshold
+    type: number
+    label: Control free shipping threshold (dollars)
+    default: 75
+    required: false
+  - name: variant_b_threshold
+    type: number
+    label: Variant B free shipping threshold (dollars)
+    default: 50
+    required: false
+  - name: variant_c_threshold
+    type: number
+    label: Variant C free shipping threshold (dollars)
+    default: 99
+    required: false
+  - name: fallback_shipping
+    type: number
+    label: Flat shipping fee when threshold not met (dollars)
+    default: 5.99
+    required: false
+  - name: traffic_split_per_variant
+    type: number
+    label: Traffic percentage per variant
+    default: 25
+    required: false
+  - name: duration_days
+    type: duration
+    label: Experiment duration
+    default: 21 d
+    required: false
+  - name: abandon_rate_guardrail
+    type: number
+    label: Max allowed increase in abandoned cart rate (%)
+    default: 5
+    required: false
+  requirements:
+  - slot: placed_order_event
+    kind: event
+    meaning: A customer placed an order
+    properties:
+    - name: total_price
+      type: number
+      meaning: Order total value
+      optional: false
+    - name: items
+      type: number
+      meaning: Number of items in the order
+      optional: true
+  - slot: experience_exposure_event
+    kind: event
+    meaning: A visitor was exposed to an experience variant
+    properties:
+    - name: experience_id
+      type: string
+      meaning: Identifier of the experience
+      optional: false
+  - slot: experience_goal_event
+    kind: event
+    meaning: A visitor completed the configured goal within an experience
+    properties:
+    - name: experience_id
+      type: string
+      meaning: Identifier of the experience
+      optional: false
+    - name: value
+      type: number
+      meaning: Goal value attributed to the experience
+      optional: false
+  - slot: wholesale_account_segment
+    kind: segment
+    meaning: Visitors whose account type is wholesale, excluded from the test
+  - slot: abandoned_cart_event
+    kind: event
+    meaning: A customer abandoned a cart without placing an order
+    optional: true
+  steps:
+  - id: s1
+    builds: experiment
+    uses:
+    - experiment_title
+    - flag_key
+    - control_threshold
+    - variant_b_threshold
+    - variant_c_threshold
+    - fallback_shipping
+    - traffic_split_per_variant
+    - duration_days
+    - abandon_rate_guardrail
+    - placed_order_event
+    - experience_exposure_event
+    - experience_goal_event
+    - wholesale_account_segment
+    - abandoned_cart_event
+    instruction: 'Create a server experiment titled "{experiment_title}" with flag key {flag_key} and no per-variant targeting.
+      Define four variants at {traffic_split_per_variant}% each: Control with free shipping at ${control_threshold}, Variant
+      B with free shipping at ${variant_b_threshold}, Variant C with free shipping at ${variant_c_threshold}, and Variant
+      D with no free shipping (flat ${fallback_shipping}). Each variant''s JSON payload sets threshold_cents (threshold ×
+      100, or null for Variant D), threshold_display, fallback_shipping_cents (fallback × 100), fallback_shipping_display,
+      and a messaging line stating the threshold or the flat standard shipping fee. Targeting: apply to every page that calls
+      getFlag for this flag (cart, checkout, and shipping-info banners on product pages); all devices; exclude {wholesale_account_segment}.
+      Display frequency: always, with sticky assignment so each userId receives the same variant for the full run. Primary
+      metric: revenue per session, measured as the sum of {placed_order_event.total_price} attributed through {experience_exposure_event}
+      where {experience_goal_event} has value greater than 0. Secondary metrics: average order value from {placed_order_event.total_price},
+      placed-order count per session, and {placed_order_event.items} per order. Guardrail: abandoned cart rate via {abandoned_cart_event}
+      must not rise more than {abandon_rate_guardrail}% in lower-threshold variants. Run for {duration_days}. Report new and
+      returning visitors separately.'
 ---
 
 # Free shipping threshold test

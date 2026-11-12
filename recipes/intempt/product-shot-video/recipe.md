@@ -10,6 +10,48 @@ author:
 classification:
   industry:
   - ecommerce-retail
+portable:
+  summary: Turns a static product image into a 5-second video clip with a 360° spin, dolly-in, or floating reveal, with an
+    optional music bed.
+  parameters:
+  - name: scene
+    type: enum
+    label: Motion style
+    default: 360° rotation
+    required: false
+    options:
+    - 360° rotation
+    - dolly-in
+    - floating reveal
+  - name: script
+    type: text
+    label: Additional direction (optional)
+    required: false
+  - name: music
+    type: boolean
+    label: Enable music bed
+    default: true
+    required: false
+  - name: clip_length
+    type: duration
+    label: Clip length
+    default: 5 s
+    required: false
+  requirements:
+  - slot: product_catalog
+    kind: product_feed
+    meaning: A catalog of products with product images that the clip is generated from
+  steps:
+  - id: s1
+    builds: video
+    uses:
+    - product_catalog
+    - scene
+    - script
+    - music
+    - clip_length
+    instruction: Generate a product shot video from the static image of {product_catalog}. Produce a {clip_length} clip using
+      the motion style {scene}, with optional direction {script}. If {music} is enabled, add a music bed to the clip.
 ---
 
 # Product clip from a still

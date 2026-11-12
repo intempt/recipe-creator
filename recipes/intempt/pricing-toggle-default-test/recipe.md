@@ -10,6 +10,112 @@ author:
 classification:
   industry:
   - saas-b2b-tech
+portable:
+  summary: Tests whether defaulting the pricing page billing toggle to annual instead of monthly increases revenue, counting
+    annual plans at their full annual value.
+  parameters:
+  - name: experiment_title
+    type: string
+    label: Experiment title
+    default: Pricing Toggle Default
+    required: false
+  - name: pricing_page_url_contains
+    type: string
+    label: Pricing page URL contains
+    default: /pricing
+    required: false
+  - name: test_duration
+    type: duration
+    label: Test duration
+    default: 21 d
+    required: false
+  - name: min_visitors_per_variant
+    type: number
+    label: Minimum visitors per variant
+    default: 1000
+    required: false
+  - name: guardrail_max_drop_pct
+    type: number
+    label: Maximum allowed drop in total subscription rate (%)
+    default: 3
+    required: false
+  - name: revenue_window
+    type: duration
+    label: Revenue measurement window after subscription start
+    default: 7 d
+    required: false
+  - name: savings_badge_copy
+    type: string
+    label: Savings badge copy for annual option
+    default: Save 20% with annual
+    required: false
+  requirements:
+  - slot: experiment_surface
+    kind: integration
+    meaning: A client-side experimentation tool that can run a page experiment with variants on the pricing page and a visual
+      editor
+    channel: email
+  - slot: pricing_page
+    kind: destination
+    meaning: The pricing page on the website where the billing toggle appears
+    channel: email
+  - slot: billing_toggle_click
+    kind: event
+    meaning: A visitor clicked an element on the website
+    properties:
+    - name: target_id
+      type: string
+      meaning: Identifier of the clicked element, such as pricing-toggle
+      optional: false
+  - slot: subscription_started
+    kind: event
+    meaning: A customer started a paid subscription
+    properties:
+    - name: billing_period
+      type: enum
+      meaning: 'Billing period chosen for the subscription: annual or monthly'
+      optional: false
+    - name: value
+      type: number
+      meaning: First-payment value of the subscription, with annual plans at full annual value
+      optional: false
+    - name: experience_id
+      type: string
+      meaning: Identifier of the experiment experience the visitor was exposed to
+      optional: true
+  - slot: pricing_toggle_element
+    kind: attribute
+    meaning: The monthly and annual billing toggle component on the pricing page
+  steps:
+  - id: s1
+    builds: experiment
+    uses:
+    - experiment_surface
+    - pricing_page
+    - billing_toggle_click
+    - subscription_started
+    - pricing_toggle_element
+    - experiment_title
+    - pricing_page_url_contains
+    - test_duration
+    - min_visitors_per_variant
+    - guardrail_max_drop_pct
+    - revenue_window
+    - savings_badge_copy
+    instruction: 'Create a client-side experiment on {experiment_surface} titled "{experiment_title}" targeting pages whose
+      URL contains "{pricing_page_url_contains}" on any device, for all visitors, shown always. Variants: Control (33%) keeps
+      the existing default toggle state with no DOM changes. Variant B (33%) sets the default billing toggle to annual on
+      {pricing_toggle_element} and shows the savings highlight "{savings_badge_copy}". Variant C (34%) sets the default billing
+      toggle to monthly explicitly as a baseline. In Variant B, on page load set the toggle to the annual position, update
+      displayed prices to annual values, and set a data attribute billing-default=annual on the body for analytics. Replace
+      the {pricing_toggle_element} HTML in each variant with a toggle block containing monthly and annual buttons, with the
+      annual button active in Variant B and the monthly button active in Variant C, keeping the Save 20% badge on the annual
+      option. Ensure click events on the toggle buttons fire so {billing_toggle_click} with target_id pricing-toggle is recorded
+      in every variant. Primary metric: revenue from {subscription_started} with value above 0 within {revenue_window} of
+      the subscription start, annual plans counted at full annual value, attributed to this experience. Secondary metrics:
+      {subscription_started} rate by billing_period annual and monthly per variant, toggle interaction rate from {billing_toggle_click},
+      and average order value per signup. Guardrail: total {subscription_started} rate must not drop by more than {guardrail_max_drop_pct}
+      percent. Run for {test_duration} with at least {min_visitors_per_variant} visitors per variant.'
 ---
 
 # Billing toggle default test

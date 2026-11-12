@@ -10,6 +10,159 @@ author:
 classification:
   industry:
   - saas-b2b-tech
+portable:
+  summary: Sends a three-touch nurture series over two weeks to people who download a gated content piece, and fast-tracks
+    those who engage strongly to sales.
+  parameters:
+  - name: lookback_window
+    type: duration
+    label: Lookback window for recent downloaders
+    default: 30 d
+    required: false
+  - name: touch_1_delay
+    type: duration
+    label: Delay before touch 1
+    default: 1 d
+    required: false
+  - name: touch_2_delay
+    type: duration
+    label: Delay before touch 2
+    default: 7 d
+    required: false
+  - name: touch_3_delay
+    type: duration
+    label: Delay before touch 3
+    default: 14 d
+    required: false
+  - name: journey_timeout
+    type: duration
+    label: Journey timeout
+    default: 21 d
+    required: false
+  - name: strong_open_count
+    type: number
+    label: Emails opened to count as strong engagement
+    default: 3
+    required: false
+  - name: strong_click_count
+    type: number
+    label: CTA clicks to count as strong engagement
+    default: 2
+    required: false
+  - name: multi_download_threshold
+    type: number
+    label: Downloads that flag a multi-download user
+    default: 3
+    required: false
+  - name: marketing_sender
+    type: string
+    label: Sender for touches 1 and 2 (marketing)
+    default: marketing@
+    required: false
+  - name: sales_sender
+    type: string
+    label: Sender for touch 3 (sales)
+    default: sales@
+    required: false
+  requirements:
+  - slot: content_download_event
+    kind: event
+    meaning: A customer submitted the gated content download form
+    properties:
+    - name: form_type
+      type: string
+      meaning: Type of form submitted, here content_download
+      optional: false
+    - name: content_topic
+      type: string
+      meaning: Topic of the downloaded content
+      optional: false
+    - name: content_title
+      type: string
+      meaning: Title of the downloaded content piece
+      optional: true
+  - slot: paying_customer_segment
+    kind: segment
+    meaning: Users who are already paying customers
+  - slot: open_deal_segment
+    kind: segment
+    meaning: Users who have an open deal
+  - slot: meeting_scheduled_event
+    kind: event
+    meaning: A customer scheduled a meeting
+  - slot: deal_created_event
+    kind: event
+    meaning: A deal was created for a customer
+  - slot: email_channel
+    kind: destination
+    meaning: Email sending channel for nurture emails
+    channel: email
+  - slot: sdr_task_destination
+    kind: destination
+    meaning: Task queue for sales development reps to follow up on high-intent leads
+    channel: hubspot
+  steps:
+  - id: s1
+    builds: segment
+    uses:
+    - content_download_event
+    - paying_customer_segment
+    - open_deal_segment
+    - lookback_window
+    instruction: Build the segment 'Recent content downloaders - last {lookback_window}' of users who submitted {content_download_event}
+      where {content_download_event.form_type} is content_download within the last {lookback_window}, partitioned by {content_download_event.content_topic}
+      so each topic gets its own nurture cadence. Exclude users in {paying_customer_segment} and users in {open_deal_segment}.
+  - id: s2
+    builds: email
+    uses:
+    - content_download_event
+    - touch_1_delay
+    - touch_2_delay
+    - touch_3_delay
+    - marketing_sender
+    - sales_sender
+    - s1
+    instruction: 'For each content topic in the ''Recent content downloaders'' segment, write a three-touch nurture email
+      series that is educational first and sales second. Touch 1 (sent {touch_1_delay} after download) thanks the reader for
+      downloading {content_download_event.content_title} and offers a related piece of content on the same topic. Touch 2
+      (sent {touch_2_delay} after download) shares a customer case study from a similar company or industry where the same
+      topic problem was solved with our product. Touch 3 (sent {touch_3_delay} after download) makes a warm call to action:
+      invite the reader to see how it works in their context by booking a 30-minute demo or trying it free for 14 days. Send
+      touches 1 and 2 from {marketing_sender} and touch 3 from {sales_sender}.'
+  - id: s3
+    builds: automation
+    uses:
+    - content_download_event
+    - touch_1_delay
+    - touch_2_delay
+    - touch_3_delay
+    - strong_open_count
+    - strong_click_count
+    - sdr_task_destination
+    - meeting_scheduled_event
+    - deal_created_event
+    - journey_timeout
+    - s2
+    instruction: 'Build a three-touch journey triggered when {content_download_event} fires. Send the ''Write three emails
+      per topic'' touches at {touch_1_delay}, {touch_2_delay} and {touch_3_delay} after the download. Engagement branch: if
+      the user opens at least {strong_open_count} of the three emails and clicks at least {strong_click_count} call-to-action
+      links, create a follow-up task in {sdr_task_destination} as a high-intent signal and exit the journey. Restart rule:
+      if the user downloads another piece of content during the journey, reset the journey to day 1 using the new topic. Exit
+      conditions: {meeting_scheduled_event} occurs, {deal_created_event} occurs, or {journey_timeout} elapses.'
+  - id: s4
+    builds: dashboard
+    uses:
+    - content_download_event
+    - multi_download_threshold
+    - meeting_scheduled_event
+    - deal_created_event
+    - s1
+    - s2
+    - s3
+    instruction: 'Build a content-nurture funnel dashboard showing: content-download volume by {content_download_event.content_topic};
+      download-to-meeting conversion rate by topic; email engagement for each touch of the ''Write three emails per topic''
+      series; count of users with {multi_download_threshold} or more downloads flagged for SDR fast-tracking; and pipeline
+      value from content-sourced deals closed over the longer cycle.'
 ---
 
 # Content download nurture

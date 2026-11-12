@@ -10,6 +10,109 @@ author:
 classification:
   industry:
   - industry-agnostic
+portable:
+  summary: Gives customer success teams one dashboard showing which accounts are at risk, retention, expansion revenue, NPS,
+    and early churn signals to act on weekly.
+  parameters:
+  - name: dateRange
+    type: enum
+    label: Default date range
+    default: last_30_days
+    required: false
+    options:
+    - last_7_days
+    - last_30_days
+    - last_90_days
+  - name: visibility
+    type: enum
+    label: Board visibility
+    default: project
+    required: false
+    options:
+    - private
+    - project
+  requirements:
+  - slot: accounts_at_risk_metric
+    kind: segment
+    meaning: A count of accounts showing declining engagement or health, used as the at-risk indicator
+  - slot: logo_retention_trend
+    kind: segment
+    meaning: A monthly trend of customer logo retention rate
+  - slot: net_revenue_retention
+    kind: segment
+    meaning: Net revenue retention by customer cohort over time
+  - slot: nps_tracking
+    kind: segment
+    meaning: Net Promoter Score tracking from customer feedback
+  - slot: account_engagement_score
+    kind: segment
+    meaning: Account-level engagement score trend with week-over-week change
+  - slot: expansion_revenue
+    kind: segment
+    meaning: Expansion revenue trend split by upgrades and seat additions
+  - slot: support_tickets_vs_churn
+    kind: segment
+    meaning: Correlation of support ticket volume with subscription churn over time
+  - slot: pre_churn_signals
+    kind: segment
+    meaning: Behavioral events that precede customer churn, ranked by lift over baseline
+  - slot: session_start_event
+    kind: event
+    meaning: A customer started a session in the product
+    properties:
+    - name: account
+      type: string
+      meaning: The account the user belongs to
+      optional: false
+  - slot: ticket_created_event
+    kind: event
+    meaning: A customer created a support ticket
+    properties:
+    - name: account
+      type: string
+      meaning: The account the user belongs to
+      optional: false
+  - slot: subscription_canceled_event
+    kind: event
+    meaning: A customer canceled a subscription
+    properties:
+    - name: account
+      type: string
+      meaning: The account the user belongs to
+      optional: false
+  - slot: feedback_submitted_event
+    kind: event
+    meaning: A customer submitted feedback, including an NPS rating
+    properties:
+    - name: account
+      type: string
+      meaning: The account the user belongs to
+      optional: false
+  steps:
+  - id: s1
+    builds: dashboard
+    uses:
+    - accounts_at_risk_metric
+    - logo_retention_trend
+    - net_revenue_retention
+    - nps_tracking
+    - account_engagement_score
+    - expansion_revenue
+    - support_tickets_vs_churn
+    - pre_churn_signals
+    - dateRange
+    - visibility
+    instruction: 'Create a Dash board (12-column composition canvas) titled "Customer Success" with default date range {dateRange}
+      and exclusion period set to incomplete periods. Set visibility to {visibility}. Add no board filters and no breakdowns
+      by default; users may add an owner filter at runtime to view their own accounts. Layout in four rows. Row 1 (height
+      200 px): four metric cards, each 3 units wide: ''Accounts at Risk'' from {accounts_at_risk_metric} shown as a metric;
+      ''Monthly Logo Retention'' from {logo_retention_trend} shown as a metric; ''Trailing-12mo NRR'' from {net_revenue_retention}
+      shown as a metric; ''NPS Score'' from {nps_tracking} shown as a metric. Row 2 (height 440 px): one full-width card (12
+      units) showing {account_engagement_score} as a table of the top 30 accounts by current engagement score, sortable by
+      week-over-week change. Row 3 (height 400 px): two 6-unit cards: a line chart of cohort NRR curves from {net_revenue_retention},
+      and a stacked bar chart of the upgrade versus seat expansion mix from {expansion_revenue}. Row 4 (height 440 px): two
+      6-unit cards: a dual-axis line chart of support tickets versus churns from {support_tickets_vs_churn}, and a chart ranking
+      precursor behavioral signals by lift over baseline from {pre_churn_signals}.'
 ---
 
 # Account health and churn risk

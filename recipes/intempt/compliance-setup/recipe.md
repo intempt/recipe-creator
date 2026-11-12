@@ -10,6 +10,25 @@ author:
 classification:
   industry:
   - industry-agnostic
+portable:
+  summary: Builds a suppression segment of people who never gave marketing consent or have since opted out, so they can be
+    excluded from all marketing sends.
+  parameters: []
+  requirements:
+  - slot: subscribed_event
+    kind: event
+    meaning: A customer gave marketing consent by subscribing
+  - slot: unsubscribed_event
+    kind: event
+    meaning: A customer opted out of marketing by unsubscribing
+  steps:
+  - id: s1
+    builds: segment
+    uses:
+    - subscribed_event
+    - unsubscribed_event
+    instruction: 'Build a segment named "Marketing Consent Suppression List". A user is in the segment when any of these is
+      true: they have never done {subscribed_event}; or they did {unsubscribed_event} after their most recent {subscribed_event}.'
 ---
 
 # Marketing consent suppression list

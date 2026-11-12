@@ -10,6 +10,114 @@ author:
 classification:
   industry:
   - saas-b2b-tech
+portable:
+  summary: Shows identified visitors from named target accounts a homepage hero tailored to their industry, while other visitors
+    see the default hero.
+  parameters:
+  - name: primary_pages
+    type: text
+    label: Pages to personalize (homepage and key conversion pages)
+    default: /, /pricing, /demo
+    required: false
+  - name: tier1_employee_min
+    type: number
+    label: Minimum employee count for tier-1 enterprise SaaS targets
+    default: 1000
+    required: false
+  - name: tier1_fin_employee_min
+    type: number
+    label: Minimum employee count for tier-1 financial services targets
+    default: 500
+    required: false
+  - name: tier2_health_employee_min
+    type: number
+    label: Minimum employee count for tier-2 healthcare targets
+    default: 100
+    required: false
+  - name: schedule
+    type: enum
+    label: Run schedule
+    default: continuous
+    required: false
+    options:
+    - continuous
+  requirements:
+  - slot: visitor_account_identification
+    kind: integration
+    meaning: A firmographic enrichment source that identifies website visitors to their company account (for example Clearbit,
+      Demandbase, 6sense, ZoomInfo or IP-based reverse lookup)
+    channel: hubspot
+  - slot: account_firmographics
+    kind: attribute
+    meaning: 'Account firmographic attributes: industry, employee count, account id and account name, populated by enrichment'
+  - slot: demo_request_form_submitted
+    kind: event
+    meaning: A visitor submitted the demo-request form
+    properties:
+    - name: audience
+      type: text
+      meaning: The personalization audience the visitor matched
+      optional: false
+  - slot: primary_cta_clicked
+    kind: event
+    meaning: A visitor clicked the primary call-to-action button in the homepage hero
+    properties:
+    - name: audience
+      type: text
+      meaning: The personalization audience the visitor matched
+      optional: false
+  - slot: page_viewed
+    kind: event
+    meaning: A visitor viewed a web page
+    properties:
+    - name: account_id
+      type: text
+      meaning: Identified account id of the visitor
+      optional: true
+  - slot: enterprise_saas_target_list
+    kind: segment
+    meaning: 'Tier-1 target accounts in enterprise SaaS: an explicit list of named accounts, or accounts in the Enterprise
+      SaaS industry with more than the minimum employee count'
+  - slot: financial_services_target_list
+    kind: segment
+    meaning: Tier-1 target accounts in banking, financial services or insurance with more than the minimum employee count
+  - slot: healthcare_target_list
+    kind: segment
+    meaning: Tier-2 target accounts in healthcare, health tech or medical devices with more than the minimum employee count
+  steps:
+  - id: s1
+    builds: experiment
+    uses:
+    - visitor_account_identification
+    - account_firmographics
+    - demo_request_form_submitted
+    - primary_cta_clicked
+    - page_viewed
+    - enterprise_saas_target_list
+    - financial_services_target_list
+    - healthcare_target_list
+    - primary_pages
+    - tier1_employee_min
+    - tier1_fin_employee_min
+    - tier2_health_employee_min
+    - schedule
+    instruction: 'Create a client personalization titled "ABM Account Personalization" on the {primary_pages} pages, with
+      display frequency always, any device, and a continuous schedule. Use audience-driven variants with no random traffic
+      split. Control is the fallback for all non-target traffic and keeps the standard homepage hero with no DOM changes.
+      Variant B targets the audience {enterprise_saas_target_list} (explicit target account list, or Enterprise SaaS industry
+      with employee count above {tier1_employee_min}). In Variant B, replace the contents of homepage hero section with an
+      enterprise SaaS headline that includes the visitor''s account name, a short infrastructure-platform value line, three
+      named SaaS customer logos, and a primary CTA button labeled to book a demo, plus a secondary link to SaaS case studies.
+      Variant C targets the audience {financial_services_target_list} (banking, financial services or insurance with employee
+      count above {tier1_fin_employee_min}). In Variant C, replace the contents of homepage hero section with a headline that
+      includes the account name and compliance focus, a trust line for banks, insurers and fintechs, three financial-services
+      customer logos, compliance badges for SOC2 Type II, PCI DSS and ISO 27001, a demo CTA button, and a secondary link to
+      financial services case studies. Variant D targets the audience {healthcare_target_list} (healthcare, health tech or
+      medical devices with employee count above {tier2_health_employee_min}). In Variant D, use the same structure as Variant
+      C with healthcare-specific copy, healthcare customer logos and HIPAA compliance badges. Use the account name placeholder
+      in the hero headline so the platform substitutes the identified company name at render time. Track three metrics per
+      audience: demo-request form submissions, primary CTA clicks, and page view count per identified account during the targeting
+      window.'
 ---
 
 # Named-account homepage hero

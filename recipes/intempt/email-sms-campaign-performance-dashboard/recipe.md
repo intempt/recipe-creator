@@ -10,6 +10,137 @@ author:
 classification:
   industry:
   - industry-agnostic
+portable:
+  summary: Ranks every email and SMS send by the revenue it produced, showing which subject lines, offers and content earn
+    their place.
+  parameters:
+  - name: defaultDateRange
+    type: enum
+    label: Default date range
+    default: last_30_days
+    required: false
+    options:
+    - last_7_days
+    - last_30_days
+    - last_90_days
+  - name: exclusionPeriod
+    type: enum
+    label: Exclude recent period
+    default: today
+    required: false
+    options:
+    - today
+    - last_3_days
+    - last_7_days
+  - name: attributionWindowDays
+    type: number
+    label: Attribution window (days after click or send)
+    default: 7
+    required: false
+  - name: leaderboardRowLimit
+    type: number
+    label: Leaderboard row limit
+    default: 30
+    required: false
+  - name: leaderboardSortMetric
+    type: enum
+    label: Default leaderboard sort metric
+    default: revenue_per_send
+    required: false
+    options:
+    - revenue
+    - revenue_per_send
+    - open_rate
+    - click_rate
+    - ctor
+    - conversion_rate
+  requirements:
+  - slot: campaign_performance_leaderboard
+    kind: segment
+    meaning: Per-campaign send, open, click, conversion and revenue metrics for email and SMS sends
+  - slot: email_sent
+    kind: event
+    meaning: A customer was sent an email
+    properties:
+    - name: campaign_id
+      type: string
+      meaning: Identifier of the email campaign that produced the send
+      optional: false
+  - slot: email_opened
+    kind: event
+    meaning: A customer opened an email
+  - slot: email_clicked
+    kind: event
+    meaning: A customer clicked a link in an email
+  - slot: placed_order
+    kind: event
+    meaning: A customer placed an order
+  - slot: view_page
+    kind: event
+    meaning: A customer viewed a web page
+  - slot: messaged_sms
+    kind: event
+    meaning: A customer was sent an SMS message
+    properties:
+    - name: template_id
+      type: string
+      meaning: Identifier of the SMS template used
+      optional: false
+    - name: journey_id
+      type: string
+      meaning: Identifier of the journey that sent the SMS
+      optional: true
+    optional: true
+  - slot: email_purchase
+    kind: segment
+    meaning: Customers who were sent an email, clicked it and then purchased, for the email-to-purchase funnel
+  - slot: revenue_by_channel
+    kind: segment
+    meaning: Revenue broken down by acquisition channel, including UTM source
+  - slot: customer_lifecycle_distribution
+    kind: segment
+    meaning: Distribution of customers across lifecycle stages such as New, Active, At Risk and Champions
+  - slot: sms_connection
+    kind: integration
+    channel: sms
+    meaning: The SMS sender the text goes out from
+  steps:
+  - id: s1
+    builds: dashboard
+    uses:
+    - campaign_performance_leaderboard
+    - email_sent
+    - email_opened
+    - email_clicked
+    - placed_order
+    - view_page
+    - messaged_sms
+    - email_purchase
+    - revenue_by_channel
+    - customer_lifecycle_distribution
+    - defaultDateRange
+    - exclusionPeriod
+    - attributionWindowDays
+    - leaderboardRowLimit
+    - leaderboardSortMetric
+    instruction: 'Create a dashboard titled "Email/SMS Campaign Performance" on a 12-column canvas, project visibility, default
+      date range {defaultDateRange}, excluding the most recent {exclusionPeriod} of data. Add no board filters by default;
+      allow runtime filtering by campaign_id pattern. Break down by campaign_id. Lay it out in four rows. Row 1 (height 200
+      px): four metric cards, each 3 columns wide, all sourced from {campaign_performance_leaderboard} as metric visualizations:
+      ''Total Sends (30d)'', ''Average Open Rate'', ''Total Email Revenue (30d)'', and ''Average Revenue per Send''. Row 2
+      (height 520 px): one full-width 12-column table sourced from {campaign_performance_leaderboard}, showing the top {leaderboardRowLimit}
+      campaigns sortable by revenue, revenue per send, open rate, click rate, CTOR and conversion rate, sorted by default
+      on {leaderboardSortMetric}. Row 3 (height 440 px): two 6-column cards. Left: a scatter from {campaign_performance_leaderboard}
+      with X = click rate, Y = conversion rate, bubble size = revenue per send. Right: a funnel_steps chart from {email_purchase}
+      broken down per campaign. Row 4 (height 400 px): two 6-column cards. Left: a bar chart from {revenue_by_channel} filtered
+      to UTM source = email. Right: a chart from {customer_lifecycle_distribution} showing lifecycle stage distribution of
+      email-engaged users. Interpretation: in the scatter, top-right is replicate-worthy, top-left means fix the landing page,
+      bottom-right means A/B test creative, bottom-left means retire the audience or rethink the offer. Use revenue per send
+      as the benchmark: $0.10 to $0.50 is typical for DTC, above $1.00 is best-in-class. In the funnel, open-to-click drop
+      points to subject line or preheader, click-to-product-page points to landing page, product-page-to-purchase points to
+      price or offer. If campaign_id is sparse in {email_sent}, the leaderboard reduces to aggregate email performance without
+      per-campaign rows. SMS reporting uses {messaged_sms} with template_id and journey_id in place of the email campaign
+      identifier.'
 ---
 
 # Email and SMS campaign results

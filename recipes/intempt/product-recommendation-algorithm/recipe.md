@@ -10,6 +10,130 @@ author:
 classification:
   industry:
   - ecommerce-retail
+portable:
+  summary: Runs a server-side test of three recommendation methods (also bought, recently viewed, trending) to find which
+    drives the most cross-sell revenue.
+  parameters:
+  - name: experiment_title
+    type: string
+    label: Experiment title
+    default: Recommendation Algorithm Test
+    required: false
+  - name: flag_key
+    type: string
+    label: Feature flag key
+    default: recommendation_algorithm
+    required: false
+  - name: control_weight
+    type: number
+    label: Control traffic share (%)
+    default: 33
+    required: false
+  - name: variant_b_weight
+    type: number
+    label: Variant B traffic share (%)
+    default: 33
+    required: false
+  - name: variant_c_weight
+    type: number
+    label: Variant C traffic share (%)
+    default: 34
+    required: false
+  - name: min_page_views
+    type: number
+    label: Minimum page views in session before eligible
+    default: 1
+    required: false
+  - name: max_items
+    type: number
+    label: Recommendations shown per block
+    default: 4
+    required: false
+  - name: schedule_duration
+    type: duration
+    label: Test duration
+    default: 14 d
+    required: false
+  - name: guardrail_max_drop_pct
+    type: number
+    label: Maximum allowed drop in PDP-to-cart conversion (%)
+    default: 5
+    required: false
+  requirements:
+  - slot: recommendation_click
+    kind: event
+    meaning: A customer clicked a recommended product in a recommendation block
+    properties:
+    - name: target_id
+      type: string
+      meaning: Recommendation slot identifier starting with 'rec-' followed by position
+      optional: false
+  - slot: order_placed
+    kind: event
+    meaning: A customer placed an order
+    properties:
+    - name: total_price
+      type: number
+      meaning: Total order value
+      optional: false
+    - name: items
+      type: text
+      meaning: Products included in the order
+      optional: false
+  - slot: cart_created
+    kind: event
+    meaning: A customer created a cart containing a product
+    properties:
+    - name: product_id
+      type: string
+      meaning: Identifier of the product added to cart
+      optional: false
+  - slot: product_page_view
+    kind: event
+    meaning: A customer viewed a product detail page
+  - slot: page_view
+    kind: event
+    meaning: A customer viewed a page on the site
+    properties:
+    - name: page_url
+      type: string
+      meaning: URL of the page viewed
+      optional: false
+  - slot: recommendation_experiment
+    kind: integration
+    meaning: An experimentation tool that assigns visitors to flag variants and tracks goal completions
+    channel: email
+  steps:
+  - id: s1
+    builds: experiment
+    uses:
+    - recommendation_experiment
+    - recommendation_click
+    - order_placed
+    - cart_created
+    - product_page_view
+    - page_view
+    - experiment_title
+    - flag_key
+    - control_weight
+    - variant_b_weight
+    - variant_c_weight
+    - min_page_views
+    - max_items
+    - schedule_duration
+    - guardrail_max_drop_pct
+    instruction: 'Create a server-side experiment titled "{experiment_title}" with flag key {flag_key} and three variants:
+      Control at {control_weight}% using collaborative filtering (endpoint /api/recs/collaborative, header "Customers also
+      bought"), Variant B at {variant_b_weight}% using session-based recommendations (endpoint /api/recs/session, header "Recently
+      viewed by you"), and Variant C at {variant_c_weight}% using popularity-based recommendations (endpoint /api/recs/trending,
+      header "Trending now"). Each variant payload sets max_items to {max_items}; Control and Variant B fall back to popularity,
+      Variant C has no fallback. Target pages whose URL contains "/products/" or "/category/" and that render the recommendation
+      block. Target visitors with more than {min_page_views} page view in the current session. Serve on every page render
+      (sticky per user). Run for {schedule_duration}. Primary metric: revenue from Placed order where the order items include
+      a clicked recommendation (goal completed in experience with value above 0). Secondary metrics: recommendation click-through
+      rate (clicks on target_id starting with "rec-"), revenue from orders following a recommendation click, click position
+      by rec- slot, and add-to-cart rate for recently clicked recommended products. Guardrail: PDP view to cart created conversion
+      must not drop more than {guardrail_max_drop_pct}%. Each rendered recommendation uses target_id "rec-position".'
 ---
 
 # Recommendation algorithm test

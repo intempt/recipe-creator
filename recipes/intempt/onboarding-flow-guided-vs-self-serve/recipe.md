@@ -10,6 +10,127 @@ author:
 classification:
   industry:
   - industry-agnostic
+portable:
+  summary: Runs an A/B/C test of three onboarding flows (self-serve checklist, guided wizard, video-first) for new signups
+    and scores which drives activation within 7 days.
+  parameters:
+  - name: control_traffic
+    type: number
+    label: Control variant traffic share (%)
+    default: 34
+    required: false
+  - name: variant_b_traffic
+    type: number
+    label: Guided wizard variant traffic share (%)
+    default: 33
+    required: false
+  - name: variant_c_traffic
+    type: number
+    label: Video-first variant traffic share (%)
+    default: 33
+    required: false
+  - name: new_user_window
+    type: duration
+    label: New signup window for targeting
+    default: 1 h
+    required: false
+  - name: activation_window
+    type: duration
+    label: Activation goal window after exposure
+    default: 7 d
+    required: false
+  - name: test_duration
+    type: duration
+    label: Minimum test duration
+    default: 30 d
+    required: false
+  - name: bounce_guardrail_increase
+    type: number
+    label: Maximum allowed increase in onboarding bounce rate (%)
+    default: 10
+    required: false
+  - name: return_window
+    type: duration
+    label: Day-2 return window
+    default: 2 d
+    required: false
+  requirements:
+  - slot: onboarding_experiment_tool
+    kind: integration
+    meaning: An experimentation tool that can run client-side experiments with visual editor variants and goal tracking
+    channel: email
+  - slot: new_signup_segment
+    kind: segment
+    meaning: Users who were created within the last hour, i.e. new signups
+  - slot: onboarding_page
+    kind: destination
+    meaning: The in-app onboarding page or post-signup landing page where the onboarding flow is shown
+    channel: email
+  - slot: activation_goal
+    kind: event
+    meaning: A customer completed the activation journey goal
+  - slot: experience_exposed
+    kind: event
+    meaning: A user was shown an experiment experience variant
+    properties:
+    - name: experience_id
+      type: string
+      meaning: Identifier of the experience the user was exposed to
+      optional: false
+  - slot: goal_completed_in_experience
+    kind: event
+    meaning: A user completed a goal within an experience
+    properties:
+    - name: experience_id
+      type: string
+      meaning: Identifier of the experience where the goal completed
+      optional: false
+  - slot: ui_click
+    kind: event
+    meaning: A user clicked a tracked UI element
+    properties:
+    - name: target_id
+      type: string
+      meaning: Identifier of the clicked element
+      optional: false
+  - slot: session_start
+    kind: event
+    meaning: A user started a session in the product
+  - slot: session_end
+    kind: event
+    meaning: A user ended a session in the product
+  steps:
+  - id: s1
+    builds: experiment
+    uses:
+    - onboarding_experiment_tool
+    - new_signup_segment
+    - onboarding_page
+    - activation_goal
+    - experience_exposed
+    - goal_completed_in_experience
+    - ui_click
+    - session_start
+    - session_end
+    - control_traffic
+    - variant_b_traffic
+    - variant_c_traffic
+    - new_user_window
+    - activation_window
+    - test_duration
+    - bounce_guardrail_increase
+    - return_window
+    instruction: 'Create a client-side experiment titled "Onboarding Flow: Guided vs Self-Serve" in the experimentation tool.
+      Targeting: the onboarding page; audience limited to {new_signup_segment} (users created within {new_user_window}); all
+      devices; display once per user, sticky to the first session. Variants: Control ({control_traffic}%) keeps the self-serve
+      checklist with no DOM changes; Variant B ({variant_b_traffic}%) is a guided wizard with progressive steps and contextual
+      tooltips; Variant C ({variant_c_traffic}%) is a video-first onboarding with an embedded walkthrough. Primary metric:
+      goal_completed_in_experience for this experience, where the goal is {activation_goal} reached within {activation_window}
+      of exposure. Secondary metrics: (a) median time from experience_exposed to the first ui_click whose target_id is key
+      feature click id, computed per variant as time to value; (b) session_start rate on day 2 within {return_window} of signup;
+      (c) onboarding completion rate, measured as ui_click on the final onboarding step''s target_id. Guardrail: the share
+      of users with a session_end and no ui_click after onboarding render must not rise more than {bounce_guardrail_increase}%
+      relative to control. Run for at least {test_duration}.'
 ---
 
 # Guided vs self-serve onboarding

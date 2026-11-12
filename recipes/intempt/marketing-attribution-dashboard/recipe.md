@@ -10,6 +10,86 @@ author:
 classification:
   industry:
   - industry-agnostic
+portable:
+  summary: Shows where revenue comes from across paid, organic, email and search, with channel LTV and funnel views on one
+    attribution dashboard (ROAS and CAC excluded).
+  parameters:
+  - name: defaultDateRange
+    type: duration
+    label: Default date range
+    default: 30 d
+    required: false
+  - name: emailUtmSource
+    type: string
+    label: UTM source value for email
+    default: email
+    required: false
+  - name: paidUtmSources
+    type: text
+    label: UTM source values for paid channels
+    default: paid_search, paid_social, paid_other
+    required: false
+  - name: organicUtmSources
+    type: text
+    label: UTM source values for organic channels
+    default: organic, direct, organic_social
+    required: false
+  requirements:
+  - slot: revenue_by_channel_recipe
+    kind: segment
+    meaning: Revenue by acquisition channel from placed orders, using the first-touch UTM source on users
+  - slot: ltv_curve_recipe
+    kind: segment
+    meaning: First-purchase cohort lifetime value curve by acquisition channel
+  - slot: email_purchase_funnel
+    kind: segment
+    meaning: Email-driven purchase conversion funnel
+  - slot: search_conversion_funnel
+    kind: segment
+    meaning: Search-driven conversion funnel
+  - slot: funnel_dropoff_by_source
+    kind: segment
+    meaning: Funnel drop-off stages broken down by acquisition source
+  - slot: placed_order_event
+    kind: event
+    meaning: A customer placed an order
+    properties:
+    - name: total_price
+      type: number
+      meaning: Order total price
+      optional: false
+  - slot: utm_source_attribute
+    kind: attribute
+    meaning: The first-touch UTM source recorded on the user
+  steps:
+  - id: s1
+    builds: dashboard
+    uses:
+    - revenue_by_channel_recipe
+    - ltv_curve_recipe
+    - email_purchase_funnel
+    - search_conversion_funnel
+    - funnel_dropoff_by_source
+    - placed_order_event
+    - utm_source_attribute
+    - defaultDateRange
+    - emailUtmSource
+    - paidUtmSources
+    - organicUtmSources
+    instruction: 'Create a 12-column dashboard titled "Marketing Attribution" with project visibility, default date range
+      {defaultDateRange}, incomplete periods excluded, no board filters by default, and a board-wide breakdown by UTM source
+      ({utm_source_attribute}) applied to all cards. Answers "Where is my revenue coming from across paid, organic, email,
+      and search?" for Marketing Leads, Performance Marketers and Lifecycle Marketers. Row 1 (height 200 px): four metric
+      cards at 3 columns each, all sourced from {revenue_by_channel_recipe} with metric visualization: "Revenue from Top Channel"
+      (no filter); "Revenue from Email" filtered to UTM source = {emailUtmSource}; "Revenue from Paid" filtered to UTM source
+      in {paidUtmSources}; "Revenue from Organic" filtered to UTM source in {organicUtmSources}. Row 2 (height 400 px): two
+      cards at 6 columns each. Left: bar chart from {revenue_by_channel_recipe} showing the full channel breakdown with year-over-year
+      comparison. Right: line chart from {ltv_curve_recipe} showing lifetime value by acquisition channel, the highest-leverage
+      card for judging which channels acquire customers worth keeping. Row 3 (height 440 px): two funnel charts at 6 columns
+      each: left from {email_purchase_funnel}, right from {search_conversion_funnel}. Row 4 (height 400 px): one full-width
+      (12 column) small-multiples chart from {funnel_dropoff_by_source} showing funnel drop-off per source, revealing which
+      channel leaks at which stage. Revenue is summed from {placed_order_event.total_price}. ROAS and CAC are not included
+      because ad-spend data is outside this dashboard.'
 ---
 
 # Revenue by marketing channel

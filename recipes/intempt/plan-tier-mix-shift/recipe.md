@@ -10,6 +10,109 @@ author:
 classification:
   industry:
   - saas-b2b-tech
+portable:
+  summary: Shows how revenue and customers spread across subscription plans month by month, flagging shifts toward higher
+    or lower tiers and divergences between revenue and customer mix.
+  parameters:
+  - name: time_range
+    type: duration
+    label: Time range to analyze
+    default: 12 mo
+    required: false
+  - name: shift_threshold_pp
+    type: number
+    label: Revenue share shift flag threshold (percentage points, YoY)
+    default: 5
+    required: false
+  - name: comparison_period
+    type: enum
+    label: Comparison period
+    default: year_over_year
+    required: false
+    options:
+    - year_over_year
+    - month_over_month
+  requirements:
+  - slot: revenue_event
+    kind: event
+    meaning: A customer completed a revenue payment
+    properties:
+    - name: amount
+      type: number
+      meaning: Payment amount in dollars
+      optional: false
+    - name: revenue_type
+      type: string
+      meaning: Type of revenue, such as recurring
+      optional: true
+  - slot: invoice_paid_event
+    kind: event
+    meaning: A customer's invoice was paid
+    properties:
+    - name: amount
+      type: number
+      meaning: Invoice amount in dollars
+      optional: false
+    optional: true
+  - slot: subscription_started_event
+    kind: event
+    meaning: A customer started a subscription
+    properties:
+    - name: plan
+      type: string
+      meaning: Subscription plan tier
+      optional: false
+    - name: subscription_id
+      type: string
+      meaning: Unique subscription identifier
+      optional: false
+    - name: status
+      type: string
+      meaning: Subscription status
+      optional: false
+  - slot: subscription_canceled_event
+    kind: event
+    meaning: A customer canceled a subscription
+    properties:
+    - name: subscription_id
+      type: string
+      meaning: Unique subscription identifier
+      optional: false
+  - slot: subscription_expired_event
+    kind: event
+    meaning: A customer's subscription expired
+    properties:
+    - name: subscription_id
+      type: string
+      meaning: Unique subscription identifier
+      optional: false
+    optional: true
+  steps:
+  - id: s1
+    builds: report
+    uses:
+    - revenue_event
+    - invoice_paid_event
+    - subscription_started_event
+    - subscription_canceled_event
+    - subscription_expired_event
+    - time_range
+    - shift_threshold_pp
+    - comparison_period
+    instruction: 'Create an Insights report titled "Plan-Tier Mix Shift". Series A: count of {revenue_event} filtered to revenue
+      type recurring (fall back to {invoice_paid_event} if no recurring revenue type exists), aggregated as sum of {revenue_event.amount}
+      in dollars. Series B: count of distinct users with an active subscription at each month-end, where a subscription is
+      active if a {subscription_started_event} exists with status in active states and no later {subscription_canceled_event}
+      or {subscription_expired_event} exists for the same {subscription_started_event.subscription_id} before that month-end.
+      Series C: Series A broken down by plan divided by total Series A times 100, in percent, labeled "% of Revenue by Plan".
+      Series D: Series B broken down by plan divided by total Series B times 100, in percent, labeled "% of Customers by Plan".
+      Use monthly granularity over {time_range}, breaking down by plan resolved from each user''s most recent active {subscription_started_event.plan}.
+      Compare with {comparison_period}. Chart as two stacked area charts side by side: Series C and Series D. Annotate each
+      plan with its start and end share and the percentage-point change. Flag any plan whose revenue share shifted by more
+      than {shift_threshold_pp} percentage points. Highlight where revenue mix and customer mix diverge: a higher tier rising
+      as a share of revenue while flat as a share of customers signals rising average revenue per account from pricing or
+      positioning; the opposite pattern, customer mix moving up-market while revenue mix stays flat, signals discounting eroding
+      the up-market thesis.'
 ---
 
 # Plan tier mix shift

@@ -10,6 +10,113 @@ author:
 classification:
   industry:
   - industry-agnostic
+portable:
+  summary: Tests whether showing security, guarantee, or combined trust badges beside the main call to action lifts subscriptions
+    and orders versus no badges.
+  parameters:
+  - name: experimentTitle
+    type: string
+    label: Experiment title
+    default: Trust Badges Near CTA
+    required: false
+  - name: controlWeight
+    type: number
+    label: Control variant traffic share (%)
+    default: 25
+    required: false
+  - name: variantBWeight
+    type: number
+    label: Security badges variant traffic share (%)
+    default: 25
+    required: false
+  - name: variantCWeight
+    type: number
+    label: Guarantee badges variant traffic share (%)
+    default: 25
+    required: false
+  - name: variantDWeight
+    type: number
+    label: Combined badges variant traffic share (%)
+    default: 25
+    required: false
+  - name: experimentWindow
+    type: duration
+    label: Experiment run length
+    default: 21 d
+    required: false
+  - name: attributionWindow
+    type: duration
+    label: Conversion attribution window after exposure
+    default: 24 h
+    required: false
+  - name: bounceGuardrailIncrease
+    type: number
+    label: Maximum allowed page-bounce rate increase (%)
+    default: 5
+    required: false
+  - name: placement
+    type: enum
+    label: Badge placement relative to the CTA
+    default: inline_after_cta
+    required: false
+    options:
+    - inline_after_cta
+    - below_button
+    - floating_near_cta
+  requirements:
+  - slot: experiment_platform
+    kind: integration
+    meaning: A client-side experimentation tool that can run variant tests on web pages with a visual editor
+    channel: email
+  - slot: goal_completed_event
+    kind: event
+    meaning: A customer started a subscription or placed an order on the site
+    properties:
+    - name: experiment_id
+      type: string
+      meaning: Identifier of the experiment the goal was attributed to
+      optional: false
+  - slot: checkout_completed_event
+    kind: event
+    meaning: A customer completed checkout during a session
+  - slot: primary_cta_click_event
+    kind: event
+    meaning: A visitor clicked the primary call-to-action button on a page
+    properties:
+    - name: target_id
+      type: string
+      meaning: Identifier of the element clicked
+      optional: false
+  - slot: high_intent_pages
+    kind: segment
+    meaning: Visitors viewing pricing, checkout, key product, or signup pages
+  - slot: page_bounce_metric
+    kind: attribute
+    meaning: Page bounce rate measured per page for the experiment audience
+    optional: true
+  steps:
+  - id: s1
+    builds: experiment
+    uses:
+    - experiment_platform
+    - high_intent_pages
+    - goal_completed_event
+    - primary_cta_click_event
+    - experimentTitle
+    - controlWeight
+    - variantBWeight
+    - variantCWeight
+    - variantDWeight
+    - placement
+    - experimentWindow
+    instruction: 'Create a client-side experiment titled "{experimentTitle}" on the experiences page. Target high-intent pages
+      (pricing, checkout, key product pages, signup pages) for all devices and all visitors, with display frequency set to
+      always. Define four variants: Control at {controlWeight}% with no trust badges (existing state); Variant B at {variantBWeight}%
+      showing security badges only (SSL, Secure Checkout, payment encryption icons); Variant C at {variantCWeight}% showing
+      guarantee badges only (30-day money-back guarantee, Free returns, Cancel anytime); Variant D at {variantDWeight}% showing
+      a combined row of security, guarantee, and payment method badges (Visa, Mastercard, AmEx, Apple Pay). Place the badges
+      {placement} relative to the primary CTA button, inside the primary CTA block. Only display badges for certifications,
+      guarantees, and payment methods the merchant actually offers. Run for {experimentWindow}.'
 ---
 
 # Trust badges near the CTA

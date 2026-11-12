@@ -10,6 +10,107 @@ author:
 classification:
   industry:
   - ecommerce-retail
+portable:
+  summary: Runs a three-way product page layout test (current page, full-width hero with floating details panel, video-first
+    layout) and measures add-to-cart, orders, and time on page.
+  parameters:
+  - name: experimentTitle
+    type: string
+    label: Experiment title
+    default: Product Page Layout
+    required: false
+  - name: targetingUrlContains
+    type: string
+    label: Page URL contains
+    default: /products/
+    required: false
+  - name: controlTrafficPercent
+    type: number
+    label: Control traffic share (%)
+    default: 34
+    required: false
+  - name: variantBTrafficPercent
+    type: number
+    label: Variant B traffic share (%)
+    default: 33
+    required: false
+  - name: variantCTrafficPercent
+    type: number
+    label: Variant C traffic share (%)
+    default: 33
+    required: false
+  - name: testDuration
+    type: duration
+    label: Test duration
+    default: 14 d
+    required: false
+  - name: minUniqueVisitorsPerVariant
+    type: number
+    label: Minimum unique PDP visitors per variant
+    default: 2000
+    required: false
+  - name: orderWindow
+    type: duration
+    label: Order attribution window after exposure
+    default: 7 d
+    required: false
+  - name: bounceRateIncreaseLimit
+    type: number
+    label: Maximum allowed bounce rate increase (%)
+    default: 5
+    required: false
+  requirements:
+  - slot: product_page_views
+    kind: event
+    meaning: A customer viewed a product page
+  - slot: cart_created
+    kind: event
+    meaning: A customer added a product to a new cart
+    properties:
+    - name: product_id
+      type: string
+      meaning: Identifier of the product added
+      optional: false
+    - name: quantity
+      type: number
+      meaning: Number of units added
+      optional: false
+    - name: order_total
+      type: number
+      meaning: Order total value after adding the product
+      optional: false
+  - slot: order_placed
+    kind: event
+    meaning: A customer placed an order
+  - slot: add_to_cart_click
+    kind: event
+    meaning: A visitor clicked a button with target id add-to-cart-button
+    properties:
+    - name: target_id
+      type: string
+      meaning: Identifier of the clicked element
+      optional: false
+  steps:
+  - id: s1
+    builds: experiment
+    uses:
+    - experimentTitle
+    - targetingUrlContains
+    - controlTrafficPercent
+    - variantBTrafficPercent
+    - variantCTrafficPercent
+    - product_page_views
+    - cart_created
+    - add_to_cart_click
+    instruction: 'Create a client-side experiment on /experiences titled "{experimentTitle}". Target visitors on pages whose
+      URL contains "{targetingUrlContains}", all devices, all visitors, display frequency always. Variants: Control ({controlTrafficPercent}%)
+      keeps the existing product page with image gallery on the left and details on the right, with no DOM changes. Variant
+      B ({variantBTrafficPercent}%) replaces the .product-detail structure with a full-width hero image and a floating details
+      panel. Variant C ({variantCTrafficPercent}%) replaces .product-detail with a video-first layout featuring an autoplay
+      muted looping product demo video above the product name, price and add-to-cart button, with description and reviews
+      below. Variant B''s floating panel needs an explicit mobile design. Variant C''s autoplay must respect prefers-reduced-motion.
+      Keep the element id add-to-cart-button identical across all variants so click rates are comparable. Use product_id,
+      quantity and order_total from the cart-created event for the add-to-cart measurement.'
 ---
 
 # Product page layout test

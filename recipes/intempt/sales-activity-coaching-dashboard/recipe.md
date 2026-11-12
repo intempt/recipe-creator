@@ -10,6 +10,126 @@ author:
 classification:
   industry:
   - industry-agnostic
+portable:
+  summary: Gives sales managers one per-rep dashboard of call, email and meeting activity next to revenue, to spot coaching
+    needs and performance gaps before weekly 1:1s.
+  parameters:
+  - name: dashboardTitle
+    type: string
+    label: Dashboard title
+    default: Sales Activity & Coaching
+    required: false
+  - name: defaultDateRange
+    type: duration
+    label: Default date range
+    default: 30 d
+    required: false
+  - name: boardVisibility
+    type: enum
+    label: Dashboard visibility
+    default: project
+    required: false
+    options:
+    - project
+    - private
+  - name: revenuePerCallsCaption
+    type: string
+    label: Leading-indicator metric name
+    default: Team Revenue per 100 Calls
+    required: false
+  - name: efficiencyAlertRatio
+    type: number
+    label: Efficiency alert threshold (share of team average)
+    default: 0.5
+    required: false
+  requirements:
+  - slot: rep_activity_leaderboard
+    kind: segment
+    meaning: Per-rep activity volume (calls, outbound emails, meetings, tasks) and revenue from won deals, sourced from the
+      rep activity leaderboard insight
+  - slot: quota_attainment_by_rep
+    kind: segment
+    meaning: Per-rep quota attainment against the workspace quota target, sourced from the quota attainment insight
+  - slot: win_loss_analysis
+    kind: segment
+    meaning: Won versus lost deals broken down by lead source, sourced from the win-loss analysis insight
+  - slot: deal_velocity_by_stage
+    kind: segment
+    meaning: Average time deals spend in each pipeline stage, sourced from the deal velocity insight
+  - slot: multi_threading_coverage_by_deal
+    kind: segment
+    meaning: Open deals grouped by number of contacts engaged (single-threaded vs multi-threaded), sourced from the multi-threading
+      coverage insight
+  - slot: call_completed
+    kind: event
+    meaning: A customer call was completed by a rep
+    properties:
+    - name: owner_id
+      type: string
+      meaning: Rep who owns the call
+      optional: false
+  - slot: email_sent_outbound
+    kind: event
+    meaning: A rep sent an outbound email to a customer
+    properties:
+    - name: owner_id
+      type: string
+      meaning: Rep who sent the email
+      optional: false
+    - name: direction
+      type: string
+      meaning: Email direction, outbound for this recipe
+      optional: false
+  - slot: meeting_scheduled
+    kind: event
+    meaning: A rep scheduled a meeting with a prospect or customer
+    properties:
+    - name: owner_id
+      type: string
+      meaning: Rep who scheduled the meeting
+      optional: false
+  - slot: deal_won
+    kind: event
+    meaning: A deal was marked won
+    properties:
+    - name: owner_id
+      type: string
+      meaning: Rep who owns the deal
+      optional: false
+  steps:
+  - id: s1
+    builds: dashboard
+    uses:
+    - dashboardTitle
+    - defaultDateRange
+    - boardVisibility
+    - revenuePerCallsCaption
+    - efficiencyAlertRatio
+    - rep_activity_leaderboard
+    - quota_attainment_by_rep
+    - win_loss_analysis
+    - deal_velocity_by_stage
+    - multi_threading_coverage_by_deal
+    - call_completed
+    - email_sent_outbound
+    - meeting_scheduled
+    - deal_won
+    instruction: 'Create a 12-column dashboard titled "{dashboardTitle}" for sales managers and frontline coaches, answering
+      which reps need coaching and what differentiates top performers. Set the default date range to {defaultDateRange}, no
+      exclusion period, visibility {boardVisibility}. Break down all cards by owner_id, with no board filters by default.
+      Use 4 rows. Row 1 (height 200 px): four metric cards at 3 width units each: (a) rep_activity_leaderboard as a metric
+      titled "Total Calls (Team, 30d)"; (b) rep_activity_leaderboard as a metric titled "Total Meetings Booked"; (c) rep_activity_leaderboard
+      as a metric titled "{revenuePerCallsCaption}"; (d) quota_attainment_by_rep as a metric titled "% Reps at ≥100% Attainment".
+      Row 2 (height 520 px): one full-width (12 units) table of rep_activity_leaderboard showing per-rep activity and revenue,
+      sortable by Top Performers (revenue), Most Active (calls), Most Efficient (revenue per call), and Rising/Falling Stars
+      (week-over-week change). Row 3 (height 440 px): two 6-unit bar charts: win_loss_analysis (won vs. lost by source, ICP
+      fit signal) and deal_velocity_by_stage (stages that slow deals). Row 4 (height 440 px): two 6-unit cards: multi_threading_coverage_by_deal
+      as a stacked bar chart (single-threaded deals), and quota_attainment_by_rep as a bar chart with team-average benchmark.
+      Guidance: read before weekly 1:1s; sort the leaderboard by Rising/Falling Stars to spot trend changes and drill into
+      reps for coaching topics. Treat revenue per 100 calls below {efficiencyAlertRatio} times the team average as a serious
+      efficiency issue, to coach on qualification or talk tracks. Treat row 3 as team-level coaching topics, not 1:1 topics.
+      Single-threaded deals should be addressed by advising reps to multi-thread before the proposal stage. Rep identity is
+      owner_id across all events.'
 ---
 
 # Rep activity and coaching

@@ -10,6 +10,94 @@ author:
 classification:
   industry:
   - ecommerce-retail
+portable:
+  summary: Shows which checkout step loses the most orders, how long shoppers spend on each step, and where mobile drop-off
+    is worse than desktop.
+  parameters:
+  - name: conversionWindow
+    type: duration
+    label: Conversion window
+    default: 1 h
+    required: false
+  - name: comparisonPeriod
+    type: duration
+    label: Comparison period (prior period length)
+    default: 30 d
+    required: false
+  - name: timeThreshold
+    type: number
+    label: Median time-on-page flag threshold (seconds)
+    default: 90
+    required: false
+  - name: mobileGapThreshold
+    type: number
+    label: Mobile vs desktop drop-off gap flag (percentage points)
+    default: 15
+    required: false
+  - name: shippingPathPattern
+    type: string
+    label: Shipping step URL pattern
+    default: /checkout/shipping
+    required: false
+  - name: paymentPathPattern
+    type: string
+    label: Payment step URL pattern
+    default: /checkout/payment
+    required: false
+  - name: reviewPathPattern
+    type: string
+    label: Review step URL pattern
+    default: /checkout/review
+    required: false
+  requirements:
+  - slot: checkout_started_event
+    kind: event
+    meaning: A customer started a checkout
+  - slot: checkout_completed_event
+    kind: event
+    meaning: A customer completed a checkout and placed an order
+  - slot: page_view_event
+    kind: event
+    meaning: A customer viewed a web page
+    properties:
+    - name: page_url
+      type: string
+      meaning: URL of the page viewed
+      optional: false
+  - slot: device_type_attribute
+    kind: attribute
+    meaning: The device type a user browses on (mobile or desktop)
+  - slot: abandoned_checkout_event
+    kind: event
+    meaning: A customer abandoned a checkout without completing it
+    optional: true
+  steps:
+  - id: s1
+    builds: report
+    uses:
+    - checkout_started_event
+    - page_view_event
+    - checkout_completed_event
+    - device_type_attribute
+    - abandoned_checkout_event
+    - conversionWindow
+    - comparisonPeriod
+    - timeThreshold
+    - mobileGapThreshold
+    - shippingPathPattern
+    - paymentPathPattern
+    - reviewPathPattern
+    instruction: 'Create a funnel report called "Checkout Form Friction" with these steps in order: 1) {checkout_started_event};
+      2) {page_view_event} where page_url contains {shippingPathPattern} (shipping step), labeled "Reached Shipping"; 3) {page_view_event}
+      where page_url contains {paymentPathPattern} (payment step), labeled "Reached Payment"; 4) {page_view_event} where page_url
+      contains {reviewPathPattern} (review step), labeled "Reached Review"; 5) {checkout_completed_event}, labeled "Completed
+      Order". Set the conversion window to {conversionWindow}. Break down by {device_type_attribute}. Compare against the
+      previous {comparisonPeriod}. For each step, also show the median and 75th-percentile time on that step''s page, the
+      drop-off rate versus the previous period, and, for users who reached but did not pass each step, their last in-checkout
+      action. Annotate the step with the largest drop-off as the primary checkout bottleneck. Flag any step where median time-on-page
+      exceeds {timeThreshold} seconds. Flag any step where mobile drop-off exceeds desktop drop-off by more than {mobileGapThreshold}
+      percentage points. Highlight the volume of {abandoned_checkout_event} in the same period as recoverable users to pair
+      with abandoned-cart recovery.'
 ---
 
 # Checkout friction

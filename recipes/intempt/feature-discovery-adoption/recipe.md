@@ -10,6 +10,112 @@ author:
 classification:
   industry:
   - industry-agnostic
+portable:
+  summary: Shows how many people discover a feature, try it for the first time, and become habitual users, with conversion
+    rates and flags for low-stickiness features.
+  parameters:
+  - name: conversionWindow
+    type: duration
+    label: Conversion window
+    default: 21 d
+    required: false
+  - name: habitualUseThreshold
+    type: number
+    label: Minimum uses to count as repeat use
+    default: 3
+    required: false
+  - name: habitualWindow
+    type: duration
+    label: Window for repeat use
+    default: 21 d
+    required: false
+  - name: habitualActiveDays
+    type: number
+    label: Distinct active days required in recent window
+    default: 3
+    required: false
+  - name: recentDayWindow
+    type: duration
+    label: Recent day window for habitual check
+    default: 5 d
+    required: false
+  - name: highDiscoveryThreshold
+    type: number
+    label: High-discovery user threshold
+    default: 1000
+    required: false
+  - name: lowStickinessRate
+    type: number
+    label: Low habitual conversion threshold (%)
+    default: 5
+    required: false
+  - name: lowTrialRate
+    type: number
+    label: Low discovery-to-trial threshold (%)
+    default: 20
+    required: false
+  - name: promotionRate
+    type: number
+    label: Promotion candidate habitual conversion threshold (%)
+    default: 25
+    required: false
+  - name: topN
+    type: number
+    label: Number of top features to surface
+    default: 3
+    required: false
+  - name: comparisonPeriod
+    type: duration
+    label: Comparison period
+    default: 21 d
+    required: false
+  requirements:
+  - slot: feature_discovery_event
+    kind: event
+    meaning: A customer viewed a page where a feature was introduced or a feature tour or tooltip was shown
+    properties:
+    - name: page_url
+      type: text
+      meaning: URL of the page viewed, containing the feature path
+      optional: false
+  - slot: feature_click_event
+    kind: event
+    meaning: A customer clicked a feature interaction element in the product
+    properties:
+    - name: target_id
+      type: text
+      meaning: Stable identifier of the clicked feature element, one per feature
+      optional: false
+  steps:
+  - id: s1
+    builds: report
+    uses:
+    - feature_discovery_event
+    - feature_click_event
+    - conversionWindow
+    - habitualUseThreshold
+    - habitualWindow
+    - habitualActiveDays
+    - recentDayWindow
+    - highDiscoveryThreshold
+    - lowStickinessRate
+    - lowTrialRate
+    - promotionRate
+    - topN
+    - comparisonPeriod
+    instruction: 'Create a funnel report named "Feature Discovery to Adoption" with these steps: (1) View page where page
+      URL contains the feature path, labeled "Discovered Feature" (first exposure); alternatively, click on where target_id
+      matches a feature-tour or tooltip element. (2) Click on where target_id matches the feature interaction handle, labeled
+      "Tried Feature" (first use). (3) Click on with the same target_id as step 2, at least {habitualUseThreshold} times by
+      the same user within {habitualWindow}, labeled "Used 3+ Times". (4) Click on with the same target_id, active on at least
+      {habitualActiveDays} distinct days within the last {recentDayWindow}, labeled "Habitual User". Set the conversion window
+      to {conversionWindow}. Break down by target_id (feature handle). Compare against the previous {comparisonPeriod}. For
+      each feature, also show discovery-to-habitual conversion rate (step 4 divided by step 1) and median time from discovery
+      to habitual status in days. Annotations: flag features with more than {highDiscoveryThreshold} discovered users and
+      habitual conversion below {lowStickinessRate}% as high-discovery, low-stickiness for UX investigation; flag features
+      with discovery-to-trial conversion below {lowTrialRate}% as having a weak discovery moment; highlight features with
+      discovery-to-habitual conversion above {promotionRate}% as promotion candidates. Surface the top {topN} features by
+      absolute habitual-user count and the top {topN} by habitual-conversion rate.'
 ---
 
 # Feature discovery to adoption

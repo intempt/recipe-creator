@@ -10,6 +10,98 @@ author:
 classification:
   industry:
   - industry-agnostic
+portable:
+  summary: Builds a dashboard report tracking daily, weekly and monthly active users and their stickiness ratios over time,
+    broken down by plan, with benchmark and warning flags.
+  parameters:
+  - name: reportName
+    type: string
+    label: Report name
+    default: DAU / WAU / MAU Stickiness
+    required: false
+  - name: trendWindow
+    type: duration
+    label: Time range to show
+    default: 90 d
+    required: false
+  - name: smoothingWindow
+    type: duration
+    label: Rolling average window for stickiness lines
+    default: 7 d
+    required: false
+  - name: weeklyWindow
+    type: duration
+    label: Weekly active rolling window
+    default: 7 d
+    required: false
+  - name: monthlyWindow
+    type: duration
+    label: Monthly active rolling window
+    default: 28 d
+    required: false
+  - name: dauMauGoodThreshold
+    type: number
+    label: DAU/MAU 'good' benchmark (%)
+    default: 20
+    required: false
+  - name: dauMauBestThreshold
+    type: number
+    label: DAU/MAU best-in-class benchmark (%)
+    default: 50
+    required: false
+  - name: dauWauStrongThreshold
+    type: number
+    label: DAU/WAU strong habit benchmark (%)
+    default: 50
+    required: false
+  - name: erosionThreshold
+    type: number
+    label: Stickiness drop that triggers an erosion flag (percentage points)
+    default: 3
+    required: false
+  requirements:
+  - slot: session_start_event
+    kind: event
+    meaning: A user started a session in the product (marks the user as active)
+    properties:
+    - name: plan
+      type: string
+      meaning: Plan of the user's most recent active subscription at the time of the session
+      optional: false
+  - slot: subscription_plan_attribute
+    kind: attribute
+    meaning: The plan name on a user's most recent active subscription, used to break down activity by plan
+  - slot: at_risk_plan_segment
+    kind: segment
+    meaning: Plans flagged for stickiness erosion or MAU growth without DAU growth
+    optional: true
+  steps:
+  - id: s1
+    builds: report
+    uses:
+    - session_start_event
+    - subscription_plan_attribute
+    - reportName
+    - trendWindow
+    - smoothingWindow
+    - weeklyWindow
+    - monthlyWindow
+    - dauMauGoodThreshold
+    - dauMauBestThreshold
+    - dauWauStrongThreshold
+    - erosionThreshold
+    instruction: 'Create an Insights report named "{reportName}". Add Series A: count unique users of {session_start_event}
+      with daily time granularity, labeled "DAU". Add Series B: count unique users of {session_start_event} over a rolling
+      {weeklyWindow} window, labeled "WAU". Add Series C: count unique users of {session_start_event} over a rolling {monthlyWindow}
+      window, labeled "MAU". Add Series D: Series A divided by Series B times 100, unit %, labeled "DAU/WAU Stickiness". Add
+      Series E: Series A divided by Series C times 100, unit %, labeled "DAU/MAU Stickiness". Use daily granularity and show
+      the last {trendWindow}; smooth Series D and E with a {smoothingWindow} rolling average. Break down all series by {subscription_plan_attribute.plan},
+      resolved from each user''s most recent active subscription. Compare with the same window one year earlier. Chart type:
+      dual-axis, with user counts (A, B, C) as lines on the left axis and stickiness percentages (D, E) as lines on the right
+      axis. Annotate benchmarks: DAU/MAU at or above {dauMauGoodThreshold}% is good for B2B SaaS and at or above {dauMauBestThreshold}%
+      is best-in-class; DAU/WAU at or above {dauWauStrongThreshold}% indicates strong daily-habit usage. Flag any plan whose
+      DAU/MAU stickiness dropped by more than {erosionThreshold} percentage points versus the previous period as engagement
+      erosion. Flag any plan where MAU is rising while DAU is flat as acquiring users who are not engaging.'
 ---
 
 # Daily, weekly and monthly stickiness

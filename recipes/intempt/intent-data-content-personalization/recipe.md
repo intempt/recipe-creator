@@ -10,6 +10,116 @@ author:
 classification:
   industry:
   - saas-b2b-tech
+portable:
+  summary: Visitors who have been reading pricing, security, integrations or case-study pages see matching content blocks
+    on the homepage and key landing pages, with generic content for everyone else.
+  parameters:
+  - name: pricing_window
+    type: duration
+    label: Pricing page lookback window
+    default: 7 d
+    required: false
+  - name: pricing_min_views
+    type: number
+    label: Minimum pricing page views
+    default: 2
+    required: false
+  - name: security_window
+    type: duration
+    label: Security/compliance lookback window
+    default: 14 d
+    required: false
+  - name: security_min_views
+    type: number
+    label: Minimum security/compliance page views
+    default: 1
+    required: false
+  - name: integrations_window
+    type: duration
+    label: Integrations lookback window
+    default: 7 d
+    required: false
+  - name: integrations_min_views
+    type: number
+    label: Minimum integrations page views
+    default: 2
+    required: false
+  - name: case_study_window
+    type: duration
+    label: Case study lookback window
+    default: 14 d
+    required: false
+  - name: case_study_min_views
+    type: number
+    label: Minimum case study page views
+    default: 2
+    required: false
+  requirements:
+  - slot: page_view_event
+    kind: event
+    meaning: A visitor viewed a page on the website
+    properties:
+    - name: page_url
+      type: string
+      meaning: URL of the page viewed
+      optional: false
+  - slot: content_click_event
+    kind: event
+    meaning: A visitor clicked a link or button on the website
+    properties:
+    - name: link_url
+      type: string
+      meaning: URL of the clicked link
+      optional: true
+  - slot: demo_request_form_event
+    kind: event
+    meaning: A visitor submitted a demo-request or contact form
+    properties:
+    - name: form_name
+      type: string
+      meaning: Name of the submitted form
+      optional: true
+  - slot: featured_content_block
+    kind: event
+    meaning: A featured content block is rendered on the homepage or a key landing page
+  - slot: website_destination
+    kind: destination
+    meaning: The website where the personalized content is shown
+    channel: email
+  steps:
+  - id: s1
+    builds: personalization
+    uses:
+    - page_view_event
+    - content_click_event
+    - demo_request_form_event
+    - featured_content_block
+    - website_destination
+    - pricing_window
+    - pricing_min_views
+    - security_window
+    - security_min_views
+    - integrations_window
+    - integrations_min_views
+    - case_study_window
+    - case_study_min_views
+    instruction: 'Create a client personalization titled "Intent-Data Content Personalization" on the experiences area, with
+      continuous schedule and display frequency always, targeting any device on the homepage and key landing pages where a
+      featured content block renders. This is behavioral personalization: each variant binds to an audience defined by recent
+      on-site behavior, not firmographic attributes. Variants in precedence order: (1) Control, fallback audience = all visitors,
+      showing generic content blocks with no DOM changes. (2) Variant B, audience = high pricing intent: a visitor who had
+      a page view where the page URL contains "/pricing" at least {pricing_min_views} times in the last {pricing_window}.
+      Show ROI calculator and pricing-comparison content in the {featured_content_block} target. (3) Variant C, audience =
+      security/compliance research: a visitor who had a page view where the page URL contains "/security" or "/compliance"
+      at least {security_min_views} time in the last {security_window}, OR clicked a security-whitepaper download link in
+      the last {security_window}. Show security case study and compliance content. (4) Variant D, audience = integrations
+      research: a visitor who had a page view where the page URL contains "/integrations" at least {integrations_min_views}
+      times in the last {integrations_window}. Show integration directory and integrations case studies. (5) Variant E, audience
+      = case study readers: a visitor who had a page view where the page URL contains "/case-studies" or "/customers" at least
+      {case_study_min_views} times in the last {case_study_window}. Show more case studies and customer logos. Ensure the
+      personalization engine evaluates event-history audience rules at render time. Track per variant: click on the personalized
+      content block (CTR), and demo-request or contact form submissions per behavioral segment, plus demo-request conversion
+      rate per segment.'
 ---
 
 # Content blocks by browsing behavior

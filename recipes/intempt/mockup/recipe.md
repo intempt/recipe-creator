@@ -10,6 +10,72 @@ author:
 classification:
   industry:
   - industry-agnostic
+portable:
+  summary: Finds visitors who return almost every day, tags them as a power-user group, and drafts a warm early-access or
+    loyalty invite email for a person to review and send.
+  parameters:
+  - name: minSessions
+    type: number
+    label: Minimum session starts required
+    default: 4
+    required: false
+  - name: windowDays
+    type: duration
+    label: Look-back window
+    default: 4 d
+    required: false
+  - name: emailTone
+    type: enum
+    label: Email tone
+    default: warm
+    required: false
+    options:
+    - warm
+    - playful
+    - formal
+  - name: emailSentenceCount
+    type: number
+    label: Number of sentences in the email body
+    default: 3
+    required: false
+  requirements:
+  - slot: session_start_event
+    kind: event
+    meaning: A visitor started a session on the site or app
+  - slot: daily_habit_user_attribute
+    kind: attribute
+    meaning: A user-level true/false flag marking daily habit users
+  - slot: daily_habit_visitors
+    kind: segment
+    meaning: Users who started a session at least a set number of times in the look-back window
+    creatable: true
+    definition: users who did {session_start_event} at least {minSessions} times in the last {windowDays}
+  steps:
+  - id: s1
+    builds: segment
+    uses:
+    - session_start_event
+    - minSessions
+    - windowDays
+    instruction: Build a segment named "Daily Habit Visitors" of users who did {session_start_event} at least {minSessions}
+      times in the last {windowDays}. Only users meeting this condition are included.
+  - id: s2
+    builds: attribute
+    uses:
+    - s1
+    - daily_habit_user_attribute
+    instruction: Create the user attribute {daily_habit_user_attribute} set to true for every user in the segment built in
+      "Build the daily habit visitor list".
+  - id: s3
+    builds: email
+    uses:
+    - s1
+    - emailTone
+    - emailSentenceCount
+    instruction: Generate a designed marketing email for users in the segment built in "Build the daily habit visitor list"
+      inviting them to join an early-access or loyalty list in recognition of how often they visit. Use a {emailTone} tone
+      with {emailSentenceCount} sentences in the body. Do not use any discount language. Include exactly one button that lets
+      them join. Save as a draft only; a person reviews and sends it.
 ---
 
 # Daily Habit Visitors

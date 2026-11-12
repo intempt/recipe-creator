@@ -10,6 +10,90 @@ author:
 classification:
   industry:
   - industry-agnostic
+portable:
+  summary: Shows homepage visitors in the US, UK, EU and APAC region-specific free-shipping offer banners with local pricing
+    instead of one global message.
+  parameters:
+  - name: us_free_shipping_threshold
+    type: number
+    label: US free shipping threshold (USD)
+    default: 50
+    required: false
+  - name: eu_free_shipping_threshold
+    type: number
+    label: UK/EU free shipping threshold (GBP/EUR)
+    default: 50
+    required: false
+  - name: display_frequency
+    type: enum
+    label: Display frequency
+    default: once_per_session
+    required: false
+    options:
+    - once_per_session
+    - once_per_day
+    - always
+  - name: promo_tone
+    type: enum
+    label: Promo tone
+    default: standard
+    required: false
+    options:
+    - standard
+    - friendly
+    - urgent
+  requirements:
+  - slot: geo_offer_experience
+    kind: destination
+    meaning: A client-side personalization experience on the website homepage that can show different banner variants to visitors
+      by audience.
+    channel: email
+  - slot: visitor_country
+    kind: attribute
+    meaning: The visitor's ISO 3166-1 alpha-2 country code, geo-IP enriched at session start.
+  - slot: order_placed
+    kind: event
+    meaning: A customer placed an order.
+    properties:
+    - name: order_value
+      type: number
+      meaning: Total value of the order
+      optional: false
+  - slot: cta_click
+    kind: event
+    meaning: A visitor clicked a regional offer call-to-action button on the website.
+    properties:
+    - name: cta_id
+      type: string
+      meaning: Identifier of the clicked call-to-action
+      optional: false
+    optional: true
+  steps:
+  - id: s1
+    builds: experiment
+    uses:
+    - geo_offer_experience
+    - visitor_country
+    - order_placed
+    - cta_click
+    - us_free_shipping_threshold
+    - eu_free_shipping_threshold
+    - display_frequency
+    - promo_tone
+    instruction: 'Create a client-side personalization titled "Geo-Targeted Offer Personalization" on the website experiences
+      page, targeting the homepage "/" on any device, with display frequency {display_frequency} and continuous schedule.
+      Create four variants: (1) Control, the fallback for all visitors, showing the default homepage hero with global shipping
+      messaging. (2) Variant B, audience = visitors where {visitor_country} equals "US": in the .promo-banner element show
+      a US promo with free shipping on orders over ${us_free_shipping_threshold} and USD prices, with a CTA linking to /sale.
+      (3) Variant C, audience = visitors where {visitor_country} is one of "GB", "DE", "FR", "ES", "IT", "NL": in the .promo-banner
+      element show a UK/EU promo with free shipping on orders over £{eu_free_shipping_threshold} / €{eu_free_shipping_threshold},
+      delivered in 3-7 days, with a CTA linking to /sale-eu, and set the body currency attribute to GBP or EUR depending on
+      country; show a GDPR notice strip if not already shown. (4) Variant D, audience = visitors where {visitor_country} is
+      one of "AU", "JP", "SG", "HK", "KR": in the .promo-banner element show an APAC promo with free shipping to these countries
+      delivered in 5-10 days, a CTA linking to /sale-apac, and a local payment methods callout (Alipay, GrabPay, KakaoPay).
+      Apply the tone {promo_tone} to all banner copy. Also set the body currency attribute to USD for the US variant so the
+      price helper formats prices. Track these metrics: orders placed per geographic audience and average order value per
+      audience (from {order_placed.order_value}), and clicks on the geo-specific CTAs ({cta_click}).'
 ---
 
 # Offers by visitor country

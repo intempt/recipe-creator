@@ -10,6 +10,129 @@ author:
 classification:
   industry:
   - saas-b2b-tech
+portable:
+  summary: Builds a monthly MRR waterfall over the last 12 months that splits recurring revenue movement into new, expansion,
+    contraction, churn and reactivation, with NRR trend.
+  parameters:
+  - name: time_granularity
+    type: enum
+    label: Time granularity
+    default: monthly
+    required: false
+    options:
+    - monthly
+  - name: time_range
+    type: duration
+    label: Time range
+    default: 12 mo
+    required: false
+  - name: reactivation_window
+    type: duration
+    label: Reactivation lookback window
+    default: 90 d
+    required: false
+  - name: comparison_period
+    type: enum
+    label: Comparison period
+    default: year_over_year
+    required: false
+    options:
+    - none
+    - month_over_month
+    - year_over_year
+  requirements:
+  - slot: subscription_started_event
+    kind: event
+    meaning: A customer started a subscription
+    properties:
+    - name: amount
+      type: number
+      meaning: Recurring amount of the new subscription
+      optional: false
+    - name: customer_id
+      type: string
+      meaning: Identifier of the customer
+      optional: false
+  - slot: subscription_updated_event
+    kind: event
+    meaning: A customer's subscription was changed
+    properties:
+    - name: amount
+      type: number
+      meaning: New recurring amount after the change
+      optional: false
+    - name: prior_amount
+      type: number
+      meaning: Recurring amount before the change
+      optional: false
+    - name: subscription_id
+      type: string
+      meaning: Identifier of the subscription
+      optional: false
+    - name: changed_fields
+      type: text
+      meaning: Which subscription fields changed
+      optional: false
+    - name: plan_items
+      type: text
+      meaning: New plan state after the change
+      optional: true
+  - slot: subscription_canceled_event
+    kind: event
+    meaning: A customer canceled a subscription
+    properties:
+    - name: prior_amount
+      type: number
+      meaning: Recurring amount of the subscription before cancellation
+      optional: false
+    - name: customer_id
+      type: string
+      meaning: Identifier of the customer
+      optional: false
+  - slot: subscription_resumed_event
+    kind: event
+    meaning: A customer resumed a previously paused or canceled subscription
+    properties:
+    - name: amount
+      type: number
+      meaning: Recurring amount when resumed
+      optional: false
+    - name: customer_id
+      type: string
+      meaning: Identifier of the customer
+      optional: false
+  - slot: active_subscription_status
+    kind: attribute
+    meaning: Whether a customer currently has an active subscription
+  - slot: mrr_waterfall_report
+    kind: knowledge
+    meaning: Output report showing the MRR movement waterfall
+    optional: true
+  steps:
+  - id: s1
+    builds: report
+    uses:
+    - subscription_started_event
+    - subscription_updated_event
+    - subscription_canceled_event
+    - subscription_resumed_event
+    - active_subscription_status
+    - time_range
+    - time_granularity
+    - reactivation_window
+    - comparison_period
+    instruction: 'Create an Insights report called "MRR Movement Decomposition". Compute five monthly MRR movement categories
+      over the {time_range} window at {time_granularity} granularity. New MRR: sum of {subscription_started_event.amount}
+      for customers with no active subscription beforehand. Expansion MRR: from {subscription_updated_event} events, compute
+      the delta of {subscription_updated_event.amount} minus {subscription_updated_event.prior_amount} per subscription_id,
+      and sum the positive deltas where {subscription_updated_event.changed_fields} indicates a plan upgrade or seat/quantity
+      increase. Contraction MRR: same delta computation, summing negative deltas (shown as negative values). Churned MRR:
+      sum of {subscription_canceled_event.prior_amount} per cancellation (shown as negative). Reactivation MRR: sum of {subscription_resumed_event.amount}
+      where the same {subscription_canceled_event.customer_id} had a cancellation within {reactivation_window}. Net New MRR
+      = New + Expansion + Contraction + Churned + Reactivation. Net Revenue Retention (%) = (Starting MRR + Expansion + Reactivation
+      − Contraction − Churn) / Starting MRR × 100. Compare using {comparison_period}. Chart as a waterfall per month: New,
+      Expansion and Reactivation as positive stacks; Contraction and Churn as negative stacks; Net New as the connecting line;
+      add a secondary line with trailing 12-month NRR.'
 ---
 
 # MRR movement waterfall

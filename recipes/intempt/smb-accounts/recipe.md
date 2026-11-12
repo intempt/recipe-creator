@@ -10,6 +10,26 @@ author:
 classification:
   industry:
   - saas-b2b-tech
+portable:
+  summary: Builds a reusable list of small business accounts with fewer than 100 employees for self-serve nurture and in-product
+    prompts to target.
+  parameters:
+  - name: employee_threshold
+    type: number
+    label: Maximum employee count (exclusive)
+    default: 100
+    required: false
+  requirements:
+  - slot: employee_count
+    kind: attribute
+    meaning: The number of employees at an account
+  steps:
+  - id: s1
+    builds: segment
+    uses:
+    - employee_count
+    - employee_threshold
+    instruction: Build a segment named "SMB Accounts" containing accounts where {employee_count} is less than {employee_threshold}.
 ---
 
 # Small business accounts

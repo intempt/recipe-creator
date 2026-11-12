@@ -10,6 +10,123 @@ author:
 classification:
   industry:
   - ecommerce-retail
+portable:
+  summary: Tests exit-intent, a 30-second delay popup, and no popup on desktop cart pages, measuring which drives the most
+    orders placed within 24 hours.
+  parameters:
+  - name: experiment_title
+    type: string
+    label: Experiment title
+    default: Cart Popup Timing
+    required: false
+  - name: traffic_split_control
+    type: number
+    label: Control variant traffic share (%)
+    default: 34
+    required: false
+  - name: traffic_split_variant_b
+    type: number
+    label: Variant B traffic share (%)
+    default: 33
+    required: false
+  - name: traffic_split_variant_c
+    type: number
+    label: Variant C (no popup) traffic share (%)
+    default: 33
+    required: false
+  - name: idle_delay
+    type: duration
+    label: Idle delay before Variant B popup
+    default: 30 s
+    required: false
+  - name: attribution_window
+    type: duration
+    label: Order attribution window after exposure
+    default: 24 h
+    required: false
+  - name: schedule_length
+    type: duration
+    label: Experiment run length
+    default: 14 d
+    required: false
+  - name: bounce_guardrail_increase
+    type: number
+    label: Maximum allowed bounce rate increase (%)
+    default: 10
+    required: false
+  requirements:
+  - slot: cart_created_event
+    kind: event
+    meaning: A customer added an item to their cart
+  - slot: cart_updated_event
+    kind: event
+    meaning: A customer changed the contents of their cart
+    optional: true
+  - slot: cart_click_event
+    kind: event
+    meaning: A customer clicked an element within the cart page
+    optional: true
+  - slot: page_view_event
+    kind: event
+    meaning: A visitor viewed a page
+    properties:
+    - name: url
+      type: text
+      meaning: The URL of the page viewed
+      optional: false
+  - slot: popup_click_event
+    kind: event
+    meaning: A visitor clicked an element inside the cart save popup
+    properties:
+    - name: target_id
+      type: text
+      meaning: The identifier of the element clicked, such as the save or dismiss button
+      optional: false
+  - slot: popup_submit_event
+    kind: event
+    meaning: A visitor submitted the email form in the cart save popup
+  - slot: order_placed_event
+    kind: event
+    meaning: A customer placed an order
+  - slot: cart_popup_experiment
+    kind: integration
+    meaning: A client-side experiment tool that can serve variant DOM, targeting rules and goals on the website
+    channel: hubspot
+  steps:
+  - id: s1
+    builds: experiment
+    uses:
+    - cart_created_event
+    - page_view_event
+    - popup_click_event
+    - popup_submit_event
+    - order_placed_event
+    - cart_popup_experiment
+    - experiment_title
+    - traffic_split_control
+    - traffic_split_variant_b
+    - traffic_split_variant_c
+    - idle_delay
+    - attribution_window
+    - schedule_length
+    - bounce_guardrail_increase
+    - cart_updated_event
+    - cart_click_event
+    instruction: 'Create a client-side experiment named "{experiment_title}" in {cart_popup_experiment}, running for {schedule_length}.
+      Variants: Control ({traffic_split_control}%) shows an exit-intent popup when the mouse leaves the top of the viewport;
+      Variant B ({traffic_split_variant_b}%) shows a popup after {idle_delay} of cart inactivity; Variant C ({traffic_split_variant_c}%)
+      shows no popup as the baseline. Targeting: page URL contains "/cart" or {cart_created_event} occurred in the current
+      session; desktop only; audience is visitors with at least one {cart_created_event} in the current session; display once
+      per session. Control popup: a hidden fixed-position overlay with a heading "Wait! Save your cart", body text "We''ll
+      save your items and email you a reminder.", an email input, a "Save my cart" submit button, and a close button; on exit-intent
+      set it visible and store a session flag so it does not fire again. Variant B popup: heading "Still thinking it over?",
+      body "Save your cart and we''ll send you a reminder: no pressure.", same email form and close button; start a timer
+      on {cart_created_event}, show the popup if no {cart_updated_event}, {cart_click_event} or {page_view_event} occurs in
+      the window, and reset the timer on any cart interaction. Popup elements carry the target identifiers "popup-save-cart"
+      (submit) and "popup-dismiss" (close). Variant C has no DOM changes. Primary goal: {order_placed_event} within {attribution_window}
+      of exposure. Secondary metrics: clicks on "popup-save-cart", clicks on "popup-dismiss", {popup_submit_event} rate, and
+      orders within {attribution_window}. Guardrail: bounce rate for sessions ending right after popup display must not increase
+      more than {bounce_guardrail_increase}%.'
 ---
 
 # Cart popup timing test

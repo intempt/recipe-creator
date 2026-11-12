@@ -10,6 +10,148 @@ author:
 classification:
   industry:
   - industry-agnostic
+portable:
+  summary: Shows where the go-to-market engine leaks over a trailing 90 days by source and cohort, so leaders can re-allocate
+    spend and fix process.
+  parameters:
+  - name: defaultDateRange
+    type: string
+    label: Default date range
+    default: last_90_days
+  - name: exclusionPeriod
+    type: enum
+    label: Exclusion period
+    default: incomplete_periods
+    options:
+    - incomplete_periods
+    - none
+  - name: boardVisibility
+    type: enum
+    label: Board visibility
+    default: project
+    options:
+    - project
+    - private
+  - name: boardBreakdown
+    type: enum
+    label: Board breakdown
+    default: utm_source
+    options:
+    - utm_source
+    - none
+  - name: boardTitle
+    type: string
+    label: Board title
+    default: Revenue Operations
+  requirements:
+  - slot: deal_won_event
+    kind: event
+    meaning: A customer closed a deal as won
+    properties:
+    - name: utm_source
+      type: string
+      meaning: Lead acquisition source
+      optional: true
+    - name: stage_at_loss
+      type: string
+      meaning: Stage where the deal was lost
+      optional: true
+  - slot: deal_lost_event
+    kind: event
+    meaning: A deal was closed as lost
+    properties:
+    - name: utm_source
+      type: string
+      meaning: Lead acquisition source
+      optional: true
+    - name: stage_at_loss
+      type: string
+      meaning: Stage where the deal was lost
+      optional: false
+  - slot: deal_stage_changed_event
+    kind: event
+    meaning: A deal moved from one sales stage to another
+    properties:
+    - name: stage
+      type: string
+      meaning: Sales stage the deal moved to
+      optional: false
+  - slot: lead_stage_changed_event
+    kind: event
+    meaning: A lead moved to a new qualification stage such as MQL or SQL
+    properties:
+    - name: stage
+      type: string
+      meaning: Qualification stage the lead moved to
+      optional: false
+    - name: utm_source
+      type: string
+      meaning: Lead acquisition source
+      optional: true
+  - slot: user_created_event
+    kind: event
+    meaning: A new user account was created
+    properties:
+    - name: utm_source
+      type: string
+      meaning: Lead acquisition source
+      optional: true
+  - slot: subscription_started_event
+    kind: event
+    meaning: A customer started a paid subscription
+    properties:
+    - name: cohort
+      type: string
+      meaning: Customer acquisition cohort
+      optional: true
+  - slot: subscription_updated_event
+    kind: event
+    meaning: A customer subscription was changed
+    properties:
+    - name: changed_fields
+      type: text
+      meaning: Fields changed on the subscription, used to split expansion from contraction
+      optional: false
+  - slot: subscription_canceled_event
+    kind: event
+    meaning: A customer canceled a subscription
+    properties:
+    - name: cohort
+      type: string
+      meaning: Customer acquisition cohort
+      optional: true
+  steps:
+  - id: s1
+    builds: dashboard
+    uses:
+    - deal_won_event
+    - deal_lost_event
+    - deal_stage_changed_event
+    - lead_stage_changed_event
+    - user_created_event
+    - subscription_started_event
+    - subscription_updated_event
+    - subscription_canceled_event
+    - defaultDateRange
+    - exclusionPeriod
+    - boardVisibility
+    - boardBreakdown
+    - boardTitle
+    instruction: 'Create a 12-column dashboard titled "{boardTitle}" for RevOps leads and CROs to review monthly. Set default
+      date range to {defaultDateRange}, exclusion period to {exclusionPeriod}, visibility to {boardVisibility}, and no board
+      filters by default. Push the {boardBreakdown} breakdown down so cards split by acquisition channel where applicable.
+      Use 4 rows. Row 1 (height 200px): four metric cards at 3 width units each, titled "Trailing-90d Win Rate" (win-rate
+      trend metric), "Median Sales Cycle (Closed Deals)" (deal velocity by stage metric), "MQL to Closed-Won Rate" (lead-to-MQL-to-SQL
+      funnel metric), and "Trailing 12-Month Blended NRR" (net revenue retention by cohort metric). Row 2 (height 440px):
+      two cards at 6 width units each: the full qualification funnel as funnel steps chart, and funnel drop-off attribution
+      by source as small-multiple funnel steps. Row 3 (height 400px): one full-width card at 12 width units showing won versus
+      lost by source as a bar chart with stage-at-loss decomposition (win-loss analysis). Row 4 (height 440px): two cards
+      at 6 width units each: a line chart of trailing win rate with rolling 90-day smoothing, and a multi-line chart of cohort
+      NRR curves. Add these annotations: the board is for monthly QBR review, read once per month for inflection points; Row
+      1 KPIs are early-warning signs (declining win rate, lengthening sales cycle, falling MQL to Won, NRR below 100%); Row
+      3 is the strategic centerpiece, where the source breakdown shows where to invest more or less and the stage-at-loss
+      breakdown shows whether losses come from qualification (top-funnel ICP issue) or closing (late-funnel competition or
+      pricing issue). Keep this board''s cards distinct from any sales pipeline board with zero card overlap.'
 ---
 
 # GTM health and revenue leakage

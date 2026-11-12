@@ -10,6 +10,23 @@ author:
 classification:
   industry:
   - industry-agnostic
+portable:
+  summary: Takes one ad you already have and produces six image variants, each changing a single element (headline, palette,
+    background, model, call to action, or aspect ratio).
+  parameters:
+  - name: source_ad
+    type: attachment
+    label: Source ad image
+    required: true
+  requirements: []
+  steps:
+  - id: s1
+    builds: image
+    uses:
+    - source_ad
+    instruction: 'Generate six images from {source_ad}. Each image changes exactly one thing and keeps everything else from
+      the original ad: one with a new headline; one with a new colour palette; one with a new background; one with a different
+      model; one with a new call to action; one at a different aspect ratio.'
 ---
 
 # Six variants of one ad

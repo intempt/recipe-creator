@@ -10,6 +10,132 @@ author:
 classification:
   industry:
   - ecommerce-retail
+portable:
+  summary: Tests a one-page checkout against a three-step checkout and reports which one gets more orders placed within an
+    hour of starting, with guardrails on card declines and cart abandonment.
+  parameters:
+  - name: experimentName
+    type: string
+    label: Experiment name
+    default: Checkout Flow Length
+  - name: checkoutPath
+    type: string
+    label: Checkout page URL fragment
+    default: /checkout
+  - name: controlTrafficPercent
+    type: number
+    label: Control traffic share (%)
+    default: 50
+  - name: variantTrafficPercent
+    type: number
+    label: Variant B traffic share (%)
+    default: 50
+  - name: testDuration
+    type: duration
+    label: Test duration
+    default: 14 d
+  - name: minCheckoutsPerVariant
+    type: number
+    label: Minimum checkouts per variant
+    default: 3000
+  - name: orderWindow
+    type: duration
+    label: Order completion window after checkout starts
+    default: 1 h
+  - name: declineIncreaseLimit
+    type: number
+    label: Maximum allowed increase in card decline rate (percentage points)
+    default: 2
+  - name: abandonIncreaseLimit
+    type: number
+    label: Maximum allowed increase in cart abandonment within checkout (percentage points)
+    default: 5
+  requirements:
+  - slot: checkout_created_event
+    kind: event
+    meaning: A customer started a checkout
+    properties:
+    - name: experience_id
+      type: string
+      meaning: Identifier of the experiment experience
+      optional: false
+    - name: variant_id
+      type: string
+      meaning: Variant the customer was shown
+      optional: false
+  - slot: checkout_completed_event
+    kind: event
+    meaning: A customer completed the checkout form
+  - slot: order_placed_event
+    kind: event
+    meaning: A customer placed an order
+  - slot: payment_failed_event
+    kind: event
+    meaning: A customer's payment attempt failed
+  - slot: abandoned_checkout_event
+    kind: event
+    meaning: A customer abandoned a checkout before placing an order
+  - slot: view_page_event
+    kind: event
+    meaning: A customer viewed a page
+    properties:
+    - name: Page URL
+      type: string
+      meaning: URL path of the page viewed
+      optional: false
+    - name: page_title
+      type: string
+      meaning: Title of the page viewed
+      optional: true
+    - name: checkout_step
+      type: string
+      meaning: Name of the checkout step shown
+      optional: true
+    - name: checkout_step_number
+      type: number
+      meaning: Number of the checkout step shown
+      optional: true
+    - name: experience_id
+      type: string
+      meaning: Identifier of the experiment experience
+      optional: true
+    - name: variant_id
+      type: string
+      meaning: Variant the customer was shown
+      optional: true
+  - slot: checkout_visitor_audience
+    kind: segment
+    meaning: All visitors who reach checkout
+  steps:
+  - id: s1
+    builds: experiment
+    uses:
+    - checkout_created_event
+    - checkout_completed_event
+    - order_placed_event
+    - payment_failed_event
+    - abandoned_checkout_event
+    - checkout_visitor_audience
+    - experimentName
+    - checkoutPath
+    - controlTrafficPercent
+    - variantTrafficPercent
+    - testDuration
+    - minCheckoutsPerVariant
+    - orderWindow
+    - declineIncreaseLimit
+    - abandonIncreaseLimit
+    instruction: 'Create a client-side experiment titled "{experimentName}" with two variants: Control ({controlTrafficPercent}%)
+      keeps the existing single-page checkout with all fields on one screen and no DOM changes; Variant B ({variantTrafficPercent}%)
+      shows a three-step checkout (Shipping, Payment, Review). Target pages whose URL contains "{checkoutPath}", for visitors
+      in {checkout_visitor_audience}, shown always. Track desktop and mobile separately, running on both but splitting analysis
+      by device. Primary metric: goal_completed_in_experience where experience_id equals this experiment, goal being an order
+      placed within {orderWindow} of a checkout being created. Secondary metrics: checkout completed rate ({checkout_completed_event}
+      divided by {checkout_created_event}); order placed within {orderWindow} as final conversion; median time from {checkout_created_event}
+      to {order_placed_event}; and per-step abandonment for Variant B only, measured from view page events per step. Guardrails:
+      card decline rate ({payment_failed_event}) must not increase by more than {declineIncreaseLimit} percentage points,
+      and {abandoned_checkout_event} must not increase by more than {abandonIncreaseLimit} percentage points. Run for {testDuration}
+      with at least {minCheckoutsPerVariant} checkouts per variant.'
 ---
 
 # Checkout flow length test

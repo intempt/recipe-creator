@@ -10,6 +10,50 @@ author:
 classification:
   industry:
   - industry-agnostic
+portable:
+  summary: Tags users who started filling out a form but did not submit it within three days, so they can get a quick nudge
+    or retargeting while intent is fresh.
+  parameters:
+  - name: lookback_window
+    type: duration
+    label: Window for form activity and submission check
+    default: 3 d
+    required: false
+  - name: attribute_name
+    type: string
+    label: Attribute name used to tag matched users
+    default: form_abandoner
+    required: false
+  requirements:
+  - slot: form_change_event
+    kind: event
+    meaning: A customer changed a field on a form
+  - slot: form_submit_event
+    kind: event
+    meaning: A customer submitted a form
+  - slot: form_abandoners
+    kind: segment
+    meaning: Users who started a form and did not submit it within the window
+    creatable: true
+    definition: users who did {form_change_event} at least once in the last {lookback_window} and did not do {form_submit_event}
+      in the last {lookback_window}
+  steps:
+  - id: s1
+    builds: segment
+    uses:
+    - form_change_event
+    - form_submit_event
+    - lookback_window
+    instruction: Build a segment named "Form Abandoners" of users who did {form_change_event} at least once in the last {lookback_window}
+      and did not do {form_submit_event} in the last {lookback_window}.
+  - id: s2
+    builds: attribute
+    uses:
+    - form_abandoners
+    - attribute_name
+    - s1
+    instruction: Create a user attribute named {attribute_name} set to true for every user in {form_abandoners} built in "Build
+      a segment named Form Abandoners".
 ---
 
 # Form Abandoners

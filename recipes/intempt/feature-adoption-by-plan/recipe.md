@@ -10,6 +10,92 @@ author:
 classification:
   industry:
   - industry-agnostic
+portable:
+  summary: Shows which features each plan tier adopts, as a heatmap of active-user adoption rates, with trends and flags for
+    upsell, deprecation and load-bearing features.
+  parameters:
+  - name: time_window
+    type: duration
+    label: Analysis window
+    default: 30 d
+    required: false
+  - name: comparison_window
+    type: duration
+    label: Comparison period
+    default: 30 d
+    required: false
+  - name: trend_weeks
+    type: number
+    label: Trend lookback (weeks)
+    default: 12
+    required: false
+  - name: high_adoption_threshold
+    type: number
+    label: Load-bearing adoption threshold (%)
+    default: 40
+    required: false
+  - name: upgrade_ratio_threshold
+    type: number
+    label: Higher-to-lower tier adoption ratio
+    default: 2
+    required: false
+  requirements:
+  - slot: feature_click_event
+    kind: event
+    meaning: A customer clicked a page element that identifies a product feature
+    properties:
+    - name: target_id
+      type: text
+      meaning: Stable identifier of the feature surface clicked
+      optional: false
+    - name: target_text
+      type: text
+      meaning: Human-readable label of the clicked element
+      optional: true
+    - name: target_class
+      type: text
+      meaning: CSS class of the clicked element
+      optional: true
+    - name: target_tag
+      type: text
+      meaning: HTML tag of the clicked element
+      optional: true
+    - name: hierarchy
+      type: text
+      meaning: DOM hierarchy of the clicked element
+      optional: true
+    - name: path
+      type: text
+      meaning: Page path where the click happened
+      optional: true
+  - slot: subscription_started_event
+    kind: event
+    meaning: A customer started a subscription to a plan
+    properties:
+    - name: Plan
+      type: text
+      meaning: The plan tier the customer subscribed to
+      optional: false
+  - slot: active_users
+    kind: segment
+    meaning: Users active in the analysis window
+  steps:
+  - id: s1
+    builds: report
+    uses:
+    - feature_click_event
+    - subscription_started_event
+    - active_users
+    - time_window
+    - comparison_window
+    - high_adoption_threshold
+    - upgrade_ratio_threshold
+    instruction: 'Create an Insights report titled "Feature Adoption by Plan". Series A: count unique users of {feature_click_event}
+      filtered by {feature_click_event.target_id}. Series B: computed as Series A divided by total {active_users} in the same
+      plan tier, times 100, unit %, labeled "Adoption Rate". Resolve plan tier from each user''s most recent {subscription_started_event.Plan}.
+      Break down by {feature_click_event.target_id} on the X axis and by plan tier on the Y axis. Time range: {time_window}.
+      Compare against the previous period of equal length, {comparison_window}. Render as a heatmap with features on the vertical
+      axis and plan tiers on the horizontal axis, cell value = adoption rate, color intensity scaled.'
 ---
 
 # Feature adoption by plan

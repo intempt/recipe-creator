@@ -10,6 +10,43 @@ author:
 classification:
   industry:
   - ecommerce-retail
+portable:
+  summary: Moves a studio product packshot into a realistic setting such as a kitchen, office or outdoors, with natural light
+    and depth of field, leaving the product unchanged.
+  parameters:
+  - name: setting
+    type: enum
+    label: Real-world setting
+    default: kitchen
+    required: false
+    options:
+    - kitchen
+    - office
+    - outdoors
+  - name: lighting
+    type: string
+    label: Lighting style
+    default: natural ambient light
+    required: false
+  - name: depth_of_field
+    type: string
+    label: Depth of field style
+    default: realistic depth of field
+    required: false
+  requirements:
+  - slot: product_packshot
+    kind: knowledge
+    meaning: A studio packshot image of the product to be placed in a scene
+  steps:
+  - id: s1
+    builds: image
+    uses:
+    - product_packshot
+    - setting
+    - lighting
+    - depth_of_field
+    instruction: Edit the studio packshot {product_packshot}. Re-render the product in a real-world {setting} with {lighting}
+      and {depth_of_field}. Do not change the product itself.
 ---
 
 # Product in a real setting

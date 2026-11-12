@@ -10,6 +10,73 @@ author:
 classification:
   industry:
   - industry-agnostic
+portable:
+  summary: Shows how customers are spread across six lifecycle stages today, with lifetime value, recency and order value
+    per stage, plus stage migrations and alerts.
+  parameters:
+  - name: window_short
+    type: duration
+    label: Short comparison window
+    default: 30 d
+    required: false
+  - name: window_long
+    type: duration
+    label: Long comparison window
+    default: 90 d
+    required: false
+  - name: champions_shrink_threshold
+    type: number
+    label: Champions shrink alert threshold (%)
+    default: 10
+    required: false
+  - name: at_risk_ltv_share_threshold
+    type: number
+    label: At risk + Needs attention LTV share alert threshold (%)
+    default: 25
+    required: false
+  requirements:
+  - slot: customer_user_base
+    kind: segment
+    meaning: Users in the project with a lifecycle score, lifetime value, days since last activity and average order value
+  - slot: lifecycle_score_attribute
+    kind: attribute
+    meaning: 'The platform-maintained Users lifecycle score enum with six stages: At risk, Needs attention, New customers,
+      Promising, Regulars, Champions'
+  - slot: lifetime_value_attribute
+    kind: attribute
+    meaning: The Users lifetime value numeric attribute
+  - slot: days_since_last_activity_attribute
+    kind: attribute
+    meaning: The Users days since last activity numeric attribute
+  - slot: average_order_value_attribute
+    kind: attribute
+    meaning: The Users average order value numeric attribute
+  - slot: lifecycle_history
+    kind: attribute
+    meaning: Retained historical snapshots of the Users lifecycle score so stage counts can be compared over past dates and
+      stage-to-stage moves can be counted
+  steps:
+  - id: s1
+    builds: report
+    uses:
+    - customer_user_base
+    - lifecycle_score_attribute
+    - lifetime_value_attribute
+    - days_since_last_activity_attribute
+    - average_order_value_attribute
+    - lifecycle_history
+    - window_short
+    - window_long
+    - champions_shrink_threshold
+    - at_risk_ltv_share_threshold
+    instruction: 'Create an Insights report named "Customer Lifecycle Distribution" over {customer_user_base}. Series A: count
+      unique users grouped by {lifecycle_score_attribute} with exactly six stages in this order: At risk, Needs attention,
+      New customers, Promising, Regulars, Champions. Series B: sum of {lifetime_value_attribute} per lifecycle stage. Series
+      C: computed as Series B divided by total lifetime value times 100, unit percent, labelled "Share of Total LTV". Series
+      D: average of {days_since_last_activity_attribute} per lifecycle stage. Series E: average of {average_order_value_attribute}
+      per lifecycle stage. Time range: current snapshot. Comparison: same snapshot {window_short} ago and {window_long} ago
+      using {lifecycle_history}. Chart: stacked bar with one bar per lifecycle stage, and side panels showing Series C, Series
+      D and Series E per stage.'
 ---
 
 # Customer lifecycle distribution

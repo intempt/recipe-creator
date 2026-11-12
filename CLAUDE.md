@@ -70,4 +70,8 @@ find recipes -name recipe.md | wc -l
 | `check_engine_entities.py` | fails when `BUILDABLE_ENTITIES` differs from llm-wrapper's `ALLOWED_ENTITIES`; CI fetches the engine file with `ENGINE_READ_TOKEN` |
 | `sync_plugin.py` | copies the root references and validator into the plugin; `--check` fails on drift |
 | `migrate_v2.py` | converts the v1 `intempt:` format; `--file <path> --owner <folder>` converts one file, see `workflows/existing-recipe.md` |
+| `portable.py` | the portable recipe the Blu engine's catalog reads (the `portable:` front-matter block) and single-metadata's publish checks, in code |
+| `build_catalog.py` | the whole catalog as the publish body; `--check` refuses what single-metadata would refuse |
+| `publish_catalog.py` | posts that body to `catalog_url` on a `catalog/*` tag (`recipe-catalog-publish.yml`); fails on any refusal |
+| `migrate_portable.py` | one-time draft of the `portable:` block per recipe (one model call each, then code checks), writes `MIGRATION_REPORT.md` |
 | `convert_ts_to_md.py` | one-time migration from an older TypeScript format. Kept for provenance, not part of any flow |

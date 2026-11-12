@@ -166,3 +166,54 @@ What CI writes, in one `github-actions[bot]` commit that also deletes the draft:
 The contract checks above (`validate_recipes.py`, the catalog build) skip this format: a
 recipe.md whose front matter has `frontmatter_id` and no `id` is checked by llm-wrapper's
 `git_validate` instead. It is not in the public catalog yet.
+
+## The portable block (the catalog the Blu engine runs)
+
+The Blu engine (single-metadata's catalog, published on a release tag by
+`.github/workflows/recipe-catalog-publish.yml`) reads a recipe as a **portable recipe**: no ids,
+no names that only exist in one project. A recipe carries it in ONE front-matter block,
+`portable:`, beside everything above (nothing an older reader looks at changes). The format and
+the checks are in `scripts/portable.py`; `python3 scripts/build_catalog.py --check` runs the
+same checks single-metadata applies when the catalog is published.
+
+```yaml
+portable:
+  summary: Finds your top spenders and thanks them by email.   # at most 200 characters
+  tags: [ecommerce, email]                  # optional; default = the classification values
+  pattern: abandoned_cart                   # optional build hint (an automation template)
+  parameters:                               # values a person may change (was `inputs`)
+    - {name: threshold, type: number, label: Spend threshold, default: 500}
+  requirements:                             # what the project must have, by type (was `touches` / `prerequisites`)
+    - {slot: purchase, kind: event, meaning: A customer completed an order,
+       properties: [{name: order_value, type: number, meaning: the order total}]}
+    - {slot: top_spenders, kind: segment, creatable: true, meaning: The biggest spenders,
+       definition: "users whose {purchase.order_value} in 90 days is over {threshold}"}
+    - {slot: email_sender, kind: integration, channel: email, meaning: The email sender}
+  steps:                                    # one per body "## Step N", by id
+    - {id: s1, builds: segment, uses: [purchase, threshold],
+       instruction: "Build a segment of users whose total {purchase.order_value} in 90 days is over {threshold}."}
+    - {id: s2, builds: email, uses: [s1, email_sender],
+       instruction: "Write a thank-you email for the users in \"Find your top spenders\". Two sentences."}
+```
+
+| Field | Rule |
+|---|---|
+| `parameters[].type` | string, number, boolean, enum (with `options`), duration, date, text, attachment |
+| `requirements[].kind` | event, attribute, segment, product_feed, integration, destination, brand, knowledge |
+| names | `slot` and parameter `name`: a letter first, then letters, digits or `_` (`^[a-z][A-Za-z0-9_]{0,63}$`) |
+| `creatable` | true only for a derived object the recipe can make (a segment from its `definition`); raw tracked events, attributes and integrations are never creatable: a project without them is told what to set up |
+| `channel` | required on integration / destination: slack, email, sms, push, hubspot, salesforce, shopify, google_sheets |
+| step `instruction` | the body's prose rewritten to name `{slot}`, `{slot.<property>}` and `{parameter}` instead of real names; at most 1,200 characters; no `[Bracket]` or `{{ }}` placeholders, no other vendor's name; every `{x}` declared |
+| step `builds` | what the step makes for the person (email, sms, slack, segment, automation, report, ...) |
+| step `uses` | the slots, parameters and earlier step ids it uses |
+| `slash_command` | `/` + the recipe's own `frontmatter_id` |
+
+When the engine runs a recipe it binds each slot to the project's own object by its meaning
+(shown to the person, changeable), asks for missing parameters once, and reports what a project
+lacks (a tracked event, a property, a connection) with the fix. A recipe that the engine cannot
+build yet shows **Coming soon** with the reason; that status comes from the engine, not from this
+repository.
+
+**Publishing:** push a tag `catalog/<date>` on a commit of `main`. The run sends the WHOLE catalog;
+a recipe that was published before and is missing from it is archived (projects that use it keep
+their version). A recipe single-metadata refuses stays unpublished and fails the run.

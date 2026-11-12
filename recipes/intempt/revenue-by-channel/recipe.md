@@ -10,6 +10,56 @@ author:
 classification:
   industry:
   - industry-agnostic
+portable:
+  summary: Shows which acquisition channels brought in revenue over the last 30 days, each channel's share, and how the channel
+    mix has shifted versus last year.
+  parameters:
+  - name: time_window
+    type: duration
+    label: Analysis time range
+    default: 30 d
+    required: false
+  - name: top_n_channels
+    type: number
+    label: Number of top channels shown before grouping the rest as Other
+    default: 8
+    required: false
+  - name: mix_shift_threshold_pp
+    type: number
+    label: Share shift (percentage points YoY) that flags a channel
+    default: 5
+    required: false
+  requirements:
+  - slot: order_placed_event
+    kind: event
+    meaning: A customer placed an order
+    properties:
+    - name: total_price
+      type: number
+      meaning: Order value of the placed order
+      optional: false
+  - slot: utm_source_attribute
+    kind: attribute
+    meaning: The user's first-touch UTM source recorded on the user record
+  steps:
+  - id: s1
+    builds: report
+    uses:
+    - order_placed_event
+    - utm_source_attribute
+    - time_window
+    - top_n_channels
+    - mix_shift_threshold_pp
+    instruction: 'Create an Insights report titled "Revenue by Acquisition Channel". Series A: count of {order_placed_event}
+      aggregated as sum of {order_placed_event.total_price}, unit $, labeled "Revenue". Series B: Series A divided by total
+      revenue times 100, unit %, labeled "Share of Revenue". Break down by {utm_source_attribute} to attribute each order
+      to a channel; show the top {top_n_channels} channels by revenue and group the remainder as "Other". Time range: last
+      {time_window}. Compare against the previous period (prior {time_window}) and the same period last year. Show Series
+      A as a horizontal bar chart with the period comparison overlaid; show Series B share over time as a separate small-multiple
+      area chart. Annotate each channel bar with absolute revenue and year-over-year percentage change. Flag any channel whose
+      share of revenue shifted by {mix_shift_threshold_pp} or more percentage points year over year as a mix shift. Highlight
+      channels whose revenue grew but whose share declined (growing slower than overall), and channels whose revenue declined
+      while share stayed stable (overall slowdown rather than channel-specific).'
 ---
 
 # Revenue by acquisition channel

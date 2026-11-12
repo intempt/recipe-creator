@@ -10,6 +10,123 @@ author:
 classification:
   industry:
   - industry-agnostic
+portable:
+  summary: Shows how customer lifetime value by acquisition channel and first-purchase cohort develops over time, with repeat-purchase
+    timing and lifecycle context for scaling decisions.
+  parameters:
+  - name: defaultDateRange
+    type: string
+    label: Default date range
+    default: last_12_months
+  - name: exclusionPeriod
+    type: enum
+    label: Exclude incomplete periods
+    default: incomplete_periods
+    options:
+    - incomplete_periods
+    - none
+  - name: visibility
+    type: enum
+    label: Dashboard visibility
+    default: project
+    options:
+    - project
+    - private
+  - name: m6LtvCacMultiple
+    type: number
+    label: Healthy M6 LTV to CAC multiple
+    default: 1.5
+  - name: m12LtvCacMultiple
+    type: number
+    label: Top-quartile M12 LTV to CAC multiple
+    default: 3
+  - name: subscribeRetentionThreshold
+    type: string
+    label: M3 repeat rate suggesting subscribe-and-save
+    default: 30%
+  - name: oneTimeRetentionThreshold
+    type: string
+    label: M3 repeat rate suggesting one-time purchase category
+    default: 10%
+  - name: recommendedCadence
+    type: string
+    label: Recommended review cadence
+    default: monthly
+  requirements:
+  - slot: placed_order_event
+    kind: event
+    meaning: A customer placed an order
+    properties:
+    - name: items
+      type: text
+      meaning: Items in the order
+      optional: false
+    - name: total_price
+      type: number
+      meaning: Total order price
+      optional: false
+    - name: customer_id
+      type: string
+      meaning: Customer identifier
+      optional: false
+  - slot: session_start_event
+    kind: event
+    meaning: A customer started a session
+    optional: true
+  - slot: view_page_event
+    kind: event
+    meaning: A customer viewed a page
+    optional: true
+  - slot: utm_source_attribute
+    kind: attribute
+    meaning: The customer's first-touch UTM source acquisition channel
+  - slot: lifecycle_score_attribute
+    kind: attribute
+    meaning: The customer's lifecycle stage (At risk, Needs attention, New customers, Promising, Regulars, Champions)
+  - slot: first_order_category_attribute
+    kind: attribute
+    meaning: The product category of the customer's first order
+    optional: true
+  steps:
+  - id: s1
+    builds: dashboard
+    uses:
+    - placed_order_event
+    - session_start_event
+    - view_page_event
+    - utm_source_attribute
+    - lifecycle_score_attribute
+    - first_order_category_attribute
+    - defaultDateRange
+    - exclusionPeriod
+    - visibility
+    - m6LtvCacMultiple
+    - m12LtvCacMultiple
+    - subscribeRetentionThreshold
+    - oneTimeRetentionThreshold
+    - recommendedCadence
+    instruction: 'Create a Dash board with a 12-column composition canvas titled "Cohort Acquisition LTV". Set the default
+      date range to {defaultDateRange}, exclude {exclusionPeriod}, and set visibility to {visibility}. Use no board filters
+      by default. Set the board breakdown to {utm_source_attribute} and push it down throughout the board. Lay out four rows.
+      Row 1 (height 200 px): four metric cards at 3 width units each. Card 1: insights metric from the first-purchase cohort
+      LTV curve, vizType metric, title "Average LTV (M6)". Card 2: insights metric from the first-purchase cohort LTV curve,
+      vizType metric, title "Average LTV (M12)". Card 3: retention metric from purchase retention, vizType metric, title "M3
+      Repeat Purchase Rate". Card 4: insights metric from post-purchase second-order velocity, vizType metric, title "Median
+      Days to 2nd Order". Row 2 (height 480 px): one full-width card at 12 width units. Insights from the first-purchase cohort
+      LTV curve, displayMode chart, vizType line. Each line is a cohort defined by first-purchase month, X-axis is months
+      since first purchase, Y-axis is cumulative revenue per cohort member, broken down by {utm_source_attribute}. Row 3 (height
+      440 px): two cards at 6 width units. Card 1: retention curve from purchase retention, displayMode chart, vizType retention_curve,
+      cohorts by first-purchase month showing repeat-purchase percentage over time, by {first_order_category_attribute}. Card
+      2: insights from post-purchase second-order velocity, displayMode chart, histogram of days from first to second order,
+      per category. Row 4 (height 440 px): two cards at 6 width units. Card 1: insights from revenue by channel, displayMode
+      chart, vizType bar, current revenue split per channel. Card 2: insights from customer lifecycle distribution, displayMode
+      chart, lifecycle distribution per channel using {lifecycle_score_attribute} against {utm_source_attribute}. Reading
+      guide: M6 LTV at or above {m6LtvCacMultiple} times CAC is healthy and M12 LTV at or above {m12LtvCacMultiple} times
+      CAC is top quartile; CAC must be computed externally. In the cohort curve, steep slopes mark quality acquisition channels
+      and flat slopes mark one-and-done buyers. In the retention curve, categories above {subscribeRetentionThreshold} M3
+      repeat suit subscribe-and-save, and categories below {oneTimeRetentionThreshold} M3 repeat are one-time purchases. Use
+      the second-order histogram to set replenishment trigger delays per category. A channel with high current revenue but
+      mostly At Risk customers signals revenue erosion. Review this dashboard {recommendedCadence}.'
 ---
 
 # Cohort LTV by acquisition channel

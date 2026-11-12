@@ -10,6 +10,134 @@ author:
 classification:
   industry:
   - industry-agnostic
+portable:
+  summary: Tests your current pricing page against side-by-side plan cards and an interactive usage slider, tracking plan
+    clicks, checkouts, and subscriptions to show which layout earns more.
+  parameters:
+  - name: experimentTitle
+    type: string
+    label: Experiment title
+    default: Pricing Page Layout Test
+    required: false
+  - name: pricingPagePath
+    type: string
+    label: Pricing page URL path
+    default: /pricing
+    required: false
+  - name: minDurationDays
+    type: duration
+    label: Minimum run length
+    default: 21 d
+    required: false
+  - name: minVisitorsPerVariant
+    type: number
+    label: Minimum unique visitors per variant
+    default: 1000
+    required: false
+  - name: controlTrafficPercent
+    type: number
+    label: Control traffic share (%)
+    default: 34
+    required: false
+  - name: variantBTrafficPercent
+    type: number
+    label: Variant B traffic share (%)
+    default: 33
+    required: false
+  - name: variantCTrafficPercent
+    type: number
+    label: Variant C traffic share (%)
+    default: 33
+    required: false
+  - name: revenueWindow
+    type: duration
+    label: Revenue attribution window after exposure
+    default: 7 d
+    required: false
+  - name: checkoutWindow
+    type: duration
+    label: Checkout attribution window after exposure
+    default: 7 d
+    required: false
+  - name: subscriptionWindow
+    type: duration
+    label: Subscription attribution window
+    default: 14 d
+    required: false
+  - name: bounceRateGuardrailPercent
+    type: number
+    label: Maximum allowed bounce rate increase (%)
+    default: 5
+    required: false
+  requirements:
+  - slot: pricing_experiment_event
+    kind: event
+    meaning: A visitor was exposed to a page experience variant
+    properties:
+    - name: experience_id
+      type: string
+      meaning: Identifier of the experience the visitor was shown
+      optional: false
+    - name: value
+      type: number
+      meaning: Revenue value recorded when a downstream subscription started
+      optional: true
+    - name: target_id
+      type: string
+      meaning: Identifier of the element clicked, such as a plan select button
+      optional: true
+  - slot: plan_click_event
+    kind: event
+    meaning: A visitor clicked a plan selection button on the pricing page
+    properties:
+    - name: target_id
+      type: string
+      meaning: Identifier of the clicked plan button, starting with plan-select-
+      optional: false
+  - slot: checkout_created_event
+    kind: event
+    meaning: A customer created a checkout
+  - slot: subscription_started_event
+    kind: event
+    meaning: A customer started a subscription
+    properties:
+    - name: amount
+      type: number
+      meaning: Subscription amount captured at start
+      optional: false
+  - slot: goal_completed_event
+    kind: event
+    meaning: A visitor completed a goal inside an experience, with value set when a subscription started
+    properties:
+    - name: experience_id
+      type: string
+      meaning: Identifier of the experience the goal belongs to
+      optional: false
+    - name: value
+      type: number
+      meaning: Revenue value attributed to the goal
+      optional: false
+  - slot: pricing_page_bounce_metric
+    kind: attribute
+    meaning: Bounce rate of visitors on the pricing page
+  - slot: pricing_page_visitors
+    kind: segment
+    meaning: Visitors who viewed the pricing page
+  steps:
+  - id: s1
+    builds: experiment
+    instruction: 'Create a client experiment titled "{experimentTitle}" on the experiences page. Targeting: page URL equals
+      "{pricingPagePath}" (or "{pricingPagePath}/*" for nested routes); devices any; audience all visitors; display frequency
+      always. Variants: Control at {controlTrafficPercent}% showing the existing pricing layout with no DOM changes; Variant
+      B at {variantBTrafficPercent}% showing side-by-side plan cards with a "Recommended" badge on the middle plan; Variant
+      C at {variantCTrafficPercent}% showing an interactive usage slider with dynamic plan recommendation. Primary metric:
+      goal_completed in this experience where experience_id equals this experiment and value is greater than 0 (revenue from
+      subscription started within {revenueWindow} of exposure), using {goal_completed_event}. Secondary metrics: click where
+      target_id starts with "plan-select-" (per-plan click-through) using {plan_click_event}; checkout created within {checkoutWindow}
+      of exposure using {checkout_created_event}; subscription started within {subscriptionWindow} using {subscription_started_event}.
+      Guardrail: bounce rate on the pricing page must not increase by more than {bounceRateGuardrailPercent}% using {pricing_page_bounce_metric}.
+      Schedule: run for at least {minDurationDays} and require at least {minVisitorsPerVariant} unique visitors per variant
+      from {pricing_page_visitors}.'
 ---
 
 # Pricing page layout test

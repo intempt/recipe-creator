@@ -10,6 +10,156 @@ author:
 classification:
   industry:
   - industry-agnostic
+portable:
+  summary: Runs a three-way test of a sticky call-to-action bar on marketing pages (none, always visible, or fades in after
+    the hero) to find which lifts demo requests and signups without hurting bounce or scroll.
+  parameters:
+  - name: test_name
+    type: string
+    label: Experiment title
+    default: Landing Page Sticky CTA
+    required: false
+  - name: control_traffic_pct
+    type: number
+    label: Control variant traffic share (%)
+    default: 34
+    required: false
+  - name: variant_b_traffic_pct
+    type: number
+    label: Variant B (always-visible bar) traffic share (%)
+    default: 33
+    required: false
+  - name: variant_c_traffic_pct
+    type: number
+    label: Variant C (fade-in bar) traffic share (%)
+    default: 33
+    required: false
+  - name: fade_in_scroll_threshold_px
+    type: number
+    label: Scroll depth that triggers Variant C fade-in (px)
+    default: 600
+    required: false
+  - name: fade_in_duration_ms
+    type: number
+    label: Variant C fade-in transition (ms)
+    default: 300
+    required: false
+  - name: test_duration
+    type: duration
+    label: Test duration
+    default: 14 d
+    required: false
+  - name: min_visitors_per_variant
+    type: number
+    label: Minimum unique visitors per variant
+    default: 1500
+    required: false
+  - name: bounce_rate_guardrail_pct
+    type: number
+    label: Maximum allowed bounce rate increase (%)
+    default: 5
+    required: false
+  - name: scroll_50_guardrail_pct
+    type: number
+    label: Maximum allowed drop in scroll-to-50% rate (%)
+    default: 10
+    required: false
+  - name: cta_bar_message
+    type: text
+    label: Sticky bar message
+    default: '[Brand]: see it in action in 15 minutes'
+    required: false
+  - name: cta_button_label
+    type: string
+    label: Sticky bar button label
+    default: Book a demo
+    required: false
+  requirements:
+  - slot: experiment_platform
+    kind: integration
+    meaning: An experimentation platform that can run client-side experiments with visual editor variants on web pages
+    channel: email
+  - slot: demo_request_form_submitted
+    kind: event
+    meaning: A visitor submitted the demo-request form
+    properties:
+    - name: experience_id
+      type: string
+      meaning: Identifier of the experiment the visitor was exposed to
+      optional: false
+  - slot: user_signed_up
+    kind: event
+    meaning: A user created an account through signup
+    properties:
+    - name: experience_id
+      type: string
+      meaning: Identifier of the experiment the visitor was exposed to
+      optional: false
+  - slot: goal_completed_in_experience
+    kind: event
+    meaning: A visitor completed a goal while exposed to an experiment
+    properties:
+    - name: experience_id
+      type: string
+      meaning: Identifier of the experiment the visitor was exposed to
+      optional: false
+  - slot: cta_click
+    kind: event
+    meaning: A visitor clicked a tracked call-to-action element on the page
+    properties:
+    - name: target_id
+      type: string
+      meaning: Identifier of the clicked element, e.g. sticky-cta-button or hero-cta-button
+      optional: false
+  - slot: page_scroll_depth
+    kind: event
+    meaning: A visitor reached a tracked scroll depth on a page
+    properties:
+    - name: depth_pct
+      type: number
+      meaning: Scroll depth reached as a percentage of the page
+      optional: false
+  - slot: marketing_landing_pages
+    kind: attribute
+    meaning: Visitor is on a marketing landing page (homepage, solutions, features, product, or pricing)
+  steps:
+  - id: s1
+    builds: experiment
+    uses:
+    - experiment_platform
+    - goal_completed_in_experience
+    - cta_click
+    - page_scroll_depth
+    - marketing_landing_pages
+    - demo_request_form_submitted
+    - user_signed_up
+    - test_name
+    - control_traffic_pct
+    - variant_b_traffic_pct
+    - variant_c_traffic_pct
+    - fade_in_scroll_threshold_px
+    - fade_in_duration_ms
+    - test_duration
+    - min_visitors_per_variant
+    - bounce_rate_guardrail_pct
+    - scroll_50_guardrail_pct
+    - cta_bar_message
+    - cta_button_label
+    instruction: 'Create a client-side experiment titled "{test_name}" on the experiences page of {experiment_platform}. Variants:
+      Control ({control_traffic_pct}%) with no sticky CTA, where the CTA appears only in the hero; Variant B ({variant_b_traffic_pct}%)
+      with an always-visible sticky CTA bar fixed at the top of the page, shown immediately on load; Variant C ({variant_c_traffic_pct}%)
+      with a fade-in sticky CTA bar that appears after the user scrolls past {fade_in_scroll_threshold_px} px and fades in
+      over {fade_in_duration_ms} ms, hiding again when the user scrolls back above the threshold. Both sticky variants use
+      the same markup: a bar with the message "{cta_bar_message}" and a button labeled "{cta_button_label}" with target_id
+      "sticky-cta-button" (keep this identifier identical across B and C). Add body padding-top equal to the bar height so
+      content is not hidden. Make the bar respect the mobile browser URL bar and avoid stacking with mobile browser chrome.
+      Targeting: marketing landing pages only (homepage, /solutions, /features, /product, /pricing), all devices, all visitors,
+      shown always within session. Primary metric: {goal_completed_in_experience} where experience_id equals this experiment,
+      counting demo request submissions ({demo_request_form_submitted}) or signups ({user_signed_up}) within session of exposure.
+      Secondary metrics: {cta_click} with target_id sticky-cta-button; {cta_click} with target_id hero-cta-button; bounce
+      rate per variant; {page_scroll_depth}. Guardrails: bounce rate must not increase more than {bounce_rate_guardrail_pct}%;
+      scroll-to-50% rate ({page_scroll_depth} at 50%) must not drop more than {scroll_50_guardrail_pct}%. Run for {test_duration}
+      with at least {min_visitors_per_variant} unique visitors per variant.'
 ---
 
 # Sticky CTA bar test

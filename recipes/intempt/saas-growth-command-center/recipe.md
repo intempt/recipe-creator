@@ -10,6 +10,80 @@ author:
 classification:
   industry:
   - saas-b2b-tech
+portable:
+  summary: 'Gives a SaaS founder one dashboard showing whether the business is growing and whether that growth is healthy:
+    weekly actives, MRR, trial conversion, activation, retention and feature adoption.'
+  parameters:
+  - name: defaultDateRange
+    type: duration
+    label: Default date range
+    default: 30 d
+  - name: exclusionPeriod
+    type: enum
+    label: Exclusion period
+    default: incomplete_periods
+    options:
+    - incomplete_periods
+    - none
+  - name: boardVisibility
+    type: enum
+    label: Board visibility
+    default: project
+    options:
+    - project
+    - private
+  requirements:
+  - slot: weekly_active_users_trend
+    kind: segment
+    meaning: Insights recipe tracking weekly active users over time
+  - slot: mrr_trend
+    kind: segment
+    meaning: Insights recipe tracking monthly recurring revenue over time
+  - slot: trial_to_paid_conversion_rate
+    kind: segment
+    meaning: Insights recipe tracking the trial to paid conversion rate
+  - slot: stickiness_ratios_dau_wau_mau
+    kind: segment
+    meaning: Insights recipe tracking DAU/WAU/MAU stickiness ratios
+  - slot: signup_activation_funnel
+    kind: segment
+    meaning: Funnel recipe tracking signup to activation steps
+  - slot: feature_adoption_by_plan
+    kind: segment
+    meaning: Insights recipe tracking feature adoption broken down by plan
+  - slot: user_retention_weekly
+    kind: segment
+    meaning: Retention recipe showing weekly cohort retention
+  - slot: first_session_paths_after_signup
+    kind: segment
+    meaning: Path recipe showing user paths in the first session after signup
+  steps:
+  - id: s1
+    builds: dashboard
+    uses:
+    - weekly_active_users_trend
+    - mrr_trend
+    - trial_to_paid_conversion_rate
+    - stickiness_ratios_dau_wau_mau
+    - signup_activation_funnel
+    - feature_adoption_by_plan
+    - user_retention_weekly
+    - first_session_paths_after_signup
+    - defaultDateRange
+    - exclusionPeriod
+    - boardVisibility
+    instruction: 'Create a dashboard titled "SaaS Growth Command Center" on a 12-column canvas. Set the default date range
+      to {defaultDateRange} and the exclusion period to {exclusionPeriod}. Set visibility to {boardVisibility}. No board filters
+      or breakdowns by default; users may add a plan_tier filter at runtime. Mark every card as linked so it live-mirrors
+      its source recipe. Row 1 (height 200 px): four metric cards, each 3 units wide, displayed as charts with vizType metric:
+      {weekly_active_users_trend} titled "Weekly Active Users"; {mrr_trend} titled "MRR"; {trial_to_paid_conversion_rate}
+      titled "Trial to Paid"; {stickiness_ratios_dau_wau_mau} titled "Stickiness (DAU/MAU)". Row 2 (height 400 px): two cards,
+      each 6 units wide: a stacked_area trend from {mrr_trend}; a funnel_steps funnel from {signup_activation_funnel}. Row
+      3 (height 400 px): two cards, each 6 units wide: a bar chart from {feature_adoption_by_plan}; a full line trend from
+      {stickiness_ratios_dau_wau_mau}. Row 4 (height 440 px): two cards, each 6 units wide: a cohort table from {user_retention_weekly};
+      a sankey-style path chart from {first_session_paths_after_signup}. Annotation: review the Row 1 KPIs alongside the stickiness
+      ratio; high weekly actives and MRR with falling stickiness is a leading indicator of churn. All cards follow the board
+      date range, and users may override the range per card.'
 ---
 
 # SaaS growth command center

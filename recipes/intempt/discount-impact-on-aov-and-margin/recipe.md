@@ -10,6 +10,94 @@ author:
 classification:
   industry:
   - ecommerce-retail
+portable:
+  summary: Shows whether discount codes grow order value by comparing average basket totals with and without a discount, code
+    by code, plus net revenue impact and discount cost share.
+  parameters:
+  - name: time_granularity
+    type: enum
+    label: Time granularity
+    default: week
+    required: false
+    options:
+    - day
+    - week
+    - month
+  - name: time_range
+    type: duration
+    label: Time range
+    default: 12 w
+    required: false
+  - name: comparison_window
+    type: duration
+    label: Comparison period
+    default: 12 w
+    required: false
+  - name: top_codes_limit
+    type: number
+    label: Number of top discount codes to break down by
+    default: 10
+    required: false
+  - name: healthy_discount_cost_pct
+    type: number
+    label: Healthy discount cost threshold (% of revenue)
+    default: 15
+    required: false
+  - name: over_reliance_discount_cost_pct
+    type: number
+    label: Over-reliance discount cost threshold (% of revenue)
+    default: 20
+    required: false
+  requirements:
+  - slot: placed_order_event
+    kind: event
+    meaning: A customer placed an order
+    properties:
+    - name: total_price
+      type: number
+      meaning: Order basket total
+      optional: false
+  - slot: discount_applied_event
+    kind: event
+    meaning: A discount code was applied to an order
+    properties:
+    - name: amount
+      type: number
+      meaning: Discount amount applied
+      optional: false
+    - name: code
+      type: string
+      meaning: Discount code used
+      optional: false
+    - name: order_id
+      type: string
+      meaning: Order the discount was applied to
+      optional: false
+  - slot: total_revenue_source
+    kind: attribute
+    meaning: Total revenue of the business over the trailing period
+    optional: true
+  steps:
+  - id: s1
+    builds: report
+    uses:
+    - placed_order_event
+    - discount_applied_event
+    - time_granularity
+    - time_range
+    - comparison_window
+    - top_codes_limit
+    instruction: 'Create an Insights report titled "Discount Impact on AOV". Series A: event {placed_order_event} filtered
+      to orders that have a linked {discount_applied_event} via order_id, aggregation average of {placed_order_event.total_price},
+      label "AOV with Discount". Series B: event {placed_order_event} filtered to orders with NO linked {discount_applied_event},
+      aggregation average of {placed_order_event.total_price}, label "AOV without Discount". Series C: computed Series A minus
+      Series B, unit dollars, label "AOV Lift from Discount". Series D: computed sum of {discount_applied_event.amount} across
+      all discounted orders, unit dollars, label "Total Discount Cost". Series E: computed (sum of {placed_order_event.total_price}
+      for discounted orders minus Series D) minus (count of discounted orders times Series B), label "Net Revenue Impact";
+      this answers whether discounts grew the pie or shifted it. Time granularity {time_granularity}, time range {time_range},
+      compare to previous period of {comparison_window}. Break down by {discount_applied_event.code}, top {top_codes_limit}
+      codes by usage volume. Chart: dual-axis, left axis AOV in dollars showing Series A and Series B as side-by-side bars
+      per code; right axis Series E as a line.'
 ---
 
 # Discount impact on order value

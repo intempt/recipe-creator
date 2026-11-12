@@ -10,6 +10,40 @@ author:
 classification:
   industry:
   - ecommerce-retail
+portable:
+  summary: Turns one product still into a 5-second cinematic product video with subtle camera drift and soft dust, keeping
+    the same backdrop and no text or logo.
+  parameters:
+  - name: clip_length
+    type: duration
+    label: Clip length
+    default: 5 s
+    required: false
+  - name: camera_motion
+    type: string
+    label: Camera motion
+    default: smooth subtle camera drift
+    required: false
+  - name: ambient_effect
+    type: string
+    label: Ambient effect
+    default: soft dust particles
+    required: false
+  requirements:
+  - slot: product_still
+    kind: attribute
+    meaning: A product still image to animate into the video
+  steps:
+  - id: s1
+    builds: video
+    uses:
+    - product_still
+    - clip_length
+    - camera_motion
+    - ambient_effect
+    instruction: Generate a cinematic ad video from {product_still}. Seed the generation on the product still. Produce a cinematic
+      {clip_length} product spot with {camera_motion}, {ambient_effect}, and the same backdrop as the still. No text and no
+      logo overlay. Use an image-to-video pipeline (Kling or Seedance).
 ---
 
 # Cinematic ad spot

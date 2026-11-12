@@ -10,6 +10,33 @@ author:
 classification:
   industry:
   - ecommerce-retail
+portable:
+  summary: Builds a segment of customers who placed their first order in the last 30 days, the window when most second purchases
+    happen.
+  parameters:
+  - name: repeat_window
+    type: duration
+    label: Repeat window
+    default: 30 d
+    required: false
+  - name: order_count
+    type: number
+    label: Number of orders placed
+    default: 1
+    required: false
+  requirements:
+  - slot: placed_order
+    kind: event
+    meaning: A customer placed an order
+  steps:
+  - id: s1
+    builds: segment
+    uses:
+    - placed_order
+    - order_count
+    - repeat_window
+    instruction: Build a segment named "Second-Purchase Window" of users who did {placed_order} exactly {order_count} time(s)
+      at any time, and whose most recent {placed_order} happened in the last {repeat_window}.
 ---
 
 # First-time buyers in the repeat window

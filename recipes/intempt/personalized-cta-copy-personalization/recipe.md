@@ -10,6 +10,88 @@ author:
 classification:
   industry:
   - industry-agnostic
+portable:
+  summary: Shows visitors a main button whose wording matches their account stage (first-time, returning, trial, free plan,
+    paying), replacing one generic prompt, and tracks clicks per audience.
+  parameters:
+  - name: homepage_path
+    type: string
+    label: Page where the CTA appears (homepage, marketing pages, pricing, features)
+    default: /
+  - name: trial_app_path
+    type: string
+    label: Link target for trial users
+    default: /app
+  - name: free_plan_upgrade_path
+    type: string
+    label: Link target for free-plan users
+    default: /upgrade
+  - name: paying_dashboard_path
+    type: string
+    label: Link target for paying customers
+    default: /dashboard
+  - name: cta_target_selector
+    type: string
+    label: HTML selector of the primary CTA button
+    default: .primary-cta-button
+  requirements:
+  - slot: first_seen_event
+    kind: attribute
+    meaning: A user's first-seen timestamp used to tell first-time visitors from returning ones
+  - slot: user_created_event
+    kind: event
+    meaning: A customer created a user account
+  - slot: subscription_started_event
+    kind: event
+    meaning: A customer started a subscription
+    properties:
+    - name: plan
+      type: string
+      meaning: Plan the customer subscribed to, such as free or a paid plan
+      optional: false
+    - name: billing_period
+      type: string
+      meaning: Billing period chosen for the subscription
+      optional: true
+  - slot: subscription_canceled_event
+    kind: event
+    meaning: A customer canceled a subscription
+  - slot: primary_cta_element
+    kind: destination
+    meaning: The main call-to-action button on the website pages where the personalization runs
+    channel: email
+  - slot: web_personalization_tool
+    kind: integration
+    meaning: A web personalization tool able to swap page content per audience and track clicks
+    channel: email
+  steps:
+  - id: s1
+    builds: personalization
+    uses:
+    - first_seen_event
+    - user_created_event
+    - subscription_started_event
+    - subscription_canceled_event
+    - primary_cta_element
+    - web_personalization_tool
+    - homepage_path
+    - trial_app_path
+    - free_plan_upgrade_path
+    - paying_dashboard_path
+    - cta_target_selector
+    instruction: Create a client-side personalization titled "Personalized CTA Copy" on the experiences page that replaces
+      the primary CTA in {cta_target_selector} on {homepage_path} and marketing, pricing and features pages. Keep the generic
+      control copy "Get started" as the fallback for all other visitors. Show "Start your free trial" to visitors whose {first_seen_event}
+      is within the current session or is empty, and who have no {subscription_started_event}. Show "Continue exploring [Brand]"
+      to returning visitors whose {first_seen_event} is older than the current session and who have no {user_created_event}.
+      Show "Continue your trial" to users with a {user_created_event} and no {subscription_started_event} that has a {subscription_started_event.billing_period}
+      value; send these users to {trial_app_path}. Show "Upgrade to Pro" to users with a {subscription_started_event} where
+      {subscription_started_event.plan} is "free"; send these users to {free_plan_upgrade_path}. Show "Open dashboard" to
+      users with a {subscription_started_event} where {subscription_started_event.plan} is not "free" and no {subscription_canceled_event};
+      send these users to {paying_dashboard_path}. Each variant keeps the button id "primary-cta" and a shared click target
+      so clicks aggregate across variants. Track clicks per CTA copy per audience and downstream signup, trial-to-paid and
+      free-to-paid upgrade conversion per audience. Run continuously with targeting on every listed page and no display frequency
+      cap. The copy can be refined in the visual editor, for example a first-person variant such as "Start MY free trial".
 ---
 
 # CTA wording by account state

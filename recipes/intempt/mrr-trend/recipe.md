@@ -10,6 +10,99 @@ author:
 classification:
   industry:
   - saas-b2b-tech
+portable:
+  summary: Shows monthly recurring revenue by plan over the last 12 months, with month-on-month change, year-over-year comparison,
+    and flags for contraction and mix shifts.
+  parameters:
+  - name: time_range
+    type: duration
+    label: Time range to chart
+    default: 12 mo
+    required: false
+  - name: yoy_share_shift_threshold
+    type: number
+    label: YoY plan share shift threshold (percentage points)
+    default: 5
+    required: false
+  - name: growth_average_window
+    type: duration
+    label: Trailing growth average window
+    default: 3 mo
+    required: false
+  - name: recurring_type_value
+    type: text
+    label: Revenue completed type value that marks recurring revenue
+    default: subscription
+    required: false
+  requirements:
+  - slot: revenue_completed_event
+    kind: event
+    meaning: A customer completed a revenue payment
+    properties:
+    - name: amount
+      type: number
+      meaning: Payment amount in dollars
+      optional: false
+    - name: customer_id
+      type: text
+      meaning: Identifier of the paying customer
+      optional: false
+    - name: type
+      type: text
+      meaning: Revenue type, indicating whether the payment is recurring subscription revenue
+      optional: false
+    - name: source
+      type: text
+      meaning: Where the revenue payment originated
+      optional: true
+  - slot: invoice_paid_event
+    kind: event
+    meaning: A customer's invoice was paid through the payment processor
+    properties:
+    - name: amount_paid_cents
+      type: number
+      meaning: Amount paid on the invoice in cents
+      optional: false
+    - name: customer_id
+      type: text
+      meaning: Identifier of the paying customer
+      optional: false
+    optional: true
+  - slot: subscription_started_event
+    kind: event
+    meaning: A customer started a subscription to a plan
+    properties:
+    - name: plan
+      type: text
+      meaning: Name of the subscription plan tier the customer started
+      optional: false
+    - name: customer_id
+      type: text
+      meaning: Identifier of the subscribing customer
+      optional: false
+  steps:
+  - id: s1
+    builds: report
+    uses:
+    - revenue_completed_event
+    - invoice_paid_event
+    - subscription_started_event
+    - time_range
+    - yoy_share_shift_threshold
+    - growth_average_window
+    - recurring_type_value
+    instruction: 'Create an Insights report titled "Monthly Recurring Revenue Trend" showing monthly recurring revenue over
+      {time_range}, with monthly granularity. Series A is the sum of {revenue_completed_event.amount} for {revenue_completed_event}
+      where {revenue_completed_event.type} equals "{recurring_type_value}", labeled "MRR" in dollars. If {revenue_completed_event}
+      recurring type is not configured in the workspace, use {invoice_paid_event} instead, summing {invoice_paid_event.amount_paid_cents}
+      divided by 100 to get dollars. Break Series A down by plan: attribute each paying customer to the plan from their most
+      recent active {subscription_started_event.plan}, matched on customer id. Render Series A as a stacked area chart. Series
+      B is the month-over-month net new MRR, computed as current month MRR minus previous month MRR, labeled "Net New MRR"
+      in dollars, shown as a secondary line. Add a dotted year-over-year overlay comparing each month with the same month
+      of the prior year. Annotations: show the absolute MRR for the most recent month as a callout; show the month-over-month
+      growth rate as a percentage and the trailing {growth_average_window} average growth rate; flag any month where Net New
+      MRR is negative as contraction; highlight any plan whose share of MRR shifted by more than {yoy_share_shift_threshold}
+      percentage points year over year. Do not use a subscription_payment event, which does not exist in the taxonomy.'
 ---
 
 # Monthly recurring revenue trend

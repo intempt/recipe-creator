@@ -10,6 +10,52 @@ author:
 classification:
   industry:
   - industry-agnostic
+portable:
+  summary: Tags visitors who click around the site often, so later segments and campaigns can target them without rebuilding
+    the match.
+  parameters:
+  - name: click_threshold
+    type: number
+    label: Minimum number of click events
+    default: 5
+    required: false
+  - name: window
+    type: duration
+    label: Lookback window for clicks
+    default: 7 d
+    required: false
+  - name: segment_name
+    type: string
+    label: Name of the highly engaged segment
+    default: Highly Engaged Visitors
+    required: false
+  - name: attribute_name
+    type: string
+    label: Name of the tagging attribute
+    default: highly_engaged
+    required: false
+  requirements:
+  - slot: click_event
+    kind: event
+    meaning: A visitor clicked on the site
+  steps:
+  - id: s1
+    builds: segment
+    uses:
+    - click_event
+    - click_threshold
+    - window
+    - segment_name
+    instruction: Build a segment named "{segment_name}" of users who triggered {click_event} at least {click_threshold} times
+      in the last {window}.
+  - id: s2
+    builds: attribute
+    uses:
+    - s1
+    - attribute_name
+    - segment_name
+    instruction: Create an attribute named "{attribute_name}" on users in "{segment_name}", set to true. Use the result of
+      "Build the highly engaged visitor list".
 ---
 
 # Highly Engaged Visitors

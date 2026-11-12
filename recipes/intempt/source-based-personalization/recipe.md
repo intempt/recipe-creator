@@ -10,6 +10,107 @@ author:
 classification:
   industry:
   - industry-agnostic
+portable:
+  summary: Each paid, partner or organic visitor lands on a homepage or landing page whose hero repeats the promise of the
+    ad they clicked, with a matching call to action.
+  parameters:
+  - name: landingPages
+    type: text
+    label: Pages where the personalization runs (homepage and key landing pages)
+    default: /, /lp, /landing-*
+    required: false
+  - name: competitorCampaignKeyword
+    type: string
+    label: Campaign keyword marking competitor search ads
+    default: competitor
+    required: false
+  - name: alternativeCampaignKeyword
+    type: string
+    label: Second campaign keyword marking competitor search ads
+    default: alternative
+    required: false
+  - name: enterpriseCampaignKeyword
+    type: string
+    label: Campaign keyword marking LinkedIn enterprise ads
+    default: enterprise
+    required: false
+  - name: smbCampaignKeyword
+    type: string
+    label: Campaign keyword marking Facebook SMB ads
+    default: smb
+    required: false
+  - name: partnerIncentiveDiscount
+    type: string
+    label: Partner referral discount offer
+    default: 20% off your first year
+    required: false
+  - name: smbFreeTeamLimit
+    type: number
+    label: Team size limit for free SMB plan shown in hero
+    default: 5
+    required: false
+  - name: sessionPersistence
+    type: enum
+    label: How long source attribution sticks
+    default: session
+    required: false
+    options:
+    - session
+    - user
+  requirements:
+  - slot: ad_click_visit
+    kind: event
+    meaning: A visitor arrived on the website from a tracked ad or referral click
+    properties:
+    - name: utm_source
+      type: string
+      meaning: Traffic source named in the link, such as google, linkedin, facebook or partner_xyz
+      optional: false
+    - name: utm_medium
+      type: string
+      meaning: Medium named in the link, such as organic or cpc
+      optional: true
+    - name: utm_campaign
+      type: string
+      meaning: Campaign name in the link, used to detect competitor, enterprise or SMB messaging
+      optional: false
+    - name: referrer
+      type: string
+      meaning: Referring website address
+      optional: true
+    - name: landing_page
+      type: string
+      meaning: Page the visitor landed on
+      optional: false
+  - slot: homepage_hero
+    kind: destination
+    meaning: The website homepage hero section that can be replaced per visitor source
+    channel: email
+  - slot: partner_logo_asset
+    kind: knowledge
+    meaning: Logos of partner companies used on partner referral heroes
+    optional: true
+  - slot: competitor_name
+    kind: knowledge
+    meaning: Name of the competitor and the brand's feature and outcome wording used in comparison heroes
+  steps:
+  - id: s1
+    builds: personalization
+    instruction: 'Create a client personalization titled "Source-Based Personalization" on the website experiences area that
+      runs on {landingPages}. Use a control variant with no DOM changes as the fallback for direct, organic and unattributed
+      traffic. Add five source variants, each bound to its audience: (a) competitor search: utm_source is google and utm_campaign
+      contains {competitorCampaignKeyword} or {alternativeCampaignKeyword}; hero compares the brand with {competitor_name}
+      and invites the visitor to see the comparison. (b) LinkedIn enterprise: utm_source is linkedin and utm_campaign contains
+      {enterpriseCampaignKeyword}; hero reads as enterprise-grade without enterprise complexity, notes large-company trust
+      and security, and offers a booked enterprise demo. (c) Facebook SMB: utm_source is facebook and utm_campaign contains
+      {smbCampaignKeyword}; hero promises a tool built for growing teams, states the free plan covers up to {smbFreeTeamLimit}
+      members with no card required, and offers a free trial. (d) Partner referral: referrer contains the partner domain or
+      utm_source is partner_xyz; hero pairs the brand with the partner, shows the partner logo from {partner_logo_asset} and
+      the offer {partnerIncentiveDiscount} for partner customers, with a partner signup button. (e) Organic branded search:
+      utm_source is google, utm_medium is organic and the visitor landed on the homepage; hero welcomes the visitor, acknowledges
+      they searched for the brand and offers a free trial. Keep the primary call to action id per variant. Attribution persists
+      for the {sessionPersistence} scope. Track form submissions, primary call-to-action clicks and conversion rate per source.
+      Run continuously.'
 ---
 
 # Landing page matched to the ad

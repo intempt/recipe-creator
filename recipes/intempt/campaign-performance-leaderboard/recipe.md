@@ -10,6 +10,120 @@ author:
 classification:
   industry:
   - industry-agnostic
+portable:
+  summary: Ranks email and SMS campaigns over the last 90 days by attributed revenue, alongside sends, opens, clicks, conversions
+    and rate metrics, with benchmark flags.
+  parameters:
+  - name: attribution_window
+    type: duration
+    label: Attribution window
+    default: 7 d
+  - name: time_range
+    type: duration
+    label: Campaign time range
+    default: 90 d
+  - name: top_n
+    type: number
+    label: Number of campaigns shown in leaderboard
+    default: 30
+  - name: top_highlight_count
+    type: number
+    label: Number of top campaigns by revenue per send to highlight
+    default: 3
+  - name: open_rate_flag_threshold
+    type: number
+    label: High open rate threshold (%)
+    default: 40
+  - name: ctor_low_threshold
+    type: number
+    label: Low click-to-open rate threshold (%)
+    default: 10
+  - name: ctor_high_threshold
+    type: number
+    label: High click-to-open rate threshold (%)
+    default: 20
+  - name: conversion_low_threshold
+    type: number
+    label: Low conversion rate threshold (%)
+    default: 0.5
+  - name: trailing_campaign_count
+    type: number
+    label: Trailing campaigns used for trend average
+    default: 4
+  requirements:
+  - slot: email_sent_event
+    kind: event
+    meaning: A marketing email was sent to a customer
+    properties:
+    - name: campaign_id
+      type: string
+      meaning: Identifier of the campaign the email belongs to
+      optional: false
+    - name: email
+      type: string
+      meaning: Recipient email address
+      optional: false
+    - name: sent_at
+      type: date
+      meaning: Time the email was sent
+      optional: false
+    - name: subject
+      type: string
+      meaning: Subject line of the email
+      optional: true
+  - slot: email_opened_event
+    kind: event
+    meaning: A customer opened a marketing email
+    properties:
+    - name: email
+      type: string
+      meaning: Recipient email address used to join back to the sent email
+      optional: false
+  - slot: email_clicked_event
+    kind: event
+    meaning: A customer clicked a link in a marketing email
+    properties:
+    - name: email
+      type: string
+      meaning: Recipient email address used to join back to the sent email
+      optional: false
+  - slot: placed_order_event
+    kind: event
+    meaning: A customer placed an order
+    properties:
+    - name: total_price
+      type: number
+      meaning: Total value of the order
+      optional: false
+  steps:
+  - id: s1
+    builds: report
+    uses:
+    - email_sent_event
+    - email_opened_event
+    - email_clicked_event
+    - placed_order_event
+    - attribution_window
+    - time_range
+    - top_n
+    - top_highlight_count
+    - open_rate_flag_threshold
+    - ctor_low_threshold
+    - ctor_high_threshold
+    - conversion_low_threshold
+    - trailing_campaign_count
+    instruction: 'Create an insights report named "Campaign Performance Leaderboard" covering the last {time_range} of campaigns,
+      with one row per campaign_id from {email_sent_event.campaign_id}. Series: (A) Sends = count of {email_sent_event} grouped
+      by campaign_id. (B) Opens = unique users with {email_opened_event} joined to {email_sent_event} on the email address,
+      grouped by campaign_id. (C) Clicks = unique users with {email_clicked_event} joined to {email_sent_event} on the email
+      address, grouped by campaign_id. (D) Conversions = unique users with {placed_order_event} who had a prior {email_clicked_event}
+      or {email_opened_event} for the same campaign_id within {attribution_window}, grouped by campaign_id. (E) Attributed
+      Revenue = sum of {placed_order_event.total_price} for those attributed orders, grouped by campaign_id, in dollars. Computed:
+      Open Rate = B/A x 100 (%); Click Rate = C/A x 100 (%); Click-to-Open Rate (CTOR) = C/B x 100 (%); Conversion Rate =
+      D/A x 100 (%); Revenue per Send = E/A (dollars). Sort by Attributed Revenue descending and show the top {top_n} campaigns
+      as a sortable table. Add a scatter plot with x = Click Rate, y = Conversion Rate, bubble size = Revenue per Send. Provide
+      sort toggles: Highest Earners (Attributed Revenue), Most Efficient (Revenue per Send), Best Subject Lines (Open Rate),
+      Best Email Content (CTOR), Best Landing Page Match (Conversion Rate), all descending.'
 ---
 
 # Campaign performance leaderboard

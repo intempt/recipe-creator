@@ -10,6 +10,125 @@ author:
 classification:
   industry:
   - ecommerce-retail
+portable:
+  summary: Tests three ways of showing a discount (dollar amount, percentage, struck-through compare-at price) against the
+    current savings display, scored on revenue from subscriptions and orders.
+  parameters:
+  - name: experimentTitle
+    type: string
+    label: Experiment title
+    default: Pricing Display Savings Format
+    required: false
+  - name: testDurationDays
+    type: duration
+    label: Test duration
+    default: 21 d
+    required: false
+  - name: minUniqueVisitorsPerVariant
+    type: number
+    label: Minimum unique visitors per variant
+    default: 1000
+    required: false
+  - name: trafficPerVariantPercent
+    type: number
+    label: Traffic per variant (%)
+    default: 25
+    required: false
+  - name: attributionWindow
+    type: duration
+    label: Conversion attribution window
+    default: 7 d
+    required: false
+  - name: bounceRateIncreaseLimitPercent
+    type: number
+    label: Maximum allowed bounce rate increase (%)
+    default: 5
+    required: false
+  - name: dollarSavingsAmount
+    type: string
+    label: Dollar savings shown in Variant B
+    default: $24
+    required: false
+  - name: percentOffValue
+    type: string
+    label: Percentage off shown in Variant C
+    default: 20%
+    required: false
+  - name: compareAtPrice
+    type: string
+    label: Struck-through compare-at price in Variant D
+    default: $120
+    required: false
+  - name: currentPrice
+    type: string
+    label: Current price shown in Variant D
+    default: $96
+    required: false
+  requirements:
+  - slot: pricing_page
+    kind: event
+    meaning: A visitor viewed a pricing page or a product detail page where discounts are shown
+  - slot: plan_select_click
+    kind: event
+    meaning: A visitor clicked a plan selection or add-to-cart button
+    properties:
+    - name: target_id
+      type: text
+      meaning: Identifier of the clicked element, starting with plan-select- or add-to-cart-button
+      optional: false
+  - slot: subscription_started
+    kind: event
+    meaning: A customer started a subscription
+    properties:
+    - name: amount
+      type: number
+      meaning: Subscription amount in dollars
+      optional: false
+  - slot: order_placed
+    kind: event
+    meaning: A customer placed an order
+    properties:
+    - name: total_price
+      type: number
+      meaning: Order total price in dollars
+      optional: false
+  - slot: checkout_created
+    kind: event
+    meaning: A customer created a checkout
+  - slot: experiment_exposure
+    kind: event
+    meaning: A visitor was exposed to a variant of an experience, with the variant name recorded
+    properties:
+    - name: experience_id
+      type: text
+      meaning: Identifier of the experience the visitor saw
+      optional: false
+    - name: variant
+      type: text
+      meaning: Name of the variant the visitor saw
+      optional: false
+  - slot: page_bounce_rate
+    kind: attribute
+    meaning: Bounce rate of the pricing page per variant
+  - slot: experiment_platform
+    kind: integration
+    meaning: The client-side experimentation platform used to run variant tests and visual editor changes
+    channel: email
+  steps:
+  - id: s1
+    builds: experiment
+    instruction: 'Create a client experiment titled "{experimentTitle}" on the experiences surface. Type: client experiment.
+      Variants: Control at {trafficPerVariantPercent}% traffic showing the existing savings display unchanged; Variant B at
+      {trafficPerVariantPercent}% traffic showing dollar-amount framing with the headline "Save {dollarSavingsAmount}"; Variant
+      C at {trafficPerVariantPercent}% traffic showing percentage framing with the headline "{percentOffValue} off"; Variant
+      D at {trafficPerVariantPercent}% traffic showing compare-at framing with "{compareAtPrice}" struck through and "{currentPrice}"
+      displayed prominently. Targeting: pages whose URL contains "/pricing" or product detail pages where discounts are shown;
+      all devices; all visitors; display always. Primary metric: revenue per variant, counted as goal completions in the experience
+      with value above zero, from a subscription started or an order placed within {attributionWindow} of exposure. Secondary
+      metrics: click-through on plan selection or add-to-cart buttons per variant; checkouts created within {attributionWindow};
+      average order value of orders attributed to each variant. Guardrail: bounce rate on the page must not increase by more
+      than {bounceRateIncreaseLimitPercent}%. Schedule: run for {testDurationDays} and require at least {minUniqueVisitorsPerVariant}
+      unique visitors per variant.'
 ---
 
 # Savings format test

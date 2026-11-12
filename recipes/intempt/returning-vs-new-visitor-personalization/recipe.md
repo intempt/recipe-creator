@@ -10,6 +10,106 @@ author:
 classification:
   industry:
   - ecommerce-retail
+portable:
+  summary: Shows first-time visitors a value-proposition hero, returning visitors with an abandoned cart a cart-resumption
+    hero, and other returning visitors a continue-browsing hero.
+  parameters:
+  - name: cart_window
+    type: duration
+    label: Window for recent cart created events
+    default: 7 d
+    required: false
+  - name: display_frequency
+    type: enum
+    label: How often the hero is shown per visitor
+    default: once_per_session
+    required: false
+    options:
+    - once_per_session
+    - once_per_visit
+    - always
+  - name: target_pages
+    type: text
+    label: Pages where the hero appears
+    default: / and /category/*
+    required: false
+  requirements:
+  - slot: user_first_seen
+    kind: attribute
+    meaning: The timestamp when a user was first seen (first-touch timestamp)
+    definition: Users.First seen
+  - slot: cart_created_event
+    kind: event
+    meaning: A customer created a cart
+    properties:
+    - name: timestamp
+      type: date
+      meaning: When the cart was created
+      optional: false
+  - slot: placed_order_event
+    kind: event
+    meaning: A customer placed an order
+    properties:
+    - name: timestamp
+      type: date
+      meaning: When the order was placed
+      optional: false
+  - slot: abandoned_cart_audience
+    kind: segment
+    meaning: Returning visitors whose most recent cart in the last 7 days has no later placed order
+    creatable: true
+    definition: users whose First seen is older than the current session AND who did {cart_created_event} in the last {cart_window}
+      AND whose latest {cart_created_event} is later than their latest {placed_order_event}
+  - slot: homepage_hero_experiment
+    kind: destination
+    meaning: A client-side personalization surface on the website homepage and category pages where hero variants can be served
+    channel: email
+  steps:
+  - id: s1
+    builds: experiment
+    uses:
+    - user_first_seen
+    - cart_created_event
+    - placed_order_event
+    - abandoned_cart_audience
+    - homepage_hero_experiment
+    - cart_window
+    - display_frequency
+    - target_pages
+    instruction: 'Create a client-side personalization experiment titled "Returning vs New Visitor" on the homepage hero surface
+      {homepage_hero_experiment}. Targeting: pages {target_pages}, all devices, display frequency {display_frequency}. Schedule:
+      continuous. Evaluate audiences in this precedence order, most specific first: abandoned-cart returning visitors, then
+      other returning visitors, then first-time visitors, then fallback control.
+
+
+      Variants:
+
+      - Control (fallback, audience = all): no DOM changes; standard hero.
+
+      - Variant B (audience = first-time visitors): the user''s {user_first_seen} is within the current session or is empty.
+      Target selector .homepage-hero. Replace the hero with a section of class homepage-hero containing an h1 ''The [category]
+      designed for [target audience]'', a paragraph ''Loved by 50,000+ customers worldwide.'', a social-proof row with a 4.8
+      star rating (2,400 reviews), ''Free shipping over $50'', and ''30-day returns'', and a primary button with id hero-cta-explore
+      labelled ''Shop bestsellers''.
+
+      - Variant C (audience = returning visitors with abandoned cart): all of the following hold: {user_first_seen} is older
+      than the current session; the user is in {abandoned_cart_audience}, meaning at least one {cart_created_event} in the
+      last {cart_window}, no {placed_order_event} after the most recent {cart_created_event}, and no active session at the
+      time of that last cart creation. Target selector .homepage-hero. Replace the hero with a section of class homepage-hero
+      containing an h1 ''Welcome back: your cart''s still here'', a paragraph ''Items in your cart from your last visit.'',
+      an abandoned-cart preview block filled with the items from the abandoned cart, and a primary button with id hero-cta-resume
+      labelled ''Resume checkout''.
+
+      - Variant D (audience = returning visitors without abandoned cart): {user_first_seen} is older than the current session
+      and the user is NOT in {abandoned_cart_audience}. Target selector .homepage-hero. Replace the hero with a section of
+      class homepage-hero containing an h1 ''Welcome back, the user''s first name'', a paragraph ''Pick up where you left
+      off.'', and a recently viewed section titled ''Recently viewed'' filled with the last four product pages viewed in prior
+      sessions.
+
+
+      Metrics to record per audience: click engagement and placed order conversion. For Variant C also record cart-resumption
+      rate: the share of visitors in the abandoned-cart audience who complete a placed order within the session after seeing
+      this variant.'
 ---
 
 # New versus returning visitor hero

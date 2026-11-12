@@ -10,6 +10,152 @@ author:
 classification:
   industry:
   - saas-b2b-tech
+portable:
+  summary: When a known champion or economic buyer changes employer, the customer gets an urgent AE/CSM save task for the
+    old account and an SDR warm-outreach task for the new one.
+  parameters:
+  - name: scan_day
+    type: enum
+    label: Weekly scan day
+    default: monday
+    required: false
+    options:
+    - monday
+    - tuesday
+    - wednesday
+    - thursday
+    - friday
+  - name: sla_business_days
+    type: number
+    label: Days allowed to contact after a move (business days)
+    default: 5
+    required: false
+  - name: warm_window
+    type: duration
+    label: Window to reach out at the new company after job change
+    default: 30 d
+    required: false
+  requirements:
+  - slot: champion_contact
+    kind: attribute
+    meaning: A contact is marked as champion or economic buyer on an active deal or customer account
+  - slot: job_change_event
+    kind: event
+    meaning: A contact changed employer
+    properties:
+    - name: previous_company
+      type: string
+      meaning: Employer before the change
+      optional: false
+    - name: new_company
+      type: string
+      meaning: Employer after the change
+      optional: false
+    - name: change_date
+      type: date
+      meaning: Date the job change was detected
+      optional: true
+  - slot: enrichment_integration
+    kind: integration
+    meaning: A contact enrichment provider that refreshes employment data on tracked contacts
+    channel: email
+  - slot: crm_accounts
+    kind: integration
+    meaning: CRM connection holding accounts, deals and contacts
+    channel: hubspot
+  - slot: customer_account_segment
+    kind: segment
+    meaning: Accounts that are existing customers
+  - slot: open_deal_segment
+    kind: segment
+    meaning: Accounts with an open deal
+  - slot: ae_owner
+    kind: attribute
+    meaning: The AE or CSM assigned to an account
+  - slot: sdr_team
+    kind: attribute
+    meaning: The SDR assigned to prospect outreach at a new company
+    optional: true
+  steps:
+  - id: s1
+    builds: automation
+    uses:
+    - champion_contact
+    - job_change_event
+    - enrichment_integration
+    instruction: 'Create a workflow named ''Job-change detection and dual response'' triggered when a contact at an existing
+      customer or open-deal account changes employer, detected either by a scheduled enrichment refresh or by a signal provider
+      webhook. Branch into two parallel plays: protect the old account and pursue the new account.'
+  - id: s2
+    builds: automation
+    uses:
+    - s1
+    - champion_contact
+    instruction: Configure a scheduled trigger every {scan_day} morning that scans all contacts marked as champion or economic
+      buyer on active deals and customer accounts. Use the job-change detection cadence from "Run both plays on a move" as
+      the basis for the scan.
+  - id: s3
+    builds: automation
+    uses:
+    - s1
+    - s2
+    - enrichment_integration
+    instruction: Configure an enrich step that refreshes employment data for tracked contacts. Flag a contact when its email-domain
+      to company mapping changes. Output a list of contacts whose company changed since the last refresh.
+  - id: s4
+    builds: automation
+    uses:
+    - s1
+    - s3
+    - customer_account_segment
+    - open_deal_segment
+    instruction: 'Branch each changed contact by the kind of account it was at: customer, open deal, or prospect. Route customers
+      to champion-departure rescue, open deals to urgent multi-threading, and prospects to warm follow at the new company.'
+  - id: s5
+    builds: automation
+    uses:
+    - s1
+    - s4
+    instruction: On the customer and open-deal branch, run AI research on the old company's leadership page and public professional
+      search to identify 2 to 3 likely replacement decision-makers in similar roles, with titles and inferred contact details.
+  - id: s6
+    builds: task
+    uses:
+    - s1
+    - s5
+    - ae_owner
+    - sla_business_days
+    instruction: 'Create an urgent task for the assigned {ae_owner} (customer or open deal). Text: ''Your champion [Name]
+      just left for [New Company]. Replacement candidates identified: [list]. Suggested action: warm intro through [Departed
+      champion] if relationship is good, else cold outreach to replacement.'' Require contact within {sla_business_days} business
+      days.'
+  - id: s7
+    builds: automation
+    uses:
+    - s1
+    - s4
+    - crm_accounts
+    instruction: 'On the departed-to-new-company branch, find records to check whether the new company already exists in the
+      CRM. If it exists, link the contact and surface the relationship to the assigned AE. If it does not, create a new account
+      and contact record flagged ''warm signal: ex-customer champion now here''.'
+  - id: s8
+    builds: task
+    uses:
+    - s1
+    - s7
+    - sdr_team
+    - warm_window
+    instruction: 'Create an SDR task for the new-company outreach with the text: ''Warm signal: [Champion name] (your ally
+      at [Old company]) just joined [New company]. Suggested outreach: congratulate the move, ask if they could use the same
+      approach at their new role.'' Set priority HIGH and a deadline within {warm_window} of the job change.'
+  - id: s9
+    builds: report
+    uses:
+    - s1
+    - s6
+    - s8
+    instruction: Validate and publish the workflow. Track job-change detection volume per quarter, old-account save rate (champion-departure
+      deals that did not stall), and new-account conversion rate (departed-champion pursuits that became meetings).
 ---
 
 # Follow a champion who moves

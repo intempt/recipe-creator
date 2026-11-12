@@ -10,6 +10,86 @@ author:
 classification:
   industry:
   - saas-b2b-tech
+portable:
+  summary: Shows weekly the share of trial starts that become paying customers, broken down by signup source, against 18%
+    and 25% benchmarks.
+  parameters:
+  - name: trial_window_weeks
+    type: number
+    label: Lookback window in weeks
+    default: 12
+    required: false
+  - name: benchmark_median
+    type: number
+    label: Median benchmark conversion (%)
+    default: 18
+    required: false
+  - name: benchmark_top_quartile
+    type: number
+    label: Top-quartile benchmark conversion (%)
+    default: 25
+    required: false
+  - name: drop_alert_points
+    type: number
+    label: Week-over-week drop alert threshold (percentage points)
+    default: 3
+    required: false
+  requirements:
+  - slot: trial_started_event
+    kind: event
+    meaning: A customer started a subscription, which may include a trial period
+    properties:
+    - name: trial_start
+      type: date
+      meaning: When the trial began
+      optional: false
+    - name: trial_end
+      type: date
+      meaning: When the trial ended
+      optional: false
+    - name: Plan
+      type: string
+      meaning: Subscription plan name
+      optional: true
+    - name: amount
+      type: number
+      meaning: Subscription amount
+      optional: true
+    - name: status
+      type: string
+      meaning: Subscription status
+      optional: true
+  - slot: revenue_completed_event
+    kind: event
+    meaning: A customer completed a revenue payment
+  - slot: invoice_paid_event
+    kind: event
+    meaning: An invoice was paid through the billing system
+  - slot: user_utm_source
+    kind: attribute
+    meaning: The UTM source recorded on the user at signup
+  steps:
+  - id: s1
+    builds: report
+    uses:
+    - trial_started_event
+    - revenue_completed_event
+    - invoice_paid_event
+    - user_utm_source
+    - trial_window_weeks
+    - benchmark_median
+    - benchmark_top_quartile
+    - drop_alert_points
+    instruction: 'Create an Insights report titled "Trial-to-Paid Conversion Rate". Series A: count unique users of {trial_started_event}
+      where {trial_started_event.trial_end} is set and {trial_started_event.trial_start} is set; this is the trial-start cohort.
+      Series B: count users in Series A who have a follow-on {revenue_completed_event} or {invoice_paid_event} occurring after
+      their {trial_started_event.trial_end} date. Formula: (B / A) × 100, unit %, labeled "Trial-to-Paid Conversion". Group
+      cohorts by trial-start week and count only weeks where the trial window has fully elapsed. Time range: last {trial_window_weeks}
+      weeks. Break down by {user_utm_source}. Compare against the previous {trial_window_weeks} weeks. Chart: line chart with
+      previous-period overlay. Add horizontal benchmark lines at {benchmark_median}% (median) and {benchmark_top_quartile}%
+      (top quartile). Highlight any week where conversion dropped by more than {drop_alert_points} percentage points versus
+      the previous period. Finally, identify the signup source with the highest conversion and highest volume; that source
+      is the candidate for increased acquisition spend.'
 ---
 
 # Trial to paid conversion rate

@@ -10,6 +10,52 @@ author:
 classification:
   industry:
   - ecommerce-retail
+portable:
+  summary: Tags Shopify customers who belong to a chosen segment so the store can merchandise against that group, keeping
+    the tag in sync with the segment.
+  parameters:
+  - name: tag_name
+    type: string
+    label: Shopify tag to write on members
+    default: <UNKNOWN>
+    required: true
+  - name: cohort_rule
+    type: text
+    label: Rule defining the cohort (e.g. high lifetime value, repeat buyer, lapsed)
+    default: high lifetime value
+    required: false
+  requirements:
+  - slot: customer_profile
+    kind: attribute
+    meaning: A customer profile record that can be matched to a Shopify customer
+  - slot: shopify_store
+    kind: integration
+    meaning: A connected Shopify store where customer tags can be written
+    channel: shopify
+  - slot: tagged_cohort
+    kind: segment
+    meaning: The customer cohort to tag in Shopify
+    creatable: true
+    definition: users matching {cohort_rule}
+  steps:
+  - id: s1
+    builds: segment
+    uses:
+    - cohort_rule
+    - customer_profile
+    instruction: Create the segment {tagged_cohort} of users matching {cohort_rule}. The segment is the definition; the Shopify
+      tag is only its shadow in the store.
+  - id: s2
+    builds: automation
+    uses:
+    - s1
+    - tagged_cohort
+    - shopify_store
+    - tag_name
+    instruction: 'Create a workflow that adds the tag {tag_name} to each member of {tagged_cohort} in {shopify_store}. Tags
+      are additive, and the workflow manages only the tag {tag_name}, so tags edited by hand in Shopify are not overwritten.
+      Surface Shopify''s rejection verbatim: a tag limit error and a permission error must be reported separately and handled
+      differently. Use the result of "Define the cohort to tag".'
 ---
 
 # Tag Shopify customers from a segment

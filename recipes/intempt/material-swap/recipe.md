@@ -11,6 +11,26 @@ classification:
   industry:
   - ecommerce-retail
   - marketplaces
+portable:
+  summary: Changes a product's material, finish or colour in its image while keeping the shape, pose, camera angle and shadow
+    exactly as shot.
+  parameters:
+  - name: new_material
+    type: string
+    label: New material, finish or colour
+    required: true
+  requirements:
+  - slot: product_image
+    kind: knowledge
+    meaning: A product image attached to the run that will be edited
+  steps:
+  - id: s1
+    builds: image
+    uses:
+    - product_image
+    - new_material
+    instruction: Edit the product image {product_image}. Change only the product's surface material to {new_material}. Keep
+      the frame, the pose, the camera angle and the shadow identical.
 ---
 
 # Material and finish swap

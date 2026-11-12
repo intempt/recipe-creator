@@ -10,6 +10,87 @@ author:
 classification:
   industry:
   - industry-agnostic
+portable:
+  summary: Shows weekly and monthly active users plus their ratio, so you can see whether users come back often enough to
+    stay engaged, broken down by plan.
+  parameters:
+  - name: wau_window
+    type: duration
+    label: Weekly active window
+    default: 7 d
+    required: false
+  - name: mau_window
+    type: duration
+    label: Monthly active window (rolling)
+    default: 28 d
+    required: false
+  - name: report_range
+    type: duration
+    label: Time range of report
+    default: 12 w
+    required: false
+  - name: benchmark_low
+    type: number
+    label: Low stickiness benchmark (%)
+    default: 20
+    required: false
+  - name: benchmark_high
+    type: number
+    label: High stickiness benchmark (%)
+    default: 50
+    required: false
+  - name: drop_threshold
+    type: number
+    label: Stickiness drop alert threshold (points)
+    default: 3
+    required: false
+  requirements:
+  - slot: active_user_event
+    kind: event
+    meaning: A user started a session in the product
+    properties:
+    - name: device_type
+      type: string
+      meaning: Device the session ran on
+      optional: true
+    - name: country
+      type: string
+      meaning: Country of the session
+      optional: true
+    - name: utm_source
+      type: string
+      meaning: Marketing source of the session
+      optional: true
+  - slot: plan_attribute
+    kind: attribute
+    meaning: The plan of a user's most recent active subscription, taken from the subscription start record
+  - slot: active_user_identify
+    kind: event
+    meaning: A user was identified in the product, used as an alternative active-user signal if the workspace uses identify
+    optional: true
+  steps:
+  - id: s1
+    builds: report
+    uses:
+    - active_user_event
+    - active_user_identify
+    - plan_attribute
+    - wau_window
+    - mau_window
+    - report_range
+    - benchmark_low
+    - benchmark_high
+    - drop_threshold
+    instruction: 'Create an Insights report called "Weekly Active Users Trend". Series A: event {active_user_event}, aggregation
+      Count Unique Users, time granularity weekly, label "WAU" (alternative: use {active_user_identify} if the workspace uses
+      identify as the active-user signal). Series B: event {active_user_event}, aggregation Count Unique Users, rolling {mau_window}
+      window, label "MAU". Series C: computed Series A (WAU) divided by Series B (MAU) multiplied by 100, unit %, label "Stickiness
+      (WAU/MAU)". Time granularity weekly. Time range last {report_range}. Breakdown by {plan_attribute}, derived from each
+      user''s most recent active subscription start record. Compare to previous period (prior {report_range}). Chart type:
+      dual-axis, left axis user counts (WAU and MAU as lines), right axis stickiness % as a line. Annotations: add a horizontal
+      benchmark line at {benchmark_low}% stickiness; add a horizontal benchmark line at {benchmark_high}% stickiness; highlight
+      any plan where stickiness dropped more than {drop_threshold} points versus the previous period; flag any plan where
+      WAU is growing but stickiness is falling.'
 ---
 
 # Weekly active users

@@ -10,6 +10,78 @@ author:
 classification:
   industry:
   - ecommerce-retail
+portable:
+  summary: 'Shows each shopper a homepage hero matched to their lifecycle stage: a welcome back for loyal shoppers, a win-back
+    offer for lapsed ones, and an introduction for new ones.'
+  parameters:
+  - name: homepage_path
+    type: string
+    label: Homepage URL path
+    default: /
+    required: false
+  - name: winback_discount_percent
+    type: number
+    label: Win-back discount (%)
+    default: 15
+    required: false
+  - name: display_frequency
+    type: enum
+    label: Display frequency
+    default: once_per_session
+    required: false
+    options:
+    - once_per_session
+    - always
+  - name: fallback_first_name
+    type: string
+    label: Greeting when first name is missing
+    default: Welcome back
+    required: false
+  requirements:
+  - slot: lifecycle_stage_attribute
+    kind: attribute
+    meaning: The user's lifecycle stage score with values At risk, Needs attention, New customers, Promising, Regulars, Champions
+  - slot: first_name_attribute
+    kind: attribute
+    meaning: The user's first name, used to greet them on the homepage
+    optional: true
+  - slot: homepage_hero_container
+    kind: destination
+    meaning: The homepage hero section (.homepage-hero) on the website where personalized content is rendered
+    channel: email
+  - slot: recommendation_service
+    kind: integration
+    meaning: A recommendation service that supplies purchase-history, reorder-favorites and popularity-based product recommendations
+    channel: email
+  steps:
+  - id: s1
+    builds: experiment
+    uses:
+    - lifecycle_stage_attribute
+    - first_name_attribute
+    - homepage_hero_container
+    - recommendation_service
+    - homepage_path
+    - winback_discount_percent
+    - display_frequency
+    - fallback_first_name
+    instruction: 'Create a client-side personalization titled "Lifecycle Stage Homepage Personalization" that replaces the
+      contents of {homepage_hero_container} on {homepage_path} and runs continuously with display frequency {display_frequency},
+      targeting all devices. Build four variants. Control: the standard homepage hero, shown to all visitors as the fallback
+      for users whose {lifecycle_stage_attribute} is empty or not yet computed. Variant B "Welcome back": shown when {lifecycle_stage_attribute}
+      is "Champions" or "Regulars"; heading "Welcome back, [first_name]" with the line "Your favorites are waiting: plus new
+      arrivals tailored to you.", a "View past orders" link to /account/orders, a primary "Shop new arrivals" link to /new-arrivals
+      with id hero-cta-new, and a "Picked for you" recommendations block using purchase-history recommendations from {recommendation_service}.
+      Variant C "We''ve missed you": shown when {lifecycle_stage_attribute} is "At risk" or "Needs attention"; heading "We''ve
+      missed you, [first_name]" with the line "Here''s {winback_discount_percent}% off your next order: welcome back.", a
+      primary button "Claim {winback_discount_percent}% off" with id hero-cta-claim, and a "Stock up on what you love" recommendations
+      block using reorder-favorites recommendations from {recommendation_service}. Variant D "First-time browse": shown when
+      {lifecycle_stage_attribute} is "New customers" or "Promising"; heading "Welcome to [Brand]" with the line "Discover
+      what makes us special: handpicked starters under $50.", a primary "Shop bestsellers" link to /best-sellers with id hero-cta-bestsellers,
+      and a "Popular this week" recommendations block using popularity recommendations from {recommendation_service}. In every
+      variant, [first_name] comes from {first_name_attribute}; if it is missing, fall back to "{fallback_first_name}" without
+      a name. Track conversions as placed order within session per lifecycle group, average order value per audience, and
+      clicks on the personalized hero per audience.'
 ---
 
 # Homepage by customer lifecycle stage

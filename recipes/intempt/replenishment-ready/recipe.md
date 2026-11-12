@@ -10,6 +10,33 @@ author:
 classification:
   industry:
   - ecommerce-retail
+portable:
+  summary: Builds a segment of customers whose last order was one to two months ago, so they can receive a running-low reminder
+    at the right moment to re-order.
+  parameters:
+  - name: order_window_start
+    type: duration
+    label: Earliest order age (window start)
+    default: 60 d
+    required: false
+  - name: recent_exclusion_window
+    type: duration
+    label: Recent order exclusion window
+    default: 30 d
+    required: false
+  requirements:
+  - slot: placed_order
+    kind: event
+    meaning: A customer placed an order
+  steps:
+  - id: s1
+    builds: segment
+    uses:
+    - placed_order
+    - order_window_start
+    - recent_exclusion_window
+    instruction: Build a segment named "Replenishment-Ready" of users who did {placed_order} at least once between {order_window_start}
+      and {recent_exclusion_window} ago, and who did not do {placed_order} in the last {recent_exclusion_window}.
 ---
 
 # Customers due to re-order

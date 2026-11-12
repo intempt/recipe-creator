@@ -10,6 +10,100 @@ author:
 classification:
   industry:
   - industry-agnostic
+portable:
+  summary: Gives a Monday scorecard of six weekly numbers (signups, new paying customers, churn, revenue, net new customers,
+    engagement) with trends, comparisons and attention flags.
+  parameters:
+  - name: window_weeks
+    type: number
+    label: Lookback window (weeks)
+    default: 12
+    required: false
+  - name: wow_alert_threshold
+    type: number
+    label: Week-over-week alert threshold (%)
+    default: 15
+    required: false
+  - name: durable_trend_weeks
+    type: number
+    label: Consecutive weeks for durable wrong-direction trend
+    default: 4
+    required: false
+  - name: churn_inactive_days
+    type: duration
+    label: Inactivity period that counts as churn for ecommerce
+    default: 90 d
+    required: false
+  - name: dau_window
+    type: duration
+    label: Engagement trailing window
+    default: 7 d
+    required: false
+  - name: business_model
+    type: enum
+    label: Business model
+    default: saas
+    required: false
+    options:
+    - saas
+    - ecommerce
+  requirements:
+  - slot: signup_event
+    kind: event
+    meaning: A new user account was created
+  - slot: paid_subscription_event
+    kind: event
+    meaning: A customer started a paid subscription
+    properties:
+    - name: trial_end
+      type: date
+      meaning: When the trial ended; empty for direct paid signups
+      optional: true
+  - slot: first_order_event
+    kind: event
+    meaning: A customer placed an order
+    properties:
+    - name: total_price
+      type: number
+      meaning: Order total amount
+      optional: false
+  - slot: subscription_canceled_event
+    kind: event
+    meaning: A customer canceled a subscription
+  - slot: revenue_event
+    kind: event
+    meaning: Recurring revenue was completed for a customer
+    properties:
+    - name: amount
+      type: number
+      meaning: Revenue amount
+      optional: false
+    - name: type
+      type: string
+      meaning: Revenue type, indicating whether it is recurring
+      optional: false
+  - slot: session_start_event
+    kind: event
+    meaning: A user started a session in the product
+  - slot: last_seen_attribute
+    kind: attribute
+    meaning: The last time a user was seen active
+  steps:
+  - id: s1
+    builds: report
+    instruction: 'Create an Insights report titled "Weekly Business Review Summary" shown as a multi-card KPI scorecard over
+      the last {window_weeks} weeks, weekly granularity, compared with the prior period and year-over-year. Series A: count
+      unique users of {signup_event}, labeled "New Signups". Series B: count unique users of {paid_subscription_event} where
+      {paid_subscription_event.trial_end} is empty, labeled "New Paying Customers". Series C: count unique users of {subscription_canceled_event},
+      labeled "Churned Customers". Series D: sum of {revenue_event.amount} where {revenue_event.type} indicates recurring
+      revenue, labeled "Revenue". Series E: computed as Series B minus Series C, labeled "Net New Customers". Series F: trailing
+      {dau_window} daily active users counting unique users of {session_start_event}, labeled "Engagement". Each card shows
+      the current week value, week-over-week % change, year-over-year % change and a 12-week sparkline. Annotate each card
+      with the current week value against the trailing 4-week average and a trend label of accelerating, steady or decelerating.
+      Flag any metric that moved more than {wow_alert_threshold}% week-over-week in either direction. Flag any metric moving
+      the wrong direction for {durable_trend_weeks} or more consecutive weeks. Add a growth-quality indicator: if Net New
+      Customers is rising while Churned Customers is also rising, label it treadmill; if Net New Customers is rising while
+      Churned Customers is flat or falling, label it compounding growth.'
 ---
 
 # Weekly business review

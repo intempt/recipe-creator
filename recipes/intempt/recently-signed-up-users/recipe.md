@@ -10,6 +10,66 @@ author:
 classification:
   industry:
   - industry-agnostic
+portable:
+  summary: Builds a list of users whose first session fell within the last 30 days, then drafts a welcome email and an onboarding
+    team note for them while the activation window is open.
+  parameters:
+  - name: window
+    type: duration
+    label: Recent signup window
+    default: 30 d
+    required: false
+  - name: welcome_tone
+    type: enum
+    label: Welcome email tone
+    default: warm and encouraging
+    required: false
+    options:
+    - warm and encouraging
+    - neutral
+    - formal
+  - name: welcome_sentences
+    type: number
+    label: Welcome email length in sentences
+    default: 3
+    required: false
+  requirements:
+  - slot: session_start
+    kind: event
+    meaning: A customer started a session in the product
+  - slot: onboarding_team_list
+    kind: destination
+    meaning: Distribution list for the onboarding team that receives internal notes
+    channel: email
+  - slot: first_week_action
+    kind: knowledge
+    meaning: The single product action most worth taking in a new user's first week, with its in-product link
+  steps:
+  - id: s1
+    builds: segment
+    uses:
+    - session_start
+    - window
+    instruction: Build a segment named "Recently Signed-Up Users" of users who did {session_start} at least once in the last
+      {window} and did not do {session_start} more than {window} ago.
+  - id: s2
+    builds: email
+    uses:
+    - s1
+    - first_week_action
+    - welcome_sentences
+    - welcome_tone
+    instruction: Generate a designed marketing email for the users in "Recently Signed-Up Users" welcoming them and pointing
+      to {first_week_action}. Write {welcome_sentences} sentences in a {welcome_tone} tone with no discount language. Include
+      one button linking to that action inside the product. This drafts the email only; a person still sends it.
+  - id: s3
+    builds: email_plain
+    uses:
+    - s1
+    - onboarding_team_list
+    instruction: Generate a plain-text email addressed to {onboarding_team_list}. For each user in "Recently Signed-Up Users",
+      name their email address so the team can check in while the activation window is still open. This drafts the email only;
+      a person still sends it.
 ---
 
 # Recent signups

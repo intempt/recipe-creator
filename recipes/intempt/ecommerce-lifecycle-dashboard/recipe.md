@@ -10,6 +10,73 @@ author:
 classification:
   industry:
   - ecommerce-retail
+portable:
+  summary: Gives the team a lifecycle board showing how customers move between stages, when they reorder, and whether discount
+    codes add or cut revenue.
+  parameters:
+  - name: dateRange
+    type: enum
+    label: Default date range
+    default: last_90_days
+    required: false
+    options:
+    - last_30_days
+    - last_90_days
+    - last_365_days
+  - name: migrationWindow
+    type: duration
+    label: Migration look-back window
+    default: 30 d
+    required: false
+  - name: boardVisibility
+    type: enum
+    label: Board visibility
+    default: project
+    required: false
+    options:
+    - project
+    - private
+  requirements:
+  - slot: lifecycle_distribution_insight
+    kind: knowledge
+    meaning: A customer lifecycle distribution analysis across the six lifecycle score stages with stage migration flows
+  - slot: discount_impact_insight
+    kind: knowledge
+    meaning: A discount impact analysis showing average order value and margin effect per discount code
+  - slot: second_order_velocity_insight
+    kind: knowledge
+    meaning: An analysis of the time between a customer's first and second order
+  - slot: post_conversion_paths_insight
+    kind: knowledge
+    meaning: An analysis of what newly converted customers do after their first purchase
+  - slot: purchase_retention_insight
+    kind: knowledge
+    meaning: A cohort repeat-purchase retention analysis by first-order category
+  - slot: placed_order_event
+    kind: event
+    meaning: A customer placed an order
+    properties:
+    - name: discount_code
+      type: text
+      meaning: Discount code applied to the order
+      optional: true
+  - slot: discount_applied_event
+    kind: event
+    meaning: A customer applied a discount code
+  - slot: lifecycle_score_attribute
+    kind: attribute
+    meaning: The customer's lifecycle score stage (six-stage enum)
+  steps:
+  - id: s1
+    builds: dashboard
+    uses:
+    - dateRange
+    - boardVisibility
+    - lifecycle_score_attribute
+    instruction: 'Create a 12-column dashboard titled "Ecommerce Lifecycle" with visibility {boardVisibility}, default date
+      range {dateRange}, incomplete periods excluded, no board filters by default, and breakdown by {lifecycle_score_attribute}
+      using the six-stage enum. Lay it out in 4 rows: a row of four 200px metric cards, a full-width 480px lifecycle distribution
+      chart, a row of two 400px operational cards, and a row of two 400px post-purchase cards.'
 ---
 
 # Ecommerce lifecycle and retention

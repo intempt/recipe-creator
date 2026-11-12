@@ -10,6 +10,66 @@ author:
 classification:
   industry:
   - industry-agnostic
+portable:
+  summary: Gives a founder one Monday page with new customers, churn, revenue, retention and engagement, each compared with
+    last week and last year.
+  parameters:
+  - name: defaultDateRange
+    type: enum
+    label: Default date range for the board
+    default: last_7_days
+    options:
+    - last_7_days
+    - last_30_days
+    - last_90_days
+  - name: primaryMode
+    type: enum
+    label: Workspace primary mode
+    default: mixed
+    options:
+    - saas
+    - ecommerce
+    - mixed
+  - name: exclusionPeriod
+    type: enum
+    label: Exclude periods
+    default: incomplete_periods
+    options:
+    - incomplete_periods
+    - none
+  requirements:
+  - slot: weekly_business_review_report
+    kind: knowledge
+    meaning: A weekly business review summary report with multiple metric series for signups, paying customers, churn, revenue,
+      and active users
+  - slot: mrr_movement_report
+    kind: knowledge
+    meaning: A monthly recurring revenue movement report showing new, expansion, contraction and churned revenue
+    optional: true
+  - slot: customer_lifecycle_report
+    kind: knowledge
+    meaning: A customer lifecycle distribution report showing customers moving between lifecycle stages
+    optional: true
+  steps:
+  - id: s1
+    builds: dashboard
+    uses:
+    - weekly_business_review_report
+    - mrr_movement_report
+    - customer_lifecycle_report
+    - defaultDateRange
+    - primaryMode
+    - exclusionPeriod
+    instruction: 'Create a dashboard titled "Founder Weekly Review" on a 12-column canvas with 3 rows, default date range
+      {defaultDateRange}, exclusion of {exclusionPeriod}, project visibility, and no board filters or breakdowns. Row 1 (height
+      240 px): six metric cards, each 2 columns wide, sourced from {weekly_business_review_report} as metric visualizations
+      titled "New Signups (WoW)", "New Paying Customers", "Net New Customers", "Revenue (WoW)", "Active Users (DAU 7d avg)",
+      and "Churned Customers". Each card shows the current week value with week-over-week and year-over-year percentage change.
+      Row 2 (height 280 px): three cards, each 4 columns wide, sourced from {weekly_business_review_report} as line charts
+      titled "Revenue 12-Week Trend", "Net New Customers Trend", and "Engagement Trend (DAU)". Row 3 (height 360 px): one
+      full-width card (12 columns) whose content depends on {primaryMode}: for saas, a stacked column waterfall chart from
+      {mrr_movement_report}; for ecommerce, a lifecycle distribution chart with migration view from {customer_lifecycle_report};
+      for mixed, a full table from {weekly_business_review_report}.'
 ---
 
 # Monday morning scorecard

@@ -10,6 +10,129 @@ author:
 classification:
   industry:
   - industry-agnostic
+portable:
+  summary: Tests four placements of an upgrade prompt for free users, with account-age cohorts, to find which placement and
+    timing best drives subscriptions without adding prompt fatigue.
+  parameters:
+  - name: experiment_title
+    type: string
+    label: Experiment title
+    default: Upgrade Prompt Optimization
+    required: false
+  - name: schedule_days
+    type: number
+    label: Schedule (days)
+    default: 21
+    required: false
+  - name: min_account_age
+    type: duration
+    label: Minimum account age to enter the audience
+    default: 3 d
+    required: false
+  - name: goal_window
+    type: duration
+    label: Subscription goal window after exposure
+    default: 14 d
+    required: false
+  - name: display_frequency
+    type: enum
+    label: Display frequency
+    default: once_per_session
+    required: false
+    options:
+    - once_per_session
+    - every_page_view
+    - once_per_user
+  - name: nps_drop_threshold
+    type: number
+    label: Maximum allowed NPS drop (points, trailing 30 days)
+    default: 5
+    required: false
+  requirements:
+  - slot: upgrade_prompt_experience
+    kind: event
+    meaning: A customer was exposed to or clicked an in-app upgrade prompt
+    properties:
+    - name: target_id
+      type: string
+      meaning: Identifier of the clicked upgrade prompt element
+      optional: false
+    - name: experience_id
+      type: string
+      meaning: Identifier of the experiment experience
+      optional: false
+    - name: data_placement
+      type: string
+      meaning: Placement of the upgrade prompt
+      optional: true
+  - slot: goal_event
+    kind: event
+    meaning: A customer started a paid subscription
+    properties:
+    - name: experience_id
+      type: string
+      meaning: Identifier of the experiment experience that drove the goal
+      optional: false
+  - slot: feedback_event
+    kind: event
+    meaning: A customer submitted feedback with a score
+    properties:
+    - name: score
+      type: number
+      meaning: Feedback score given by the customer
+      optional: false
+  - slot: free_plan_users
+    kind: segment
+    meaning: Users on the free plan (no subscription or plan equal to free) whose account is at least the minimum age
+  - slot: account_age
+    kind: attribute
+    meaning: Number of days since the customer's account was created
+  - slot: subscription_plan
+    kind: attribute
+    meaning: The customer's current subscription plan
+  - slot: experiment_destination
+    kind: destination
+    meaning: The in-app experience surface where client experiments are published
+    channel: email
+  steps:
+  - id: s1
+    builds: experiment
+    uses:
+    - upgrade_prompt_experience
+    - goal_event
+    - feedback_event
+    - free_plan_users
+    - account_age
+    - subscription_plan
+    - experiment_destination
+    - experiment_title
+    - schedule_days
+    - min_account_age
+    - goal_window
+    - display_frequency
+    - nps_drop_threshold
+    instruction: 'Create a client experiment titled "{experiment_title}" on the in-app experience surface {experiment_destination}.
+      Audience: {free_plan_users}, filtered to users where {subscription_plan} is null or equals free, and {account_age} is
+      at least {min_account_age}. Pages: any in-app page where the dashboard chrome renders. Devices: any. Display frequency:
+      {display_frequency}. Run for {schedule_days} days in three sequential account-age cohorts: cohort 1 is {account_age}
+      from 3 to 7 days, cohort 2 is 8 to 14 days, cohort 3 is greater than 14 days. Each cohort uses the same four placement
+      variants at 25% each: Control (existing upgrade banner at top of dashboard), Variant B (inline upgrade prompt at the
+      feature-limit gate, shown when a user clicks a paywalled feature), Variant C (persistent upgrade card in sidebar navigation),
+      and Variant D (floating upgrade pill in the bottom-right corner). Control variant: insert before .dashboard-header a
+      banner with data-variant control and data-placement top-banner containing the text ''Upgrade to Pro for unlimited features'',
+      a button with id upgrade-prompt-cta and data-placement top reading ''Upgrade now'', and a dismiss button with id upgrade-prompt-dismiss
+      and aria-label Dismiss showing ×. Variant B: target .feature-gate-overlay and add a block with data-variant b and data-placement
+      inline-gate, heading "You''ve hit your free plan limit", text ''Upgrade to Pro to continue with unlimited access.'',
+      a button with id upgrade-prompt-cta and data-placement inline reading ''Upgrade now'', and a dismiss button with id
+      upgrade-prompt-dismiss reading ''Maybe later''. Variant C: append at the bottom of .sidebar-nav a card with data-variant
+      c and data-placement sidebar, a lightning icon, text ''Unlock Pro features'', and a button with id upgrade-prompt-cta
+      and data-placement sidebar reading ''See plans''. Variant D: append to body a fixed-position element at bottom 24px
+      and right 24px with data-variant d and data-placement floating-pill, a button with id upgrade-prompt-cta and data-placement
+      floating reading ''Upgrade ↗'', and a dismiss button with id upgrade-prompt-dismiss and aria-label Dismiss showing ×.
+      Keep the ids upgrade-prompt-cta and upgrade-prompt-dismiss identical across all variants. Primary goal: {goal_event}
+      fires when a subscription starts within {goal_window} of exposure. Secondary metrics: clicks on upgrade-prompt-cta per
+      placement, clicks on upgrade-prompt-dismiss as the dismissal rate, and subscriptions started within {goal_window}. Guardrail:
+      {feedback_event} score trailing 30-day trend must not drop by more than {nps_drop_threshold} points.'
 ---
 
 # Upgrade prompt test

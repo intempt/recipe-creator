@@ -10,6 +10,109 @@ author:
 classification:
   industry:
   - industry-agnostic
+portable:
+  summary: Splits closed deals into won and lost by lead source, deal size and stage at loss, with win rate, revenue and flags
+    showing where to scale or fix the sales process.
+  parameters:
+  - name: lookback_period
+    type: duration
+    label: Analysis window for closed deals
+    default: 6 m
+    required: false
+  - name: win_rate_alert_threshold
+    type: number
+    label: Deal-size win rate alert threshold (%)
+    default: 25
+    required: false
+  - name: deal_size_small_max
+    type: number
+    label: Small deal upper bound (amount)
+    default: 10000
+    required: false
+  - name: deal_size_enterprise_min
+    type: number
+    label: Enterprise deal lower bound (amount)
+    default: 50000
+    required: false
+  requirements:
+  - slot: deal_won_event
+    kind: event
+    meaning: A deal was marked as won (closed-won)
+    properties:
+    - name: amount
+      type: number
+      meaning: Deal amount
+      optional: false
+    - name: primary_user_id
+      type: string
+      meaning: ID of the primary user linked to the deal
+      optional: false
+    - name: stage
+      type: string
+      meaning: Deal stage at close
+      optional: true
+    - name: close_date
+      type: date
+      meaning: Date the deal closed
+      optional: true
+    - name: owner_id
+      type: string
+      meaning: Deal owner ID
+      optional: true
+    - name: currency
+      type: string
+      meaning: Deal currency
+      optional: true
+  - slot: deal_lost_event
+    kind: event
+    meaning: A deal was marked as lost (closed-lost)
+    properties:
+    - name: amount
+      type: number
+      meaning: Deal amount
+      optional: false
+    - name: primary_user_id
+      type: string
+      meaning: ID of the primary user linked to the deal
+      optional: false
+    - name: stage
+      type: string
+      meaning: Deal stage at close
+      optional: true
+    - name: previous_stage
+      type: string
+      meaning: Deal stage immediately before it was lost
+      optional: false
+    - name: close_date
+      type: date
+      meaning: Date the deal closed
+      optional: true
+    - name: owner_id
+      type: string
+      meaning: Deal owner ID
+      optional: true
+    - name: currency
+      type: string
+      meaning: Deal currency
+      optional: true
+  - slot: user_utm_source
+    kind: attribute
+    meaning: The UTM source recorded on a user, used as lead source attribution
+  steps:
+  - id: s1
+    builds: report
+    uses:
+    - deal_won_event
+    - deal_lost_event
+    - user_utm_source
+    - lookback_period
+    instruction: 'Create an Insights report titled "Win-Loss Analysis". Series A: count of {deal_won_event}, label "Won".
+      Series B: count of {deal_lost_event}, label "Lost". Series C: computed as Series A divided by (Series A plus Series
+      B) multiplied by 100, unit %, label "Win Rate". Series D: sum of {deal_won_event.amount}, label "Revenue Won". Series
+      E: sum of {deal_lost_event.amount}, label "Revenue Lost". Break down by {user_utm_source} (lead source via the deal''s
+      {deal_won_event.primary_user_id} or {deal_lost_event.primary_user_id}). Time range: last {lookback_period} of closed
+      deals. Compare against the previous period of equal length. Chart: side-by-side bars for Won vs Lost counts with Win
+      Rate % annotations.'
 ---
 
 # Win loss analysis

@@ -10,6 +10,80 @@ author:
 classification:
   industry:
   - saas-b2b-tech
+portable:
+  summary: Shows how many trial users go on to view pricing, start checkout, and pay, by plan, and flags the plan and step
+    where people drop off most.
+  parameters:
+  - name: conversionWindow
+    type: duration
+    label: Conversion window
+    default: 30 d
+    required: false
+  - name: comparisonPeriod
+    type: duration
+    label: Comparison period (previous period)
+    default: 30 d
+    required: false
+  - name: pricingToCheckoutThreshold
+    type: number
+    label: 'Price-objection flag: pricing-to-checkout conversion below (%)'
+    default: 20
+    required: false
+  - name: checkoutToSubscribedThreshold
+    type: number
+    label: 'Checkout friction flag: checkout-to-subscribed conversion below (%)'
+    default: 60
+    required: false
+  - name: pricingPageUrlFilter
+    type: string
+    label: Pricing page URL contains
+    default: /pricing
+    required: false
+  requirements:
+  - slot: trial_subscription_event
+    kind: event
+    meaning: A customer started a subscription, including trial start and trial end dates
+    properties:
+    - name: trial_start
+      type: date
+      meaning: Date the trial began
+      optional: false
+    - name: trial_end
+      type: date
+      meaning: Date the trial ends
+      optional: false
+    - name: plan
+      type: string
+      meaning: Plan the customer signed up to trial
+      optional: false
+  - slot: page_view_event
+    kind: event
+    meaning: A customer viewed a web page
+    properties:
+    - name: page_url
+      type: string
+      meaning: URL of the page viewed
+      optional: false
+  - slot: checkout_created_event
+    kind: event
+    meaning: A customer created a checkout session
+  - slot: paid_conversion_event
+    kind: event
+    meaning: A customer converted from trial to a paid subscription or paid invoice
+    properties:
+    - name: trial_end
+      type: date
+      meaning: Trial end date of the original subscription
+      optional: true
+  steps:
+  - id: s1
+    builds: report
+    instruction: 'Create a Funnel report called "Free to Paid Conversion" with these steps in order: 1) {trial_subscription_event}
+      where trial_start and trial_end are both not null, labeled "Started Trial"; 2) {page_view_event} where page_url contains
+      {pricingPageUrlFilter}, labeled "Viewed Pricing"; 3) {checkout_created_event}, labeled "Started Checkout"; 4) a follow-on
+      {trial_subscription_event} without trial fields, or a Revenue completed or Invoice paid event after the trial_end of
+      the original subscription, labeled "Subscribed Paid". Set the conversion window to {conversionWindow}. Break down by
+      plan on the trial subscription (the plan they signed up to trial). Compare against the previous {comparisonPeriod}.'
 ---
 
 # Free to paid conversion

@@ -10,6 +10,119 @@ author:
 classification:
   industry:
   - ecommerce-retail
+portable:
+  summary: Shows shoppers a cart progress bar counting down to free shipping, then tests it against no bar to see effects
+    on revenue and average order value.
+  parameters:
+  - name: experiment_title
+    type: string
+    label: Experiment title
+    default: Free Shipping Progress Bar
+    required: false
+  - name: control_split
+    type: number
+    label: Control traffic share (%)
+    default: 50
+    required: false
+  - name: variant_split
+    type: number
+    label: Variant B traffic share (%)
+    default: 50
+    required: false
+  - name: free_shipping_threshold
+    type: number
+    label: Free shipping threshold (USD)
+    required: true
+  - name: test_duration
+    type: duration
+    label: Experiment duration
+    default: 14 d
+    required: false
+  - name: attribution_window
+    type: duration
+    label: Revenue attribution window after exposure
+    default: 24 h
+    required: false
+  - name: abandonment_guardrail
+    type: number
+    label: Maximum allowed increase in cart abandonment (%)
+    default: 3
+    required: false
+  - name: bar_target_selector
+    type: string
+    label: HTML insertion selector for progress bar
+    default: .cart-summary
+    required: false
+  requirements:
+  - slot: cart_created_event
+    kind: event
+    meaning: A customer created a cart
+    properties:
+    - name: session_id
+      type: string
+      meaning: Session identifier of the visit
+      optional: false
+  - slot: cart_updated_event
+    kind: event
+    meaning: A customer updated the contents of their cart
+    properties:
+    - name: cart_subtotal
+      type: number
+      meaning: Cart subtotal in USD after the update
+      optional: false
+  - slot: placed_order_event
+    kind: event
+    meaning: A customer placed an order
+    properties:
+    - name: total_price
+      type: number
+      meaning: Order total price in USD
+      optional: false
+  - slot: experiment_exposure_event
+    kind: event
+    meaning: A visitor was exposed to an experiment variant
+    properties:
+    - name: experience_id
+      type: string
+      meaning: Identifier of the experiment
+      optional: false
+  - slot: cart_visitor_audience
+    kind: segment
+    meaning: Visitors with a cart created in the current session and a cart subtotal above zero but below the free shipping
+      threshold
+    creatable: true
+    definition: users who did {cart_created_event} in the current session AND whose cart subtotal is greater than 0 AND less
+      than {free_shipping_threshold}
+  - slot: storefront_site
+    kind: destination
+    meaning: The storefront website where the cart page and mini-cart drawer are shown
+    channel: shopify
+  steps:
+  - id: s1
+    builds: experiment
+    uses:
+    - experiment_title
+    - control_split
+    - variant_split
+    - test_duration
+    - attribution_window
+    - abandonment_guardrail
+    - free_shipping_threshold
+    - cart_created_event
+    - cart_updated_event
+    - placed_order_event
+    - experiment_exposure_event
+    - cart_visitor_audience
+    - storefront_site
+    - bar_target_selector
+    instruction: 'Create a client experiment titled "{experiment_title}" on the experiences page. Variants: Control at {control_split}%
+      with no progress bar (existing cart page); Variant B at {variant_split}% showing a free-shipping progress bar with dynamic
+      "$X away from free shipping" copy and a progress meter. Targeting: page URL contains "/cart" OR mini-cart drawer open
+      on any page; devices any; audience {cart_visitor_audience}; display frequency always. Primary metric: revenue from {placed_order_event}
+      within {attribution_window} of exposure from {experiment_exposure_event}. Secondary metrics: average {placed_order_event.total_price}
+      per variant; cart_updated count per session from {cart_updated_event}; cart-to-order conversion within session (from
+      {cart_created_event} to {placed_order_event}); percentage of orders reaching {free_shipping_threshold}. Guardrail: cart
+      abandonment rate must not increase more than {abandonment_guardrail}%. Schedule: {test_duration}.'
 ---
 
 # Free shipping progress bar test

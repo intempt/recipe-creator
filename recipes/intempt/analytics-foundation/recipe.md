@@ -10,6 +10,27 @@ author:
 classification:
   industry:
   - industry-agnostic
+portable:
+  summary: Sets up core analytics from your tracked events, delivering Insights, Funnels, Retention and Paths reports plus
+    an executive dashboard showing headline metrics with comparisons and trends.
+  parameters: []
+  requirements:
+  - slot: product_events
+    kind: event
+    meaning: A customer performed a tracked product action that feeds analytics reports
+  steps:
+  - id: s1
+    builds: report
+    uses:
+    - product_events
+    instruction: Build the core report set containing an Insights report for key metrics, a Funnels report for conversion
+      paths, a Retention report for cohort analysis, and a Paths report for user flows, all based on {product_events}.
+  - id: s2
+    builds: dashboard
+    uses:
+    - s1
+    instruction: Compose an executive dashboard surfacing headline metrics with comparisons and trends, using the reports
+      from "Build the core report set".
 ---
 
 # Analytics foundation

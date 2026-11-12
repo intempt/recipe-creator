@@ -10,6 +10,21 @@ author:
 classification:
   industry:
   - industry-agnostic
+portable:
+  summary: Creates a multi-page product launch microsite with a hero section, feature pages, a call to action and footer,
+    styled with your brand, ready to deploy in one click.
+  parameters: []
+  requirements:
+  - slot: brand_tokens
+    kind: brand
+    meaning: The project's brand styling tokens such as colors, fonts and logo
+  steps:
+  - id: s1
+    builds: page
+    uses:
+    - brand_tokens
+    instruction: 'Create a product launch microsite. Build a multi-page site with: hero section, feature/benefit pages, call-to-action,
+      and footer. Apply {brand_tokens} brand tokens. Make it deploy-ready in one click. Output: multi-page microsite.'
 ---
 
 # Product launch microsite

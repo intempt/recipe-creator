@@ -11,6 +11,120 @@ classification:
   industry:
   - ecommerce-retail
   - marketplaces
+portable:
+  summary: Tests three search ranking strategies (text relevance, sales popularity, profit margin) and reports which one drives
+    the most revenue after a search.
+  parameters:
+  - name: experiment_window
+    type: duration
+    label: Experiment run length
+    default: 21 d
+    required: false
+  - name: min_searches_per_variant
+    type: number
+    label: Minimum searches per variant
+    default: 5000
+    required: false
+  - name: control_weight_text
+    type: number
+    label: 'Control: text match weight'
+    default: 1.0
+    required: false
+  - name: variant_b_weight_text
+    type: number
+    label: 'Variant B: text match weight'
+    default: 0.6
+    required: false
+  - name: variant_b_weight_popularity
+    type: number
+    label: 'Variant B: popularity weight'
+    default: 0.4
+    required: false
+  - name: variant_c_weight_text
+    type: number
+    label: 'Variant C: text match weight'
+    default: 0.7
+    required: false
+  - name: variant_c_weight_margin
+    type: number
+    label: 'Variant C: margin weight'
+    default: 0.3
+    required: false
+  - name: max_results
+    type: number
+    label: Maximum search results shown
+    default: 24
+    required: false
+  - name: guardrail_max_drop
+    type: number
+    label: Maximum allowed search-to-purchase conversion drop (%)
+    default: 5
+    required: false
+  - name: variant_split
+    type: text
+    label: Traffic split across Control, Variant B, Variant C (percent)
+    default: 34 / 33 / 33
+    required: false
+  requirements:
+  - slot: search_ranking_experiment
+    kind: integration
+    meaning: A server-side experiment platform that serves a feature flag per user and tracks goal conversions per experience
+    channel: email
+  - slot: search_query_event
+    kind: event
+    meaning: A customer ran a product search
+    properties:
+    - name: query
+      type: text
+      meaning: The search text entered by the customer
+      optional: false
+  - slot: search_result_click_event
+    kind: event
+    meaning: A customer clicked a product in search results
+    properties:
+    - name: target_id
+      type: text
+      meaning: Identifier of the clicked result, such as search-result-3 for position 3
+      optional: false
+  - slot: order_placed_event
+    kind: event
+    meaning: A customer placed an order
+    properties:
+    - name: total_price
+      type: number
+      meaning: Total price of the placed order
+      optional: false
+  - slot: search_to_purchase_metric
+    kind: segment
+    meaning: An existing aggregate metric of search-to-purchase conversion used as a guardrail
+  - slot: product_margin_data
+    kind: attribute
+    meaning: Per-product profit margin values available in the product catalog
+  - slot: search_backend
+    kind: integration
+    meaning: The application search service that ranks results using text relevance, sales velocity and margin weights
+    channel: email
+  steps:
+  - id: s1
+    builds: experiment
+    uses:
+    - search_ranking_experiment
+    - search_backend
+    - search_query_event
+    - control_weight_text
+    - variant_b_weight_text
+    - variant_b_weight_popularity
+    - variant_c_weight_text
+    - variant_c_weight_margin
+    - max_results
+    - variant_split
+    instruction: 'Create a server experiment titled "Search Ranking Optimization" with flag key search_ranking_strategy. Serve
+      three variants: Control (34%) uses relevance-based ranking with text match weight {control_weight_text}, popularity
+      weight 0 and margin weight 0; Variant B (33%) uses popularity-weighted ranking with text match weight {variant_b_weight_text}
+      and popularity weight {variant_b_weight_popularity}; Variant C (33%) uses margin-weighted ranking with text match weight
+      {variant_c_weight_text} and margin weight {variant_c_weight_margin}. Split traffic {variant_split}. Each variant returns
+      max results {max_results}, and tie breakers are alphabetical for Control, popularity for Variant B and margin for Variant
+      C.'
 ---
 
 # Search ranking test

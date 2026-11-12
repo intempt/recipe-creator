@@ -10,6 +10,167 @@ author:
 classification:
   industry:
   - industry-agnostic
+portable:
+  summary: Ranks free or trial users who show strong buying intent into a sales leaderboard, with contact details, scores,
+    and account-level grouping so sales can prioritize outreach.
+  parameters:
+  - name: window
+    type: duration
+    label: PQL rolling window
+    default: 14 d
+    required: false
+  - name: min_sessions
+    type: number
+    label: Minimum distinct session days
+    default: 3
+    required: false
+  - name: min_goal_completions
+    type: number
+    label: Minimum activation journey goal completions
+    default: 1
+    required: false
+  - name: min_core_clicks
+    type: number
+    label: Minimum clicks on core feature targets
+    default: 10
+    required: false
+  - name: core_target_pattern
+    type: text
+    label: Core feature target id pattern
+    default: core-feature*
+    required: false
+  - name: high_fit_utm_sources
+    type: text
+    label: High-fit UTM sources (ICP filter, comma separated)
+    required: false
+  - name: account_pqa_threshold
+    type: number
+    label: PQL count at one account that marks a PQA
+    default: 3
+    required: false
+  - name: stale_days_threshold
+    type: number
+    label: Days over threshold without sales contact before flagging
+    default: 7
+    required: false
+  - name: benchmark_low
+    type: number
+    label: Low PQL-to-paid conversion benchmark (%)
+    default: 10
+    required: false
+  - name: benchmark_healthy_low
+    type: number
+    label: Healthy PQL-to-paid conversion lower bound (%)
+    default: 15
+    required: false
+  - name: benchmark_healthy_high
+    type: number
+    label: Healthy PQL-to-paid conversion upper bound (%)
+    default: 30
+    required: false
+  - name: benchmark_high
+    type: number
+    label: High PQL-to-paid conversion benchmark (%)
+    default: 35
+    required: false
+  - name: trend_weeks
+    type: number
+    label: Trend history in weeks
+    default: 12
+    required: false
+  requirements:
+  - slot: session_event
+    kind: event
+    meaning: A user started a session in the product
+    properties:
+    - name: session_day
+      type: date
+      meaning: Calendar day of the session start
+      optional: false
+  - slot: journey_goal_event
+    kind: event
+    meaning: A user completed a goal in the activation journey
+    properties:
+    - name: journey_id
+      type: string
+      meaning: Identifier of the journey the goal belongs to
+      optional: false
+    - name: goal_id
+      type: string
+      meaning: Identifier of the completed goal
+      optional: true
+  - slot: click_event
+    kind: event
+    meaning: A user clicked an element in the product
+    properties:
+    - name: target_id
+      type: string
+      meaning: Identifier of the clicked element
+      optional: false
+  - slot: subscription_event
+    kind: event
+    meaning: A customer started a paid subscription
+    properties:
+    - name: trial_end
+      type: date
+      meaning: Trial end date, if the subscription started with a trial
+      optional: true
+    - name: plan_type
+      type: string
+      meaning: Whether the subscription is paid or trial
+      optional: true
+  - slot: user_profile
+    kind: attribute
+    meaning: Users with name, email, account they belong to, UTM source, first seen and last seen dates
+  - slot: user_account
+    kind: attribute
+    meaning: The account (company) a user belongs to, used to group users into accounts
+  - slot: pql_segment
+    kind: segment
+    meaning: Users currently in the product qualified lead state
+    creatable: true
+    definition: users with no active subscription or with a trial subscription, who have {session_event} on at least {min_sessions}
+      different days, at least {min_goal_completions} {journey_goal_event} within {window}, and at least {min_core_clicks}
+      {click_event} on targets matching {core_target_pattern} within {window}
+  steps:
+  - id: s1
+    builds: report
+    uses:
+    - pql_segment
+    - user_profile
+    - user_account
+    - session_event
+    - journey_goal_event
+    - click_event
+    - subscription_event
+    - window
+    - min_sessions
+    - min_goal_completions
+    - min_core_clicks
+    - core_target_pattern
+    - high_fit_utm_sources
+    - account_pqa_threshold
+    - stale_days_threshold
+    - benchmark_low
+    - benchmark_healthy_low
+    - benchmark_healthy_high
+    - benchmark_high
+    - trend_weeks
+    instruction: 'Create an Insights report named "PQL Leaderboard" that ranks users in {pql_segment} as a sortable table,
+      one row per PQL, showing user name, email, and the account they belong to from {user_account}, taken from {user_profile}.
+      Compute a PQL score from 0 to 100 as the weighted blend: distinct session days from {session_event} times 5, plus {journey_goal_event}
+      completions times 15, plus clicks on {click_event} matching {core_target_pattern} times 1, plus a recency multiplier
+      based on days since {user_profile} first seen, capped at the threshold. Also show days as PQL, the most recent {user_profile}
+      last seen timestamp, and the behavior that most recently crossed the user over the threshold. If {high_fit_utm_sources}
+      is set, limit rows to users whose {user_profile} UTM source matches one of those values. Add a secondary weekly trend
+      chart over the last {trend_weeks} weeks with two series: Series A, count of users in {pql_segment}, labeled "Active
+      PQLs"; Series B, trailing 7-day conversion rate from PQL to a paid, non-trial {subscription_event} (plan_type not trial),
+      labeled "PQL Conversion Rate". Break down the table by account. Highlight any account with at least {account_pqa_threshold}
+      users in {pql_segment} as a PQA for priority sales outreach. Flag any PQL over the threshold for {stale_days_threshold}
+      or more days without sales contact. Annotate the conversion rate series with benchmarks: {benchmark_healthy_low} to
+      {benchmark_healthy_high} percent is healthy, below {benchmark_low} percent suggests the threshold is too lenient, and
+      above {benchmark_high} percent suggests the bar may be too high. Show the most common qualifying behavior among current
+      PQLs to inform the opening message for sales.'
 ---
 
 # Product qualified lead leaderboard

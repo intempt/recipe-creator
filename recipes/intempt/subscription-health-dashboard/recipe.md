@@ -10,6 +10,145 @@ author:
 classification:
   industry:
   - industry-agnostic
+portable:
+  summary: Gives a finance or revenue lead a monthly board view of whether subscription revenue is compounding or eroding,
+    with MRR movements, cohort NRR, and leakage levers.
+  parameters:
+  - name: dateRange
+    type: duration
+    label: Default date range
+    default: 90 d
+    required: false
+  - name: breakdownBy
+    type: string
+    label: Board breakdown
+    default: Plan
+    required: false
+  - name: nrrHealthyThreshold
+    type: number
+    label: NRR top-quartile threshold (%)
+    default: 110
+    required: false
+  - name: nrrErosionThreshold
+    type: number
+    label: NRR erosion threshold (%)
+    default: 90
+    required: false
+  - name: dunningRecoveryTarget
+    type: number
+    label: Dunning recovery target (%)
+    default: 70
+    required: false
+  - name: expansionShareTarget
+    type: number
+    label: Expansion share of new MRR target (%)
+    default: 30
+    required: false
+  requirements:
+  - slot: subscription_started
+    kind: event
+    meaning: A customer started a subscription
+    properties:
+    - name: plan
+      type: string
+      meaning: Plan the subscription started on
+      optional: false
+  - slot: subscription_canceled
+    kind: event
+    meaning: A customer canceled a subscription
+    properties:
+    - name: plan
+      type: string
+      meaning: Plan that was canceled
+      optional: false
+  - slot: subscription_updated
+    kind: event
+    meaning: A customer's subscription was changed
+    properties:
+    - name: changed_fields
+      type: text
+      meaning: List of subscription fields that changed, used to split expansion from contraction
+      optional: false
+    - name: plan
+      type: string
+      meaning: Plan after the change
+      optional: true
+  - slot: subscription_resumed
+    kind: event
+    meaning: A customer resumed a paused subscription
+    properties:
+    - name: plan
+      type: string
+      meaning: Plan the subscription resumed on
+      optional: true
+  - slot: invoice_paid
+    kind: event
+    meaning: A customer's invoice was paid
+    properties:
+    - name: plan
+      type: string
+      meaning: Plan the invoice is for
+      optional: true
+    - name: amount
+      type: number
+      meaning: Amount paid on the invoice
+      optional: false
+  - slot: invoice_payment_failed
+    kind: event
+    meaning: A customer's invoice payment failed
+    properties:
+    - name: amount
+      type: number
+      meaning: Amount of the failed invoice
+      optional: false
+  - slot: revenue_completed
+    kind: event
+    meaning: A customer completed a revenue-generating purchase
+    properties:
+    - name: amount
+      type: number
+      meaning: Revenue amount of the purchase
+      optional: false
+  - slot: plan
+    kind: attribute
+    meaning: The subscription plan a customer is on
+  - slot: mrr_trend_insight
+    kind: knowledge
+    meaning: An insights metric showing monthly recurring revenue over time
+  - slot: mrr_movement_insight
+    kind: knowledge
+    meaning: An insights metric decomposing MRR movement into new, expansion, reactivation, contraction, churn and net new
+  - slot: nrr_cohort_retention
+    kind: knowledge
+    meaning: A retention analysis of net revenue retention by signup cohort
+  - slot: logo_retention_trend
+    kind: knowledge
+    meaning: An insights metric showing monthly logo retention trend
+  - slot: paid_user_retention
+    kind: knowledge
+    meaning: A cohort retention grid of paid users over time
+  - slot: payment_failure_recovery_funnel
+    kind: knowledge
+    meaning: A funnel showing failed payments moving through dunning recovery
+  - slot: expansion_revenue_trend
+    kind: knowledge
+    meaning: An insights metric showing expansion revenue split by upgrade and seat expansion
+  steps:
+  - id: s1
+    builds: dashboard
+    instruction: 'Create a 12-column dashboard titled "Subscription Health" for a monthly subscription-business review by
+      a finance, RevOps, or CRO audience, answering whether the subscription engine is compounding or eroding and where the
+      leakage is. Set the default date range to {dateRange}, exclude incomplete periods, make it visible to the project, leave
+      board filters empty, and set the board breakdown to {breakdownBy} pushed down where applicable. Use 4 rows. Row 1 (height
+      200px): four metric cards at 3 units each, titled "MRR (Current)" from {mrr_trend_insight} as a metric, "Net New MRR
+      (Last Month)" from {mrr_movement_insight} as a metric, "Trailing-12mo NRR" from {nrr_cohort_retention} as a metric,
+      and "Logo Retention (Annualized)" from {logo_retention_trend} as a metric, where the annual implication of the monthly
+      rate is shown directly (for example, 95% monthly equals 54% annual). Row 2 (height 480px): one full-width 12-unit stacked
+      column chart from {mrr_movement_insight} showing New, Expansion, Reactivation, Contraction, Churn and Net New per month.
+      Row 3 (height 440px): two 6-unit cards, a line chart of cohort NRR curves from {nrr_cohort_retention}, and a table from
+      {paid_user_retention} showing logo retention vs revenue retention side by side. Row 4 (height 440px): two 6-unit cards,
+      a funnel-steps chart from {payment_failure_recovery_funnel} showing revenue at risk and recovery rate, and a stacked
+      bar chart from {expansion_revenue_trend} showing the upgrade vs seat-expansion mix.'
 ---
 
 # Subscription revenue health

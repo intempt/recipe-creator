@@ -10,6 +10,52 @@ author:
 classification:
   industry:
   - industry-agnostic
+portable:
+  summary: Finds visitors who view pages repeatedly within a short window and tags them with a reusable attribute so later
+    segments and campaigns can target them.
+  parameters:
+  - name: min_views
+    type: number
+    label: Minimum page views
+    default: 3
+    required: false
+  - name: view_window
+    type: duration
+    label: Look-back window
+    default: 7 d
+    required: false
+  - name: segment_name
+    type: string
+    label: Segment name
+    default: Repeat Page Visitors
+    required: false
+  - name: attribute_name
+    type: string
+    label: Attribute name
+    default: repeat_visitor
+    required: false
+  requirements:
+  - slot: page_view_event
+    kind: event
+    meaning: A user viewed a page on the website
+  steps:
+  - id: s1
+    builds: segment
+    uses:
+    - page_view_event
+    - min_views
+    - view_window
+    - segment_name
+    instruction: Build a segment named "{segment_name}" of users who triggered {page_view_event} at least {min_views} times
+      in the last {view_window}.
+  - id: s2
+    builds: attribute
+    uses:
+    - s1
+    - attribute_name
+    - segment_name
+    instruction: Create an attribute named "{attribute_name}" on users in "{segment_name}", set to true, using the segment
+      built in "Build the repeat visitor list".
 ---
 
 # Repeat Page Visitors

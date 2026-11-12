@@ -10,6 +10,59 @@ author:
 classification:
   industry:
   - industry-agnostic
+portable:
+  summary: Automatically captures renewal-call insights from AI meeting summaries and builds a dashboard tracking renewal
+    risk, expansion opportunities, churn precursors and renewal-call coverage by CSM owner.
+  parameters:
+  - name: renewal_meeting_type
+    type: string
+    label: Meeting type name for renewal calls
+    default: Renewal
+  - name: coverage_target_days
+    type: number
+    label: Days before renewal date by which the renewal call should happen
+    default: 60
+  - name: coverage_target_percent
+    type: number
+    label: Target percentage of upcoming renewals with a completed renewal call
+    default: 100
+  requirements:
+  - slot: renewal_call_completed
+    kind: event
+    meaning: A customer completed a renewal call
+    properties:
+    - name: account_id
+      type: string
+      meaning: Account the call was held with
+      optional: false
+    - name: csm_owner
+      type: string
+      meaning: CSM owner of the account
+      optional: true
+  - slot: renewal_date_attribute
+    kind: attribute
+    meaning: The renewal date of an account
+  - slot: csm_owner_attribute
+    kind: attribute
+    meaning: The customer success manager who owns an account
+  - slot: arr_attribute
+    kind: attribute
+    meaning: Annual recurring revenue of an account, used to size expansion opportunity
+    optional: true
+  steps:
+  - id: s1
+    builds: event
+    uses:
+    - renewal_meeting_type
+    instruction: Confirm that the meeting type {renewal_meeting_type} exists in the meeting taxonomy with notetaker autojoin
+      enabled, and retrieve it for use in the following steps.
+  - id: s2
+    builds: summary
+    uses:
+    - s1
+    - renewal_call_completed
+  - id: s3
+    builds: ''
 ---
 
 # Renewal call summary fields

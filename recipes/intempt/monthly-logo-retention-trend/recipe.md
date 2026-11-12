@@ -10,6 +10,92 @@ author:
 classification:
   industry:
   - saas-b2b-tech
+portable:
+  summary: Shows the monthly logo retention rate and its 3-month rolling trend by plan, with benchmarks, churn-spike flags,
+    and an annualized retention callout for board reporting.
+  parameters:
+  - name: trend_window_months
+    type: number
+    label: Time range (months)
+    default: 12
+    required: false
+  - name: rolling_window_months
+    type: number
+    label: Rolling average window (months)
+    default: 3
+    required: false
+  - name: spike_threshold_points
+    type: number
+    label: Churn spike threshold (percentage points below trailing average)
+    default: 2
+    required: false
+  - name: decline_months
+    type: number
+    label: Consecutive declining months that trigger an erosion flag
+    default: 3
+    required: false
+  - name: benchmark_good_pct
+    type: number
+    label: Industry-good monthly logo retention (%)
+    default: 95
+    required: false
+  - name: benchmark_best_pct
+    type: number
+    label: Best-in-class monthly logo retention (%)
+    default: 97
+    required: false
+  - name: benchmark_risk_pct
+    type: number
+    label: Retention issue threshold (%)
+    default: 90
+    required: false
+  requirements:
+  - slot: subscription_started
+    kind: event
+    meaning: A customer started a subscription
+    properties:
+    - name: Plan
+      type: string
+      meaning: Subscription plan tier
+      optional: false
+    - name: trial_end
+      type: date
+      meaning: Trial end date; empty for paid subscriptions
+      optional: true
+  - slot: subscription_canceled
+    kind: event
+    meaning: A customer canceled a subscription
+  - slot: subscription_expired
+    kind: event
+    meaning: A customer subscription expired
+  - slot: subscription_paused
+    kind: event
+    meaning: A customer paused a subscription (not counted as churn)
+    optional: true
+  steps:
+  - id: s1
+    builds: report
+    uses:
+    - subscription_started
+    - subscription_canceled
+    - subscription_expired
+    - trend_window_months
+    - rolling_window_months
+    - spike_threshold_points
+    - decline_months
+    - benchmark_good_pct
+    - benchmark_best_pct
+    - benchmark_risk_pct
+    instruction: Create an Insights report titled "Monthly Logo Retention Trend" with monthly granularity over the last {trend_window_months}
+      months. Scope to paid subscriptions by filtering {subscription_started.trial_end} to empty. For each calendar month
+      M, define the cohort as unique customers with a {subscription_started} event before the start of M and no {subscription_canceled}
+      or {subscription_expired} event before the start of M. Series A is the cohort count. Series B is the number of cohort
+      members with no {subscription_canceled} or {subscription_expired} event during M. Series C is Series B divided by Series
+      A times 100, in %, labeled "Monthly Logo Retention Rate". Series D is the trailing {rolling_window_months}-month rolling
+      average of Series C, labeled "Logo Retention ({rolling_window_months}-mo rolling)". Break down by {subscription_started.Plan}
+      as resolved at the start of month M. Compare year over year using a dotted overlay of the same month in the prior year.
+      Chart as a line chart with Series C and Series D as primary lines, plus a small multiple of Series C per plan tier.
+      Pause events from {subscription_paused} are not churn and must be excluded from the churn counts.
 ---
 
 # Monthly logo retention

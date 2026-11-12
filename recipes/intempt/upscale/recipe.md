@@ -10,6 +10,28 @@ author:
 classification:
   industry:
   - industry-agnostic
+portable:
+  summary: Enlarges a soft or low-resolution image to four times its size with sharper detail, keeping the composition, colours
+    and subject unchanged.
+  parameters:
+  - name: scale_factor
+    type: number
+    label: Upscale factor (times width and height)
+    default: 4
+    required: false
+  - name: source_image
+    type: attachment
+    label: Image to upscale
+    required: true
+  requirements: []
+  steps:
+  - id: s1
+    builds: image
+    uses:
+    - source_image
+    - scale_factor
+    instruction: 'Upscale {source_image} to {scale_factor} times its width and height. Enhance detail only: keep the composition,
+      colours and subject the same, and do not re-render the subject.'
 ---
 
 # Image upscale
