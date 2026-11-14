@@ -1,0 +1,27 @@
+{
+  "frontmatter_id": "product-videos",
+  "title": "One video per product",
+  "slash_command": "/product-videos",
+  "description": "Make one short video clip of each product in a product feed, each animated from that product's own photo.",
+  "markdown": "# One video per product\n\n## Description\n\nMake one short video clip of each product in a product feed, each animated from that product's own photo.\n\n## Steps\n\n### Step 1: Animate each product\n\nGenerate one product video for each product of a product feed.\nInputs:\n- product feed: the products to animate (up to 5 per run)\n- scene: motion style (360° rotation, dolly-in, floating reveal)\n- script (optional): additional direction\nPipeline: kling i2v, once per product\nProduce a 5-second clip of each product from its own catalog photo.\n",
+  "classification": {
+    "industry": [
+      "ecommerce-retail"
+    ]
+  },
+  "author": {
+    "name": "Intempt",
+    "last_name": "Technologies",
+    "company": "Intempt",
+    "org_name": "intempt"
+  },
+  "permissions": [],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Animate each product",
+      "description": "Generate one product video for each product of a product feed.\nInputs:\n- product feed: the products to animate (up to 5 per run)\n- scene: motion style (360° rotation, dolly-in, floating reveal)\n- script (optional): additional direction\nPipeline: kling i2v, once per product\nProduce a 5-second clip of each product from its own catalog photo."
+    }
+  ],
+  "availability": "coming_soon"
+}
