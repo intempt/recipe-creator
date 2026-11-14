@@ -1,7 +1,7 @@
 ---
 frontmatter_id: multi-shot-video
 slash_command: /multi-shot-video
-description: Generates each shot in your shot list as a separate Kling v3 text-to-video clip. Use the merge-video workflow node to join clips into one reel.
+description: Generates each shot in your shot list as its own text-to-video clip with a shared look, then joins the clips in order into one reel.
 author:
   name: Intempt
   last_name: Technologies
@@ -29,16 +29,7 @@ portable:
     options:
     - 3 s
     - 5 s
-  requirements:
-  - slot: video_generation_integration
-    kind: integration
-    meaning: A connected AI text-to-video generation service capable of rendering clips from text prompts
-    channel: email
-  - slot: video_merge_destination
-    kind: destination
-    meaning: A destination where the joined final reel can be delivered or stored
-    optional: true
-    channel: email
+  requirements: []
   steps:
   - id: s1
     builds: video
@@ -46,8 +37,6 @@ portable:
     - shotList
     - scene
     - durationPerShot
-    - video_generation_integration
-    - video_merge_destination
     instruction: Generate one text-to-video clip for each prompt in {shotList}, using {scene} as the shared scene and visual
       style for every shot, with each clip set to {durationPerShot}. Render all shots with a consistent look, then concatenate
       the clips in shot-list order into a single reel.

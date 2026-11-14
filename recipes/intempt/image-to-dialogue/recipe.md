@@ -1,7 +1,7 @@
 ---
 frontmatter_id: image-to-dialogue
 slash_command: /image-to-dialogue
-description: Generates spoken audio from your script and animates a portrait with subtle motion to accompany the voiceover.
+description: Turns a script into a talking-portrait video of your brand character.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,27 +11,26 @@ classification:
   industry:
   - industry-agnostic
 portable:
-  summary: Turns a script and a portrait photo into a talking-portrait video, with spoken audio generated from the script
-    and subtle motion that keeps the face recognisable.
+  summary: Turns a script into a talking-portrait video of your brand character, with spoken audio generated from the
+    script and subtle motion that keeps the face recognisable.
   parameters:
+  - name: script
+    type: text
+    label: Dialogue script (what the character says)
+    required: true
   - name: voice_id
     type: string
-    label: Voice preset
-    required: true
-  - name: portrait_image
-    type: attachment
-    label: Portrait photo
-    required: true
+    label: Voice preset (optional; the character's own voice otherwise)
+    required: false
   requirements: []
   steps:
   - id: s1
     builds: video
     uses:
-    - portrait_image
+    - script
     - voice_id
-    instruction: Generate a talking-portrait video from the uploaded portrait photo and the dialogue script. Generate spoken
-      audio from the script using the voice preset {voice_id}, then lip-sync the portrait to that speech and add subtle motion.
-      Preserve the subject's identity and facial features.
+    instruction: Make a talking-portrait dialogue video of the brand's presenter character saying {script}, spoken in the
+      voice preset {voice_id} when one is given. Add subtle motion and keep the character's face and features exact.
 ---
 
 # Talking portrait
@@ -40,10 +39,9 @@ Slash command: /image-to-dialogue
 
 ## Step 1: Make the portrait speak
 
-Generate a talking-portrait video.
+Generate a talking-portrait video of the brand character (never an uploaded photo of a real person).
 Inputs:
-- image: portrait photo (file upload)
 - script: dialogue script (rich text)
-- voiceId: voice preset
+- voiceId: voice preset (optional)
 Pipeline: kling-clip + elevenlabs-tts
 Lip-sync the portrait (Avatar or any face) to the generated speech. Identity and facial features preserved.

@@ -1,7 +1,7 @@
 ---
 frontmatter_id: talking-avatar
 slash_command: /talking-avatar
-description: Turns a portrait still into a 5 second talking-head loop with subtle lip movement and eye contact.
+description: Makes a talking-head video of your brand character saying the words you write.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,9 +11,13 @@ classification:
   industry:
   - industry-agnostic
 portable:
-  summary: Turns a single portrait photo into a 5-second looping talking-head video with subtle lip movement, gentle eye contact
-    and a single blink.
+  summary: Makes a 5-second talking-head video of your brand character saying the words you write, with subtle lip
+    movement, gentle eye contact and a single blink.
   parameters:
+  - name: script
+    type: text
+    label: What the presenter says (at least a sentence or two)
+    required: true
   - name: clip_length
     type: duration
     label: Clip length
@@ -27,20 +31,16 @@ portable:
     options:
     - fixed
     - locked_off_slight_drift
-  requirements:
-  - slot: portrait_image
-    kind: knowledge
-    meaning: A portrait still photo of a person to animate
+  requirements: []
   steps:
   - id: s1
     builds: video
     uses:
-    - portrait_image
+    - script
     - clip_length
     - camera_motion
-    instruction: Generate a talking avatar video from the {portrait_image} portrait still. Keep the camera fixed. Make a {clip_length}
-      natural talking-head loop with subtle lip movement, gentle eye contact and a single blink. Preserve the identity of
-      the person in the portrait exactly. Use an image-to-video pipeline with a camera-fixed talking-head setup.
+    instruction: Make a talking avatar video of the brand's presenter character saying {script}. Keep the camera {camera_motion}.
+      Make a {clip_length} natural talking-head clip with subtle lip movement, gentle eye contact and a single blink.
 ---
 
 # Talking head from a portrait
@@ -49,6 +49,6 @@ Slash command: /talking-avatar
 
 ## Step 1: Animate the portrait
 
-Generate a talking avatar video from a portrait still.
-Camera fixed. 5s natural talking-head loop: subtle lip movement, gentle eye contact, single blink. Identity preserved exactly.
-Pipeline: image to video (camera-fixed, talking-head)
+Make a talking-head video of the brand character (the brand's own avatar; never an uploaded photo of a real person) saying the words you write.
+Camera fixed. 5s natural talking-head clip: subtle lip movement, gentle eye contact, single blink.
+Pipeline: brand character + catalog voice → avatar video

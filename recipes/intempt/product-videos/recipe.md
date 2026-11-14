@@ -11,7 +11,7 @@ classification:
   industry:
   - ecommerce-retail
 portable:
-  summary: Makes one short video clip of each product in a product feed (up to 5 per run), each animated from that
+  summary: Makes one short video clip of each product in a product feed (up to 5 per run by default), each animated from that
     product's own photo with a 360° spin, dolly-in, or floating reveal.
   parameters:
   - name: scene
@@ -32,6 +32,11 @@ portable:
     label: Clip length
     default: 5 s
     required: false
+  - name: products_per_run
+    type: number
+    label: Products per run (1 to 20; set when the recipe is published)
+    default: 5
+    required: false
   requirements:
   - slot: product_catalog
     kind: product_feed
@@ -44,7 +49,8 @@ portable:
     - scene
     - script
     - clip_length
-    instruction: For each product in {product_catalog}, generate one product video from that product's own image. Produce
+    - products_per_run
+    instruction: For each product in {product_catalog} (up to {products_per_run} per run), generate one product video from that product's own image. Produce
       a {clip_length} clip per product using the motion style {scene}, with optional direction {script}.
 ---
 
