@@ -1,7 +1,7 @@
 ---
 frontmatter_id: talking-avatar
 slash_command: /talking-avatar
-description: Makes a talking-head video of your brand character saying the words you write.
+description: Makes a talking-head video of your brand presenter (your brand character) saying the words you write for your brand.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,8 +11,8 @@ classification:
   industry:
   - industry-agnostic
 portable:
-  summary: Makes a 5-second talking-head video of your brand character saying the words you write, with subtle lip
-    movement, gentle eye contact and a single blink.
+  summary: Makes a 5-second talking-head video of your brand presenter (your brand character) speaking for your brand
+    in the words you write, with subtle lip movement, gentle eye contact and a single blink.
   parameters:
   - name: script
     type: text
@@ -43,12 +43,13 @@ portable:
       Make a {clip_length} natural talking-head clip with subtle lip movement, gentle eye contact and a single blink.
 ---
 
-# Talking head from a portrait
+# Talking head of your brand presenter
 
 Slash command: /talking-avatar
 
-## Step 1: Animate the portrait
+## Step 1: Animate the brand presenter
 
 Make a talking-head video of the brand character (the brand's own avatar; never an uploaded photo of a real person) saying the words you write.
 Camera fixed. 5s natural talking-head clip: subtle lip movement, gentle eye contact, single blink.
+The presenter speaks for the brand (we, our), never as a customer; a customer quote is used only word for word from a real review, with the reviewer's name.
 Pipeline: brand character + catalog voice → avatar video

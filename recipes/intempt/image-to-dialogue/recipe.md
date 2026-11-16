@@ -1,7 +1,7 @@
 ---
 frontmatter_id: image-to-dialogue
 slash_command: /image-to-dialogue
-description: Turns a script into a talking-portrait video of your brand character.
+description: Turns a script into a talking-portrait video of your brand character speaking for your brand.
 author:
   name: Intempt
   last_name: Technologies
@@ -44,4 +44,4 @@ Inputs:
 - script: dialogue script (rich text)
 - voiceId: voice preset (optional)
 Pipeline: kling-clip + elevenlabs-tts
-Lip-sync the portrait (Avatar or any face) to the generated speech. Identity and facial features preserved.
+Lip-sync the brand character to the generated speech. Identity and facial features preserved. The presenter speaks for the brand (we, our), never as a customer; a customer quote is used only word for word from a real review, with the reviewer's name.

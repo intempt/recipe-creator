@@ -1,7 +1,7 @@
 ---
 frontmatter_id: video-reel
 slash_command: /video-reel
-description: Builds a 5 or 10 second reel from a script, using your avatar, a catalog product, or a scene on its own, with voice and music.
+description: Builds a 5 or 10 second reel of your brand presenter (your brand character) speaking your script for your brand, with its voice and captions.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,7 +11,8 @@ classification:
   industry:
   - ecommerce-retail
 portable:
-  summary: Creates a short video reel of your brand character presenting your script, with its voice and captions.
+  summary: Creates a short video reel of your brand character presenting your script for your brand, with its voice and
+    captions.
   parameters:
   - name: duration
     type: enum
@@ -41,14 +42,9 @@ Slash command: /video-reel
 
 ## Step 1: Generate the reel
 
-Generate a short video reel.
+Generate a short video reel of the brand character (never an uploaded photo of a real person) presenting your script.
 Inputs:
-- subjectMode: Avatar | Product | Scene-only
-- modelId (if Avatar): identity-locked Avatar
-- productIds (if Product): catalog SKUs
-- sceneId (optional): background scene
-- script: script or prompt (rich text)
+- script: what the presenter says
 - duration: 5s or 10s
-Pipeline: kling v2.1 i2v + elevenlabs-tts
-Runner: video-reel (custom)
-In Avatar mode, the Avatar is identity-locked in the first frame with voice + music. In Product mode, the catalog SKU anchors the first frame. Scene-only uses text-to-video.
+The presenter speaks for the brand (we, our), never as a customer; a customer quote is used only word for word from a real review, with the reviewer's name.
+Pipeline: brand character + catalog voice → avatar video, captions

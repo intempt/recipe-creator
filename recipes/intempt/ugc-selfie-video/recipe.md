@@ -1,7 +1,7 @@
 ---
 frontmatter_id: ugc-selfie-video
 slash_command: /ugc-selfie-video
-description: Makes a candid UGC-style selfie clip of your brand character saying the words you write.
+description: Makes a candid selfie-style brand presenter clip of your brand character saying the words you write for your brand.
 author:
   name: Intempt
   last_name: Technologies
@@ -12,7 +12,7 @@ classification:
   - ecommerce-retail
   - social-creator
 portable:
-  summary: Makes a 5-second candid UGC-style selfie clip of your brand character saying the words you write, with a subtle
+  summary: Makes a 5-second candid selfie-style brand presenter clip of your brand character speaking for your brand in the words you write, with a subtle
     head turn and a natural smile.
   parameters:
   - name: script
@@ -47,15 +47,15 @@ portable:
     - clip_length
     - lighting_note
     - motion_style
-    instruction: Make a UGC selfie video of the brand's presenter character saying {script}. Produce a {clip_length} candid
+    instruction: Make a selfie-style brand presenter video of the brand's presenter character saying {script}. Produce a {clip_length} candid
       handheld selfie clip with a subtle head turn and a natural smile, using {lighting_note}, in {motion_style} style.
 ---
 
-# UGC selfie clip
+# Selfie-style brand presenter clip
 
 Slash command: /ugc-selfie-video
 
-## Step 1: Animate the selfie
+## Step 1: Animate the brand presenter
 
-Generate a UGC selfie video of the brand character (never an uploaded photo of a real person) saying your words. 5s candid handheld selfie clip: subtle head turn, natural smile, real kitchen light, slight handheld drift. Authentic, not glamour.
+Generate a selfie-style brand presenter video of the brand character (never an uploaded photo of a real person) saying your words. The presenter speaks for the brand (we, our), never as a customer; a customer quote is used only word for word from a real review, with the reviewer's name. 5s candid handheld selfie clip: subtle head turn, natural smile, real kitchen light, slight handheld drift. Authentic, not glamour.
 Pipeline: image to video (candid motion)
