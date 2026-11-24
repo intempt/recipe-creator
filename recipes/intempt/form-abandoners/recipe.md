@@ -27,10 +27,10 @@ portable:
   requirements:
   - slot: form_change_event
     kind: event
-    meaning: A customer changed a field on a form
+    meaning: A user edited a field in a form on the site (the project's form-field change event)
   - slot: form_submit_event
     kind: event
-    meaning: A customer submitted a form
+    meaning: A user submitted a form on the site (the project's form-submit event, never a survey or NPS answer)
   - slot: form_abandoners
     kind: segment
     meaning: Users who started a form and did not submit it within the window
@@ -62,7 +62,7 @@ Slash command: /form-abandoners
 
 ## Step 1: Build the form abandoner list
 
-Build a segment of users named "Form Abandoners". A user is in the segment only when all of these are true: triggered "Change on" at least once in the last 3 days; did not trigger "Submit on" in the last 3 days.
+Build a segment of users named "Form Abandoners". A user is in the segment only when all of these are true: triggered the form-field change event (a tracked edit of a field in a form on the site) at least once in the last 3 days; did not trigger the form-submit event (a tracked submission of a form on the site, not a survey or NPS answer) in the last 3 days.
 
 ## Step 2: Tag the matched users
 

@@ -40,10 +40,10 @@ portable:
   requirements:
   - slot: click_event
     kind: event
-    meaning: A visitor clicked on a page element
+    meaning: A user clicked an element on the site or app (the project's click event)
   - slot: submit_event
     kind: event
-    meaning: A visitor submitted a form
+    meaning: A user submitted a form on the site (the project's form-submit event, never a survey or NPS answer)
   - slot: high_click_non_converters
     kind: segment
     meaning: Users who clicked heavily without submitting a form
@@ -73,9 +73,11 @@ portable:
     - s1
     - growth_team_channel
     - segment_name
-    instruction: Draft a Slack message to {growth_team_channel}. State how many users are in "Build a segment named {segment_name}"
-      right now, so the team has a ready-made shortlist of high-friction visitors worth a closer look. This drafts the Slack
-      message only; a person on the team still posts it.
+    instruction: Draft a Slack message to {growth_team_channel} stating how many users are in the segment built in "Build
+      the high-click non-converter list" right now, as a shortlist of high-friction visitors worth a closer look. This drafts
+      the Slack message only; a person on the team still posts it. Use the segment's current member count from the step that
+      built it; never write a placeholder in square brackets. If no count is available, name the segment and say it can be
+      opened in Segments.
 ---
 
 # High-Click Non-Converters
@@ -84,8 +86,8 @@ Slash command: /high-click-no-submit
 
 ## Step 1: Build the high-click non-converter list
 
-Build a segment of users named "High-Click Non-Converters". A user is in the segment only when all of these are true: triggered "Click on" at least 8 times in the last 7 days; did not trigger "Submit on" in the last 7 days.
+Build a segment of users named "High-Click Non-Converters". A user is in the segment only when all of these are true: triggered the click event (a tracked click on a page element) at least 8 times in the last 7 days; did not trigger the form-submit event (a tracked submission of a form on the site, not a survey or NPS answer) in the last 7 days.
 
 ## Step 2: Draft a growth alert
 
-Generate a Slack message to the growth team channel. Say how many users are in "High-Click Non-Converters" right now, so the team has a ready-made shortlist of high-friction visitors worth a closer look. Use the result of "Build the high-click non-converter list". This drafts the Slack message only; a person on the team still posts it.
+Generate a Slack message to the growth team channel. State how many users are in "High-Click Non-Converters" right now, using the member count in the result of "Build the high-click non-converter list". If that result carries no count, write no number and no placeholder in square brackets; say instead that the list is saved as the segment "High-Click Non-Converters" and can be opened in Segments. Say this is a shortlist of high-friction visitors worth a closer look. This drafts the Slack message only; a person on the team still posts it.

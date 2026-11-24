@@ -1,9 +1,9 @@
 {
   "frontmatter_id": "recently-signed-up-users",
-  "title": "Recent signups",
+  "title": "Recently Signed-Up Users",
   "slash_command": "/recently-signed-up-users",
   "description": "Everyone whose first session was within the last 30 days, with a welcome email drafted and a note drafted for the onboarding team while the activation window is still open.",
-  "markdown": "# Recent signups\n\n## Description\n\nEveryone whose first session was within the last 30 days, with a welcome email drafted and a note drafted for the onboarding team while the activation window is still open.\n\n## Steps\n\n### Step 1: Build the new signup list\n\nBuild a segment of users named \"Recently Signed-Up Users\". A user is in the segment only when all of these are true: they did the Session start event at least once in the last 30 days; they did not do the Session start event more than 30 days ago.\n\n### Step 2: Draft a welcome email\n\nGenerate a designed marketing email for the users in \"Recently Signed-Up Users\" welcoming them and pointing to the one action most worth taking in their first week. Three sentences, warm and encouraging tone, no discount language, one button linking to that action inside the product. Use the result of \"Build the new signup list\". This drafts the email only; a person still sends it.\n\n### Step 3: Draft a note for onboarding\n\nGenerate a plain-text email to the onboarding team distribution list. For each user in \"Recently Signed-Up Users\", name their email address, so the team can check in while the activation window is still open. Use the result of \"Build the new signup list\". This drafts the email only; a person still sends it.\n",
+  "markdown": "# Recently Signed-Up Users\n\n## Description\n\nEveryone whose first session was within the last 30 days, with a welcome email drafted and a note drafted for the onboarding team while the activation window is still open.\n\n## Steps\n\n### Step 1: Build the new signup list\n\nBuild a segment of users named \"Recently Signed-Up Users\". A user is in the segment only when all of these are true: they did the Session start event at least once in the last 30 days; they did not do the Session start event more than 30 days ago.\n\n### Step 2: Draft a welcome email\n\nGenerate a designed marketing email for the users in \"Recently Signed-Up Users\" welcoming them and pointing to the one action most worth taking in their first week. Three sentences, warm and encouraging tone, no discount language, one button linking to the first-week action URL chosen for this run. If the brand kit has no logo, use the brand name as a plain text header. Use the result of \"Build the new signup list\". This drafts the email only; a person still sends it.\n\n### Step 3: Draft a note for onboarding\n\nGenerate a plain-text email to the onboarding team distribution list. List the email addresses of the users in \"Recently Signed-Up Users\", taken from the member list in the result of \"Build the new signup list\" (at most 20, then say how many more there are). If that result carries no member list, write no placeholder and do not ask the reader to paste anything in; say instead that the users are saved as the segment \"Recently Signed-Up Users\" and can be opened in Segments. Say the team can check in while the activation window is still open. Plain text only: no HTML tags, no formatting markup and no unsubscribe line, because this is an internal note to the team. This drafts the email only; a person still sends it.\n",
   "classification": {
     "industry": [
       "industry-agnostic"
@@ -32,7 +32,7 @@
     {
       "id": "s2",
       "title": "Draft a welcome email",
-      "description": "Generate a designed marketing email for the users in \"Recently Signed-Up Users\" welcoming them and pointing to the one action most worth taking in their first week. Three sentences, warm and encouraging tone, no discount language, one button linking to that action inside the product. Use the result of \"Build the new signup list\". This drafts the email only; a person still sends it.",
+      "description": "Generate a designed marketing email for the users in \"Recently Signed-Up Users\" welcoming them and pointing to the one action most worth taking in their first week. Three sentences, warm and encouraging tone, no discount language, one button linking to the first-week action URL chosen for this run. If the brand kit has no logo, use the brand name as a plain text header. Use the result of \"Build the new signup list\". This drafts the email only; a person still sends it.",
       "command": "create_email_content",
       "entity": "email_html",
       "modelConfig": []
@@ -40,7 +40,7 @@
     {
       "id": "s3",
       "title": "Draft a note for onboarding",
-      "description": "Generate a plain-text email to the onboarding team distribution list. For each user in \"Recently Signed-Up Users\", name their email address, so the team can check in while the activation window is still open. Use the result of \"Build the new signup list\". This drafts the email only; a person still sends it.",
+      "description": "Generate a plain-text email to the onboarding team distribution list. List the email addresses of the users in \"Recently Signed-Up Users\", taken from the member list in the result of \"Build the new signup list\" (at most 20, then say how many more there are). If that result carries no member list, write no placeholder and do not ask the reader to paste anything in; say instead that the users are saved as the segment \"Recently Signed-Up Users\" and can be opened in Segments. Say the team can check in while the activation window is still open. Plain text only: no HTML tags, no formatting markup and no unsubscribe line, because this is an internal note to the team. This drafts the email only; a person still sends it.",
       "command": "create_email_content",
       "entity": "email_plain",
       "modelConfig": []

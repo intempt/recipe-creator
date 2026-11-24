@@ -79,9 +79,9 @@ portable:
     - sms_tone
     - sms_destination
     instruction: Generate an SMS for the users in {flash_sale_audience} announcing a limited-time {discount_percentage}% discount
-      on their next purchase, ending {offer_end_date}. Include a short.link preview card for the offer's landing page. Write
-      one or two sentences in a {sms_tone} tone. Use the result of "Build the flash-sale audience". This drafts the SMS only;
-      a person still sends it.
+      on their next purchase, ending {offer_end_date}. End with the offer's landing-page URL chosen for this run, written
+      as a plain link. Write one or two sentences in a {sms_tone} tone. Use the result of "Build the flash-sale audience".
+      This drafts the SMS only; a person still sends it.
   - id: s3
     builds: slack
     uses:
@@ -89,7 +89,9 @@ portable:
     - marketing_ops_channel
     instruction: Generate a Slack message to the marketing ops channel ({marketing_ops_channel}) noting the size of {flash_sale_audience}
       so the team can track reach before the sale goes out. Use the result of "Build the flash-sale audience". This drafts
-      the Slack message only; a person on the team still posts it.
+      the Slack message only; a person on the team still posts it. Use the segment's current member count from the step that
+      built it; never write a placeholder in square brackets. If no count is available, name the segment and say it can be
+      opened in Segments.
 ---
 
 # Flash sale text message
@@ -102,8 +104,8 @@ Build a segment of users named "Flash Sale Audience". A user is in the segment o
 
 ## Step 2: Write the flash sale SMS
 
-Generate an SMS for the users in "Flash Sale Audience" announcing a limited-time discount on their next purchase. Use the discount percentage and the offer's end date chosen for this run; do not invent either if neither is supplied. Include a short.link preview card for the offer's landing page. One or two sentences, direct and urgent tone. Use the result of "Build the flash-sale audience". This drafts the SMS only; a person still sends it.
+Generate an SMS for the users in "Flash Sale Audience" announcing a limited-time discount on their next purchase. Use the discount percentage and the offer's end date chosen for this run; do not invent either if neither is supplied. End with the offer's landing-page URL chosen for this run, written as a plain link. One or two sentences, direct and urgent tone. Use the result of "Build the flash-sale audience". This drafts the SMS only; a person still sends it.
 
 ## Step 3: Draft a note for marketing ops
 
-Generate a Slack message to the marketing ops channel noting the size of "Flash Sale Audience" so the team can track reach before the sale goes out. Use the result of "Build the flash-sale audience". This drafts the Slack message only; a person on the team still posts it.
+Generate a Slack message to the marketing ops channel. State how many users are in "Flash Sale Audience" right now, using the member count in the result of "Build the flash-sale audience". If that result carries no count, write no number and no placeholder in square brackets; say instead that the list is saved as the segment "Flash Sale Audience" and can be opened in Segments. Say the team can track reach before the sale goes out. This drafts the Slack message only; a person on the team still posts it.

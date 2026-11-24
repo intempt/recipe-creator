@@ -32,7 +32,7 @@ portable:
   requirements:
   - slot: form_submit_event
     kind: event
-    meaning: A customer submitted a form
+    meaning: A user submitted a form on the site (the project's form-submit event, never a survey or NPS answer)
   - slot: session_start_event
     kind: event
     meaning: A customer started a session in the product
@@ -59,7 +59,8 @@ portable:
     - email_tone
     instruction: Generate a designed marketing email for the users in the segment from "Build the quiet-after-submit list"
       with a warm follow-up nudge. Use three sentences, a {email_tone} tone, no discount language, and one button linking
-      back to the product. This drafts the email only; a person still sends it.
+      back to the product. This drafts the email only; a person still sends it. If the brand kit has no logo, use the brand
+      name as a plain text header; the button links to the URL chosen for this run.
 ---
 
 # Submitted Then Quiet
@@ -68,8 +69,8 @@ Slash command: /submitted-then-quiet
 
 ## Step 1: Build the quiet-after-submit list
 
-Build a segment of users named "Submitted Then Quiet". A user is in the segment only when all of these are true: triggered "Submit on" at least once in the last 14 days; did not trigger "Session start" in the last 7 days.
+Build a segment of users named "Submitted Then Quiet". A user is in the segment only when all of these are true: triggered the form-submit event (a tracked submission of a form on the site, not a survey or NPS answer) at least once in the last 14 days; did not trigger "Session start" in the last 7 days.
 
 ## Step 2: Draft the follow-up email
 
-Generate a designed marketing email for the users in "Submitted Then Quiet" with a warm follow-up nudge. Three sentences, encouraging tone, no discount language, one button linking back to the product. Use the result of "Build the quiet-after-submit list". This drafts the email only; a person still sends it.
+Generate a designed marketing email for the users in "Submitted Then Quiet" with a warm follow-up nudge. Three sentences, encouraging tone, no discount language, one button linking to the product URL chosen for this run. If the brand kit has no logo, use the brand name as a plain text header. Use the result of "Build the quiet-after-submit list". This drafts the email only; a person still sends it.

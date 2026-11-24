@@ -1,0 +1,49 @@
+{
+  "frontmatter_id": "active-form-starters",
+  "title": "Active Form Starters",
+  "slash_command": "/active-form-starters",
+  "description": "Visitors currently filling out a form, surfaced to the team as a real-time draft alert so they can be reached while still on the page.",
+  "markdown": "# Active Form Starters\n\n## Description\n\nVisitors currently filling out a form, surfaced to the team as a real-time draft alert so they can be reached while still on the page.\n\n## Steps\n\n### Step 1: Build the active form starter list\n\nBuild a segment of users named \"Active Form Starters\". A user is in the segment only when all of these are true: triggered the form-field change event (a tracked edit of a field in a form on the site) at least once in the last 1 day.\n\n### Step 2: Draft an alert for the team\n\nGenerate a Slack message to the support team channel. State how many users are in \"Active Form Starters\" right now, using the member count in the result of \"Build the active form starter list\". If that result carries no count, write no number and no placeholder in square brackets; say instead that the list is saved as the segment \"Active Form Starters\" and can be opened in Segments. Say someone is actively filling out a form today. This drafts the Slack message only; a person on the team still posts it.\n",
+  "classification": {
+    "industry": [
+      "industry-agnostic"
+    ]
+  },
+  "complexity": "quick",
+  "author": {
+    "name": "Intempt",
+    "last_name": "Technologies",
+    "company": "Intempt",
+    "org_name": "intempt"
+  },
+  "permissions": [
+    "segment:create",
+    "content:create"
+  ],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Build the active form starter list",
+      "description": "Build a segment of users named \"Active Form Starters\". A user is in the segment only when all of these are true: triggered the form-field change event (a tracked edit of a field in a form on the site) at least once in the last 1 day.",
+      "command": "create_segment",
+      "entity": "segment",
+      "modelConfig": []
+    },
+    {
+      "id": "s2",
+      "title": "Draft an alert for the team",
+      "description": "Generate a Slack message to the support team channel. State how many users are in \"Active Form Starters\" right now, using the member count in the result of \"Build the active form starter list\". If that result carries no count, write no number and no placeholder in square brackets; say instead that the list is saved as the segment \"Active Form Starters\" and can be opened in Segments. Say someone is actively filling out a form today. This drafts the Slack message only; a person on the team still posts it.",
+      "command": "create_slack_content",
+      "entity": "slack",
+      "modelConfig": []
+    }
+  ],
+  "prerequisites": {
+    "integrations": [
+      {
+        "value": "slack",
+        "severity": "recommended"
+      }
+    ]
+  }
+}

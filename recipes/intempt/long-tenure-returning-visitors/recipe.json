@@ -1,0 +1,57 @@
+{
+  "frontmatter_id": "long-tenure-returning-visitors",
+  "title": "Long-Tenure Returning Visitors",
+  "slash_command": "/long-tenure-returning-visitors",
+  "description": "Visitors active again this week who first showed up months ago, with a ready-to-send welcome-back email drafted and a heads-up drafted for the lifecycle team.",
+  "markdown": "# Long-Tenure Returning Visitors\n\n## Description\n\nVisitors active again this week who first showed up months ago, with a ready-to-send welcome-back email drafted and a heads-up drafted for the lifecycle team.\n\n## Steps\n\n### Step 1: Build the long-tenure returning visitor list\n\nBuild a segment of users named \"Long-Tenure Returning Visitors\". A user is in the segment only when all of these are true: triggered \"Session start\" at least once in the last 7 days; triggered \"Session start\" at least once between 60 and 90 days ago.\n\n### Step 2: Draft a welcome-back email\n\nGenerate a designed marketing email for the users in \"Long-Tenure Returning Visitors\" welcoming them back and pointing to what is new in the product since they last visited regularly. Three sentences, warm tone, no discount language, one button linking to the product URL chosen for this run. If the brand kit has no logo, use the brand name as a plain text header. Use the result of \"Build the long-tenure returning visitor list\". This drafts the email only; a person still sends it.\n\n### Step 3: Draft a note for the lifecycle team\n\nGenerate a Slack message to the lifecycle team channel. State how many users are in \"Long-Tenure Returning Visitors\" right now, using the member count in the result of \"Build the long-tenure returning visitor list\". If that result carries no count, write no number and no placeholder in square brackets; say instead that the list is saved as the segment \"Long-Tenure Returning Visitors\" and can be opened in Segments. Say a batch of long-time users is active again. This drafts the Slack message only; a person on the team still posts it.\n",
+  "classification": {
+    "industry": [
+      "industry-agnostic"
+    ]
+  },
+  "complexity": "standard",
+  "author": {
+    "name": "Intempt",
+    "last_name": "Technologies",
+    "company": "Intempt",
+    "org_name": "intempt"
+  },
+  "permissions": [
+    "segment:create",
+    "content:create"
+  ],
+  "steps": [
+    {
+      "id": "s1",
+      "title": "Build the long-tenure returning visitor list",
+      "description": "Build a segment of users named \"Long-Tenure Returning Visitors\". A user is in the segment only when all of these are true: triggered \"Session start\" at least once in the last 7 days; triggered \"Session start\" at least once between 60 and 90 days ago.",
+      "command": "create_segment",
+      "entity": "segment",
+      "modelConfig": []
+    },
+    {
+      "id": "s2",
+      "title": "Draft a welcome-back email",
+      "description": "Generate a designed marketing email for the users in \"Long-Tenure Returning Visitors\" welcoming them back and pointing to what is new in the product since they last visited regularly. Three sentences, warm tone, no discount language, one button linking to the product URL chosen for this run. If the brand kit has no logo, use the brand name as a plain text header. Use the result of \"Build the long-tenure returning visitor list\". This drafts the email only; a person still sends it.",
+      "command": "create_email_content",
+      "entity": "email_html",
+      "modelConfig": []
+    },
+    {
+      "id": "s3",
+      "title": "Draft a note for the lifecycle team",
+      "description": "Generate a Slack message to the lifecycle team channel. State how many users are in \"Long-Tenure Returning Visitors\" right now, using the member count in the result of \"Build the long-tenure returning visitor list\". If that result carries no count, write no number and no placeholder in square brackets; say instead that the list is saved as the segment \"Long-Tenure Returning Visitors\" and can be opened in Segments. Say a batch of long-time users is active again. This drafts the Slack message only; a person on the team still posts it.",
+      "command": "create_slack_content",
+      "entity": "slack",
+      "modelConfig": []
+    }
+  ],
+  "prerequisites": {
+    "integrations": [
+      {
+        "value": "slack",
+        "severity": "recommended"
+      }
+    ]
+  }
+}

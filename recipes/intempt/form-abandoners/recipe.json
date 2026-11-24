@@ -3,7 +3,7 @@
   "title": "Form Abandoners",
   "slash_command": "/form-abandoners",
   "description": "Users who started filling out a form and never finished, tagged while their intent is still fresh for a quick nudge or retargeting.",
-  "markdown": "# Form Abandoners\n\n## Description\n\nUsers who started filling out a form and never finished, tagged while their intent is still fresh for a quick nudge or retargeting.\n\n## Steps\n\n### Step 1: Build the form abandoner list\n\nBuild a segment of users named \"Form Abandoners\". A user is in the segment only when all of these are true: triggered \"Change on\" at least once in the last 3 days; did not trigger \"Submit on\" in the last 3 days.\n\n### Step 2: Tag the matched users\n\nCreate an attribute named \"form_abandoner\" on users in \"Form Abandoners\", set to true. Use the result of \"Build the form abandoner list\".\n",
+  "markdown": "# Form Abandoners\n\n## Description\n\nUsers who started filling out a form and never finished, tagged while their intent is still fresh for a quick nudge or retargeting.\n\n## Steps\n\n### Step 1: Build the form abandoner list\n\nBuild a segment of users named \"Form Abandoners\". A user is in the segment only when all of these are true: triggered the form-field change event (a tracked edit of a field in a form on the site) at least once in the last 3 days; did not trigger the form-submit event (a tracked submission of a form on the site, not a survey or NPS answer) in the last 3 days.\n\n### Step 2: Tag the matched users\n\nCreate an attribute named \"form_abandoner\" on users in \"Form Abandoners\", set to true. Use the result of \"Build the form abandoner list\".\n",
   "classification": {
     "industry": [
       "industry-agnostic"
@@ -24,7 +24,7 @@
     {
       "id": "s1",
       "title": "Build the form abandoner list",
-      "description": "Build a segment of users named \"Form Abandoners\". A user is in the segment only when all of these are true: triggered \"Change on\" at least once in the last 3 days; did not trigger \"Submit on\" in the last 3 days.",
+      "description": "Build a segment of users named \"Form Abandoners\". A user is in the segment only when all of these are true: triggered the form-field change event (a tracked edit of a field in a form on the site) at least once in the last 3 days; did not trigger the form-submit event (a tracked submission of a form on the site, not a survey or NPS answer) in the last 3 days.",
       "command": "create_segment",
       "entity": "segment",
       "modelConfig": []
