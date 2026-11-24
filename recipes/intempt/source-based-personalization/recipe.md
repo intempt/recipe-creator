@@ -141,7 +141,7 @@ Targeting:
 - Display frequency: always (within session: source attribution sticks for the session)
 Metrics:
 - Form submitted on demo / contact / signup form per source
-- Click on on primary CTA per source
+- clicks on primary CTA per source
 - Conversion rate per source (existing CRM/CDP attribution metric)
 Schedule: continuous
 ═══ PATH 2: Variant HTML content (Visual Editor) ═══
@@ -150,40 +150,40 @@ Variant: B (Google Ads: competitor terms)
  HTML target selector: .homepage-hero
  Variant DOM:
  <section class="homepage-hero" data-variant="b" data-source="google-competitor">
- <h1>Looking for an alternative to [Competitor]?</h1>
- <p>Here's why teams switching from [Competitor] choose [Brand]:</p>
+ <h1>Looking for an alternative to (fill in: Competitor)?</h1>
+ <p>Here's why teams switching from (fill in: Competitor) choose (fill in: Brand):</p>
  <ul class="comparison-bullets">
- <li>Better [feature 1]: [outcome]</li>
- <li>Faster [feature 2]: [outcome]</li>
- <li>Lower cost at scale: [outcome]</li>
+ <li>Better (fill in: feature 1): (fill in: outcome)</li>
+ <li>Faster (fill in: feature 2): (fill in: outcome)</li>
+ <li>Lower cost at scale: (fill in: outcome)</li>
  </ul>
  <button class="primary-cta" id="hero-cta-comparison">See the comparison</button>
  </section>
 Variant: C (LinkedIn Ads: enterprise)
  Same structure with enterprise-targeted copy:
- <h1>Enterprise-grade [solution]: without the enterprise complexity</h1>
+ <h1>Enterprise-grade (fill in: solution): without the enterprise complexity</h1>
  <p>Trusted by Fortune 500 teams. SOC2, SAML SSO, dedicated support.</p>
  <button class="primary-cta" id="hero-cta-enterprise-demo">Book an enterprise demo</button>
 Variant: D (Facebook Ads: SMB)
  Same structure with SMB-targeted copy:
- <h1>The [solution] built for growing teams</h1>
+ <h1>The (fill in: solution) built for growing teams</h1>
  <p>Free for teams up to 5. No credit card required.</p>
  <button class="primary-cta" id="hero-cta-smb-signup">Start free trial</button>
 Variant: E (Partner referral)
  Same structure with partner co-branding:
- <h1>[Brand] + [Partner]: special offer for [Partner] customers</h1>
- <p>20% off your first year when you join through [Partner].</p>
- <img class="partner-logo" src="/partner-logos/[partner].svg" alt="[Partner]" />
+ <h1>(fill in: Brand) + (fill in: Partner): special offer for (fill in: Partner) customers</h1>
+ <p>20% off your first year when you join through (fill in: Partner).</p>
+ <img class="partner-logo" src="/partner-logos/(fill in: partner).svg" alt="(fill in: Partner)" />
  <button class="primary-cta" id="hero-cta-partner-signup">Claim partner offer</button>
 Variant: F (Organic: branded search)
  Same structure with brand-search intent (visitor already knows you):
- <h1>Welcome: get started with [Brand]</h1>
+ <h1>Welcome: get started with (fill in: Brand)</h1>
  <p>You searched for us. Here's how to start.</p>
  <button class="primary-cta" id="hero-cta-direct-signup">Start free trial</button>
-The Visual Editor allows the user to refine copy, swap images, and adjust CTAs per source segment. Ensure the [Competitor] / [Partner] placeholders are populated correctly per variant.
+The Visual Editor allows the user to refine copy, swap images, and adjust CTAs per source segment. Ensure the (fill in: Competitor) / (fill in: Partner) placeholders are populated correctly per variant.
 Taxonomy notes:
 - The canonical Users-object UTM attributes are: UTM source, UTM medium, UTM campaign, UTM content, UTM term: all standard. Plus referrer and landing_page.
 - These attributes are populated automatically on Session start from URL parameters and HTTP referrer header.
 - For source attribution to persist beyond the entry session, the platform stores the first-touch UTM values on the user record (Users.UTM source, etc.). This is the canonical pattern.
 - Don't over-segment: 4-6 source segments is the sweet spot. Too many segments to low traffic per variant to unmeasurable.
-- Combine with industry-vertical or ABM personalization for compounding effect, but order precedence carefully (per-account beats per-source beats per-industry beats default).
+- Combine with industry-vertical or ABM personalization for compounding effect, but order precedence carefully (per-account beats per-source beats per-industry beats default). Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.

@@ -152,7 +152,7 @@ Targeting (experience-wide):
 - Display frequency: always
 Primary metric: goal_completed_in_experience where experience_id = <this> AND value > 0 (revenue from Subscription started OR Placed order within 7 days of exposure)
 Secondary metrics:
-- Click on where target_id starts with "plan-select-" or "add-to-cart-button" (CTA click-through per variant)
+- clicks where target_id starts with "plan-select-" or "add-to-cart-button" (CTA click-through per variant)
 - Checkout created within 7 days
 - AOV: average value of orders attributed to the variant
 Guardrail: bounce rate on the page must not increase >5%

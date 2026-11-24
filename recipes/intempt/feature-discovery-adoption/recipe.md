@@ -105,17 +105,17 @@ portable:
     - comparisonPeriod
     instruction: 'Create a funnel report named "Feature Discovery to Adoption" with these steps: (1) View page where page
       URL contains the feature path, labeled "Discovered Feature" (first exposure); alternatively, click on where target_id
-      matches a feature-tour or tooltip element. (2) Click on where target_id matches the feature interaction handle, labeled
-      "Tried Feature" (first use). (3) Click on with the same target_id as step 2, at least {habitualUseThreshold} times by
-      the same user within {habitualWindow}, labeled "Used 3+ Times". (4) Click on with the same target_id, active on at least
-      {habitualActiveDays} distinct days within the last {recentDayWindow}, labeled "Habitual User". Set the conversion window
-      to {conversionWindow}. Break down by target_id (feature handle). Compare against the previous {comparisonPeriod}. For
-      each feature, also show discovery-to-habitual conversion rate (step 4 divided by step 1) and median time from discovery
-      to habitual status in days. Annotations: flag features with more than {highDiscoveryThreshold} discovered users and
-      habitual conversion below {lowStickinessRate}% as high-discovery, low-stickiness for UX investigation; flag features
-      with discovery-to-trial conversion below {lowTrialRate}% as having a weak discovery moment; highlight features with
-      discovery-to-habitual conversion above {promotionRate}% as promotion candidates. Surface the top {topN} features by
-      absolute habitual-user count and the top {topN} by habitual-conversion rate.'
+      matches a feature-tour or tooltip element. (2) clicks where target_id matches the feature interaction handle, labeled
+      "Tried Feature" (first use). (3) the click event with the same target_id as step 2, at least {habitualUseThreshold}
+      times by the same user within {habitualWindow}, labeled "Used 3+ Times". (4) the click event with the same target_id,
+      active on at least {habitualActiveDays} distinct days within the last {recentDayWindow}, labeled "Habitual User". Set
+      the conversion window to {conversionWindow}. Break down by target_id (feature handle). Compare against the previous
+      {comparisonPeriod}. For each feature, also show discovery-to-habitual conversion rate (step 4 divided by step 1) and
+      median time from discovery to habitual status in days. Annotations: flag features with more than {highDiscoveryThreshold}
+      discovered users and habitual conversion below {lowStickinessRate}% as high-discovery, low-stickiness for UX investigation;
+      flag features with discovery-to-trial conversion below {lowTrialRate}% as having a weak discovery moment; highlight
+      features with discovery-to-habitual conversion above {promotionRate}% as promotion candidates. Surface the top {topN}
+      features by absolute habitual-user count and the top {topN} by habitual-conversion rate.'
 ---
 
 # Feature discovery to adoption
@@ -127,10 +127,10 @@ Slash command: /feature-discovery-adoption
 Create a Funnel report called "Feature Discovery to Adoption".
 Steps:
 1. Event "View page" where Page URL contains the feature path: "Discovered Feature" (first exposure)
- (alternative: Click on where target_id matches a feature-tour or tooltip element)
-2. Event "Click on" where target_id matches the feature interaction handle: "Tried Feature" (first use)
-3. Event "Click on" with same target_id as Step 2, count >= 3 by the same user within 21 days: "Used 3+ Times"
-4. Event "Click on" with same target_id, frequency: at least 3 distinct days of use in the last 5 days: "Habitual User"
+ (alternative: clicks where target_id matches a feature-tour or tooltip element)
+2. the click event where target_id matches the feature interaction handle: "Tried Feature" (first use)
+3. the click event with same target_id as Step 2, count >= 3 by the same user within 21 days: "Used 3+ Times"
+4. the click event with same target_id, frequency: at least 3 distinct days of use in the last 5 days: "Habitual User"
 Conversion window: 21 days
 Breakdown: By target_id (feature handle)
 Compare: Previous period (prior 21 days)
@@ -143,5 +143,5 @@ Annotations:
 - Highlight features with discovery to habitual conversion > 25%: surface candidates for promotion.
 Surface the top 3 features by absolute habitual-user count and the top 3 by habitual-conversion rate.
 Taxonomy notes:
-- "feature_discovered" and "feature_habitual" as standalone events do not exist. Feature interactions are tracked via Click on with stable target_id values per feature.
-- Step 4 ("Habitual User") requires Lovable to compute the "3 of last 5 days" rule from Click on event timestamps grouped by user.
+- "feature_discovered" and "feature_habitual" as standalone events do not exist. Feature interactions are tracked via click event with stable target_id values per feature.
+- Step 4 ("Habitual User") requires Lovable to compute the "3 of last 5 days" rule from click events timestamps grouped by user.

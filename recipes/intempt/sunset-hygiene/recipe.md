@@ -54,7 +54,8 @@ portable:
     - s1
     - inactive_subscribers
     instruction: Write a final-attempt email to the subscribers in {inactive_subscribers} asking them to confirm they still
-      want to receive email. Include a clear opt-in call to action.
+      want to receive email. Include a clear opt-in call to action. If the brand kit has no logo, use the brand name as a
+      plain text header.
   - id: s3
     builds: automation
     uses:
@@ -97,7 +98,7 @@ Identify subscribers who have not opened or clicked any email in 180+ days.
 
 ## Step 2: Write the last chance email
 
-Generate a final-attempt email asking the user to confirm interest with a clear opt-in CTA. Use the result of "Find who stopped reading".
+Generate a final-attempt email asking the user to confirm interest with a clear opt-in CTA. Use the result of "Find who stopped reading". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.
 
 ## Step 3: Send it, then wait 14 days
 

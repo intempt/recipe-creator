@@ -137,11 +137,13 @@ portable:
     - email_channel
     - nudge_tone
     instruction: 'Create one email template that pulls each recipient''s top untouched feature from "Find features they never
-      use" for users in "Pick who is worth nudging". Subject: ''[First name], you haven''t tried feature yet'', naming the
-      specific feature and its specific benefit. Body: a short value statement for the feature with an average time or effort
-      saving metric, a brief use-case description matched to the recipient''s segment, a screenshot or short GIF of the feature
-      in use, and a deep-link call to action that opens the feature in the app. Use a {nudge_tone} tone, as a helpful nudge
-      rather than an accusatory message about not getting value from the subscription.'
+      use" for users in "Pick who is worth nudging". Subject: ''(fill in: First name), you haven''t tried feature yet'', naming
+      the specific feature and its specific benefit. Body: a short value statement for the feature with an average time or
+      effort saving metric, a brief use-case description matched to the recipient''s segment, a screenshot or short GIF of
+      the feature in use, and a deep-link call to action that opens the feature in the app. Use a {nudge_tone} tone, as a
+      helpful nudge rather than an accusatory message about not getting value from the subscription. If the brand kit has
+      no logo, use the brand name as a plain text header. Fill each ''(fill in: ...)'' from the brand kit or the earlier step
+      results; if a value is missing, write the sentence without it. A draft never contains a placeholder.'
   - id: s4
     builds: automation
     uses:
@@ -190,7 +192,7 @@ Build a segment 'Feature discovery audience' capturing paid users where subscrip
 
 ## Step 3: Write the nudge
 
-Generate per-feature discovery email templates (one template that pulls the top untouched feature per recipient). Subject: '[First name], you haven't tried [feature] yet': specific feature, specific benefit. Body: brief value statement of the feature ('Users who use [feature] save an average of [time/effort metric]'), a short use-case description that matches the user's segment, a screenshot or short GIF showing the feature in action, and a deep-link CTA into the app at the right place. Tone: helpful nudge, not 'we noticed you're not getting your money's worth' (which feels accusatory). Use the result of "Find features they never use", "Pick who is worth nudging".
+Generate per-feature discovery email templates (one template that pulls the top untouched feature per recipient). Subject: '(fill in: First name), you haven't tried (fill in: feature) yet': specific feature, specific benefit. Body: brief value statement of the feature ('Users who use (fill in: feature) save an average of (fill in: time/effort metric)'), a short use-case description that matches the user's segment, a screenshot or short GIF showing the feature in action, and a deep-link CTA into the app at the right place. Tone: helpful nudge, not 'we noticed you're not getting your money's worth' (which feels accusatory). Use the result of "Find features they never use", "Pick who is worth nudging". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link. Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.
 
 ## Step 4: One feature every two weeks
 

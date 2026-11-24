@@ -186,9 +186,11 @@ portable:
     - product_brand
     instruction: 'Generate email fallback content sent if the user does not engage with the in-app help from ''Help them inside
       the app'' or left the session before help was shown. Create variants per {friction_signal_attribute.friction_location}.
-      Subject directly addresses the issue, for example ''Stuck on [specific step]? Here''s the fix.'' Body is a 60-second
-      tutorial (video link or step-by-step screenshots) with a one-click resume-where-you-left-off deep link. Tone: specific
-      to the exact friction, not a generic ''we noticed you got stuck'' message. Brand: {product_brand}.'
+      Subject directly addresses the issue, for example ''Stuck on (fill in: specific step)? Here''s the fix.'' Body is a
+      60-second tutorial (video link or step-by-step screenshots) with a one-click resume-where-you-left-off deep link. Tone:
+      specific to the exact friction, not a generic ''we noticed you got stuck'' message. Brand: {product_brand}. If the brand
+      kit has no logo, use the brand name as a plain text header. Fill each ''(fill in: ...)'' from the brand kit or the earlier
+      step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.'
   - id: s5
     builds: automation
     uses:
@@ -200,10 +202,12 @@ portable:
     - friction_signal_attribute
     instruction: 'Configure an AI agent scenario named ''Friction rescue'' that engages users with severe {friction_signal_attribute}
       who have not responded to ''Help them inside the app'' or ''Email the fix if that misses''. The agent opens by naming
-      the specific friction, for example ''I see you''ve been working on [step]: happy to help walk through it'', and offers
-      to: (a) co-pilot the action with screen-share or step-by-step chat guidance, (b) escalate to human support if the problem
-      is technical or account-level, (c) flag the friction as a product bug for the engineering queue. The agent never claims
-      to be human. Offer handoff to a human when the agent cannot resolve within 3 turns. Agent: {support_agent}.'
+      the specific friction, for example ''I see you''ve been working on (fill in: step): happy to help walk through it'',
+      and offers to: (a) co-pilot the action with screen-share or step-by-step chat guidance, (b) escalate to human support
+      if the problem is technical or account-level, (c) flag the friction as a product bug for the engineering queue. The
+      agent never claims to be human. Offer handoff to a human when the agent cannot resolve within 3 turns. Agent: {support_agent}.
+      Fill each ''(fill in: ...)'' from the brand kit or the earlier step results; if a value is missing, write the sentence
+      without it. A draft never contains a placeholder.'
   - id: s6
     builds: automation
     uses:
@@ -262,11 +266,11 @@ Generate in-app contextual help variants per friction_location. For setup-abando
 
 ## Step 4: Email the fix if that misses
 
-Generate email fallback content sent if the user doesn't engage with the in-app help OR has left the session before help was shown. Variants per friction_location. Format: subject directly addresses the issue ('Stuck on [specific step]? Here's the fix.'), body is a 60-second tutorial (video link or step-by-step screenshots), with a one-click resume-where-you-left-off deep link. Tone: not generic 'we noticed you got stuck': specific to the exact friction. Use the result of "Detect where people get stuck", "Group by where they got stuck", "Help them inside the app".
+Generate email fallback content sent if the user doesn't engage with the in-app help OR has left the session before help was shown. Variants per friction_location. Format: subject directly addresses the issue ('Stuck on (fill in: specific step)? Here's the fix.'), body is a 60-second tutorial (video link or step-by-step screenshots), with a one-click resume-where-you-left-off deep link. Tone: not generic 'we noticed you got stuck': specific to the exact friction. Use the result of "Detect where people get stuck", "Group by where they got stuck", "Help them inside the app". If the brand kit has no logo, use the brand name as a plain text header. Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.
 
 ## Step 5: Offer to walk them through
 
-Configure an AI agent scenario 'Friction rescue' that engages users with severe friction signal who haven't responded to in-app help OR email. Scenario: agent opens with awareness of the specific friction ('I see you've been working on [step]: happy to help walk through it'), offers to: (a) co-pilot the action with screen-share or step-by-step in chat, (b) escalate to human support if the problem is technical/account-level, (c) flag the friction as a product bug for the engineering queue. Agent NEVER pretends to be human; handoff to human is offered when agent can't resolve in 3 turns. Use the result of "Detect where people get stuck", "Group by where they got stuck".
+Configure an AI agent scenario 'Friction rescue' that engages users with severe friction signal who haven't responded to in-app help OR email. Scenario: agent opens with awareness of the specific friction ('I see you've been working on (fill in: step): happy to help walk through it'), offers to: (a) co-pilot the action with screen-share or step-by-step in chat, (b) escalate to human support if the problem is technical/account-level, (c) flag the friction as a product bug for the engineering queue. Agent NEVER pretends to be human; handoff to human is offered when agent can't resolve in 3 turns. Use the result of "Detect where people get stuck", "Group by where they got stuck". Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.
 
 ## Step 6: Escalate if they stay stuck
 

@@ -103,7 +103,8 @@ portable:
       calculator link with the prospect''s discussed metrics pre-filled where possible. Touch 4 (Day 60): a customer story
       (video or article) showing six-month outcomes from a similar customer. Touch 5 (Day 90): a decision-stage check-in from
       the account executive asking direct, low-pressure questions about timing, budget and champion status. Personalize each
-      email using meeting_summary signals from the original demo. Use {case_study_library} for assets.'
+      email using meeting_summary signals from the original demo. Use {case_study_library} for assets. If the brand kit has
+      no logo, use the brand name as a plain text header.'
   - id: s3
     builds: automation
     uses:
@@ -143,7 +144,7 @@ Build a segment 'Recent demo attendees - last 90 days' capturing users with a me
 ## Step 2: Write five follow ups
 
 This step builds a designed marketing email (HTML).
-Generate 5-touch post-demo content. Touch 1 (Day 7): value content - a playbook or guide directly relevant to use case discussed in demo. Touch 2 (Day 14): case study matching the prospect's industry + company size. Touch 3 (Day 30): ROI calculator link with prospect's discussed metrics pre-filled where possible. Touch 4 (Day 60): customer story (video or article) showing 6-month outcomes from a similar customer. Touch 5 (Day 90): decision-stage check-in from the AE asking direct, low-pressure questions about timing/budget/champion status. Personalize using meeting_summary signals from the original demo. Use the result of "Find recent demo attendees".
+Generate 5-touch post-demo content. Touch 1 (Day 7): value content - a playbook or guide directly relevant to use case discussed in demo. Touch 2 (Day 14): case study matching the prospect's industry + company size. Touch 3 (Day 30): ROI calculator link with prospect's discussed metrics pre-filled where possible. Touch 4 (Day 60): customer story (video or article) showing 6-month outcomes from a similar customer. Touch 5 (Day 90): decision-stage check-in from the AE asking direct, low-pressure questions about timing/budget/champion status. Personalize using meeting_summary signals from the original demo. Use the result of "Find recent demo attendees". If the brand kit has no logo, use the brand name as a plain text header.
 
 ## Step 3: Send over 90 days
 

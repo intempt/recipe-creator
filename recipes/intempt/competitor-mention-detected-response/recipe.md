@@ -165,12 +165,12 @@ portable:
       intent (existing customer comparing, concerning but not yet leaving): subject ''Helpful comparison: {product_name} vs
       {competitor_signal_attribute.competitor_name} from your team''s perspective''; give an honest comparison and specific
       advantages relevant to their use case. Dissatisfaction intent (friction signals plus competitor signal, leaving risk):
-      subject ''Want to talk? [CSM name] would like to understand what''s not working''; make a direct outreach offer with
-      no defensive product pitch. Curious-comparison intent (neutral exploration): subject ''Most teams who compare us to
-      {competitor_signal_attribute.competitor_name} choose {product_name} for [specific differentiator]: here''s why''; include
-      a customer case study. Leaving intent (strong signals plus cancel-page visit plus competitor signal): offer an executive
-      business review meeting and open a retention discussion. Send from the matched {customer_success_owner} for high-signal
-      cases; send from marketing for low-signal exploration.'
+      subject ''Want to talk? (fill in: CSM name) would like to understand what''s not working''; make a direct outreach offer
+      with no defensive product pitch. Curious-comparison intent (neutral exploration): subject ''Most teams who compare us
+      to {competitor_signal_attribute.competitor_name} choose {product_name} for (fill in: specific differentiator): here''s
+      why''; include a customer case study. Leaving intent (strong signals plus cancel-page visit plus competitor signal):
+      offer an executive business review meeting and open a retention discussion. Send from the matched {customer_success_owner}
+      for high-signal cases; send from marketing for low-signal exploration.'
   - id: s4
     builds: recommendation
     uses:
@@ -235,7 +235,7 @@ Slash command: /competitor-mention-detected-response
 
 ## Step 1: Spot competitor interest
 
-Create an AI-derived attribute 'recent_competitor_signal' on the User/Account object. Detects: (a) visited /vs/[competitor] comparison pages, (b) clicked competitor-named links in marketing emails, (c) mentioned competitor in support conversations or AI agent chats, (d) downloaded a competitor-comparison resource, (e) appeared on a competitor's review site as a reviewer (if data permits). Output: structured object with competitor_name, signal_type, signal_strength, recency, and inferred_intent (evaluation / dissatisfaction / curious-comparison / leaving). Stays active for 30 days after last competitor signal.
+Create an AI-derived attribute 'recent_competitor_signal' on the User/Account object. Detects: (a) visited /vs/(fill in: competitor) comparison pages, (b) clicked competitor-named links in marketing emails, (c) mentioned competitor in support conversations or AI agent chats, (d) downloaded a competitor-comparison resource, (e) appeared on a competitor's review site as a reviewer (if data permits). Output: structured object with competitor_name, signal_type, signal_strength, recency, and inferred_intent (evaluation / dissatisfaction / curious-comparison / leaving). Stays active for 30 days after last competitor signal. Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.
 
 ## Step 2: Group by what they intend
 
@@ -244,11 +244,11 @@ Build a segment 'Active competitor signal' capturing users/accounts with recent_
 ## Step 3: Write a reply per intent
 
 This step builds a designed marketing email (HTML).
-Generate competitive content variants per inferred_intent. Evaluation intent (existing customer comparing (concerning but not yet leaving): 'Helpful comparison: [Product] vs [Competitor] from your team's perspective') honest comparison + specific advantages relevant to their use case. Dissatisfaction intent (existing customer with friction signals + competitor signal (leaving risk): 'Want to talk? [CSM name] would like to understand what's not working') direct outreach offer, no defensive product pitch. Curious-comparison intent (neutral exploration): 'Most teams who compare us to [Competitor] choose [Product] for [specific differentiator]: here's why' + customer case study. Leaving intent (strong signals + cancel-page visit + competitor signal): exec-sponsor outreach offering executive-business-review meeting + retention discussion. Send-from: matched CSM or AE for high-signal cases; marketing@ for low-signal exploration. Use the result of "Spot competitor interest", "Group by what they intend".
+Generate competitive content variants per inferred_intent. Evaluation intent (existing customer comparing (concerning but not yet leaving): 'Helpful comparison: (fill in: Product) vs (fill in: Competitor) from your team's perspective') honest comparison + specific advantages relevant to their use case. Dissatisfaction intent (existing customer with friction signals + competitor signal (leaving risk): 'Want to talk? (fill in: CSM name) would like to understand what's not working') direct outreach offer, no defensive product pitch. Curious-comparison intent (neutral exploration): 'Most teams who compare us to (fill in: Competitor) choose (fill in: Product) for (fill in: specific differentiator): here's why' + customer case study. Leaving intent (strong signals + cancel-page visit + competitor signal): exec-sponsor outreach offering executive-business-review meeting + retention discussion. Send-from: matched CSM or AE for high-signal cases; marketing@ for low-signal exploration. Use the result of "Spot competitor interest", "Group by what they intend". If the brand kit has no logo, use the brand name as a plain text header. Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.
 
 ## Step 4: Show what they are missing
 
-Configure a recommendation surface 'Capabilities you're not using yet' that activates when a user has a competitor signal. Pulls: differentiator features of [Product] that the user/account hasn't tried but their cohort uses for high-value outcomes. The surface answers the implicit question 'why stay?' with concrete unused capability: much more convincing than feature-comparison docs. Renders in-app for 30 days. Use the result of "Spot competitor interest", "Group by what they intend".
+Configure a recommendation surface 'Capabilities you're not using yet' that activates when a user has a competitor signal. Pulls: differentiator features of (fill in: Product) that the user/account hasn't tried but their cohort uses for high-value outcomes. The surface answers the implicit question 'why stay?' with concrete unused capability: much more convincing than feature-comparison docs. Renders in-app for 30 days. Use the result of "Spot competitor interest", "Group by what they intend". Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.
 
 ## Step 5: Respond within four hours
 

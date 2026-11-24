@@ -62,7 +62,7 @@ portable:
     - brand_voice
     - s1
     instruction: Generate a 4-email welcome sequence introducing the brand, product, and value props using {brand_voice}.
-      Use the result of "Find new subscribers".
+      Use the result of "Find new subscribers". If the brand kit has no logo, use the brand name as a plain text header.
   - id: s3
     builds: automation
     uses:
@@ -104,7 +104,7 @@ Identify users who subscribed within the last 30 days and have not received a we
 
 ## Step 2: Write the four emails
 
-Generate a 4-email welcome sequence introducing the brand, product, and value props using brand voice. Use the result of "Find new subscribers".
+Generate a 4-email welcome sequence introducing the brand, product, and value props using brand voice. Use the result of "Find new subscribers". If the brand kit has no logo, use the brand name as a plain text header.
 
 ## Step 3: Send across the first week
 

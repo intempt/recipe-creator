@@ -3,7 +3,7 @@
   "title": "Paying users going quiet early",
   "slash_command": "/paid-users-low-engagement",
   "description": "Paying customers who have stopped logging in recently, nudged with a feature reminder and flagged to customer success before they slide into real churn risk.",
-  "markdown": "# Paying users going quiet early\n\n## Description\n\nPaying customers who have stopped logging in recently, nudged with a feature reminder and flagged to customer success before they slide into real churn risk.\n\n## Steps\n\n### Step 1: Build the low-engagement list\n\nBuild a segment of users named \"Paid Users: Low Engagement\".\nA user is in the segment only when all of these are true:\n- their Plan attribute is not \"free\"\n- their Plan attribute is not \"trial\"\n- they did not do the Session start event in the last 14 days\n\n### Step 2: Send a feature reminder\n\nGenerate a designed marketing email for the users in \"Paid Users: Low Engagement\" reminding them of one feature that made them sign up in the first place. Three sentences, friendly and low-pressure tone, no discount language, one button linking back into the product. Use the result of \"Build the low-engagement list\".\n\n### Step 3: Flag to customer success\n\nGenerate a plain-text email to the customer success distribution list For each user in \"Paid Users: Low Engagement\", name their email address, so the team can check in before this turns into real churn risk. Use the result of \"Build the low-engagement list\".\n",
+  "markdown": "# Paying users going quiet early\n\n## Description\n\nPaying customers who have stopped logging in recently, nudged with a feature reminder and flagged to customer success before they slide into real churn risk.\n\n## Steps\n\n### Step 1: Build the low-engagement list\n\nBuild a segment of users named \"Paid Users: Low Engagement\".\nA user is in the segment only when all of these are true:\n- their Plan attribute is not \"free\"\n- their Plan attribute is not \"trial\"\n- they did not do the Session start event in the last 14 days\n\n### Step 2: Send a feature reminder\n\nGenerate a designed marketing email for the users in \"Paid Users: Low Engagement\" reminding them of one feature that made them sign up in the first place. Three sentences, friendly and low-pressure tone, no discount language, one button linking back into the product. Use the result of \"Build the low-engagement list\". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.\n\n### Step 3: Flag to customer success\n\nGenerate a plain-text email to the customer success distribution list For each user in \"Paid Users: Low Engagement\", name their email address, so the team can check in before this turns into real churn risk. Use the result of \"Build the low-engagement list\". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in. The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe line.\n",
   "classification": {
     "industry": [
       "industry-agnostic"
@@ -33,7 +33,7 @@
     {
       "id": "s2",
       "title": "Send a feature reminder",
-      "description": "Generate a designed marketing email for the users in \"Paid Users: Low Engagement\" reminding them of one feature that made them sign up in the first place. Three sentences, friendly and low-pressure tone, no discount language, one button linking back into the product. Use the result of \"Build the low-engagement list\".",
+      "description": "Generate a designed marketing email for the users in \"Paid Users: Low Engagement\" reminding them of one feature that made them sign up in the first place. Three sentences, friendly and low-pressure tone, no discount language, one button linking back into the product. Use the result of \"Build the low-engagement list\". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.",
       "command": "create_email_content",
       "entity": "email_html",
       "modelConfig": []
@@ -41,7 +41,7 @@
     {
       "id": "s3",
       "title": "Flag to customer success",
-      "description": "Generate a plain-text email to the customer success distribution list For each user in \"Paid Users: Low Engagement\", name their email address, so the team can check in before this turns into real churn risk. Use the result of \"Build the low-engagement list\".",
+      "description": "Generate a plain-text email to the customer success distribution list For each user in \"Paid Users: Low Engagement\", name their email address, so the team can check in before this turns into real churn risk. Use the result of \"Build the low-engagement list\". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in. The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe line.",
       "command": "create_email_content",
       "entity": "email_plain",
       "modelConfig": []

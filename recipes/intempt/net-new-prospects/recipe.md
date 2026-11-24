@@ -76,7 +76,8 @@ portable:
     - welcome_tone
     instruction: Generate a designed marketing email for the accounts in "Net-New Prospects" welcoming the team and pointing
       to {product_feature}. Write three sentences in a {welcome_tone} tone with no discount language. Include exactly one
-      button linking to that feature inside the product.
+      button linking to that feature inside the product. If the brand kit has no logo, use the brand name as a plain text
+      header. Every button links to a URL given for this run or named in this step; never leave a button without a link.
   - id: s3
     builds: email_plain
     uses:
@@ -84,9 +85,11 @@ portable:
     - account_name
     - employees_count
     - sdr_distribution_list
-    instruction: Generate a plain-text email to {sdr_distribution_list}. For each account in "Net-New Prospects", name the
+    instruction: 'Generate a plain-text email to {sdr_distribution_list}. For each account in "Net-New Prospects", name the
       account using {account_name} and its employee count using {employees_count}, so follow-up happens while the account
-      is still fresh.
+      is still fresh. Take names and addresses from the member list in the result of the step that built the list (at most
+      20, then how many more); never write a placeholder or ask the reader to paste anything in. The plain-text email is plain
+      text only: no HTML tags, no markup and no unsubscribe line.'
 ---
 
 # Newly active small accounts
@@ -102,8 +105,8 @@ An account is in the segment only when all of these are true:
 
 ## Step 2: Send a welcome email
 
-Generate a designed marketing email for the accounts in "Net-New Prospects" welcoming the team and pointing to the one feature most worth trying first. Three sentences, warm and encouraging tone, no discount language, one button linking to that feature inside the product. Use the result of "Build the net-new account list".
+Generate a designed marketing email for the accounts in "Net-New Prospects" welcoming the team and pointing to the one feature most worth trying first. Three sentences, warm and encouraging tone, no discount language, one button linking to that feature inside the product. Use the result of "Build the net-new account list". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.
 
 ## Step 3: Notify SDRs
 
-Generate a plain-text email to the SDR distribution list For each account in "Net-New Prospects", name the account and its employees count, so follow-up happens while the account is still fresh. Use the result of "Build the net-new account list".
+Generate a plain-text email to the SDR distribution list For each account in "Net-New Prospects", name the account and its employees count, so follow-up happens while the account is still fresh. Use the result of "Build the net-new account list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in. The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe line.

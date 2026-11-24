@@ -64,15 +64,20 @@ portable:
     - upgrade_tone
     instruction: Generate a designed marketing email for the users in {engaged_free_users} introducing the paid plan's feature
       most relevant to someone already using the product this often. Write three sentences in an {upgrade_tone} tone, with
-      no discount language. Include one button linking to the pricing page.
+      no discount language. Include one button linking to the pricing page. If the brand kit has no logo, use the brand name
+      as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without
+      a link.
   - id: s3
     builds: email_plain
     uses:
     - s1
     - engaged_free_users
     - growth_team_list
-    instruction: Generate a plain-text email to the {growth_team_list} distribution list. For each user in {engaged_free_users},
-      include their email address so outreach can be prioritized by how active each one already is.
+    instruction: 'Generate a plain-text email to the {growth_team_list} distribution list. For each user in {engaged_free_users},
+      include their email address so outreach can be prioritized by how active each one already is. Take names and addresses
+      from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder
+      or ask the reader to paste anything in. The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe
+      line.'
 ---
 
 # Engaged free users
@@ -88,8 +93,8 @@ A user is in the segment only when all of these are true:
 
 ## Step 2: Send an upgrade email
 
-Generate a designed marketing email for the users in "Engaged Free Users" introducing the paid plan's feature most relevant to someone already using the product this often. Three sentences, encouraging tone, no discount language, one button linking to the pricing page. Use the result of "Build the engaged free list".
+Generate a designed marketing email for the users in "Engaged Free Users" introducing the paid plan's feature most relevant to someone already using the product this often. Three sentences, encouraging tone, no discount language, one button linking to the pricing page. Use the result of "Build the engaged free list". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.
 
 ## Step 3: Notify growth
 
-Generate a plain-text email to the growth team distribution list For each user in "Engaged Free Users", name their email address, so outreach can be prioritized by how active each one already is. Use the result of "Build the engaged free list".
+Generate a plain-text email to the growth team distribution list For each user in "Engaged Free Users", name their email address, so outreach can be prioritized by how active each one already is. Use the result of "Build the engaged free list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in. The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe line.

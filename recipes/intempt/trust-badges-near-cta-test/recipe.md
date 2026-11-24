@@ -140,7 +140,7 @@ Targeting:
 - Display frequency: always
 Primary metric: goal_completed_in_experience where experience_id = <this> (goal: Subscription started OR Placed order within 24 hours of exposure)
 Secondary metrics:
-- Click on on the primary CTA (target_id matches the page's primary CTA)
+- clicks on the primary CTA (target_id matches the page's primary CTA)
 - Checkout completed within session
 - Subscription started or Placed order within 24 hours
 Guardrail: page-bounce rate must not increase >5% (badges shouldn't add visual clutter that drives users off the page)

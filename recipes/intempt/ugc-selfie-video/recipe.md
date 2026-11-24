@@ -12,8 +12,8 @@ classification:
   - ecommerce-retail
   - social-creator
 portable:
-  summary: Makes a 5-second candid selfie-style brand presenter clip of your brand character speaking for your brand in the words you write, with a subtle
-    head turn and a natural smile.
+  summary: Makes a 5-second candid selfie-style brand presenter clip of your brand character speaking for your brand in the
+    words you write, with a subtle head turn and a natural smile.
   parameters:
   - name: script
     type: text
@@ -47,8 +47,8 @@ portable:
     - clip_length
     - lighting_note
     - motion_style
-    instruction: Make a selfie-style brand presenter video of the brand's presenter character saying {script}. Produce a {clip_length} candid
-      handheld selfie clip with a subtle head turn and a natural smile, using {lighting_note}, in {motion_style} style.
+    instruction: Make a selfie-style brand presenter video of the brand's presenter character saying {script}. Produce a {clip_length}
+      candid handheld selfie clip with a subtle head turn and a natural smile, using {lighting_note}, in {motion_style} style.
 ---
 
 # Selfie-style brand presenter clip

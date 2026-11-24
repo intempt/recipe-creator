@@ -175,7 +175,7 @@ Variant: B (10% off next order)
  <p>Get <strong>10% off your next order</strong></p>
  <label class="loyalty-checkbox-label">
  <input type="checkbox" id="loyalty-join-checkbox" data-variant="b" data-offer-code="loyalty_offer_b" />
- <span>Yes, sign me up for [Brand] rewards</span>
+ <span>Yes, sign me up for (fill in: Brand) rewards</span>
  </label>
  </div>
 Variant: C (2× points this order)
@@ -186,7 +186,7 @@ Variant: C (2× points this order)
  <p>Earn <strong>double points on this order</strong></p>
  <label class="loyalty-checkbox-label">
  <input type="checkbox" id="loyalty-join-checkbox" data-variant="c" data-offer-code="loyalty_offer_c" />
- <span>Yes, sign me up for [Brand] rewards</span>
+ <span>Yes, sign me up for (fill in: Brand) rewards</span>
  </label>
  </div>
 Variant: D (free shipping next 3 orders)
@@ -197,7 +197,7 @@ Variant: D (free shipping next 3 orders)
  <p>Get <strong>free shipping on your next 3 orders</strong></p>
  <label class="loyalty-checkbox-label">
  <input type="checkbox" id="loyalty-join-checkbox" data-variant="d" data-offer-code="loyalty_offer_d" />
- <span>Yes, sign me up for [Brand] rewards</span>
+ <span>Yes, sign me up for (fill in: Brand) rewards</span>
  </label>
  </div>
 When the user submits checkout with the loyalty-join-checkbox checked, fire user_tags_added twice: once with "loyalty_member" and once with the variant-specific tag from the data-offer-code attribute. The goal_completed_in_experience event fires automatically based on the loyalty_member tag addition.
@@ -206,4 +206,4 @@ Taxonomy notes:
 - Segment definitions for the 90-day cohort comparison use the tags-on-user-object pattern (Users.tags array contains "loyalty_offer:b" etc.).
 - The 90-day window is the standard repeat-purchase measurement window for ecom; some categories (apparel) may need 60 days, others (consumables) may need 30.
 - Cohort Control (first-time buyers who saw no prompt and didn't join) is essential for measuring CAUSAL repeat-purchase lift: without it you only know which offer-cohort returns most often, not whether the program itself moves the needle vs. doing nothing.
-- The Placed order.total_price secondary metric measures whether the offer affects current-order basket size. Some offers (free shipping next-order) shouldn't move current AOV; some (2× points) might.
+- The Placed order.total_price secondary metric measures whether the offer affects current-order basket size. Some offers (free shipping next-order) shouldn't move current AOV; some (2× points) might. Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.

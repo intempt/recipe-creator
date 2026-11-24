@@ -100,7 +100,9 @@ portable:
     - s1
     instruction: Generate a Slack message to {retention_team_slack}. For each user in {winnable_churned_users}, include their
       {customer_email_attribute} and note that they are still active despite cancelling, so the team prioritizes them first.
-      Use the segment built in "Build the win-back list".
+      Use the segment built in "Build the win-back list". Take names and addresses from the member list in the result of the
+      step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything
+      in.
 ---
 
 # Winnable churned users
@@ -121,4 +123,4 @@ Generate an SMS for the users in "Winnable Churned Users" letting them know they
 
 ## Step 3: Alert the retention team
 
-Generate a Slack message to the retention team channel For each user in "Winnable Churned Users", name their email address, and noting that they are still active despite cancelling, so the team prioritizes them first. Use the result of "Build the win-back list".
+Generate a Slack message to the retention team channel For each user in "Winnable Churned Users", name their email address, and noting that they are still active despite cancelling, so the team prioritizes them first. Use the result of "Build the win-back list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in.

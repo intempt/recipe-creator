@@ -140,7 +140,7 @@ Primary metric: goal_completed_in_experience where experience_id = <this> AND va
 Secondary metrics:
 - Subscription started where billing_period = "annual" (annual conversion rate per variant)
 - Subscription started where billing_period = "monthly" (monthly conversion rate per variant)
-- Toggle-interaction rate (Click on where target_id = "pricing-toggle")
+- Toggle-interaction rate (clicks where target_id = "pricing-toggle")
 - AOV per signup (annual signups have ~12x higher first-payment value than monthly)
 Guardrail: total Subscription started rate must not drop >3% (the test shouldn't suppress overall conversion; it should shift mix toward annual)
 Schedule: 21 days, 1,000 visitors per variant minimum
@@ -174,7 +174,7 @@ Variant: C (monthly default: explicit baseline for comparison)
  </button>
  </div>
  </div>
-The Visual Editor allows the user to refine the savings-badge copy, toggle styling, and animation. Ensure the toggle-button Click on events fire properly in both variants so the toggle-interaction rate metric works.
+The Visual Editor allows the user to refine the savings-badge copy, toggle styling, and animation. Ensure the toggle-button click events fire properly in both variants so the toggle-interaction rate metric works.
 Taxonomy notes:
 - Most modern SaaS pricing pages already have a monthly/annual toggle: this experiment changes the *default* state on page load.
 - Subscription started.billing_period (or equivalent) must be populated to measure the annual-vs-monthly mix shift. If your subscription event doesn't track billing period, add it.

@@ -75,7 +75,8 @@ portable:
     - sales_channel
     instruction: Generate a Slack message to the {sales_channel} channel for each account in the segment built in "Build the
       ICP list". Name the account and its {account_employees} count so reps can prioritize outreach to the newest matches
-      first.
+      first. Take names and addresses from the member list in the result of the step that built the list (at most 20, then
+      how many more); never write a placeholder or ask the reader to paste anything in.
   - id: s3
     builds: email
     uses:
@@ -85,7 +86,8 @@ portable:
     - cta_url_type
     instruction: Generate a designed marketing email for the accounts in the segment built in "Build the ICP list" introducing
       the product for a company of their size. Three sentences, {tone} tone, no discount language, one button linking to the
-      {cta_url_type}.
+      {cta_url_type}. If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL
+      given for this run or named in this step; never leave a button without a link.
   - id: s4
     builds: attribute
     uses:
@@ -106,11 +108,11 @@ An account is in the segment only when all of these are true:
 
 ## Step 2: Alert sales
 
-Generate a Slack message to the sales channel For each account in "ICP Match Accounts", name the account and its employees count, so reps can prioritize outreach to the newest matches first. Use the result of "Build the ICP list".
+Generate a Slack message to the sales channel For each account in "ICP Match Accounts", name the account and its employees count, so reps can prioritize outreach to the newest matches first. Use the result of "Build the ICP list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in.
 
 ## Step 3: Send an intro email
 
-Generate a designed marketing email for the accounts in "ICP Match Accounts" introducing the product for a company of their size. Three sentences, confident and consultative tone, no discount language, one button linking to a call-booking page. Use the result of "Build the ICP list".
+Generate a designed marketing email for the accounts in "ICP Match Accounts" introducing the product for a company of their size. Three sentences, confident and consultative tone, no discount language, one button linking to a call-booking page. Use the result of "Build the ICP list". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.
 
 ## Step 4: Tag the matched accounts
 

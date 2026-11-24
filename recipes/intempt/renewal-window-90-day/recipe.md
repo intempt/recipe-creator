@@ -89,8 +89,11 @@ portable:
     - renewals_team_list
     - user_email
     - s1
-    instruction: Generate a plain-text email to the {renewals_team_list} distribution list. For each user in the segment built
-      in "Build the renewal list", name their {user_email}, so conversations start months early instead of the week before.
+    instruction: 'Generate a plain-text email to the {renewals_team_list} distribution list. For each user in the segment
+      built in "Build the renewal list", name their {user_email}, so conversations start months early instead of the week
+      before. Take names and addresses from the member list in the result of the step that built the list (at most 20, then
+      how many more); never write a placeholder or ask the reader to paste anything in. The plain-text email is plain text
+      only: no HTML tags, no markup and no unsubscribe line.'
   - id: s3
     builds: email
     uses:
@@ -104,7 +107,8 @@ portable:
     instruction: Generate a designed marketing email for the users in the segment built in "Build the renewal list" recapping
       one meaningful result they have gotten from the product this year, using {product_results}. The email must be {recap_sentences}
       sentences long, in a {recap_tone} tone, with no pricing or discount language. Include one button labeled {call_booking_link_label}
-      that links to {account_manager_booking_page}.
+      that links to {account_manager_booking_page}. If the brand kit has no logo, use the brand name as a plain text header.
+      Every button links to a URL given for this run or named in this step; never leave a button without a link.
 ---
 
 # Accounts in the renewal window
@@ -120,8 +124,8 @@ A user is in the segment only when all of these are true:
 
 ## Step 2: Notify the renewals team
 
-Generate a plain-text email to the renewals team distribution list For each user in "Renewal Window 90 Days", name their email address, so conversations start months early instead of the week before. Use the result of "Build the renewal list".
+Generate a plain-text email to the renewals team distribution list For each user in "Renewal Window 90 Days", name their email address, so conversations start months early instead of the week before. Use the result of "Build the renewal list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in. The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe line.
 
 ## Step 3: Send a value recap
 
-Generate a designed marketing email for the users in "Renewal Window 90 Days" recapping one meaningful result they have gotten from the product this year. Three sentences, warm and appreciative tone, no pricing or discount language, one button linking to a call-booking page with their account manager. Use the result of "Build the renewal list".
+Generate a designed marketing email for the users in "Renewal Window 90 Days" recapping one meaningful result they have gotten from the product this year. Three sentences, warm and appreciative tone, no pricing or discount language, one button linking to a call-booking page with their account manager. Use the result of "Build the renewal list". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.

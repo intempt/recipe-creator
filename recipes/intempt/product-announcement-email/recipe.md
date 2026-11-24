@@ -34,7 +34,8 @@ portable:
     - tone
     instruction: 'Create a product announcement email. Apply the brand tokens from {brand_kit} (colors, fonts, logo). Include
       a product hero block with the featured product image from {featured_product_feed}. Write an announcement subject line
-      and body copy optimized for open rate and click-through, in a {tone} tone. Output: ready-to-send email template.'
+      and body copy optimized for open rate and click-through, in a {tone} tone. Output: ready-to-send email template. If
+      the brand kit has no logo, use the brand name as a plain text header.'
 ---
 
 # Product launch announcement email
@@ -45,4 +46,4 @@ Slash command: /product-announcement-email
 
 Create a product announcement email.
 Apply the project's brand tokens (colors, fonts, logo). Include a product hero block with the featured product image. Write an announcement subject line and body copy optimized for open rate and click-through.
-Output: ready-to-send email template
+Output: ready-to-send email template If the brand kit has no logo, use the brand name as a plain text header.

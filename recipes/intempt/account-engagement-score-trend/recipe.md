@@ -112,7 +112,7 @@ Slash command: /account-engagement-score-trend
 
 Create an Insights report called "Account Engagement Score Trend".
 Series A: Event "Session start", aggregation: Count Unique Users: rolled up by Users.the account the user belongs to (so each account's score = number of distinct users from that account who emitted a Session start in the period)
-Series B: Event "Click on", aggregation: Count, rolled up by Users.the account the user belongs to (raw activity volume per account)
+Series B: the click event, aggregation: Count, rolled up by Users.the account the user belongs to (raw activity volume per account)
 Series C: Computed engagement score per account = (Series A × 5) + (Series B × 0.1): a weighted blend giving each account a single number reflecting both breadth (distinct users) and depth (activity volume)
 Time granularity: Weekly
 Time range: Last 12 weeks
@@ -128,4 +128,4 @@ Use case: the canonical B2B account-health view. Single-user metrics miss the re
 Taxonomy notes:
 - Users.the account the user belongs to is the canonical relation linking users to accounts.
 - The Accounts object has 58 attributes including engagement-score relation possibilities.
-- Session start and Click on are canonical engagement signals.
+- Session start and the click event are canonical engagement signals.

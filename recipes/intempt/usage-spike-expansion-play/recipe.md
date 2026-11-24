@@ -174,7 +174,7 @@ portable:
       explaining how power-using teams stay organized at this scale. Variant feature-depth: subject ''You are using the product
       deeper than {feature_depth_percentile}% of similar accounts'', body with what is next. Variant usage-cap: subject ''Your
       team is approaching the resource limit. Here are options.'' Use the result of "Score the expansion signals" and "Find
-      accounts outgrowing the plan".'
+      accounts outgrowing the plan". If the brand kit has no logo, use the brand name as a plain text header.'
   - id: s4
     builds: email
     uses:
@@ -192,7 +192,7 @@ portable:
       top {top_depth_percentile}% of users by depth; let''s discuss expansion options''. Variant usage-cap: subject ''Cost
       comparison: upgrade versus current overage costs'', including an ROI snapshot. Set reply-to as the assigned account
       executive from {crm_ae_owner}. Use the result of "Score the expansion signals", "Find accounts outgrowing the plan"
-      and "Write to the champion".'
+      and "Write to the champion". If the brand kit has no logo, use the brand name as a plain text header.'
   - id: s5
     builds: recommendation
     uses:
@@ -202,10 +202,11 @@ portable:
     - journey_duration
     instruction: 'Configure a recommendation surface named Expansion features that activates when an account is in {expansion_segment}.
       Render it in-app on the admin dashboard and in the email touches. Show features available on higher-tier plans that
-      the account would benefit from, based on current usage patterns, phrased as ''Teams using [current features] often graduate
-      to [advanced features]: here is what they unlock''. Include an upgrade-comparison surface for plan decision-makers.
-      Keep the surface active for {journey_duration}. Use the result of "Score the expansion signals" and "Find accounts outgrowing
-      the plan".'
+      the account would benefit from, based on current usage patterns, phrased as ''Teams using (fill in: current features)
+      often graduate to (fill in: advanced features): here is what they unlock''. Include an upgrade-comparison surface for
+      plan decision-makers. Keep the surface active for {journey_duration}. Use the result of "Score the expansion signals"
+      and "Find accounts outgrowing the plan". Fill each ''(fill in: ...)'' from the brand kit or the earlier step results;
+      if a value is missing, write the sentence without it. A draft never contains a placeholder.'
   - id: s6
     builds: automation
     uses:
@@ -259,15 +260,15 @@ Build a segment 'Expansion-ready customer accounts' capturing existing paying ac
 
 ## Step 3: Write to the champion
 
-Generate email content for the user-champion at the account (the most-active user, usually). Variants by signal type: user-growth ('Your team is growing on [Product]) here's how power-using teams stay organized at this scale.' Feature-depth ('You're using [Product] deeper than 85% of similar accounts) here's what's next.' Usage-cap: 'Your team is approaching the [resource] limit. Here are options.' Tone: peer-to-peer enablement, not sales pitch. The champion should feel proud, not pitched. Use the result of "Score the expansion signals", "Find accounts outgrowing the plan".
+Generate email content for the user-champion at the account (the most-active user, usually). Variants by signal type: user-growth ('Your team is growing on (fill in: Product)) here's how power-using teams stay organized at this scale.' Feature-depth ('You're using (fill in: Product) deeper than 85% of similar accounts) here's what's next.' Usage-cap: 'Your team is approaching the (fill in: resource) limit. Here are options.' Tone: peer-to-peer enablement, not sales pitch. The champion should feel proud, not pitched. Use the result of "Score the expansion signals", "Find accounts outgrowing the plan". If the brand kit has no logo, use the brand name as a plain text header. Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.
 
 ## Step 4: Write to the budget holder
 
-Generate email content for the economic buyer at the account (often someone NOT actively using the product day-to-day (admin / manager / finance owner). Variants by signal type: user-growth) 'Your team's usage of [Product] grew [N%] this quarter (here's a business-case summary of value delivered.' Feature-depth) 'Your team is in the top 15% of [Product] users by depth (let's discuss expansion options.' Usage-cap) 'Cost-comparison: upgrade vs. current overage costs.' Includes ROI snapshot. Tone: business-formal, value-substantive. Reply-to: assigned AE. Use the result of "Score the expansion signals", "Find accounts outgrowing the plan", "Write to the champion".
+Generate email content for the economic buyer at the account (often someone NOT actively using the product day-to-day (admin / manager / finance owner). Variants by signal type: user-growth) 'Your team's usage of (fill in: Product) grew (fill in: N%) this quarter (here's a business-case summary of value delivered.' Feature-depth) 'Your team is in the top 15% of (fill in: Product) users by depth (let's discuss expansion options.' Usage-cap) 'Cost-comparison: upgrade vs. current overage costs.' Includes ROI snapshot. Tone: business-formal, value-substantive. Reply-to: assigned AE. Use the result of "Score the expansion signals", "Find accounts outgrowing the plan", "Write to the champion". If the brand kit has no logo, use the brand name as a plain text header. Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.
 
 ## Step 5: Show the plan above theirs
 
-Configure a recommendation surface 'Expansion features' that activates when the account is in the expansion segment. Renders in-app on the admin dashboard and in the email touches. Pulls: features available on higher-tier plans that the account would benefit from based on current usage patterns (e.g., 'Teams using [current features] often graduate to [advanced features]: here's what they unlock'). Includes upgrade-comparison surface for plan-decision-makers. Use the result of "Score the expansion signals", "Find accounts outgrowing the plan".
+Configure a recommendation surface 'Expansion features' that activates when the account is in the expansion segment. Renders in-app on the admin dashboard and in the email touches. Pulls: features available on higher-tier plans that the account would benefit from based on current usage patterns (e.g., 'Teams using (fill in: current features) often graduate to (fill in: advanced features): here's what they unlock'). Includes upgrade-comparison surface for plan-decision-makers. Use the result of "Score the expansion signals", "Find accounts outgrowing the plan". Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.
 
 ## Step 6: Work the account over two weeks
 

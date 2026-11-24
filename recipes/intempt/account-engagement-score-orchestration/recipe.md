@@ -167,13 +167,15 @@ portable:
     - s1
     - s2
     instruction: 'Write one email per tier. GREEN: send to the champion contact, subject ''Your team is in the top 25% of
-      [Product] users. Here''s what high-growth accounts do next.'' Include a subtle expansion call to action. YELLOW: send
-      to the admin contact, subject ''Noticing a few of your team members aren''t logging in as often. Want help re-engaging
+      (fill in: Product) users. Here''s what high-growth accounts do next.'' Include a subtle expansion call to action. YELLOW:
+      send to the admin contact, subject ''Noticing a few of your team members aren''t logging in as often. Want help re-engaging
       the team?'' Include a call to action to book a CSM meeting. RED: send to the admin contact and the executive sponsor,
       subject ''Your team''s engagement has shifted. We''d like to understand what''s going on. 15-minute call?'' Include
       a direct CSM offer. DORMANT: send to the champion contact, subject ''It''s been a while. We miss you. Here''s what''s
       new since you last logged in.'' Include a fresh-start onboarding offer. Deliver through {email_channel}. Use the result
-      of "Score each account daily" and "Group paying accounts by tier".'
+      of "Score each account daily" and "Group paying accounts by tier". If the brand kit has no logo, use the brand name
+      as a plain text header. Fill each ''(fill in: ...)'' from the brand kit or the earlier step results; if a value is missing,
+      write the sentence without it. A draft never contains a placeholder.'
   - id: s4
     builds: personalization
     uses:
@@ -250,7 +252,7 @@ Build a segment 'B2B accounts tiered by engagement' capturing all paying B2B acc
 
 ## Step 3: Write an email per tier
 
-Generate per-tier email content. GREEN (expansion-leaning content sent to champion: 'Your team is in the top 25% of [Product] users) here's what high-growth accounts do next.' Plus subtle expansion CTA. YELLOW (reactivation content sent to admin: 'Noticing a few of your team members aren't logging in as often) want help re-engaging the team?' With a CSM-meeting CTA. RED (urgent personalized content sent to admin + executive sponsor: 'Your team's engagement has shifted) we'd like to understand what's going on. 15-minute call?' Direct CSM offer. DORMANT (last-chance content sent to champion: 'It's been a while) we miss you. Here's what's new since you last logged in.' With a fresh-start onboarding offer. Use the result of "Score each account daily", "Group paying accounts by tier".
+Generate per-tier email content. GREEN (expansion-leaning content sent to champion: 'Your team is in the top 25% of (fill in: Product) users) here's what high-growth accounts do next.' Plus subtle expansion CTA. YELLOW (reactivation content sent to admin: 'Noticing a few of your team members aren't logging in as often) want help re-engaging the team?' With a CSM-meeting CTA. RED (urgent personalized content sent to admin + executive sponsor: 'Your team's engagement has shifted) we'd like to understand what's going on. 15-minute call?' Direct CSM offer. DORMANT (last-chance content sent to champion: 'It's been a while) we miss you. Here's what's new since you last logged in.' With a fresh-start onboarding offer. Use the result of "Score each account daily", "Group paying accounts by tier". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link. Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.
 
 ## Step 4: Change what the admin sees
 

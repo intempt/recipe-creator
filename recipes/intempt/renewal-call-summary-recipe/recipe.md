@@ -61,8 +61,10 @@ portable:
     uses:
     - s1
     - renewal_call_completed
+    instruction: ''
   - id: s3
     builds: ''
+    instruction: ''
 ---
 
 # Renewal call summary fields

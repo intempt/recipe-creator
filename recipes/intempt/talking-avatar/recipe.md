@@ -11,8 +11,8 @@ classification:
   industry:
   - industry-agnostic
 portable:
-  summary: Makes a 5-second talking-head video of your brand presenter (your brand character) speaking for your brand
-    in the words you write, with subtle lip movement, gentle eye contact and a single blink.
+  summary: Makes a 5-second talking-head video of your brand presenter (your brand character) speaking for your brand in the
+    words you write, with subtle lip movement, gentle eye contact and a single blink.
   parameters:
   - name: script
     type: text

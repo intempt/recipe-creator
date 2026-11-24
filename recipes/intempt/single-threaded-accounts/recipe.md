@@ -69,9 +69,11 @@ portable:
     - s1
     - email_sentences
     - email_tone
-    instruction: For each account in "Enterprise Accounts Going Quiet", write a plain-text email as a personal note from their
-      account manager. Ask how things are going and offer a quick call. Use exactly {email_sentences} sentences, a {email_tone}
-      tone, no product pitch, and no discount language.
+    instruction: 'For each account in "Enterprise Accounts Going Quiet", write a plain-text email as a personal note from
+      their account manager. Ask how things are going and offer a quick call. Use exactly {email_sentences} sentences, a {email_tone}
+      tone, no product pitch, and no discount language. Take names and addresses from the member list in the result of the
+      step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything
+      in. The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe line.'
   - id: s3
     builds: slack
     uses:
@@ -79,7 +81,8 @@ portable:
     - key_accounts_channel
     instruction: Post a message to the key accounts team channel in {key_accounts_channel}. For each account in "Enterprise
       Accounts Going Quiet", name the account and its employee count so the team can prioritize outreach before it becomes
-      a renewal problem.
+      a renewal problem. Take names and addresses from the member list in the result of the step that built the list (at most
+      20, then how many more); never write a placeholder or ask the reader to paste anything in.
 ---
 
 # Enterprise accounts going quiet
@@ -95,8 +98,8 @@ An account is in the segment only when all of these are true:
 
 ## Step 2: Draft a personal check-in
 
-Generate a plain-text email for the accounts in "Enterprise Accounts Going Quiet" written as a personal note from their account manager, asking how things are going and offering a quick call. Three sentences, warm and personal tone, no product pitch, no discount language. Use the result of "Build the quiet-enterprise list".
+Generate a plain-text email for the accounts in "Enterprise Accounts Going Quiet" written as a personal note from their account manager, asking how things are going and offering a quick call. Three sentences, warm and personal tone, no product pitch, no discount language. Use the result of "Build the quiet-enterprise list". The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe line.
 
 ## Step 3: Alert the key accounts team
 
-Generate a Slack message to the key accounts team channel For each account in "Enterprise Accounts Going Quiet", name the account and its employees count, so the team can prioritize outreach before it becomes a renewal problem. Use the result of "Build the quiet-enterprise list".
+Generate a Slack message to the key accounts team channel For each account in "Enterprise Accounts Going Quiet", name the account and its employees count, so the team can prioritize outreach before it becomes a renewal problem. Use the result of "Build the quiet-enterprise list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in.

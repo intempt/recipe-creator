@@ -153,10 +153,10 @@ Targeting:
 - Display frequency: once (sticky to user's first session)
 Primary metric: goal_completed_in_experience where experience_id = <this> (goal fires on the activation event, e.g. Completed a journey goal for the activation journey, within 7 days of exposure)
 Secondary metrics:
-- Median time from exposed_to_experience to first key Click on (the canonical "time to value" measurement)
+- Median time from exposed_to_experience to first key click (the canonical "time to value" measurement)
 - Session start day-2 (returned-after-signup rate: engagement persistence)
-- Onboarding completion rate (Click on on the final step's target_id)
-Guardrail: bounce-from-onboarding rate (Session end without any Click on after onboarding render) must not increase >10%
+- Onboarding completion rate (clicks on the final step's target_id)
+Guardrail: bounce-from-onboarding rate (Session end without any click event after onboarding render) must not increase >10%
 Schedule: 30 days minimum
 ═══ PATH 2: Variant HTML content (Visual Editor) ═══
 Variant: Control (self-serve checklist: no DOM changes)
@@ -172,7 +172,7 @@ Variant: B (guided wizard)
  <div class="wizard-step" data-step="4">4. Create report</div>
  </div>
  <main class="wizard-content">
- <h2 class="wizard-step-title">Welcome to [Product]</h2>
+ <h2 class="wizard-step-title">Welcome to (fill in: Product)</h2>
  <p class="wizard-step-body">Let's get you set up in 4 quick steps.</p>
  <div class="wizard-tooltip" role="tooltip">Hover here for tips to </div>
  <div class="wizard-actions">
@@ -197,5 +197,5 @@ Variant: C (video-first)
  </div>
 The user supplies their actual onboarding copy, video file, and styling in the Visual Editor.
 Taxonomy notes:
-- "Time to first key Click on" is computed by Lovable from exposed_to_experience timestamp to the first downstream Click on event for the same user. Median across users = the variant's TTV.
-- The "key Click on" identifier (which Click on target_id counts as activation) is project-defined; typically it's the first interaction with a core product feature.
+- "Time to first key click" is computed by Lovable from exposed_to_experience timestamp to the first downstream click events for the same user. Median across users = the variant's TTV.
+- The "key click event" identifier (which click event target_id counts as activation) is project-defined; typically it's the first interaction with a core product feature. Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.

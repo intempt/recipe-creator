@@ -100,8 +100,8 @@ Experience type: client_experiment
 Variants:
 - Control (20%): no exit-intent popup (baseline: measures intrinsic exit behavior without intervention)
 - Variant B (20%): trial-extension or first-month discount offer ("Stay 30 more days: get 50% off your first month")
-- Variant C (20%): comparison guide download ("Comparing [Brand] vs. [Competitor]? Get our side-by-side guide.")
-- Variant D (20%): content download / lead magnet ("Take our [Industry] Best Practices report with you")
+- Variant C (20%): comparison guide download ("Comparing (fill in: Brand) vs. (fill in: Competitor)? Get our side-by-side guide.")
+- Variant D (20%): content download / lead magnet ("Take our (fill in: Industry) Best Practices report with you")
 - Variant E (20%): exit survey ("Quick question: what stopped you from booking a demo today?")
 Targeting:
 - Pages: marketing pages (/pricing, /features, /solutions, key landing pages (NOT /checkout or /signup) exit there is a different problem)
@@ -111,7 +111,7 @@ Targeting:
 Primary metric: goal_completed_in_experience where experience_id = <this> (goal varies by variant: see secondary metrics)
 Secondary metrics (per variant):
 - Variant B: Form submitted on the discount-claim form: discount-redemption rate
-- Variant C: Click on the comparison-guide download: guide-download rate
+- Variant C: the click event the comparison-guide download: guide-download rate
 - Variant D: Form submitted with email captured: lead-capture rate
 - Variant E: Form submitted on the exit survey: survey-completion rate
 - Cross-variant: 7-day return visit rate, 14-day demo-request conversion rate (which offer brings the highest-quality leads back?)
@@ -141,7 +141,7 @@ Variant: C (comparison guide download)
  <div class="modal-content">
  <button class="modal-close" id="exit-modal-dismiss">×</button>
  <h2>Comparing options? Take our guide with you.</h2>
- <p>The 12-page comparison: <strong>[Brand] vs. [Competitor]</strong>. Honest, side-by-side.</p>
+ <p>The 12-page comparison: <strong>(fill in: Brand) vs. (fill in: Competitor)</strong>. Honest, side-by-side.</p>
  <img src="/lead-magnets/comparison-guide-cover.webp" alt="Comparison guide cover" class="guide-thumbnail" />
  <form class="guide-download-form" id="exit-guide-form">
  <input type="email" name="email" placeholder="Work email" required />
@@ -155,8 +155,8 @@ Variant: D (industry best-practices report)
  <div class="exit-intent-modal" data-variant="d" data-offer="content-download" hidden>
  <div class="modal-content">
  <button class="modal-close" id="exit-modal-dismiss">×</button>
- <h2>Take our [Industry] best-practices report with you</h2>
- <p>30+ pages of insights from leading [Industry] teams. Free.</p>
+ <h2>Take our (fill in: Industry) best-practices report with you</h2>
+ <p>30+ pages of insights from leading (fill in: Industry) teams. Free.</p>
  <img src="/lead-magnets/industry-report-cover.webp" alt="Industry report cover" class="report-thumbnail" />
  <form class="report-download-form" id="exit-report-form">
  <input type="email" name="email" placeholder="Work email" required />
@@ -191,4 +191,4 @@ Taxonomy notes:
 - Variant E (survey) is the most informative variant for product/marketing teams: even if conversion is low, the qualitative responses guide future page-content tests. Treat the survey results as research input, not just a conversion variant.
 - Variant C (comparison guide) is the highest-quality lead-gen variant for B2B SaaS: visitors who download a competitor-comparison guide are typically high-intent.
 - Variant B (discount) often has the highest immediate conversion but may bring lower-quality leads. Measure 14-day downstream demo-request rate to avoid being misled.
-- This is distinct from cart-abandonment-popup-timing (which tests popup TIMING on ecommerce cart pages). The current recipe tests popup CONTENT on SaaS marketing pages.
+- This is distinct from cart-abandonment-popup-timing (which tests popup TIMING on ecommerce cart pages). The current recipe tests popup CONTENT on SaaS marketing pages. Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.

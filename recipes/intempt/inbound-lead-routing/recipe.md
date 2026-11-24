@@ -42,7 +42,7 @@ portable:
   requirements:
   - slot: inbound_form_submitted
     kind: event
-    meaning: A prospect submitted a form on the website
+    meaning: A prospect submitted a form on the website (a form on the site, never a survey or NPS answer)
     properties:
     - name: form_type
       type: text

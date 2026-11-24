@@ -27,12 +27,12 @@ portable:
   - name: topic
     type: string
     label: Topic placeholder used in the email body
-    default: '[topic]'
+    default: '(fill in: topic)'
     required: false
   - name: calendar_link
     type: string
     label: Calendar link for reconnecting
-    default: '[calendar link]'
+    default: '(fill in: calendar link)'
     required: false
   - name: email_subject
     type: string
@@ -118,7 +118,8 @@ portable:
       direct and honest with no fake urgency and no ''final chance'' framing. Body of 4-5 sentences: ''I''ve reached out a
       few times about {topic}. I might have my timing wrong, or this might not be a priority for you right now. I''ll stop
       reaching out unless I hear back. If circumstances change down the road, here''s an easy way to reconnect: {calendar_link}.''
-      Write it for the leads in the cold-silent segment from ''Find prospects who went quiet''.'
+      Write it for the leads in the cold-silent segment from ''Find prospects who went quiet''. If the brand kit has no logo,
+      use the brand name as a plain text header.'
   - id: s3
     builds: automation
     uses:
@@ -166,7 +167,7 @@ Build a segment 'Cold silent prospects' capturing leads who received 5+ outreach
 
 ## Step 2: Write the closing the loop note
 
-Generate break-up email content. Subject: 'Closing the loop' or 'Should I stop reaching out?': direct, no fake urgency. Body: short (4-5 sentences). 'I've reached out a few times about [topic]. I might have my timing wrong, or this might not be a priority for you right now. I'll stop reaching out unless I hear back. If circumstances change down the road, here's an easy way to reconnect: [calendar link].' Tone: honest, no manipulation, no fake 'final chance!' framing. Counter-intuitively often the highest-replying email in a cold sequence because it removes pressure and invites a quick 'yes/no'. Use the result of "Find prospects who went quiet".
+Generate break-up email content. Subject: 'Closing the loop' or 'Should I stop reaching out?': direct, no fake urgency. Body: short (4-5 sentences). 'I've reached out a few times about (fill in: topic). I might have my timing wrong, or this might not be a priority for you right now. I'll stop reaching out unless I hear back. If circumstances change down the road, here's an easy way to reconnect: (fill in: calendar link).' Tone: honest, no manipulation, no fake 'final chance!' framing. Counter-intuitively often the highest-replying email in a cold sequence because it removes pressure and invites a quick 'yes/no'. Use the result of "Find prospects who went quiet". If the brand kit has no logo, use the brand name as a plain text header. Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.
 
 ## Step 3: Send it once, then stop
 

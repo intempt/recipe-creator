@@ -122,7 +122,7 @@ Targeting:
 - Display frequency: always
 Primary metric: goal_completed_in_experience where experience_id = <this> (goal: Form submitted on demo / contact / signup, OR User created within session of exposure)
 Secondary metrics:
-- Click on on primary CTA (does the hero image affect CTA click-through?)
+- clicks on primary CTA (does the hero image affect CTA click-through?)
 - Bounce rate (does the hero image keep visitors engaged?)
 - Time-on-page (proxy for engagement)
 - Scroll-depth-to-50% (does the hero compel visitors to scroll?)
@@ -137,7 +137,7 @@ Variant: B (product screenshot)
  <source media="(min-width: 1024px)" srcset="/hero-screenshots/dashboard-desktop.webp" type="image/webp" />
  <source media="(min-width: 768px)" srcset="/hero-screenshots/dashboard-tablet.webp" type="image/webp" />
  <img src="/hero-screenshots/dashboard-mobile.webp"
- alt="[Brand] dashboard showing [key feature]"
+ alt="(fill in: Brand) dashboard showing (fill in: key feature)"
  loading="eager"
  width="800"
  height="500" />
@@ -150,7 +150,7 @@ Variant: C (customer/team photo)
  <source media="(min-width: 1024px)" srcset="/hero-photos/team-desktop.webp" type="image/webp" />
  <source media="(min-width: 768px)" srcset="/hero-photos/team-tablet.webp" type="image/webp" />
  <img src="/hero-photos/team-mobile.webp"
- alt="[Customer name] team using [Brand]"
+ alt="(fill in: Customer name) team using (fill in: Brand)"
  loading="eager"
  width="800"
  height="500" />
@@ -161,4 +161,4 @@ Taxonomy notes:
 - 2026 SaaS research strongly favors authentic visuals over stock illustrations. Real product screenshots often outperform abstract illustrations for product-led teams; real customer photos often outperform for service/enterprise teams.
 - Page-speed monitoring is critical: measure Largest Contentful Paint (LCP) per variant. The winning hero image must also load fast.
 - A static-image test is the foundation; animated/video heroes (Lottie embeds, MP4 background, etc.) are out of scope for this recipe and can be authored as a future extension once the static winner is determined.
-- Mobile-specific image variants are essential: desktop hero images cropped down to mobile usually look poor and convert worse than mobile-designed versions.
+- Mobile-specific image variants are essential: desktop hero images cropped down to mobile usually look poor and convert worse than mobile-designed versions. Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.

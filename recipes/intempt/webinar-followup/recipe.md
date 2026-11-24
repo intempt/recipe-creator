@@ -167,7 +167,7 @@ portable:
       signals, sent only if the user has not engaged. No-shows path: touch 1 within {attendee_followup_delay} with a ''sorry
       you missed it'' note and the {webinar_recording_link}; touch 2 after {second_touch_delay} with objection-handling content
       on competing priorities, positioning the content on time-saving; touch 3 after {third_touch_delay} with a next-webinar
-      invite, sent only if the user has engaged.'
+      invite, sent only if the user has engaged. If the brand kit has no logo, use the brand name as a plain text header.'
   - id: s4
     builds: automation
     uses:
@@ -218,7 +218,7 @@ Create an AI-derived attribute on the User object called 'last_webinar_attendanc
 
 ## Step 3: Write both follow up paths
 
-Generate two parallel email content paths. Attendees path: touch 1 (within 2 hours) thank-you + recording link + 2-3 key takeaways; touch 2 (3 days later) related content recommendation + book-a-meeting CTA; touch 3 (7 days later, if no engagement) AE outreach with personalized angle based on attendance signals. No-shows path: touch 1 (within 2 hours) 'sorry you missed it' + on-demand recording link; touch 2 (3 days later) objection-handling content (the most common reason for no-show is competing priorities: content positions on time-saving); touch 3 (7 days later, if engaged) next-webinar invite. Use the result of "Take everyone who registered", "Record who actually turned up".
+Generate two parallel email content paths. Attendees path: touch 1 (within 2 hours) thank-you + recording link + 2-3 key takeaways; touch 2 (3 days later) related content recommendation + book-a-meeting CTA; touch 3 (7 days later, if no engagement) AE outreach with personalized angle based on attendance signals. No-shows path: touch 1 (within 2 hours) 'sorry you missed it' + on-demand recording link; touch 2 (3 days later) objection-handling content (the most common reason for no-show is competing priorities: content positions on time-saving); touch 3 (7 days later, if engaged) next-webinar invite. Use the result of "Take everyone who registered", "Record who actually turned up". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.
 
 ## Step 4: Split on whether they showed
 

@@ -140,7 +140,8 @@ portable:
       and available terms. Email (c), IT/security stakeholder if known, sent at {economic_buyer_touch_day} days before contract
       end: subject ''Security/compliance update for your upcoming renewal''; proactive on documentation, certifications and
       any changes. Email (d), late reminder sent at {final_reminder_day} days before contract end: consolidated reminder to
-      all stakeholders with proposed contract terms attached.'
+      all stakeholders with proposed contract terms attached. If the brand kit has no logo, use the brand name as a plain
+      text header.'
   - id: s4
     builds: automation
     uses:
@@ -194,7 +195,7 @@ Create an AI-derived attribute 'renewal_health_snapshot' on the Account object, 
 ## Step 3: Write one email per role
 
 This step builds a designed marketing email (HTML).
-Generate role-tailored renewal content. (a) User-champion (Day 90): 'Quick value-recap of the past year (what's working and what's next') focuses on product wins, usage stats, asks for help to coordinate the upcoming renewal conversation. (b) Economic buyer (Day 60): 'Your team's renewal is up in 60 days (let's connect on terms') focuses on business value, ROI, growth opportunity, available terms. (c) IT/security stakeholder if known (Day 60): 'Security/compliance update for your upcoming renewal': proactive on documentation, certifications, any changes. (d) Late reminder (Day 30): consolidated reminder to all stakeholders with proposed contract terms attached. Tone: business-formal, value-substantive, not marketing-chatty. Use the result of "Find renewals inside 90 days", "Read the renewal health".
+Generate role-tailored renewal content. (a) User-champion (Day 90): 'Quick value-recap of the past year (what's working and what's next') focuses on product wins, usage stats, asks for help to coordinate the upcoming renewal conversation. (b) Economic buyer (Day 60): 'Your team's renewal is up in 60 days (let's connect on terms') focuses on business value, ROI, growth opportunity, available terms. (c) IT/security stakeholder if known (Day 60): 'Security/compliance update for your upcoming renewal': proactive on documentation, certifications, any changes. (d) Late reminder (Day 30): consolidated reminder to all stakeholders with proposed contract terms attached. Tone: business-formal, value-substantive, not marketing-chatty. Use the result of "Find renewals inside 90 days", "Read the renewal health". If the brand kit has no logo, use the brand name as a plain text header.
 
 ## Step 4: Reach each stakeholder in turn
 

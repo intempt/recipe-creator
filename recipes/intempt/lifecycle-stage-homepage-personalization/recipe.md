@@ -69,19 +69,21 @@ portable:
       contents of {homepage_hero_container} on {homepage_path} and runs continuously with display frequency {display_frequency},
       targeting all devices. Build four variants. Control: the standard homepage hero, shown to all visitors as the fallback
       for users whose {lifecycle_stage_attribute} is empty or not yet computed. Variant B "Welcome back": shown when {lifecycle_stage_attribute}
-      is "Champions" or "Regulars"; heading "Welcome back, [first_name]" with the line "Your favorites are waiting: plus new
-      arrivals tailored to you.", a "View past orders" link to /account/orders, a primary "Shop new arrivals" link to /new-arrivals
-      with id hero-cta-new, and a "Picked for you" recommendations block using purchase-history recommendations from {recommendation_service}.
-      Variant C "We''ve missed you": shown when {lifecycle_stage_attribute} is "At risk" or "Needs attention"; heading "We''ve
-      missed you, [first_name]" with the line "Here''s {winback_discount_percent}% off your next order: welcome back.", a
-      primary button "Claim {winback_discount_percent}% off" with id hero-cta-claim, and a "Stock up on what you love" recommendations
-      block using reorder-favorites recommendations from {recommendation_service}. Variant D "First-time browse": shown when
-      {lifecycle_stage_attribute} is "New customers" or "Promising"; heading "Welcome to [Brand]" with the line "Discover
-      what makes us special: handpicked starters under $50.", a primary "Shop bestsellers" link to /best-sellers with id hero-cta-bestsellers,
-      and a "Popular this week" recommendations block using popularity recommendations from {recommendation_service}. In every
-      variant, [first_name] comes from {first_name_attribute}; if it is missing, fall back to "{fallback_first_name}" without
-      a name. Track conversions as placed order within session per lifecycle group, average order value per audience, and
-      clicks on the personalized hero per audience.'
+      is "Champions" or "Regulars"; heading "Welcome back, (fill in: first_name)" with the line "Your favorites are waiting:
+      plus new arrivals tailored to you.", a "View past orders" link to /account/orders, a primary "Shop new arrivals" link
+      to /new-arrivals with id hero-cta-new, and a "Picked for you" recommendations block using purchase-history recommendations
+      from {recommendation_service}. Variant C "We''ve missed you": shown when {lifecycle_stage_attribute} is "At risk" or
+      "Needs attention"; heading "We''ve missed you, (fill in: first_name)" with the line "Here''s {winback_discount_percent}%
+      off your next order: welcome back.", a primary button "Claim {winback_discount_percent}% off" with id hero-cta-claim,
+      and a "Stock up on what you love" recommendations block using reorder-favorites recommendations from {recommendation_service}.
+      Variant D "First-time browse": shown when {lifecycle_stage_attribute} is "New customers" or "Promising"; heading "Welcome
+      to (fill in: Brand)" with the line "Discover what makes us special: handpicked starters under $50.", a primary "Shop
+      bestsellers" link to /best-sellers with id hero-cta-bestsellers, and a "Popular this week" recommendations block using
+      popularity recommendations from {recommendation_service}. In every variant, (fill in: first_name) comes from {first_name_attribute};
+      if it is missing, fall back to "{fallback_first_name}" without a name. Track conversions as placed order within session
+      per lifecycle group, average order value per audience, and clicks on the personalized hero per audience. Fill each ''(fill
+      in: ...)'' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft
+      never contains a placeholder.'
 ---
 
 # Homepage by customer lifecycle stage
@@ -109,7 +111,7 @@ Targeting:
 Metrics (existing CRM/CDP):
 - Placed order within session (per lifecycle group conversion)
 - Average order value per audience
-- Click on engagement (which audiences engage with their personalized hero)
+- clicks engagement (which audiences engage with their personalized hero)
 Schedule: continuous
 ═══ PATH 2: Variant HTML content (Visual Editor) ═══
 Variant: Control (all: fallback)
@@ -118,7 +120,7 @@ Variant: B (Champions + Regulars: "Welcome back")
  HTML target selector: .homepage-hero (replace contents)
  Variant DOM:
  <section class="homepage-hero" data-variant="b" data-audience="champions-regulars">
- <h1>Welcome back, [first_name]</h1>
+ <h1>Welcome back, (fill in: first_name)</h1>
  <p>Your favorites are waiting: plus new arrivals tailored to you.</p>
  <div class="hero-cta-row">
  <a href="/account/orders" class="cta-link">View past orders</a>
@@ -133,7 +135,7 @@ Variant: C (At risk + Needs attention: "We've missed you")
  HTML target selector: .homepage-hero (replace contents)
  Variant DOM:
  <section class="homepage-hero" data-variant="c" data-audience="at-risk">
- <h1>We've missed you, [first_name]</h1>
+ <h1>We've missed you, (fill in: first_name)</h1>
  <p>Here's 15% off your next order: welcome back.</p>
  <div class="hero-cta-row">
  <button class="cta-primary" id="hero-cta-claim">Claim 15% off</button>
@@ -147,7 +149,7 @@ Variant: D (New customers + Promising: "First-time browse")
  HTML target selector: .homepage-hero (replace contents)
  Variant DOM:
  <section class="homepage-hero" data-variant="d" data-audience="new-promising">
- <h1>Welcome to [Brand]</h1>
+ <h1>Welcome to (fill in: Brand)</h1>
  <p>Discover what makes us special: handpicked starters under $50.</p>
  <div class="hero-cta-row">
  <a href="/best-sellers" class="cta-primary" id="hero-cta-bestsellers">Shop bestsellers</a>
@@ -157,8 +159,8 @@ Variant: D (New customers + Promising: "First-time browse")
  <!-- popularity-based recs -->
  </section>
  </section>
-The Visual Editor lets the user adjust copy, image selection, and recommendation block styling per audience. The [first_name] placeholder is replaced at render time from the Users object.
+The Visual Editor lets the user adjust copy, image selection, and recommendation block styling per audience. The (fill in: first_name) placeholder is replaced at render time from the Users object.
 Taxonomy notes:
 - Users.Lifecycle score is the canonical 6-stage enum: exact values: "At risk", "Needs attention", "New customers", "Promising", "Regulars", "Champions". Do NOT introduce textbook RFM segment names like "Loyal" or "VIP": the platform's lifecycle taxonomy is fixed at these six values.
-- For the [first_name] personalization, ensure the Users object has first_name populated; if absent, the variant should gracefully fall back to "Welcome back" without the name.
-- The "recommendations" block strategies (based-on-purchase-history, reorder-favorites, popular-with-new-customers) are application-level: typically powered by a recommendation API.
+- For the (fill in: first_name) personalization, ensure the Users object has first_name populated; if absent, the variant should gracefully fall back to "Welcome back" without the name.
+- The "recommendations" block strategies (based-on-purchase-history, reorder-favorites, popular-with-new-customers) are application-level: typically powered by a recommendation API. Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.

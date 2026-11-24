@@ -119,7 +119,7 @@ portable:
     - tone
     instruction: Write tier-specific onboarding email content in a {tone} tone for each tier in {trial_tier}, using the result
       of "Score how the trial is going" and "Split trials into three tiers" to emphasize the aha-moment features relevant
-      to each tier.
+      to each tier. If the brand kit has no logo, use the brand name as a plain text header.
   - id: s4
     builds: automation
     uses:
@@ -164,7 +164,7 @@ Segment trial users into risk tiers (high-engagement, moderate, at-risk) based o
 
 ## Step 3: Write onboarding per tier
 
-Generate tier-specific onboarding email content emphasizing relevant aha-moment features per tier. Use the result of "Score how the trial is going", "Split trials into three tiers".
+Generate tier-specific onboarding email content emphasizing relevant aha-moment features per tier. Use the result of "Score how the trial is going", "Split trials into three tiers". If the brand kit has no logo, use the brand name as a plain text header.
 
 ## Step 4: Route each tier differently
 

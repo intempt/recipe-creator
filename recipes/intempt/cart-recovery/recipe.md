@@ -102,7 +102,7 @@ portable:
     - s1
     instruction: 'Write three cart-recovery emails in {brand_tone} using {brand_voice}, for the audience in "Identify users
       with abandoned cart". Touch 1: gentle reminder. Touch 2: urgency and social proof. Touch 3: final reminder with an optional
-      discount.'
+      discount. If the brand kit has no logo, use the brand name as a plain text header.'
   - id: s3
     builds: automation
     uses:
@@ -158,7 +158,7 @@ Identify users with Abandoned cart event in last 30 days who have NOT placed an 
 
 ## Step 2: Write the three emails
 
-Generate 3-touch cart-recovery email content using brand voice. Touch 1: gentle reminder. Touch 2: urgency + social proof. Touch 3: final reminder optionally with discount. Use the result of "Find who abandoned a cart".
+Generate 3-touch cart-recovery email content using brand voice. Touch 1: gentle reminder. Touch 2: urgency + social proof. Touch 3: final reminder optionally with discount. Use the result of "Find who abandoned a cart". If the brand kit has no logo, use the brand name as a plain text header.
 
 ## Step 3: Schedule the sequence
 

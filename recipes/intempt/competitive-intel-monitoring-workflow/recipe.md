@@ -177,7 +177,7 @@ Configure AI research step that compares this week's scraped content to last wee
 ## Step 6: Write the briefing
 
 This step builds a workflow.
-Configure AI write step that consolidates per-competitor findings into a single weekly briefing. Structure: (a) Top 3 most material competitive moves this week, (b) Per-competitor highlights, (c) Watch-list for next week (developing stories), (d) Recommended responses (e.g. 'Competitor X just launched [feature]: our differentiator is still Y; product marketing may want to update positioning'). Tone: factual, concise, scannable. Use the result of "Replace the Monday check", "Compare against last week".
+Configure AI write step that consolidates per-competitor findings into a single weekly briefing. Structure: (a) Top 3 most material competitive moves this week, (b) Per-competitor highlights, (c) Watch-list for next week (developing stories), (d) Recommended responses (e.g. 'Competitor X just launched (fill in: feature): our differentiator is still Y; product marketing may want to update positioning'). Tone: factual, concise, scannable. Use the result of "Replace the Monday check", "Compare against last week". Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.
 
 ## Step 7: Post it to the channel
 

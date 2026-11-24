@@ -134,12 +134,14 @@ portable:
     - sender_name
     - product_name
     - email_channel
-    instruction: 'Generate the quarterly progress email. Subject: ''Your [Quarter] with {product_name}: [headline metric]'',
-      for example ''Your Q2 with Acme: 247 hours saved''. Body: hero number (top KPI from the snapshot), 3 to 4 supporting
-      metrics with quarter-over-quarter trend arrows, callouts to noteworthy events (for example ''You hit your 1000th unit
-      this quarter''), a team-impact summary, and a soft prompt: ''Want this as a PDF to share with your team or manager?''
-      Send from {sender_name}. Tone: celebratory but factual, no marketing language, all figures from the account''s own data.
-      Use the snapshot from "Total up the quarter" and the recipients from "Pick who should get it".'
+    instruction: 'Generate the quarterly progress email. Subject: ''Your (fill in: Quarter) with {product_name}: (fill in:
+      headline metric)'', for example ''Your Q2 with Acme: 247 hours saved''. Body: hero number (top KPI from the snapshot),
+      3 to 4 supporting metrics with quarter-over-quarter trend arrows, callouts to noteworthy events (for example ''You hit
+      your 1000th unit this quarter''), a team-impact summary, and a soft prompt: ''Want this as a PDF to share with your
+      team or manager?'' Send from {sender_name}. Tone: celebratory but factual, no marketing language, all figures from the
+      account''s own data. Use the snapshot from "Total up the quarter" and the recipients from "Pick who should get it".
+      If the brand kit has no logo, use the brand name as a plain text header. Fill each ''(fill in: ...)'' from the brand
+      kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.'
   - id: s4
     builds: personalization
     uses:
@@ -200,7 +202,7 @@ Build a segment 'Quarterly progress recipients' capturing paying accounts where:
 
 ## Step 3: Write the quarter in numbers
 
-Generate quarterly progress email content. Subject: 'Your [Quarter] with [Product]: [headline metric]' (e.g. 'Your Q2 with Acme: 247 hours saved'). Body: hero number (top KPI from snapshot), 3-4 supporting metrics with quarter-over-quarter trend arrows, callouts to noteworthy events ('You hit your 1000th [unit] this quarter'), team-impact summary, and a soft prompt: 'Want this as a PDF to share with your team or manager?' Send-from: named CSM or success lead. Tone: celebratory but factual: no marketing-speak, all real numbers from their account. Use the result of "Total up the quarter", "Pick who should get it".
+Generate quarterly progress email content. Subject: 'Your (fill in: Quarter) with (fill in: Product): (fill in: headline metric)' (e.g. 'Your Q2 with Acme: 247 hours saved'). Body: hero number (top KPI from snapshot), 3-4 supporting metrics with quarter-over-quarter trend arrows, callouts to noteworthy events ('You hit your 1000th (fill in: unit) this quarter'), team-impact summary, and a soft prompt: 'Want this as a PDF to share with your team or manager?' Send-from: named CSM or success lead. Tone: celebratory but factual: no marketing-speak, all real numbers from their account. Use the result of "Total up the quarter", "Pick who should get it". If the brand kit has no logo, use the brand name as a plain text header. Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.
 
 ## Step 4: Show it in the app too
 

@@ -120,7 +120,7 @@ Targeting:
 Metrics:
 - Placed order per geographic audience
 - Average order value per audience
-- Click on engagement on geo-specific CTAs
+- clicks engagement on geo-specific CTAs
 Schedule: continuous
 ═══ PATH 2: Variant HTML content (Visual Editor) ═══
 Variant: Control (all: fallback, generic)

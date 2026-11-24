@@ -70,7 +70,8 @@ portable:
     - reorder_candidates
     - email_channel
     instruction: Generate reorder reminder emails for {reorder_candidates} timed to each user's consumption pattern, each
-      including a one-click reorder link. Send via {email_channel}.
+      including a one-click reorder link. Send via {email_channel}. If the brand kit has no logo, use the brand name as a
+      plain text header.
   - id: s3
     builds: automation
     uses:
@@ -123,7 +124,7 @@ Identify users approaching their typical reorder window for consumable products 
 
 ## Step 2: Write the reorder reminder
 
-Generate reorder-reminder emails timed to the user's consumption pattern, with one-click reorder link. Use the result of "Work out when they run out".
+Generate reorder-reminder emails timed to the user's consumption pattern, with one-click reorder link. Use the result of "Work out when they run out". If the brand kit has no logo, use the brand name as a plain text header.
 
 ## Step 3: Remind before they run dry
 

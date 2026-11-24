@@ -89,7 +89,8 @@ portable:
     - account_name
     instruction: Post a Slack message to {sales_team_channel} for each account in "Active Research Surge Accounts", naming
       the account ({account_name}) so reps can reach out while interest is at its peak. Use the result of "Build the research-surge
-      list".
+      list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then
+      how many more); never write a placeholder or ask the reader to paste anything in.
   - id: s3
     builds: email
     uses:
@@ -101,7 +102,8 @@ portable:
     instruction: Create a designed marketing email for the accounts in "Active Research Surge Accounts" offering a resource
       that answers the questions a researching buyer usually has at this stage. Write {email_sentence_count} sentences in
       a {email_tone} tone with no discount language. Include one button labeled "{cta_label}" linking to {call_booking_page}.
-      Use the result of "Build the research-surge list".
+      Use the result of "Build the research-surge list". If the brand kit has no logo, use the brand name as a plain text
+      header. Every button links to a URL given for this run or named in this step; never leave a button without a link.
 ---
 
 # Accounts showing a research surge
@@ -116,8 +118,8 @@ An account is in the segment only when all of these are true:
 
 ## Step 2: Alert sales
 
-Generate a Slack message to the sales channel For each account in "Active Research Surge Accounts", name the account, so reps can reach out while interest is at its peak. Use the result of "Build the research-surge list".
+Generate a Slack message to the sales channel For each account in "Active Research Surge Accounts", name the account, so reps can reach out while interest is at its peak. Use the result of "Build the research-surge list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in.
 
 ## Step 3: Send a relevant resource
 
-Generate a designed marketing email for the accounts in "Active Research Surge Accounts" offering a resource that answers the questions a researching buyer usually has at this stage. Three sentences, helpful and low-pressure tone, no discount language, one button linking to a call-booking page. Use the result of "Build the research-surge list".
+Generate a designed marketing email for the accounts in "Active Research Surge Accounts" offering a resource that answers the questions a researching buyer usually has at this stage. Three sentences, helpful and low-pressure tone, no discount language, one button linking to a call-booking page. Use the result of "Build the research-surge list". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.

@@ -23,7 +23,7 @@
     {
       "id": "s1",
       "title": "Build the demo-request list",
-      "description": "Build a segment of accounts named \"Demo-Requested Accounts\". An account is in the segment only when all of these are true: the users in the account together did the Submit on event on the demo request form chosen for this run at least once in the last 30 days; its Has an open deal attribute is false",
+      "description": "Build a segment of accounts named \"Demo-Requested Accounts\". An account is in the segment only when all of these are true: the users in the account together did the form-submit event on the demo request form chosen for this run at least once in the last 30 days; its Has an open deal attribute is false",
       "command": "create_segment",
       "entity": "segment",
       "integration": [

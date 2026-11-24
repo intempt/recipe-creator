@@ -134,7 +134,7 @@ portable:
     instruction: 'On the sales branch, draft a personalized initial reply that acknowledges the inquiry, references past interactions
       if matched in ''Match them to an account'', and offers specific next steps: book a demo, talk to a specialist, or send
       pricing. Save as a draft on the AE task for review. Target first reply within {sla_minutes} minutes of the inbound message.
-      Tone: professional.'
+      Tone: professional. If the brand kit has no logo, use the brand name as a plain text header.'
   - id: s6
     builds: task
     uses:
@@ -210,7 +210,7 @@ On the sales-inquiry branch: try to match sender's email/domain to an existing A
 ## Step 5: Draft the first reply
 
 This step builds a workflow.
-Configure AI write step on the sales branch: draft a personalized initial reply acknowledging the inquiry, referencing any past interactions if matched, offering specific next steps (book a demo / talk to specialist / send pricing). Saved as draft on the AE task; AE reviews, edits if needed, sends. Reply-SLA target: 5 minutes from inbound. Use the result of "Catch every inbound message", "Match them to an account".
+Configure AI write step on the sales branch: draft a personalized initial reply acknowledging the inquiry, referencing any past interactions if matched, offering specific next steps (book a demo / talk to specialist / send pricing). Saved as draft on the AE task; AE reviews, edits if needed, sends. Reply-SLA target: 5 minutes from inbound. Use the result of "Catch every inbound message", "Match them to an account". If the brand kit has no logo, use the brand name as a plain text header.
 
 ## Step 6: Give the AE the whole picture
 

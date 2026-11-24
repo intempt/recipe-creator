@@ -200,7 +200,7 @@ Multi-split based on top candidate's confidence score: HIGH (>90) (auto-merge in
 ## Step 6: Merge into the older record
 
 This step builds a workflow.
-On high-confidence branch: merge the new record into the existing one. Keep the existing record as survivor (preserves history), copy any new fields from the new record, mark the new record as 'merged into [existing_id]'. The new record reference still works for inbound webhooks but redirects to the survivor. Use the result of "Check at the moment of creation", "Act on the confidence".
+On high-confidence branch: merge the new record into the existing one. Keep the existing record as survivor (preserves history), copy any new fields from the new record, mark the new record as 'merged into (fill in: existing_id)'. The new record reference still works for inbound webhooks but redirects to the survivor. Use the result of "Check at the moment of creation", "Act on the confidence". Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.
 
 ## Step 7: Queue the uncertain pairs
 

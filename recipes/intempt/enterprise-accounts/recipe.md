@@ -72,7 +72,8 @@ portable:
     - employees
     instruction: For each account in "Enterprise Accounts", send a Slack message to {enterprise_sales_channel} naming the
       account {account_name} and its {employees} count, sorted so the newest accounts appear first so reps can prioritize
-      outreach.
+      outreach. Take names and addresses from the member list in the result of the step that built the list (at most 20, then
+      how many more); never write a placeholder or ask the reader to paste anything in.
   - id: s3
     builds: email
     uses:
@@ -83,7 +84,9 @@ portable:
     - onboarding_link
     instruction: Create a designed marketing email for the accounts in "Enterprise Accounts" welcoming them to the enterprise
       tier and introducing their {account_manager}. Use {email_sentence_count} sentences in a {email_tone} tone with no pricing
-      or discount language. Include one button linking to {onboarding_link}.
+      or discount language. Include one button linking to {onboarding_link}. If the brand kit has no logo, use the brand name
+      as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without
+      a link.
 ---
 
 # Enterprise accounts
@@ -98,8 +101,8 @@ An account is in the segment only when all of these are true:
 
 ## Step 2: Alert enterprise sales
 
-Generate a Slack message to the enterprise sales channel For each account in "Enterprise Accounts", name the account and its employees count, so reps can prioritize outreach to the newest ones first. Use the result of "Build the enterprise list".
+Generate a Slack message to the enterprise sales channel For each account in "Enterprise Accounts", name the account and its employees count, so reps can prioritize outreach to the newest ones first. Use the result of "Build the enterprise list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in.
 
 ## Step 3: Welcome the account
 
-Generate a designed marketing email for the accounts in "Enterprise Accounts" welcoming them to the enterprise tier and introducing their dedicated account manager. Three sentences, professional tone, no pricing or discount language, one button linking to the onboarding scheduling page. Use the result of "Build the enterprise list".
+Generate a designed marketing email for the accounts in "Enterprise Accounts" welcoming them to the enterprise tier and introducing their dedicated account manager. Three sentences, professional tone, no pricing or discount language, one button linking to the onboarding scheduling page. Use the result of "Build the enterprise list". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.

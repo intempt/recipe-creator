@@ -110,7 +110,8 @@ portable:
       a thank-you opening that references {meeting_completed_event.meeting_subject} and the attendees; a recap of decisions;
       bulleted action items with owners and due dates; a link to {meeting_completed_event.recording_url} if available; a signature
       with the proposed next step and a scheduling link. Tone: {follow_up_tone}, reflecting the rep''s voice from prior outbound
-      style if available. Send from {meeting_completed_event.host_email}.'
+      style if available. Send from {meeting_completed_event.host_email}. If the brand kit has no logo, use the brand name
+      as a plain text header.'
   - id: s3
     builds: automation
     uses:
@@ -168,7 +169,7 @@ Create an AI-derived attribute on the Meeting object called 'meeting_summary'. C
 
 ## Step 2: Write the recap email
 
-Generate a follow-up email template that renders the meeting_summary attribute. Structure: thank-you opening referencing meeting subject and attendees, recap of decisions, bulleted action items with owners and due dates, link to recording if available, signature with proposed next step and a scheduling link. Tone: professional but warm; reflects the rep's voice based on prior outbound style if available. Send-from address: the meeting host's email. Use the result of "Pull the meeting apart".
+Generate a follow-up email template that renders the meeting_summary attribute. Structure: thank-you opening referencing meeting subject and attendees, recap of decisions, bulleted action items with owners and due dates, link to recording if available, signature with proposed next step and a scheduling link. Tone: professional but warm; reflects the rep's voice based on prior outbound style if available. Send-from address: the meeting host's email. Use the result of "Pull the meeting apart". If the brand kit has no logo, use the brand name as a plain text header.
 
 ## Step 3: File it and raise the tasks
 

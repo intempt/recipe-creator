@@ -142,7 +142,7 @@ Targeting:
 - Display frequency: once (per order)
 Primary metric: goal_completed_in_experience where experience_id = <this> (goal fires on additional Placed order within 24 hours of upsell exposure: incremental revenue)
 Secondary metrics:
-- Click on where target_id starts with "upsell-product-" (upsell engagement rate)
+- clicks where target_id starts with "upsell-product-" (upsell engagement rate)
 - Add-to-second-order rate (Cart created within 1 hour for any user shown the upsell)
 - Average upsell value when accepted
 Guardrail: customer satisfaction (Feedback submitted score within 7 days of order) must not drop; modal-dismiss rate (variant C) must not exceed 80% (high dismissal = annoyance signal)
@@ -154,9 +154,9 @@ Variant: Control (above order details)
  <section class="post-purchase-upsell" data-variant="control" data-placement="above-order">
  <h2>Customers like you also bought</h2>
  <div class="upsell-carousel">
- <article class="upsell-product"><img /><h3>[Product]</h3><span>[$X.XX]</span><button id="upsell-product-1">Add to Order</button></article>
- <article class="upsell-product"><img /><h3>[Product]</h3><span>[$X.XX]</span><button id="upsell-product-2">Add to Order</button></article>
- <article class="upsell-product"><img /><h3>[Product]</h3><span>[$X.XX]</span><button id="upsell-product-3">Add to Order</button></article>
+ <article class="upsell-product"><img /><h3>(fill in: Product)</h3><span>(fill in: $X.XX)</span><button id="upsell-product-1">Add to Order</button></article>
+ <article class="upsell-product"><img /><h3>(fill in: Product)</h3><span>(fill in: $X.XX)</span><button id="upsell-product-2">Add to Order</button></article>
+ <article class="upsell-product"><img /><h3>(fill in: Product)</h3><span>(fill in: $X.XX)</span><button id="upsell-product-3">Add to Order</button></article>
  </div>
  </section>
 Variant: B (below order details)
@@ -177,4 +177,4 @@ Variant: C (inline modal, 5s delay)
  Trigger JS: setTimeout 5000ms after View page on /order-confirmation, set overlay hidden=false. Pair with a CSS modal animation.
 Taxonomy notes:
 - Email and push variants from the original template are explicitly removed because the product scope is website-only.
-- The "incremental revenue" measurement requires the upsell-attributed Placed order to be distinguished from the original purchase: typically done by session tracking joining Click on (target_id starts with "upsell-") to a subsequent Placed order within the attribution window.
+- The "incremental revenue" measurement requires the upsell-attributed Placed order to be distinguished from the original purchase: typically done by session tracking joining the click event (target_id starts with "upsell-") to a subsequent Placed order within the attribution window. Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.

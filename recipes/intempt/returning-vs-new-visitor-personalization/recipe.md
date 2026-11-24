@@ -87,10 +87,10 @@ portable:
       - Control (fallback, audience = all): no DOM changes; standard hero.
 
       - Variant B (audience = first-time visitors): the user''s {user_first_seen} is within the current session or is empty.
-      Target selector .homepage-hero. Replace the hero with a section of class homepage-hero containing an h1 ''The [category]
-      designed for [target audience]'', a paragraph ''Loved by 50,000+ customers worldwide.'', a social-proof row with a 4.8
-      star rating (2,400 reviews), ''Free shipping over $50'', and ''30-day returns'', and a primary button with id hero-cta-explore
-      labelled ''Shop bestsellers''.
+      Target selector .homepage-hero. Replace the hero with a section of class homepage-hero containing an h1 ''The (fill
+      in: category) designed for (fill in: target audience)'', a paragraph ''Loved by 50,000+ customers worldwide.'', a social-proof
+      row with a 4.8 star rating (2,400 reviews), ''Free shipping over $50'', and ''30-day returns'', and a primary button
+      with id hero-cta-explore labelled ''Shop bestsellers''.
 
       - Variant C (audience = returning visitors with abandoned cart): all of the following hold: {user_first_seen} is older
       than the current session; the user is in {abandoned_cart_audience}, meaning at least one {cart_created_event} in the
@@ -109,7 +109,8 @@ portable:
 
       Metrics to record per audience: click engagement and placed order conversion. For Variant C also record cart-resumption
       rate: the share of visitors in the abandoned-cart audience who complete a placed order within the session after seeing
-      this variant.'
+      this variant. Fill each ''(fill in: ...)'' from the brand kit or the earlier step results; if a value is missing, write
+      the sentence without it. A draft never contains a placeholder.'
 ---
 
 # New versus returning visitor hero
@@ -142,7 +143,7 @@ Targeting:
 - Devices: any
 - Display frequency: once_per_session
 Metrics:
-- Click on engagement per audience
+- clicks engagement per audience
 - Placed order conversion per audience
 - For Variant C specifically: cart-resumption rate: visitors in the abandoned-cart audience who, after seeing this variant, complete Placed order within session
 Schedule: continuous
@@ -152,7 +153,7 @@ Variant: B (first-time visitors)
  HTML target selector: .homepage-hero
  Variant DOM:
  <section class="homepage-hero" data-variant="b" data-audience="first-time">
- <h1>The [category] designed for [target audience]</h1>
+ <h1>The (fill in: category) designed for (fill in: target audience)</h1>
  <p>Loved by 50,000+ customers worldwide.</p>
  <div class="social-proof-row">
  <div class="proof-item"><span class="rating">★★★★★</span><span>4.8 (2,400 reviews)</span></div>
@@ -187,9 +188,9 @@ Taxonomy notes:
 - Users.First seen is the canonical first-touch timestamp.
 - "Returning visitor" detection: Users.First seen older than the current Session start timestamp.
 - "Abandoned cart" derivation in canonical events:
- Cart created in [now - 7 days, now]
+ Cart created in (now - 7 days, now)
  AND latest_cart_created.timestamp > MAX(Placed order.timestamp WHERE customer_id = current_user)
  OR no Placed order exists for this user
  This composite condition (last Cart created has no subsequent Placed order from the same user) is the canonical abandoned-cart pattern. Most personalization engines support this as a built-in audience template; otherwise it must be evaluated at audience-definition time using event history.
 - Variant precedence (most specific wins): C beats D beats B beats Control. Configure the audience evaluation order so abandoned-cart users get Variant C, not Variant D.
-- The the cart's items and the user's recently viewed template tokens are filled at render time by the personalization engine reading from the user's event history.
+- The the cart's items and the user's recently viewed template tokens are filled at render time by the personalization engine reading from the user's event history. Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.

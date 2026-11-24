@@ -110,7 +110,8 @@ portable:
     - s3
     instruction: 'Write a designed HTML email for each bucket from "Split into hot, warm and cold": hot leads get a demo offer;
       warm leads get case studies and an ROI calculator; cold leads get educational content. Base the tailoring on the scores
-      from "Score every lead" and the routing from "Hand hot leads to a rep".'
+      from "Score every lead" and the routing from "Hand hot leads to a rep". If the brand kit has no logo, use the brand
+      name as a plain text header.'
   - id: s5
     builds: automation
     uses:
@@ -153,7 +154,7 @@ Create a workflow routing hot leads to sales (assign owner, create task) and add
 ## Step 4: Write content for each bucket
 
 This step builds a designed marketing email (HTML).
-Generate nurture content tailored per segment: hot=demo offer, warm=case studies + ROI calc, cold=education content. Use the result of "Score every lead", "Split into hot, warm and cold", "Hand hot leads to a rep".
+Generate nurture content tailored per segment: hot=demo offer, warm=case studies + ROI calc, cold=education content. Use the result of "Score every lead", "Split into hot, warm and cold", "Hand hot leads to a rep". If the brand kit has no logo, use the brand name as a plain text header.
 
 ## Step 5: Nurture at the right pace
 

@@ -77,7 +77,9 @@ portable:
     - email_sentence_count
     instruction: Generate a designed marketing email for the users in the "Recently Churned Users" segment inviting them back.
       Write {email_sentence_count} sentences in a {email_tone} tone that ask what did not work and offer to help. Do not use
-      discount language. Include one button linking to {restart_subscription_page} for restarting the subscription.
+      discount language. Include one button linking to {restart_subscription_page} for restarting the subscription. If the
+      brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or
+      named in this step; never leave a button without a link.
   - id: s3
     builds: slack
     uses:
@@ -85,7 +87,9 @@ portable:
     - retention_slack
     instruction: Generate a Slack message to the retention team in {retention_slack}. For each user in the "Recently Churned
       Users" segment, include their email address and their {lifetime_value} so the team can track cancellation volume and
-      follow up personally with the highest-value customers.
+      follow up personally with the highest-value customers. Take names and addresses from the member list in the result of
+      the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste
+      anything in.
 ---
 
 # Recently cancelled customers
@@ -101,8 +105,8 @@ A user is in the segment only when all of these are true:
 
 ## Step 2: Draft a win-back email
 
-Generate a designed marketing email for the users in "Recently Churned Users" inviting them back. Three sentences, warm and non-defensive tone, asking what did not work and offering to help, no discount language, one button linking to the page for restarting their subscription. Use the result of "Build the recent-cancel list".
+Generate a designed marketing email for the users in "Recently Churned Users" inviting them back. Three sentences, warm and non-defensive tone, asking what did not work and offering to help, no discount language, one button linking to the page for restarting their subscription. Use the result of "Build the recent-cancel list". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.
 
 ## Step 3: Notify the retention team
 
-Generate a Slack message to the retention team channel For each user in "Recently Churned Users", name their email address and their Lifetime value, so the team can track cancellation volume and follow up personally with the highest-value ones. Use the result of "Build the recent-cancel list".
+Generate a Slack message to the retention team channel For each user in "Recently Churned Users", name their email address and their Lifetime value, so the team can track cancellation volume and follow up personally with the highest-value ones. Use the result of "Build the recent-cancel list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in.

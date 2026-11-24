@@ -198,7 +198,7 @@ Multi-split: APPROVE-ALL to execute on all records; APPROVE-SAMPLE to execute on
 
 ## Step 8: Run it and keep the receipts
 
-Configure execution step that calls back to the originator workflow with the approval scope (all / sample-only). Logs: operation executed at [time], approver [name], scope [count], originator [workflow]. Full audit trail. Includes rollback metadata (snapshot of pre-change values) so a mass-revert is possible if needed within 24 hours. Use the result of "Gate the mass changes", "Apply all, some or nothing".
+Configure execution step that calls back to the originator workflow with the approval scope (all / sample-only). Logs: operation executed at (fill in: time), approver (fill in: name), scope (fill in: count), originator (fill in: workflow). Full audit trail. Includes rollback metadata (snapshot of pre-change values) so a mass-revert is possible if needed within 24 hours. Use the result of "Gate the mass changes", "Apply all, some or nothing". Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.
 
 ## Step 9: Publish and watch rollbacks
 

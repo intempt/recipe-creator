@@ -11,8 +11,7 @@ classification:
   industry:
   - ecommerce-retail
 portable:
-  summary: Creates a short video reel of your brand character presenting your script for your brand, with its voice and
-    captions.
+  summary: Creates a short video reel of your brand character presenting your script for your brand, with its voice and captions.
   parameters:
   - name: duration
     type: enum

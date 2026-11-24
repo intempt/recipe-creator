@@ -16,12 +16,12 @@ portable:
   parameters:
   - name: producer_click_min
     type: number
-    label: Minimum Click on events for Producer
+    label: Minimum click events for Producer
     default: 10
     required: false
   - name: producer_submit_min
     type: number
-    label: Minimum Submit on events for Producer
+    label: Minimum form-submit event events for Producer
     default: 1
     required: false
   - name: consumer_session_min
@@ -36,7 +36,7 @@ portable:
     required: false
   - name: consumer_click_max
     type: number
-    label: Click on events must be below this for Consumer
+    label: click events must be below this for Consumer
     default: 5
     required: false
   - name: lurker_session_min
@@ -75,7 +75,7 @@ portable:
     meaning: A customer clicked on something in the product or site
   - slot: submit_event
     kind: event
-    meaning: A customer submitted an action such as a form submission
+    meaning: A customer submitted an action such as a form submission (a form on the site, never a survey or NPS answer)
   - slot: view_page_event
     kind: event
     meaning: A customer viewed a page
@@ -156,8 +156,8 @@ Slash command: /active-vs-passive-users
 
 Create an Insights report called "Active vs. Passive Users".
 Per-user classification computed from the trailing 30-day window:
- - Producer: emitted ≥10 Click on events AND ≥1 Submit on (taking actions, creating, configuring)
- - Consumer: emitted ≥3 Session start AND ≥10 View page BUT <5 Click on (browsing, reading, but not creating)
+ - Producer: emitted ≥10 click events AND ≥1 the form-submit event (taking actions, creating, configuring)
+ - Consumer: emitted ≥3 Session start AND ≥10 View page BUT <5 the click event (browsing, reading, but not creating)
  - Lurker: emitted ≥1 Session start in the last 30 days BUT below both thresholds above (logging in but barely engaging)
  - Inactive: zero Session start in the last 30 days
 Series A: Count Unique Users per classification bucket, time granularity: Weekly
@@ -176,5 +176,5 @@ Annotations:
 - Flag any plan tier where Producer share is materially lower than other tiers (the plan is acquiring lurkers: pricing/positioning issue).
 Use case: most engagement reports just count "active users." This recipe surfaces the hidden segment of "active but passive": users who log in regularly but never DO anything. They look retained but are pre-churn. Catching them before they go inactive is high-leverage.
 Taxonomy notes:
-- Click on, Submit on, View page, Session start are all canonical. Submit on is specifically the "user took an action" canonical event (form submissions, etc.).
+- the click event, the form-submit event, View page, Session start are all canonical. the form-submit event is specifically the "user took an action" canonical event (form submissions, etc.).
 - The classification thresholds are configurable per workspace.

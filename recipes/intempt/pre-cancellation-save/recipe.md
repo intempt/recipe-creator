@@ -196,7 +196,8 @@ portable:
       with a product manager to address feature gaps, plus a competitive comparison sheet. Feature-gap: share roadmap visibility
       for the specific missing feature plus an interim workaround. Pause-needed: offer a one-click pause of up to {max_pause_days}
       days that preserves data. Other or no reason: ask what would have made the customer stay, and offer a 1:1 call. Send
-      from the customer''s assigned customer success manager if one exists, otherwise from the shared success mailbox.'
+      from the customer''s assigned customer success manager if one exists, otherwise from the shared success mailbox. If
+      the brand kit has no logo, use the brand name as a plain text header.'
   - id: s4
     builds: automation
     uses:
@@ -251,7 +252,7 @@ Build a segment 'Cancel-intent active' capturing paying users where cancel_inten
 ## Step 3: Write one offer per reason
 
 This step builds a designed marketing email (HTML).
-Generate branched save-offer content per cancel reason. (a) Price reason: offer 20% retention discount for 3 months OR downgrade-to-lighter-plan option; (b) Unused reason: offer 60-day pause OR a 1:1 onboarding call to drive activation; (c) Competitor reason: offer a 1:1 call with PM to address feature gaps + competitive comparison sheet; (d) Feature-gap reason: roadmap visibility for the specific missing feature + interim workaround; (e) Pause-needed reason: 1-click pause for up to 90 days (preserves data); (f) Other/no-reason: ask 'what would have made you stay?' + offer 1:1 call. Send-from: the customer's CSM if assigned, else success@ address. Use the result of "Catch cancel intent live", "Find who is halfway out".
+Generate branched save-offer content per cancel reason. (a) Price reason: offer 20% retention discount for 3 months OR downgrade-to-lighter-plan option; (b) Unused reason: offer 60-day pause OR a 1:1 onboarding call to drive activation; (c) Competitor reason: offer a 1:1 call with PM to address feature gaps + competitive comparison sheet; (d) Feature-gap reason: roadmap visibility for the specific missing feature + interim workaround; (e) Pause-needed reason: 1-click pause for up to 90 days (preserves data); (f) Other/no-reason: ask 'what would have made you stay?' + offer 1:1 call. Send-from: the customer's CSM if assigned, else success@ address. Use the result of "Catch cancel intent live", "Find who is halfway out". If the brand kit has no logo, use the brand name as a plain text header.
 
 ## Step 4: Make one matched offer
 

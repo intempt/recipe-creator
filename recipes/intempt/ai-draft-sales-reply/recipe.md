@@ -122,9 +122,10 @@ portable:
       sales inbox. Step 1: compute the context in "Gather the reply context". Step 2: generate an AI reply draft using that
       context, matching the tone learned from the rep''s last {sent_sample_size} sent emails in {rep_sent_emails}. Step 3:
       save the draft to the rep''s drafts folder in {rep_gmail_drafts}. Do NOT send the message. Step 4: create a review task
-      for the rep in {rep_review_task} titled ''Review AI draft: [thread subject]'' that includes a preview of the draft and
-      a link to the source email. Step 5: send the rep a Slack direct message in {rep_slack} with the thread context and a
-      review button. The rep may send as-is, edit, or discard the draft.'
+      for the rep in {rep_review_task} titled ''Review AI draft: (fill in: thread subject)'' that includes a preview of the
+      draft and a link to the source email. Step 5: send the rep a Slack direct message in {rep_slack} with the thread context
+      and a review button. The rep may send as-is, edit, or discard the draft. Fill each ''(fill in: ...)'' from the brand
+      kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.'
   - id: s3
     builds: dashboard
     uses:
@@ -149,7 +150,7 @@ Create an AI-derived attribute 'reply_context' computed at email-received time. 
 
 ## Step 2: Draft it into the rep's outbox
 
-Create a workflow firing on email_received in the shared sales inbox OR in any active-deal email thread. Step sequence: (1) compute reply_context; (2) generate AI-drafted reply with tone matching the rep's prior outbound style (learned from their last 50 sent emails); (3) save draft to the rep's outbox folder (NOT sent: gmail/outlook draft); (4) create a task for the rep labeled 'Review AI draft: [thread subject]' with a preview of the draft and a link to the email; (5) Slack DM with thread context and 'review' button. The rep can send-as-is, edit, or discard. NO auto-send. Use the result of "Gather the reply context".
+Create a workflow firing on email_received in the shared sales inbox OR in any active-deal email thread. Step sequence: (1) compute reply_context; (2) generate AI-drafted reply with tone matching the rep's prior outbound style (learned from their last 50 sent emails); (3) save draft to the rep's outbox folder (NOT sent: gmail/outlook draft); (4) create a task for the rep labeled 'Review AI draft: (fill in: thread subject)' with a preview of the draft and a link to the email; (5) Slack DM with thread context and 'review' button. The rep can send-as-is, edit, or discard. NO auto-send. Use the result of "Gather the reply context". Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.
 
 ## Step 3: See how good the drafts are
 

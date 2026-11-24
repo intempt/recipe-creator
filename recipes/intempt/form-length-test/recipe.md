@@ -58,7 +58,8 @@ portable:
       optional: false
   - slot: experiment_goal
     kind: event
-    meaning: A visitor completed the form submission goal within an experiment exposure
+    meaning: A visitor completed the form submission goal within an experiment exposure (a form on the site, never a survey
+      or NPS answer)
   - slot: deal_created
     kind: event
     meaning: A deal or sales opportunity was created for a lead
@@ -155,13 +156,13 @@ Variant: C (7 fields)
  <form class="demo-form" id="demo-form" data-variant="c" data-field-count="7">
  [name, email, company, job title, team size: same as Variant B]
  <label>Phone (optional) <input type="tel" name="phone" /></label>
- <label>What are you hoping to achieve with [Brand]? <textarea name="use_case" rows="3" required></textarea></label>
+ <label>What are you hoping to achieve with (fill in: Brand)? <textarea name="use_case" rows="3" required></textarea></label>
  <button type="submit" class="form-submit-cta" id="demo-form-submit">Book a demo</button>
  </form>
-The Visual Editor allows the user to adjust field labels, helper text, validation messages, and input styling. Ensure the form submission event (Submit on the form_id) fires consistently across all variants for measurement.
+The Visual Editor allows the user to adjust field labels, helper text, validation messages, and input styling. Ensure the form submission event (the form-submit event of the form_id) fires consistently across all variants for measurement.
 Taxonomy notes:
 - This recipe assumes the workspace has a configurable demo-request form. The form's underlying handler (Hubspot, Marketo, custom) doesn't matter for the experiment: what changes is the visible field count.
-- Submit on with the form's id captures form submissions; goal_completed_in_experience fires when this event occurs after exposure.
+- the form-submit event with the form's id captures form submissions; goal_completed_in_experience fires when this event occurs after exposure.
 - The lead-quality-downstream measurement is the most important secondary signal. A 25% conversion at 50% SQL rate (3-field) vs. 18% at 80% SQL rate (7-field) might yield similar net pipeline. Don't ship the higher-conversion variant blindly without checking lead quality.
 - Progressive profiling alternative: instead of adding all fields at once, the form could ask 3 fields first, then ask additional fields after submission. That's a separate test (out of scope for this recipe).
-- Mobile note: shorter forms always win on mobile: consider mobile-only variant overrides.
+- Mobile note: shorter forms always win on mobile: consider mobile-only variant overrides. Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.

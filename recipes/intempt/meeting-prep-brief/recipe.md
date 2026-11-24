@@ -148,7 +148,9 @@ portable:
     instruction: Generate an HTML email template that renders the {prep_brief} attribute in a clean, scannable, utilitarian
       layout (not marketing). Place a meeting summary at top showing date, time, duration, and attendees. Below, include collapsible
       sections for account, prior touches, talking points, and competitive intel. Include a call-to-action button to view
-      the brief in the app. Use the result of "Assemble the brief".
+      the brief in the app. Use the result of "Assemble the brief". If the brand kit has no logo, use the brand name as a
+      plain text header. Every button links to a URL given for this run or named in this step; never leave a button without
+      a link.
   - id: s3
     builds: automation
     uses:
@@ -207,7 +209,7 @@ Create an AI-derived attribute on the Meeting object called 'prep_brief'. Comput
 
 ## Step 2: Lay it out to be skimmed
 
-Generate an HTML email template that renders the prep_brief attribute in a clean, scannable layout. Sections: meeting summary at top (date, time, duration, attendees), then collapsible sections for account, prior touches, talking points, competitive intel. Include a CTA button to view the brief in the app. Tone: utilitarian, not marketing. Use the result of "Assemble the brief".
+Generate an HTML email template that renders the prep_brief attribute in a clean, scannable layout. Sections: meeting summary at top (date, time, duration, attendees), then collapsible sections for account, prior touches, talking points, competitive intel. Include a CTA button to view the brief in the app. Tone: utilitarian, not marketing. Use the result of "Assemble the brief". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.
 
 ## Step 3: Send it a day before
 

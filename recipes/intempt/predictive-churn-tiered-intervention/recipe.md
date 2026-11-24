@@ -168,7 +168,7 @@ portable:
       address. High tier: urgent value reinforcement, a signal that a CSM is available, and a specific offer of help such
       as a {walkthrough_length} walkthrough on a named feature, sent from the assigned named CSM. Critical tier: a personal
       letter from the founder or CEO saying the account has not been used much and asking what would help, with a direct calendar
-      link and concrete asks.'
+      link and concrete asks. If the brand kit has no logo, use the brand name as a plain text header.'
   - id: s4
     builds: page
     uses:
@@ -256,12 +256,12 @@ Build a parent segment 'Churn risk - paying users' capturing all paying users wi
 
 ## Step 3: Write an email per band
 
-Generate per-tier email content. Medium tier: educational content matched to underutilized features that drive retention in their cohort + personalized 'pick up where you left off' deep-link. Tone: helpful, not alarmed. High tier: urgent value reinforcement, CSM availability signal, specific use-case help offer ('Want a 15-min walkthrough on [feature]?'). Critical tier: founder/CEO personal letter ('I noticed your account hasn't been used much: anything we can do?'), with direct calendar link and concrete asks. Send-from: success@ for medium, named CSM for high, founder/CEO for critical. Use the result of "Score churn risk daily", "Take everyone above 30".
+Generate per-tier email content. Medium tier: educational content matched to underutilized features that drive retention in their cohort + personalized 'pick up where you left off' deep-link. Tone: helpful, not alarmed. High tier: urgent value reinforcement, CSM availability signal, specific use-case help offer ('Want a 15-min walkthrough on (fill in: feature)?'). Critical tier: founder/CEO personal letter ('I noticed your account hasn't been used much: anything we can do?'), with direct calendar link and concrete asks. Send-from: success@ for medium, named CSM for high, founder/CEO for critical. Use the result of "Score churn risk daily", "Take everyone above 30". If the brand kit has no logo, use the brand name as a plain text header. Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.
 
 ## Step 4: Catch them when they log in
 
 This step builds a page.
-Generate in-app messages for high-tier users when they DO log in (rare and precious moments). Format: contextual banner referencing their most-likely-success-path ('Most users in your segment succeed by trying [feature] (want a 60-second walkthrough?'). For critical-tier users on rare logins: a personal-touch interrupt) full-screen modal from the CSM or founder offering a 1:1 call. Never blanket: only when AI signal is strong. Use the result of "Score churn risk daily", "Take everyone above 30", "Write an email per band".
+Generate in-app messages for high-tier users when they DO log in (rare and precious moments). Format: contextual banner referencing their most-likely-success-path ('Most users in your segment succeed by trying (fill in: feature) (want a 60-second walkthrough?'). For critical-tier users on rare logins: a personal-touch interrupt) full-screen modal from the CSM or founder offering a 1:1 call. Never blanket: only when AI signal is strong. Use the result of "Score churn risk daily", "Take everyone above 30", "Write an email per band". Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.
 
 ## Step 5: Recommend what keeps people
 

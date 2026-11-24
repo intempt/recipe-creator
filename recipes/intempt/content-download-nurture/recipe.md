@@ -128,7 +128,8 @@ portable:
       (sent {touch_2_delay} after download) shares a customer case study from a similar company or industry where the same
       topic problem was solved with our product. Touch 3 (sent {touch_3_delay} after download) makes a warm call to action:
       invite the reader to see how it works in their context by booking a 30-minute demo or trying it free for 14 days. Send
-      touches 1 and 2 from {marketing_sender} and touch 3 from {sales_sender}.'
+      touches 1 and 2 from {marketing_sender} and touch 3 from {sales_sender}. If the brand kit has no logo, use the brand
+      name as a plain text header.'
   - id: s3
     builds: automation
     uses:
@@ -175,7 +176,7 @@ Build a segment 'Recent content downloaders - last 30 days' capturing users with
 
 ## Step 2: Write three emails per topic
 
-Generate 3-touch nurture email content per content topic. Touch 1 (Day 1): 'Thanks for downloading [content title] (here's a related piece you might like') second piece of related content. Touch 2 (Day 7): customer case study from a similar company/industry where the topic problem was solved using your product. Touch 3 (Day 14): warm CTA: 'Want to see how this works in your context? Book a 30-min demo' or 'Try it free for 14 days'. Each email educational-first, sales-second. Send-from: marketing@ for touch 1-2, sales@ or AE for touch 3. Use the result of "Find recent downloaders".
+Generate 3-touch nurture email content per content topic. Touch 1 (Day 1): 'Thanks for downloading (fill in: content title) (here's a related piece you might like') second piece of related content. Touch 2 (Day 7): customer case study from a similar company/industry where the topic problem was solved using your product. Touch 3 (Day 14): warm CTA: 'Want to see how this works in your context? Book a 30-min demo' or 'Try it free for 14 days'. Each email educational-first, sales-second. Send-from: marketing@ for touch 1-2, sales@ or AE for touch 3. Use the result of "Find recent downloaders". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link. Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.
 
 ## Step 3: Send on days 1, 7 and 14
 

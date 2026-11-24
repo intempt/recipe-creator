@@ -183,7 +183,8 @@ portable:
       tried a feature but did not continue, share what most users do next, and offer 1:1 help if they want it. Authority-issue:
       offer a business-case template and a team usage summary to share with their manager. Decision-paralysis: say they have
       evaluated the product thoroughly and invite them to a 15-minute decision-clarity call. No-urgency: say there is no rush,
-      and if a deadline is approaching, offer a limited-time price-lock offer.'
+      and if a deadline is approaching, offer a limited-time price-lock offer. If the brand kit has no logo, use the brand
+      name as a plain text header.'
   - id: s4
     builds: agent
     uses:
@@ -253,11 +254,11 @@ Build a segment 'Engaged non-buyers - last 60 days' capturing users where (a) ac
 
 ## Step 3: Write one email per blocker
 
-Generate diagnostic email variants per inferred blocker. Price-sensitivity blocker: 'You're using [Product] like a paid customer: here's a 30% retention discount for the first 3 months.' Feature-gap blocker: 'We noticed you tried [feature X] but didn't continue. Here's what most users do next: and 1:1 help if you'd like.' Authority-issue blocker: 'Need help making the case internally? Here's a business-case template + your team's usage summary to share with your manager.' Decision-paralysis blocker: 'You've evaluated [Product] thoroughly. Want a 15-min decision-clarity call?' No-urgency blocker: 'No rush: but if a deadline is approaching, here's a limited-time price-lock offer.' Send-from: success@ or matched AE. Use the result of "Measure the gap", "Find engaged free users".
+Generate diagnostic email variants per inferred blocker. Price-sensitivity blocker: 'You're using (fill in: Product) like a paid customer: here's a 30% retention discount for the first 3 months.' Feature-gap blocker: 'We noticed you tried (fill in: feature X) but didn't continue. Here's what most users do next: and 1:1 help if you'd like.' Authority-issue blocker: 'Need help making the case internally? Here's a business-case template + your team's usage summary to share with your manager.' Decision-paralysis blocker: 'You've evaluated (fill in: Product) thoroughly. Want a 15-min decision-clarity call?' No-urgency blocker: 'No rush: but if a deadline is approaching, here's a limited-time price-lock offer.' Send-from: success@ or matched AE. Use the result of "Measure the gap", "Find engaged free users". If the brand kit has no logo, use the brand name as a plain text header. Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.
 
 ## Step 4: Ask what is stopping them
 
-Configure an AI agent scenario 'Engaged non-buyer diagnostic' that engages high-engagement-paradox users via in-app chat or email reply. Scenario: surface user's product usage warmly ('I see you've been using [Product] for 45 days: that's great!'), then ask the diagnostic question ('What's keeping you from upgrading? Cost, features, internal approval, timing, or something else?'). Branch on response: route price to retention-discount offer, feature-gap to PM-feedback queue + feature-roadmap signal, authority to business-case generation, timing to deferred-followup, other to human handoff. The agent generates qualified diagnostic signal for the AE/CSM, not raw chat. Use the result of "Measure the gap", "Find engaged free users".
+Configure an AI agent scenario 'Engaged non-buyer diagnostic' that engages high-engagement-paradox users via in-app chat or email reply. Scenario: surface user's product usage warmly ('I see you've been using (fill in: Product) for 45 days: that's great!'), then ask the diagnostic question ('What's keeping you from upgrading? Cost, features, internal approval, timing, or something else?'). Branch on response: route price to retention-discount offer, feature-gap to PM-feedback queue + feature-roadmap signal, authority to business-case generation, timing to deferred-followup, other to human handoff. The agent generates qualified diagnostic signal for the AE/CSM, not raw chat. Use the result of "Measure the gap", "Find engaged free users". Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.
 
 ## Step 5: Diagnose, then bring a human in
 

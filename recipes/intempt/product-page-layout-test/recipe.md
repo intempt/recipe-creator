@@ -133,7 +133,7 @@ Targeting:
 - Display frequency: always
 Primary metric: goal_completed_in_experience where experience_id = <this> (goal fires on Cart created within session of exposure)
 Secondary metrics:
-- Click on where target_id = "add-to-cart-button"
+- clicks where target_id = "add-to-cart-button"
 - Placed order within 7 days of exposure
 - Time on PDP (time from View page to next View page or Session end)
 Guardrail: bounce rate on PDPs must not increase >5%
@@ -145,11 +145,11 @@ Variant: B (full-width hero + floating panel)
  Replacement HTML:
  <article class="pdp-hero-layout" data-variant="b">
  <div class="hero-image-wrapper">
- <img src="[primary product image]" alt="[product name]" class="hero-image" />
+ <img src="(fill in: primary product image)" alt="(fill in: product name)" class="hero-image" />
  </div>
  <aside class="floating-details-panel">
- <h1 class="product-title">[Product name]</h1>
- <div class="product-price">[$X.XX]</div>
+ <h1 class="product-title">(fill in: Product name)</h1>
+ <div class="product-price">(fill in: $X.XX)</div>
  <div class="product-rating">★★★★☆ (123 reviews)</div>
  <div class="variant-selectors"><!-- size, color etc --></div>
  <button class="add-to-cart-btn" id="add-to-cart-button" data-variant="b">Add to Cart</button>
@@ -161,17 +161,17 @@ Variant: C (video-first)
  Replacement HTML:
  <article class="pdp-video-layout" data-variant="c">
  <div class="video-hero">
- <video autoplay muted loop playsinline poster="[product poster]">
- <source src="[product demo video]" type="video/mp4" />
+ <video autoplay muted loop playsinline poster="(fill in: product poster)">
+ <source src="(fill in: product demo video)" type="video/mp4" />
  </video>
  </div>
  <div class="product-actions">
- <h1>[Product name]</h1>
- <div class="product-price">[$X.XX]</div>
+ <h1>(fill in: Product name)</h1>
+ <div class="product-price">(fill in: $X.XX)</div>
  <button class="add-to-cart-btn" id="add-to-cart-button" data-variant="c">Add to Cart</button>
  </div>
  <section class="product-info"><!-- description, reviews --></section>
  </article>
 Taxonomy notes:
 - Cart created is the canonical add-to-cart event; it fires with product_id, quantity, Order total.
-- "add-to-cart-button" target_id must be preserved across variants for click-rate comparability.
+- "add-to-cart-button" target_id must be preserved across variants for click-rate comparability. Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.

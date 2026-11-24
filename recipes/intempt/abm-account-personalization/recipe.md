@@ -146,7 +146,7 @@ Targeting (experience-wide):
 - Display frequency: always
 Metrics (existing CRM/CDP: personalizations don't have hypothesis-bound primary/secondary):
 - Form submitted on demo-request form per audience (B2B's primary outcome)
-- Click on on primary CTA per audience
+- clicks on primary CTA per audience
 - Account-level engagement (View page count per identified company in the targeting window)
 Schedule: continuous
 ═══ PATH 2: Variant HTML content (Visual Editor) ═══
@@ -155,15 +155,15 @@ Variant: B (Enterprise SaaS targets)
  HTML target selector: .homepage-hero (replace contents)
  Variant DOM:
  <section class="homepage-hero" data-variant="b" data-audience="enterprise-saas">
- <h1>[Account name], scale your data ops without the platform tax</h1>
- <p>The infrastructure platform built for SaaS companies at scale. Trusted by [3-5 named SaaS customers].</p>
+ <h1>(fill in: Account name), scale your data ops without the platform tax</h1>
+ <p>The infrastructure platform built for SaaS companies at scale. Trusted by (fill in: 3-5 named SaaS customers).</p>
  <div class="hero-social-proof">
  <img src="/customers/snowflake-logo.svg" alt="Snowflake" />
  <img src="/customers/databricks-logo.svg" alt="Databricks" />
  <img src="/customers/datadog-logo.svg" alt="Datadog" />
  </div>
  <div class="hero-cta-row">
- <button class="primary-cta" id="hero-cta-demo">Book a demo with [Brand]</button>
+ <button class="primary-cta" id="hero-cta-demo">Book a demo with (fill in: Brand)</button>
  <a href="/case-studies/saas" class="secondary-link">Read SaaS case studies to </a>
  </div>
  </section>
@@ -171,7 +171,7 @@ Variant: C (Financial Services targets)
  HTML target selector: .homepage-hero (replace contents)
  Variant DOM:
  <section class="homepage-hero" data-variant="c" data-audience="financial-services">
- <h1>SOC2 + PCI compliant infrastructure for [Account name]</h1>
+ <h1>SOC2 + PCI compliant infrastructure for (fill in: Account name)</h1>
  <p>Trusted by leading banks, insurers, and fintechs to handle high-stakes financial data.</p>
  <div class="hero-social-proof">
  <img src="/customers/jpmc-logo.svg" alt="JPMorgan Chase" />
@@ -190,10 +190,10 @@ Variant: C (Financial Services targets)
  </section>
 Variant: D (Healthcare targets)
  Similar structure with HIPAA badges, healthcare customer logos, healthcare-specific copy.
-The Visual Editor allows the user to refine copy, swap customer logos to match the actual account's industry, and inject the [Account name] placeholder. Use the account's name in the HTML: the platform's personalization engine substitutes the actual account name at render time when the visitor is identified.
+The Visual Editor allows the user to refine copy, swap customer logos to match the actual account's industry, and inject the (fill in: Account name) placeholder. Use the account's name in the HTML: the platform's personalization engine substitutes the actual account name at render time when the visitor is identified.
 Taxonomy notes:
 - REQUIRES FIRMOGRAPHIC ENRICHMENT: This recipe depends on visitor-to-account identification, typically via Clearbit, Demandbase, 6sense, ZoomInfo, or IP-based reverse lookup. Without enrichment, all visitors fall through to the Control variant.
 - The Accounts object stores firmographic attributes: account_industry, account_employee_count, account_revenue, account_id, etc. Ensure these are populated by your enrichment pipeline before launching this personalization.
 - Demandbase's research shows the operational sweet spot is 4-5 distinct account segments. Beyond that, content management overhead exceeds the personalization gains.
-- For the [Account name] template substitution, the platform reads from the Users object's company association: typically `Users.company_name` or `Accounts.name` for the matched account.
-- Mutiny's playbook: tier-1 accounts (top 100 named accounts) get fully custom heroes; tier-2 (industry segments) get vertical-specific heroes; everyone else gets the default. This recipe encodes that pattern.
+- For the (fill in: Account name) template substitution, the platform reads from the Users object's company association: typically `Users.company_name` or `Accounts.name` for the matched account.
+- Mutiny's playbook: tier-1 accounts (top 100 named accounts) get fully custom heroes; tier-2 (industry segments) get vertical-specific heroes; everyone else gets the default. This recipe encodes that pattern. Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.

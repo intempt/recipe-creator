@@ -57,13 +57,17 @@ portable:
     - onboarding_guide_url
     instruction: Generate a designed marketing email for the accounts in s1 welcoming the team and pointing to the first milestone
       worth hitting. Write three sentences in a {tone} tone with no discount language. Include one button linking to {onboarding_guide_url}.
+      If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this
+      run or named in this step; never leave a button without a link.
   - id: s3
     builds: email_plain
     uses:
     - s1
     - onboarding_team_list
-    instruction: Generate a plain-text email to {onboarding_team_list}. For each account in s1, name the account so implementation
-      starts from one current list.
+    instruction: 'Generate a plain-text email to {onboarding_team_list}. For each account in s1, name the account so implementation
+      starts from one current list. Take names and addresses from the member list in the result of the step that built the
+      list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in. The plain-text
+      email is plain text only: no HTML tags, no markup and no unsubscribe line.'
 ---
 
 # Recently won accounts
@@ -78,8 +82,8 @@ An account is in the segment only when all of these are true:
 
 ## Step 2: Send an onboarding kickoff email
 
-Generate a designed marketing email for the accounts in "Recently-Won Accounts" welcoming the team and pointing to the first milestone worth hitting. Three sentences, warm and encouraging tone, no discount language, one button linking to the onboarding guide. Use the result of "Build the recently-won list".
+Generate a designed marketing email for the accounts in "Recently-Won Accounts" welcoming the team and pointing to the first milestone worth hitting. Three sentences, warm and encouraging tone, no discount language, one button linking to the onboarding guide. Use the result of "Build the recently-won list". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.
 
 ## Step 3: Notify onboarding
 
-Generate a plain-text email to the onboarding team distribution list For each account in "Recently-Won Accounts", name the account, so implementation starts from one current list. Use the result of "Build the recently-won list".
+Generate a plain-text email to the onboarding team distribution list For each account in "Recently-Won Accounts", name the account, so implementation starts from one current list. Use the result of "Build the recently-won list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in. The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe line.

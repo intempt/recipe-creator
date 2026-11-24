@@ -101,7 +101,8 @@ portable:
     - trial_high_engagement_segment
     instruction: Send a Slack message to the {salesChannel} channel for each user in {trial_high_engagement_segment} listing
       their email address {subscription_started_event.email} so reps can reach out while interest is at its peak. Use the
-      result of "Build the fast-starter list".
+      result of "Build the fast-starter list". Take names and addresses from the member list in the result of the step that
+      built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in.
   - id: s3
     builds: email
     uses:
@@ -112,7 +113,9 @@ portable:
     - brand
     instruction: Create a designed marketing email for users in {trial_high_engagement_segment} congratulating them on their
       fast start and offering a personal onboarding session. Write exactly three sentences in a {tone} tone with no discount
-      language. Include one button linking to {callBookingUrl}. Use the result of "Build the fast-starter list".
+      language. Include one button linking to {callBookingUrl}. Use the result of "Build the fast-starter list". If the brand
+      kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named
+      in this step; never leave a button without a link.
 ---
 
 # Fast-starter trials
@@ -129,8 +132,8 @@ A user is in the segment only when all of these are true:
 
 ## Step 2: Fast-track to sales
 
-Generate a Slack message to the sales channel For each user in "Trial Users: High Engagement", name their email address, so reps can reach out while interest is at its peak. Use the result of "Build the fast-starter list".
+Generate a Slack message to the sales channel For each user in "Trial Users: High Engagement", name their email address, so reps can reach out while interest is at its peak. Use the result of "Build the fast-starter list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in.
 
 ## Step 3: Offer a personal onboarding session
 
-Generate a designed marketing email for the users in "Trial Users: High Engagement" congratulating them on their fast start and offering a personal onboarding session. Three sentences, warm and encouraging tone, no discount language, one button linking to a call-booking page. Use the result of "Build the fast-starter list".
+Generate a designed marketing email for the users in "Trial Users: High Engagement" congratulating them on their fast start and offering a personal onboarding session. Three sentences, warm and encouraging tone, no discount language, one button linking to a call-booking page. Use the result of "Build the fast-starter list". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.

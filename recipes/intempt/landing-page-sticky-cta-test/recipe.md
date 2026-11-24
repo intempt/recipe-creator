@@ -67,7 +67,7 @@ portable:
   - name: cta_bar_message
     type: text
     label: Sticky bar message
-    default: '[Brand]: see it in action in 15 minutes'
+    default: '(fill in: Brand): see it in action in 15 minutes'
     required: false
   - name: cta_button_label
     type: string
@@ -182,8 +182,8 @@ Targeting:
 - Display frequency: always (within session)
 Primary metric: goal_completed_in_experience where experience_id = <this> (goal: Form submitted on demo-request OR User created via signup, within session of exposure)
 Secondary metrics:
-- Click on where target_id = "sticky-cta-button" (sticky CTA engagement rate)
-- Click on where target_id = "hero-cta-button" (does sticky cannibalize hero clicks?)
+- clicks where target_id = "sticky-cta-button" (sticky CTA engagement rate)
+- clicks where target_id = "hero-cta-button" (does sticky cannibalize hero clicks?)
 - Bounce rate per variant (variant B's always-visible may feel pushy)
 - Scroll depth (does sticky reduce scroll engagement?)
 Guardrail: bounce rate must not increase >5%; scroll-depth-to-50% rate must not drop >10%
@@ -195,7 +195,7 @@ Variant: B (always-visible sticky CTA)
  Variant DOM:
  <div class="sticky-cta-bar sticky-cta-bar--top" data-variant="b" data-trigger="immediate" style="position:fixed;top:0;left:0;right:0;background:#fff;border-bottom:1px solid #eee;padding:12px 24px;z-index:1000;display:flex;align-items:center;justify-content:space-between;">
  <div class="sticky-cta-message">
- <strong>[Brand]</strong>: see it in action in 15 minutes
+ <strong>(fill in: Brand)</strong>: see it in action in 15 minutes
  </div>
  <button class="sticky-cta-button" id="sticky-cta-button" data-variant="b">Book a demo</button>
  </div>
@@ -209,6 +209,6 @@ Variant: C (fade-in sticky CTA)
 The Visual Editor allows the user to refine the sticky bar's color, copy, button styling, and animation timing. Mobile note: ensure the sticky bar respects the iOS Safari URL bar and doesn't double-stack with mobile browser chrome.
 Taxonomy notes:
 - This is distinct from mobile-sticky-add-to-cart-test (which is ecommerce PDP-specific, mobile-only). Landing-page sticky CTA applies to SaaS marketing pages on all devices.
-- target_id="sticky-cta-button" must be preserved across variants B and C for consistent Click on aggregation.
+- target_id="sticky-cta-button" must be preserved across variants B and C for consistent click event aggregation.
 - Variant C's fade-in is generally less intrusive but has slightly lower engagement than Variant B's always-visible. The test answers: which tradeoff wins for your audience?
-- For dark-launching: ship Variant B first to a small traffic slice (5%) to confirm no layout regressions before full experiment ramp.
+- For dark-launching: ship Variant B first to a small traffic slice (5%) to confirm no layout regressions before full experiment ramp. Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.

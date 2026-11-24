@@ -81,15 +81,20 @@ portable:
     - call_booking_url
     instruction: Generate a designed marketing email for the accounts in "Build the whitespace list" checking in on how the
       team is using the product and surfacing one feature they may not have tried yet. Three sentences, {checkin_tone} tone,
-      no pricing language, one button linking to {call_booking_url}.
+      no pricing language, one button linking to {call_booking_url}. If the brand kit has no logo, use the brand name as a
+      plain text header. Every button links to a URL given for this run or named in this step; never leave a button without
+      a link.
   - id: s3
     builds: email_plain
     uses:
     - account_executives_list
     - account_employees
     - s1
-    instruction: Generate a plain-text email to {account_executives_list}. For each account in "Build the whitespace list",
-      name the account and its {account_employees} count, so they can review each one for expansion opportunity.
+    instruction: 'Generate a plain-text email to {account_executives_list}. For each account in "Build the whitespace list",
+      name the account and its {account_employees} count, so they can review each one for expansion opportunity. Take names
+      and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never
+      write a placeholder or ask the reader to paste anything in. The plain-text email is plain text only: no HTML tags, no
+      markup and no unsubscribe line.'
 ---
 
 # Expansion whitespace accounts
@@ -105,8 +110,8 @@ An account is in the segment only when all of these are true:
 
 ## Step 2: Send a value check-in
 
-Generate a designed marketing email for the accounts in "Expansion Whitespace Accounts" checking in on how the team is using the product and surfacing one feature they may not have tried yet. Three sentences, consultative and helpful tone, no pricing language, one button linking to a call-booking page. Use the result of "Build the whitespace list".
+Generate a designed marketing email for the accounts in "Expansion Whitespace Accounts" checking in on how the team is using the product and surfacing one feature they may not have tried yet. Three sentences, consultative and helpful tone, no pricing language, one button linking to a call-booking page. Use the result of "Build the whitespace list". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.
 
 ## Step 3: Flag to account executives
 
-Generate a plain-text email to the account executive distribution list For each account in "Expansion Whitespace Accounts", name the account and its employees count, so they can review each one for expansion opportunity. Use the result of "Build the whitespace list".
+Generate a plain-text email to the account executive distribution list For each account in "Expansion Whitespace Accounts", name the account and its employees count, so they can review each one for expansion opportunity. Use the result of "Build the whitespace list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in. The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe line.

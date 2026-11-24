@@ -144,7 +144,7 @@ Annotations:
 - Flag if >40% of pipeline value is concentrated in late stages (proposal/negotiation): execution risk if any major deal slips.
 - Flag if >40% of pipeline value is concentrated in early stages (qualification/discovery): pipeline thin on near-term close-able deals.
 - Highlight the largest single deal in the pipeline (by Deal created.amount): single-deal concentration risk.
-- Add a 30-day delta callout: "Pipeline grew/shrank by $X (Y%) vs. 30 days ago. Net change driven primarily by [stage_X movement / new deals / closed deals]."
+- Add a 30-day delta callout: "Pipeline grew/shrank by $X (Y%) vs. 30 days ago. Net change driven primarily by (one of: stage_X movement / new deals / closed deals)."
 Use case: the headline pipeline metric every sales VP and CRO looks at first thing each morning. Distinct from deal-velocity-by-stage (which is about how fast deals move): this is about how much money is currently in motion and where it sits.
 Taxonomy notes:
 - Deal stage changed carries amount, new_stage, previous_stage, deal_id, currency.

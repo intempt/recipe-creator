@@ -124,7 +124,8 @@ portable:
       fact from "Summarise what they do" (not generic). Structure it as 2-3 sentences: first a specific fact from the research
       (for example ''I saw your team is expanding into APAC...''), then a value hypothesis (for example ''Teams growing internationally
       typically struggle with X: that is where we help''), then a soft call to action. Store the draft on the account as ai_drafted_opening
-      for SDR review and editing. Never send automatically.'
+      for SDR review and editing. Never send automatically. If the brand kit has no logo, use the brand name as a plain text
+      header.'
   - id: s6
     builds: attribute
     uses:
@@ -169,12 +170,12 @@ Configure AI research step that takes the scraped content and produces a structu
 ## Step 4: Score them against your ICP
 
 This step builds a workflow.
-Configure a second AI step that scores ICP fit using the company summary + a provided ICP definition (industry, size, tech, use cases). Output: numeric 0-100 score + reasoning string ('Strong fit because they are a B2B SaaS in [target industry] with ~50 employees and recently raised Series A: matches our ICP for growth-stage teams'). Records a structured fit_score + fit_reasoning attribute. Use the result of "Start on a high value account", "Summarise what they do".
+Configure a second AI step that scores ICP fit using the company summary + a provided ICP definition (industry, size, tech, use cases). Output: numeric 0-100 score + reasoning string ('Strong fit because they are a B2B SaaS in (fill in: target industry) with ~50 employees and recently raised Series A: matches our ICP for growth-stage teams'). Records a structured fit_score + fit_reasoning attribute. Use the result of "Start on a high value account", "Summarise what they do". Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.
 
 ## Step 5: Draft the opening line
 
 This step builds a workflow.
-Configure AI write step that produces a draft outreach opener referencing specific findings (not generic). Format: 2-3 sentences referencing a SPECIFIC fact from the research ('I saw your team is expanding into APAC...'), then a value-hypothesis ('Teams growing internationally typically struggle with X: that's where we help'), then a soft CTA. Output stored on the account for SDR review-and-edit, never auto-sent. Use the result of "Start on a high value account", "Summarise what they do", "Score them against your ICP".
+Configure AI write step that produces a draft outreach opener referencing specific findings (not generic). Format: 2-3 sentences referencing a SPECIFIC fact from the research ('I saw your team is expanding into APAC...'), then a value-hypothesis ('Teams growing internationally typically struggle with X: that's where we help'), then a soft CTA. Output stored on the account for SDR review-and-edit, never auto-sent. Use the result of "Start on a high value account", "Summarise what they do", "Score them against your ICP". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.
 
 ## Step 6: Write it onto the account
 

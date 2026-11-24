@@ -16,7 +16,7 @@ portable:
   parameters:
   - name: target_id
     type: string
-    label: Target feature identifier (Click on target_id) to analyse
+    label: Target feature identifier (click event target_id) to analyse
     default: most-clicked target_id matching the feature pattern in the last 30 days
     required: false
   - name: adoption_window
@@ -99,10 +99,10 @@ Slash command: /retention-lifted-by-feature-adoption
 ## Step 1: Compare adopters and non adopters
 
 Create a Retention report called "Retention Lifted by Feature Adoption".
-Configuration: this recipe runs for a configurable target feature, identified by Click on.target_id (default: the most-clicked target_id matching the feature pattern in the last 30 days; user can specify).
+Configuration: this recipe runs for a configurable target feature, identified by the click event.target_id (default: the most-clicked target_id matching the feature pattern in the last 30 days; user can specify).
 Cohort definitions:
-- Cohort A: users who emitted a Click on event with the target_id within their first 7 days after User created ("early adopters")
-- Cohort B: users who did NOT emit a Click on with the target_id within their first 7 days ("non-adopters")
+- Cohort A: users who emitted a click events with the target_id within their first 7 days after User created ("early adopters")
+- Cohort B: users who did NOT emit a click event with the target_id within their first 7 days ("non-adopters")
 Anchor event: User created
 Return event: Session start
 Cohort granularity: Weekly (signup cohorts based on User created)
@@ -120,5 +120,5 @@ Annotations:
 - Highlight the cohort size of "early adopters": if it's <30% of the base, the feature isn't getting enough first-week exposure.
 Surface whether the target feature is genuinely retention-correlated. This is the canonical "magic moment" / "north-star action" analysis.
 Taxonomy notes:
-- Click on.target_id is the canonical feature handle. User created and Session start are canonical.
-- Cohort A/B split is computed from the existence of a Click on event with the matching target_id within 7 days of User created.
+- the click event.target_id is the canonical feature handle. User created and Session start are canonical.
+- Cohort A/B split is computed from the existence of a click events with the matching target_id within 7 days of User created.

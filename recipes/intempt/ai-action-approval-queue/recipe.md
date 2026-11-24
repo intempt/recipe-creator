@@ -118,7 +118,9 @@ portable:
     instruction: Create a workflow 'AI action approval queue' that intercepts high-stakes AI-generated actions and requires
       human approval before execution. Trigger it when a requested action has an ARR at or above {arr_threshold}, a segment
       size at or above {segment_size_threshold}, an AI confidence below {confidence_threshold}, or an action type of update_records,
-      send_email, route_lead or make_decision that is flagged as high-stakes. Keep the threshold values configurable.
+      send_email, route_lead or make_decision that is flagged as high-stakes. Keep the threshold values configurable. Take
+      every count from the result of the step that built the list; if it is not there, name the segment or report instead.
+      A draft never contains a placeholder in square brackets.
   - id: s2
     builds: webhook
     uses:

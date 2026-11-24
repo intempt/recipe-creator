@@ -75,7 +75,8 @@ portable:
     - product_viewed
     - product_feed
     instruction: Write browse-recovery email content for the people in {browsers_segment}, highlighting the products they
-      viewed ({product_viewed.product}) and similar items from {product_feed}.
+      viewed ({product_viewed.product}) and similar items from {product_feed}. If the brand kit has no logo, use the brand
+      name as a plain text header.
   - id: s3
     builds: automation
     uses:
@@ -136,7 +137,7 @@ Identify users with product_viewed events in last 7 days who did NOT trigger car
 
 ## Step 2: Write the browse reminder
 
-Generate browse-recovery email content highlighting the viewed products and similar items. Use the result of "Find people who only browsed".
+Generate browse-recovery email content highlighting the viewed products and similar items. Use the result of "Find people who only browsed". If the brand kit has no logo, use the brand name as a plain text header.
 
 ## Step 3: Send at 24 and 72 hours
 

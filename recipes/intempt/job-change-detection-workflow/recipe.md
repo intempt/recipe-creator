@@ -125,10 +125,11 @@ portable:
     - s5
     - ae_owner
     - sla_business_days
-    instruction: 'Create an urgent task for the assigned {ae_owner} (customer or open deal). Text: ''Your champion [Name]
-      just left for [New Company]. Replacement candidates identified: [list]. Suggested action: warm intro through [Departed
-      champion] if relationship is good, else cold outreach to replacement.'' Require contact within {sla_business_days} business
-      days.'
+    instruction: 'Create an urgent task for the assigned {ae_owner} (customer or open deal). Text: ''Your champion (fill in:
+      Name) just left for (fill in: New Company). Replacement candidates identified: (fill in: list). Suggested action: warm
+      intro through (fill in: Departed champion) if relationship is good, else cold outreach to replacement.'' Require contact
+      within {sla_business_days} business days. Fill each ''(fill in: ...)'' from the brand kit or the earlier step results;
+      if a value is missing, write the sentence without it. A draft never contains a placeholder.'
   - id: s7
     builds: automation
     uses:
@@ -145,9 +146,11 @@ portable:
     - s7
     - sdr_team
     - warm_window
-    instruction: 'Create an SDR task for the new-company outreach with the text: ''Warm signal: [Champion name] (your ally
-      at [Old company]) just joined [New company]. Suggested outreach: congratulate the move, ask if they could use the same
-      approach at their new role.'' Set priority HIGH and a deadline within {warm_window} of the job change.'
+    instruction: 'Create an SDR task for the new-company outreach with the text: ''Warm signal: (fill in: Champion name) (your
+      ally at (fill in: Old company)) just joined (fill in: New company). Suggested outreach: congratulate the move, ask if
+      they could use the same approach at their new role.'' Set priority HIGH and a deadline within {warm_window} of the job
+      change. Fill each ''(fill in: ...)'' from the brand kit or the earlier step results; if a value is missing, write the
+      sentence without it. A draft never contains a placeholder.'
   - id: s9
     builds: report
     uses:
@@ -188,7 +191,7 @@ AI research step on the customer/deal branch: scrape the old company's leadershi
 ## Step 6: Tell the CSM or AE to act
 
 This step builds a workflow.
-Create urgent task for the assigned CSM (customer) or AE (open deal): 'Your champion [Name] just left for [New Company]. Replacement candidates identified: [list]. Suggested action: warm intro through [Departed champion] if relationship is good, else cold outreach to replacement.' SLA: contact within 5 business days: champion-gone deals stall fast. Use the result of "Run both plays on a move", "Find who replaces them".
+Create urgent task for the assigned CSM (customer) or AE (open deal): 'Your champion (fill in: Name) just left for (fill in: New Company). Replacement candidates identified: (fill in: list). Suggested action: warm intro through (fill in: Departed champion) if relationship is good, else cold outreach to replacement.' SLA: contact within 5 business days: champion-gone deals stall fast. Use the result of "Run both plays on a move", "Find who replaces them". Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.
 
 ## Step 7: Check if we know the new firm
 
@@ -198,7 +201,7 @@ Find-records step on the departed-to-new-company branch: is the new company alre
 ## Step 8: Chase them at the new place
 
 This step builds a workflow.
-Create SDR task for the new-company outreach: 'Warm signal: [Champion name] (your ally at [Old company]) just joined [New company]. Suggested outreach: congratulate the move, ask if they could use the same approach at their new role.' Priority: HIGH (warm signals decay; reach out within 30 days of job change). Use the result of "Run both plays on a move", "Check if we know the new firm".
+Create SDR task for the new-company outreach: 'Warm signal: (fill in: Champion name) (your ally at (fill in: Old company)) just joined (fill in: New company). Suggested outreach: congratulate the move, ask if they could use the same approach at their new role.' Priority: HIGH (warm signals decay; reach out within 30 days of job change). Use the result of "Run both plays on a move", "Check if we know the new firm". Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.
 
 ## Step 9: Publish and track both sides
 

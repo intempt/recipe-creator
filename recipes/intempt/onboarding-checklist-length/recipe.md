@@ -144,7 +144,7 @@ Targeting:
 - Display frequency: always (during user's first session) or once (sticky to first visit)
 Primary metric: goal_completed_in_experience where experience_id = <this> (the goal fires when the user completes their nominated activation milestone within 7 days of exposure)
 Secondary metrics:
-- Click on per checklist step (per-step completion rate)
+- clicks per checklist step (per-step completion rate)
 - Completed a journey goal within 7 days (existing activation journey completion)
 - Session start day-2 / day-7 (engagement after onboarding)
 Guardrail: 14-day Session start retention must not drop >3 percentage points
@@ -170,7 +170,7 @@ Variant: C (7 steps)
  Same wrapper, add 2 more:
  <li class="checklist-step" id="step-6"><a href="/tutorial">Watch the tutorial</a></li>
  <li class="checklist-step" id="step-7"><a href="/settings/notifications">Configure notifications</a></li>
-User refines the step copy, icons, and ordering in the Visual Editor. Ensure each step has a stable target_id (step-1, step-2, etc.) so per-step Click on metrics roll up consistently.
+User refines the step copy, icons, and ordering in the Visual Editor. Ensure each step has a stable target_id (step-1, step-2, etc.) so per-step click event metrics roll up consistently.
 Taxonomy notes:
 - The "activation milestone" is project-defined: typically Completed a journey goal for the activation journey. This recipe assumes the activation journey is configured separately.
 - Session start is the canonical engagement signal.

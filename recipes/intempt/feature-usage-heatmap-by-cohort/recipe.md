@@ -76,7 +76,7 @@ Slash command: /feature-usage-heatmap-by-cohort
 ## Step 1: Heatmap features against cohorts
 
 Create an Insights report called "Feature Usage by Cohort".
-Series A: Event "Click on" filtered by target_id (matching a defined feature pattern), aggregation: Count Unique Users
+Series A: the click event filtered by target_id (matching a defined feature pattern), aggregation: Count Unique Users
 Series B: Computed: Series A / cohort size × 100, unit: %, label: "Adoption Rate within Cohort"
 Breakdown: By target_id (feature) AND by cohort month derived from User.First seen (system-set datetime) bucketed to month
 Time range: Last 90 days of usage; cohorts from Users with First seen in the last 6 months
@@ -89,4 +89,4 @@ Annotations:
 Surface which features need to be re-introduced to recent cohorts and which cohort months had degraded onboarding.
 Taxonomy notes:
 - Users.First seen is a system-set datetime; "signup_cohort_month" is a derived bucketing of First seen, not a stored property.
-- Click on.target_id is the canonical feature handle.
+- the click event.target_id is the canonical feature handle.

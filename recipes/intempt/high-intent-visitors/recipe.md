@@ -79,15 +79,17 @@ portable:
     - pricingPageLink
     instruction: Write a push notification for the users in {high_intent_visitors} highlighting one feature from {paid_only_feature}
       that is available only on a paid plan. Keep the title under {pushTitleMaxChars} characters, add one short body line,
-      use a {pushTone} tone, and deep link to {pricingPageLink}.
+      use a {pushTone} tone, and deep link to {pricingPageLink}. Write no template tag or placeholder (such as a deeplink
+      tag) in the push title or body; a link, if any, is the URL given for this run.
   - id: s3
     builds: email_plain
     uses:
     - s1
     - high_intent_visitors
     - growth_team_list
-    instruction: Write a plain-text email to {growth_team_list} listing the email address of each user in {high_intent_visitors}
-      so outreach can be timed to their actual research activity.
+    instruction: 'Write a plain-text email to {growth_team_list} listing the email address of each user in {high_intent_visitors}
+      so outreach can be timed to their actual research activity. The plain-text email is plain text only: no HTML tags, no
+      markup and no unsubscribe line.'
 ---
 
 # Free users researching heavily
@@ -103,8 +105,8 @@ A user is in the segment only when all of these are true:
 
 ## Step 2: Nudge toward a paid feature
 
-Generate a push notification for the users in "High-Intent Visitors" highlighting one feature only available on a paid plan. Title under 40 characters, one short body line, helpful and not pushy tone, deep link to the pricing page. Use the result of "Build the high-intent list".
+Generate a push notification for the users in "High-Intent Visitors" highlighting one feature only available on a paid plan. Title under 40 characters, one short body line, helpful and not pushy tone, deep link to the pricing page. Use the result of "Build the high-intent list". Write no template tag or placeholder (such as a deeplink tag) in the push title or body; a link, if any, is the URL given for this run.
 
 ## Step 3: Share the shortlist with growth
 
-Generate a plain-text email to the growth team distribution list For each user in "High-Intent Visitors", name their email address, so outreach can be timed to their actual research activity. Use the result of "Build the high-intent list".
+Generate a plain-text email to the growth team distribution list For each user in "High-Intent Visitors", name their email address, so outreach can be timed to their actual research activity. Use the result of "Build the high-intent list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in. The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe line.

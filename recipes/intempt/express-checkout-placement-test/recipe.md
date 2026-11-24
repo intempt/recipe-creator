@@ -140,7 +140,7 @@ Targeting:
 - Display frequency: always
 Primary metric: goal_completed_in_experience where experience_id = <this> AND value > 0 (revenue from Placed order within session of exposure)
 Secondary metrics:
-- Click on where target_id = "apple-pay-button" OR "google-pay-button" OR "shop-pay-button" (express-checkout engagement rate)
+- clicks where target_id = "apple-pay-button" OR "google-pay-button" OR "shop-pay-button" (express-checkout engagement rate)
 - Placed order where payment_method IN ("apple_pay", "google_pay", "shop_pay"): share of express orders per variant
 - Mobile vs. desktop conversion rate split (express checkout is mobile-dominant)
 - AOV per variant (express checkout users may have different basket profiles)

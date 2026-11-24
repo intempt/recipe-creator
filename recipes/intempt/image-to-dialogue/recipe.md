@@ -11,8 +11,8 @@ classification:
   industry:
   - industry-agnostic
 portable:
-  summary: Turns a script into a talking-portrait video of your brand character, with spoken audio generated from the
-    script and subtle motion that keeps the face recognisable.
+  summary: Turns a script into a talking-portrait video of your brand character, with spoken audio generated from the script
+    and subtle motion that keeps the face recognisable.
   parameters:
   - name: script
     type: text

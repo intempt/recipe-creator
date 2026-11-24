@@ -63,7 +63,7 @@ portable:
     - brand_voice
     instruction: 'Write a designed HTML win-back email for each tier from "Sort lapsed users by the gap": a gentle nudge for
       early-lapsed users, a value reminder for mid-lapsed users, and an exclusive offer for deep-lapsed users. Keep the content
-      aligned with {brand_voice}.'
+      aligned with {brand_voice}. If the brand kit has no logo, use the brand name as a plain text header.'
   - id: s3
     builds: automation
     uses:
@@ -103,7 +103,7 @@ Segment lapsed users into tiers: 30-60 days inactive, 60-120 days inactive, 120+
 ## Step 2: Write content per tier
 
 This step builds a designed marketing email (HTML).
-Generate tier-appropriate win-back content: gentle for early-lapsed, value-reminder for mid, exclusive offer for deep-lapsed. Use the result of "Sort lapsed users by the gap".
+Generate tier-appropriate win-back content: gentle for early-lapsed, value-reminder for mid, exclusive offer for deep-lapsed. Use the result of "Sort lapsed users by the gap". If the brand kit has no logo, use the brand name as a plain text header.
 
 ## Step 3: Escalate the offer by tier
 

@@ -105,7 +105,7 @@ Slash command: /feature-adoption-by-plan
 ## Step 1: Map feature use to plan tier
 
 Create an Insights report called "Feature Adoption by Plan".
-Series A: Event "Click on" filtered by target_id (a stable identifier representing a feature surface: e.g. /feature/<feature-slug>), aggregation: Count Unique Users
+Series A: the click event filtered by target_id (a stable identifier representing a feature surface: e.g. /feature/<feature-slug>), aggregation: Count Unique Users
 Series B: Computed: Series A / total active users in the same plan tier × 100, unit: %, label: "Adoption Rate"
 Breakdown: By target_id (the feature) on the X axis, secondary breakdown by Plan (resolved from the user's most-recent Subscription started.Plan) on the Y axis
 Time range: Last 30 days
@@ -118,6 +118,6 @@ Annotations:
 - Highlight features used by >40% of paying users: these are the load-bearing features whose performance and reliability matter most.
 - Highlight features where higher-tier users adopt at >2× the rate of lower-tier users (the best upgrade-pitch features).
 Taxonomy notes:
-- Click on carries target_id, target_text, target_class, target_tag, hierarchy, path. The product team identifies features by stable target_id values.
+- the click event carries target_id, target_text, target_class, target_tag, hierarchy, path. The product team identifies features by stable target_id values.
 - "feature_name" is not a canonical property; target_id (or target_text for human labels) is the canonical handle.
 - Plan lives on Subscription started; this requires joining to the user's active subscription.

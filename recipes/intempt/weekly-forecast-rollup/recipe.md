@@ -113,7 +113,7 @@ portable:
       items: weighted forecast versus {quota_attribute}, week-over-week pipeline change, and top deal moves this week. Follow
       with the full report from "Snapshot the pipeline" rendered as a scannable HTML table. Tone: concise and exec-ready.
       Send from the CRO or VP Sales address via {leadership_email_sender}, not a no-reply system. Use the result of "Snapshot
-      the pipeline".'
+      the pipeline". If the brand kit has no logo, use the brand name as a plain text header.'
   - id: s3
     builds: automation
     uses:
@@ -160,7 +160,7 @@ Build an insights report 'Weekly pipeline forecast snapshot' computing: (a) tota
 
 ## Step 2: Write the leadership email
 
-Generate a weekly forecast snapshot email for sales leadership. Structure: executive summary at top (one sentence per: weighted forecast vs. quota, week-over-week pipeline change, top deal moves this week), then the full report rendered as a scannable HTML table. Tone: concise, exec-ready. Send-from: the CRO or VP Sales address (not from a no-reply system). Use the result of "Snapshot the pipeline".
+Generate a weekly forecast snapshot email for sales leadership. Structure: executive summary at top (one sentence per: weighted forecast vs. quota, week-over-week pipeline change, top deal moves this week), then the full report rendered as a scannable HTML table. Tone: concise, exec-ready. Send-from: the CRO or VP Sales address (not from a no-reply system). Use the result of "Snapshot the pipeline". If the brand kit has no logo, use the brand name as a plain text header.
 
 ## Step 3: Send it Monday at 7am
 

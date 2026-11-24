@@ -118,7 +118,8 @@ portable:
       feature that complements the aha action (cross-sell within the product, not an upsell to a plan), with a brief how-to
       and an in-app deep link, using {product_deep_link_base}. Touch 3 (sent {touch_3_delay} after the aha moment): introduce
       a power-user behavior using the line ''now that you''ve done this, here''s how power users go further'', with the aim
-      of moving the user from trying the feature to relying on it.'
+      of moving the user from trying the feature to relying on it. If the brand kit has no logo, use the brand name as a plain
+      text header.'
   - id: s3
     builds: automation
     uses:
@@ -162,7 +163,7 @@ Build a segment 'Recent aha-moment achievers' capturing users who completed the 
 
 ## Step 2: Write three follow up emails
 
-Generate 3-touch reinforcement email content. Touch 1 (24 hours after aha): celebrate the milestone, frame it as a meaningful first step, share 1-2 success stories of users who achieved similar moments. Tone: warm, motivating. Touch 2 (Day 5): point to the natural next feature that complements the aha action (cross-sell within the product, not upsell to plan). Include a brief how-to and an in-app deep link. Touch 3 (Day 10): introduce a power-user behavior: 'now that you've [done aha], here's how power users go further.' Aim: shift user from 'tried it' to 'depends on it'. Use the result of "Find people who just got value".
+Generate 3-touch reinforcement email content. Touch 1 (24 hours after aha): celebrate the milestone, frame it as a meaningful first step, share 1-2 success stories of users who achieved similar moments. Tone: warm, motivating. Touch 2 (Day 5): point to the natural next feature that complements the aha action (cross-sell within the product, not upsell to plan). Include a brief how-to and an in-app deep link. Touch 3 (Day 10): introduce a power-user behavior: 'now that you've (fill in: done aha), here's how power users go further.' Aim: shift user from 'tried it' to 'depends on it'. Use the result of "Find people who just got value". If the brand kit has no logo, use the brand name as a plain text header. Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.
 
 ## Step 3: Send on days 1, 5 and 10
 

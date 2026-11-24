@@ -97,7 +97,8 @@ portable:
       1 (day 0) opens: ''It''s been a few months: wanted to check in. Last time we talked, {deal_lost_event.lost_reason}.
       Has anything changed?'' Reference specific prior conversation context. Keep it a soft re-open, not a sales pitch. Touch
       2 (day 14, if no reply) shares a relevant product update or customer story from a similar account that addresses the
-      original objection. Send from {ae_owner}. Use a {tone} tone that acknowledges the prior no.'
+      original objection. Send from {ae_owner}. Use a {tone} tone that acknowledges the prior no. If the brand kit has no
+      logo, use the brand name as a plain text header.'
   - id: s3
     builds: automation
     uses:
@@ -150,7 +151,7 @@ Build a segment 'Closed-lost revival candidates' capturing deals where Deal lost
 
 ## Step 2: Write two revival emails
 
-Generate 2-touch revival email content. Touch 1 (Day 0): 'It's been a few months: wanted to check in. Last time we talked, [original_lost_reason]. Has anything changed?' Reference specific prior conversation context. Soft re-open, not a sales pitch. Touch 2 (Day 14, if no reply): share a relevant product update or customer story from a similar account that addresses their original objection. Send-from: the original AE owner. Tone: warm, low-pressure, acknowledging the prior 'no'. Use the result of "Find losses worth revisiting".
+Generate 2-touch revival email content. Touch 1 (Day 0): 'It's been a few months: wanted to check in. Last time we talked, (fill in: original_lost_reason). Has anything changed?' Reference specific prior conversation context. Soft re-open, not a sales pitch. Touch 2 (Day 14, if no reply): share a relevant product update or customer story from a similar account that addresses their original objection. Send-from: the original AE owner. Tone: warm, low-pressure, acknowledging the prior 'no'. Use the result of "Find losses worth revisiting". If the brand kit has no logo, use the brand name as a plain text header. Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.
 
 ## Step 3: Check what changed first
 

@@ -98,7 +98,7 @@ Slash command: /feature-paywall-conversion
 ## Step 1: Rank features by paid conversion
 
 Create an Insights report called "Feature to Paywall Conversion".
-Series A: Event "Click on" filtered by target_id matching a feature pattern, scoped to free-plan users (users without a paid Subscription started), aggregation: Count Unique Users per target_id, label: "Free Users Who Tried Feature"
+Series A: the click event filtered by target_id matching a feature pattern, scoped to free-plan users (users without a paid Subscription started), aggregation: Count Unique Users per target_id, label: "Free Users Who Tried Feature"
 Series B: Of the users in Series A, those who subsequently emitted a View page where Page URL contains "/pricing" within 30 days of the feature click, label: "Reached Paywall"
 Series C: Of the users in Series A, those who subsequently emitted Subscription started (with trial_end null: paid, non-trial) within 30 days, label: "Converted to Paid"
 Series D: Computed: Series B / Series A × 100, unit: %, label: "Feature to Paywall Rate"
@@ -118,6 +118,6 @@ Annotations:
 - Surface the feature with the largest Free to Paywall conversion gap (Series D much higher than Series E): pricing-perception issue specific to that feature.
 Use case: Kyle Poyar's (OpenView) most-shared Amplitude template. Tells the product team which features to gate behind the paywall vs. which to give away vs. which to deprecate. The single most-actionable monetization analysis a SaaS product can run.
 Taxonomy notes:
-- Click on.target_id is the canonical feature handle.
+- the click event.target_id is the canonical feature handle.
 - View page.Page URL filtered to /pricing identifies paywall views.
 - Subscription started.trial_end null distinguishes paid from trial.

@@ -72,7 +72,8 @@ portable:
     - email_tone
     instruction: Generate a designed marketing email for the users in "VIP Customers" thanking them for their loyalty and
       inviting them into VIP recognition. Write three sentences in a {email_tone} tone with no discount language, and include
-      one button linking to the rewards or early-access page.
+      one button linking to the rewards or early-access page. If the brand kit has no logo, use the brand name as a plain
+      text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.
   - id: s3
     builds: slack
     uses:
@@ -82,7 +83,9 @@ portable:
     - lifetime_value
     - concierge_channel
     instruction: Generate a Slack message to the {concierge_channel} channel. For each user in "VIP Customers", name their
-      {customer_email} and their {lifetime_value} so the team can give each one a personal welcome into the program.
+      {customer_email} and their {lifetime_value} so the team can give each one a personal welcome into the program. Take
+      names and addresses from the member list in the result of the step that built the list (at most 20, then how many more);
+      never write a placeholder or ask the reader to paste anything in.
 ---
 
 # VIP customers
@@ -98,8 +101,8 @@ A user is in the segment only when all of these are true:
 
 ## Step 2: Send a VIP recognition email
 
-Generate a designed marketing email for the users in "VIP Customers" thanking them for their loyalty and inviting them into VIP recognition. Three sentences, warm and appreciative tone, no discount language, one button linking to the rewards or early-access page. Use the result of "Build the VIP list".
+Generate a designed marketing email for the users in "VIP Customers" thanking them for their loyalty and inviting them into VIP recognition. Three sentences, warm and appreciative tone, no discount language, one button linking to the rewards or early-access page. Use the result of "Build the VIP list". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.
 
 ## Step 3: Alert the concierge team
 
-Generate a Slack message to the concierge team channel For each user in "VIP Customers", name their email address and their Lifetime value, so the team can give each one a personal welcome into the program. Use the result of "Build the VIP list".
+Generate a Slack message to the concierge team channel For each user in "VIP Customers", name their email address and their Lifetime value, so the team can give each one a personal welcome into the program. Use the result of "Build the VIP list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in.

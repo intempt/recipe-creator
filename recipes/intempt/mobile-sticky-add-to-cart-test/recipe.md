@@ -134,8 +134,8 @@ Targeting:
 - Display frequency: always
 Primary metric: goal_completed_in_experience where experience_id = <this> (goal fires on Cart created within session of exposure)
 Secondary metrics:
-- Click on where target_id = "sticky-add-to-cart-button" (variant B and C only)
-- Click on where target_id = "main-add-to-cart-button" (control + as fallback for B/C)
+- clicks where target_id = "sticky-add-to-cart-button" (variant B and C only)
+- clicks where target_id = "main-add-to-cart-button" (control + as fallback for B/C)
 - Placed order within 24 hours of exposure (mobile checkout completion)
 - Time-on-PDP (mobile dwell time)
 Guardrail: PDP scroll depth must not drop >10% (sticky bar shouldn't disincentivize content reading); checkout conversion rate must not drop on mobile
@@ -148,8 +148,8 @@ Variant: B (sticky bar with price)
  Variant DOM:
  <div class="sticky-cart-bar" data-variant="b" data-mobile-only="true" style="position:fixed;bottom:0;left:0;right:0;padding:12px 16px;background:#fff;border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;z-index:1000;">
  <div class="sticky-product-info">
- <span class="product-title-mini">[Product name]</span>
- <span class="product-price">[$X.XX]</span>
+ <span class="product-title-mini">(fill in: Product name)</span>
+ <span class="product-price">(fill in: $X.XX)</span>
  </div>
  <button class="sticky-add-cart-btn" id="sticky-add-to-cart-button" data-variant="b">Add to Cart</button>
  </div>
@@ -158,8 +158,8 @@ Variant: C (sticky bar with quantity selector)
  Same wrapper, with quantity selector added:
  <div class="sticky-cart-bar" data-variant="c" data-mobile-only="true" style="position:fixed;bottom:0;left:0;right:0;padding:12px 16px;background:#fff;border-top:1px solid #eee;display:flex;align-items:center;gap:12px;z-index:1000;">
  <div class="sticky-product-info">
- <span class="product-title-mini">[Product name]</span>
- <span class="product-price">[$X.XX]</span>
+ <span class="product-title-mini">(fill in: Product name)</span>
+ <span class="product-price">(fill in: $X.XX)</span>
  </div>
  <div class="quantity-selector">
  <button class="qty-decrease" aria-label="Decrease">−</button>
@@ -171,4 +171,4 @@ Variant: C (sticky bar with quantity selector)
 The Visual Editor allows the user to fine-tune the bar's color scheme, animation (slide-up reveal on scroll), and quantity-selector behavior.
 Taxonomy notes:
 - "Mobile only" is enforced via the experience-level device targeting (targetDevice = "mobile") which Lovable applies at the SDK level; the CSS guard is belt-and-braces.
-- target_id = "sticky-add-to-cart-button" is shared across variants B and C; control uses "main-add-to-cart-button". This lets you compare sticky-bar engagement vs. main-button engagement.
+- target_id = "sticky-add-to-cart-button" is shared across variants B and C; control uses "main-add-to-cart-button". This lets you compare sticky-bar engagement vs. main-button engagement. Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.

@@ -131,7 +131,8 @@ portable:
       discount and personalize the call-out with {prior_use_case} when known. Touch 3 (sent at 90 days after cancel, final),
       subject ''One last invitation'': a softer, more emotional message acknowledging they left for a reason, offering a free
       {free_trial_days}-day reactivation trial with no charge until they confirm, presented as the final offer. Send from
-      {sending_account_owner} when known, otherwise from {success_sender}.'
+      {sending_account_owner} when known, otherwise from {success_sender}. If the brand kit has no logo, use the brand name
+      as a plain text header.'
   - id: s3
     builds: automation
     uses:
@@ -175,7 +176,7 @@ Build a segment 'Recently cancelled - last 120 days' capturing users with Subscr
 
 ## Step 2: Write three win back emails
 
-Generate 3-touch winback email content. Touch 1 (Day 30 after cancel): 'A lot has changed since you left: here's what's new.' Lead with 2-3 specific product improvements shipped post-cancel, relevant to their stated cancel reason. Touch 2 (Day 60): 'Come back for [N] months at 50% off': winback discount offer. Personalize the call-out with their prior use case if known. Touch 3 (Day 90, final): 'One last invitation' (softer, more emotional appeal) acknowledges you understand they left for a reason, mentions a free 30-day reactivation try (no charge until they confirm) as the final lever. Send-from: their original CSM if known, else success@ address. Use the result of "Find recent cancellations".
+Generate 3-touch winback email content. Touch 1 (Day 30 after cancel): 'A lot has changed since you left: here's what's new.' Lead with 2-3 specific product improvements shipped post-cancel, relevant to their stated cancel reason. Touch 2 (Day 60): 'Come back for (fill in: N) months at 50% off': winback discount offer. Personalize the call-out with their prior use case if known. Touch 3 (Day 90, final): 'One last invitation' (softer, more emotional appeal) acknowledges you understand they left for a reason, mentions a free 30-day reactivation try (no charge until they confirm) as the final lever. Send-from: their original CSM if known, else success@ address. Use the result of "Find recent cancellations". If the brand kit has no logo, use the brand name as a plain text header. Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.
 
 ## Step 3: Send at 30, 60 and 90 days
 

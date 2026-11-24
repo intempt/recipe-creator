@@ -94,7 +94,9 @@ portable:
     - s1
     instruction: Send a Slack message to {sales_slack} for each account in "Multi-Stakeholder Engaged Accounts" naming the
       account {account_name} and its employee count {account_employee_count}, so reps know a buying committee may have formed
-      and can act while interest is high. Use the result of "Build the multi-stakeholder list".
+      and can act while interest is high. Use the result of "Build the multi-stakeholder list". Take names and addresses from
+      the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder
+      or ask the reader to paste anything in.
   - id: s3
     builds: email
     uses:
@@ -105,7 +107,8 @@ portable:
     instruction: Generate a designed marketing email in the {email_tone} tone for the accounts in "Multi-Stakeholder Engaged
       Accounts" offering a resource built for teams evaluating the product together. The body is {email_sentence_count} sentences,
       with no discount language, and one button linking to a call-booking page. Use the brand {team_resource_brand}. Use the
-      result of "Build the multi-stakeholder list".
+      result of "Build the multi-stakeholder list". If the brand kit has no logo, use the brand name as a plain text header.
+      Every button links to a URL given for this run or named in this step; never leave a button without a link.
 ---
 
 # Accounts with a buying group active
@@ -121,8 +124,8 @@ An account is in the segment only when all of these are true:
 
 ## Step 2: Alert sales
 
-Generate a Slack message to the sales channel For each account in "Multi-Stakeholder Engaged Accounts", name the account and its employees count, so reps know a buying committee may have formed and can act while interest is high. Use the result of "Build the multi-stakeholder list".
+Generate a Slack message to the sales channel For each account in "Multi-Stakeholder Engaged Accounts", name the account and its employees count, so reps know a buying committee may have formed and can act while interest is high. Use the result of "Build the multi-stakeholder list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in.
 
 ## Step 3: Send a team resource
 
-Generate a designed marketing email for the accounts in "Multi-Stakeholder Engaged Accounts" offering a resource built for teams evaluating the product together. Three sentences, consultative tone, no discount language, one button linking to a call-booking page. Use the result of "Build the multi-stakeholder list".
+Generate a designed marketing email for the accounts in "Multi-Stakeholder Engaged Accounts" offering a resource built for teams evaluating the product together. Three sentences, consultative tone, no discount language, one button linking to a call-booking page. Use the result of "Build the multi-stakeholder list". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.

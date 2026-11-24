@@ -76,7 +76,8 @@ portable:
     - s1
     - brand_voice
     instruction: Write personalized cold outbound email templates in {brand_voice} using prospect-specific personalization
-      fields, based on the "Build the target list" segment.
+      fields, based on the "Build the target list" segment. If the brand kit has no logo, use the brand name as a plain text
+      header.
   - id: s3
     builds: automation
     uses:
@@ -122,7 +123,7 @@ Build target prospect list from ICP criteria (firmographic + intent signals).
 
 ## Step 2: Write the outbound emails
 
-Generate personalized cold-outbound email templates with brand voice and prospect-specific personalization tokens. Use the result of "Build the target list".
+Generate personalized cold-outbound email templates with brand voice and prospect-specific personalization tokens. Use the result of "Build the target list". If the brand kit has no logo, use the brand name as a plain text header.
 
 ## Step 3: Run the touches, then break off
 

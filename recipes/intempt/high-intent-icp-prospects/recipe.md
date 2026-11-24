@@ -98,7 +98,8 @@ portable:
     - salesChannel
     instruction: Post a Slack message to the {salesChannel} channel in {sales_slack} for each account in "High-Intent ICP
       Prospects". Name the account and its {account_employees} count so reps can reach out while interest is still warm. Use
-      the result of "Build the hot ICP list".
+      the result of "Build the hot ICP list". Take names and addresses from the member list in the result of the step that
+      built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in.
   - id: s3
     builds: email
     uses:
@@ -112,7 +113,9 @@ portable:
     instruction: Create a designed marketing email for the accounts in "High-Intent ICP Prospects" ({high_intent_icp_prospects})
       introducing the product feature from {product_feature_knowledge} that is most relevant to a company of their size. Write
       {emailSentenceCount} sentences in a {emailTone} tone with no discount language. Include one button linking to {call_booking_page}.
-      Send through {outreach_email_destination}. Use the result of "Build the hot ICP list".
+      Send through {outreach_email_destination}. Use the result of "Build the hot ICP list". If the brand kit has no logo,
+      use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never
+      leave a button without a link.
 ---
 
 # ICP accounts showing intent
@@ -129,8 +132,8 @@ An account is in the segment only when all of these are true:
 
 ## Step 2: Alert sales
 
-Generate a Slack message to the sales channel For each account in "High-Intent ICP Prospects", name the account and its employees count, so reps can reach out while interest is still warm. Use the result of "Build the hot ICP list".
+Generate a Slack message to the sales channel For each account in "High-Intent ICP Prospects", name the account and its employees count, so reps can reach out while interest is still warm. Use the result of "Build the hot ICP list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in.
 
 ## Step 3: Send an outreach email
 
-Generate a designed marketing email for the accounts in "High-Intent ICP Prospects" introducing the product's most relevant feature for a company of their size. Three sentences, confident and consultative tone, no discount language, one button linking to a call-booking page. Use the result of "Build the hot ICP list".
+Generate a designed marketing email for the accounts in "High-Intent ICP Prospects" introducing the product's most relevant feature for a company of their size. Three sentences, confident and consultative tone, no discount language, one button linking to a call-booking page. Use the result of "Build the hot ICP list". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.

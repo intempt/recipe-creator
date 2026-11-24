@@ -121,8 +121,8 @@ Variant: B (audience = enterprise visitors)
  HTML target selector: .hero-cta-block (replace contents)
  Variant DOM:
  <div class="hero-cta-block" data-variant="enterprise" data-audience="enterprise">
- <h2>Enterprise teams move faster with [Product]</h2>
- <p>See how [Brand] adapts to your org's complexity in a 30-min demo.</p>
+ <h2>Enterprise teams move faster with (fill in: Product)</h2>
+ <p>See how (fill in: Brand) adapts to your org's complexity in a 30-min demo.</p>
  <button class="primary-cta" id="demo-cta">Book a Demo</button>
  <p class="secondary-link"><a href="/contact-sales">Talk to sales to </a></p>
  </div>
@@ -141,4 +141,4 @@ The Visual Editor opens for each variant individually so the user can refine cop
 Taxonomy notes:
 - Personalizations differ from experiments in that variants don't compete; each one delivers to its own audience segment. The Setup tab hides Primary/Secondary Metrics and replaces the traffic-percentage stepper with an audience picker per variant.
 - Firmographic enrichment (company size, domain matching) typically requires an integration like Clearbit or ZoomInfo; the Accounts object is the canonical place to store this data.
-- "Returning visitor" detection uses Users.First seen being older than the current session.
+- "Returning visitor" detection uses Users.First seen being older than the current session. Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.

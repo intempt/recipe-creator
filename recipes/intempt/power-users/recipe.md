@@ -95,7 +95,8 @@ portable:
     - s1
     instruction: Generate a push notification for the users in the segment from "Build the power-user list" inviting them
       to join the referral program. Title must be under {pushTitleMaxChars} characters, with one short body line, in a {pushTone}
-      tone, and deep link to {referralPageLink}.
+      tone, and deep link to {referralPageLink}. Write no template tag or placeholder (such as a deeplink tag) in the push
+      title or body; a link, if any, is the URL given for this run.
   - id: s3
     builds: email_plain
     uses:
@@ -103,8 +104,11 @@ portable:
     - customer_email
     - growthTeamList
     - s1
-    instruction: Generate a plain-text email to {growthTeamList} listing, for each user in the segment from "Build the power-user
-      list", their {customer_email}, as candidates for case studies and advocacy, not just referrals.
+    instruction: 'Generate a plain-text email to {growthTeamList} listing, for each user in the segment from "Build the power-user
+      list", their {customer_email}, as candidates for case studies and advocacy, not just referrals. Take names and addresses
+      from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder
+      or ask the reader to paste anything in. The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe
+      line.'
 ---
 
 # Power users
@@ -120,8 +124,8 @@ A user is in the segment only when all of these are true:
 
 ## Step 2: Invite them to the referral program
 
-Generate a push notification for the users in "Power Users" inviting them to join the referral program. Title under 40 characters, one short body line, friendly and appreciative tone, deep link to the referral program page. Use the result of "Build the power-user list".
+Generate a push notification for the users in "Power Users" inviting them to join the referral program. Title under 40 characters, one short body line, friendly and appreciative tone, deep link to the referral program page. Use the result of "Build the power-user list". Write no template tag or placeholder (such as a deeplink tag) in the push title or body; a link, if any, is the URL given for this run.
 
 ## Step 3: Share the shortlist with growth
 
-Generate a plain-text email to the growth team distribution list For each user in "Power Users", name their email address, as candidates for case studies and advocacy, not just referrals. Use the result of "Build the power-user list".
+Generate a plain-text email to the growth team distribution list For each user in "Power Users", name their email address, as candidates for case studies and advocacy, not just referrals. Use the result of "Build the power-user list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in. The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe line.

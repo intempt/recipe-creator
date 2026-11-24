@@ -79,11 +79,11 @@ portable:
     - free_plan_upgrade_path
     - paying_dashboard_path
     - cta_target_selector
-    instruction: Create a client-side personalization titled "Personalized CTA Copy" on the experiences page that replaces
+    instruction: 'Create a client-side personalization titled "Personalized CTA Copy" on the experiences page that replaces
       the primary CTA in {cta_target_selector} on {homepage_path} and marketing, pricing and features pages. Keep the generic
       control copy "Get started" as the fallback for all other visitors. Show "Start your free trial" to visitors whose {first_seen_event}
-      is within the current session or is empty, and who have no {subscription_started_event}. Show "Continue exploring [Brand]"
-      to returning visitors whose {first_seen_event} is older than the current session and who have no {user_created_event}.
+      is within the current session or is empty, and who have no {subscription_started_event}. Show "Continue exploring (fill
+      in: Brand)" to returning visitors whose {first_seen_event} is older than the current session and who have no {user_created_event}.
       Show "Continue your trial" to users with a {user_created_event} and no {subscription_started_event} that has a {subscription_started_event.billing_period}
       value; send these users to {trial_app_path}. Show "Upgrade to Pro" to users with a {subscription_started_event} where
       {subscription_started_event.plan} is "free"; send these users to {free_plan_upgrade_path}. Show "Open dashboard" to
@@ -92,6 +92,8 @@ portable:
       so clicks aggregate across variants. Track clicks per CTA copy per audience and downstream signup, trial-to-paid and
       free-to-paid upgrade conversion per audience. Run continuously with targeting on every listed page and no display frequency
       cap. The copy can be refined in the visual editor, for example a first-person variant such as "Start MY free trial".
+      Fill each ''(fill in: ...)'' from the brand kit or the earlier step results; if a value is missing, write the sentence
+      without it. A draft never contains a placeholder.'
 ---
 
 # CTA wording by account state
@@ -109,7 +111,7 @@ Variants (each binds to a lifecycle/visitor-stage audience):
 - Variant B (audience = "First-time visitors / no account"): "Start your free trial"
  - Audience: Users.First seen within current session OR Users.First seen is null
  - AND Users has no Subscription started event
-- Variant C (audience = "Returning visitors / no account / no signup"): "Continue exploring [Brand]"
+- Variant C (audience = "Returning visitors / no account / no signup"): "Continue exploring (fill in: Brand)"
  - Audience: Users.First seen older than current session AND Users has no User created event
 - Variant D (audience = "Free trial users currently on trial"): "Continue your trial"
  - Audience: Users has User created event AND Users has no Subscription started event with billing_period set
@@ -122,7 +124,7 @@ Targeting:
 - Devices: any
 - Display frequency: always
 Metrics (CRM/CDP):
-- Click on per CTA copy per audience (per-segment CTR is the headline metric)
+- clicks per CTA copy per audience (per-segment CTR is the headline metric)
 - Downstream conversion: signup, trial-to-paid, free-to-paid upgrade: measured per audience
 Schedule: continuous
 ═══ PATH 2: Variant HTML content (Visual Editor) ═══
@@ -137,7 +139,7 @@ Variant: C (returning, no account)
  HTML target selector: .primary-cta-button
  Replacement HTML:
  <button class="primary-cta" data-variant="c" data-audience="returning" id="primary-cta">
- Continue exploring [Brand]
+ Continue exploring (fill in: Brand)
  </button>
 Variant: D (trial users)
  HTML target selector: .primary-cta-button
@@ -160,7 +162,7 @@ Variant: F (paying customers)
 The Visual Editor allows the user to refine the exact copy ("Start MY free trial" first-person tested 202% lift). The CTA's link target also changes per audience: trial users go to /app, free-plan users go to /upgrade, paying customers go to /dashboard.
 Taxonomy notes:
 - Uses canonical events: Users.First seen, User created, Subscription started (with Plan and billing_period properties).
-- The CTA target_id remains "primary-cta" across variants for consistent Click on aggregation.
+- The CTA target_id remains "primary-cta" across variants for consistent click event aggregation.
 - The 202% lift figure (cited multiple times in 2026 SaaS research) is for first-person CTA copy ("Start MY free trial") personalized by visitor intent. This recipe enables that pattern.
 - Don't over-segment: 5-6 lifecycle audiences is the sweet spot. Beyond that, content authoring overhead exceeds the gains.
-- Combine with source-based-personalization for compounding effect: a first-time visitor from LinkedIn enterprise ads sees both source-matched hero (Variant B from source-based) AND first-person CTA copy (Variant B from this recipe). Order precedence: source beats lifecycle when both apply.
+- Combine with source-based-personalization for compounding effect: a first-time visitor from LinkedIn enterprise ads sees both source-matched hero (Variant B from source-based) AND first-person CTA copy (Variant B from this recipe). Order precedence: source beats lifecycle when both apply. Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.

@@ -113,7 +113,7 @@ portable:
       looked at pricing: want to talk it through? Or here''s a pricing FAQ.'' Feature click: a deeper dive on the clicked
       feature with a customer story that uses it. Case-study click: a related case study from a similar company or industry.
       Each email is low-pressure and educational, and reads as a continuation of the conversation rather than as surveillance.
-      Send from {sender_address}.'
+      Send from {sender_address}. If the brand kit has no logo, use the brand name as a plain text header.'
   - id: s4
     builds: automation
     uses:
@@ -163,7 +163,7 @@ Build a segment 'Recent email clickers - last 14 days' capturing users with Emai
 
 ## Step 3: Write a reply per topic
 
-Generate retargeting email content per click topic. Pricing-page click: 'You looked at pricing: want to talk it through? Or here's a pricing FAQ.' Feature-X click: deeper dive on feature X with a customer story using it. Case-study click: related case study from a similar company/industry. Each: low-pressure, educational, treats the click as continued conversation not aggressive 'we saw you!' creepiness. Send-from: marketing@ or the original email's sender. Use the result of "Log what they clicked", "Find the meaningful clicks".
+Generate retargeting email content per click topic. Pricing-page click: 'You looked at pricing: want to talk it through? Or here's a pricing FAQ.' Feature-X click: deeper dive on feature X with a customer story using it. Case-study click: related case study from a similar company/industry. Each: low-pressure, educational, treats the click as continued conversation not aggressive 'we saw you!' creepiness. Send-from: marketing@ or the original email's sender. Use the result of "Log what they clicked", "Find the meaningful clicks". If the brand kit has no logo, use the brand name as a plain text header.
 
 ## Step 4: Follow up once, nudge once
 

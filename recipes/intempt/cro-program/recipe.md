@@ -69,7 +69,8 @@ portable:
     - s3
     instruction: Generate variant content (copy, layout, CTA changes) per the experiment design in "Design the test", using
       a {tone} tone, aimed at the drop-off step from "Find the worst drop-off" and served to the cohort from "Target the right
-      visitors".
+      visitors". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given
+      for this run or named in this step; never leave a button without a link.
   - id: s5
     builds: dashboard
     uses:
@@ -101,7 +102,7 @@ Configure personalization rule that serves variant content to assigned cohort. U
 ## Step 4: Write the variant content
 
 This step builds a designed marketing email (HTML).
-Generate variant content (copy, layout, CTA changes) per the experiment design. Use the result of "Find the worst drop-off", "Design the test", "Target the right visitors".
+Generate variant content (copy, layout, CTA changes) per the experiment design. Use the result of "Find the worst drop-off", "Design the test", "Target the right visitors". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.
 
 ## Step 5: Build the results dashboard
 

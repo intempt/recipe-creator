@@ -40,7 +40,7 @@ portable:
   requirements:
   - slot: demo_request_form_event
     kind: event
-    meaning: A customer submitted a form, including demo-request forms
+    meaning: A customer submitted a form, including demo-request forms (a form on the site, never a survey or NPS answer)
     properties:
     - name: form_id
       type: string

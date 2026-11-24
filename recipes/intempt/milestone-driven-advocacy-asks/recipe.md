@@ -210,7 +210,7 @@ portable:
       the specific achievement, ask whether they would be willing to share it as a customer case study, and say the marketing
       team does all the writing. Speaker-opportunity ask: mention an upcoming conference or webinar and ask whether they would
       be interested in speaking. Roadmap-feedback ask: say they are using {product_brand} in interesting ways and ask for
-      20 minutes of product roadmap feedback.'
+      20 minutes of product roadmap feedback. If the brand kit has no logo, use the brand name as a plain text header.'
   - id: s4
     builds: recommendation
     uses:
@@ -274,7 +274,7 @@ Build a segment 'Advocacy-ready' capturing users where active_advocacy_moment is
 
 ## Step 3: Write one ask per moment
 
-Generate advocacy-ask email variants per recommended_ask. Review ask: 'You just [hit milestone]: would you share your experience publicly? Takes 3 minutes.' Includes one-click links to G2, Capterra, or the relevant review site, pre-filled where the platform allows. Referral ask: 'You're [in top X% of users / just expanded / just renewed]: know anyone who'd benefit from [Product]? Here's your referral code for [reward].' Case-study ask: 'Your team's [specific achievement] is a great story: would you be willing to share it as a customer case study? Our marketing team will do all the writing.' Speaker-opportunity ask: 'We have a [conference / webinar] coming up (would you be interested in speaking?' Roadmap-feedback ask: 'You're using [Product] in such interesting ways) can we get 20 minutes for product roadmap feedback?' Tone: peer-respectful, never transactional. Send-from: named CSM or success lead, never marketing@. Use the result of "Spot the goodwill moments", "Find who is ready to be asked".
+Generate advocacy-ask email variants per recommended_ask. Review ask: 'You just (fill in: hit milestone): would you share your experience publicly? Takes 3 minutes.' Includes one-click links to G2, Capterra, or the relevant review site, pre-filled where the platform allows. Referral ask: 'You're (one of: in top X% of users / just expanded / just renewed): know anyone who'd benefit from (fill in: Product)? Here's your referral code for (fill in: reward).' Case-study ask: 'Your team's (fill in: specific achievement) is a great story: would you be willing to share it as a customer case study? Our marketing team will do all the writing.' Speaker-opportunity ask: 'We have a (one of: conference / webinar) coming up (would you be interested in speaking?' Roadmap-feedback ask: 'You're using (fill in: Product) in such interesting ways) can we get 20 minutes for product roadmap feedback?' Tone: peer-respectful, never transactional. Send-from: named CSM or success lead, never marketing@. Use the result of "Spot the goodwill moments", "Find who is ready to be asked". If the brand kit has no logo, use the brand name as a plain text header. Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.
 
 ## Step 4: Let them volunteer in the app
 

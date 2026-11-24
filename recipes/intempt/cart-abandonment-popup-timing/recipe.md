@@ -149,9 +149,9 @@ Targeting:
 - Display frequency: once_per_session
 Primary metric: goal_completed_in_experience where experience_id = <this> (goal: Placed order within 24 hours of exposure)
 Secondary metrics:
-- Click on where target_id = "popup-save-cart" (popup engagement rate)
-- Click on where target_id = "popup-dismiss" (dismissal rate)
-- Email capture rate from popup (Submit on the popup form)
+- clicks where target_id = "popup-save-cart" (popup engagement rate)
+- clicks where target_id = "popup-dismiss" (dismissal rate)
+- Email capture rate from popup (the form-submit event of the popup form)
 - Placed order within 24 hours
 Guardrail: bounce rate (sessions ending immediately after popup display) must not increase >10%
 Schedule: 14 days
@@ -187,14 +187,14 @@ Variant: B (30-second delay popup)
  </form>
  </div>
  </div>
- Trigger logic: when Cart created fires, start a 30-second timer. If no cart_updated, Click on within the cart context, or View page event occurs within that window, the popup shows. Reset the timer on any cart interaction so active shoppers aren't interrupted.
+ Trigger logic: when Cart created fires, start a 30-second timer. If no cart_updated, the click event within the cart context, or View page event occurs within that window, the popup shows. Reset the timer on any cart interaction so active shoppers aren't interrupted.
 Variant: C (no popup: baseline)
  No DOM changes: measures the intrinsic recovery rate without any popup intervention. This baseline is critical: without it you can't tell whether the popups CAUSE recovery or whether users would have returned anyway.
 The Visual Editor allows the user to refine the popup copy, styling, animation (slide-up vs. fade-in), and the email-capture handoff to the merchant's email tool.
 Taxonomy notes:
 - Cart created is canonical (fires when items are added).
-- target_id values "popup-save-cart" and "popup-dismiss" are preserved across Variants Control and B for consistent Click on aggregation. Variant C has neither (no popup rendered).
-- The "popup engagement rate" = Click on (target_id = "popup-save-cart") count / total exposures with that variant.
+- target_id values "popup-save-cart" and "popup-dismiss" are preserved across Variants Control and B for consistent click event aggregation. Variant C has neither (no popup rendered).
+- The "popup engagement rate" = the click event (target_id = "popup-save-cart") count / total exposures with that variant.
 - Variant C's baseline is essential and not optional. Skipping it makes the experiment unable to distinguish causal lift from return-anyway behavior.
 - For Variant B's "cart idle" detection, the timer resets on any cart-related interaction. The 30-second window is a starting point; tune based on your audience's typical cart-decision time.
 - Email capture from the popup feeds into your existing abandoned-cart email journey: this experiment tests whether the popup adds value above intrinsic return, not whether email recovery itself works.

@@ -138,7 +138,7 @@ Variants (each binds to a behavioral audience):
  - Audience: View page where Page URL contains "/pricing": count >= 2 in last 7 days
 - Variant C (audience = "security/compliance research"): show security case study and compliance content
  - Audience: View page where Page URL contains "/security" OR "/compliance": count >= 1 in last 14 days
- OR Click on on a security-whitepaper download link in last 14 days
+ OR clicks on a security-whitepaper download link in last 14 days
 - Variant D (audience = "integrations research"): show integration directory and integrations case studies
  - Audience: View page where Page URL contains "/integrations": count >= 2 in last 7 days
 - Variant E (audience = "case study readers"): show more case studies and customer logos
@@ -149,7 +149,7 @@ Targeting:
 - Display frequency: always
 Metrics (behavioral personalization):
 - Form submitted on demo-request OR contact form per behavioral segment
-- Click on on the personalized content block (per-variant CTR)
+- clicks on the personalized content block (per-variant CTR)
 - Demo-request conversion rate per segment (the downstream signal that intent-matched content drives conversions)
 Schedule: continuous
 ═══ PATH 2: Variant HTML content (Visual Editor) ═══
@@ -158,7 +158,7 @@ Variant: B (high pricing intent: show ROI calculator)
  HTML target selector: .featured-content-block (the homepage block where featured content lives)
  Variant DOM:
  <section class="featured-content" data-variant="b" data-intent="pricing">
- <h2>Calculate your ROI with [Brand]</h2>
+ <h2>Calculate your ROI with (fill in: Brand)</h2>
  <p>Based on what you've been reading, here's how teams like yours quantify the impact:</p>
  <div class="roi-calculator-embed">
  <!-- Lightweight embedded calculator: team size + tool spend to estimated savings -->
@@ -174,12 +174,12 @@ Variant: C (security research: show security case study)
  HTML target selector: .featured-content-block
  Variant DOM:
  <section class="featured-content" data-variant="c" data-intent="security">
- <h2>How [Customer] passed their SOC2 audit with [Brand]</h2>
+ <h2>How (fill in: Customer) passed their SOC2 audit with (fill in: Brand)</h2>
  <p>SOC2 Type II certified. PCI DSS Level 1. ISO 27001. Built for security teams.</p>
  <div class="case-study-card">
  <img src="/case-studies/customer-security.jpg" alt="Customer security case study" />
  <h3>Read the case study</h3>
- <p>How [Customer] reduced compliance overhead by 60%</p>
+ <p>How (fill in: Customer) reduced compliance overhead by 60%</p>
  </div>
  <a href="/security" class="content-cta" id="content-cta-security">Explore security to </a>
  </section>
@@ -188,7 +188,7 @@ Variant: D (integrations research: show integration directory)
  Variant DOM:
  <section class="featured-content" data-variant="d" data-intent="integrations">
  <h2>200+ pre-built integrations</h2>
- <p>Connect [Brand] to your existing stack: Salesforce, Slack, Snowflake, GitHub, and more.</p>
+ <p>Connect (fill in: Brand) to your existing stack: Salesforce, Slack, Snowflake, GitHub, and more.</p>
  <div class="integration-logo-grid">
  <img src="/logos/salesforce.svg" alt="Salesforce" />
  <img src="/logos/slack.svg" alt="Slack" />
@@ -203,8 +203,8 @@ Variant: E (case-study readers: show more case studies)
  Variant DOM showing more customer stories.
 The Visual Editor allows the user to refine copy, embed actual ROI-calculator widgets, and select case studies that match the visitor's likely industry.
 Taxonomy notes:
-- This recipe uses canonical event-history-based audiences. The platform's personalization engine evaluates audience rules at render time using the visitor's prior View page and Click on event history.
+- This recipe uses canonical event-history-based audiences. The platform's personalization engine evaluates audience rules at render time using the visitor's prior View page and click events history.
 - Audience evaluation: "View page where Page URL contains '/pricing': count >= 2 in last 7 days" requires the platform to query the visitor's event history at render time. Confirm your /experiences personalization engine supports event-history-based audience rules (most modern platforms do; some legacy ones only support attribute-based).
 - The 7-day and 14-day windows are starting points; tune based on your typical buying cycle. B2B SaaS with longer cycles may use 30-day windows.
 - This personalization compounds with ABM and industry-vertical: a visitor from a target account in financial services who has viewed /pricing 3 times sees the most personalized experience: but the variants must be ordered by precedence (per-account beats per-industry beats per-intent beats default).
-- For privacy compliance, ensure your cookie consent banner allows behavioral tracking before evaluating intent-based audiences.
+- For privacy compliance, ensure your cookie consent banner allows behavioral tracking before evaluating intent-based audiences. Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.

@@ -90,7 +90,7 @@ portable:
     - win_back_tone
     instruction: 'Generate re-engagement content in a {win_back_tone} tone: win-back-feature emails, success-story emails,
       and value-reminder emails for users in the risk buckets from "Split into low, medium and high" and the alert from "Tell
-      the CSM about high risk".'
+      the CSM about high risk". If the brand kit has no logo, use the brand name as a plain text header.'
   - id: s5
     builds: automation
     uses:
@@ -141,7 +141,7 @@ Create a workflow alerting CSMs when high-risk users cross the threshold, with c
 
 ## Step 4: Write the win back emails
 
-Generate re-engagement content: win-back-feature emails, success-story emails, value-reminder emails. Use the result of "Score churn risk", "Split into low, medium and high", "Tell the CSM about high risk".
+Generate re-engagement content: win-back-feature emails, success-story emails, value-reminder emails. Use the result of "Score churn risk", "Split into low, medium and high", "Tell the CSM about high risk". If the brand kit has no logo, use the brand name as a plain text header.
 
 ## Step 5: Reach medium risk first
 

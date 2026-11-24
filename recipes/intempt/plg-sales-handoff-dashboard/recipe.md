@@ -182,5 +182,5 @@ Annotations:
 - Row 3 Card 1 (paywall conversion scatter) tells the product team which features to gate vs. give away.
 - Row 4 Card 1 (Activated AND Paying) reveals the gap between vanity activation and real activation.
 Taxonomy notes:
-- All source recipes use canonical events: Session start, Click on, Completed a journey goal, View page (filtered to /pricing), Subscription started.
+- All source recipes use canonical events: Session start, a click event, Completed a journey goal, View page (filtered to /pricing), Subscription started.
 - PQL/PQA scoring uses Users.the account the user belongs to for account-level rollup.

@@ -113,7 +113,8 @@ portable:
       lack of interest, no guilt, offer an easy reschedule with a new link from {booking_link}. Touch 2 (sent at {touch2_delay}
       after the no-show, only if unresponsive): briefly remind them the booking link is still available and reference the
       original meeting. Touch 3 (sent at {touch3_delay} after the no-show): final outreach with a relevant value asset from
-      {case_study_asset} for their stage plus the booking link as a soft re-engage.'
+      {case_study_asset} for their stage plus the booking link as a soft re-engage. If the brand kit has no logo, use the
+      brand name as a plain text header.'
   - id: s3
     builds: automation
     uses:
@@ -157,7 +158,7 @@ Build a segment 'Recent no-shows - last 7 days' capturing users with a meeting_c
 
 ## Step 2: Write three reschedule notes
 
-Generate 3-touch recovery email content. Touch 1 (1 hour after no-show): assumes scheduling conflict; warm tone; offers easy reschedule with new booking link; no guilt. Touch 2 (48 hours later, if unresponsive): brief reminder that the booking link is still available; references the original meeting context. Touch 3 (5 days later): final outreach with value-content (case study or playbook PDF relevant to their stage) plus the booking link as a soft re-engage. Send-from: the original meeting host. Use the result of "Find who missed a meeting".
+Generate 3-touch recovery email content. Touch 1 (1 hour after no-show): assumes scheduling conflict; warm tone; offers easy reschedule with new booking link; no guilt. Touch 2 (48 hours later, if unresponsive): brief reminder that the booking link is still available; references the original meeting context. Touch 3 (5 days later): final outreach with value-content (case study or playbook PDF relevant to their stage) plus the booking link as a soft re-engage. Send-from: the original meeting host. Use the result of "Find who missed a meeting". If the brand kit has no logo, use the brand name as a plain text header.
 
 ## Step 3: Send at 1 hour, 2 days, 5 days
 

@@ -128,7 +128,7 @@ portable:
       from {funding_event.announcement_date}, names {funding_event.investors} where present, and infers likely strategic focus
       from them. Connect it to a relevant value hypothesis for teams raising at this stage, then close with a soft meeting
       request. Save the draft to the AE task only; never send automatically. Use the results of "Funding-event-triggered outreach"
-      and "Refresh who works there now".
+      and "Refresh who works there now". If the brand kit has no logo, use the brand name as a plain text header.
   - id: s6
     builds: task
     uses:
@@ -153,8 +153,10 @@ portable:
     - s1
     - s6
     instruction: 'Post to {sales_team_channel} ({announce_channel}): ''Account raised {funding_event.amount_raised} {funding_event.round_type}.
-      Assigned to [assigned AE]. Outreach SLA: {sla_hours}hr.'' Include links to the task and the account record. Use the
-      results of "Funding-event-triggered outreach" and "Put it on an AE within a day".'
+      Assigned to (fill in: assigned AE). Outreach SLA: {sla_hours}hr.'' Include links to the task and the account record.
+      Use the results of "Funding-event-triggered outreach" and "Put it on an AE within a day". Fill each ''(fill in: ...)''
+      from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never
+      contains a placeholder.'
   - id: s8
     builds: report
     uses:
@@ -192,7 +194,7 @@ Re-enrich the account post-funding, funding rounds frequently coincide with new 
 ## Step 5: Draft the congratulations
 
 This step builds a workflow.
-Configure AI write step that drafts a personalized outreach email/message referencing the specific funding event ('Congrats on the Series B, your investors include [name], which suggests focus on [inference about strategy]'), then connecting to a relevant value hypothesis ('Teams raising at this stage typically face X challenge (we help with that'), then a soft meeting CTA. Draft saved to the AE task; never auto-sent) funding events deserve human review before reaching out. Use the result of "Watch for funding news", "Refresh who works there now".
+Configure AI write step that drafts a personalized outreach email/message referencing the specific funding event ('Congrats on the Series B, your investors include (fill in: name), which suggests focus on (fill in: inference about strategy)'), then connecting to a relevant value hypothesis ('Teams raising at this stage typically face X challenge (we help with that'), then a soft meeting CTA. Draft saved to the AE task; never auto-sent) funding events deserve human review before reaching out. Use the result of "Watch for funding news", "Refresh who works there now". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link. Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.
 
 ## Step 6: Put it on an AE within a day
 
@@ -202,7 +204,7 @@ Configure task creation: assign to the right AE (territory rules, account owners
 ## Step 7: Announce it to the team
 
 This step builds a workflow.
-Configure Slack step posting to the #sales-signals channel: '🚀 [Account] raised [amount] [round]. Assigned to [AE name]. Outreach SLA: 24hr.' Includes link to the task and account record. Surfaces the signal velocity for the team: funding events visible to everyone create healthy competitive urgency. Use the result of "Watch for funding news", "Put it on an AE within a day".
+Configure Slack step posting to the #sales-signals channel: '🚀 (fill in: Account) raised (fill in: amount) (fill in: round). Assigned to (fill in: AE name). Outreach SLA: 24hr.' Includes link to the task and account record. Surfaces the signal velocity for the team: funding events visible to everyone create healthy competitive urgency. Use the result of "Watch for funding news", "Put it on an AE within a day". Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.
 
 ## Step 8: Publish and measure the lift
 

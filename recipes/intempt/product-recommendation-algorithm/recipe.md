@@ -157,7 +157,7 @@ Targeting:
 - Display frequency: always (every page render that includes the recommendation block calls getFlag and serves a variant)
 Primary metric: goal_completed_in_experience where experience_id = <this> AND value > 0 (revenue from Placed order where the order's items include a clicked recommendation)
 Secondary metrics:
-- Click on where target_id starts with "rec-" (recommendation click-through rate)
+- clicks where target_id starts with "rec-" (recommendation click-through rate)
 - Placed order.total_price for orders following a recommendation click (revenue from recommended products)
 - Recommendation click position (which slot (1, 2, 3, etc.) the user clicked)
 - Add-to-cart-from-rec rate: Cart created where the added product_id matches a recently-clicked recommendation
@@ -193,8 +193,8 @@ SDK integration:
  const recsConfig = await intempt.getFlag('recommendation_algorithm', userId);
  const recs = await fetch(recsConfig.endpoint + '?productId=' + currentProductId);
  // render recs.items in the PDP recommendation block, using recsConfig.header_text
-Each rendered recommendation should have target_id = "rec-{position}" (e.g., "rec-1", "rec-2") so Click on per-position aggregation works.
+Each rendered recommendation should have target_id = "rec-{position}" (e.g., "rec-1", "rec-2") so clicks per-position aggregation works.
 Taxonomy notes:
 - The recommendation endpoints (/api/recs/*) are application-side and not part of the canonical taxonomy; this recipe assumes the merchant has these implemented.
-- Attributing Placed order revenue to a recommendation requires the order to record which items came from a clicked recommendation: typically via session tracking joining Click on (target_id starts with "rec-") to subsequent Placed order.items.
+- Attributing Placed order revenue to a recommendation requires the order to record which items came from a clicked recommendation: typically via session tracking joining the click event (target_id starts with "rec-") to subsequent Placed order.items.
 - "Display frequency: always" for server experiments means every getFlag call returns the same variant for the same userId (sticky assignment); the variant is computed once and cached for that user for the experiment's duration.

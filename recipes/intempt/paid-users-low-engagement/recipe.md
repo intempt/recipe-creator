@@ -70,7 +70,8 @@ portable:
     instruction: 'Generate a designed marketing email for the users in the "Paid Users: Low Engagement" segment from step
       "Build the low-engagement list". The email reminds each user of one feature that drew them to sign up in the first place.
       Write {reminder_sentence_count} sentences in a {reminder_tone} tone. Include no discount language. Include one button
-      that links back into the product.'
+      that links back into the product. If the brand kit has no logo, use the brand name as a plain text header. Every button
+      links to a URL given for this run or named in this step; never leave a button without a link.'
   - id: s3
     builds: email_plain
     uses:
@@ -78,7 +79,9 @@ portable:
     - customer_success_list
     instruction: 'Generate a plain-text email to {customer_success_list}. For each user in the "Paid Users: Low Engagement"
       segment from step "Build the low-engagement list", list their email address so the team can check in before they become
-      a real churn risk.'
+      a real churn risk. Take names and addresses from the member list in the result of the step that built the list (at most
+      20, then how many more); never write a placeholder or ask the reader to paste anything in. The plain-text email is plain
+      text only: no HTML tags, no markup and no unsubscribe line.'
 ---
 
 # Paying users going quiet early
@@ -95,8 +98,8 @@ A user is in the segment only when all of these are true:
 
 ## Step 2: Send a feature reminder
 
-Generate a designed marketing email for the users in "Paid Users: Low Engagement" reminding them of one feature that made them sign up in the first place. Three sentences, friendly and low-pressure tone, no discount language, one button linking back into the product. Use the result of "Build the low-engagement list".
+Generate a designed marketing email for the users in "Paid Users: Low Engagement" reminding them of one feature that made them sign up in the first place. Three sentences, friendly and low-pressure tone, no discount language, one button linking back into the product. Use the result of "Build the low-engagement list". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.
 
 ## Step 3: Flag to customer success
 
-Generate a plain-text email to the customer success distribution list For each user in "Paid Users: Low Engagement", name their email address, so the team can check in before this turns into real churn risk. Use the result of "Build the low-engagement list".
+Generate a plain-text email to the customer success distribution list For each user in "Paid Users: Low Engagement", name their email address, so the team can check in before this turns into real churn risk. Use the result of "Build the low-engagement list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in. The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe line.

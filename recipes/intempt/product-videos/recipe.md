@@ -50,8 +50,9 @@ portable:
     - script
     - clip_length
     - products_per_run
-    instruction: For each product in {product_catalog} (up to {products_per_run} per run), generate one product video from that product's own image. Produce
-      a {clip_length} clip per product using the motion style {scene}, with optional direction {script}.
+    instruction: For each product in {product_catalog} (up to {products_per_run} per run), generate one product video from
+      that product's own image. Produce a {clip_length} clip per product using the motion style {scene}, with optional direction
+      {script}.
 ---
 
 # One video per product

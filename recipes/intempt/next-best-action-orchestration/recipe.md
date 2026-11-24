@@ -151,7 +151,8 @@ portable:
       matched to the user''s lifecycle stage. Nurture: case study or customer story relevant to the user''s segment. Offer:
       personalized incentive of {offer_discount_percent} percent matched to plan and tenure. Surface-feature: feature spotlight
       with a deep link to the in-app destination. Each variant pulls dynamic content blocks based on the full user profile,
-      not only first name. Send through {email_channel}.'
+      not only first name. Send through {email_channel}. If the brand kit has no logo, use the brand name as a plain text
+      header.'
   - id: s4
     builds: page
     uses:
@@ -218,7 +219,7 @@ Slash command: /next-best-action-orchestration
 
 ## Step 1: Decide the next step per user
 
-Create an AI-derived attribute 'next_best_action' on the User object, refreshed daily and on every significant behavioral event. Inputs: current lifecycle stage, engagement velocity (sessions trend), feature usage breadth, recent intent signals (pricing visit, feature first-click, support touch), and prior message engagement. Outputs: a structured object with (a) recommended_action one of [educate / nurture / offer / surface-feature / surface-recommendations / handoff-to-agent / wait]; (b) recommended_channel [email / sms / in_app / push / slack-internal]; (c) recommended_content_theme; (d) confidence (0-100); (e) expected_uplift_signal. The attribute is the decisioning brain: the journey routes from it at each gate.
+Create an AI-derived attribute 'next_best_action' on the User object, refreshed daily and on every significant behavioral event. Inputs: current lifecycle stage, engagement velocity (sessions trend), feature usage breadth, recent intent signals (pricing visit, feature first-click, support touch), and prior message engagement. Outputs: a structured object with (a) recommended_action one of [educate / nurture / offer / surface-feature / surface-recommendations / handoff-to-agent / wait]; (b) recommended_channel (one of: email / sms / in_app / push / slack-internal); (c) recommended_content_theme; (d) confidence (0-100); (e) expected_uplift_signal. The attribute is the decisioning brain: the journey routes from it at each gate.
 
 ## Step 2: Only route confident calls
 
@@ -226,7 +227,7 @@ Build a segment 'NBA-orchestrated users' capturing active users where next_best_
 
 ## Step 3: Write an email per action
 
-Generate email content variants per recommended_action: (a) educate variant (short value tip matched to the user's stage; (b) nurture variant) case study/customer story relevant to user's segment; (c) offer variant (personalized incentive (discount / trial extension / credit) matched to plan and tenure; (d) surface-feature variant) feature spotlight with deep-link to the in-app destination. Each variant pulls dynamic content blocks based on the user's full profile, not just first name. Use the result of "Decide the next step per user", "Only route confident calls".
+Generate email content variants per recommended_action: (a) educate variant (short value tip matched to the user's stage; (b) nurture variant) case study/customer story relevant to user's segment; (c) offer variant (personalized incentive (discount / trial extension / credit) matched to plan and tenure; (d) surface-feature variant) feature spotlight with deep-link to the in-app destination. Each variant pulls dynamic content blocks based on the user's full profile, not just first name. Use the result of "Decide the next step per user", "Only route confident calls". If the brand kit has no logo, use the brand name as a plain text header.
 
 ## Step 4: Write the in app versions
 

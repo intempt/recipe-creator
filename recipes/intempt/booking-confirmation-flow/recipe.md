@@ -104,7 +104,9 @@ portable:
     instruction: 'Write two reminder emails for upcoming B2B meetings, sent from the {sender_role}, in a {tone} tone. The
       48-hour reminder ({reminder_48h_offset} before start) recaps the full agenda, lists attendees, provides add-to-calendar
       links (iCal, Google and Outlook), location or conferencing details, and a reschedule link. The 24-hour reminder ({reminder_24h_offset}
-      before start) is lighter: meeting time, conferencing link, and a low-friction reschedule button.'
+      before start) is lighter: meeting time, conferencing link, and a low-friction reschedule button. If the brand kit has
+      no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this
+      step; never leave a button without a link.'
   - id: s2
     builds: sms
     uses:
@@ -113,8 +115,10 @@ portable:
     - reminder_sms_sender
     instruction: 'Write a reminder text sent {sms_reminder_offset} before the meeting starts. Keep it under 160 characters.
       Include the meeting time, a shortened conferencing link, and a reply RESCHEDULE option. Example: ''Reminder: your call
-      with [Host Name] starts in 2 hours. Join: [link]. Reply RESCHEDULE to move it.'' Send only to customers with SMS opt-in.
-      Reuse the wording approach from "Write the two reminder emails".'
+      with (fill in: Host Name) starts in 2 hours. Join: (fill in: link). Reply RESCHEDULE to move it.'' Send only to customers
+      with SMS opt-in. Reuse the wording approach from "Write the two reminder emails". Fill each ''(fill in: ...)'' from
+      the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains
+      a placeholder.'
   - id: s3
     builds: automation
     uses:
@@ -175,11 +179,11 @@ Slash command: /booking-confirmation-flow
 
 ## Step 1: Write the two reminder emails
 
-Generate 2 reminder email touches for upcoming B2B meetings. 48hr-before reminder: full agenda recap, attendee list, add-to-calendar links (iCal + Google + Outlook), location/conferencing details, and a reschedule link. 24hr-before reminder: lighter: just the meeting time, conferencing link, and a low-friction reschedule button. Send-from: the meeting host. Tone: professional, confirming.
+Generate 2 reminder email touches for upcoming B2B meetings. 48hr-before reminder: full agenda recap, attendee list, add-to-calendar links (iCal + Google + Outlook), location/conferencing details, and a reschedule link. 24hr-before reminder: lighter: just the meeting time, conferencing link, and a low-friction reschedule button. Send-from: the meeting host. Tone: professional, confirming. If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.
 
 ## Step 2: Write the two hour text
 
-Generate a 2-hour-before SMS reminder. Format: under 160 chars. Include meeting time, conferencing link (shortened), and a reply-RESCHEDULE option. Example: 'Reminder: your call with [Host Name] starts in 2 hours. Join: [link]. Reply RESCHEDULE to move it.' Only fires if user has SMS opt-in. Use the result of "Write the two reminder emails".
+Generate a 2-hour-before SMS reminder. Format: under 160 chars. Include meeting time, conferencing link (shortened), and a reply-RESCHEDULE option. Example: 'Reminder: your call with (fill in: Host Name) starts in 2 hours. Join: (fill in: link). Reply RESCHEDULE to move it.' Only fires if user has SMS opt-in. Use the result of "Write the two reminder emails". Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.
 
 ## Step 3: Remind at 48, 24 and 2 hours
 

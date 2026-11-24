@@ -64,8 +64,11 @@ portable:
     - s1
     - sales_ops_list
     - account_employees
-    instruction: Generate a plain-text email to {sales_ops_list}. For each account in "Mid-Market Accounts", name the account
-      and its {account_employees} count, ordered so the newest accounts appear first so inside sales can assign owners.
+    instruction: 'Generate a plain-text email to {sales_ops_list}. For each account in "Mid-Market Accounts", name the account
+      and its {account_employees} count, ordered so the newest accounts appear first so inside sales can assign owners. Take
+      names and addresses from the member list in the result of the step that built the list (at most 20, then how many more);
+      never write a placeholder or ask the reader to paste anything in. The plain-text email is plain text only: no HTML tags,
+      no markup and no unsubscribe line.'
   - id: s3
     builds: email
     uses:
@@ -75,7 +78,9 @@ portable:
     - walkthrough_booking_page
     instruction: Generate a designed marketing email for the accounts in "Mid-Market Accounts" with a {email_tone} tone, written
       in {email_sentence_count} sentences, introducing features relevant to a growing team and inviting them to book a walkthrough.
-      Do not use discount language. Include exactly one button linking to {walkthrough_booking_page}.
+      Do not use discount language. Include exactly one button linking to {walkthrough_booking_page}. If the brand kit has
+      no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this
+      step; never leave a button without a link.
 ---
 
 # Mid-market accounts
@@ -91,8 +96,8 @@ An account is in the segment only when all of these are true:
 
 ## Step 2: Notify sales ops
 
-Generate a plain-text email to the sales ops distribution list For each account in "Mid-Market Accounts", name the account and its employees count, so inside sales can assign owners to the newest accounts first. Use the result of "Build the mid-market list".
+Generate a plain-text email to the sales ops distribution list For each account in "Mid-Market Accounts", name the account and its employees count, so inside sales can assign owners to the newest accounts first. Use the result of "Build the mid-market list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in. The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe line.
 
 ## Step 3: Send a getting-started email
 
-Generate a designed marketing email for the accounts in "Mid-Market Accounts" introducing features relevant to a growing team and inviting them to book a walkthrough. Three sentences, friendly and consultative tone, no discount language, one button linking to the walkthrough booking page. Use the result of "Build the mid-market list".
+Generate a designed marketing email for the accounts in "Mid-Market Accounts" introducing features relevant to a growing team and inviting them to book a walkthrough. Three sentences, friendly and consultative tone, no discount language, one button linking to the walkthrough booking page. Use the result of "Build the mid-market list". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.

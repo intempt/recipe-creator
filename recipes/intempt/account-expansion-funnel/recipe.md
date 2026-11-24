@@ -105,7 +105,7 @@ Slash command: /account-expansion-funnel
 Create a Funnel report called "Account Expansion Funnel".
 Steps:
 1. Event "View page" where Page URL contains "/pricing": "Viewed Pricing"
-2. Event "Click on" where target_id matches an upgrade CTA pattern (e.g. target_id contains "upgrade" or "checkout"): "Clicked Upgrade"
+2. the click event where target_id matches an upgrade CTA pattern (e.g. target_id contains "upgrade" or "checkout"): "Clicked Upgrade"
 3. Event "Checkout created": "Started Checkout"
 4. Event "Subscription updated" where the post-update plan_items indicates a higher-tier plan than prior (delta computation): "Upgraded"
 Conversion window: 30 days

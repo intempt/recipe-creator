@@ -86,12 +86,14 @@ portable:
     instruction: 'Create a workflow that fires when {stalled_deal_detected} occurs. Step 1: compute {nudge_context} as described
       in "Recall why it stalled". Step 2: generate an AI-drafted re-engagement email using {nudge_context}. Make it highly
       personalised using meeting-summary specifics, quoting the objection verbatim where available (for example: ''Last time
-      we talked, you mentioned [objection]. Has anything changed on [blocker]?''). Step 3: save the draft to the deal owner''s
-      outbox via {rep_outbox}. Do not send it. Step 4: create a task in {rep_task_list} titled ''Review AI-drafted nudge:
-      deal [deal name]'' with the draft preview attached. Step 5: send the deal owner a Slack DM via {rep_slack} with the
-      deal context. Every draft requires rep review before sending. If the deal is still stalled {escalation_window} after
-      the first nudge draft was sent, and {include_manager_escalation} is true, escalate to the manager with a manager-version
-      draft; this escalation requires human sign-off before it is sent.'
+      we talked, you mentioned (fill in: objection). Has anything changed on (fill in: blocker)?''). Step 3: save the draft
+      to the deal owner''s outbox via {rep_outbox}. Do not send it. Step 4: create a task in {rep_task_list} titled ''Review
+      AI-drafted nudge: deal (fill in: deal name)'' with the draft preview attached. Step 5: send the deal owner a Slack DM
+      via {rep_slack} with the deal context. Every draft requires rep review before sending. If the deal is still stalled
+      {escalation_window} after the first nudge draft was sent, and {include_manager_escalation} is true, escalate to the
+      manager with a manager-version draft; this escalation requires human sign-off before it is sent. Fill each ''(fill in:
+      ...)'' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft
+      never contains a placeholder.'
   - id: s3
     builds: dashboard
     uses:
@@ -116,7 +118,7 @@ Create an AI-derived attribute 'nudge_context' on the Deal object, computed when
 
 ## Step 2: Draft a nudge that names it
 
-Create a workflow firing when a deal is newly detected as stalled (consumer of the stalled-deal-detection workflow's output). Step sequence: (1) compute nudge_context; (2) generate AI-drafted nudge email using the context. Distinct from the template-based nudge in stalled-deal-detection: this version is HIGHLY personalized using meeting-summary specifics ('Last time we talked, you mentioned [verbatim objection]. Has anything changed on [specific blocker]?'); (3) save draft to rep's outbox; (4) create rep task labeled 'Review AI-drafted nudge: deal [name]' with the draft preview; (5) Slack DM with deal context. Always rep-reviewed-before-send. If deal stays stalled 14 days after first nudge draft sent, escalate to manager with manager-version draft (this needs your sign-off). Use the result of "Recall why it stalled".
+Create a workflow firing when a deal is newly detected as stalled (consumer of the stalled-deal-detection workflow's output). Step sequence: (1) compute nudge_context; (2) generate AI-drafted nudge email using the context. Distinct from the template-based nudge in stalled-deal-detection: this version is HIGHLY personalized using meeting-summary specifics ('Last time we talked, you mentioned (fill in: verbatim objection). Has anything changed on (fill in: specific blocker)?'); (3) save draft to rep's outbox; (4) create rep task labeled 'Review AI-drafted nudge: deal (fill in: name)' with the draft preview; (5) Slack DM with deal context. Always rep-reviewed-before-send. If deal stays stalled 14 days after first nudge draft sent, escalate to manager with manager-version draft (this needs your sign-off). Use the result of "Recall why it stalled". Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.
 
 ## Step 3: Compare against a rep's own
 

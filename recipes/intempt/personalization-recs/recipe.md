@@ -100,6 +100,7 @@ portable:
     - email_channel
     instruction: Generate email modules that surface recommendations from "Build the recommendation model" within campaign
       and journey emails, assigned to cohorts from "Split shoppers into cohorts" and variants from "Test against the alternatives".
+      If the brand kit has no logo, use the brand name as a plain text header.
   - id: s6
     builds: automation
     uses:
@@ -147,7 +148,7 @@ Add A/B variants comparing personalized recs vs trending products vs editor's-pi
 
 ## Step 5: Build the email modules
 
-Generate email modules that surface recommendations within campaign and journey emails. Use the result of "Build the recommendation model", "Place them on each surface", "Split shoppers into cohorts", "Test against the alternatives".
+Generate email modules that surface recommendations within campaign and journey emails. Use the result of "Build the recommendation model", "Place them on each surface", "Split shoppers into cohorts", "Test against the alternatives". If the brand kit has no logo, use the brand name as a plain text header.
 
 ## Step 6: Follow up with high-intent browsers
 
