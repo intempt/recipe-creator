@@ -2,8 +2,8 @@
   "frontmatter_id": "salesforce-usage-to-opportunity",
   "title": "Usage onto the Salesforce opportunity",
   "slash_command": "/salesforce-usage-to-opportunity",
-  "description": "Keeps the usage fields on an open opportunity current, so the forecast reflects what the account is doing rather than what was said on a call.",
-  "markdown": "# Usage onto the Salesforce opportunity\n\n## Description\n\nKeeps the usage fields on an open opportunity current, so the forecast reflects what the account is doing rather than what was said on a call.\n\n## Steps\n\n### Step 1: Describe usage for the forecast\n\nCreate account attributes describing engagement in the terms the forecast cares about: active seats, weekly active proportion, depth of feature adoption, trend over the last month. These are what a rep would otherwise assert from memory.\n\n### Step 2: Update the open opportunity\n\nCreate a workflow that finds the open opportunity for the account and updates the usage fields on it. Only fields Intempt owns are written: never stage, never amount, never close date, which belong to the rep. A CDP that silently moves a stage is a forecasting incident that presents as an integration. Use the result of \"Describe usage for the forecast\".\n",
+  "description": "Keeps active seats and usage trend on each account's open Salesforce opportunity current, so the forecast reflects what the account is doing rather than what was said on a call.",
+  "markdown": "# Usage onto the Salesforce opportunity\n\n## Description\n\nKeeps active seats and usage trend on each account's open Salesforce opportunity current, so the forecast reflects what the account is doing rather than what was said on a call.\n\n## Steps\n\n### Step 1: Count active seats\n\nBuild a computed attribute on accounts named \"usage_active_seats\": the number of the account's users who did account usage event at least once in the last 30 d.\n\n### Step 2: Read the usage trend\n\nBuild a computed attribute on accounts named \"usage_trend\" with one of the values growing, flat or declining: compare the account's count of account usage event in the last 30 d with the 30 d before that; growing when it is 10% or more higher, declining when it is 10% or more lower, flat otherwise.\n\n### Step 3: Update the open opportunity\n\nBuild an automation that runs every Monday at 06:00 on a schedule. For each account with an open opportunity in open opportunity, it writes usage_active_seats from \"Count active seats\" and usage_trend from \"Read the usage trend\" to that opportunity's usage fields. It never writes stage, amount or close date.\n",
   "classification": {
     "industry": [
       "saas-b2b-tech"
@@ -19,13 +19,18 @@
   "steps": [
     {
       "id": "s1",
-      "title": "Describe usage for the forecast",
-      "description": "Create account attributes describing engagement in the terms the forecast cares about: active seats, weekly active proportion, depth of feature adoption, trend over the last month. These are what a rep would otherwise assert from memory."
+      "title": "Count active seats",
+      "description": "Build a computed attribute on accounts named \"usage_active_seats\": the number of the account's users who did account usage event at least once in the last 30 d."
     },
     {
       "id": "s2",
+      "title": "Read the usage trend",
+      "description": "Build a computed attribute on accounts named \"usage_trend\" with one of the values growing, flat or declining: compare the account's count of account usage event in the last 30 d with the 30 d before that; growing when it is 10% or more higher, declining when it is 10% or more lower, flat otherwise."
+    },
+    {
+      "id": "s3",
       "title": "Update the open opportunity",
-      "description": "Create a workflow that finds the open opportunity for the account and updates the usage fields on it. Only fields Intempt owns are written: never stage, never amount, never close date, which belong to the rep. A CDP that silently moves a stage is a forecasting incident that presents as an integration. Use the result of \"Describe usage for the forecast\"."
+      "description": "Build an automation that runs every Monday at 06:00 on a schedule. For each account with an open opportunity in open opportunity, it writes usage_active_seats from \"Count active seats\" and usage_trend from \"Read the usage trend\" to that opportunity's usage fields. It never writes stage, amount or close date."
     }
   ],
   "availability": "coming_soon"

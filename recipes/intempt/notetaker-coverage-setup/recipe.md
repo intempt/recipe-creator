@@ -10,6 +10,9 @@ author:
 classification:
   industry:
   - industry-agnostic
+visibility: draft
+rejected: It configures notetaker auto-join per meeting type, a meeting setup Blu does not build (meeting / meeting_type not
+  planned).
 portable:
   summary: Automatically sends the Blu notetaker to revenue-relevant meetings, audits meeting types first, and tracks notetaker
     coverage and join failures on a dashboard.
@@ -91,6 +94,8 @@ portable:
     - blu_notetaker
     - notetaker_opt_out_flag
     - high_value_deal_threshold
+    dependsOn:
+    - s1
     instruction: Configure notetaker auto-join rules based on the meeting-type audit in "Review your meeting types". Turn
       auto-join ON for Discovery, Demo, Proposal, Close, Renewal, and Customer Success meetings; turn it OFF for Internal
       Sync, 1:1, Recurring Standup, and Interview meetings. Add an override that turns auto-join ON for any meeting linked
@@ -105,6 +110,8 @@ portable:
     - meeting_held
     - coverage_target_pct
     - config_gap_threshold_pct
+    dependsOn:
+    - s1
     instruction: Build a notetaker coverage dashboard showing the percentage of meetings with the notetaker present, with
       a target of {coverage_target_pct}% or higher for revenue-impacting meeting types. Break coverage down by meeting type
       and by {meeting_held.rep}. Show failed-join count (notetaker invited but did not join, usually a calendar permission
@@ -119,12 +126,12 @@ Slash command: /notetaker-coverage-setup
 
 ## Step 1: Review your meeting types
 
-List all configured meeting types in the project. For each, surface: name, default duration, current notetaker auto-join setting, and meetings-per-month count over the last 90 days. This is the baseline for designing coverage rules: types with high volume and high revenue impact (demo, discovery, close, renewal) should have autojoin on; types with low strategic value (internal sync, recurring 1:1) likely shouldn't.
+List all configured meeting types in the project. For each, surface: name, default duration, current notetaker auto-join setting, and meetings-per-month count over the last 90 d. This is the baseline for designing coverage rules: types with high volume and high revenue impact (demo, discovery, close, renewal) should have autojoin on; types with low strategic value (internal sync, recurring 1:1) likely shouldn't.
 
 ## Step 2: Set the auto-join rules
 
-Configure notetaker autojoin rules based on the meeting-type audit. Default policy: ON for Discovery, Demo, Proposal, Close, Renewal, and Customer Success calls; OFF for Internal Sync, 1:1, Recurring Standup, Interview. Layer on overrides: ON for any meeting linked to a deal with value > $50K regardless of type; OFF if any attendee has notetaker-opt-out flag. Hosts can manually override per-meeting via add_blu_to_live_meeting or the meeting record toggle. Use the result of "Review your meeting types".
+Configure notetaker auto-join rules based on the meeting-type audit in "Review your meeting types". Turn auto-join ON for Discovery, Demo, Proposal, Close, Renewal, and Customer Success meetings; turn it OFF for Internal Sync, 1:1, Recurring Standup, and Interview meetings. Add an override that turns auto-join ON for any meeting linked to a deal with value above 50000 USD, regardless of meeting type. Add an override that turns auto-join OFF if any attendee has the notetaker opt out flag set. Hosts can still override per meeting by adding the notetaker to a live meeting or using the meeting record toggle.
 
 ## Step 3: Track coverage and failures
 
-Compose a notetaker coverage dashboard: % of meetings with notetaker present (target: 80%+ for revenue-impacting types), coverage broken down by meeting type and rep, failed-join count (notetaker invited but didn't join (usually a calendar permission issue), and manual-add count (hosts having to invite Blu manually) signal of misconfigured rules). Flag any type with <60% coverage as a configuration gap. Use the result of "Review your meeting types", "Set the auto-join rules".
+Build a notetaker coverage dashboard showing the percentage of meetings with the notetaker present, with a target of 80% or higher for revenue-impacting meeting types. Break coverage down by meeting type and by rep. Show failed-join count (notetaker invited but did not join, usually a calendar permission issue) and manual-add count (hosts inviting the notetaker by hand), both signals of misconfigured rules. Flag any meeting type with coverage below 60% as a configuration gap. Base this on the results of "Review your meeting types" and "Set the auto-join rules".

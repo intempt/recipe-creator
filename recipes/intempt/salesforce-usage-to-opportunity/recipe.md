@@ -1,7 +1,8 @@
 ---
 frontmatter_id: salesforce-usage-to-opportunity
 slash_command: /salesforce-usage-to-opportunity
-description: Keeps the usage fields on an open opportunity current, so the forecast reflects what the account is doing rather than what was said on a call.
+description: Keeps active seats and usage trend on each account's open Salesforce opportunity current, so the forecast reflects
+  what the account is doing rather than what was said on a call.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,70 +12,64 @@ classification:
   industry:
   - saas-b2b-tech
 portable:
-  summary: Keeps usage fields on an account's open opportunity current so the forecast reflects actual product usage instead
-    of call notes, without touching stage, amount, or close date.
+  summary: Computes active seats and usage trend per account and writes them to the account's open Salesforce opportunity
+    every week.
   parameters:
   - name: activeWindow
     type: duration
-    label: Window for active seat and engagement measures
+    label: Window usage is measured over
     default: 30 d
     required: false
   requirements:
   - slot: account_usage_event
     kind: event
-    meaning: A customer used the product (a session or feature action)
-    properties:
-    - name: feature
-      type: string
-      meaning: Feature used
-      optional: true
+    meaning: A user used the product (a session or feature action)
   - slot: open_opportunity
     kind: integration
-    meaning: Salesforce account with open opportunities that usage fields can be written to
     channel: salesforce
-  - slot: usage_active_seats
-    kind: attribute
-    meaning: Number of active seats for the account
-  - slot: usage_weekly_active_proportion
-    kind: attribute
-    meaning: Share of licensed seats active in a given week
-  - slot: usage_feature_adoption_depth
-    kind: attribute
-    meaning: Depth of feature adoption across the account
-  - slot: usage_monthly_trend
-    kind: attribute
-    meaning: Direction of usage over the last month
+    meaning: Salesforce account with open opportunities whose usage fields can be written
   steps:
   - id: s1
     builds: attribute
     uses:
     - account_usage_event
     - activeWindow
-    instruction: 'Create account attributes describing engagement in the terms the forecast cares about: active seats, weekly
-      active proportion, depth of feature adoption, and trend over the last {activeWindow}. These are the figures a rep would
-      otherwise assert from memory.'
+    instruction: 'Build a computed attribute on accounts named "usage_active_seats": the number of the account''s users who
+      did {account_usage_event} at least once in the last {activeWindow}.'
   - id: s2
+    builds: attribute
+    uses:
+    - account_usage_event
+    - activeWindow
+    instruction: 'Build a computed attribute on accounts named "usage_trend" with one of the values growing, flat or declining:
+      compare the account''s count of {account_usage_event} in the last {activeWindow} with the {activeWindow} before that;
+      growing when it is 10% or more higher, declining when it is 10% or more lower, flat otherwise.'
+  - id: s3
     builds: automation
     uses:
-    - open_opportunity
-    - usage_active_seats
-    - usage_weekly_active_proportion
-    - usage_feature_adoption_depth
-    - usage_monthly_trend
     - s1
-    instruction: 'Create a workflow that finds the open opportunity for the account in {open_opportunity} and updates only
-      the usage fields on it with the values from "Describe usage for the forecast". Write only fields owned by Intempt: never
-      write stage, amount, or close date, which belong to the rep.'
+    - s2
+    - open_opportunity
+    dependsOn:
+    - s1
+    - s2
+    instruction: Build an automation that runs every Monday at 06:00 on a schedule. For each account with an open opportunity
+      in {open_opportunity}, it writes usage_active_seats from "Count active seats" and usage_trend from "Read the usage trend"
+      to that opportunity's usage fields. It never writes stage, amount or close date.
 ---
 
 # Usage onto the Salesforce opportunity
 
 Slash command: /salesforce-usage-to-opportunity
 
-## Step 1: Describe usage for the forecast
+## Step 1: Count active seats
 
-Create account attributes describing engagement in the terms the forecast cares about: active seats, weekly active proportion, depth of feature adoption, trend over the last month. These are what a rep would otherwise assert from memory.
+Build a computed attribute on accounts named "usage_active_seats": the number of the account's users who did account usage event at least once in the last 30 d.
 
-## Step 2: Update the open opportunity
+## Step 2: Read the usage trend
 
-Create a workflow that finds the open opportunity for the account and updates the usage fields on it. Only fields Intempt owns are written: never stage, never amount, never close date, which belong to the rep. A CDP that silently moves a stage is a forecasting incident that presents as an integration. Use the result of "Describe usage for the forecast".
+Build a computed attribute on accounts named "usage_trend" with one of the values growing, flat or declining: compare the account's count of account usage event in the last 30 d with the 30 d before that; growing when it is 10% or more higher, declining when it is 10% or more lower, flat otherwise.
+
+## Step 3: Update the open opportunity
+
+Build an automation that runs every Monday at 06:00 on a schedule. For each account with an open opportunity in open opportunity, it writes usage_active_seats from "Count active seats" and usage_trend from "Read the usage trend" to that opportunity's usage fields. It never writes stage, amount or close date.

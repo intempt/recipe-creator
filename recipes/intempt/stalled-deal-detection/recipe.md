@@ -1,7 +1,8 @@
 ---
 frontmatter_id: stalled-deal-detection
 slash_command: /stalled-deal-detection
-description: Finds deals sitting in a stage far longer than usual with no activity, drafts a nudge that fits the stage, and escalates if they stay stuck.
+description: Finds deals sitting in a stage far longer than usual with no activity, emails the rep a nudge draft that fits
+  the stage, escalates to the manager if they stay stuck, and emails a weekly stalled-deal digest.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,172 +12,127 @@ classification:
   industry:
   - industry-agnostic
 portable:
-  summary: Finds deals stuck in a stage far longer than usual with no recent activity, drafts a stage-fitting nudge for the
-    rep to review, escalates to the manager if still stalled, and reports on stalled deals.
+  summary: Finds contacts on deals stuck in one stage with no activity, emails the rep a stage-fitting nudge draft, escalates
+    if still stuck and sends a weekly digest.
   parameters:
-  - name: stage_percentile_threshold
+  - name: stage_age_days
     type: number
-    label: Stage age percentile threshold (top quartile = 75)
-    default: 75
+    label: Days in the same stage after which a deal counts as stuck
+    default: 30
     required: false
   - name: inactivity_window
     type: duration
-    label: Minimum days without deal activity
+    label: Window with no activity
     default: 14 d
     required: false
   - name: escalation_delay
     type: duration
-    label: Time after first nudge before escalating to manager
+    label: Wait before escalating to the manager
     default: 14 d
     required: false
   - name: nudge_tone
     type: enum
-    label: Nudge email tone
+    label: Nudge tone
     default: direct
     required: false
     options:
     - direct
-    - warm
+    - friendly
     - formal
-  - name: overdue_review_window
-    type: duration
-    label: Lookback window for stalled-deal reporting
-    default: 30 d
-    required: false
+  - name: rep_recipients
+    type: string
+    label: Email addresses of the reps who get nudge drafts
+    required: true
+  - name: manager_recipients
+    type: string
+    label: Email addresses of the sales managers who get escalations
+    required: true
+  - name: digest_recipients
+    type: string
+    label: Email addresses that get the digest
+    required: true
   requirements:
-  - slot: deal_object
+  - slot: deal_stage_changed
     kind: event
-    meaning: A deal record moved through pipeline stages and carries stage, value, owner and open/closed status
+    meaning: A deal the contact is on moved to a new pipeline stage
     properties:
     - name: stage
       type: string
-      meaning: Current pipeline stage of the deal
+      meaning: The stage the deal moved into, such as discovery, demo, proposal, closing, won or lost
       optional: false
     - name: value
       type: number
-      meaning: Deal amount in currency
-      optional: false
+      meaning: Deal value
+      optional: true
     - name: owner
       type: string
       meaning: Rep who owns the deal
-      optional: false
-    - name: paused
-      type: boolean
-      meaning: Rep-set flag marking a legitimate pause
       optional: true
   - slot: activity_event
     kind: event
-    meaning: A customer or rep interaction on a deal such as a meeting, email reply or completed task
-    properties:
-    - name: activity_type
-      type: string
-      meaning: 'Kind of activity: meeting, email reply or task completion'
-      optional: false
-    - name: occurred_at
-      type: date
-      meaning: When the activity happened
-      optional: false
-  - slot: stalled_deals_segment
-    kind: segment
-    meaning: Open deals that are in the top age quartile for their stage and have no activity for the inactivity window
-    creatable: true
-    definition: open deals where days_in_current_stage is in the top {stage_percentile_threshold} percentile for their stage
-      AND days since last activity >= {inactivity_window}, excluding deals with paused flag set
-  - slot: nudge_template
-    kind: knowledge
-    meaning: Stage-specific re-engagement email template with angles for discovery, demo, proposal and closing stalls
-  - slot: rep_task_channel
-    kind: integration
-    meaning: Connected Slack workspace for direct messages to reps and the manager
-    channel: slack
+    meaning: A customer or rep interaction on the deal, such as a meeting, email reply or completed task
+  - slot: deal_paused
+    kind: attribute
+    meaning: User attribute that is true when the rep paused the deal on purpose
+    optional: true
   steps:
   - id: s1
-    builds: attribute
-    uses:
-    - deal_object
-    - activity_event
-    - stage_percentile_threshold
-    instruction: Create an AI-derived attribute 'days_in_current_stage' on {deal_object}, refreshed daily. Compute (a) calendar
-      days since the deal last changed stage; (b) the percentile of this age within the stage's historical median for similar
-      deals (size, segment, owner). Flag deals whose age is at or above the {stage_percentile_threshold} percentile for that
-      stage. Also compute 'days_since_last_activity' from any {activity_event} of type meeting, email reply or task completion
-      on the deal.
-  - id: s2
     builds: segment
     uses:
-    - s1
-    - stalled_deals_segment
-    - deal_object
-    - stage_percentile_threshold
+    - deal_stage_changed
+    - activity_event
+    - deal_paused
+    - stage_age_days
     - inactivity_window
-    instruction: Build segment '{stalled_deals_segment}' of open {deal_object} records where days_in_current_stage is at or
-      above the {stage_percentile_threshold} percentile for the stage AND days_since_last_activity >= {inactivity_window}.
-      Exclude deals where the owner has set the paused flag. Refresh daily. Use the result of "Measure how long it has sat".
-  - id: s3
-    builds: content
-    uses:
-    - s1
-    - s2
-    - nudge_tone
-    instruction: 'Generate an AI-drafted re-engagement email template chosen by stalled stage: Discovery stalled re-asks the
-      qualifying question that went unanswered; Demo stalled offers a technical deep-dive or proof of concept; Proposal stalled
-      notes that pricing pushback usually means the decision-maker is not bought in and offers to align; Closing stalled asks
-      directly for clarity on timeline and remaining blockers. Personalize to the last meeting summary when available. Tone:
-      {nudge_tone}, low-pressure and honest. The rep reviews and sends; never auto-send. Use the result of "Measure how long
-      it has sat" and "Find the genuinely stuck ones".'
-  - id: s4
+    instruction: 'Build a new segment of users named "Contacts on stalled deals". A user is in it when all of these are true:
+      their latest {deal_stage_changed} happened more than {stage_age_days} days ago; in it {deal_stage_changed.stage} is
+      not won or lost; they did not do {activity_event} in the last {inactivity_window}; their {deal_paused} attribute is
+      not true.'
+  - id: s2
     builds: automation
     uses:
     - s1
-    - s2
-    - s3
-    - stalled_deals_segment
+    - deal_stage_changed
+    - nudge_tone
     - escalation_delay
-    - rep_task_channel
-    instruction: 'Create a workflow that fires daily for deals that crossed into {stalled_deals_segment} in the last 24 hours.
-      Steps: (1) compose an AI nudge draft from the "Write a nudge per stage" template and the deal context; (2) create a
-      task for the deal owner labeled ''Review and send: stalled deal nudge'' with the draft attached; (3) send a Slack direct
-      message to the owner with the deal name, a draft preview and a review button, using {rep_task_channel}; (4) if the same
-      deal is still in {stalled_deals_segment} {escalation_delay} after the first nudge task, send a Slack message to the
-      manager via {rep_task_channel} suggesting the deal may need to be closed-lost. Do not auto-send any email; the rep must
-      review. Use the results of "Measure how long it has sat", "Find the genuinely stuck ones" and "Write a nudge per stage".'
-  - id: s5
-    builds: dashboard
+    - rep_recipients
+    - manager_recipients
+    dependsOn:
+    - s1
+    instruction: 'Build an automation that starts when a user enters the segment from "Find the genuinely stuck ones". It
+      writes a short re-engagement email draft in a {nudge_tone}, low-pressure tone that fits {deal_stage_changed.stage}:
+      discovery re-asks the open qualifying question, demo offers a technical deep-dive, proposal offers to align with the
+      decision-maker, closing asks plainly about timeline and blockers. It emails {rep_recipients} the contact''s name, email,
+      {deal_stage_changed.owner}, {deal_stage_changed.stage}, {deal_stage_changed.value} and that draft to review and send
+      themselves. It waits {escalation_delay}; if the user is still in the segment, it emails {manager_recipients} the same
+      deal details. Nothing is sent to the contact.'
+  - id: s3
+    builds: automation
     uses:
     - s1
-    - s2
-    - s3
-    - s4
-    - stalled_deals_segment
-    - overdue_review_window
-    instruction: 'Compose a stalled-deal dashboard over {overdue_review_window}: count of {stalled_deals_segment} deals by
-      stage and owner; total deal value at risk (sum of stalled deal values); median days_in_current_stage of stalled deals;
-      recovery rate (stalled deals that re-engaged and moved to a later stage); and closed-lost discipline rate (stalled deals
-      that stayed stalled 30 or more days before being marked lost). Add a manager view showing which owners let deals stall
-      repeatedly versus those who close deals lost promptly. Use the results of "Measure how long it has sat", "Find the genuinely
-      stuck ones", "Write a nudge per stage" and "Draft it and chase the rep".'
+    - deal_stage_changed
+    - digest_recipients
+    dependsOn:
+    - s1
+    instruction: 'Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes the users in the
+      segment from "Find the genuinely stuck ones" and writes these figures: how many are in it now and 7 days ago; the count
+      by {deal_stage_changed.stage} and by {deal_stage_changed.owner}; the sum of {deal_stage_changed.value} at risk; how
+      many users who left the segment in the last 7 days moved to a later stage and how many to lost. Then it emails these
+      figures as plain-text lines, each with its window, to {digest_recipients}. Nothing else is sent.'
 ---
 
 # Stalled deal detection
 
 Slash command: /stalled-deal-detection
 
-## Step 1: Measure how long it has sat
+## Step 1: Find the genuinely stuck ones
 
-Create an AI-derived attribute 'days_in_current_stage' on the Deal object, refreshed daily. Compute: (a) calendar days since the deal last changed stage; (b) percentile of this age within the stage's historical median for similar deals (size, segment, rep). Flag deals where age is in the top quartile (75th+ percentile) for that stage. Also compute 'Days since last activity' (any meeting / email reply / task completion on the deal).
+Build a new segment of users named "Contacts on stalled deals". A user is in it when all of these are true: their latest deal stage changed happened more than 30 days ago; in it stage is not won or lost; they did not do activity event in the last 14 d; their deal paused attribute is not true.
 
-## Step 2: Find the genuinely stuck ones
+## Step 2: Draft it and chase the rep
 
-Build a segment 'Stalled deals' capturing open deals where (a) days_in_current_stage is in the top quartile for that stage AND (b) Days since last activity >= 14 days. Excludes deals where the rep has manually set a 'paused' flag (legitimate pause, coming back next quarter, etc.). Refreshed daily. Use the result of "Measure how long it has sat".
+Build an automation that starts when a user enters the segment from "Find the genuinely stuck ones". It writes a short re-engagement email draft in a direct, low-pressure tone that fits stage: discovery re-asks the open qualifying question, demo offers a technical deep-dive, proposal offers to align with the decision-maker, closing asks plainly about timeline and blockers. It emails the email addresses of the reps who get nudge drafts the contact's name, email, owner, stage, value and that draft to review and send themselves. It waits 14 d; if the user is still in the segment, it emails the email addresses of the sales managers who get escalations the same deal details. Nothing is sent to the contact.
 
-## Step 3: Write a nudge per stage
+## Step 3: See what is really dead
 
-Generate an AI-drafted re-engagement email template. The AI picks angle based on stalled-stage: (a) Discovery stalled (re-ask the qualifying question that wasn't answered; (b) Demo stalled) offer technical deep-dive or POC; (c) Proposal stalled (surface that pricing pushback usually means decision-maker isn't bought in, offer to align; (d) Closing stalled) explicit clarity-ask about timeline + remaining blockers. Personalized to last meeting summary if available. Tone: direct, low-pressure, honest. The rep reviews and sends: not auto-send. Use the result of "Measure how long it has sat", "Find the genuinely stuck ones".
-
-## Step 4: Draft it and chase the rep
-
-Create a workflow firing daily for newly-stalled deals (deals that crossed into stalled-segment in the last 24 hours). Step sequence: (1) compose AI nudge draft using the asset template + deal context; (2) create a task for the deal owner labeled 'Review and send: stalled deal nudge' with the draft pre-attached; (3) post Slack DM to the rep with deal name + draft preview + 'review' button; (4) escalate to manager via Slack if same deal is still stalled 14 days after first nudge task (signal: deal should probably be closed-lost). Don't auto-send the email: rep must review. Use the result of "Measure how long it has sat", "Find the genuinely stuck ones", "Write a nudge per stage".
-
-## Step 5: See what is really dead
-
-Compose a stalled-deal dashboard: count of stalled deals by stage and rep, total ARR at risk (sum of stalled deals' values), median age of stalled deals, recovery rate (stalled deals that re-engaged and moved stage forward), and dishonesty rate (stalled deals that should have been closed-lost: measured as deals that stay stalled 30+ days before eventually being marked lost). Manager view: which reps consistently let deals stall vs. honestly close-lost. Use the result of "Measure how long it has sat", "Find the genuinely stuck ones", "Write a nudge per stage", "Draft it and chase the rep".
+Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes the users in the segment from "Find the genuinely stuck ones" and writes these figures: how many are in it now and 7 days ago; the count by stage and by owner; the sum of value at risk; how many users who left the segment in the last 7 days moved to a later stage and how many to lost. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.

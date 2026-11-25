@@ -10,6 +10,8 @@ author:
 classification:
   industry:
   - industry-agnostic
+visibility: draft
+rejected: Its purpose is linking meeting records to CRM deals (a CRM write); Blu has no meeting-to-deal linking or CRM writes.
 portable:
   summary: Automatically links revenue-impacting meetings to the right deal, routes uncertain matches to hosts for confirmation,
     and tracks linking coverage on a hygiene dashboard.
@@ -107,6 +109,8 @@ portable:
     - host_task_queue
     - linking_dashboard
     - s1
+    dependsOn:
+    - s1
     instruction: 'Create a workflow firing daily that finds new unlinked revenue-impacting meetings (incremental from the
       audit in "Find meetings with no deal"). For each: (1) compute the most-likely deal match: same account, open stage,
       and attendees overlapping deal contacts ({account_contacts}); (2) if confidence is high (single clear match), auto-link
@@ -123,6 +127,8 @@ portable:
     - warning_linking_rate
     - s1
     - s2
+    dependsOn:
+    - s1
     instruction: 'Compose a meeting-deal-linking hygiene dashboard showing: percent of revenue-impacting meetings linked to
       deals (target {high_target_linking_rate}%+; below {warning_linking_rate}% means the linking workflow is failing or reps
       are not acting on confirmation tasks); count of meetings auto-linked vs. manually linked vs. unlinked and needing review;
@@ -138,12 +144,12 @@ Slash command: /meeting-deal-linking-audit
 
 ## Step 1: Find meetings with no deal
 
-List all meetings from the last 60 days that have no linked deal. Filter to meetings where the meeting type is revenue-impacting (Discovery, Demo, Proposal, Close, Renewal: exclude internal sync, 1:1, interview). For each unlinked meeting, surface: meeting date, host, attendees (with company), and any open deals on attendees' accounts. The output is the working set for the linking action.
+List all meetings from the last 60 d that have no linked deal. Filter to meetings where the meeting type is revenue-impacting (discovery_demo_proposal_close_renewal: Discovery, Demo, Proposal, Close, Renewal; exclude internal sync, 1:1, interview). For each unlinked meeting, surface: meeting date (meeting date), host (host), attendees with company (attendees), and any open deals on attendees' accounts (open deal). The output is the working set for the linking action.
 
 ## Step 2: Keep new meetings linked
 
-Create a workflow firing daily that finds new unlinked revenue-impacting meetings (incremental from the audit). For each: (1) compute the most-likely deal match: same account + open stage + attendees overlap with deal contacts; (2) if confidence is high (single clear match), auto-link via link_meeting_to_deal; (3) if confidence is medium (multiple plausible matches or attendees-don't-overlap-deal-contacts), create a task for the meeting host asking them to confirm the right deal; (4) if no plausible match exists (account has no open deals), log to the dashboard for review (likely a new opp that needs a deal record). Use the result of "Find meetings with no deal".
+Create a workflow firing daily that finds new unlinked revenue-impacting meetings (incremental from the audit in "Find meetings with no deal"). For each: (1) compute the most-likely deal match: same account, open stage, and attendees overlapping deal contacts (account contacts); (2) if confidence is high (single clear match), auto-link via link meeting to deal; (3) if confidence is medium (multiple plausible matches or attendees do not overlap deal contacts), create a task for the meeting host (host) in host task queue asking them to confirm the right deal; (4) if no plausible match exists (account has no open deals), log to linking dashboard for review as a likely new opportunity needing a deal record.
 
 ## Step 3: Track linking coverage
 
-Compose a meeting-deal-linking hygiene dashboard: % of revenue-impacting meetings linked to deals (target: 95%+; below 85% means the linking workflow is failing or reps aren't acting on confirmation tasks); count of meetings auto-linked vs. manually-linked vs. unlinked-needing-review; top 5 hosts with most unlinked meetings (coaching signal); recent meetings where 'no plausible deal match' was flagged (likely missing opportunities). Trend over time: falling linking-rate is a leading indicator of pipeline visibility decay. Use the result of "Find meetings with no deal", "Keep new meetings linked".
+Compose a meeting-deal-linking hygiene dashboard showing: percent of revenue-impacting meetings linked to deals (target 95%+; below 85% means the linking workflow is failing or reps are not acting on confirmation tasks); count of meetings auto-linked vs. manually linked vs. unlinked and needing review; top 5 hosts (host) with the most unlinked meetings as a coaching signal; and recent meetings where no plausible deal match was flagged in "Keep new meetings linked" as likely missing opportunities. Include a trend of the linking rate over time, since a falling rate is a leading indicator of pipeline visibility decay. Use the results of "Find meetings with no deal" and "Keep new meetings linked".

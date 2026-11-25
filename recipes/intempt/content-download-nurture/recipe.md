@@ -1,7 +1,8 @@
 ---
 frontmatter_id: content-download-nurture
 slash_command: /content-download-nurture
-description: Follows a gated download with two more pieces on the same topic and a soft invite, and fast tracks anyone who reads all three.
+description: Follows a gated content download with a related piece, a customer story and a soft demo invite over two weeks,
+  and alerts sales when someone downloads several pieces.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,8 +12,7 @@ classification:
   industry:
   - saas-b2b-tech
 portable:
-  summary: Sends a three-touch nurture series over two weeks to people who download a gated content piece, and fast-tracks
-    those who engage strongly to sales.
+  summary: Sends people who download gated content a three-email nurture over two weeks and alerts sales about repeat downloaders.
   parameters:
   - name: lookback_window
     type: duration
@@ -21,58 +21,33 @@ portable:
     required: false
   - name: touch_1_delay
     type: duration
-    label: Delay before touch 1
+    label: Wait after entering before email 1
     default: 1 d
     required: false
   - name: touch_2_delay
     type: duration
-    label: Delay before touch 2
-    default: 7 d
+    label: Wait after email 1 before email 2
+    default: 6 d
     required: false
   - name: touch_3_delay
     type: duration
-    label: Delay before touch 3
-    default: 14 d
-    required: false
-  - name: journey_timeout
-    type: duration
-    label: Journey timeout
-    default: 21 d
-    required: false
-  - name: strong_open_count
-    type: number
-    label: Emails opened to count as strong engagement
-    default: 3
-    required: false
-  - name: strong_click_count
-    type: number
-    label: CTA clicks to count as strong engagement
-    default: 2
+    label: Wait after email 2 before email 3
+    default: 7 d
     required: false
   - name: multi_download_threshold
     type: number
-    label: Downloads that flag a multi-download user
+    label: Downloads that make someone a repeat downloader
     default: 3
     required: false
-  - name: marketing_sender
+  - name: alert_recipients
     type: string
-    label: Sender for touches 1 and 2 (marketing)
-    default: marketing@
-    required: false
-  - name: sales_sender
-    type: string
-    label: Sender for touch 3 (sales)
-    default: sales@
-    required: false
+    label: Email addresses of the sales team alerted about repeat downloaders
+    required: true
   requirements:
   - slot: content_download_event
     kind: event
-    meaning: A customer submitted the gated content download form
+    meaning: A person submitted a gated content download form
     properties:
-    - name: form_type
-      type: string
-      meaning: Type of form submitted, here content_download
-      optional: false
     - name: content_topic
       type: string
       meaning: Topic of the downloaded content
@@ -81,89 +56,83 @@ portable:
       type: string
       meaning: Title of the downloaded content piece
       optional: true
-  - slot: paying_customer_segment
-    kind: segment
-    meaning: Users who are already paying customers
-  - slot: open_deal_segment
-    kind: segment
-    meaning: Users who have an open deal
+  - slot: plan
+    kind: attribute
+    meaning: The user's current plan, empty or free/trial when they are not paying
   - slot: meeting_scheduled_event
     kind: event
-    meaning: A customer scheduled a meeting
+    meaning: A person scheduled a meeting with sales
   - slot: deal_created_event
     kind: event
-    meaning: A deal was created for a customer
-  - slot: email_channel
-    kind: destination
-    meaning: Email sending channel for nurture emails
-    channel: email
-  - slot: sdr_task_destination
-    kind: destination
-    meaning: Task queue for sales development reps to follow up on high-intent leads
-    channel: hubspot
+    meaning: A deal was created for a person
   steps:
   - id: s1
     builds: segment
     uses:
     - content_download_event
-    - paying_customer_segment
-    - open_deal_segment
+    - plan
+    - deal_created_event
     - lookback_window
-    instruction: Build the segment 'Recent content downloaders - last {lookback_window}' of users who submitted {content_download_event}
-      where {content_download_event.form_type} is content_download within the last {lookback_window}, partitioned by {content_download_event.content_topic}
-      so each topic gets its own nurture cadence. Exclude users in {paying_customer_segment} and users in {open_deal_segment}.
+    instruction: Build a new segment of users named "Recent content downloaders". A user is in it when they did {content_download_event}
+      at least once in the last {lookback_window}, they did not do {deal_created_event} at any time, and their {plan} attribute
+      is empty, free or trial.
   - id: s2
     builds: email
     uses:
-    - content_download_event
-    - touch_1_delay
-    - touch_2_delay
-    - touch_3_delay
-    - marketing_sender
-    - sales_sender
     - s1
-    instruction: 'For each content topic in the ''Recent content downloaders'' segment, write a three-touch nurture email
-      series that is educational first and sales second. Touch 1 (sent {touch_1_delay} after download) thanks the reader for
-      downloading {content_download_event.content_title} and offers a related piece of content on the same topic. Touch 2
-      (sent {touch_2_delay} after download) shares a customer case study from a similar company or industry where the same
-      topic problem was solved with our product. Touch 3 (sent {touch_3_delay} after download) makes a warm call to action:
-      invite the reader to see how it works in their context by booking a 30-minute demo or trying it free for 14 days. Send
-      touches 1 and 2 from {marketing_sender} and touch 3 from {sales_sender}. If the brand kit has no logo, use the brand
-      name as a plain text header.'
+    - content_download_event
+    dependsOn:
+    - s1
+    instruction: Write a designed HTML email for users in the segment from "Find recent downloaders". Thank them for downloading
+      {content_download_event.content_title} and suggest one more read on the same topic, {content_download_event.content_topic},
+      with one button to the resources page. Educational, no sales ask.
   - id: s3
+    builds: email
+    uses:
+    - s1
+    - content_download_event
+    dependsOn:
+    - s1
+    instruction: Write a designed HTML email for users in the segment from "Find recent downloaders". Share one short customer
+      story about a company that solved a problem on the topic {content_download_event.content_topic} with our product, with
+      the result in one line and one button to read the full story. Helpful, light on selling.
+  - id: s4
+    builds: email
+    uses:
+    - s1
+    - content_download_event
+    dependsOn:
+    - s1
+    instruction: Write a designed HTML email for users in the segment from "Find recent downloaders". Invite them to see how
+      the ideas on {content_download_event.content_topic} would work for their team in a 30-minute demo, with one button to
+      book it. Warm, low pressure, no pricing.
+  - id: s5
     builds: automation
     uses:
-    - content_download_event
-    - touch_1_delay
-    - touch_2_delay
-    - touch_3_delay
-    - strong_open_count
-    - strong_click_count
-    - sdr_task_destination
-    - meeting_scheduled_event
-    - deal_created_event
-    - journey_timeout
-    - s2
-    instruction: 'Build a three-touch journey triggered when {content_download_event} fires. Send the ''Write three emails
-      per topic'' touches at {touch_1_delay}, {touch_2_delay} and {touch_3_delay} after the download. Engagement branch: if
-      the user opens at least {strong_open_count} of the three emails and clicks at least {strong_click_count} call-to-action
-      links, create a follow-up task in {sdr_task_destination} as a high-intent signal and exit the journey. Restart rule:
-      if the user downloads another piece of content during the journey, reset the journey to day 1 using the new topic. Exit
-      conditions: {meeting_scheduled_event} occurs, {deal_created_event} occurs, or {journey_timeout} elapses.'
-  - id: s4
-    builds: dashboard
-    uses:
-    - content_download_event
-    - multi_download_threshold
-    - meeting_scheduled_event
-    - deal_created_event
     - s1
     - s2
     - s3
-    instruction: 'Build a content-nurture funnel dashboard showing: content-download volume by {content_download_event.content_topic};
-      download-to-meeting conversion rate by topic; email engagement for each touch of the ''Write three emails per topic''
-      series; count of users with {multi_download_threshold} or more downloads flagged for SDR fast-tracking; and pipeline
-      value from content-sourced deals closed over the longer cycle.'
+    - s4
+    - touch_1_delay
+    - touch_2_delay
+    - touch_3_delay
+    - meeting_scheduled_event
+    - deal_created_event
+    - content_download_event
+    - multi_download_threshold
+    - lookback_window
+    - alert_recipients
+    dependsOn:
+    - s1
+    - s2
+    - s3
+    - s4
+    instruction: 'Build an automation that starts when a user enters the segment from "Find recent downloaders". It waits
+      {touch_1_delay} and sends the email from "Write email 1: a related piece", waits {touch_2_delay} and sends the email
+      from "Write email 2: a customer story", waits {touch_3_delay} and sends the email from "Write email 3: a soft demo invite".
+      Before each send it stops if the user did {meeting_scheduled_event} or {deal_created_event} since entering. When the
+      user has done {content_download_event} {multi_download_threshold} or more times in the last {lookback_window}, it emails
+      {alert_recipients} once with their name, email and the topics they downloaded.'
 ---
 
 # Content download nurture
@@ -172,16 +141,20 @@ Slash command: /content-download-nurture
 
 ## Step 1: Find recent downloaders
 
-Build a segment 'Recent content downloaders - last 30 days' capturing users with Form submitted where form_type = content_download in the last 30 days, partitioned by the content_topic (so each topic gets its own nurture cadence). Excludes users who are already paying customers (different motion) and users with an open deal already (don't double-nurture).
+Build a new segment of users named "Recent content downloaders". A user is in it when they did content download event at least once in the last 30 d, they did not do deal created event at any time, and their plan attribute is empty, free or trial.
 
-## Step 2: Write three emails per topic
+## Step 2: Write email 1: a related piece
 
-Generate 3-touch nurture email content per content topic. Touch 1 (Day 1): 'Thanks for downloading (fill in: content title) (here's a related piece you might like') second piece of related content. Touch 2 (Day 7): customer case study from a similar company/industry where the topic problem was solved using your product. Touch 3 (Day 14): warm CTA: 'Want to see how this works in your context? Book a 30-min demo' or 'Try it free for 14 days'. Each email educational-first, sales-second. Send-from: marketing@ for touch 1-2, sales@ or AE for touch 3. Use the result of "Find recent downloaders". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link. Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.
+Write a designed HTML email for users in the segment from "Find recent downloaders". Thank them for downloading content title and suggest one more read on the same topic, content topic, with one button to the resources page. Educational, no sales ask.
 
-## Step 3: Send on days 1, 7 and 14
+## Step 3: Write email 2: a customer story
 
-Build a 3-touch journey triggered when content_download event fires. Touch 1: Day 1. Touch 2: Day 7. Touch 3: Day 14. Add an engagement branch: if the user engages strongly (opens all 3 emails + clicks 2+ CTAs), fast-track to an SDR task (high-intent signal) and exit journey. If user downloads ANOTHER piece of content during the journey, reset the journey to Day 1 with the new topic (signals deeper exploration, restart the nurture in the new context). Exit conditions: Meeting scheduled, Deal created, or 21-day timeout. Use the result of "Find recent downloaders", "Write three emails per topic".
+Write a designed HTML email for users in the segment from "Find recent downloaders". Share one short customer story about a company that solved a problem on the topic content topic with our product, with the result in one line and one button to read the full story. Helpful, light on selling.
 
-## Step 4: See which topics make pipeline
+## Step 4: Write email 3: a soft demo invite
 
-Compose a content-nurture funnel dashboard: content-download volume by topic (which topics attract the most downloads: informs content strategy), download-to-meeting conversion rate by topic (which topics actually correlate with sales pipeline: informs which content to produce more of), email engagement per touch, multi-download user count (users downloading 3+ pieces are high-intent signals: flag for SDR fast-tracking), and content-to-deal-closed pipeline value (the longer-cycle proof-of-value). Use the result of "Find recent downloaders", "Write three emails per topic", "Send on days 1, 7 and 14".
+Write a designed HTML email for users in the segment from "Find recent downloaders". Invite them to see how the ideas on content topic would work for their team in a 30-minute demo, with one button to book it. Warm, low pressure, no pricing.
+
+## Step 5: Send on days 1, 7 and 14
+
+Build an automation that starts when a user enters the segment from "Find recent downloaders". It waits 1 d and sends the email from "Write email 1: a related piece", waits 6 d and sends the email from "Write email 2: a customer story", waits 7 d and sends the email from "Write email 3: a soft demo invite". Before each send it stops if the user did meeting scheduled event or deal created event since entering. When the user has done content download event 3 or more times in the last 30 d, it emails the email addresses of the sales team alerted about repeat downloaders once with their name, email and the topics they downloaded.

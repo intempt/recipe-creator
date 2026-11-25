@@ -11,72 +11,66 @@ classification:
   industry:
   - saas-b2b-tech
 portable:
-  summary: Creates a Salesforce lead as soon as product usage shows a prospect is ready, so the signal becomes a record a
-    rep can work, without creating duplicates.
+  summary: Builds a product-qualified users segment and upserts each new member as a Salesforce lead, matched on an external
+    ID so no lead is doubled.
   parameters:
   - name: usage_threshold
-    type: string
-    label: Usage threshold that qualifies a user
-    default: <UNKNOWN>
+    type: number
+    label: Key product actions that make a user product-qualified
+    default: 20
     required: false
-  - name: failure_policy
-    type: enum
-    label: Failure policy when a lead is rejected
-    default: skip_and_record
+  - name: usage_window
+    type: duration
+    label: Window the key actions are counted over
+    default: 14 d
     required: false
-    options:
-    - skip_and_record
-    - stop_all
   requirements:
-  - slot: product_qualified_signal
-    kind: segment
-    meaning: Users who reached the product-qualified usage signal (usage threshold, feature reached, or seats added)
-    creatable: true
-    definition: users who reached {usage_threshold} on product usage
+  - slot: key_product_action
+    kind: event
+    meaning: A user did the product action that signals buying readiness (a core feature used)
+  - slot: plan
+    kind: attribute
+    meaning: The user's current plan, empty or free/trial when they are not paying
   - slot: salesforce_integration
     kind: integration
-    meaning: A connected Salesforce account that can create and upsert leads
     channel: salesforce
+    meaning: A connected Salesforce account that can upsert leads
   - slot: lead_external_id
     kind: attribute
-    meaning: An external ID field on the Salesforce lead used as the upsert match key
+    meaning: User attribute with the external ID used as the Salesforce lead upsert match key
   - slot: lead_score
     kind: attribute
-    meaning: A customer score attribute owned by the project
-    optional: true
-  - slot: qualifying_signal
-    kind: attribute
-    meaning: An attribute recording which product signal qualified the user
+    meaning: A lead score attribute owned by the project
     optional: true
   - slot: lead_source
     kind: attribute
-    meaning: An attribute recording the source of the user
+    meaning: An attribute recording where the user came from
     optional: true
   steps:
   - id: s1
     builds: segment
     uses:
+    - key_product_action
+    - plan
     - usage_threshold
-    - product_qualified_signal
-    instruction: Create the segment {product_qualified_signal} describing the product-qualified signal using {usage_threshold}
-      (usage threshold, feature reached, or seats added). Keep the definition in the segment so sales and product can both
-      review it.
+    - usage_window
+    instruction: Build a new segment of users named "Product-qualified users". A user is in it when they did {key_product_action}
+      {usage_threshold} or more times in the last {usage_window} and their {plan} attribute is empty, free or trial.
   - id: s2
     builds: automation
     uses:
     - s1
-    - product_qualified_signal
     - salesforce_integration
     - lead_external_id
     - lead_score
-    - qualifying_signal
     - lead_source
-    - failure_policy
-    instruction: 'Create a workflow that enrolls members of the segment from "Agree the qualifying signal" and, for each member,
-      upserts a Salesforce lead through {salesforce_integration} using {lead_external_id} as the match key. Do not use plain
-      create. Map only the fields the project owns: {lead_score}, {qualifying_signal} and {lead_source}. Leave all Salesforce-owned
-      fields untouched. Set the failure policy to {failure_policy} so a rejected lead is skipped and recorded without stopping
-      the remaining leads.'
+    dependsOn:
+    - s1
+    instruction: Build an automation that starts when a user enters the segment from "Agree the qualifying signal" and upserts
+      a lead in {salesforce_integration} for that user, matched on their {lead_external_id} attribute so an existing lead
+      is updated, never duplicated. It writes only the user's name, email, {lead_score}, {lead_source} and the qualifying
+      signal "Product-qualified users"; every other Salesforce field is left untouched. A lead Salesforce rejects is skipped
+      and recorded, and the other users carry on.
 ---
 
 # Product qualified signal to a Salesforce lead
@@ -85,8 +79,8 @@ Slash command: /salesforce-pql-to-lead
 
 ## Step 1: Agree the qualifying signal
 
-Create a segment describing the product-qualified signal (the usage threshold, the feature reached, the seats added) rather than encoding it inside the workflow. The definition is the thing sales and product will argue about, so it needs to live somewhere both can see it.
+Build a new segment of users named "Product-qualified users". A user is in it when they did key product action 20 or more times in the last 14 d and their plan attribute is empty, free or trial.
 
 ## Step 2: Upsert the lead, never double
 
-Create a workflow enrolling members of the segment and creating a Salesforce lead for each. Use upsert with an external ID rather than create, because a create without a match key is a duplicate generator and the rep pays for it. Map only fields Intempt owns (the score, the signal, the source) and leave Salesforce-owned fields alone. Failure policy is skip-and-record so one rejected lead does not stop the rest. Use the result of "Agree the qualifying signal".
+Build an automation that starts when a user enters the segment from "Agree the qualifying signal" and upserts a lead in salesforce integration for that user, matched on their lead external id attribute so an existing lead is updated, never duplicated. It writes only the user's name, email, lead score, lead source and the qualifying signal "Product-qualified users"; every other Salesforce field is left untouched. A lead Salesforce rejects is skipped and recorded, and the other users carry on.

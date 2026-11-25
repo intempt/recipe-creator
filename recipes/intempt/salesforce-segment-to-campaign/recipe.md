@@ -1,7 +1,8 @@
 ---
 frontmatter_id: salesforce-segment-to-campaign
 slash_command: /salesforce-segment-to-campaign
-description: Puts a segment's members into a Salesforce campaign, which is how an audience built here becomes something a sales team can run against.
+description: Adds each member of a chosen segment to a Salesforce campaign, which is how an audience built here becomes something
+  a sales team can run against.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,61 +12,42 @@ classification:
   industry:
   - industry-agnostic
 portable:
-  summary: Adds members of a segment to a Salesforce campaign once each, so an audience built here can be worked by the sales
-    team without duplicate campaign records.
+  summary: Adds every member of a segment you choose to a Salesforce campaign, once each, so sales works the same audience.
   parameters:
   - name: campaign_member_status
     type: string
-    label: Campaign member status to assign
-    default: <UNKNOWN>
-    required: true
-  - name: audience_name
-    type: string
-    label: Name for the audience segment
-    default: Salesforce campaign audience
+    label: Campaign member status given to added members
+    default: Sent
     required: false
   requirements:
-  - slot: salesforce_account
-    kind: integration
-    meaning: A connected Salesforce account with access to the target campaign
-    channel: salesforce
-  - slot: target_campaign
-    kind: destination
-    meaning: The Salesforce campaign that segment members should be added to
-    channel: salesforce
   - slot: audience_source
     kind: segment
-    meaning: The audience whose members belong in the Salesforce campaign
-    creatable: true
-    definition: users who make up the audience to be added to the Salesforce campaign
+    meaning: The existing segment whose members belong in the Salesforce campaign
+  - slot: salesforce_account
+    kind: integration
+    channel: salesforce
+    meaning: A connected Salesforce account with access to the target campaign
+  - slot: target_campaign
+    kind: destination
+    channel: salesforce
+    meaning: The Salesforce campaign that segment members are added to
   steps:
   - id: s1
-    builds: segment
-    uses:
-    - audience_name
-    instruction: Create the segment {audience_name} whose members belong in the campaign. Keep the definition here rather
-      than duplicating it in Salesforce, so there is one answer to who is in the audience.
-  - id: s2
     builds: automation
     uses:
-    - s1
     - audience_source
-    - target_campaign
     - salesforce_account
+    - target_campaign
     - campaign_member_status
-    instruction: 'Create a workflow that adds each member of {audience_source} to {target_campaign} in {salesforce_account}
-      with campaign member status {campaign_member_status}. Adding is idempotent: a member already in the campaign is left
-      alone rather than duplicated. Removal is not part of this workflow. Use the segment from "Define the audience once".'
+    instruction: Build an automation that starts when a user enters the segment {audience_source} and adds that user to {target_campaign}
+      in {salesforce_account} with campaign member status {campaign_member_status}. A user already in the campaign is left
+      as is, never added twice. Users who leave the segment are not removed from the campaign.
 ---
 
 # Segment into a Salesforce campaign
 
 Slash command: /salesforce-segment-to-campaign
 
-## Step 1: Define the audience once
+## Step 1: Add members without doubling
 
-Create the segment whose members belong in the campaign. Keep the definition here rather than duplicating it in Salesforce, so there is one answer to who is in the audience.
-
-## Step 2: Add members without doubling
-
-Create a workflow that adds each member to the named Salesforce campaign with a campaign member status. Adding is idempotent (a member already in the campaign is left alone rather than duplicated) and removal is deliberately not part of this recipe, because campaign membership is a record of who was contacted and deleting it destroys attribution. Use the result of "Define the audience once".
+Build an automation that starts when a user enters the segment audience source and adds that user to target campaign in salesforce account with campaign member status Sent. A user already in the campaign is left as is, never added twice. Users who leave the segment are not removed from the campaign.

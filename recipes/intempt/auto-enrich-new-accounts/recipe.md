@@ -10,6 +10,9 @@ author:
 classification:
   industry:
   - industry-agnostic
+visibility: draft
+rejected: Its core is filling firmographics from an outside company-data provider; Blu steps cannot call an enrichment API
+  or write those fields.
 portable:
   summary: Automatically enriches each new account with industry, size, revenue and tech stack, scores its ICP fit, routes
     top accounts to an owner, and tracks enrichment coverage.
@@ -92,6 +95,8 @@ portable:
     - identified_user
     - backfill_lookback
     - s1
+    dependsOn:
+    - s1
     instruction: Build a segment named 'Unenriched accounts' containing accounts where (a) industry, employee count and country
       are all empty, AND (b) the account was created within {backfill_lookback}, AND (c) the account has at least one identified
       user. This segment feeds the periodic backfill workflow for accounts that escaped real-time enrichment. Use the icp_fit_score
@@ -107,6 +112,8 @@ portable:
     - data_quality_slack
     - s1
     - s2
+    dependsOn:
+    - s1
     instruction: 'Create a workflow with two triggers: (a) when {account_created} fires, run real-time enrichment; (b) run
       daily on the ''Unenriched accounts'' segment from "Find the accounts still blank" for backfill. Steps in order: (1)
       call {enrichment_api} with the account domain, skipping accounts enriched within {enrichment_window}; (2) update the
@@ -123,6 +130,8 @@ portable:
     - s1
     - s2
     - s3
+    dependsOn:
+    - s1
     instruction: 'Compose an enrichment coverage dashboard with these panels: percentage of {active_accounts} fully enriched,
       against a target of {coverage_target} percent; distribution of icp_fit_score across active accounts from "Score the
       fit once enriched"; enrichment API success rate, where a low rate points to vendor or domain quality issues; median
@@ -137,16 +146,16 @@ Slash command: /auto-enrich-new-accounts
 
 ## Step 1: Score the fit once enriched
 
-Create an AI-derived attribute 'icp_fit_score' on the Account object. Inputs after enrichment: industry (match against ICP target industries), employee count band, annual revenue band, tech stack signals (does the account use complementary tools that signal fit?), geographic match. Output: 0-100 score with tier (ideal 80+, viable 50-79, marginal 20-49, poor <20). Refreshed when enrichment data updates.
+Create an account-level AI-derived attribute named icp_fit_score on the Account object. Inputs, read after enrichment: industry matched against icp target industries, employee count band, annual revenue band, tech stack signals showing complementary tools that indicate fit, and geographic match. Output a 0-100 score with tier: ideal 80 and above, viable 50-79, marginal 20-49, poor below 20. Refresh whenever enrichment data on the account updates.
 
 ## Step 2: Find the accounts still blank
 
-Build a segment 'Unenriched accounts' capturing accounts where (a) firmographic fields (industry, employee_count, country) are null AND (b) account created in last 90 days AND (c) account has at least one identified user. Used for the periodic backfill workflow on accounts that escaped real-time enrichment. Use the result of "Score the fit once enriched".
+Build a segment named 'Unenriched accounts' containing accounts where (a) industry, employee count and country are all empty, AND (b) the account was created within 90 d, AND (c) the account has at least one identified user. This segment feeds the periodic backfill workflow for accounts that escaped real-time enrichment. Use the icp_fit_score attribute from "Score the fit once enriched" for scoring.
 
 ## Step 3: Enrich on creation, then daily
 
-Create a workflow with two triggers: (a) firing on account creation (real-time enrichment), and (b) scheduled daily for the unenriched-accounts segment (backfill). Step sequence: (1) call enrichment API (Apollo/ZoomInfo/Clearbit) with the account domain; (2) update account record with firmographics (industry, employee_count, revenue, geography, tech_stack); (3) compute icp_fit_score; (4) if score = ideal AND no AE assigned, route via territory rules; (5) post enrichment summary to Slack #data-quality channel if enrichment confidence is low (manual review needed). Skip enrichment for accounts already enriched in last 90 days. Use the result of "Score the fit once enriched", "Find the accounts still blank".
+Create a workflow with two triggers: (a) when account created fires, run real-time enrichment; (b) run daily on the 'Unenriched accounts' segment from "Find the accounts still blank" for backfill. Steps in order: (1) call enrichment api with the account domain, skipping accounts enriched within 90 d; (2) update the account with industry, employee count, annual revenue, geography and tech stack; (3) recompute icp_fit_score from "Score the fit once enriched"; (4) if icp_fit_score tier is ideal and no account executive is assigned, route the account using territory rules; (5) if enrichment confidence is low, post an enrichment summary to data quality slack for manual review.
 
 ## Step 4: Check coverage and fit mix
 
-Compose an enrichment coverage dashboard: % of active accounts fully enriched (target: 95%+), distribution of icp_fit_score across the active account base, enrichment API success rate (low = vendor issue or domain quality issue), median time from account-creation to fully-enriched (should be < 5 minutes for real-time path), and ICP-tier mix among new accounts (a leading indicator of marketing/sales targeting health). Use the result of "Score the fit once enriched", "Find the accounts still blank", "Enrich on creation, then daily".
+Compose an enrichment coverage dashboard with these panels: percentage of active accounts fully enriched, against a target of 95 percent; distribution of icp_fit_score across active accounts from "Score the fit once enriched"; enrichment API success rate, where a low rate points to vendor or domain quality issues; median time from account creation to fully enriched, against a target of 5 min for the real-time path; and ICP tier mix among new accounts as a leading indicator of targeting health. Include the unenriched backlog from "Find the accounts still blank" and the outcomes of "Enrich on creation, then daily".

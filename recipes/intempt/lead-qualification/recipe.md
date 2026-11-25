@@ -1,7 +1,8 @@
 ---
 frontmatter_id: lead-qualification
 slash_command: /lead-qualification
-description: Scores inbound leads, sends the sales ready ones round robin to a rep with the context attached, and puts the rest into nurture.
+description: Scores inbound leads, emails each sales ready one to the sales team with its context attached, and puts warm
+  leads into a two-email nurture.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,25 +12,28 @@ classification:
   industry:
   - industry-agnostic
 portable:
-  summary: Scores inbound leads, routes sales-ready leads round robin to a rep with context attached, and places the rest
-    into nurture.
+  summary: Scores inbound leads, emails sales-ready ones with context to the sales team, and nurtures warm leads with two
+    emails.
   parameters:
   - name: hot_threshold
     type: number
-    label: Qualification score at or above which a lead is hot
-    required: true
+    label: Score at or above which a lead is sales-ready
+    default: 75
+    required: false
   - name: warm_threshold
     type: number
-    label: Qualification score at or above which a lead is warm
-    required: true
+    label: Score at or above which a lead is warm
+    default: 40
+    required: false
   - name: nurture_cadence
     type: duration
-    label: Cadence between nurture touches
+    label: Wait between the nurture emails
+    default: 7 d
+    required: false
+  - name: alert_recipients
+    type: string
+    label: Email addresses of the sales team that gets sales-ready leads
     required: true
-  - name: dashboard_window
-    type: duration
-    label: Reporting window for the handoff dashboard
-    default: 30 d
   requirements:
   - slot: inbound_lead_event
     kind: event
@@ -37,101 +41,76 @@ portable:
     properties:
     - name: company_size
       type: number
-      meaning: Employee count of the prospect's company
-      optional: true
+      meaning: Number of employees at the prospect's company
+      optional: false
     - name: industry
       type: string
       meaning: Industry of the prospect's company
       optional: true
     - name: intent_signal
-      type: number
-      meaning: Strength of buying intent signal
-      optional: true
+      type: string
+      meaning: 'What the prospect asked for: demo, pricing, trial or content'
+      optional: false
     - name: engagement_score
       type: number
-      meaning: Engagement level of the prospect
-      optional: true
-  - slot: lead_qualification_attribute
-    kind: attribute
-    meaning: A lead qualification score combining firmographic fit, intent, and engagement
-  - slot: hot_lead_segment
-    kind: segment
-    meaning: Leads at or above the hot qualification score
-  - slot: warm_lead_segment
-    kind: segment
-    meaning: Leads at or above the warm qualification score and below hot
-  - slot: cold_lead_segment
-    kind: segment
-    meaning: Leads below the warm qualification score
-  - slot: sales_rep_team
-    kind: integration
-    meaning: A sales team whose reps can be assigned leads round robin
-    channel: salesforce
-  - slot: nurture_journey
-    kind: destination
-    meaning: An email channel used to send nurture messages to warm and cold leads
-    channel: email
-  - slot: handoff_dashboard_source
-    kind: integration
-    meaning: A reporting source tracking lead volume and opportunity conversion
-    channel: hubspot
+      meaning: Engagement score from 0 to 100
+      optional: false
   steps:
   - id: s1
     builds: attribute
     uses:
     - inbound_lead_event
-    - lead_qualification_attribute
-    instruction: Define {lead_qualification_attribute} as a weighted score combining firmographic fit (from {inbound_lead_event.company_size}
-      and {inbound_lead_event.industry}), intent (from {inbound_lead_event.intent_signal}), and engagement (from {inbound_lead_event.engagement_score}).
+    instruction: 'Build a computed attribute on users named "lead_qualification_score", a number from 0 to 100, from the user''s
+      latest {inbound_lead_event}. Add up: 35 points when {inbound_lead_event.company_size} is 200 or more, 15 points when
+      it is between 50 and 199; 35 points when {inbound_lead_event.intent_signal} is demo or pricing, 15 points when it is
+      trial; 0.3 times {inbound_lead_event.engagement_score}. Cap the total at 100. Users who never did {inbound_lead_event}
+      have no value.'
   - id: s2
     builds: segment
     uses:
     - s1
-    - lead_qualification_attribute
-    - hot_lead_segment
-    - warm_lead_segment
-    - cold_lead_segment
+    - inbound_lead_event
     - hot_threshold
-    - warm_threshold
-    instruction: Create {hot_lead_segment} for leads with {lead_qualification_attribute} at or above {hot_threshold}, {warm_lead_segment}
-      for leads at or above {warm_threshold} and below {hot_threshold}, and {cold_lead_segment} for leads below {warm_threshold},
-      using the result of "Score every lead".
+    dependsOn:
+    - s1
+    instruction: Build a new segment of users named "Sales-ready leads". A user is in it when their lead_qualification_score
+      attribute from "Score every lead" is {hot_threshold} or more and they did {inbound_lead_event} at least once in the
+      last 90 days.
   - id: s3
     builds: automation
     uses:
     - s1
     - s2
-    - hot_lead_segment
-    - sales_rep_team
-    instruction: Create a workflow for {hot_lead_segment} that assigns each lead to a sales rep in {sales_rep_team} using
-      round-robin within the team, and creates a follow-up task for the rep that includes the lead's qualification context,
-      using the results of "Score every lead" and "Split into hot, warm and cold".
+    - inbound_lead_event
+    - alert_recipients
+    dependsOn:
+    - s1
+    - s2
+    instruction: Build an automation that starts when a user enters the segment from "Find sales-ready leads". It emails {alert_recipients}
+      one plain-text alert with the user's name, email, lead_qualification_score from "Score every lead", and {inbound_lead_event.company_size},
+      {inbound_lead_event.industry} and {inbound_lead_event.intent_signal} from their latest {inbound_lead_event}, asking
+      the next rep in turn to take the lead. Nothing is sent to the lead.
   - id: s4
+    builds: email
+    instruction: Write a designed HTML nurture email for warm B2B leads who are not ready to buy yet. Share one practical
+      tip and one short customer story with a measurable result, with one button to a case study and a soft offer to book
+      a 20-minute call. Helpful, no pricing or discount language.
+  - id: s5
     builds: automation
     uses:
     - s1
-    - s2
-    - s3
-    - warm_lead_segment
-    - cold_lead_segment
-    - nurture_journey
-    - nurture_cadence
-    instruction: Build a nurture journey for {warm_lead_segment} and {cold_lead_segment} sending messages through {nurture_journey}
-      every {nurture_cadence}, using the results of "Score every lead", "Split into hot, warm and cold", and "Route hot leads
-      round robin".
-  - id: s5
-    builds: dashboard
-    uses:
-    - s1
-    - s2
-    - s3
     - s4
-    - handoff_dashboard_source
-    - dashboard_window
-    - lead_qualification_attribute
-    instruction: Compose a dashboard over the last {dashboard_window} from {handoff_dashboard_source} showing lead volume,
-      distribution of {lead_qualification_attribute}, handoff rate, and conversion to opportunity, using the results of "Score
-      every lead", "Split into hot, warm and cold", "Route hot leads round robin", and "Nurture warm and cold leads".
+    - inbound_lead_event
+    - warm_threshold
+    - hot_threshold
+    - nurture_cadence
+    dependsOn:
+    - s1
+    - s4
+    instruction: Build an automation that starts when a user does {inbound_lead_event}. It waits {nurture_cadence}. Then,
+      only if the user's lead_qualification_score attribute from "Score every lead" is {warm_threshold} or more and below
+      {hot_threshold}, it sends the email from "Write the nurture emails" to the user. Users with a score of {hot_threshold}
+      or more, or below {warm_threshold}, get nothing.
 ---
 
 # Lead qualification and handoff
@@ -140,20 +119,20 @@ Slash command: /lead-qualification
 
 ## Step 1: Score every lead
 
-Define a Qualification attribute weighting firmographic fit, intent, and engagement.
+Build a computed attribute on users named "lead_qualification_score", a number from 0 to 100, from the user's latest inbound lead event. Add up: 35 points when company size is 200 or more, 15 points when it is between 50 and 199; 35 points when intent signal is demo or pricing, 15 points when it is trial; 0.3 times engagement score. Cap the total at 100. Users who never did inbound lead event have no value.
 
-## Step 2: Split into hot, warm and cold
+## Step 2: Find sales-ready leads
 
-Segment leads into hot/warm/cold tiers based on qualification score. Use the result of "Score every lead".
+Build a new segment of users named "Sales-ready leads". A user is in it when their lead_qualification_score attribute from "Score every lead" is 75 or more and they did inbound lead event at least once in the last 90 days.
 
-## Step 3: Route hot leads round robin
+## Step 3: Route hot leads to sales
 
-Create a workflow assigning hot leads to sales reps (round-robin within team) and creating tasks with context. Use the result of "Score every lead", "Split into hot, warm and cold".
+Build an automation that starts when a user enters the segment from "Find sales-ready leads". It emails the email addresses of the sales team that gets sales-ready leads one plain-text alert with the user's name, email, lead_qualification_score from "Score every lead", and company size, industry and intent signal from their latest inbound lead event, asking the next rep in turn to take the lead. Nothing is sent to the lead.
 
-## Step 4: Nurture warm and cold leads
+## Step 4: Write the nurture emails
 
-Build nurture journeys for warm and cold leads with appropriate cadence. Use the result of "Score every lead", "Split into hot, warm and cold", "Route hot leads round robin".
+Write a designed HTML nurture email for warm B2B leads who are not ready to buy yet. Share one practical tip and one short customer story with a measurable result, with one button to a case study and a soft offer to book a 20-minute call. Helpful, no pricing or discount language.
 
-## Step 5: Track handoff to opportunity
+## Step 5: Nurture warm and cold leads
 
-Compose a dashboard tracking lead volume, score distribution, handoff rate, and conversion to opportunity. Use the result of "Score every lead", "Split into hot, warm and cold", "Route hot leads round robin", "Nurture warm and cold leads".
+Build an automation that starts when a user does inbound lead event. It waits 7 d. Then, only if the user's lead_qualification_score attribute from "Score every lead" is 40 or more and below 75, it sends the email from "Write the nurture emails" to the user. Users with a score of 75 or more, or below 40, get nothing.

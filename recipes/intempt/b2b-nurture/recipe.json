@@ -2,8 +2,8 @@
   "frontmatter_id": "b2b-nurture",
   "title": "B2B lead nurture and routing",
   "slash_command": "/b2b-nurture",
-  "description": "Scores inbound leads, hands the sales ready ones to a rep with an owner and a task, and keeps the rest warm with content matched to how close they are.",
-  "markdown": "# B2B lead nurture and routing\n\n## Description\n\nScores inbound leads, hands the sales ready ones to a rep with an owner and a task, and keeps the rest warm with content matched to how close they are.\n\n## Steps\n\n### Step 1: Score every lead\n\nDefine a Qualification scoring attribute weighting firmographic fit, intent signals, and engagement depth.\n\n### Step 2: Split into hot, warm and cold\n\nSegment leads into hot (sales-ready), warm (nurture), and cold (long-cycle) buckets based on score. Use the result of \"Score every lead\".\n\n### Step 3: Hand hot leads to a rep\n\nCreate a workflow routing hot leads to sales (assign owner, create task) and adding warm/cold leads to nurture journeys. Use the result of \"Score every lead\", \"Split into hot, warm and cold\".\n\n### Step 4: Write content for each bucket\n\nThis step builds a designed marketing email (HTML).\nGenerate nurture content tailored per segment: hot=demo offer, warm=case studies + ROI calc, cold=education content. Use the result of \"Score every lead\", \"Split into hot, warm and cold\", \"Hand hot leads to a rep\". If the brand kit has no logo, use the brand name as a plain text header.\n\n### Step 5: Nurture at the right pace\n\nBuild per-segment nurture journeys with appropriate cadence and content. Use the result of \"Score every lead\", \"Split into hot, warm and cold\", \"Hand hot leads to a rep\", \"Write content for each bucket\".\n\n### Step 6: Track handoffs and conversion\n\nCompose a dashboard tracking score distribution, hot-lead handoff rate, and nurture-to-MQL conversion. Use the result of \"Score every lead\", \"Split into hot, warm and cold\", \"Hand hot leads to a rep\", \"Write content for each bucket\", \"Nurture at the right pace\".\n",
+  "description": "Scores inbound leads, emails the sales team each sales-ready lead the moment it qualifies, and sends warm leads a nurture email matched to their stage.",
+  "markdown": "# B2B lead nurture and routing\n\n## Description\n\nScores inbound leads, emails the sales team each sales-ready lead the moment it qualifies, and sends warm leads a nurture email matched to their stage.\n\n## Steps\n\n### Step 1: Score every lead\n\nBuild a computed attribute on users named \"lead_score\", a number from 0 to 100, from the user's latest inbound lead event. Add up: 40 points when company size is 200 or more, 20 points when it is between 50 and 199; 0.4 times intent score; 20 points when engagement count is 5 or more, 10 points when it is between 2 and 4. Cap the total at 100. Users who never did inbound lead event have no value.\n\n### Step 2: Find sales-ready leads\n\nBuild a new segment of users named \"Sales-ready leads\". A user is in it when their lead_score attribute from \"Score every lead\" is 80 or more and they did inbound lead event at least once in the last 90 days.\n\n### Step 3: Write the warm-lead nurture email\n\nWrite a designed HTML nurture email for warm B2B leads who asked for information but are not ready to buy yet. Open by thanking them for getting in touch, share one short customer story showing a measurable result, and offer two next steps: read a case study or book a 20-minute call. Friendly, helpful, no discount or pricing language. Subject line under 50 characters.\n\n### Step 4: Alert sales to each ready lead\n\nBuild an automation that starts when a user enters the segment from \"Find sales-ready leads\". It emails the email addresses of the sales team that gets sales-ready leads one plain-text alert with the user's name, email, lead_score, and company size, industry and intent score from their latest inbound lead event, asking a rep to take the lead. Nothing is sent to the lead.\n\n### Step 5: Nurture the warm leads\n\nBuild an automation that starts when a user does inbound lead event. It waits 2 d. Then, only if the user's lead_score attribute from \"Score every lead\" is 50 or more and below 80, it sends the email from \"Write the warm-lead nurture email\" to the user. Users with a lead_score of 80 or more, or below 50, get nothing.\n",
   "classification": {
     "industry": [
       "industry-agnostic"
@@ -20,32 +20,27 @@
     {
       "id": "s1",
       "title": "Score every lead",
-      "description": "Define a Qualification scoring attribute weighting firmographic fit, intent signals, and engagement depth."
+      "description": "Build a computed attribute on users named \"lead_score\", a number from 0 to 100, from the user's latest inbound lead event. Add up: 40 points when company size is 200 or more, 20 points when it is between 50 and 199; 0.4 times intent score; 20 points when engagement count is 5 or more, 10 points when it is between 2 and 4. Cap the total at 100. Users who never did inbound lead event have no value."
     },
     {
       "id": "s2",
-      "title": "Split into hot, warm and cold",
-      "description": "Segment leads into hot (sales-ready), warm (nurture), and cold (long-cycle) buckets based on score. Use the result of \"Score every lead\"."
+      "title": "Find sales-ready leads",
+      "description": "Build a new segment of users named \"Sales-ready leads\". A user is in it when their lead_score attribute from \"Score every lead\" is 80 or more and they did inbound lead event at least once in the last 90 days."
     },
     {
       "id": "s3",
-      "title": "Hand hot leads to a rep",
-      "description": "Create a workflow routing hot leads to sales (assign owner, create task) and adding warm/cold leads to nurture journeys. Use the result of \"Score every lead\", \"Split into hot, warm and cold\"."
+      "title": "Write the warm-lead nurture email",
+      "description": "Write a designed HTML nurture email for warm B2B leads who asked for information but are not ready to buy yet. Open by thanking them for getting in touch, share one short customer story showing a measurable result, and offer two next steps: read a case study or book a 20-minute call. Friendly, helpful, no discount or pricing language. Subject line under 50 characters."
     },
     {
       "id": "s4",
-      "title": "Write content for each bucket",
-      "description": "This step builds a designed marketing email (HTML).\nGenerate nurture content tailored per segment: hot=demo offer, warm=case studies + ROI calc, cold=education content. Use the result of \"Score every lead\", \"Split into hot, warm and cold\", \"Hand hot leads to a rep\". If the brand kit has no logo, use the brand name as a plain text header."
+      "title": "Alert sales to each ready lead",
+      "description": "Build an automation that starts when a user enters the segment from \"Find sales-ready leads\". It emails the email addresses of the sales team that gets sales-ready leads one plain-text alert with the user's name, email, lead_score, and company size, industry and intent score from their latest inbound lead event, asking a rep to take the lead. Nothing is sent to the lead."
     },
     {
       "id": "s5",
-      "title": "Nurture at the right pace",
-      "description": "Build per-segment nurture journeys with appropriate cadence and content. Use the result of \"Score every lead\", \"Split into hot, warm and cold\", \"Hand hot leads to a rep\", \"Write content for each bucket\"."
-    },
-    {
-      "id": "s6",
-      "title": "Track handoffs and conversion",
-      "description": "Compose a dashboard tracking score distribution, hot-lead handoff rate, and nurture-to-MQL conversion. Use the result of \"Score every lead\", \"Split into hot, warm and cold\", \"Hand hot leads to a rep\", \"Write content for each bucket\", \"Nurture at the right pace\"."
+      "title": "Nurture the warm leads",
+      "description": "Build an automation that starts when a user does inbound lead event. It waits 2 d. Then, only if the user's lead_score attribute from \"Score every lead\" is 50 or more and below 80, it sends the email from \"Write the warm-lead nurture email\" to the user. Users with a lead_score of 80 or more, or below 50, get nothing."
     }
   ],
   "availability": "coming_soon"

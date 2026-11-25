@@ -1,7 +1,8 @@
 ---
 frontmatter_id: no-show-recovery
 slash_command: /no-show-recovery
-description: Assumes a diary clash rather than disinterest and offers an easy reschedule three times over a week, then hands the prospect to nurture.
+description: Assumes a diary clash rather than disinterest and offers an easy reschedule in three emails over five days, stopping
+  as soon as the prospect rebooks or replies.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,84 +12,63 @@ classification:
   industry:
   - industry-agnostic
 portable:
-  summary: Wins back prospects who missed a meeting by assuming a scheduling clash, offering an easy reschedule over three
-    touches, then handing non-responders to nurture.
+  summary: Sends prospects who missed a meeting three friendly reschedule emails over five days and stops when they rebook,
+    reply or opt out.
   parameters:
   - name: no_show_window
     type: duration
-    label: Lookback window for no-shows
+    label: How far back a missed meeting counts
     default: 7 d
     required: false
   - name: touch1_delay
     type: duration
-    label: Delay before touch 1 after no-show
+    label: Wait before email 1
     default: 1 h
     required: false
   - name: touch2_delay
     type: duration
-    label: Delay before touch 2 after no-show
-    default: 48 h
+    label: Wait after email 1 before email 2
+    default: 47 h
     required: false
   - name: touch3_delay
     type: duration
-    label: Delay before touch 3 after no-show
-    default: 5 d
+    label: Wait after email 2 before email 3
+    default: 3 d
     required: false
   - name: min_attended_minutes
     type: number
-    label: Minutes attended below which a meeting counts as a no-show
+    label: Minutes attended below which a meeting counts as missed
     default: 2
     required: false
-  - name: reschedule_grace_period
-    type: duration
-    label: Window after original meeting in which a reschedule excludes the user from the segment
-    default: 24 h
-    required: false
+  - name: reschedule_link
+    type: string
+    label: Booking link people use to reschedule
+    required: true
   requirements:
   - slot: meeting_completed
     kind: event
-    meaning: A prospect's scheduled meeting was held or recorded as attended
+    meaning: A prospect's scheduled meeting time passed, with whether they attended
     properties:
     - name: attendance
       type: boolean
-      meaning: Whether the prospect attended the meeting
+      meaning: Whether the prospect attended
       optional: false
     - name: attended_minutes
       type: number
-      meaning: Minutes the prospect stayed in the meeting
+      meaning: Minutes the prospect was in the meeting
       optional: true
   - slot: meeting_rescheduled
     kind: event
-    meaning: A prospect booked a new meeting after missing an earlier one
-    properties:
-    - name: original_meeting_time
-      type: date
-      meaning: Start time of the meeting that was missed
-      optional: false
+    meaning: A prospect booked a new meeting
   - slot: email_replied
     kind: event
     meaning: A prospect replied to an outreach email
   - slot: opted_out
     kind: attribute
-    meaning: A prospect has opted out of marketing or sales outreach
-  - slot: recent_no_show_segment
-    kind: segment
-    meaning: Prospects who missed a scheduled meeting in the recent window and have not rescheduled within the grace period
-    creatable: true
-    definition: users who did {meeting_completed} with attendance false or attended_minutes below {min_attended_minutes} in
-      the last {no_show_window}, excluding users who did {meeting_rescheduled} within {reschedule_grace_period} of the original
-      meeting
-  - slot: standard_nurture_journey
-    kind: integration
-    meaning: The existing standard nurture journey that prospects are handed to after recovery outreach
-    channel: hubspot
-  - slot: booking_link
-    kind: integration
-    meaning: A calendar scheduling tool with an active reschedule booking link for the meeting host
-    channel: hubspot
+    meaning: True when the prospect opted out of marketing or sales email
   - slot: case_study_asset
     kind: knowledge
-    meaning: A case study or playbook PDF relevant to the prospect's stage
+    meaning: A case study or playbook relevant to prospects
     optional: true
   steps:
   - id: s1
@@ -96,56 +76,65 @@ portable:
     uses:
     - meeting_completed
     - meeting_rescheduled
+    - opted_out
     - no_show_window
     - min_attended_minutes
-    - reschedule_grace_period
-    instruction: Build the segment "Recent no-shows" of users with {meeting_completed} where {meeting_completed.attendance}
-      is false or {meeting_completed.attended_minutes} is below {min_attended_minutes}, within the last {no_show_window}.
-      Exclude users who did {meeting_rescheduled} within {reschedule_grace_period} of the original meeting.
+    instruction: Build a new segment of users named "Recent no-shows". A user is in it when they did {meeting_completed} in
+      the last {no_show_window} with {meeting_completed.attendance} false or {meeting_completed.attended_minutes} below {min_attended_minutes},
+      they did not do {meeting_rescheduled} since that meeting, and their {opted_out} attribute is not true.
   - id: s2
     builds: email
     uses:
     - s1
-    - booking_link
-    - case_study_asset
-    instruction: 'Write a three-touch recovery email sequence for the segment from "Recent no-shows", sent from the original
-      meeting host. Touch 1 (sent at {touch1_delay} after the no-show): warm tone, assume a scheduling conflict rather than
-      lack of interest, no guilt, offer an easy reschedule with a new link from {booking_link}. Touch 2 (sent at {touch2_delay}
-      after the no-show, only if unresponsive): briefly remind them the booking link is still available and reference the
-      original meeting. Touch 3 (sent at {touch3_delay} after the no-show): final outreach with a relevant value asset from
-      {case_study_asset} for their stage plus the booking link as a soft re-engage. If the brand kit has no logo, use the
-      brand name as a plain text header.'
+    - reschedule_link
+    dependsOn:
+    - s1
+    instruction: 'Write a short email for users in the segment from "Find who missed a meeting", from the meeting host. Assume
+      a scheduling clash, not lack of interest, with no guilt: "Looks like the time didn''t work out". One button to pick
+      a new time, linking to {reschedule_link}.'
   - id: s3
+    builds: email
+    uses:
+    - s1
+    - reschedule_link
+    dependsOn:
+    - s1
+    instruction: Write a two-sentence reminder email for users in the segment from "Find who missed a meeting" who have not
+      rebooked, from the meeting host. Mention the meeting they missed and that the booking link is still open. One button
+      linking to {reschedule_link}.
+  - id: s4
+    builds: email
+    uses:
+    - s1
+    - reschedule_link
+    - case_study_asset
+    dependsOn:
+    - s1
+    instruction: Write a final, friendly email for users in the segment from "Find who missed a meeting" who have not rebooked,
+      from the meeting host. Share one useful takeaway from {case_study_asset} and leave the door open with one button linking
+      to {reschedule_link}. No pressure, no further follow-up promised.
+  - id: s5
     builds: automation
     uses:
     - s1
     - s2
-    - standard_nurture_journey
-    - meeting_rescheduled
-    - email_replied
-    - opted_out
+    - s3
+    - s4
     - touch1_delay
     - touch2_delay
     - touch3_delay
-    instruction: Build a three-touch journey wired to the "Recent no-shows" segment. Send touch 1 from "Write a three-touch
-      recovery email sequence" at {touch1_delay} after the no-show. Send touch 2 at {touch2_delay} after the no-show, skipping
-      users who did {meeting_rescheduled}. Send touch 3 at {touch3_delay} after the no-show, skipping users who did {meeting_rescheduled}
-      or {email_replied}. After touch 3 with no engagement, move the user into {standard_nurture_journey} as the handoff.
-      Exit the journey when the user did {meeting_rescheduled}, did {email_replied}, or {opted_out} is true.
-  - id: s4
-    builds: dashboard
-    uses:
+    - meeting_rescheduled
+    - email_replied
+    - opted_out
+    dependsOn:
     - s1
     - s2
     - s3
-    - meeting_completed
-    - meeting_rescheduled
-    instruction: 'Create a no-show recovery health dashboard showing: overall no-show rate as a percentage of scheduled meetings
-      with its trend over time; reschedule conversion rate as the percentage of users in "Recent no-shows" who did {meeting_rescheduled}
-      through the journey in "Build a three-touch journey wired to the" segment; time-to-reschedule distribution; and per-touch
-      open, click, and reschedule rates for the touches from "Write a three-touch recovery email sequence". Break down all
-      metrics by meeting type and by rep. Flag an alert when the no-show rate rises by more than 5 percentage points week
-      over week.'
+    - s4
+    instruction: Build an automation that starts when a user enters the segment from "Find who missed a meeting". It waits
+      {touch1_delay} and sends the email from "Write reschedule email 1", waits {touch2_delay} and sends the email from "Write
+      reschedule email 2", waits {touch3_delay} and sends the email from "Write reschedule email 3". Before each send it stops
+      if the user did {meeting_rescheduled} or {email_replied} since entering, or their {opted_out} attribute is true.
 ---
 
 # Meeting no show recovery
@@ -154,16 +143,20 @@ Slash command: /no-show-recovery
 
 ## Step 1: Find who missed a meeting
 
-Build a segment 'Recent no-shows - last 7 days' capturing users with a meeting_completed event in the last 7 days where the attendance attribute = false (or attended_minutes < 2). Excludes users who have already rescheduled within 24 hours of the original meeting.
+Build a new segment of users named "Recent no-shows". A user is in it when they did meeting completed in the last 7 d with attendance false or attended minutes below 2, they did not do meeting rescheduled since that meeting, and their opted out attribute is not true.
 
-## Step 2: Write three reschedule notes
+## Step 2: Write reschedule email 1
 
-Generate 3-touch recovery email content. Touch 1 (1 hour after no-show): assumes scheduling conflict; warm tone; offers easy reschedule with new booking link; no guilt. Touch 2 (48 hours later, if unresponsive): brief reminder that the booking link is still available; references the original meeting context. Touch 3 (5 days later): final outreach with value-content (case study or playbook PDF relevant to their stage) plus the booking link as a soft re-engage. Send-from: the original meeting host. Use the result of "Find who missed a meeting". If the brand kit has no logo, use the brand name as a plain text header.
+Write a short email for users in the segment from "Find who missed a meeting", from the meeting host. Assume a scheduling clash, not lack of interest, with no guilt: "Looks like the time didn't work out". One button to pick a new time, linking to the booking link people use to reschedule.
 
-## Step 3: Send at 1 hour, 2 days, 5 days
+## Step 3: Write reschedule email 2
 
-Build a 3-touch journey wired to the no-show segment: send touch 1 at 1 hour after no-show, touch 2 at 48 hours after no-show (skip if user has rescheduled), touch 3 at 5 days after no-show (skip if user has rescheduled or replied). After touch 3 with no engagement: move user into the standard nurture journey (handoff). Exit conditions: Meeting scheduled (rescheduled), email_replied, or user opted out. Use the result of "Find who missed a meeting", "Write three reschedule notes".
+Write a two-sentence reminder email for users in the segment from "Find who missed a meeting" who have not rebooked, from the meeting host. Mention the meeting they missed and that the booking link is still open. One button linking to the booking link people use to reschedule.
 
-## Step 4: Watch the no show rate
+## Step 4: Write reschedule email 3
 
-Compose a dashboard tracking no-show recovery health: overall no-show rate (% of scheduled meetings that no-show, trend over time), reschedule conversion rate (% of no-shows that book a new meeting via the recovery journey), time-to-reschedule distribution, and per-touch open/click/reschedule rates. Break down by meeting type and rep. Flag if no-show rate is rising more than 5 percentage points week-over-week (process or scheduling-link problem signal). Use the result of "Find who missed a meeting", "Write three reschedule notes", "Send at 1 hour, 2 days, 5 days".
+Write a final, friendly email for users in the segment from "Find who missed a meeting" who have not rebooked, from the meeting host. Share one useful takeaway from case study asset and leave the door open with one button linking to the booking link people use to reschedule. No pressure, no further follow-up promised.
+
+## Step 5: Send at 1 hour, 2 days, 5 days
+
+Build an automation that starts when a user enters the segment from "Find who missed a meeting". It waits 1 h and sends the email from "Write reschedule email 1", waits 47 h and sends the email from "Write reschedule email 2", waits 3 d and sends the email from "Write reschedule email 3". Before each send it stops if the user did meeting rescheduled or email replied since entering, or their opted out attribute is true.

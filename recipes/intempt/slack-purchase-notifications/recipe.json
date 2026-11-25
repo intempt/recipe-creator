@@ -1,9 +1,9 @@
 {
   "frontmatter_id": "slack-purchase-notifications",
-  "title": "Revenue notifications in Slack",
+  "title": "Revenue win and risk alerts",
   "slash_command": "/slack-purchase-notifications",
-  "description": "Posts revenue wins to one Slack channel and at-risk events to another through a configurable workflow. Notifications are static channel posts, with no dynamic owner mentions or DMs.",
-  "markdown": "# Revenue notifications in Slack\n\n## Description\n\nPosts revenue wins to one Slack channel and at-risk events to another through a configurable workflow. Notifications are static channel posts, with no dynamic owner mentions or DMs.\n\n## Steps\n\n### Step 1: Write the celebration posts\n\nGenerate Slack message content for revenue celebrations. Variants: (a) Deal won (include rep name, account, ARR, contract length, with a 🎉 emoji and team @mention; (b) Subscription started (B2B)) first paying customer of the month gets a fanfare message, subsequent ones get a compact one-liner; (c) order_placed (ecommerce) (large-order threshold (top 5% of order values) gets celebration, normal orders silent; (d) expansion) upsell amount, customer name, AE who closed. Tone: warm, brief, team-celebratory.\n\n### Step 2: Write the operational alerts\n\nGenerate Slack message content for operational alerts (different channel from celebrations). Variants: (a) Payment failed: customer name, plan, MRR at risk, CSM owner @mention; (b) Subscription canceled with reason; (c) high-value-Abandoned cart (B2C, single cart value > threshold). Tone: terse, action-oriented, who-needs-to-respond clear.\n\n### Step 3: Route wins and problems apart\n\nCreate a workflow firing on revenue events. Step sequence: (1) classify event type: celebration (won/created/expansion) vs. operational (failed/canceled/at-risk); (2) for celebrations, post celebration content to #wins channel with deal/account context; (3) for operational, post alert content to #revenue-ops with rep/CSM @mention; (4) for high-value events (top-quartile ARR), additionally DM the CEO/CRO and AE manager (configurable threshold); (5) suppress notifications during off-hours unless explicitly tagged urgent (don't ping the team at 2am for routine wins). Use the result of \"Write the celebration posts\", \"Write the operational alerts\".\n",
+  "description": "Emails revenue wins to one group and at-risk events such as failed payments, cancellations and large abandoned carts to another, holding routine alerts during quiet hours.",
+  "markdown": "# Revenue win and risk alerts\n\n## Description\n\nEmails revenue wins to one group and at-risk events such as failed payments, cancellations and large abandoned carts to another, holding routine alerts during quiet hours.\n\n## Steps\n\n### Step 1: Route wins to the wins list\n\nBuild an automation that starts when a user does revenue won event. It continues only when arr is set, or order value is 1000 or more. If the event happens between 20:00 and 08:00, it waits until 08:00. Then it emails the email addresses that get revenue wins one short, celebratory plain-text line with account name, rep name, and arr or order value.\n\n### Step 2: Route problems to revenue ops\n\nBuild an automation that starts when a user does revenue problem event. When cart value is set it continues only if it is 1000 or more. Then it emails the email addresses that get at-risk alerts one terse, action-first plain-text alert with customer name, plan, mrr at risk, cancel reason or cart value when set, and the account's csm owner as the person to respond. Alerts are sent at any hour.\n",
   "classification": {
     "industry": [
       "industry-agnostic"
@@ -19,18 +19,13 @@
   "steps": [
     {
       "id": "s1",
-      "title": "Write the celebration posts",
-      "description": "Generate Slack message content for revenue celebrations. Variants: (a) Deal won (include rep name, account, ARR, contract length, with a 🎉 emoji and team @mention; (b) Subscription started (B2B)) first paying customer of the month gets a fanfare message, subsequent ones get a compact one-liner; (c) order_placed (ecommerce) (large-order threshold (top 5% of order values) gets celebration, normal orders silent; (d) expansion) upsell amount, customer name, AE who closed. Tone: warm, brief, team-celebratory."
+      "title": "Route wins to the wins list",
+      "description": "Build an automation that starts when a user does revenue won event. It continues only when arr is set, or order value is 1000 or more. If the event happens between 20:00 and 08:00, it waits until 08:00. Then it emails the email addresses that get revenue wins one short, celebratory plain-text line with account name, rep name, and arr or order value."
     },
     {
       "id": "s2",
-      "title": "Write the operational alerts",
-      "description": "Generate Slack message content for operational alerts (different channel from celebrations). Variants: (a) Payment failed: customer name, plan, MRR at risk, CSM owner @mention; (b) Subscription canceled with reason; (c) high-value-Abandoned cart (B2C, single cart value > threshold). Tone: terse, action-oriented, who-needs-to-respond clear."
-    },
-    {
-      "id": "s3",
-      "title": "Route wins and problems apart",
-      "description": "Create a workflow firing on revenue events. Step sequence: (1) classify event type: celebration (won/created/expansion) vs. operational (failed/canceled/at-risk); (2) for celebrations, post celebration content to #wins channel with deal/account context; (3) for operational, post alert content to #revenue-ops with rep/CSM @mention; (4) for high-value events (top-quartile ARR), additionally DM the CEO/CRO and AE manager (configurable threshold); (5) suppress notifications during off-hours unless explicitly tagged urgent (don't ping the team at 2am for routine wins). Use the result of \"Write the celebration posts\", \"Write the operational alerts\"."
+      "title": "Route problems to revenue ops",
+      "description": "Build an automation that starts when a user does revenue problem event. When cart value is set it continues only if it is 1000 or more. Then it emails the email addresses that get at-risk alerts one terse, action-first plain-text alert with customer name, plan, mrr at risk, cancel reason or cart value when set, and the account's csm owner as the person to respond. Alerts are sent at any hour."
     }
   ],
   "availability": "coming_soon"

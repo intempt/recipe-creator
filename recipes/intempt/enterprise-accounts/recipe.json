@@ -2,8 +2,8 @@
   "frontmatter_id": "enterprise-accounts",
   "title": "Enterprise accounts",
   "slash_command": "/enterprise-accounts",
-  "description": "Companies with 1,000 or more employees, alerted to enterprise sales and welcomed with a dedicated-manager email, so outreach starts the moment they qualify.",
-  "markdown": "# Enterprise accounts\n\n## Description\n\nCompanies with 1,000 or more employees, alerted to enterprise sales and welcomed with a dedicated-manager email, so outreach starts the moment they qualify.\n\n## Steps\n\n### Step 1: Build the enterprise list\n\nBuild a segment of accounts named \"Enterprise Accounts\".\nAn account is in the segment only when all of these are true:\n- its employees attribute is 1000 or more\n\n### Step 2: Alert enterprise sales\n\nGenerate a Slack message to the enterprise sales channel For each account in \"Enterprise Accounts\", name the account and its employees count, so reps can prioritize outreach to the newest ones first. Use the result of \"Build the enterprise list\". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in.\n\n### Step 3: Welcome the account\n\nGenerate a designed marketing email for the accounts in \"Enterprise Accounts\" welcoming them to the enterprise tier and introducing their dedicated account manager. Three sentences, professional tone, no pricing or discount language, one button linking to the onboarding scheduling page. Use the result of \"Build the enterprise list\". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.\n",
+  "description": "Companies with 1,000 or more employees, emailed to enterprise sales and welcomed with a dedicated-manager email, so outreach starts the moment they qualify.",
+  "markdown": "# Enterprise accounts\n\n## Description\n\nCompanies with 1,000 or more employees, emailed to enterprise sales and welcomed with a dedicated-manager email, so outreach starts the moment they qualify.\n\n## Steps\n\n### Step 1: Build the enterprise list\n\nBuild a new segment of accounts named \"Enterprise Accounts\". An account is in it when its employees attribute is 1000 or more.\n\n### Step 2: Welcome the account\n\nWrite a designed HTML email for the users of accounts in the segment from \"Build the enterprise list\", welcoming them to the enterprise tier and introducing the dedicated manager named in their account's account manager attribute. Use 3 sentences in a professional tone with no pricing or discount language, and one button linking to the link the welcome email's button opens.\n\n### Step 3: Alert enterprise sales\n\nBuild an automation that starts when an account enters the segment from \"Build the enterprise list\". It emails the email addresses of the enterprise sales team one plain-text alert with the account's account name, employees and account manager, then sends the email from \"Welcome the account\" to the account's users.\n",
   "classification": {
     "industry": [
       "saas-b2b-tech"
@@ -24,7 +24,7 @@
     {
       "id": "s1",
       "title": "Build the enterprise list",
-      "description": "Build a segment of accounts named \"Enterprise Accounts\". An account is in the segment only when all of these are true: its employees attribute is 1000 or more.",
+      "description": "Build a new segment of accounts named \"Enterprise Accounts\". An account is in it when its employees attribute is 1000 or more.",
       "command": "create_segment",
       "entity": "segment",
       "kind": "static",
@@ -32,19 +32,13 @@
     },
     {
       "id": "s2",
-      "title": "Alert enterprise sales",
-      "description": "Generate a Slack message to the enterprise sales channel For each account in \"Enterprise Accounts\", name the account and its employees count, so reps can prioritize outreach to the newest ones first. Use the result of \"Build the enterprise list\". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in.",
-      "command": "create_slack_content",
-      "entity": "slack",
-      "modelConfig": []
+      "title": "Welcome the account",
+      "description": "Write a designed HTML email for the users of accounts in the segment from \"Build the enterprise list\", welcoming them to the enterprise tier and introducing the dedicated manager named in their account's account manager attribute. Use 3 sentences in a professional tone with no pricing or discount language, and one button linking to the link the welcome email's button opens."
     },
     {
       "id": "s3",
-      "title": "Welcome the account",
-      "description": "Generate a designed marketing email for the accounts in \"Enterprise Accounts\" welcoming them to the enterprise tier and introducing their dedicated account manager. Three sentences, professional tone, no pricing or discount language, one button linking to the onboarding scheduling page. Use the result of \"Build the enterprise list\". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.",
-      "command": "create_email_content",
-      "entity": "email_html",
-      "modelConfig": []
+      "title": "Alert enterprise sales",
+      "description": "Build an automation that starts when an account enters the segment from \"Build the enterprise list\". It emails the email addresses of the enterprise sales team one plain-text alert with the account's account name, employees and account manager, then sends the email from \"Welcome the account\" to the account's users."
     }
   ],
   "availability": "coming_soon"

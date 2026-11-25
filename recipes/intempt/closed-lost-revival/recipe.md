@@ -1,7 +1,8 @@
 ---
 frontmatter_id: closed-lost-revival
 slash_command: /closed-lost-revival
-description: Goes back to deals lost 90 days ago, checks what has changed at the account, and reopens the conversation where the reason for losing may have expired.
+description: Goes back to contacts on deals lost 90 to 180 days ago for timing or budget reasons, sends a soft two-email revival,
+  alerts the owner on any reply and emails a monthly revival digest.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,8 +12,8 @@ classification:
   industry:
   - industry-agnostic
 portable:
-  summary: Revisits deals lost 90 to 180 days ago, checks what changed at the account, and sends a soft two-touch revival
-    sequence so the conversation can reopen when the original objection may have expired.
+  summary: Finds contacts on deals lost 90 to 180 days ago for reasons that may have expired, sends a soft two-email revival,
+    and alerts the team when one comes back.
   parameters:
   - name: lookback_start
     type: duration
@@ -26,18 +27,13 @@ portable:
     required: false
   - name: max_closed_lost_count
     type: number
-    label: Maximum closed-lost count before excluding account
+    label: Maximum closed-lost count before excluding a contact
     default: 2
     required: false
   - name: followup_delay
     type: duration
-    label: Delay before second touch
+    label: Delay before the second email
     default: 14 d
-    required: false
-  - name: journey_max_duration
-    type: duration
-    label: Maximum journey duration
-    default: 30 d
     required: false
   - name: tone
     type: enum
@@ -48,33 +44,29 @@ portable:
     - warm
     - neutral
     - formal
+  - name: alert_recipients
+    type: string
+    label: Email addresses alerted when a lost deal replies
+    required: true
+  - name: digest_recipients
+    type: string
+    label: Email addresses that get the digest
+    required: true
   requirements:
   - slot: deal_lost_event
     kind: event
-    meaning: A deal was marked closed lost
+    meaning: A deal the contact was on was marked closed lost
     properties:
     - name: lost_reason
       type: string
-      meaning: Reason the deal was lost
+      meaning: Reason the deal was lost, such as timing, budget, no-decision, wrong-fit
       optional: false
-    - name: occurred_at
-      type: date
-      meaning: When the deal was lost
-      optional: false
-  - slot: account_enrichment
-    kind: integration
-    meaning: A data enrichment source that refreshes account and contact details such as champion, leadership, funding and
-      product launches
-    channel: hubspot
   - slot: ae_owner
     kind: attribute
-    meaning: The account executive who owned the original deal
-  - slot: primary_contact
-    kind: attribute
-    meaning: The primary contact on the original deal
+    meaning: Name of the account executive who owned the original deal
   - slot: revival_signal_event
     kind: event
-    meaning: A record of a revival response such as a reply or booked meeting on the closed-lost deal
+    meaning: The contact replied or booked a meeting after the deal was lost
   steps:
   - id: s1
     builds: segment
@@ -83,62 +75,68 @@ portable:
     - lookback_start
     - lookback_end
     - max_closed_lost_count
-    instruction: Build the segment 'Closed-lost revival candidates' with deals where {deal_lost_event} fired between {lookback_start}
-      and {lookback_end} ago AND {deal_lost_event.lost_reason} is not 'wrong-fit' or 'competitor-won-firm-commitment'. Include
-      losses for timing, budget, no-decision, internal-resourcing and postponed. Exclude accounts that have entered closed-lost
-      more than {max_closed_lost_count} times.
+    instruction: 'Build a new segment of users named "Closed-lost revival candidates". A user is in it when all of these are
+      true: they did {deal_lost_event} between {lookback_start} and {lookback_end} ago with {deal_lost_event.lost_reason}
+      equal to timing, budget, no-decision, internal-resourcing or postponed; they did not do {deal_lost_event} in the last
+      {lookback_start}; they did {deal_lost_event} no more than {max_closed_lost_count} times at any time.'
   - id: s2
     builds: email
     uses:
     - s1
-    - tone
+    - deal_lost_event
     - ae_owner
-    instruction: 'Generate a two-touch revival email sequence for the contacts in ''Find losses worth revisiting''. Touch
-      1 (day 0) opens: ''It''s been a few months: wanted to check in. Last time we talked, {deal_lost_event.lost_reason}.
-      Has anything changed?'' Reference specific prior conversation context. Keep it a soft re-open, not a sales pitch. Touch
-      2 (day 14, if no reply) shares a relevant product update or customer story from a similar account that addresses the
-      original objection. Send from {ae_owner}. Use a {tone} tone that acknowledges the prior no. If the brand kit has no
-      logo, use the brand name as a plain text header.'
+    - tone
+    dependsOn:
+    - s1
+    instruction: 'Write a short plain-looking email for users in the segment from "Find losses worth revisiting", signed with
+      the name in their {ae_owner} attribute. Open with: it has been a few months, and last time the timing or budget did
+      not work out (use their latest {deal_lost_event.lost_reason}). Ask whether anything has changed and offer a 15-minute
+      catch-up. A soft re-open, not a pitch. Use a {tone} tone that acknowledges the earlier no.'
   - id: s3
-    builds: automation
+    builds: email
     uses:
     - s1
-    - s2
-    - account_enrichment
     - ae_owner
-    - revival_signal_event
-    instruction: 'Create a daily workflow for newly eligible contacts from ''Find losses worth revisiting''. Step 1: refresh
-      {account_enrichment} data to check whether the champion is still in role, whether there is new leadership, a funding
-      announcement, or a product launch. Step 2: if a significant change is detected (such as a new champion-role hire or
-      a funding round), create an urgent task for {ae_owner} to reach out manually. Otherwise, enroll the contact in the ''Send
-      at day 0 and day 14'' journey. Log responses and new meeting bookings as {revival_signal_event} records on the original
-      closed-lost deal.'
+    - tone
+    dependsOn:
+    - s1
+    instruction: Write a short follow-up email for users in the segment from "Find losses worth revisiting" who did not reply
+      to the first one, signed with the name in their {ae_owner} attribute. Share one recent product improvement or a story
+      from a similar customer that answers a timing or budget concern, and invite a reply if it is worth a fresh look. Use
+      a {tone} tone, no pressure, no pricing.
   - id: s4
     builds: automation
     uses:
     - s1
     - s2
     - s3
-    - primary_contact
-    - tone
+    - revival_signal_event
     - followup_delay
-    - journey_max_duration
-    instruction: 'Build a two-touch journey triggered by the revival workflow in ''Check what changed first''. Audience: {primary_contact}
-      on the original deal. Touch 1 sends on day 0 using ''Write two revival emails''. Touch 2 sends after {followup_delay},
-      skipped if the contact replied or booked a meeting. Exit on: meeting scheduled (open a new deal), reply received (warm
-      handoff to {ae_owner}), unsubscribe, or after {journey_max_duration}.'
-  - id: s5
-    builds: dashboard
-    uses:
+    - ae_owner
+    - alert_recipients
+    dependsOn:
     - s1
     - s2
     - s3
-    - s4
+    instruction: Build an automation that starts when a user enters the segment from "Find losses worth revisiting". It sends
+      the email from "Write the first revival email", waits {followup_delay}, and sends the email from "Write the second revival
+      email" only if the user did not do {revival_signal_event} since entering. Whenever the user does {revival_signal_event}
+      during the automation, it stops sending and emails {alert_recipients} the user's name, email and {ae_owner} so the owner
+      can pick it up.
+  - id: s5
+    builds: automation
+    uses:
+    - s1
+    - deal_lost_event
     - revival_signal_event
-    instruction: 'Build a revival performance dashboard showing: closed-lost deals entering revival per month; reply rate
-      to revival outreach; meeting-booked rate from revival; revived-deal-to-win rate; and ARR resurrected this quarter from
-      revival pipeline. Break every metric down by original {deal_lost_event.lost_reason} to show which lost reasons most
-      often turn into revivals.'
+    - digest_recipients
+    dependsOn:
+    - s1
+    instruction: 'Build an automation that runs on the 1st of every month at 08:00 on a schedule. Each run it analyzes the
+      users who entered the segment from "Find losses worth revisiting" in the last 30 days and writes these figures: how
+      many entered; how many did {revival_signal_event} within 30 days of entering; that reply rate; and both counts split
+      by {deal_lost_event.lost_reason}. Then it emails these figures as plain-text lines, each with its window, to {digest_recipients}.
+      Nothing else is sent.'
 ---
 
 # Closed lost revival
@@ -147,20 +145,20 @@ Slash command: /closed-lost-revival
 
 ## Step 1: Find losses worth revisiting
 
-Build a segment 'Closed-lost revival candidates' capturing deals where Deal lost event fired 90-180 days ago AND lost_reason is NOT 'wrong-fit' or 'competitor-won-firm-commitment' (those won't revive). Includes deals lost to: timing, budget, no-decision, internal-resourcing, postponed. Excludes accounts that have entered closed-lost more than twice (3-strikes rule: stop pestering).
+Build a new segment of users named "Closed-lost revival candidates". A user is in it when all of these are true: they did deal lost event between 90 d and 180 d ago with lost reason equal to timing, budget, no-decision, internal-resourcing or postponed; they did not do deal lost event in the last 90 d; they did deal lost event no more than 2 times at any time.
 
-## Step 2: Write two revival emails
+## Step 2: Write the first revival email
 
-Generate 2-touch revival email content. Touch 1 (Day 0): 'It's been a few months: wanted to check in. Last time we talked, (fill in: original_lost_reason). Has anything changed?' Reference specific prior conversation context. Soft re-open, not a sales pitch. Touch 2 (Day 14, if no reply): share a relevant product update or customer story from a similar account that addresses their original objection. Send-from: the original AE owner. Tone: warm, low-pressure, acknowledging the prior 'no'. Use the result of "Find losses worth revisiting". If the brand kit has no logo, use the brand name as a plain text header. Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.
+Write a short plain-looking email for users in the segment from "Find losses worth revisiting", signed with the name in their ae owner attribute. Open with: it has been a few months, and last time the timing or budget did not work out (use their latest lost reason). Ask whether anything has changed and offer a 15-minute catch-up. A soft re-open, not a pitch. Use a warm tone that acknowledges the earlier no.
 
-## Step 3: Check what changed first
+## Step 3: Write the second revival email
 
-Create a workflow firing daily for newly-eligible revival candidates. Step sequence: (1) refresh account enrichment (champion still there? new leadership? funding announced? product launched?); (2) IF significant change detected (new champion-role hire, funding round, etc.): create urgent AE task to manually reach out; ELSE trigger the standard 2-touch revival journey. Track responses and any new meeting bookings as revival_signal events on the original closed-lost deal record. Use the result of "Find losses worth revisiting", "Write two revival emails".
+Write a short follow-up email for users in the segment from "Find losses worth revisiting" who did not reply to the first one, signed with the name in their ae owner attribute. Share one recent product improvement or a story from a similar customer that answers a timing or budget concern, and invite a reply if it is worth a fresh look. Use a warm tone, no pressure, no pricing.
 
-## Step 4: Send at day 0 and day 14
+## Step 4: Send at day 0 and after the wait
 
-Build a 2-touch journey triggered by the revival workflow. Touch 1 at Day 0, Touch 2 at Day 14 (skipped if user replies or books meeting). Audience: the original deal's primary contact. Exit on: Meeting scheduled (revival success: open new deal), email_replied (warm handoff to AE), unsubscribe, or 30-day max duration. Use the result of "Find losses worth revisiting", "Write two revival emails", "Check what changed first".
+Build an automation that starts when a user enters the segment from "Find losses worth revisiting". It sends the email from "Write the first revival email", waits 14 d, and sends the email from "Write the second revival email" only if the user did not do revival signal event since entering. Whenever the user does revival signal event during the automation, it stops sending and emails the email addresses alerted when a lost deal replies the user's name, email and ae owner so the owner can pick it up.
 
-## Step 5: See what comes back to life
+## Step 5: Email the monthly revival digest
 
-Compose a revival performance dashboard: closed-lost deals entering revival per month, reply rate to revival outreach, meeting-booked rate from revival, revived-deal-to-win rate (final conversion), and ARR resurrected this quarter from revival pipeline. Break down by original lost_reason: which lost-reasons most often turn into revivals (informs sales coaching on when 'no' was actually 'not yet'). Use the result of "Find losses worth revisiting", "Write two revival emails", "Check what changed first", "Send at day 0 and day 14".
+Build an automation that runs on the 1st of every month at 08:00 on a schedule. Each run it analyzes the users who entered the segment from "Find losses worth revisiting" in the last 30 days and writes these figures: how many entered; how many did revival signal event within 30 days of entering; that reply rate; and both counts split by lost reason. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.

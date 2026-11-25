@@ -10,6 +10,9 @@ author:
 classification:
   industry:
   - industry-agnostic
+visibility: draft
+rejected: It depends wholly on a research agent scraping competitor websites, review sites and news; Blu does not build research
+  agents.
 portable:
   summary: Every Monday morning an AI agent scrapes competitor sites, reviews, social and news, then posts a structured competitive
     intel briefing to Slack.
@@ -82,6 +85,8 @@ portable:
     - competitor_list
     - run_day
     - run_time
+    dependsOn:
+    - s1
     instruction: Configure the scheduled trigger to run every {run_day} at {run_time} local time. Skip the run if the workspace
       is paused or if no competitors are configured in {competitor_list}. Store a last-run timestamp so each weekly scrape
       fetches only content published since the prior run.
@@ -92,6 +97,8 @@ portable:
     - s2
     - competitor_list
     - rate_limit_delay
+    dependsOn:
+    - s1
     instruction: Configure a loop that iterates over each competitor domain in {competitor_list}. For each competitor, run
       the scrape and analysis steps that follow. Wait {rate_limit_delay} between iterations to be polite to sources.
   - id: s4
@@ -100,6 +107,8 @@ portable:
     - s1
     - s3
     - scrape_window
+    dependsOn:
+    - s1
     instruction: 'For each competitor, scrape these public sources: pricing page, product and features pages, blog posts from
       the last {scrape_window}, changelog or release notes page, careers page (hiring signals), review-site summary from G2
       and Capterra, and recent press releases. Respect robots.txt. Cache content and skip re-fetching pages that have not
@@ -110,6 +119,8 @@ portable:
     - s1
     - s4
     - competitor_snapshot_history
+    dependsOn:
+    - s1
     instruction: 'Use an AI research step to compare this week''s scraped content for each competitor against the last stored
       snapshot in {competitor_snapshot_history} and flag material changes. Material changes are: pricing changes, newly announced
       features, leadership changes found on careers or about pages, large customer wins from press releases, sentiment shifts
@@ -120,6 +131,8 @@ portable:
     uses:
     - s1
     - s5
+    dependsOn:
+    - s1
     instruction: 'Use an AI writing step to consolidate the per-competitor findings from "Compare against last week" into
       one weekly briefing with these sections: (a) top 3 most material competitive moves this week, (b) per-competitor highlights,
       (c) watch-list for next week covering developing stories, and (d) recommended responses, for example: a competitor launched
@@ -133,6 +146,8 @@ portable:
     - competitor_intel_channel
     - product_and_marketing_leads
     - tag_leads_for_major_moves
+    dependsOn:
+    - s1
     instruction: Post the briefing from "Write the briefing" to {competitor_intel_channel} using a rich block layout with
       sections and links to each source page. Open a thread under the post for team discussion. If {tag_leads_for_major_moves}
       is true, tag {product_and_marketing_leads} on any major move.
@@ -141,6 +156,8 @@ portable:
     uses:
     - s1
     - s7
+    dependsOn:
+    - s1
     instruction: 'Validate the workflow and publish it. Monitor three things: weekly briefing delivery, which must not fail
       silently; team engagement, measured by reactions and thread replies; and accuracy, through an occasional human spot-check
       that the AI correctly identified material changes.'
@@ -152,39 +169,32 @@ Slash command: /competitive-intel-monitoring-workflow
 
 ## Step 1: Replace the Monday check
 
-Create a workflow 'Weekly competitive intel' scheduled to run every Monday morning. Goal: replace the manual 'check what competitors did this week' task with a structured AI-generated briefing the product and sales teams can consume in 3 minutes.
+Create a workflow named "Weekly competitive intel" scheduled to run every monday at 07:00 local time. Its goal is to replace the manual weekly check of competitor activity with a structured AI-generated briefing that product and sales teams can read in about 3 minutes.
 
 ## Step 2: Run it Monday at 7am
 
-This step builds a workflow.
-Configure scheduled trigger: Every Monday at 7am local time. Skip if workspace is paused or no competitors are configured. Track last-run timestamp so weekly scrapes only fetch new content since prior run. Use the result of "Replace the Monday check".
+Configure the scheduled trigger to run every monday at 07:00 local time. Skip the run if the workspace is paused or if no competitors are configured in competitor list. Store a last-run timestamp so each weekly scrape fetches only content published since the prior run.
 
 ## Step 3: Go through each competitor
 
-This step builds a workflow.
-Configure loop step that iterates over a configured list of competitor domains (configurable per workspace, typically 3-7 named competitors). For each competitor, run the subsequent scrape + analyze steps. Rate-limit between iterations to be polite to sources. Use the result of "Replace the Monday check", "Run it Monday at 7am".
+Configure a loop that iterates over each competitor domain in competitor list. For each competitor, run the scrape and analysis steps that follow. Wait 10 s between iterations to be polite to sources.
 
 ## Step 4: Read their public pages
 
-This step builds a workflow.
-Configure web scrape step for each competitor: pricing page, product/features pages, blog (last 7 days), changelog/release-notes page, careers page (hiring signals), G2/Capterra review summary, recent press releases. Respect robots.txt; cache to avoid re-fetching unchanged content. Use the result of "Replace the Monday check", "Go through each competitor".
+For each competitor, scrape these public sources: pricing page, product and features pages, blog posts from the last 7 d, changelog or release notes page, careers page (hiring signals), review-site summary from G2 and Capterra, and recent press releases. Respect robots.txt. Cache content and skip re-fetching pages that have not changed since the last run.
 
 ## Step 5: Compare against last week
 
-This step builds a workflow.
-Configure AI research step that compares this week's scraped content to last week's snapshot and flags material changes. Material = pricing changes, new features announced, leadership changes from careers/about pages, big customer wins from press releases, sentiment shifts on review sites, hiring trends suggesting product-area expansion. Outputs structured per-competitor briefing: what changed, what didn't, what to watch. Use the result of "Replace the Monday check", "Read their public pages".
+Use an AI research step to compare this week's scraped content for each competitor against the last stored snapshot in competitor snapshot history and flag material changes. Material changes are: pricing changes, newly announced features, leadership changes found on careers or about pages, large customer wins from press releases, sentiment shifts on review sites, and hiring trends suggesting expansion in a product area. For each competitor, output a structured briefing with three parts: what changed, what did not change, and what to watch.
 
 ## Step 6: Write the briefing
 
-This step builds a workflow.
-Configure AI write step that consolidates per-competitor findings into a single weekly briefing. Structure: (a) Top 3 most material competitive moves this week, (b) Per-competitor highlights, (c) Watch-list for next week (developing stories), (d) Recommended responses (e.g. 'Competitor X just launched (fill in: feature): our differentiator is still Y; product marketing may want to update positioning'). Tone: factual, concise, scannable. Use the result of "Replace the Monday check", "Compare against last week". Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.
+Use an AI writing step to consolidate the per-competitor findings from "Compare against last week" into one weekly briefing with these sections: (a) top 3 most material competitive moves this week, (b) per-competitor highlights, (c) watch-list for next week covering developing stories, and (d) recommended responses, for example: a competitor launched a feature, our differentiator is still X, and product marketing may want to update positioning. Use a factual, concise, scannable tone.
 
 ## Step 7: Post it to the channel
 
-This step builds a workflow.
-Configure Slack step that posts the briefing to the configured competitive-intel channel (e.g. #competitive-intel). Format: rich block layout with sections, links to source pages, and a thread for team discussion. Tag product + marketing leads for major moves. Use the result of "Replace the Monday check", "Write the briefing".
+Post the briefing from "Write the briefing" to competitor intel channel using a rich block layout with sections and links to each source page. Open a thread under the post for team discussion. If True is true, tag product and marketing leads on any major move.
 
 ## Step 8: Publish and spot check it
 
-This step builds a workflow.
-Validate and publish. Monitor: weekly briefing delivery (must not fail silently), team engagement (reactions, threads), and accuracy (occasional human spot-check that AI correctly identified material changes). Use the result of "Replace the Monday check", "Post it to the channel".
+Validate the workflow and publish it. Monitor three things: weekly briefing delivery, which must not fail silently; team engagement, measured by reactions and thread replies; and accuracy, through an occasional human spot-check that the AI correctly identified material changes.

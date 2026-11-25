@@ -1,7 +1,8 @@
 ---
 frontmatter_id: competitor-mention-detected-response
 slash_command: /competitor-mention-detected-response
-description: Uses AI attribute scores from first-party events to spot competitive intent and trigger a personalized email plus a CSM follow-up task.
+description: Spots paying customers showing competitor interest in first-party events, sends them an honest comparison email,
+  alerts the CSM about high-value accounts, shows unused capabilities in the app and emails a weekly competitor digest.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,249 +12,152 @@ classification:
   industry:
   - saas-b2b-tech
 portable:
-  summary: Spots competitor interest from first-party signals and responds with an intent-matched email, in-app capability
-    prompts, and a CSM follow-up task, plus a competitive win/loss dashboard.
+  summary: Finds paying customers with recent competitor signals, emails them a helpful comparison, alerts CSMs about high-ARR
+    accounts and sends a weekly competitor digest.
   parameters:
   - name: signal_window
     type: duration
-    label: Recent signal window for segment
+    label: How recent a competitor signal counts
     default: 14 d
-    required: false
-  - name: attribute_active_window
-    type: duration
-    label: How long the competitor signal stays active after last signal
-    default: 30 d
-    required: false
-  - name: min_signal_strength
-    type: enum
-    label: Minimum signal strength for segment
-    default: medium
-    required: false
-    options:
-    - medium
-    - high
-  - name: csm_task_delay
-    type: duration
-    label: Delay before CSM/AE task for high-signal accounts
-    default: 2 d
-    required: false
-  - name: exec_outreach_delay
-    type: duration
-    label: Delay before executive-sponsor outreach
-    default: 7 d
     required: false
   - name: first_response_window
     type: duration
-    label: Target time to first email after signal
+    label: Wait before the comparison email
     default: 4 h
     required: false
-  - name: product_name
+  - name: high_arr_threshold
+    type: number
+    label: Account ARR above which the CSM is alerted
+    default: 25000
+    required: false
+  - name: alert_recipients
     type: string
-    label: Your product name
-    default: <UNKNOWN>
-    required: false
-  - name: cooldown_timeout
-    type: duration
-    label: Exit timeout with no further competitor signal
-    default: 30 d
-    required: false
+    label: Email addresses of the CSM / AE team alerted about high-value accounts
+    required: true
+  - name: digest_recipients
+    type: string
+    label: Email addresses that get the digest
+    required: true
   requirements:
-  - slot: competitor_signal_attribute
-    kind: attribute
-    meaning: An AI-derived attribute on users or accounts that records competitor signals with competitor name, signal type,
-      signal strength, recency and inferred intent.
-    properties:
-    - name: competitor_name
-      type: string
-      meaning: Name of the competitor the signal refers to
-      optional: false
-    - name: signal_type
-      type: string
-      meaning: Kind of signal such as comparison page visit, competitor link click, support mention, resource download, or
-        review site activity
-      optional: false
-    - name: signal_strength
-      type: enum
-      meaning: 'Strength of the competitor signal: low, medium or high'
-      optional: false
-    - name: recency
-      type: date
-      meaning: When the most recent competitor signal occurred
-      optional: false
-    - name: inferred_intent
-      type: enum
-      meaning: 'Inferred intent: evaluation, dissatisfaction, curious-comparison or leaving'
-      optional: false
   - slot: competitor_signal_event
     kind: event
-    meaning: A customer or prospect showed a competitor comparison or competitor-related action on first-party channels.
+    meaning: A customer showed competitor interest on a first-party channel, such as visiting a comparison page or clicking
+      a competitor-named link
     properties:
     - name: competitor_name
       type: string
-      meaning: Competitor referenced by the action
-      optional: true
+      meaning: Name of the competitor
+      optional: false
     - name: signal_type
       type: string
-      meaning: Kind of competitor action observed
-      optional: true
-  - slot: active_competitor_signal_segment
-    kind: segment
-    meaning: Existing customers or late-stage prospects with a recent competitor signal of medium or high strength.
-    creatable: true
-    definition: users/accounts with {competitor_signal_attribute} in the last {signal_window} where signal_strength is at
-      least {min_signal_strength}, excluding brand-new prospects
+      meaning: Kind of signal, such as comparison_page_view or competitor_link_click
+      optional: false
+    - name: signal_strength
+      type: string
+      meaning: low, medium or high
+      optional: false
+  - slot: plan
+    kind: attribute
+    meaning: The user's current plan, empty or free/trial when not paying
   - slot: cancel_page_visit_event
     kind: event
-    meaning: A customer visited the cancellation page of the product.
-  - slot: customer_success_owner
-    kind: attribute
-    meaning: The CSM or AE assigned to the account, used as the sender and task owner.
+    meaning: A customer visited the cancellation page of the product
   - slot: account_arr
     kind: attribute
-    meaning: Annual recurring revenue of the account.
-  - slot: email_channel
-    kind: destination
-    meaning: An email sending channel the project uses to send marketing emails.
-    channel: email
-  - slot: in_app_recommendation_surface
-    kind: destination
-    meaning: An in-app surface that can show product recommendations to users.
-    channel: email
-  - slot: product_usage_feed
+    meaning: Account attribute with annual recurring revenue
+  - slot: customer_success_owner
     kind: attribute
-    meaning: Feature usage profile and cohort data for each user or account.
-  - slot: crm_task_integration
-    kind: integration
-    meaning: A connected CRM where CSM or AE follow-up tasks can be created with attached competitive intel.
-    channel: salesforce
+    meaning: Name of the CSM or AE assigned to the account
+    optional: true
   steps:
   - id: s1
-    builds: attribute
-    uses:
-    - competitor_signal_attribute
-    - competitor_signal_event
-    - attribute_active_window
-    instruction: 'Create an AI-derived attribute {competitor_signal_attribute} on the user/account object. It detects: (a)
-      visits to competitor comparison pages, (b) clicks on competitor-named links in marketing emails, (c) competitor mentions
-      in support conversations or AI agent chats, (d) downloads of competitor-comparison resources, and (e) activity as a
-      reviewer on a competitor''s review site where data permits. Output a structured object with competitor_name, signal_type,
-      signal_strength, recency and inferred_intent (evaluation, dissatisfaction, curious-comparison or leaving). The attribute
-      stays active for {attribute_active_window} after the last competitor signal.'
-  - id: s2
     builds: segment
     uses:
-    - s1
-    - active_competitor_signal_segment
-    - competitor_signal_attribute
+    - competitor_signal_event
+    - plan
     - signal_window
-    - min_signal_strength
-    instruction: 'Build the segment {active_competitor_signal_segment} of users/accounts with {competitor_signal_attribute}
-      in the last {signal_window} where signal_strength is {min_signal_strength} or higher. Partition it by inferred_intent
-      so each journey branch can respond differently. Exclude brand-new prospects: this motion is for existing customers or
-      late-stage prospects only, since competitive intel for new prospects goes into the account executive''s sales process.'
-  - id: s3
+    instruction: Build a new segment of users named "Customers with competitor signals". A user is in it when their {plan}
+      attribute has a value that is not free or trial and they did {competitor_signal_event} with {competitor_signal_event.signal_strength}
+      equal to medium or high in the last {signal_window}.
+  - id: s2
     builds: email
     uses:
-    - s2
-    - active_competitor_signal_segment
-    - email_channel
+    - s1
+    - competitor_signal_event
     - customer_success_owner
-    - product_name
-    - competitor_signal_attribute
-    - cancel_page_visit_event
-    instruction: 'Write a designed HTML marketing email for each inferred_intent in {active_competitor_signal_segment}. Evaluation
-      intent (existing customer comparing, concerning but not yet leaving): subject ''Helpful comparison: {product_name} vs
-      {competitor_signal_attribute.competitor_name} from your team''s perspective''; give an honest comparison and specific
-      advantages relevant to their use case. Dissatisfaction intent (friction signals plus competitor signal, leaving risk):
-      subject ''Want to talk? (fill in: CSM name) would like to understand what''s not working''; make a direct outreach offer
-      with no defensive product pitch. Curious-comparison intent (neutral exploration): subject ''Most teams who compare us
-      to {competitor_signal_attribute.competitor_name} choose {product_name} for (fill in: specific differentiator): here''s
-      why''; include a customer case study. Leaving intent (strong signals plus cancel-page visit plus competitor signal):
-      offer an executive business review meeting and open a retention discussion. Send from the matched {customer_success_owner}
-      for high-signal cases; send from marketing for low-signal exploration.'
-  - id: s4
+    dependsOn:
+    - s1
+    instruction: 'Write a designed HTML email for users in the segment from "Group by what they intend", signed with their
+      {customer_success_owner}. Subject: "Comparing us with {competitor_signal_event.competitor_name}? Here is an honest view".
+      Acknowledge they may be looking around, give a short fair comparison focused on what teams like theirs get from us,
+      point to two capabilities they may not use yet, and offer a 20-minute call. Respectful, not defensive, no discounts.'
+  - id: s3
     builds: recommendation
     uses:
     - s1
-    - s2
-    - in_app_recommendation_surface
-    - product_usage_feed
-    - competitor_signal_attribute
-    - product_name
-    - attribute_active_window
-    instruction: Configure an in-app recommendation surface titled 'Capabilities you're not using yet' that activates when
-      a user has an active {competitor_signal_attribute}. It pulls differentiator features of {product_name} that the user
-      or account has not tried but that its cohort uses for high-value outcomes, answering 'why stay?' with concrete unused
-      capability rather than feature-comparison documents. It renders in-app for {attribute_active_window}.
-  - id: s5
+    dependsOn:
+    - s1
+    instruction: 'Build an in-app product recommendation titled "Capabilities you''re not using yet" for users in the segment
+      from "Group by what they intend": recommend the 3 features most used by other paying users on the same plan that this
+      user has not used in the last 90 days.'
+  - id: s4
     builds: automation
-    uses:
-    - s2
-    - s3
-    - s4
-    - active_competitor_signal_segment
-    - first_response_window
-    - csm_task_delay
-    - exec_outreach_delay
-    - attribute_active_window
-    - cooldown_timeout
-    - crm_task_integration
-    - customer_success_owner
-    - product_usage_feed
-    - account_arr
-    - competitor_signal_attribute
-    instruction: 'Build a journey on {active_competitor_signal_segment}, branched by inferred_intent. Touch 1, within {first_response_window}
-      of the signal: send the intent-matched email from "Write a designed HTML marketing email for each inferred_intent".
-      Touch 2, on the same day as touch 1: activate the "Capabilities you''re not using yet" surface for {attribute_active_window}.
-      Touch 3, after {csm_task_delay}, only for high signal_strength accounts: create a task in {crm_task_integration} for
-      the {customer_success_owner} with full competitor intel attached (competitor_name, signal_type, inferred_intent, suggested
-      talking points, and the customer''s current usage profile from {product_usage_feed}). Touch 4, after {exec_outreach_delay},
-      only if the account still shows competitive intent and has not engaged with the CSM: send an executive-sponsor outreach
-      offer to high-ARR accounts, using {account_arr} to qualify. Exit when there is an explicit positive renewal or retention
-      signal (saved), when the account churns (loss, to be fed into win-loss analysis), or after {cooldown_timeout} with no
-      further competitor signal (signal cooled).'
-  - id: s6
-    builds: dashboard
     uses:
     - s1
     - s2
-    - s3
-    - s4
-    - s5
-    - competitor_signal_attribute
+    - competitor_signal_event
+    - cancel_page_visit_event
     - account_arr
-    instruction: 'Compose a competitive defense dashboard with four views: competitor signal volume per competitor, showing
-      which competitors are hottest in the current customer base for leadership; per-competitor save rate, showing which competitors
-      the team saves customers from versus loses them to; inferred-intent distribution between evaluation and leaving as a
-      leading churn indicator; and an ARR-weighted at-risk pile built from competitor signals using {account_arr}. The data
-      feeds the product-marketing competitive-positioning function.'
+    - customer_success_owner
+    - first_response_window
+    - high_arr_threshold
+    - alert_recipients
+    dependsOn:
+    - s1
+    - s2
+    instruction: Build an automation that starts when a user enters the segment from "Group by what they intend". It waits
+      {first_response_window} and sends the email from "Write a reply per intent". If the account's {account_arr} is above
+      {high_arr_threshold}, or the user did {cancel_page_visit_event} in the last 14 days, it also emails {alert_recipients}
+      the user's name, account, {account_arr}, {customer_success_owner}, {competitor_signal_event.competitor_name} and {competitor_signal_event.signal_type}
+      so the CSM can reach out.
+  - id: s5
+    builds: automation
+    uses:
+    - s1
+    - competitor_signal_event
+    - account_arr
+    - plan
+    - digest_recipients
+    dependsOn:
+    - s1
+    instruction: 'Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes {competitor_signal_event}
+      by paying users in the last 7 days and writes these figures: signal count per {competitor_signal_event.competitor_name},
+      with the 7 days before; the number of users in the segment from "Group by what they intend" now; the sum of {account_arr}
+      of their accounts; and how many of the users who entered it 30 to 60 days ago now have a {plan} that is empty, free
+      or trial. Then it emails these figures as plain-text lines, each with its window, to {digest_recipients}. Nothing else
+      is sent.'
 ---
 
 # Competitor signal response
 
 Slash command: /competitor-mention-detected-response
 
-## Step 1: Spot competitor interest
+## Step 1: Group by what they intend
 
-Create an AI-derived attribute 'recent_competitor_signal' on the User/Account object. Detects: (a) visited /vs/(fill in: competitor) comparison pages, (b) clicked competitor-named links in marketing emails, (c) mentioned competitor in support conversations or AI agent chats, (d) downloaded a competitor-comparison resource, (e) appeared on a competitor's review site as a reviewer (if data permits). Output: structured object with competitor_name, signal_type, signal_strength, recency, and inferred_intent (evaluation / dissatisfaction / curious-comparison / leaving). Stays active for 30 days after last competitor signal. Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.
+Build a new segment of users named "Customers with competitor signals". A user is in it when their plan attribute has a value that is not free or trial and they did competitor signal event with signal strength equal to medium or high in the last 14 d.
 
-## Step 2: Group by what they intend
+## Step 2: Write a reply per intent
 
-Build a segment 'Active competitor signal' capturing users/accounts with recent_competitor_signal in the last 14 days where signal_strength is medium or high. Partitioned by inferred_intent so the journey branches accordingly. Excludes brand-new prospects (different motion, for prospects, competitive intel goes into the AE's sales process). This segment is specifically EXISTING CUSTOMERS or LATE-STAGE prospects where competitor signal is a save/competitive-defend moment. Use the result of "Spot competitor interest".
+Write a designed HTML email for users in the segment from "Group by what they intend", signed with their customer success owner. Subject: "Comparing us with competitor name? Here is an honest view". Acknowledge they may be looking around, give a short fair comparison focused on what teams like theirs get from us, point to two capabilities they may not use yet, and offer a 20-minute call. Respectful, not defensive, no discounts.
 
-## Step 3: Write a reply per intent
+## Step 3: Show what they are missing
 
-This step builds a designed marketing email (HTML).
-Generate competitive content variants per inferred_intent. Evaluation intent (existing customer comparing (concerning but not yet leaving): 'Helpful comparison: (fill in: Product) vs (fill in: Competitor) from your team's perspective') honest comparison + specific advantages relevant to their use case. Dissatisfaction intent (existing customer with friction signals + competitor signal (leaving risk): 'Want to talk? (fill in: CSM name) would like to understand what's not working') direct outreach offer, no defensive product pitch. Curious-comparison intent (neutral exploration): 'Most teams who compare us to (fill in: Competitor) choose (fill in: Product) for (fill in: specific differentiator): here's why' + customer case study. Leaving intent (strong signals + cancel-page visit + competitor signal): exec-sponsor outreach offering executive-business-review meeting + retention discussion. Send-from: matched CSM or AE for high-signal cases; marketing@ for low-signal exploration. Use the result of "Spot competitor interest", "Group by what they intend". If the brand kit has no logo, use the brand name as a plain text header. Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.
+Build an in-app product recommendation titled "Capabilities you're not using yet" for users in the segment from "Group by what they intend": recommend the 3 features most used by other paying users on the same plan that this user has not used in the last 90 days.
 
-## Step 4: Show what they are missing
+## Step 4: Respond within four hours
 
-Configure a recommendation surface 'Capabilities you're not using yet' that activates when a user has a competitor signal. Pulls: differentiator features of (fill in: Product) that the user/account hasn't tried but their cohort uses for high-value outcomes. The surface answers the implicit question 'why stay?' with concrete unused capability: much more convincing than feature-comparison docs. Renders in-app for 30 days. Use the result of "Spot competitor interest", "Group by what they intend". Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.
+Build an automation that starts when a user enters the segment from "Group by what they intend". It waits 4 h and sends the email from "Write a reply per intent". If the account's account arr is above 25000, or the user did cancel page visit event in the last 14 days, it also emails the email addresses of the CSM / AE team alerted about high-value accounts the user's name, account, account arr, customer success owner, competitor name and signal type so the CSM can reach out.
 
-## Step 5: Respond within four hours
+## Step 5: See which rivals you lose to
 
-Build a journey wired to competitor-signal segment, branched by inferred_intent. Touch 1 (within 4 hours of signal: speed matters): intent-matched email. Touch 2 (Day 0 of touch 1): differentiator-recommendation surface activates in-app for 30 days. Touch 3 (Day 2, for high-signal-strength accounts): CSM/AE task with full competitor intel attached (competitor name, signal type, inferred intent, suggested talking points, customer's current usage profile). Touch 4 (Day 7, if account is still showing competitive intent + hasn't engaged with CSM): executive-sponsor outreach offer for high-ARR accounts. Exit on: explicit positive renewal/retention signal (saved), churned (loss: feed into win-loss analysis), or 30-day timeout with no further competitor signal (signal cooled). Use the result of "Spot competitor interest", "Group by what they intend", "Write a reply per intent", "Show what they are missing".
-
-## Step 6: See which rivals you lose to
-
-Compose a competitive defense dashboard: competitor signal volume per competitor (which competitors are hottest in your current customer base: strategic competitive intel for leadership), per-competitor save rate (which competitors you actually save customers from vs. lose to), inferred-intent distribution (evaluation vs. leaving: leading indicator of churn from competitive pressure), and ARR-weighted at-risk pile from competitor signals. Feeds the product-marketing competitive-positioning function with real data, not assumptions. Use the result of "Spot competitor interest", "Group by what they intend", "Write a reply per intent", "Show what they are missing", "Respond within four hours".
+Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes competitor signal event by paying users in the last 7 days and writes these figures: signal count per competitor name, with the 7 days before; the number of users in the segment from "Group by what they intend" now; the sum of account arr of their accounts; and how many of the users who entered it 30 to 60 days ago now have a plan that is empty, free or trial. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.
