@@ -1,7 +1,8 @@
 ---
 frontmatter_id: post-purchase
 slash_command: /post-purchase
-description: Thanks the buyer, shows them how to use what they bought, asks for a review, and suggests what goes with it.
+description: Thanks the buyer and shows them how to use what they bought, asks for a review a week later, and suggests products
+  that go with it two weeks after the order.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,19 +12,9 @@ classification:
   industry:
   - ecommerce-retail
 portable:
-  summary: Thanks new buyers, shows them how to use their purchase, asks for a review, and suggests complementary products
-    over the first month.
+  summary: Sends every buyer a thank-you with care tips, a review request and a cross-sell email from your catalog over the
+    two weeks after their order.
   parameters:
-  - name: lookback_window
-    type: duration
-    label: Look-back window for recent orders
-    default: 14 d
-    required: false
-  - name: care_delay
-    type: duration
-    label: Delay before product-care email
-    default: 3 d
-    required: false
   - name: review_delay
     type: duration
     label: Delay before review request
@@ -34,121 +25,74 @@ portable:
     label: Delay before cross-sell email
     default: 14 d
     required: false
-  - name: loyalty_delay
-    type: duration
-    label: Delay before loyalty introduction
-    default: 30 d
-    required: false
   requirements:
   - slot: order_placed
     kind: event
     meaning: A customer placed an order
     properties:
     - name: purchased_items
-      type: text
-      meaning: Items included in the order
+      type: string
+      meaning: Names of the items in the order
       optional: false
-  - slot: buyer_type
-    kind: attribute
-    meaning: Whether a customer is a first-time or repeat buyer
-  - slot: new_buyer_segment
-    kind: segment
-    meaning: Customers who placed their first order within the look-back window
-    optional: true
-  - slot: email_channel
-    kind: destination
-    meaning: An email sending destination for customer messages
-    channel: email
   - slot: product_catalog
     kind: product_feed
     meaning: The store's product catalog with items that can be recommended together
   steps:
   - id: s1
-    builds: segment
+    builds: email
     uses:
     - order_placed
-    - buyer_type
-    - lookback_window
-    instruction: Identify customers who placed an {order_placed} within the last {lookback_window}, and split them into first-time
-      buyers and repeat buyers using {buyer_type}.
+    instruction: Write a thank-you email for customers who just did {order_placed}. It thanks them, names the items in {order_placed.purchased_items},
+      and gives three short tips on using and caring for them, with one button to their order. No discount, no other products.
   - id: s2
-    builds: content
+    builds: email
     uses:
-    - s1
-    instruction: 'Write five emails for the recipients from "Split first time from repeat": a thank-you email, a product-care
-      email using {order_placed.purchased_items}, a review request, cross-sell suggestions drawn from {product_catalog}, and
-      a loyalty introduction.'
+    - order_placed
+    instruction: Write a short email asking customers who did {order_placed} a week ago to review the items in {order_placed.purchased_items}.
+      One question on how they are finding it, one button to leave a review, and a line saying replies go to a real person.
   - id: s3
+    builds: email
+    uses:
+    - order_placed
+    - product_catalog
+    instruction: Write a cross-sell email for customers who did {order_placed} two weeks ago. It shows three products from
+      {product_catalog} that go with the items in {order_placed.purchased_items}, never an item already in the order, each
+      with its image, name and one line on why it pairs, and a button to each.
+  - id: s4
     builds: automation
     uses:
     - s1
     - s2
-    - email_channel
-    - care_delay
+    - s3
+    - order_placed
     - review_delay
     - cross_sell_delay
-    - loyalty_delay
-    instruction: 'Build a five-touch journey on {email_channel} for the audience from "Split first time from repeat": send
-      the confirmation email from "Write the five emails" immediately (0 hours), the product-care email at {care_delay}, the
-      review request at {review_delay}, the cross-sell email at {cross_sell_delay}, and the loyalty introduction at {loyalty_delay}.'
-  - id: s4
-    builds: recommendation
-    uses:
+    dependsOn:
     - s1
     - s2
     - s3
-    - product_catalog
-    instruction: Generate cross-sell recommendations from {product_catalog} based on {order_placed.purchased_items} and each
-      customer's profile, for the audience from "Split first time from repeat", and place them in the cross-sell email from
-      "Send over the first month".
-  - id: s5
-    builds: experiment
-    uses:
-    - s1
-    - s2
-    - s3
-    - s4
-    - review_delay
-    instruction: Add an A/B test on the review-request timing in the journey from "Send over the first month", comparing variants
-      at 3 days, 7 days, and 14 days after purchase, starting from the base of {review_delay}.
-  - id: s6
-    builds: dashboard
-    uses:
-    - s1
-    - s2
-    - s3
-    - s4
-    - s5
-    - order_placed
-    instruction: Create a dashboard tracking the review-collection rate, the second-purchase rate for the audience from "Split
-      first time from repeat", and the average order value uplift from cross-sell recommendations in "Pick what goes with
-      it", using {order_placed} as the purchase source.
+    instruction: Build an automation triggered when a user does {order_placed}. It sends the email from "Write the thank-you
+      and care email" right away, waits {review_delay} and sends the email from "Write the review request", then waits until
+      {cross_sell_delay} after the order and sends the email from "Write the goes-with-it email". A user already in this automation
+      from an earlier order does not start it again.
 ---
 
 # Post purchase follow up
 
 Slash command: /post-purchase
 
-## Step 1: Split first time from repeat
+## Step 1: Write the thank-you and care email
 
-Identify users with order_placed event in last 14 days, segmented by first-time vs repeat buyer.
+Write a thank-you email for customers who just did order placed. It thanks them, names the items in purchased items, and gives three short tips on using and caring for them, with one button to their order. No discount, no other products.
 
-## Step 2: Write the five emails
+## Step 2: Write the review request
 
-Generate post-purchase content: thank-you email, product-care info, review request, and cross-sell suggestions. Use the result of "Split first time from repeat".
+Write a short email asking customers who did order placed a week ago to review the items in purchased items. One question on how they are finding it, one button to leave a review, and a line saying replies go to a real person.
 
-## Step 3: Send over the first month
+## Step 3: Write the goes-with-it email
 
-Build a 5-touch journey sending content at 0hr (confirmation), 3day (care), 7day (review), 14day (cross-sell), 30day (loyalty intro). Use the result of "Split first time from repeat", "Write the five emails".
+Write a cross-sell email for customers who did order placed two weeks ago. It shows three products from product catalog that go with the items in purchased items, never an item already in the order, each with its image, name and one line on why it pairs, and a button to each.
 
-## Step 4: Pick what goes with it
+## Step 4: Follow up over two weeks after the purchase
 
-Generate cross-sell recommendations based on the purchased items and the customer's profile. Use the result of "Split first time from repeat", "Write the five emails", "Send over the first month".
-
-## Step 5: Test when to ask for a review
-
-Add A/B variants on review-request timing (3day vs 7day vs 14day). Use the result of "Split first time from repeat", "Write the five emails", "Send over the first month", "Pick what goes with it".
-
-## Step 6: Track reviews and repeat orders
-
-Compose a dashboard tracking review-collection rate, second-purchase rate, and AOV uplift from cross-sell. Use the result of "Split first time from repeat", "Write the five emails", "Send over the first month", "Pick what goes with it", "Test when to ask for a review".
+Build an automation triggered when a user does order placed. It sends the email from "Write the thank-you and care email" right away, waits 7 d and sends the email from "Write the review request", then waits until 14 d after the order and sends the email from "Write the goes-with-it email". A user already in this automation from an earlier order does not start it again.

@@ -1,7 +1,8 @@
 ---
 frontmatter_id: weekly-forecast-rollup
 slash_command: /weekly-forecast-rollup
-description: Freezes the pipeline every Monday, sends leadership the weighted forecast and what moved, and keeps the snapshot so last week can be checked.
+description: Every week analyzes the pipeline and emails leadership the weighted forecast against quota and what moved, plus
+  a monthly check of forecast against actual by rep.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,8 +12,8 @@ classification:
   industry:
   - saas-b2b-tech
 portable:
-  summary: Freezes the pipeline each Monday and emails leadership the weighted forecast and weekly pipeline movement, while
-    keeping snapshots to check last week's forecast.
+  summary: Emails leadership a weekly weighted pipeline forecast against quota with deal movement, and a monthly forecast-accuracy
+    check by rep and forecast category.
   parameters:
   - name: send_time
     type: string
@@ -45,6 +46,14 @@ portable:
     label: Forecast variance threshold for solid (%)
     default: 20
     required: false
+  - name: quota_target
+    type: number
+    label: Team quota for the quarter
+    required: true
+  - name: digest_recipients
+    type: string
+    label: Email addresses of sales leadership that get the digest
+    required: true
   requirements:
   - slot: pipeline_opportunity_event
     kind: event
@@ -52,120 +61,61 @@ portable:
     properties:
     - name: stage
       type: string
-      meaning: Current pipeline stage of the deal
+      meaning: Deal stage after the change, including Closed Won and Closed Lost
       optional: false
     - name: amount_arr
       type: number
-      meaning: Annual recurring revenue value of the deal
+      meaning: Annual value of the deal
       optional: false
     - name: forecast_category
       type: string
-      meaning: Forecast category of the deal (Commit, Best Case, Pipeline, Omitted)
+      meaning: Commit, Best Case, Pipeline or Omitted
       optional: false
     - name: owner
       type: string
       meaning: Account executive who owns the deal
       optional: false
-  - slot: sales_leadership_list
-    kind: segment
-    meaning: 'Sales leadership recipients: CRO, VP Sales, and AE managers'
-  - slot: ae_list
-    kind: segment
-    meaning: Account executives who each receive a personal pipeline movement snippet
-  - slot: quota_attribute
-    kind: attribute
-    meaning: Sales quota target for the team or period
-  - slot: forecast_category_attribute
-    kind: attribute
-    meaning: Deal-level forecast category (Commit, Best Case, Pipeline, Omitted)
-  - slot: revenue_slack_channel
-    kind: integration
-    meaning: 'Slack workspace connection with access to the #revenue channel'
-    channel: slack
-  - slot: leadership_email_sender
-    kind: destination
-    meaning: Email sending identity for the CRO or VP Sales address
-    channel: email
-  - slot: pipeline_snapshot_report
-    kind: knowledge
-    meaning: Historical store of weekly frozen pipeline forecast snapshots
-    optional: true
   steps:
   - id: s1
-    builds: report
-    uses:
-    - pipeline_opportunity_event
-    - forecast_category_attribute
-    - quota_attribute
-    instruction: 'Build an insights report named ''Weekly pipeline forecast snapshot'' that computes: (a) total open pipeline
-      ARR by stage; (b) weighted forecast, where each stage''s ARR is multiplied by its historical win probability; (c) commit-category
-      breakdown (Commit, Best Case, Pipeline, Omitted) using {forecast_category_attribute}; (d) week-over-week pipeline movement
-      showing deals added, advanced, lost, and closed-won, based on {pipeline_opportunity_event}; (e) forecast-vs-actual for
-      closed quarters, testing whether last week''s forecast was accurate. Set the report to be freezable so each Monday''s
-      version is preserved for historical comparison. Compare weighted forecast against {quota_attribute}.'
-  - id: s2
-    builds: email
-    uses:
-    - s1
-    - leadership_email_sender
-    - quota_attribute
-    instruction: 'Write a weekly forecast snapshot email for sales leadership. Open with an executive summary of three one-sentence
-      items: weighted forecast versus {quota_attribute}, week-over-week pipeline change, and top deal moves this week. Follow
-      with the full report from "Snapshot the pipeline" rendered as a scannable HTML table. Tone: concise and exec-ready.
-      Send from the CRO or VP Sales address via {leadership_email_sender}, not a no-reply system. Use the result of "Snapshot
-      the pipeline". If the brand kit has no logo, use the brand name as a plain text header.'
-  - id: s3
     builds: automation
     uses:
-    - s1
-    - s2
-    - sales_leadership_list
-    - revenue_slack_channel
-    - ae_list
+    - pipeline_opportunity_event
     - send_day
     - send_time
-    instruction: 'Create a scheduled workflow that fires every {send_day} at {send_time} local time. Steps in order: (1) refresh
-      the forecast snapshot report from "Snapshot the pipeline"; (2) freeze the snapshot to the historical store so last week''s
-      forecast can be queried; (3) compose the weekly snapshot email from "Write the leadership email" with the latest data;
-      (4) deliver that email to {sales_leadership_list}; (5) post a condensed Slack version to #revenue via {revenue_slack_channel}
-      with the top-line numbers and a link to the full report; (6) send each member of {ae_list} a personalized snippet with
-      their own pipeline movement, kept separate from the executive email. Use the results of "Snapshot the pipeline" and
-      "Write the leadership email".'
-  - id: s4
-    builds: dashboard
+    - quota_target
+    - digest_recipients
+    instruction: 'Build an automation that runs every {send_day} at {send_time} on a schedule. Each run it analyzes the latest
+      {pipeline_opportunity_event} per deal and writes these figures: open pipeline {pipeline_opportunity_event.amount_arr}
+      by {pipeline_opportunity_event.stage}; the weighted forecast, each stage''s value times its win rate over the last 12
+      months; that forecast against {quota_target}; value by {pipeline_opportunity_event.forecast_category}; deals added,
+      advanced, lost and closed-won in the last 7 days with their value; the five largest moves by deal and {pipeline_opportunity_event.owner};
+      last week''s weighted forecast for comparison. Then it emails these figures as plain-text lines, each with its window,
+      to {digest_recipients}. Nothing else is sent.'
+  - id: s2
+    builds: automation
     uses:
-    - s1
-    - s2
-    - s3
-    - forecast_category_attribute
+    - pipeline_opportunity_event
     - forecast_window
     - variance_excellent_pct
     - variance_solid_pct
-    instruction: 'Build a forecast accuracy dashboard reading from the historical snapshot series over {forecast_window}.
-      Show: (a) forecast-vs-actual variance by week, rated excellent under {variance_excellent_pct}%, solid between {variance_excellent_pct}%
-      and {variance_solid_pct}%, and needing process work at {variance_solid_pct}% or above; (b) variance by rep, identifying
-      which AEs forecast accurately and which are optimistic or pessimistic; (c) forecast-category calibration, checking whether
-      Commit-tier deals close at 90% or higher and Best Case deals close at about 50%, using {forecast_category_attribute}.
-      Surface patterns leadership can coach on. Use the results of "Snapshot the pipeline", "Write the leadership email",
-      and "Send it Monday at 7am".'
+    - digest_recipients
+    instruction: 'Build an automation that runs on the 1st of every month at 08:00 on a schedule. Each run it analyzes {pipeline_opportunity_event}
+      over the last {forecast_window} and writes these figures: the value forecast as Commit and Best Case by {pipeline_opportunity_event.forecast_category}
+      at the start of the window against the value that reached Closed Won, as a variance in percent, rated excellent below
+      {variance_excellent_pct}%, solid below {variance_solid_pct}%, else needs work; the same variance by {pipeline_opportunity_event.owner},
+      marking each as optimistic or pessimistic; the close rate of Commit deals against 90% and of Best Case deals against
+      50%. Then it emails these figures as plain-text lines, each with its window, to {digest_recipients}. Nothing else is
+      sent.'
 ---
 
 # Weekly forecast rollup
 
 Slash command: /weekly-forecast-rollup
 
-## Step 1: Snapshot the pipeline
+## Step 1: Email the weekly forecast
 
-Build an insights report 'Weekly pipeline forecast snapshot' computing: (a) total open pipeline ARR by stage; (b) weighted forecast (each stage × its historical win-probability); (c) commit-category breakdown (Commit / Best Case / Pipeline / Omitted: sourced from deal-level forecast_category attribute); (d) week-over-week pipeline movement (deals added / advanced / lost / closed-won); (e) forecast-vs-actual for closed quarters (was last week's forecast accurate?). Freezable: each Monday's report is preserved for historical comparison.
+Build an automation that runs every monday at 07:00 on a schedule. Each run it analyzes the latest pipeline opportunity event per deal and writes these figures: open pipeline amount arr by stage; the weighted forecast, each stage's value times its win rate over the last 12 months; that forecast against the team quota for the quarter; value by forecast category; deals added, advanced, lost and closed-won in the last 7 days with their value; the five largest moves by deal and owner; last week's weighted forecast for comparison. Then it emails these figures as plain-text lines, each with its window, to the email addresses of sales leadership that get the digest. Nothing else is sent.
 
-## Step 2: Write the leadership email
+## Step 2: Email the monthly forecast accuracy check
 
-Generate a weekly forecast snapshot email for sales leadership. Structure: executive summary at top (one sentence per: weighted forecast vs. quota, week-over-week pipeline change, top deal moves this week), then the full report rendered as a scannable HTML table. Tone: concise, exec-ready. Send-from: the CRO or VP Sales address (not from a no-reply system). Use the result of "Snapshot the pipeline". If the brand kit has no logo, use the brand name as a plain text header.
-
-## Step 3: Send it Monday at 7am
-
-Create a scheduled workflow firing every Monday at 7am local time. Step sequence: (1) refresh the forecast snapshot report; (2) freeze the snapshot to historical store (so 'last week's forecast' is queryable); (3) compose the weekly snapshot email with the latest data; (4) deliver to sales leadership list (CRO, VP Sales, AE managers); (5) post a condensed Slack version to #revenue with the top-line numbers + link to the full report; (6) for AEs specifically, send each AE a personalized snippet with their own pipeline movement (separate channel: don't make exec emails AE-personal). Use the result of "Snapshot the pipeline", "Write the leadership email".
-
-## Step 4: Check who forecasts honestly
-
-Compose a forecast accuracy dashboard reading from the historical snapshot series: forecast-vs-actual variance by week (sub-10% = excellent, 10-20% = solid, 20%+ = forecast process needs work), variance by rep (which AEs forecast accurately vs. who's optimistic / pessimistic), and forecast-category accuracy (do Commit-tier deals actually close at 90%+? Best-Case at 50%?: calibration health). Surfaces patterns leadership can coach on. Use the result of "Snapshot the pipeline", "Write the leadership email", "Send it Monday at 7am".
+Build an automation that runs on the 1st of every month at 08:00 on a schedule. Each run it analyzes pipeline opportunity event over the last 4 w and writes these figures: the value forecast as Commit and Best Case by forecast category at the start of the window against the value that reached Closed Won, as a variance in percent, rated excellent below 10%, solid below 20%, else needs work; the same variance by owner, marking each as optimistic or pessimistic; the close rate of Commit deals against 90% and of Best Case deals against 50%. Then it emails these figures as plain-text lines, each with its window, to the email addresses of sales leadership that get the digest. Nothing else is sent.

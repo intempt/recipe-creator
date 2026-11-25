@@ -2,8 +2,8 @@
   "frontmatter_id": "sunset-hygiene",
   "title": "Sunset inactive subscribers",
   "slash_command": "/sunset-hygiene",
-  "description": "Gives subscribers who have ignored six months of email one chance to say they still want it, then stops mailing them to protect deliverability.",
-  "markdown": "# Sunset inactive subscribers\n\n## Description\n\nGives subscribers who have ignored six months of email one chance to say they still want it, then stops mailing them to protect deliverability.\n\n## Steps\n\n### Step 1: Find who stopped reading\n\nThis step builds a segment.\nIdentify subscribers who have not opened or clicked any email in 180+ days.\n\n### Step 2: Write the last chance email\n\nGenerate a final-attempt email asking the user to confirm interest with a clear opt-in CTA. Use the result of \"Find who stopped reading\". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.\n\n### Step 3: Send it, then wait 14 days\n\nBuild a 2-touch journey sending the final-attempt email and waiting 14 days for response. Use the result of \"Find who stopped reading\", \"Write the last chance email\".\n\n### Step 4: Suppress anyone who ignores it\n\nCreate a workflow automatically adding non-responders to the suppression list after the 14-day window. Use the result of \"Find who stopped reading\", \"Write the last chance email\", \"Send it, then wait 14 days\".\n\n### Step 5: Watch your deliverability\n\nCompose a dashboard tracking deliverability metrics: send rate, open rate, complaint rate, bounce rate, inbox-placement. Use the result of \"Find who stopped reading\", \"Write the last chance email\", \"Send it, then wait 14 days\", \"Suppress anyone who ignores it\".\n",
+  "description": "Gives subscribers who have ignored six months of email one chance to say they still want it, then lists the ones who stayed silent so you stop mailing them and protect deliverability.",
+  "markdown": "# Sunset inactive subscribers\n\n## Description\n\nGives subscribers who have ignored six months of email one chance to say they still want it, then lists the ones who stayed silent so you stop mailing them and protect deliverability.\n\n## Steps\n\n### Step 1: Find who stopped reading\n\nBuild a new segment of users named \"Inactive subscribers\". A user is in it when their subscribed is true, they did email received 3 or more times in the last 180 d, and they did not do email opened or clicked in the last 180 d.\n\n### Step 2: Write the last chance email\n\nWrite a short final-attempt email for subscribers who have not opened our email in six months. It asks whether they still want to hear from us, has one clear 'Yes, keep me subscribed' button, and says that if we do not hear back we will stop emailing them.\n\n### Step 3: Send it once, then wait\n\nBuild an automation triggered when a user enters the segment from \"Find who stopped reading\". It sends the email from \"Write the last chance email\" once. A user gets it at most once every 180 days.\n\n### Step 4: List who ignored it\n\nBuild a new segment of users named \"Sunset: stop mailing\". A user is in it when they are in the segment from \"Find who stopped reading\", were sent the email by \"Send it once, then wait\" more than 14 d ago, and did not do email opened or clicked since that email.\n",
   "classification": {
     "industry": [
       "industry-agnostic"
@@ -20,27 +20,22 @@
     {
       "id": "s1",
       "title": "Find who stopped reading",
-      "description": "This step builds a segment.\nIdentify subscribers who have not opened or clicked any email in 180+ days."
+      "description": "Build a new segment of users named \"Inactive subscribers\". A user is in it when their subscribed is true, they did email received 3 or more times in the last 180 d, and they did not do email opened or clicked in the last 180 d."
     },
     {
       "id": "s2",
       "title": "Write the last chance email",
-      "description": "Generate a final-attempt email asking the user to confirm interest with a clear opt-in CTA. Use the result of \"Find who stopped reading\". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link."
+      "description": "Write a short final-attempt email for subscribers who have not opened our email in six months. It asks whether they still want to hear from us, has one clear 'Yes, keep me subscribed' button, and says that if we do not hear back we will stop emailing them."
     },
     {
       "id": "s3",
-      "title": "Send it, then wait 14 days",
-      "description": "Build a 2-touch journey sending the final-attempt email and waiting 14 days for response. Use the result of \"Find who stopped reading\", \"Write the last chance email\"."
+      "title": "Send it once, then wait",
+      "description": "Build an automation triggered when a user enters the segment from \"Find who stopped reading\". It sends the email from \"Write the last chance email\" once. A user gets it at most once every 180 days."
     },
     {
       "id": "s4",
-      "title": "Suppress anyone who ignores it",
-      "description": "Create a workflow automatically adding non-responders to the suppression list after the 14-day window. Use the result of \"Find who stopped reading\", \"Write the last chance email\", \"Send it, then wait 14 days\"."
-    },
-    {
-      "id": "s5",
-      "title": "Watch your deliverability",
-      "description": "Compose a dashboard tracking deliverability metrics: send rate, open rate, complaint rate, bounce rate, inbox-placement. Use the result of \"Find who stopped reading\", \"Write the last chance email\", \"Send it, then wait 14 days\", \"Suppress anyone who ignores it\"."
+      "title": "List who ignored it",
+      "description": "Build a new segment of users named \"Sunset: stop mailing\". A user is in it when they are in the segment from \"Find who stopped reading\", were sent the email by \"Send it once, then wait\" more than 14 d ago, and did not do email opened or clicked since that email."
     }
   ],
   "availability": "coming_soon"

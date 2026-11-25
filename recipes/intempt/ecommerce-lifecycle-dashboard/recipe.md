@@ -1,7 +1,8 @@
 ---
 frontmatter_id: ecommerce-lifecycle-dashboard
 slash_command: /ecommerce-lifecycle-dashboard
-description: Shows lifecycle distribution, when shoppers reorder, and whether discount codes add revenue or eat into it.
+description: Emails a weekly digest of lifecycle distribution and stage movement, when shoppers reorder, and whether discount
+  codes add revenue or eat into it.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,12 +12,12 @@ classification:
   industry:
   - ecommerce-retail
 portable:
-  summary: Gives the team a lifecycle board showing how customers move between stages, when they reorder, and whether discount
-    codes add or cut revenue.
+  summary: Emails the team a weekly digest of how customers move between lifecycle stages, when they reorder, and whether
+    discount codes add or cut revenue.
   parameters:
   - name: dateRange
     type: enum
-    label: Default date range
+    label: Window the digest covers
     default: last_90_days
     required: false
     options:
@@ -25,93 +26,50 @@ portable:
     - last_365_days
   - name: migrationWindow
     type: duration
-    label: Migration look-back window
+    label: Stage movement look-back window
     default: 30 d
     required: false
-  - name: boardVisibility
-    type: enum
-    label: Board visibility
-    default: project
-    required: false
-    options:
-    - project
-    - private
+  - name: digest_recipients
+    type: string
+    label: Email addresses that get the digest
+    required: true
   requirements:
-  - slot: lifecycle_distribution_insight
-    kind: knowledge
-    meaning: A customer lifecycle distribution analysis across the six lifecycle score stages with stage migration flows
-  - slot: discount_impact_insight
-    kind: knowledge
-    meaning: A discount impact analysis showing average order value and margin effect per discount code
-  - slot: second_order_velocity_insight
-    kind: knowledge
-    meaning: An analysis of the time between a customer's first and second order
-  - slot: post_conversion_paths_insight
-    kind: knowledge
-    meaning: An analysis of what newly converted customers do after their first purchase
-  - slot: purchase_retention_insight
-    kind: knowledge
-    meaning: A cohort repeat-purchase retention analysis by first-order category
   - slot: placed_order_event
     kind: event
     meaning: A customer placed an order
     properties:
     - name: discount_code
-      type: text
-      meaning: Discount code applied to the order
-      optional: true
-  - slot: discount_applied_event
-    kind: event
-    meaning: A customer applied a discount code
+      type: string
+      meaning: Discount code used on the order, empty when none
+      optional: false
+    - name: total_price
+      type: number
+      meaning: Total value of the order
+      optional: false
   - slot: lifecycle_score_attribute
     kind: attribute
-    meaning: The customer's lifecycle score stage (six-stage enum)
+    meaning: 'The customer''s lifecycle stage: At risk, Needs attention, New customers, Promising, Regulars or Champions'
   steps:
   - id: s1
-    builds: dashboard
+    builds: automation
     uses:
-    - dateRange
-    - boardVisibility
+    - placed_order_event
     - lifecycle_score_attribute
-    instruction: 'Create a 12-column dashboard titled "Ecommerce Lifecycle" with visibility {boardVisibility}, default date
-      range {dateRange}, incomplete periods excluded, no board filters by default, and breakdown by {lifecycle_score_attribute}
-      using the six-stage enum. Lay it out in 4 rows: a row of four 200px metric cards, a full-width 480px lifecycle distribution
-      chart, a row of two 400px operational cards, and a row of two 400px post-purchase cards.'
+    - dateRange
+    - migrationWindow
+    - digest_recipients
+    instruction: 'Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes users who did {placed_order_event}
+      in the {dateRange} window and writes these figures: the count in each {lifecycle_score_attribute} stage now and {migrationWindow}
+      ago, and the largest moves between stages; the share who placed a second order and the median days from first to second
+      order; for each {placed_order_event.discount_code}, the orders, the average {placed_order_event.total_price} against
+      orders with no code, and the share of its users who ordered again without a code. Then it emails these figures as plain-text
+      lines, each with its window, to {digest_recipients}. Nothing else is sent.'
 ---
 
 # Ecommerce lifecycle and retention
 
 Slash command: /ecommerce-lifecycle-dashboard
 
-## Step 1: Build the lifecycle board
+## Step 1: Email the weekly lifecycle digest
 
-Create a Dash board (12-column composition canvas) titled "Ecommerce Lifecycle".
-Persona: CRM Lead, Retention Marketer, or Loyalty/Lifecycle Manager. Question answered: "How are customers progressing through their lifecycle, and where do I intervene?"
-Distinct from Customer 360: Customer 360 is the "who are my customers" overview; Lifecycle is the "how do I move them" operational view (migration, replenishment timing, discount mechanics, post-purchase touchpoints).
-Board-level configuration:
-- defaultDateRange: last_90_days
-- exclusionPeriod: incomplete_periods
-- visibility: project
-- boardFilters: none by default
-- boardBreakdowns: Lifecycle score (canonical 6-stage enum)
-Layout: 4 rows.
-Row 1: Lifecycle health KPIs (heightPx: 200, four metric cards at widthUnits: 3):
-- Card 1: Insights metric to source recipe: customer-lifecycle-distribution, vizType: metric, titleOverride: "% in Champions"
-- Card 2: Insights metric to source recipe: customer-lifecycle-distribution, vizType: metric, titleOverride: "% in At Risk"
-- Card 3: Insights metric to source recipe: customer-lifecycle-distribution, vizType: metric, titleOverride: "Largest Migration Last 30d"
-- Card 4: Insights metric to source recipe: discount-impact-on-aov-and-margin, vizType: metric, titleOverride: "Net Revenue Impact of Discounts"
-Row 2: Lifecycle distribution + migration (heightPx: 480, full-width single card at widthUnits: 12):
-- Card 1: Insights to source recipe: customer-lifecycle-distribution, displayMode: chart (stacked bar + migration flow side panel: the centerpiece)
-Row 3: Operational levers: timing and discount mechanics (heightPx: 400, two cards at widthUnits: 6):
-- Card 1: Insights to source recipe: post-purchase-second-order-velocity, displayMode: chart (histogram: informs replenishment journey timing)
-- Card 2: Insights to source recipe: discount-impact-on-aov-and-margin, displayMode: chart, vizType: bar (per-discount-code AOV impact and net revenue effect)
-Row 4: Post-purchase journey (heightPx: 400, two cards at widthUnits: 6):
-- Card 1: Path to source recipe: post-conversion-onboarding-paths, displayMode: chart (what newly-converted customers do)
-- Card 2: Retention to source recipe: purchase-retention, displayMode: chart, vizType: retention_curve (cohort repeat-purchase by first-order category)
-Annotations:
-- Row 2 (lifecycle distribution + migration, full-width) is the strategic centerpiece.
-- Row 3 turns insight into operational levers.
-- Row 4 closes the loop: post-conversion paths + retention by category.
-Taxonomy notes:
-- Users.Lifecycle score is the canonical 6-stage enum.
-- All source recipes use canonical events: Placed order, discount_applied, View page, Session start, Subscription started.
+Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes users who did placed order event in the last_90_days window and writes these figures: the count in each lifecycle score attribute stage now and 30 d ago, and the largest moves between stages; the share who placed a second order and the median days from first to second order; for each discount code, the orders, the average total price against orders with no code, and the share of its users who ordered again without a code. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.

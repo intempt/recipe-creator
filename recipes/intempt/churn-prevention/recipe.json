@@ -2,8 +2,8 @@
   "frontmatter_id": "churn-prevention",
   "title": "Churn prevention",
   "slash_command": "/churn-prevention",
-  "description": "Flags customers who are drifting away, reaches them automatically while it is still cheap to fix, and pulls in a CSM when it is not.",
-  "markdown": "# Churn prevention\n\n## Description\n\nFlags customers who are drifting away, reaches them automatically while it is still cheap to fix, and pulls in a CSM when it is not.\n\n## Steps\n\n### Step 1: Score churn risk\n\nDefine an AI-derived churn_risk_score attribute using engagement decline, support ticket sentiment, and feature-usage signals.\n\n### Step 2: Split into low, medium and high\n\nSegment users into low/medium/high churn-risk buckets. Use the result of \"Score churn risk\".\n\n### Step 3: Tell the CSM about high risk\n\nCreate a workflow alerting CSMs when high-risk users cross the threshold, with context payload to Slack. Use the result of \"Score churn risk\", \"Split into low, medium and high\".\n\n### Step 4: Write the win back emails\n\nGenerate re-engagement content: win-back-feature emails, success-story emails, value-reminder emails. Use the result of \"Score churn risk\", \"Split into low, medium and high\", \"Tell the CSM about high risk\". If the brand kit has no logo, use the brand name as a plain text header.\n\n### Step 5: Reach medium risk first\n\nBuild a journey for medium-risk users with auto-engagement before CSM intervention is needed. Use the result of \"Score churn risk\", \"Split into low, medium and high\", \"Tell the CSM about high risk\", \"Write the win back emails\".\n\n### Step 6: Compare churn by risk tier\n\nCompose a retention report tracking churn rate by risk tier and intervention type. Use the result of \"Score churn risk\", \"Split into low, medium and high\", \"Tell the CSM about high risk\", \"Write the win back emails\", \"Reach medium risk first\".\n\n### Step 7: See if the saves are working\n\nCompose a dashboard showing risk distribution, intervention success rate, and net retention impact. Use the result of \"Score churn risk\", \"Split into low, medium and high\", \"Tell the CSM about high risk\", \"Write the win back emails\", \"Reach medium risk first\", \"Compare churn by risk tier\".\n",
+  "description": "Scores churn risk, reaches medium-risk users with a win-back email while it is still cheap to fix, emails a CSM alert for high-risk users, and emails a weekly churn digest by risk tier.",
+  "markdown": "# Churn prevention\n\n## Description\n\nScores churn risk, reaches medium-risk users with a win-back email while it is still cheap to fix, emails a CSM alert for high-risk users, and emails a weekly churn digest by risk tier.\n\n## Steps\n\n### Step 1: Score churn risk\n\nBuild a computed attribute on users named \"churn_risk_score\", a number from 0 to 1. It rises with the drop in their session start count in the last 30 d against the 30 d before, with the drop in distinct feature name values over the same windows, and with support ticket events in the last 30 d. Users with no session start at any time get no value.\n\n### Step 2: Find medium and high risk\n\nBuild a new segment of users named \"Churn risk: medium and high\". A user is in it when the attribute from \"Score churn risk\" is 0.5 or more and they did not do subscription canceled at any time.\n\n### Step 3: Write the win back email\n\nWrite a re-engagement email in a friendly tone for customers whose product use has dropped. It reminds them of the value they got, shows one feature they have not tried with one line on what it does, includes a short customer success story, and has one button back into the product. No discount.\n\n### Step 4: Reach them by risk tier\n\nBuild an automation that runs every day at 09:00 on the segment from \"Find medium and high risk\". For each user it reads the attribute from \"Score churn risk\": below 0.8 it sends the email from \"Write the win back email\", at most once every 30 days; at 0.8 or more, the first time a user reaches it in 30 days, it emails an alert to the email addresses of the CSMs who get high-risk alerts with the user's name, email, score and last session date.\n\n### Step 5: Email the weekly churn digest\n\nBuild an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes users with the attribute from \"Score churn risk\" and writes these figures: user counts below 0.5, medium and at 0.8 or more, now and 7 days ago; the share in each tier who did subscription canceled in the last 30 days; the share of users sent the email by \"Reach them by risk tier\" in the last 30 days who are now below 0.5. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.\n",
   "classification": {
     "industry": [
       "industry-agnostic"
@@ -20,37 +20,27 @@
     {
       "id": "s1",
       "title": "Score churn risk",
-      "description": "Define an AI-derived churn_risk_score attribute using engagement decline, support ticket sentiment, and feature-usage signals."
+      "description": "Build a computed attribute on users named \"churn_risk_score\", a number from 0 to 1. It rises with the drop in their session start count in the last 30 d against the 30 d before, with the drop in distinct feature name values over the same windows, and with support ticket events in the last 30 d. Users with no session start at any time get no value."
     },
     {
       "id": "s2",
-      "title": "Split into low, medium and high",
-      "description": "Segment users into low/medium/high churn-risk buckets. Use the result of \"Score churn risk\"."
+      "title": "Find medium and high risk",
+      "description": "Build a new segment of users named \"Churn risk: medium and high\". A user is in it when the attribute from \"Score churn risk\" is 0.5 or more and they did not do subscription canceled at any time."
     },
     {
       "id": "s3",
-      "title": "Tell the CSM about high risk",
-      "description": "Create a workflow alerting CSMs when high-risk users cross the threshold, with context payload to Slack. Use the result of \"Score churn risk\", \"Split into low, medium and high\"."
+      "title": "Write the win back email",
+      "description": "Write a re-engagement email in a friendly tone for customers whose product use has dropped. It reminds them of the value they got, shows one feature they have not tried with one line on what it does, includes a short customer success story, and has one button back into the product. No discount."
     },
     {
       "id": "s4",
-      "title": "Write the win back emails",
-      "description": "Generate re-engagement content: win-back-feature emails, success-story emails, value-reminder emails. Use the result of \"Score churn risk\", \"Split into low, medium and high\", \"Tell the CSM about high risk\". If the brand kit has no logo, use the brand name as a plain text header."
+      "title": "Reach them by risk tier",
+      "description": "Build an automation that runs every day at 09:00 on the segment from \"Find medium and high risk\". For each user it reads the attribute from \"Score churn risk\": below 0.8 it sends the email from \"Write the win back email\", at most once every 30 days; at 0.8 or more, the first time a user reaches it in 30 days, it emails an alert to the email addresses of the CSMs who get high-risk alerts with the user's name, email, score and last session date."
     },
     {
       "id": "s5",
-      "title": "Reach medium risk first",
-      "description": "Build a journey for medium-risk users with auto-engagement before CSM intervention is needed. Use the result of \"Score churn risk\", \"Split into low, medium and high\", \"Tell the CSM about high risk\", \"Write the win back emails\"."
-    },
-    {
-      "id": "s6",
-      "title": "Compare churn by risk tier",
-      "description": "Compose a retention report tracking churn rate by risk tier and intervention type. Use the result of \"Score churn risk\", \"Split into low, medium and high\", \"Tell the CSM about high risk\", \"Write the win back emails\", \"Reach medium risk first\"."
-    },
-    {
-      "id": "s7",
-      "title": "See if the saves are working",
-      "description": "Compose a dashboard showing risk distribution, intervention success rate, and net retention impact. Use the result of \"Score churn risk\", \"Split into low, medium and high\", \"Tell the CSM about high risk\", \"Write the win back emails\", \"Reach medium risk first\", \"Compare churn by risk tier\"."
+      "title": "Email the weekly churn digest",
+      "description": "Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes users with the attribute from \"Score churn risk\" and writes these figures: user counts below 0.5, medium and at 0.8 or more, now and 7 days ago; the share in each tier who did subscription canceled in the last 30 days; the share of users sent the email by \"Reach them by risk tier\" in the last 30 days who are now below 0.5. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent."
     }
   ],
   "availability": "coming_soon"

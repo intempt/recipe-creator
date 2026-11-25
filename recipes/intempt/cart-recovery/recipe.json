@@ -2,8 +2,8 @@
   "frontmatter_id": "cart-recovery",
   "title": "Abandoned cart recovery",
   "slash_command": "/cart-recovery",
-  "description": "Emails shoppers who left items behind, three times over three days, and measures how much revenue comes back.",
-  "markdown": "# Abandoned cart recovery\n\n## Description\n\nEmails shoppers who left items behind, three times over three days, and measures how much revenue comes back.\n\n## Steps\n\n### Step 1: Find who abandoned a cart\n\nThis step builds a segment.\nIdentify users with Abandoned cart event in last 30 days who have NOT placed an order for that cart.\n\n### Step 2: Write the three emails\n\nGenerate 3-touch cart-recovery email content using brand voice. Touch 1: gentle reminder. Touch 2: urgency + social proof. Touch 3: final reminder optionally with discount. Use the result of \"Find who abandoned a cart\". If the brand kit has no logo, use the brand name as a plain text header.\n\n### Step 3: Schedule the sequence\n\nBuild a 3-touch journey wired to the cart-abandoners segment, sending the cart-recovery emails at 1hr, 24hr, and 72hr after abandonment. Use the result of \"Find who abandoned a cart\", \"Write the three emails\".\n\n### Step 4: Test subject lines and offers\n\nAdd A/B variants on subject lines and incentive levels for the recovery journey. Use the result of \"Find who abandoned a cart\", \"Write the three emails\", \"Schedule the sequence\".\n\n### Step 5: Track recovered revenue\n\nCompose a dashboard showing recovery rate, revenue recovered, and time-to-recover metrics for the journey. Use the result of \"Find who abandoned a cart\", \"Write the three emails\", \"Schedule the sequence\", \"Test subject lines and offers\".\n\n### Step 6: Alert when it stops working\n\nCreate a workflow that alerts the team if recovery rate drops below 15% over a 7-day window. Use the result of \"Find who abandoned a cart\", \"Write the three emails\", \"Schedule the sequence\", \"Test subject lines and offers\", \"Track recovered revenue\".\n",
+  "description": "Emails shoppers who left items behind, three times over three days, and emails a weekly digest of the revenue that comes back, with a warning when recovery drops.",
+  "markdown": "# Abandoned cart recovery\n\n## Description\n\nEmails shoppers who left items behind, three times over three days, and emails a weekly digest of the revenue that comes back, with a warning when recovery drops.\n\n## Steps\n\n### Step 1: Write the reminder\n\nWrite a gentle cart reminder email in the voice from brand voice for shoppers who left items in their cart an hour ago. It shows the items left in the cart and has one button back to the cart. No discount.\n\n### Step 2: Write the social proof email\n\nWrite a second cart email in the voice from brand voice for shoppers who left items in their cart a day ago. It shows the items, adds a short line of customer praise and a note that popular items sell out, with one button back to the cart. No discount.\n\n### Step 3: Write the final reminder\n\nWrite a final cart email in the voice from brand voice for shoppers who left items in their cart three days ago. It says this is the last reminder, shows the items, and offers 10% off with one button back to the cart.\n\n### Step 4: Send three emails over three days\n\nBuild an automation triggered when a user does abandoned cart event. It sends the email from \"Write the reminder\" after 1 h, the email from \"Write the social proof email\" at 24 h after the abandonment and the email from \"Write the final reminder\" at 72 h. It stops as soon as the user does order event with the same cart id. A user already in it does not start it again.\n\n### Step 5: Email the weekly recovery digest\n\nBuild an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes the last 7 days and writes these figures: carts abandoned by abandoned cart event; the recovery rate, the share later matched by order event with the same cart id; the revenue recovered, the sum of total price on those orders; the median time to recover; recovery by which email from \"Send three emails over three days\" came last. When the recovery rate is below 15%, the email's first line says so. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.\n",
   "classification": {
     "industry": [
       "ecommerce-retail"
@@ -19,33 +19,28 @@
   "steps": [
     {
       "id": "s1",
-      "title": "Find who abandoned a cart",
-      "description": "This step builds a segment.\nIdentify users with Abandoned cart event in last 30 days who have NOT placed an order for that cart."
+      "title": "Write the reminder",
+      "description": "Write a gentle cart reminder email in the voice from brand voice for shoppers who left items in their cart an hour ago. It shows the items left in the cart and has one button back to the cart. No discount."
     },
     {
       "id": "s2",
-      "title": "Write the three emails",
-      "description": "Generate 3-touch cart-recovery email content using brand voice. Touch 1: gentle reminder. Touch 2: urgency + social proof. Touch 3: final reminder optionally with discount. Use the result of \"Find who abandoned a cart\". If the brand kit has no logo, use the brand name as a plain text header."
+      "title": "Write the social proof email",
+      "description": "Write a second cart email in the voice from brand voice for shoppers who left items in their cart a day ago. It shows the items, adds a short line of customer praise and a note that popular items sell out, with one button back to the cart. No discount."
     },
     {
       "id": "s3",
-      "title": "Schedule the sequence",
-      "description": "Build a 3-touch journey wired to the cart-abandoners segment, sending the cart-recovery emails at 1hr, 24hr, and 72hr after abandonment. Use the result of \"Find who abandoned a cart\", \"Write the three emails\"."
+      "title": "Write the final reminder",
+      "description": "Write a final cart email in the voice from brand voice for shoppers who left items in their cart three days ago. It says this is the last reminder, shows the items, and offers 10% off with one button back to the cart."
     },
     {
       "id": "s4",
-      "title": "Test subject lines and offers",
-      "description": "Add A/B variants on subject lines and incentive levels for the recovery journey. Use the result of \"Find who abandoned a cart\", \"Write the three emails\", \"Schedule the sequence\"."
+      "title": "Send three emails over three days",
+      "description": "Build an automation triggered when a user does abandoned cart event. It sends the email from \"Write the reminder\" after 1 h, the email from \"Write the social proof email\" at 24 h after the abandonment and the email from \"Write the final reminder\" at 72 h. It stops as soon as the user does order event with the same cart id. A user already in it does not start it again."
     },
     {
       "id": "s5",
-      "title": "Track recovered revenue",
-      "description": "Compose a dashboard showing recovery rate, revenue recovered, and time-to-recover metrics for the journey. Use the result of \"Find who abandoned a cart\", \"Write the three emails\", \"Schedule the sequence\", \"Test subject lines and offers\"."
-    },
-    {
-      "id": "s6",
-      "title": "Alert when it stops working",
-      "description": "Create a workflow that alerts the team if recovery rate drops below 15% over a 7-day window. Use the result of \"Find who abandoned a cart\", \"Write the three emails\", \"Schedule the sequence\", \"Test subject lines and offers\", \"Track recovered revenue\"."
+      "title": "Email the weekly recovery digest",
+      "description": "Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes the last 7 days and writes these figures: carts abandoned by abandoned cart event; the recovery rate, the share later matched by order event with the same cart id; the revenue recovered, the sum of total price on those orders; the median time to recover; recovery by which email from \"Send three emails over three days\" came last. When the recovery rate is below 15%, the email's first line says so. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent."
     }
   ],
   "availability": "coming_soon"

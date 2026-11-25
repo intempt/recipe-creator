@@ -1,7 +1,8 @@
 ---
 frontmatter_id: breakup-sequence
 slash_command: /breakup-sequence
-description: Sends one honest last email to prospects who never replied, which usually gets a faster yes or no than another follow up would.
+description: Finds prospects who got repeated outreach and never engaged, sends them one honest last email, alerts the owner
+  when they reply, and emails a weekly digest of what the last email pulls.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,12 +12,12 @@ classification:
   industry:
   - saas-b2b-tech
 portable:
-  summary: Sends one honest last email to prospects who never replied, giving them an easy yes or no and a way to reconnect
-    later, without repeated follow-ups.
+  summary: Sends one honest last email to prospects who never replied, alerts the team on replies, and emails a weekly digest
+    of replies and meetings it brings back.
   parameters:
   - name: outreach_threshold
     type: number
-    label: Minimum outreach attempts (email and call tasks) in the lookback window
+    label: Minimum outreach attempts in the lookback window
     default: 5
     required: false
   - name: lookback_window
@@ -26,59 +27,39 @@ portable:
     required: false
   - name: topic
     type: string
-    label: Topic placeholder used in the email body
-    default: '(fill in: topic)'
-    required: false
+    label: What you have been reaching out about
+    required: true
   - name: calendar_link
     type: string
     label: Calendar link for reconnecting
-    default: '(fill in: calendar link)'
-    required: false
+    required: true
   - name: email_subject
     type: string
     label: Email subject line
     default: Closing the loop
     required: false
-  - name: exit_timeout
-    type: duration
-    label: Wait before marking lead cold-closed
-    default: 14 d
-    required: false
-  - name: dashboard_period
-    type: duration
-    label: Reporting window for dashboard metrics
-    default: 7 d
-    required: false
+  - name: alert_recipients
+    type: string
+    label: Email addresses that get reply alerts
+    required: true
+  - name: digest_recipients
+    type: string
+    label: Email addresses that get the digest
+    required: true
   requirements:
   - slot: prospect_outreach_event
     kind: event
-    meaning: A prospect received an outreach attempt by email or call task
-    properties:
-    - name: channel
-      type: string
-      meaning: Outreach channel, email or call
-      optional: false
+    meaning: A prospect received an outreach attempt by email or call
   - slot: prospect_engagement_event
     kind: event
     meaning: A prospect opened an email, replied, or had a meeting scheduled
-    properties:
-    - name: engagement_type
-      type: string
-      meaning: Open, reply, or meeting
-      optional: false
   - slot: open_deal
     kind: attribute
-    meaning: A lead or account has an open deal
-  - slot: target_account_list
-    kind: segment
-    meaning: Accounts on the target-account list
-  - slot: cold_silent_segment
-    kind: segment
-    meaning: Leads who received repeated outreach in the lookback window with no engagement, excluding open deals and target
-      accounts
-    creatable: true
-    definition: leads who received {outreach_threshold}+ outreach attempts (email and call tasks) in the last {lookback_window}
-      AND have no opens, no replies, and no meetings, excluding leads with open deals and leads whose accounts are on {target_account_list}
+    meaning: True when the prospect's account has an open deal
+  - slot: target_account
+    kind: attribute
+    meaning: True when the prospect's account is on the target-account list
+    optional: true
   - slot: email_reply_event
     kind: event
     meaning: A prospect replied to an email
@@ -90,10 +71,7 @@ portable:
     meaning: A prospect unsubscribed from email
   - slot: ae_owner
     kind: attribute
-    meaning: The account executive who owns the lead and handles replies
-  - slot: cold_closed_status
-    kind: attribute
-    meaning: Lead status marking a prospect as cold-closed
+    meaning: The account executive who owns the prospect
   steps:
   - id: s1
     builds: segment
@@ -101,25 +79,24 @@ portable:
     - prospect_outreach_event
     - prospect_engagement_event
     - open_deal
-    - target_account_list
+    - target_account
+    - unsubscribe_event
     - outreach_threshold
     - lookback_window
-    instruction: Build the segment '{cold_silent_segment}' of leads who received {outreach_threshold}+ outreach attempts across
-      email and call tasks in the last {lookback_window} and have no opens, no replies, and no meetings. Exclude leads with
-      an {open_deal} and leads whose accounts are on the {target_account_list}.
+    instruction: 'Build a new segment of users named "Silent prospects". A user is in it when all of these are true: they
+      did {prospect_outreach_event} {outreach_threshold} or more times in the last {lookback_window}; they did not do {prospect_engagement_event}
+      in the last {lookback_window}; their {open_deal} is not true; their {target_account} is not true; they did not do {unsubscribe_event}
+      at any time.'
   - id: s2
     builds: email
     uses:
-    - s1
     - topic
     - calendar_link
     - email_subject
-    instruction: 'Write a break-up email with subject ''{email_subject}'' or ''Should I stop reaching out?''. Keep the tone
-      direct and honest with no fake urgency and no ''final chance'' framing. Body of 4-5 sentences: ''I''ve reached out a
-      few times about {topic}. I might have my timing wrong, or this might not be a priority for you right now. I''ll stop
-      reaching out unless I hear back. If circumstances change down the road, here''s an easy way to reconnect: {calendar_link}.''
-      Write it for the leads in the cold-silent segment from ''Find prospects who went quiet''. If the brand kit has no logo,
-      use the brand name as a plain text header.'
+    instruction: 'Write a plain break-up email from the sales rep with the subject "{email_subject}". Direct and honest, no
+      urgency, no ''final chance''. Four or five sentences: I''ve reached out a few times about {topic}; I might have my timing
+      wrong, or this might not be a priority right now; I''ll stop reaching out unless I hear back; if things change, here''s
+      an easy way to reconnect: {calendar_link}. No images.'
   - id: s3
     builds: automation
     uses:
@@ -127,34 +104,31 @@ portable:
     - s2
     - email_reply_event
     - meeting_scheduled_event
-    - unsubscribe_event
-    - exit_timeout
     - ae_owner
-    - cold_closed_status
-    instruction: 'Build a single-touch journey triggered when a lead enters {cold_silent_segment} from ''Find prospects who
-      went quiet''. Send the email from ''Write the closing the loop note'' once. Exit on any of these: {email_reply_event}
-      (route the lead to {ae_owner} for human handling as a success), {meeting_scheduled_event} (counts as a major success),
-      or {unsubscribe_event} (honor it as a clean outcome). If none of these occur within {exit_timeout}, set the lead''s
-      {cold_closed_status} and exit from active outreach. A cold-closed lead may re-enter prospecting only after a new significant
-      signal such as a target-account refresh or an intent signal.'
-  - id: s4
-    builds: dashboard
-    uses:
+    - alert_recipients
+    dependsOn:
     - s1
     - s2
+    instruction: Build an automation triggered when a user enters the segment from "Find prospects who went quiet". It sends
+      the email from "Write the closing the loop note" once. Then it waits up to 14 days for {email_reply_event} or {meeting_scheduled_event};
+      when one happens it emails an alert to {alert_recipients} naming the prospect, their email, {ae_owner} and what happened,
+      and stops. A user gets this email at most once.
+  - id: s4
+    builds: automation
+    uses:
     - s3
-    - dashboard_period
     - email_reply_event
     - meeting_scheduled_event
-    - cold_closed_status
+    - unsubscribe_event
     - ae_owner
-    instruction: 'Build a break-up sequence performance dashboard covering the last {dashboard_period}. Show weekly break-up
-      email volume from ''Send it once, then stop'', reply rate from {email_reply_event} against sends from ''Write the closing
-      the loop note'' (typical range 8-15%), and positive-reply rate: replies that lead to {meeting_scheduled_event} versus
-      polite declines. Show cold-closed conversion: the share of leads in {cold_closed_status} who answer ''not now, try again
-      later'', tracked as future revival candidates. Show pipeline recovered through the break-up sequence this quarter. Add
-      a manager view with rep-by-rep adoption of the break-up tactic, grouped by {ae_owner}. Use the cohort from ''Find prospects
-      who went quiet''.'
+    - digest_recipients
+    dependsOn:
+    - s3
+    instruction: 'Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes users sent the email
+      by "Send it once, then stop" and writes these figures: emails sent in the last 7 days; the share of users sent it in
+      the last 30 days who did {email_reply_event}, {meeting_scheduled_event} or {unsubscribe_event} within 14 days; the meetings
+      it brought back by {ae_owner}. Then it emails these figures as plain-text lines, each with its window, to {digest_recipients}.
+      Nothing else is sent.'
 ---
 
 # Breakup email for silent prospects
@@ -163,16 +137,16 @@ Slash command: /breakup-sequence
 
 ## Step 1: Find prospects who went quiet
 
-Build a segment 'Cold silent prospects' capturing leads who received 5+ outreach attempts (across email and call tasks) in the last 60 days AND have not engaged at all (no opens, no replies, no meetings). Excludes leads with open deals (different motion) and leads whose accounts are on the target-account list (those merit continued outreach with new angles, not breakup).
+Build a new segment of users named "Silent prospects". A user is in it when all of these are true: they did prospect outreach event 5 or more times in the last 60 d; they did not do prospect engagement event in the last 60 d; their open deal is not true; their target account is not true; they did not do unsubscribe event at any time.
 
 ## Step 2: Write the closing the loop note
 
-Generate break-up email content. Subject: 'Closing the loop' or 'Should I stop reaching out?': direct, no fake urgency. Body: short (4-5 sentences). 'I've reached out a few times about (fill in: topic). I might have my timing wrong, or this might not be a priority for you right now. I'll stop reaching out unless I hear back. If circumstances change down the road, here's an easy way to reconnect: (fill in: calendar link).' Tone: honest, no manipulation, no fake 'final chance!' framing. Counter-intuitively often the highest-replying email in a cold sequence because it removes pressure and invites a quick 'yes/no'. Use the result of "Find prospects who went quiet". If the brand kit has no logo, use the brand name as a plain text header. Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.
+Write a plain break-up email from the sales rep with the subject "Closing the loop". Direct and honest, no urgency, no 'final chance'. Four or five sentences: I've reached out a few times about the what you have been reaching out about; I might have my timing wrong, or this might not be a priority right now; I'll stop reaching out unless I hear back; if things change, here's an easy way to reconnect: the calendar link for reconnecting. No images.
 
 ## Step 3: Send it once, then stop
 
-Build a 1-touch journey triggered when a lead enters the cold-silent segment. Send the break-up email. Exit on: email_replied (any reply = success, route to AE for human handling), Meeting scheduled (huge success), unsubscribe (honored (and that's a clean outcome too), or 14-day timeout (no response) mark lead as 'cold-closed', exit from active outreach). After timeout, the lead can re-enter prospecting only via a new significant signal (target-account refresh, intent signal, etc). Use the result of "Find prospects who went quiet", "Write the closing the loop note".
+Build an automation triggered when a user enters the segment from "Find prospects who went quiet". It sends the email from "Write the closing the loop note" once. Then it waits up to 14 days for email reply event or meeting scheduled event; when one happens it emails an alert to the email addresses that get reply alerts naming the prospect, their email, ae owner and what happened, and stops. A user gets this email at most once.
 
-## Step 4: See what the last email pulls
+## Step 4: Email the weekly break-up digest
 
-Compose a break-up sequence performance dashboard: break-up email volume per week, reply rate (typically 8-15%: surprisingly high for an 'I give up' message), positive-reply rate (replies that lead to meetings vs. polite 'no thanks'), cold-closed conversion (% who say 'not now but try again later': those become future revival candidates), and pipeline recovered via break-up sequence this quarter (the unexpected upside). Manager view: rep-by-rep adoption of the break-up tactic. Use the result of "Find prospects who went quiet", "Write the closing the loop note", "Send it once, then stop".
+Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes users sent the email by "Send it once, then stop" and writes these figures: emails sent in the last 7 days; the share of users sent it in the last 30 days who did email reply event, meeting scheduled event or unsubscribe event within 14 days; the meetings it brought back by ae owner. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.

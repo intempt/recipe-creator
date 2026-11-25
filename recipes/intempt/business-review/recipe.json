@@ -2,8 +2,8 @@
   "frontmatter_id": "business-review",
   "title": "Weekly business review pack",
   "slash_command": "/business-review",
-  "description": "Builds the weekly scorecard, writes the narrative on what moved and why, and posts both to Slack on the cadence you pick.",
-  "markdown": "# Weekly business review pack\n\n## Description\n\nBuilds the weekly scorecard, writes the narrative on what moved and why, and posts both to Slack on the cadence you pick.\n\n## Steps\n\n### Step 1: Build the headline scorecard\n\nCompose a business review dashboard with headline KPIs, WoW deltas, top wins, and top concerns.\n\n### Step 2: Write the period narrative\n\nGenerate a narrative report summarizing the period: what changed, why, and recommended actions. Use the result of \"Build the headline scorecard\".\n\n### Step 3: Send it to Slack on a cadence\n\nCreate a workflow that delivers the dashboard and narrative as a scheduled Slack digest at the chosen cadence. Use the result of \"Build the headline scorecard\", \"Write the period narrative\".\n",
+  "description": "Analyzes your headline KPIs on the cadence you pick and emails the scorecard, the changes against the period before, the wins, the concerns and a short narrative on what moved and why.",
+  "markdown": "# Weekly business review pack\n\n## Description\n\nAnalyzes your headline KPIs on the cadence you pick and emails the scorecard, the changes against the period before, the wins, the concerns and a short narrative on what moved and why.\n\n## Steps\n\n### Step 1: Email the business review\n\nBuild an automation that runs at 08:00 on a schedule, every day when weekly is daily, every Monday when weekly, on the 1st of the month when monthly. Each run it analyzes business kpis and writes these figures: for each metric name, the latest metric value for the last full period by period date, the value for the period before and the change in percent; the three metrics with the largest improvement as wins; the three with the largest decline as concerns; and a narrative of up to five sentences on what moved and the likely reason, with one recommended action. Then it emails these figures as plain-text lines, each with its period, to the email addresses that get the digest. Nothing else is sent.\n",
   "classification": {
     "industry": [
       "industry-agnostic"
@@ -19,18 +19,8 @@
   "steps": [
     {
       "id": "s1",
-      "title": "Build the headline scorecard",
-      "description": "Compose a business review dashboard with headline KPIs, WoW deltas, top wins, and top concerns."
-    },
-    {
-      "id": "s2",
-      "title": "Write the period narrative",
-      "description": "Generate a narrative report summarizing the period: what changed, why, and recommended actions. Use the result of \"Build the headline scorecard\"."
-    },
-    {
-      "id": "s3",
-      "title": "Send it to Slack on a cadence",
-      "description": "Create a workflow that delivers the dashboard and narrative as a scheduled Slack digest at the chosen cadence. Use the result of \"Build the headline scorecard\", \"Write the period narrative\"."
+      "title": "Email the business review",
+      "description": "Build an automation that runs at 08:00 on a schedule, every day when weekly is daily, every Monday when weekly, on the 1st of the month when monthly. Each run it analyzes business kpis and writes these figures: for each metric name, the latest metric value for the last full period by period date, the value for the period before and the change in percent; the three metrics with the largest improvement as wins; the three with the largest decline as concerns; and a narrative of up to five sentences on what moved and the likely reason, with one recommended action. Then it emails these figures as plain-text lines, each with its period, to the email addresses that get the digest. Nothing else is sent."
     }
   ],
   "availability": "coming_soon"

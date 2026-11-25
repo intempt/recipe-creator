@@ -2,8 +2,8 @@
   "frontmatter_id": "meeting-prep-brief",
   "title": "Meeting prep brief",
   "slash_command": "/meeting-prep-brief",
-  "description": "Sends the host a brief 24 hours before a meeting: who is coming, how the account is doing, every prior touch, and what to talk about.",
-  "markdown": "# Meeting prep brief\n\n## Description\n\nSends the host a brief 24 hours before a meeting: who is coming, how the account is doing, every prior touch, and what to talk about.\n\n## Steps\n\n### Step 1: Assemble the brief\n\nCreate an AI-derived attribute on the Meeting object called 'prep_brief'. Computed at Meeting scheduled time. Output: a structured brief with sections: (a) attendees: name, title, role on deal, recent activity; (b) account snapshot: ARR, plan, health score, open opportunities; (c) prior touch history: last 5 interactions across email/meetings/support; (d) suggested talking points: AI-derived from deal stage, recent product usage, and any open support tickets; (e) competitive intel: if any flag exists. Refreshes if a new attendee is added within 1 hour of meeting time.\n\n### Step 2: Lay it out to be skimmed\n\nGenerate an HTML email template that renders the prep_brief attribute in a clean, scannable layout. Sections: meeting summary at top (date, time, duration, attendees), then collapsible sections for account, prior touches, talking points, competitive intel. Include a CTA button to view the brief in the app. Tone: utilitarian, not marketing. Use the result of \"Assemble the brief\". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.\n\n### Step 3: Send it a day before\n\nCreate a workflow firing on Meeting scheduled. Schedule a delayed step to fire 24 hours before the meeting (or immediately if the meeting is within 24 hours). On firing: re-compute the prep_brief attribute (catches any last-minute updates), then trigger the brief journey to deliver to the host. If the meeting is rescheduled, cancel the pending delivery and re-schedule. If cancelled, suppress delivery. Use the result of \"Assemble the brief\", \"Lay it out to be skimmed\".\n\n### Step 4: Deliver it to the host\n\nBuild a 1-touch journey that sends the prep-brief email to the meeting host when triggered by the prep delivery workflow. Audience: the meeting host (not the attendees). Channel: email by default; if a Slack integration is connected and the host has a Slack ID, prefer Slack DM with a link to the brief. Use the result of \"Assemble the brief\", \"Lay it out to be skimmed\", \"Send it a day before\".\n\n### Step 5: Check every meeting got one\n\nCompose a dashboard tracking prep-brief coverage: % of meetings where a brief was delivered, median time before meeting the brief was sent, and host open rate on brief emails. Break down by meeting type (demo, discovery, expansion, renewal). Flag any meetings where prep_brief computation failed (missing data, attribute compute error). Use the result of \"Assemble the brief\", \"Lay it out to be skimmed\", \"Send it a day before\", \"Deliver it to the host\".\n",
+  "description": "Emails the host a brief 24 hours before a meeting: who is coming, how the account is doing, the last few touches, and what to talk about.",
+  "markdown": "# Meeting prep brief\n\n## Description\n\nEmails the host a brief 24 hours before a meeting: who is coming, how the account is doing, the last few touches, and what to talk about.\n\n## Steps\n\n### Step 1: Email the host the brief a day before\n\nBuild an automation triggered by meeting scheduled. It waits until 24 h before meeting time, or goes on at once when the meeting is sooner, and stops when meeting cancelled or meeting rescheduled with the same meeting_id happened meanwhile. It analyzes the user and their account and writes a brief: the meeting time and meeting type; the attendees from the account with name, title and last activity; the account snapshot with plan, health score and open support ticket events from the last 30 days; the last 5 emails, meetings and tickets; three talking points from recent product use and open tickets. Then it emails the brief to host email. It never emails the attendees.\n",
   "classification": {
     "industry": [
       "industry-agnostic"
@@ -19,28 +19,8 @@
   "steps": [
     {
       "id": "s1",
-      "title": "Assemble the brief",
-      "description": "Create an AI-derived attribute on the Meeting object called 'prep_brief'. Computed at Meeting scheduled time. Output: a structured brief with sections: (a) attendees: name, title, role on deal, recent activity; (b) account snapshot: ARR, plan, health score, open opportunities; (c) prior touch history: last 5 interactions across email/meetings/support; (d) suggested talking points: AI-derived from deal stage, recent product usage, and any open support tickets; (e) competitive intel: if any flag exists. Refreshes if a new attendee is added within 1 hour of meeting time."
-    },
-    {
-      "id": "s2",
-      "title": "Lay it out to be skimmed",
-      "description": "Generate an HTML email template that renders the prep_brief attribute in a clean, scannable layout. Sections: meeting summary at top (date, time, duration, attendees), then collapsible sections for account, prior touches, talking points, competitive intel. Include a CTA button to view the brief in the app. Tone: utilitarian, not marketing. Use the result of \"Assemble the brief\". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link."
-    },
-    {
-      "id": "s3",
-      "title": "Send it a day before",
-      "description": "Create a workflow firing on Meeting scheduled. Schedule a delayed step to fire 24 hours before the meeting (or immediately if the meeting is within 24 hours). On firing: re-compute the prep_brief attribute (catches any last-minute updates), then trigger the brief journey to deliver to the host. If the meeting is rescheduled, cancel the pending delivery and re-schedule. If cancelled, suppress delivery. Use the result of \"Assemble the brief\", \"Lay it out to be skimmed\"."
-    },
-    {
-      "id": "s4",
-      "title": "Deliver it to the host",
-      "description": "Build a 1-touch journey that sends the prep-brief email to the meeting host when triggered by the prep delivery workflow. Audience: the meeting host (not the attendees). Channel: email by default; if a Slack integration is connected and the host has a Slack ID, prefer Slack DM with a link to the brief. Use the result of \"Assemble the brief\", \"Lay it out to be skimmed\", \"Send it a day before\"."
-    },
-    {
-      "id": "s5",
-      "title": "Check every meeting got one",
-      "description": "Compose a dashboard tracking prep-brief coverage: % of meetings where a brief was delivered, median time before meeting the brief was sent, and host open rate on brief emails. Break down by meeting type (demo, discovery, expansion, renewal). Flag any meetings where prep_brief computation failed (missing data, attribute compute error). Use the result of \"Assemble the brief\", \"Lay it out to be skimmed\", \"Send it a day before\", \"Deliver it to the host\"."
+      "title": "Email the host the brief a day before",
+      "description": "Build an automation triggered by meeting scheduled. It waits until 24 h before meeting time, or goes on at once when the meeting is sooner, and stops when meeting cancelled or meeting rescheduled with the same meeting_id happened meanwhile. It analyzes the user and their account and writes a brief: the meeting time and meeting type; the attendees from the account with name, title and last activity; the account snapshot with plan, health score and open support ticket events from the last 30 days; the last 5 emails, meetings and tickets; three talking points from recent product use and open tickets. Then it emails the brief to host email. It never emails the attendees."
     }
   ],
   "availability": "coming_soon"

@@ -1,7 +1,8 @@
 ---
 frontmatter_id: sunset-hygiene
 slash_command: /sunset-hygiene
-description: Gives subscribers who have ignored six months of email one chance to say they still want it, then stops mailing them to protect deliverability.
+description: Gives subscribers who have ignored six months of email one chance to say they still want it, then lists the ones
+  who stayed silent so you stop mailing them and protect deliverability.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,8 +12,8 @@ classification:
   industry:
   - industry-agnostic
 portable:
-  summary: Gives subscribers who ignored six months of email one final chance to confirm they still want it, then stops mailing
-    non-responders to protect deliverability.
+  summary: Sends subscribers who ignored six months of email one last-chance email, then builds the segment of non-responders
+    to leave out of every send.
   parameters:
   - name: inactivity_window
     type: duration
@@ -28,63 +29,51 @@ portable:
   - slot: email_opened_or_clicked
     kind: event
     meaning: A subscriber opened or clicked an email
-  - slot: subscriber_list
+  - slot: email_received
+    kind: event
+    meaning: A subscriber was sent a marketing email
+  - slot: subscribed
     kind: attribute
-    meaning: Email subscriber status and suppression list membership
-  - slot: email_channel
-    kind: destination
-    meaning: An email sending destination for marketing messages
-    channel: email
-  - slot: inactive_subscribers
-    kind: segment
-    meaning: Subscribers who have not opened or clicked any email within the inactivity window
-    creatable: true
-    definition: users who have not opened or clicked any email in the last {inactivity_window}
+    meaning: True when the user is subscribed to marketing email
   steps:
   - id: s1
     builds: segment
     uses:
     - email_opened_or_clicked
+    - email_received
+    - subscribed
     - inactivity_window
-    instruction: Identify subscribers who have not opened or clicked any email in the last {inactivity_window}. Build this
-      as the segment {inactive_subscribers}.
+    instruction: Build a new segment of users named "Inactive subscribers". A user is in it when their {subscribed} is true,
+      they did {email_received} 3 or more times in the last {inactivity_window}, and they did not do {email_opened_or_clicked}
+      in the last {inactivity_window}.
   - id: s2
     builds: email
-    uses:
-    - s1
-    - inactive_subscribers
-    instruction: Write a final-attempt email to the subscribers in {inactive_subscribers} asking them to confirm they still
-      want to receive email. Include a clear opt-in call to action. If the brand kit has no logo, use the brand name as a
-      plain text header.
+    instruction: Write a short final-attempt email for subscribers who have not opened our email in six months. It asks whether
+      they still want to hear from us, has one clear 'Yes, keep me subscribed' button, and says that if we do not hear back
+      we will stop emailing them.
   - id: s3
     builds: automation
     uses:
     - s1
     - s2
-    - response_window
-    - email_channel
-    instruction: Build a two-touch journey that sends the final-attempt email from "Write the last chance email" to the segment
-      from "Find who stopped reading", then waits {response_window} for a response.
+    dependsOn:
+    - s1
+    - s2
+    instruction: Build an automation triggered when a user enters the segment from "Find who stopped reading". It sends the
+      email from "Write the last chance email" once. A user gets it at most once every 180 days.
   - id: s4
-    builds: automation
+    builds: segment
     uses:
     - s1
-    - s2
     - s3
+    - email_opened_or_clicked
     - response_window
-    - subscriber_list
-    instruction: Create a workflow that, after the {response_window} window from "Send it, then wait 14 days", automatically
-      adds subscribers from "Find who stopped reading" who did not respond to the suppression list.
-  - id: s5
-    builds: dashboard
-    uses:
+    dependsOn:
     - s1
-    - s2
     - s3
-    - s4
-    instruction: 'Compose a dashboard tracking deliverability metrics for the sends in "Send it, then wait 14 days": send
-      rate, open rate, complaint rate, bounce rate, and inbox placement, scoped to the segment from "Find who stopped reading"
-      and the suppressions from "Suppress anyone who ignores it".'
+    instruction: 'Build a new segment of users named "Sunset: stop mailing". A user is in it when they are in the segment
+      from "Find who stopped reading", were sent the email by "Send it once, then wait" more than {response_window} ago, and
+      did not do {email_opened_or_clicked} since that email.'
 ---
 
 # Sunset inactive subscribers
@@ -93,21 +82,16 @@ Slash command: /sunset-hygiene
 
 ## Step 1: Find who stopped reading
 
-This step builds a segment.
-Identify subscribers who have not opened or clicked any email in 180+ days.
+Build a new segment of users named "Inactive subscribers". A user is in it when their subscribed is true, they did email received 3 or more times in the last 180 d, and they did not do email opened or clicked in the last 180 d.
 
 ## Step 2: Write the last chance email
 
-Generate a final-attempt email asking the user to confirm interest with a clear opt-in CTA. Use the result of "Find who stopped reading". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.
+Write a short final-attempt email for subscribers who have not opened our email in six months. It asks whether they still want to hear from us, has one clear 'Yes, keep me subscribed' button, and says that if we do not hear back we will stop emailing them.
 
-## Step 3: Send it, then wait 14 days
+## Step 3: Send it once, then wait
 
-Build a 2-touch journey sending the final-attempt email and waiting 14 days for response. Use the result of "Find who stopped reading", "Write the last chance email".
+Build an automation triggered when a user enters the segment from "Find who stopped reading". It sends the email from "Write the last chance email" once. A user gets it at most once every 180 days.
 
-## Step 4: Suppress anyone who ignores it
+## Step 4: List who ignored it
 
-Create a workflow automatically adding non-responders to the suppression list after the 14-day window. Use the result of "Find who stopped reading", "Write the last chance email", "Send it, then wait 14 days".
-
-## Step 5: Watch your deliverability
-
-Compose a dashboard tracking deliverability metrics: send rate, open rate, complaint rate, bounce rate, inbox-placement. Use the result of "Find who stopped reading", "Write the last chance email", "Send it, then wait 14 days", "Suppress anyone who ignores it".
+Build a new segment of users named "Sunset: stop mailing". A user is in it when they are in the segment from "Find who stopped reading", were sent the email by "Send it once, then wait" more than 14 d ago, and did not do email opened or clicked since that email.

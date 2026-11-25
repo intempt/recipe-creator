@@ -1,7 +1,8 @@
 ---
 frontmatter_id: business-review
 slash_command: /business-review
-description: Builds the weekly scorecard, writes the narrative on what moved and why, and posts both to Slack on the cadence you pick.
+description: Analyzes your headline KPIs on the cadence you pick and emails the scorecard, the changes against the period
+  before, the wins, the concerns and a short narrative on what moved and why.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,8 +12,8 @@ classification:
   industry:
   - industry-agnostic
 portable:
-  summary: Builds a weekly business scorecard with headline KPIs, week-over-week changes, wins and concerns, writes a narrative
-    on what moved and why, and posts both to Slack on a chosen cadence.
+  summary: 'Emails a scheduled business review: headline KPIs with period-over-period changes, top wins and concerns, and
+    a short narrative on what moved and why.'
   parameters:
   - name: cadence
     type: enum
@@ -23,69 +24,47 @@ portable:
     - daily
     - weekly
     - monthly
-  - name: slack_channel
+  - name: digest_recipients
     type: string
-    label: Slack channel to post the digest to
+    label: Email addresses that get the digest
     required: true
   requirements:
-  - slot: slack_workspace
-    kind: integration
-    meaning: A connected Slack workspace that can receive scheduled digest posts
-    channel: slack
   - slot: business_kpis
     kind: event
-    meaning: Business performance data (headline KPIs) tracked for the company
+    meaning: A headline business metric value recorded for a period
     properties:
     - name: metric_name
       type: string
-      meaning: Name of the KPI being measured
+      meaning: Name of the metric
       optional: false
     - name: metric_value
       type: number
-      meaning: Value of the KPI for the period
+      meaning: Value of the metric for the period
       optional: false
     - name: period_date
       type: date
-      meaning: Date the KPI value applies to
+      meaning: Date of the period the value belongs to
       optional: false
   steps:
   - id: s1
-    builds: dashboard
-    uses:
-    - business_kpis
-    instruction: Compose a business review dashboard showing headline KPIs from {business_kpis}, week-over-week deltas, top
-      wins, and top concerns. Use {business_kpis.metric_name}, {business_kpis.metric_value}, and {business_kpis.period_date}
-      as the data fields.
-  - id: s2
-    builds: report
-    uses:
-    - s1
-    instruction: 'Generate a narrative report summarizing the period: what changed, why, and recommended actions. Base it
-      on the dashboard from "Build the headline scorecard".'
-  - id: s3
     builds: automation
     uses:
-    - slack_workspace
-    - s1
-    - s2
+    - business_kpis
     - cadence
-    - slack_channel
-    instruction: Create a workflow that delivers the dashboard from "Build the headline scorecard" and the narrative from
-      "Write the period narrative" as a scheduled digest posted to {slack_channel} in {slack_workspace} at the {cadence} cadence.
+    - digest_recipients
+    instruction: 'Build an automation that runs at 08:00 on a schedule, every day when {cadence} is daily, every Monday when
+      weekly, on the 1st of the month when monthly. Each run it analyzes {business_kpis} and writes these figures: for each
+      {business_kpis.metric_name}, the latest {business_kpis.metric_value} for the last full period by {business_kpis.period_date},
+      the value for the period before and the change in percent; the three metrics with the largest improvement as wins; the
+      three with the largest decline as concerns; and a narrative of up to five sentences on what moved and the likely reason,
+      with one recommended action. Then it emails these figures as plain-text lines, each with its period, to {digest_recipients}.
+      Nothing else is sent.'
 ---
 
 # Weekly business review pack
 
 Slash command: /business-review
 
-## Step 1: Build the headline scorecard
+## Step 1: Email the business review
 
-Compose a business review dashboard with headline KPIs, WoW deltas, top wins, and top concerns.
-
-## Step 2: Write the period narrative
-
-Generate a narrative report summarizing the period: what changed, why, and recommended actions. Use the result of "Build the headline scorecard".
-
-## Step 3: Send it to Slack on a cadence
-
-Create a workflow that delivers the dashboard and narrative as a scheduled Slack digest at the chosen cadence. Use the result of "Build the headline scorecard", "Write the period narrative".
+Build an automation that runs at 08:00 on a schedule, every day when weekly is daily, every Monday when weekly, on the 1st of the month when monthly. Each run it analyzes business kpis and writes these figures: for each metric name, the latest metric value for the last full period by period date, the value for the period before and the change in percent; the three metrics with the largest improvement as wins; the three with the largest decline as concerns; and a narrative of up to five sentences on what moved and the likely reason, with one recommended action. Then it emails these figures as plain-text lines, each with its period, to the email addresses that get the digest. Nothing else is sent.

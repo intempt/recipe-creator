@@ -1,7 +1,8 @@
 ---
 frontmatter_id: inbound-lead-routing
 slash_command: /inbound-lead-routing
-description: Enriches and scores every inbound lead, then assigns it by named account, territory or round robin so nothing rots in an unassigned queue.
+description: Scores every inbound lead out of 100, picks the rep by named account owner, territory or round robin, and emails
+  the team the routed lead, plus a weekly digest of balance and first-touch time.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,8 +12,8 @@ classification:
   industry:
   - industry-agnostic
 portable:
-  summary: Scores and routes every inbound lead to a rep by named account, territory or round robin, with a task and Slack
-    alert, and sends cold leads to nurture.
+  summary: Scores each inbound lead, emails an alert naming the rep it routes to by account owner, territory or round robin,
+    and emails a weekly routing digest.
   parameters:
   - name: hot_threshold
     type: number
@@ -26,12 +27,12 @@ portable:
     required: false
   - name: hot_first_touch_sla
     type: duration
-    label: First-touch SLA for hot leads
+    label: First-touch target for hot leads
     default: 2 h
     required: false
   - name: warm_first_touch_sla
     type: duration
-    label: First-touch SLA for warm leads
+    label: First-touch target for warm leads
     default: 24 h
     required: false
   - name: rep_variance_limit
@@ -39,17 +40,25 @@ portable:
     label: Maximum rep-to-rep routing variance (%)
     default: 15
     required: false
+  - name: alert_recipients
+    type: string
+    label: Email addresses that get the routed-lead alerts
+    required: true
+  - name: digest_recipients
+    type: string
+    label: Email addresses that get the digest
+    required: true
   requirements:
   - slot: inbound_form_submitted
     kind: event
     meaning: A prospect submitted a form on the website (a form on the site, never a survey or NPS answer)
     properties:
     - name: form_type
-      type: text
-      meaning: Type of form submitted (demo, content, newsletter)
+      type: string
+      meaning: 'Type of form submitted: demo, content or newsletter'
       optional: false
     - name: source
-      type: text
+      type: string
       meaning: Lead source; self-serve-only leads are excluded
       optional: true
   - slot: user_signed_up
@@ -57,90 +66,98 @@ portable:
     meaning: A new user signed up for the product
     properties:
     - name: source
-      type: text
+      type: string
       meaning: Signup source; self-serve-only signups are excluded
       optional: true
-  - slot: lead_user
+  - slot: pricing_page_viewed
+    kind: event
+    meaning: A user viewed the pricing page
+    optional: true
+  - slot: job_title
     kind: attribute
-    meaning: The lead's user record holding contact, firmographic and geo details
-  - slot: target_account_list
-    kind: segment
-    meaning: Named target accounts with an assigned account owner
+    meaning: The lead's job title
+  - slot: company_industry
+    kind: attribute
+    meaning: Industry of the lead's company
+  - slot: company_size
+    kind: attribute
+    meaning: Employee count of the lead's company
+  - slot: country
+    kind: attribute
+    meaning: The lead's country
+  - slot: account_owner
+    kind: attribute
+    meaning: The rep who owns a named target account; empty when the account has no owner
   - slot: rep_territories
     kind: attribute
-    meaning: Territory definitions mapping geography, industry and segment to a rep pool
-  - slot: sales_rep_team
-    kind: segment
-    meaning: Sales reps eligible to receive routed leads, grouped by territory
-  - slot: sales_slack
-    kind: integration
-    meaning: Slack workspace used to notify reps of newly routed leads
-    channel: slack
-  - slot: enrichment_provider
-    kind: integration
-    meaning: Data source that supplies firmographics, technographics and decision-maker contacts for accounts
-    channel: email
-  - slot: lead_routing_dashboard_source
+    meaning: The territory rep pool for the lead's country and industry
+  - slot: first_touch
     kind: event
-    meaning: Lead lifecycle events (arrival, first touch, meeting, engagement) used for routing reporting
+    meaning: A rep made first contact with a lead
     properties:
-    - name: tier
-      type: text
-      meaning: Lead tier (hot, warm, cold)
-      optional: false
     - name: assigned_rep
-      type: text
-      meaning: Rep the lead was routed to
+      type: string
+      meaning: Rep who made the contact
       optional: false
+  - slot: meeting_scheduled
+    kind: event
+    meaning: A sales meeting was scheduled with a lead
   steps:
   - id: s1
     builds: attribute
     uses:
-    - lead_user
     - inbound_form_submitted
-    - user_signed_up
-    - hot_threshold
-    - warm_threshold
-    instruction: 'Create an AI-derived attribute ''lead score'' on the user record. Score from 0 to 100 by summing: (a) ICP
-      fit, 0-40 points, from firmographic match on industry, employee count and geography; (b) intent signal, 0-30 points,
-      from form type (demo scores highest, then content, then newsletter), pricing-page views and product activity in the
-      last week; (c) buyer signal, 0-20 points, from title seniority and role relevance; (d) brand engagement, 0-10 points,
-      from prior touchpoints on the same account. Output the 0-100 score with a tier label: hot at {hot_threshold} or above,
-      warm from {warm_threshold} to below {hot_threshold}, cold below {warm_threshold}.'
+    - pricing_page_viewed
+    - job_title
+    - company_industry
+    - company_size
+    - country
+    instruction: 'Build a computed attribute on users named "lead_score", a number from 0 to 100, the sum of: fit, 0-40 points,
+      from {company_industry}, {company_size} and {country} matching the ideal customer; intent, 0-30 points, 30 when they
+      did {inbound_form_submitted} with {inbound_form_submitted.form_type} equal to demo, 20 for content, 10 for newsletter,
+      plus up to 10 for {pricing_page_viewed} in the last 7 days, capped at 30; seniority, 0-20 points, from {job_title};
+      engagement, 0-10 points, from other users at the same company who did {inbound_form_submitted} in the last 90 days.'
   - id: s2
     builds: automation
     uses:
+    - s1
     - inbound_form_submitted
     - user_signed_up
-    - enrichment_provider
-    - target_account_list
+    - account_owner
     - rep_territories
-    - sales_rep_team
-    - sales_slack
+    - hot_threshold
+    - warm_threshold
+    - alert_recipients
+    dependsOn:
     - s1
-    instruction: 'Create a workflow that fires on {inbound_form_submitted} or {user_signed_up}, excluding records where source
-      is self-serve-only. Steps in order: (1) enrich the account with firmographics, technographics and decision-maker contacts
-      from {enrichment_provider}; (2) compute the lead score from "Score the lead out of 100"; (3) apply routing rules in
-      priority order: (i) named-account override: if the account is on {target_account_list}, route to its assigned account
-      owner; (ii) territory match on geography, industry and segment using {rep_territories}; (iii) round-robin within the
-      matched territory pool from {sales_rep_team}, to keep rep load balanced; (4) create a task for the determined rep containing
-      the lead context, the score and the routing reason; (5) post a Slack notification to that rep in {sales_slack}; (6)
-      if the score is cold and no named-account match exists, enroll the lead in self serve nurture journey instead of the
-      human queue.'
+    instruction: 'Build an automation triggered when a user does {inbound_form_submitted} or {user_signed_up}, skipping it
+      when source is self-serve-only. It reads the score from "Score the lead out of 100" and labels the lead hot at {hot_threshold}
+      or more, warm from {warm_threshold}, else cold. It stops for cold leads with no {account_owner}. It picks the rep: {account_owner}
+      when set; otherwise the rep in {rep_territories} with the fewest leads routed in the last 7 days. It writes the lead''s
+      name, email, company, score, label, the rep and the reason, and emails these lines as an alert to {alert_recipients}.
+      It never emails the lead.'
   - id: s3
-    builds: dashboard
+    builds: automation
     uses:
-    - lead_routing_dashboard_source
     - s1
-    - s2
-    - rep_variance_limit
+    - inbound_form_submitted
+    - first_touch
+    - meeting_scheduled
+    - hot_threshold
+    - warm_threshold
     - hot_first_touch_sla
     - warm_first_touch_sla
-    instruction: 'Build a lead routing performance dashboard showing: lead volume by tier (hot, warm, cold) from "Score the
-      lead out of 100"; routing distribution by rep as a round-robin balance check, where rep-to-rep variance should stay
-      under {rep_variance_limit}%; median time from lead arrival to first touch against SLAs of {hot_first_touch_sla} for
-      hot leads and {warm_first_touch_sla} for warm leads; tier conversion rates of hot-to-meeting, warm-to-meeting and cold-to-engaged.
-      Flag any rep whose first-touch SLA is significantly worse than peers.'
+    - rep_variance_limit
+    - digest_recipients
+    dependsOn:
+    - s1
+    instruction: 'Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes users who did {inbound_form_submitted}
+      in the last 7 days and writes these figures: lead counts by label from "Score the lead out of 100" (hot at {hot_threshold}
+      or more, warm from {warm_threshold}, cold below); {first_touch} counts by {first_touch.assigned_rep}, and whether any
+      rep is more than {rep_variance_limit}% above or below the average; median time to {first_touch} for hot leads against
+      {hot_first_touch_sla} and for warm leads against {warm_first_touch_sla}; the share of hot and of warm leads that did
+      {meeting_scheduled}. Then it emails these figures as plain-text lines, each with its window, to {digest_recipients}.
+      Nothing else is sent.'
 ---
 
 # Inbound lead routing
@@ -149,12 +166,12 @@ Slash command: /inbound-lead-routing
 
 ## Step 1: Score the lead out of 100
 
-Create an AI-derived attribute 'lead_score' on the User object. Composite: (a) ICP fit (firmographics match (industry, employee count, geo), 0-40 points; (b) intent signal) form type (demo > content > newsletter), pricing-page views, last-week product activity, 0-30 points; (c) buyer signal (title seniority + role relevance, 0-20 points; (d) brand engagement) prior touchpoints on this account, 0-10 points. Output: 0-100 score with tier label (hot 70+, warm 40-69, cold <40).
+Build a computed attribute on users named "lead_score", a number from 0 to 100, the sum of: fit, 0-40 points, from company industry, company size and country matching the ideal customer; intent, 0-30 points, 30 when they did inbound form submitted with form type equal to demo, 20 for content, 10 for newsletter, plus up to 10 for pricing page viewed in the last 7 days, capped at 30; seniority, 0-20 points, from job title; engagement, 0-10 points, from other users at the same company who did inbound form submitted in the last 90 days.
 
-## Step 2: Assign it to the right rep
+## Step 2: Route it to the right rep
 
-Create a workflow firing on Form submitted OR user_signed_up (where source != self-serve-only). Step sequence: (1) enrich the account (firmographics, technographics, decision-maker contacts); (2) compute lead_score; (3) apply routing rules in priority order: (i) named-account override (if account is on target-account list, route to assigned account owner); (ii) territory match (geography, industry, segment); (iii) round-robin within territory pool (preserves balanced rep load); (4) create task assigned to the determined rep with lead context, score, and routing reason explained; (5) post Slack notification to rep; (6) IF score = cold AND no named-account match, route to self-serve nurture journey instead of human queue. Use the result of "Score the lead out of 100".
+Build an automation triggered when a user does inbound form submitted or user signed up, skipping it when source is self-serve-only. It reads the score from "Score the lead out of 100" and labels the lead hot at 70 or more, warm from 40, else cold. It stops for cold leads with no account owner. It picks the rep: account owner when set; otherwise the rep in rep territories with the fewest leads routed in the last 7 days. It writes the lead's name, email, company, score, label, the rep and the reason, and emails these lines as an alert to the email addresses that get the routed-lead alerts. It never emails the lead.
 
-## Step 3: Check the balance and the SLA
+## Step 3: Email the weekly routing digest
 
-Compose a lead routing performance dashboard: lead volume by tier (hot/warm/cold), routing distribution by rep (round-robin balance check: variance should be <15% rep-to-rep), median time from lead-arrival to first-touch (SLA: <2hr hot, <24hr warm), tier-conversion: hot-to-meeting / warm-to-meeting / cold-to-engaged rates. Flag any rep with significantly worse first-touch SLA than peers. Use the result of "Score the lead out of 100", "Assign it to the right rep".
+Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes users who did inbound form submitted in the last 7 days and writes these figures: lead counts by label from "Score the lead out of 100" (hot at 70 or more, warm from 40, cold below); first touch counts by assigned rep, and whether any rep is more than 15% above or below the average; median time to first touch for hot leads against 2 h and for warm leads against 24 h; the share of hot and of warm leads that did meeting scheduled. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.

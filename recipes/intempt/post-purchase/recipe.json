@@ -2,8 +2,8 @@
   "frontmatter_id": "post-purchase",
   "title": "Post purchase follow up",
   "slash_command": "/post-purchase",
-  "description": "Thanks the buyer, shows them how to use what they bought, asks for a review, and suggests what goes with it.",
-  "markdown": "# Post purchase follow up\n\n## Description\n\nThanks the buyer, shows them how to use what they bought, asks for a review, and suggests what goes with it.\n\n## Steps\n\n### Step 1: Split first time from repeat\n\nIdentify users with order_placed event in last 14 days, segmented by first-time vs repeat buyer.\n\n### Step 2: Write the five emails\n\nGenerate post-purchase content: thank-you email, product-care info, review request, and cross-sell suggestions. Use the result of \"Split first time from repeat\".\n\n### Step 3: Send over the first month\n\nBuild a 5-touch journey sending content at 0hr (confirmation), 3day (care), 7day (review), 14day (cross-sell), 30day (loyalty intro). Use the result of \"Split first time from repeat\", \"Write the five emails\".\n\n### Step 4: Pick what goes with it\n\nGenerate cross-sell recommendations based on the purchased items and the customer's profile. Use the result of \"Split first time from repeat\", \"Write the five emails\", \"Send over the first month\".\n\n### Step 5: Test when to ask for a review\n\nAdd A/B variants on review-request timing (3day vs 7day vs 14day). Use the result of \"Split first time from repeat\", \"Write the five emails\", \"Send over the first month\", \"Pick what goes with it\".\n\n### Step 6: Track reviews and repeat orders\n\nCompose a dashboard tracking review-collection rate, second-purchase rate, and AOV uplift from cross-sell. Use the result of \"Split first time from repeat\", \"Write the five emails\", \"Send over the first month\", \"Pick what goes with it\", \"Test when to ask for a review\".\n",
+  "description": "Thanks the buyer and shows them how to use what they bought, asks for a review a week later, and suggests products that go with it two weeks after the order.",
+  "markdown": "# Post purchase follow up\n\n## Description\n\nThanks the buyer and shows them how to use what they bought, asks for a review a week later, and suggests products that go with it two weeks after the order.\n\n## Steps\n\n### Step 1: Write the thank-you and care email\n\nWrite a thank-you email for customers who just did order placed. It thanks them, names the items in purchased items, and gives three short tips on using and caring for them, with one button to their order. No discount, no other products.\n\n### Step 2: Write the review request\n\nWrite a short email asking customers who did order placed a week ago to review the items in purchased items. One question on how they are finding it, one button to leave a review, and a line saying replies go to a real person.\n\n### Step 3: Write the goes-with-it email\n\nWrite a cross-sell email for customers who did order placed two weeks ago. It shows three products from product catalog that go with the items in purchased items, never an item already in the order, each with its image, name and one line on why it pairs, and a button to each.\n\n### Step 4: Follow up over two weeks after the purchase\n\nBuild an automation triggered when a user does order placed. It sends the email from \"Write the thank-you and care email\" right away, waits 7 d and sends the email from \"Write the review request\", then waits until 14 d after the order and sends the email from \"Write the goes-with-it email\". A user already in this automation from an earlier order does not start it again.\n",
   "classification": {
     "industry": [
       "ecommerce-retail"
@@ -19,33 +19,23 @@
   "steps": [
     {
       "id": "s1",
-      "title": "Split first time from repeat",
-      "description": "Identify users with order_placed event in last 14 days, segmented by first-time vs repeat buyer."
+      "title": "Write the thank-you and care email",
+      "description": "Write a thank-you email for customers who just did order placed. It thanks them, names the items in purchased items, and gives three short tips on using and caring for them, with one button to their order. No discount, no other products."
     },
     {
       "id": "s2",
-      "title": "Write the five emails",
-      "description": "Generate post-purchase content: thank-you email, product-care info, review request, and cross-sell suggestions. Use the result of \"Split first time from repeat\"."
+      "title": "Write the review request",
+      "description": "Write a short email asking customers who did order placed a week ago to review the items in purchased items. One question on how they are finding it, one button to leave a review, and a line saying replies go to a real person."
     },
     {
       "id": "s3",
-      "title": "Send over the first month",
-      "description": "Build a 5-touch journey sending content at 0hr (confirmation), 3day (care), 7day (review), 14day (cross-sell), 30day (loyalty intro). Use the result of \"Split first time from repeat\", \"Write the five emails\"."
+      "title": "Write the goes-with-it email",
+      "description": "Write a cross-sell email for customers who did order placed two weeks ago. It shows three products from product catalog that go with the items in purchased items, never an item already in the order, each with its image, name and one line on why it pairs, and a button to each."
     },
     {
       "id": "s4",
-      "title": "Pick what goes with it",
-      "description": "Generate cross-sell recommendations based on the purchased items and the customer's profile. Use the result of \"Split first time from repeat\", \"Write the five emails\", \"Send over the first month\"."
-    },
-    {
-      "id": "s5",
-      "title": "Test when to ask for a review",
-      "description": "Add A/B variants on review-request timing (3day vs 7day vs 14day). Use the result of \"Split first time from repeat\", \"Write the five emails\", \"Send over the first month\", \"Pick what goes with it\"."
-    },
-    {
-      "id": "s6",
-      "title": "Track reviews and repeat orders",
-      "description": "Compose a dashboard tracking review-collection rate, second-purchase rate, and AOV uplift from cross-sell. Use the result of \"Split first time from repeat\", \"Write the five emails\", \"Send over the first month\", \"Pick what goes with it\", \"Test when to ask for a review\"."
+      "title": "Follow up over two weeks after the purchase",
+      "description": "Build an automation triggered when a user does order placed. It sends the email from \"Write the thank-you and care email\" right away, waits 7 d and sends the email from \"Write the review request\", then waits until 14 d after the order and sends the email from \"Write the goes-with-it email\". A user already in this automation from an earlier order does not start it again."
     }
   ],
   "availability": "coming_soon"

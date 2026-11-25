@@ -1,7 +1,8 @@
 ---
 frontmatter_id: churn-prevention
 slash_command: /churn-prevention
-description: Flags customers who are drifting away, reaches them automatically while it is still cheap to fix, and pulls in a CSM when it is not.
+description: Scores churn risk, reaches medium-risk users with a win-back email while it is still cheap to fix, emails a CSM
+  alert for high-risk users, and emails a weekly churn digest by risk tier.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,17 +12,17 @@ classification:
   industry:
   - industry-agnostic
 portable:
-  summary: Flags customers drifting away, automatically re-engages medium-risk users early, and alerts a CSM in Slack for
-    high-risk users, with reporting on churn by tier.
+  summary: Scores churn risk, emails medium-risk users a win-back message, alerts CSMs by email about high-risk users, and
+    emails a weekly churn-by-tier digest.
   parameters:
   - name: high_risk_threshold
     type: number
-    label: High-risk score threshold
+    label: High-risk score threshold (0-1)
     default: 0.8
     required: false
   - name: medium_risk_threshold
     type: number
-    label: Medium-risk score threshold
+    label: Medium-risk score threshold (0-1)
     default: 0.5
     required: false
   - name: scoring_window
@@ -38,89 +39,98 @@ portable:
     - friendly
     - professional
     - casual
+  - name: alert_recipients
+    type: string
+    label: Email addresses of the CSMs who get high-risk alerts
+    required: true
+  - name: digest_recipients
+    type: string
+    label: Email addresses that get the digest
+    required: true
   requirements:
-  - slot: customer_profile
-    kind: attribute
-    meaning: A customer's engagement, support and feature-usage history used to derive churn risk
-  - slot: churn_risk_score
-    kind: attribute
-    meaning: A customer's churn risk score
-  - slot: churn_risk_tier
-    kind: segment
-    meaning: Customers grouped into low, medium and high churn-risk buckets
-    creatable: true
-    definition: users whose {churn_risk_score} is at or above {medium_risk_threshold} and below {high_risk_threshold} (medium),
-      above {high_risk_threshold} (high), or below {medium_risk_threshold} (low)
-  - slot: csm_slack
-    kind: integration
-    meaning: Slack workspace used to alert customer success managers
-    channel: slack
+  - slot: session_start
+    kind: event
+    meaning: A user started a session in the product
+  - slot: feature_used
+    kind: event
+    meaning: A user used a product feature
+    properties:
+    - name: feature_name
+      type: string
+      meaning: Name of the feature used
+      optional: false
+  - slot: support_ticket
+    kind: event
+    meaning: A customer opened a support ticket
+    optional: true
+  - slot: subscription_canceled
+    kind: event
+    meaning: A customer canceled their subscription
   steps:
   - id: s1
     builds: attribute
     uses:
-    - customer_profile
+    - session_start
+    - feature_used
+    - support_ticket
     - scoring_window
-    instruction: Define an AI-derived {churn_risk_score} attribute using engagement decline over {scoring_window}, support
-      ticket sentiment, and feature-usage signals.
+    instruction: Build a computed attribute on users named "churn_risk_score", a number from 0 to 1. It rises with the drop
+      in their {session_start} count in the last {scoring_window} against the {scoring_window} before, with the drop in distinct
+      {feature_used.feature_name} values over the same windows, and with {support_ticket} events in the last {scoring_window}.
+      Users with no {session_start} at any time get no value.
   - id: s2
     builds: segment
     uses:
     - s1
-    - churn_risk_tier
     - medium_risk_threshold
-    - high_risk_threshold
-    instruction: Segment users into low, medium and high churn-risk buckets using {churn_risk_tier}, based on the result of
-      "Score churn risk" with medium at or above {medium_risk_threshold} and high above {high_risk_threshold}.
+    - subscription_canceled
+    dependsOn:
+    - s1
+    instruction: 'Build a new segment of users named "Churn risk: medium and high". A user is in it when the attribute from
+      "Score churn risk" is {medium_risk_threshold} or more and they did not do {subscription_canceled} at any time.'
   - id: s3
+    builds: email
+    uses:
+    - win_back_tone
+    instruction: Write a re-engagement email in a {win_back_tone} tone for customers whose product use has dropped. It reminds
+      them of the value they got, shows one feature they have not tried with one line on what it does, includes a short customer
+      success story, and has one button back into the product. No discount.
+  - id: s4
     builds: automation
     uses:
     - s1
     - s2
-    - csm_slack
+    - s3
+    - medium_risk_threshold
     - high_risk_threshold
-    instruction: Create a workflow that alerts CSMs in {csm_slack} when high-risk users from "Split into low, medium and high"
-      cross the {high_risk_threshold} threshold, including a context payload with the user's churn score.
-  - id: s4
-    builds: email
-    uses:
+    - alert_recipients
+    dependsOn:
     - s1
     - s2
     - s3
-    - win_back_tone
-    instruction: 'Generate re-engagement content in a {win_back_tone} tone: win-back-feature emails, success-story emails,
-      and value-reminder emails for users in the risk buckets from "Split into low, medium and high" and the alert from "Tell
-      the CSM about high risk". If the brand kit has no logo, use the brand name as a plain text header.'
+    instruction: 'Build an automation that runs every day at 09:00 on the segment from "Find medium and high risk". For each
+      user it reads the attribute from "Score churn risk": below {high_risk_threshold} it sends the email from "Write the
+      win back email", at most once every 30 days; at {high_risk_threshold} or more, the first time a user reaches it in 30
+      days, it emails an alert to {alert_recipients} with the user''s name, email, score and last session date.'
   - id: s5
     builds: automation
     uses:
     - s1
     - s2
-    - s3
     - s4
-    instruction: Build a journey for medium-risk users from "Split into low, medium and high" with automated engagement using
-      the emails from "Write the win back emails" before CSM intervention is needed.
-  - id: s6
-    builds: report
-    uses:
+    - subscription_canceled
+    - medium_risk_threshold
+    - high_risk_threshold
+    - digest_recipients
+    dependsOn:
     - s1
     - s2
-    - s3
     - s4
-    - s5
-    instruction: Compose a retention report tracking churn rate by risk tier and intervention type across "Split into low,
-      medium and high", "Tell the CSM about high risk", "Write the win back emails" and "Reach medium risk first".
-  - id: s7
-    builds: dashboard
-    uses:
-    - s1
-    - s2
-    - s3
-    - s4
-    - s5
-    - s6
-    instruction: Compose a dashboard showing risk distribution, intervention success rate, and net retention impact drawn
-      from "Compare churn by risk tier" and the prior steps.
+    instruction: 'Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes users with the attribute
+      from "Score churn risk" and writes these figures: user counts below {medium_risk_threshold}, medium and at {high_risk_threshold}
+      or more, now and 7 days ago; the share in each tier who did {subscription_canceled} in the last 30 days; the share of
+      users sent the email by "Reach them by risk tier" in the last 30 days who are now below {medium_risk_threshold}. Then
+      it emails these figures as plain-text lines, each with its window, to {digest_recipients}. Nothing else is sent.'
 ---
 
 # Churn prevention
@@ -129,28 +139,20 @@ Slash command: /churn-prevention
 
 ## Step 1: Score churn risk
 
-Define an AI-derived churn_risk_score attribute using engagement decline, support ticket sentiment, and feature-usage signals.
+Build a computed attribute on users named "churn_risk_score", a number from 0 to 1. It rises with the drop in their session start count in the last 30 d against the 30 d before, with the drop in distinct feature name values over the same windows, and with support ticket events in the last 30 d. Users with no session start at any time get no value.
 
-## Step 2: Split into low, medium and high
+## Step 2: Find medium and high risk
 
-Segment users into low/medium/high churn-risk buckets. Use the result of "Score churn risk".
+Build a new segment of users named "Churn risk: medium and high". A user is in it when the attribute from "Score churn risk" is 0.5 or more and they did not do subscription canceled at any time.
 
-## Step 3: Tell the CSM about high risk
+## Step 3: Write the win back email
 
-Create a workflow alerting CSMs when high-risk users cross the threshold, with context payload to Slack. Use the result of "Score churn risk", "Split into low, medium and high".
+Write a re-engagement email in a friendly tone for customers whose product use has dropped. It reminds them of the value they got, shows one feature they have not tried with one line on what it does, includes a short customer success story, and has one button back into the product. No discount.
 
-## Step 4: Write the win back emails
+## Step 4: Reach them by risk tier
 
-Generate re-engagement content: win-back-feature emails, success-story emails, value-reminder emails. Use the result of "Score churn risk", "Split into low, medium and high", "Tell the CSM about high risk". If the brand kit has no logo, use the brand name as a plain text header.
+Build an automation that runs every day at 09:00 on the segment from "Find medium and high risk". For each user it reads the attribute from "Score churn risk": below 0.8 it sends the email from "Write the win back email", at most once every 30 days; at 0.8 or more, the first time a user reaches it in 30 days, it emails an alert to the email addresses of the CSMs who get high-risk alerts with the user's name, email, score and last session date.
 
-## Step 5: Reach medium risk first
+## Step 5: Email the weekly churn digest
 
-Build a journey for medium-risk users with auto-engagement before CSM intervention is needed. Use the result of "Score churn risk", "Split into low, medium and high", "Tell the CSM about high risk", "Write the win back emails".
-
-## Step 6: Compare churn by risk tier
-
-Compose a retention report tracking churn rate by risk tier and intervention type. Use the result of "Score churn risk", "Split into low, medium and high", "Tell the CSM about high risk", "Write the win back emails", "Reach medium risk first".
-
-## Step 7: See if the saves are working
-
-Compose a dashboard showing risk distribution, intervention success rate, and net retention impact. Use the result of "Score churn risk", "Split into low, medium and high", "Tell the CSM about high risk", "Write the win back emails", "Reach medium risk first", "Compare churn by risk tier".
+Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes users with the attribute from "Score churn risk" and writes these figures: user counts below 0.5, medium and at 0.8 or more, now and 7 days ago; the share in each tier who did subscription canceled in the last 30 days; the share of users sent the email by "Reach them by risk tier" in the last 30 days who are now below 0.5. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.
