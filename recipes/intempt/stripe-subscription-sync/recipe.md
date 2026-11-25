@@ -13,6 +13,10 @@ classification:
 visibility: draft
 rejected: Syncing billing webhooks into profile attributes is a data-integration job (webhook trigger, record writes, ingestion);
   no Blu step builds it.
+prerequisites:
+  integrations:
+    - { value: hubspot, severity: blocking }
+    - { value: stripe, severity: blocking }
 portable:
   summary: Keeps each user's plan, subscription status, revenue and renewal dates in step with Stripe, so segments and churn
     reports match billing, and checks the data agrees.

@@ -11,6 +11,9 @@ author:
 classification:
   industry:
   - industry-agnostic
+prerequisites:
+  integrations:
+    - { value: google_sheets, severity: blocking }
 portable:
   summary: Imports a hand-kept Google Sheet, such as target accounts, event attendees or a suppression list, on a schedule
     and turns its rows into a segment you can act on.

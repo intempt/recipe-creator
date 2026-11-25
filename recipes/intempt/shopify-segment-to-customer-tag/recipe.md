@@ -10,6 +10,9 @@ author:
 classification:
   industry:
   - ecommerce-retail
+prerequisites:
+  integrations:
+    - { value: shopify, severity: blocking }
 portable:
   summary: Tags Shopify customers who belong to a chosen segment so the store can merchandise against that group, keeping
     the tag in sync with the segment.

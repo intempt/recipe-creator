@@ -13,6 +13,9 @@ classification:
 visibility: draft
 rejected: Its core is filling firmographics from an outside company-data provider; Blu steps cannot call an enrichment API
   or write those fields.
+prerequisites:
+  integrations:
+    - { value: slack, severity: recommended }
 portable:
   summary: Automatically enriches each new account with industry, size, revenue and tech stack, scores its ICP fit, routes
     top accounts to an owner, and tracks enrichment coverage.

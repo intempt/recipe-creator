@@ -13,6 +13,9 @@ classification:
 visibility: draft
 rejected: Its purpose is writing the computed lifecycle stage onto the HubSpot contact; HubSpot writes are not planned on
   Blu.
+prerequisites:
+  integrations:
+    - { value: hubspot, severity: blocking }
 portable:
   summary: Computes each contact's lifecycle stage from product and billing behaviour and writes it one way to the HubSpot
     contact so sales and marketing see the same value.

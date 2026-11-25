@@ -10,6 +10,9 @@ author:
 classification:
   industry:
   - saas-b2b-tech
+prerequisites:
+  integrations:
+    - { value: salesforce, severity: blocking }
 portable:
   summary: Builds a product-qualified users segment and upserts each new member as a Salesforce lead, matched on an external
     ID so no lead is doubled.

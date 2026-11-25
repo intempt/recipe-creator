@@ -13,6 +13,9 @@ classification:
 visibility: draft
 rejected: Its purpose is configuring the Demo meeting type's AI summary fields; meeting and meeting-type setup is not planned
   on Blu.
+prerequisites:
+  integrations:
+    - { value: hubspot, severity: blocking }
 portable:
   summary: Turns each Demo meeting into structured notes on features shown, questions, objections, decision-makers and next
     steps, plus demo insights.

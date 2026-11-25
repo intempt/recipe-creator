@@ -12,6 +12,9 @@ classification:
   - industry-agnostic
 visibility: draft
 rejected: Its purpose is writing the deal stage in the CRM when a task completes; Blu has no deal or CRM stage writes planned.
+prerequisites:
+  integrations:
+    - { value: slack, severity: recommended }
 portable:
   summary: Moves a deal forward a stage when its gating task is completed, never backward, and notifies the deal owner.
   parameters:

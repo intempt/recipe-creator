@@ -13,6 +13,9 @@ classification:
 visibility: draft
 rejected: Its whole purpose is creating and configuring meeting types (durations, booking visibility, notetaker), and meeting
   type setup is not planned on Blu.
+prerequisites:
+  integrations:
+    - { value: hubspot, severity: blocking }
 portable:
   summary: Organizes sales and customer calls into clear meeting types (Discovery, Demo, Proposal, Renewal, Check-in) so summaries
     and reports draw from the right set of calls.

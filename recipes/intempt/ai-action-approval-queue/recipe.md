@@ -13,6 +13,9 @@ classification:
 visibility: draft
 rejected: The recipe is an approval gate other workflows call by webhook and approve with interactive Slack buttons; Blu has
   no webhook trigger, callback or interactive approval.
+prerequisites:
+  integrations:
+    - { value: slack, severity: recommended }
 portable:
   summary: Holds risky AI-generated actions, such as mass updates or sends to large accounts, for human approval before they
     run.

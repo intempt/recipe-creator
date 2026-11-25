@@ -11,6 +11,9 @@ author:
 classification:
   industry:
   - saas-b2b-tech
+prerequisites:
+  integrations:
+    - { value: salesforce, severity: blocking }
 portable:
   summary: Computes active seats and usage trend per account and writes them to the account's open Salesforce opportunity
     every week.

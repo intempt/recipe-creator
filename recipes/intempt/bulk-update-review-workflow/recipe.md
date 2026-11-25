@@ -13,6 +13,9 @@ classification:
 visibility: draft
 rejected: Its purpose is intercepting bulk record changes from other workflows (webhook trigger), holding them for an interactive
   approval and executing or rolling them back; Blu has no webhook trigger and does not run record changes.
+prerequisites:
+  integrations:
+    - { value: slack, severity: recommended }
 portable:
   summary: Pauses large bulk field updates, merges, or deletes for a human reviewer who sees a diff sample and AI risk rating
     before anything is applied, with an audit trail and rollback snapshot.

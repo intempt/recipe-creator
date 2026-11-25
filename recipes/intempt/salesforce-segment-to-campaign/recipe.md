@@ -11,6 +11,9 @@ author:
 classification:
   industry:
   - industry-agnostic
+prerequisites:
+  integrations:
+    - { value: salesforce, severity: blocking }
 portable:
   summary: Adds every member of a segment you choose to a Salesforce campaign, once each, so sales works the same audience.
   parameters:

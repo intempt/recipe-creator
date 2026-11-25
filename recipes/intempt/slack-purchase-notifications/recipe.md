@@ -11,6 +11,9 @@ author:
 classification:
   industry:
   - industry-agnostic
+prerequisites:
+  integrations:
+    - { value: slack, severity: recommended }
 portable:
   summary: Emails each revenue win to the wins list and each failed payment, cancellation or large abandoned cart to the revenue-ops
     list.

@@ -13,6 +13,9 @@ classification:
 visibility: draft
 rejected: It depends wholly on a research agent scraping competitor websites, review sites and news; Blu does not build research
   agents.
+prerequisites:
+  integrations:
+    - { value: slack, severity: recommended }
 portable:
   summary: Every Monday morning an AI agent scrapes competitor sites, reviews, social and news, then posts a structured competitive
     intel briefing to Slack.

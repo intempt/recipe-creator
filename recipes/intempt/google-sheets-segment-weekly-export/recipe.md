@@ -10,6 +10,9 @@ author:
 classification:
   industry:
   - industry-agnostic
+prerequisites:
+  integrations:
+    - { value: google_sheets, severity: blocking }
 portable:
   summary: Writes a chosen audience segment into a Google Sheet every week, keeping the sheet updated instead of re-uploading
     a CSV by hand.

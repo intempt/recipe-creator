@@ -10,6 +10,9 @@ author:
 classification:
   industry:
   - industry-agnostic
+prerequisites:
+  integrations:
+    - { value: google_sheets, severity: blocking }
 portable:
   summary: Adds a row to a Google Sheet each time a deal is won, so finance and ops can keep working in the sheet they already
     use.

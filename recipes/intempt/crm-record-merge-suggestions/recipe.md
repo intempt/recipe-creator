@@ -13,6 +13,9 @@ classification:
 visibility: draft
 rejected: Its purpose is merging duplicate CRM records and queuing HubSpot review tasks; HubSpot writes are not planned on
   Blu.
+prerequisites:
+  integrations:
+    - { value: hubspot, severity: blocking }
 portable:
   summary: Checks new account and contact records against existing CRM records, merges near-certain duplicates and queues
     uncertain ones for review.

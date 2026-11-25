@@ -12,6 +12,9 @@ classification:
   - industry-agnostic
 visibility: draft
 rejected: Its purpose is creating and updating HubSpot deals from product signals; HubSpot writes are not planned on Blu.
+prerequisites:
+  integrations:
+    - { value: hubspot, severity: blocking }
 portable:
   summary: When product usage shows an account is ready to buy, the recipe updates its HubSpot deal, adds the contact to a
     list, or creates a task, so HubSpot reflects product evidence.

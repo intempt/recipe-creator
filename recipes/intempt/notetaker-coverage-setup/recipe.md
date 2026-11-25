@@ -13,6 +13,9 @@ classification:
 visibility: draft
 rejected: It configures notetaker auto-join per meeting type, a meeting setup Blu does not build (meeting / meeting_type not
   planned).
+prerequisites:
+  integrations:
+    - { value: hubspot, severity: blocking }
 portable:
   summary: Automatically sends the Blu notetaker to revenue-relevant meetings, audits meeting types first, and tracks notetaker
     coverage and join failures on a dashboard.

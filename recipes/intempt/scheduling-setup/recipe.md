@@ -13,6 +13,9 @@ classification:
 visibility: draft
 rejected: Its purpose is a booking link with host routing and CRM meeting logging; meeting/booking setup and HubSpot writes
   are not planned on Blu.
+prerequisites:
+  integrations:
+    - { value: hubspot, severity: blocking }
 portable:
   summary: Gives prospects a booking link that routes them to the right host, then sends a confirmation, logs the meeting
     in the CRM, and tracks bookings and show rate.

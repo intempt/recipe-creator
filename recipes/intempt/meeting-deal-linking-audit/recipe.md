@@ -12,6 +12,9 @@ classification:
   - industry-agnostic
 visibility: draft
 rejected: Its purpose is linking meeting records to CRM deals (a CRM write); Blu has no meeting-to-deal linking or CRM writes.
+prerequisites:
+  integrations:
+    - { value: hubspot, severity: blocking }
 portable:
   summary: Automatically links revenue-impacting meetings to the right deal, routes uncertain matches to hosts for confirmation,
     and tracks linking coverage on a hygiene dashboard.
