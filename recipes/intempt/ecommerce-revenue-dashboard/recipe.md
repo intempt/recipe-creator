@@ -1,7 +1,8 @@
 ---
 frontmatter_id: ecommerce-revenue-dashboard
 slash_command: /ecommerce-revenue-dashboard
-description: Answers how much you are making, which channels drive it, and whether the trend is holding.
+description: 'Emails a weekly digest of how much revenue you are making, which channels drive it, and whether the trend is
+  holding: revenue, order value, cart-to-order conversion and repeat purchases.'
 author:
   name: Intempt
   last_name: Technologies
@@ -11,19 +12,18 @@ classification:
   industry:
   - ecommerce-retail
 portable:
-  summary: Shows how much revenue you are making, which channels drive it, and whether the trend is holding, on one weekly
-    dashboard for founders and CMOs.
+  summary: 'Emails founders a weekly revenue digest: revenue by channel against last year, order value, the view-to-order
+    funnel by device, top categories and repeat purchases.'
   parameters:
   - name: date_range
     type: duration
-    label: Default date range
+    label: Window the figures cover
     default: 30 d
     required: false
-  - name: breakdown_property
+  - name: digest_recipients
     type: string
-    label: Breakdown property pushed down to cards
-    default: device_type
-    required: false
+    label: Email addresses that get the digest
+    required: true
   requirements:
   - slot: placed_order_event
     kind: event
@@ -31,103 +31,63 @@ portable:
     properties:
     - name: channel
       type: string
-      meaning: Acquisition channel of the order
+      meaning: Sales or acquisition channel of the order
       optional: false
     - name: device_type
       type: string
-      meaning: Device the customer used to order
-      optional: true
+      meaning: Device the order was placed on
+      optional: false
     - name: order_value
       type: number
-      meaning: Total value of the order
+      meaning: Order total
       optional: false
     - name: units
       type: number
-      meaning: Number of units in the order
+      meaning: Units in the order
       optional: false
     - name: product_category
       type: string
-      meaning: Category of the purchased product
-      optional: true
+      meaning: Main product category of the order
+      optional: false
+  - slot: view_page_event
+    kind: event
+    meaning: A visitor viewed a page
+    properties:
+    - name: device_type
+      type: string
+      meaning: Device of the visit
+      optional: false
   - slot: cart_created_event
     kind: event
     meaning: A customer created a shopping cart
-    properties:
-    - name: device_type
-      type: string
-      meaning: Device the customer used
-      optional: true
-  - slot: view_page_event
-    kind: event
-    meaning: A customer viewed a page
-    properties:
-    - name: device_type
-      type: string
-      meaning: Device the customer used
-      optional: true
   - slot: checkout_created_event
     kind: event
     meaning: A customer started checkout
-    properties:
-    - name: device_type
-      type: string
-      meaning: Device the customer used
-      optional: true
   steps:
   - id: s1
-    builds: dashboard
+    builds: automation
     uses:
-    - date_range
-    - breakdown_property
     - placed_order_event
+    - view_page_event
     - cart_created_event
     - checkout_created_event
-    - view_page_event
-    instruction: 'Create a 12-column composition dashboard titled "E-commerce Revenue" with default date range {date_range},
-      incomplete periods excluded, visible to the whole project, no board filters by default, and breakdown by {breakdown_property}
-      pushed down to applicable cards. Lay it out in four rows. Row 1 (height 200px, four metric cards each 3 columns wide):
-      "Total Revenue (30d)" from {placed_order_event} grouped by {placed_order_event.channel}; "AOV" from {placed_order_event.order_value}
-      averaged per order; "Cart Abandonment Rate" from {cart_created_event} and {checkout_created_event}; "Top Category Revenue
-      Share" from {placed_order_event.product_category}. Row 2 (height 400px, two cards each 6 columns wide): horizontal bar
-      chart of revenue by {placed_order_event.channel} with year-over-year comparison; multi-line chart of AOV, units per
-      order ({placed_order_event.units}) and price per unit decomposition. Row 3 (height 400px, two cards each 6 columns wide):
-      funnel steps chart across {view_page_event}, {cart_created_event}, {checkout_created_event} and {placed_order_event}
-      with device breakdown; line chart of cart abandonment rate with previous-period overlay. Row 4 (height 440px, two cards
-      each 6 columns wide): treemap of revenue by {placed_order_event.product_category}; retention curve for repeat purchases
-      of {placed_order_event}.'
+    - date_range
+    - digest_recipients
+    instruction: 'Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes orders and writes
+      these figures: the sum of {placed_order_event.order_value} in the last {date_range}, in the {date_range} before that
+      and in the same window one year earlier, in total and per {placed_order_event.channel}; average order value and average
+      {placed_order_event.units} per order in the last {date_range} against the {date_range} before; the share of visitors
+      who did {view_page_event} who then did {cart_created_event}, {checkout_created_event} and {placed_order_event} in the
+      last {date_range}, per {placed_order_event.device_type}; the share of carts with no {placed_order_event} within 24 hours;
+      the 5 {placed_order_event.product_category} values with the most revenue and their share of the total; the share of
+      orders in the last {date_range} from customers who had ordered before. Then it emails these figures as plain-text lines,
+      each with its window, to {digest_recipients}. Nothing else is sent.'
 ---
 
 # Ecommerce revenue overview
 
 Slash command: /ecommerce-revenue-dashboard
 
-## Step 1: Build the revenue board
+## Step 1: Email the weekly revenue digest
 
-Create a Dash board (12-column composition canvas) titled "E-commerce Revenue".
-Persona: Founder or CMO. Question answered: "How much money are we making, where is it coming from, and is the trend healthy?"
-Board-level configuration:
-- defaultDateRange: last_30_days
-- exclusionPeriod: incomplete_periods
-- visibility: project
-- boardFilters: none by default
-- boardBreakdowns: device_type: pushed down to applicable cards
-Layout: 4 rows.
-Row 1: Revenue KPIs (heightPx: 200, four metric cards at widthUnits: 3):
-- Card 1: Insights metric to source recipe: revenue-by-channel, vizType: metric, titleOverride: "Total Revenue (30d)"
-- Card 2: Insights metric to source recipe: average-order-value-trend, vizType: metric, titleOverride: "AOV"
-- Card 3: Insights metric to source recipe: cart-abandonment-rate, vizType: metric, titleOverride: "Cart Abandonment Rate"
-- Card 4: Insights metric to source recipe: product-category-performance, vizType: metric, titleOverride: "Top Category Revenue Share"
-Row 2: Revenue trends (heightPx: 400, two cards at widthUnits: 6):
-- Card 1: Insights to source recipe: revenue-by-channel, displayMode: chart, vizType: bar (horizontal, with YoY comparison)
-- Card 2: Insights to source recipe: average-order-value-trend, displayMode: chart, vizType: line (multi-line: AOV, units/order, price/unit decomposition)
-Row 3: Conversion behavior (heightPx: 400, two cards at widthUnits: 6):
-- Card 1: Funnel to source recipe: browse-purchase-funnel, displayMode: chart, vizType: funnel_steps (with device breakdown)
-- Card 2: Insights to source recipe: cart-abandonment-rate, displayMode: chart, vizType: line (trend with previous-period overlay)
-Row 4: Category and retention (heightPx: 440, two cards at widthUnits: 6):
-- Card 1: Insights to source recipe: product-category-performance, displayMode: chart, vizType: treemap
-- Card 2: Retention to source recipe: purchase-retention, displayMode: chart, vizType: retention_curve
-Annotations:
-- This is the canonical CMO/Founder weekly-check dashboard for ecommerce. Row 1 is the headline; Row 2 surfaces channel mix shifts; Row 3 surfaces conversion bottlenecks; Row 4 surfaces inventory/retention strategy.
-- The AOV decomposition in Row 2 Card 2 (units/order vs price/unit) is the diagnostic: AOV moving via price = merchandising/pricing impact; AOV moving via units = bundling/cross-sell impact.
-Taxonomy notes:
-- All source recipes use canonical events: Placed order, Cart created, View page, Checkout created.
+Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes orders and writes these figures: the sum of order value in the last 30 d, in the 30 d before that and in the same window one year earlier, in total and per channel; average order value and average units per order in the last 30 d against the 30 d before; the share of visitors who did view page event who then did cart created event, checkout created event and placed order event in the last 30 d, per device type; the share of carts with no placed order event within 24 hours; the 5 product category values with the most revenue and their share of the total; the share of orders in the last 30 d from customers who had ordered before. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.

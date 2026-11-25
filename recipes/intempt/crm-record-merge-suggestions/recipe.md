@@ -10,9 +10,12 @@ author:
 classification:
   industry:
   - industry-agnostic
+visibility: draft
+rejected: Its purpose is merging duplicate CRM records and queuing HubSpot review tasks; HubSpot writes are not planned on
+  Blu.
 portable:
-  summary: Checks new account or contact records against existing CRM records at creation, auto-merges near-certain duplicates,
-    queues uncertain ones for review, and tags low-confidence ones for later re-evaluation.
+  summary: Checks new account and contact records against existing CRM records, merges near-certain duplicates and queues
+    uncertain ones for review.
   parameters:
   - name: high_confidence_threshold
     type: number
@@ -103,6 +106,8 @@ portable:
     - s1
     - crm_records
     - fuzzy_name_distance
+    dependsOn:
+    - s1
     instruction: 'Configure a find-records step that searches {crm_records} for existing records similar to the newly created
       record from "Check at the moment of creation". Match criteria: same domain for accounts; same email for users; fuzzy
       name match with Levenshtein distance less than {fuzzy_name_distance}; same primary contact. Return a list of candidate
@@ -112,6 +117,8 @@ portable:
     uses:
     - s1
     - s2
+    dependsOn:
+    - s1
     instruction: 'Add a branch: if the search in "Look for a match" returned no candidates, the record is unique, so hand
       off to the standard onboarding flow auto enrich workflow. If one or more candidates were returned, continue to AI confidence
       scoring in "Score each pair".'
@@ -121,6 +128,8 @@ portable:
     - s1
     - s2
     - s3
+    dependsOn:
+    - s1
     instruction: 'Configure an AI step that compares the new record from "Check at the moment of creation" to each candidate
       from "Look for a match" and produces a confidence score from 0 to 100 per pair. Inputs: all available fields, recent
       activity, and contextual clues such as a shared {account_created_event.utm_source} or {user_created_event.utm_source}
@@ -134,6 +143,8 @@ portable:
     - high_confidence_threshold
     - medium_confidence_threshold
     - low_confidence_tag
+    dependsOn:
+    - s1
     instruction: 'Add a multi-split on the top candidate''s confidence score from "Score each pair": high when the score is
       above {high_confidence_threshold} routes to "Merge into the older record"; medium when the score is at or above {medium_confidence_threshold}
       and not high routes to "Queue the uncertain pairs"; low when the score is below {medium_confidence_threshold} proceeds
@@ -143,6 +154,8 @@ portable:
     uses:
     - s1
     - s5
+    dependsOn:
+    - s1
     instruction: On the high-confidence branch, merge the new record into the existing record. Keep the existing record as
       the survivor to preserve history. Copy any new fields from the new record onto the survivor. Mark the new record as
       merged into the existing record's identifier. Inbound webhooks referencing the new record must still resolve and redirect
@@ -154,6 +167,8 @@ portable:
     - s5
     - revops_task_queue
     - review_sla
+    dependsOn:
+    - s1
     instruction: On the medium-confidence branch, do not merge. Create a task in {revops_task_queue} containing both records
       side by side, the AI reasoning for the suspected duplicate, and merge and separate decision buttons. Set the review
       due within {review_sla}, because uncertain duplicates accumulate quickly if not handled.
@@ -163,6 +178,8 @@ portable:
     - s1
     - s6
     - s7
+    dependsOn:
+    - s1
     instruction: 'Validate and publish the workflow. Monitor three measures: weekly auto-merge volume (shows the workflow
       catches real duplicates); false-positive rate from a sample audit of auto-merges (were any wrong); and review-queue
       depth (a high depth suggests too many medium-confidence cases and the need to tune the AI scoring prompt). Use these
@@ -175,38 +192,32 @@ Slash command: /crm-record-merge-suggestions
 
 ## Step 1: Check at the moment of creation
 
-Create a workflow 'Real-time CRM dedup' triggered immediately on account_created OR User created events. Goal: catch duplicates at creation moment rather than letting them propagate, then needing cleanup later.
+Create a workflow named 'Real-time CRM dedup' triggered immediately when an account is created or a user is created. Its purpose is to catch duplicates at the moment of creation rather than letting them propagate and need cleanup later.
 
 ## Step 2: Look for a match
 
-This step builds a workflow.
-Configure find-records step that searches for existing records similar to the newly-created one. Match criteria: same domain (for accounts), same email (for users), fuzzy name match (Levenshtein distance < 3), same primary contact. Returns: list of candidate matches with similarity scores. Use the result of "Check at the moment of creation".
+Configure a find-records step that searches crm records for existing records similar to the newly created record from "Check at the moment of creation". Match criteria: same domain for accounts; same email for users; fuzzy name match with Levenshtein distance less than 3; same primary contact. Return a list of candidate matches with similarity scores.
 
 ## Step 3: Stop early if it is new
 
-This step builds a workflow.
-Branch step: did the search find any candidate matches? If NO matches (record is unique, proceed to standard onboarding flow (handoff to auto-enrich-new-accounts). If YES matches found) continue to AI confidence scoring. Use the result of "Check at the moment of creation", "Look for a match".
+Add a branch: if the search in "Look for a match" returned no candidates, the record is unique, so hand off to the standard onboarding flow auto enrich workflow. If one or more candidates were returned, continue to AI confidence scoring in "Score each pair".
 
 ## Step 4: Score each pair
 
-This step builds a workflow.
-Configure AI step that compares the new record to each candidate match and produces a confidence score (0-100) per pair. Inputs: all available fields, recent activity, contextual clues (e.g. same source UTM suggests same person). Considers nuances (e.g. 'sales@example.com' and 'john@example.com' are different people at same company, not duplicates). Output: ranked match candidates with confidence + reasoning. Use the result of "Check at the moment of creation", "Stop early if it is new".
+Configure an AI step that compares the new record from "Check at the moment of creation" to each candidate from "Look for a match" and produces a confidence score from 0 to 100 per pair. Inputs: all available fields, recent activity, and contextual clues such as a shared utm source or utm source suggesting the same person. Treat role-based addresses such as sales@ versus a named address such as john@ at the same domain as different people, not duplicates. Output a ranked list of candidates with confidence and reasoning.
 
 ## Step 5: Act on the confidence
 
-This step builds a workflow.
-Multi-split based on top candidate's confidence score: HIGH (>90) (auto-merge into existing record; MEDIUM (60-90)) flag for review in dedup queue, do NOT auto-merge; LOW (<60): likely not a duplicate, proceed with new record but tag as 'review-candidate' for periodic re-evaluation. Use the result of "Check at the moment of creation", "Score each pair".
+Add a multi-split on the top candidate's confidence score from "Score each pair": high when the score is above 90 routes to "Merge into the older record"; medium when the score is at or above 60 and not high routes to "Queue the uncertain pairs"; low when the score is below 60 proceeds with the new record and applies the tag review-candidate for periodic re-evaluation.
 
 ## Step 6: Merge into the older record
 
-This step builds a workflow.
-On high-confidence branch: merge the new record into the existing one. Keep the existing record as survivor (preserves history), copy any new fields from the new record, mark the new record as 'merged into (fill in: existing_id)'. The new record reference still works for inbound webhooks but redirects to the survivor. Use the result of "Check at the moment of creation", "Act on the confidence". Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.
+On the high-confidence branch, merge the new record into the existing record. Keep the existing record as the survivor to preserve history. Copy any new fields from the new record onto the survivor. Mark the new record as merged into the existing record's identifier. Inbound webhooks referencing the new record must still resolve and redirect to the survivor.
 
 ## Step 7: Queue the uncertain pairs
 
-This step builds a workflow.
-On medium-confidence branch: create a RevOps task with both records side-by-side, AI's reasoning for the suspicion, and merge/separate decision buttons. SLA: review within 5 business days: uncertain duplicates accumulate fast if not handled. Use the result of "Check at the moment of creation", "Act on the confidence".
+On the medium-confidence branch, do not merge. Create a task in revops task queue containing both records side by side, the AI reasoning for the suspected duplicate, and merge and separate decision buttons. Set the review due within 5 d, because uncertain duplicates accumulate quickly if not handled.
 
 ## Step 8: Publish and audit the merges
 
-Validate and publish. Monitor: auto-merge volume per week (proves the workflow is catching real duplicates), false-positive rate (sample audit of auto-merges: were any wrong?), review-queue depth (high = too many medium-confidence cases, suggests AI prompt tuning). Together with the scheduled-data-quality-audit, this is the dedup defense-in-depth pattern. Use the result of "Check at the moment of creation", "Merge into the older record", "Queue the uncertain pairs".
+Validate and publish the workflow. Monitor three measures: weekly auto-merge volume (shows the workflow catches real duplicates); false-positive rate from a sample audit of auto-merges (were any wrong); and review-queue depth (a high depth suggests too many medium-confidence cases and the need to tune the AI scoring prompt). Use these alongside a scheduled data-quality audit as a defense-in-depth pattern.

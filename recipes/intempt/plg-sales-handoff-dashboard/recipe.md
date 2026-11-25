@@ -1,7 +1,8 @@
 ---
 frontmatter_id: plg-sales-handoff-dashboard
 slash_command: /plg-sales-handoff-dashboard
-description: Shows paywall conversion and the free-to-paid funnel so teams can see where free users convert to paid.
+description: Finds free and trial users showing strong buying intent and emails sales a weekday morning list of them, with
+  the accounts behind them, paywall views by feature and free-to-paid conversion.
 author:
   name: Intempt
   last_name: Technologies
@@ -12,175 +13,101 @@ classification:
   - saas-b2b-tech
   - media-entertainment
 portable:
-  summary: Gives sales a morning leaderboard of free users showing strong intent, plus paywall-conversion and free-to-paid
-    funnel views showing which features drive upgrades.
+  summary: Builds a segment of free users with buying intent and emails sales a weekday morning list of them, the accounts
+    with several of them, and free-to-paid conversion.
   parameters:
-  - name: dateRange
-    type: enum
-    label: Default date range
-    default: last_30_days
-    required: false
-    options:
-    - last_7_days
-    - last_30_days
-    - last_90_days
-  - name: exclusionPeriod
-    type: enum
-    label: Exclude recent period
-    default: today
-    required: false
-    options:
-    - today
-    - yesterday
-    - none
-  - name: pqaMinPqls
-    type: number
-    label: Minimum PQLs for a qualified account (PQA)
-    default: 3
-    required: false
-  - name: trailingWindow
+  - name: intentWindow
     type: duration
-    label: Trailing window for PQL to paid conversion
+    label: Window for intent signals
     default: 7 d
     required: false
-  - name: boardVisibility
-    type: enum
-    label: Dashboard visibility
-    default: project
+  - name: minSessions
+    type: number
+    label: Sessions in the window that count as active
+    default: 5
     required: false
-    options:
-    - project
-    - private
+  - name: pqaMinPqls
+    type: number
+    label: Intent users that make an account worth calling
+    default: 3
+    required: false
+  - name: topUserCount
+    type: number
+    label: Users listed each morning
+    default: 20
+    required: false
+  - name: digest_recipients
+    type: string
+    label: Email addresses that get the digest
+    required: true
   requirements:
-  - slot: pql_leaderboard_source
-    kind: segment
-    meaning: Free users scored as product-qualified leads (PQLs) based on their in-product activity
-  - slot: feature_paywall_conversion_source
-    kind: event
-    meaning: A user viewed the pricing page or was shown a paywall while on a free plan
-    properties:
-    - name: feature
-      type: text
-      meaning: Feature that the user was using when the paywall was shown
-      optional: false
-    - name: page_path
-      type: text
-      meaning: Page path viewed, filtered to /pricing
-      optional: false
-  - slot: free_to_paid_funnel_source
-    kind: event
-    meaning: A user started a subscription after being on a free or trial plan
-    properties:
-    - name: subscription
-      type: text
-      meaning: Subscription status of the user, null or trial for free users
-      optional: true
-  - slot: activated_and_paying_source
-    kind: segment
-    meaning: Users who completed an activation journey goal and also started a paid subscription
-  - slot: account_engagement_source
-    kind: attribute
-    meaning: The account a user belongs to, used to roll up engagement score for free accounts
   - slot: session_start_event
     kind: event
-    meaning: A customer started a session in the product
-  - slot: click_event
+    meaning: A user started a session in the product
+  - slot: paywall_viewed_event
     kind: event
-    meaning: A customer clicked on a tracked element in the product
-  - slot: journey_goal_event
-    kind: event
-    meaning: A customer completed a journey goal
+    meaning: A user on a free plan viewed the pricing page or was shown a paywall
+    properties:
+    - name: feature
+      type: string
+      meaning: Feature behind the paywall
+      optional: true
   - slot: subscription_started_event
     kind: event
-    meaning: A customer started a paid subscription
-  - slot: utm_source_attribute
+    meaning: A user started a paid subscription
+  - slot: plan_attribute
     kind: attribute
-    meaning: The UTM source that brought the user to the product, used as a board breakdown
+    meaning: The user's current plan, such as free, trial or a paid plan
+  - slot: account_attribute
+    kind: attribute
+    meaning: The account (company) the user belongs to
   steps:
   - id: s1
-    builds: dashboard
+    builds: segment
     uses:
-    - pql_leaderboard_source
-    - feature_paywall_conversion_source
-    - free_to_paid_funnel_source
-    - activated_and_paying_source
-    - account_engagement_source
     - session_start_event
-    - click_event
-    - journey_goal_event
+    - paywall_viewed_event
     - subscription_started_event
-    - utm_source_attribute
-    - dateRange
-    - exclusionPeriod
+    - plan_attribute
+    - intentWindow
+    - minSessions
+    instruction: 'Build a new segment of users named "Free Users with Buying Intent". A user is in it only when all of these
+      are true: their {plan_attribute} is free or trial; they did {session_start_event} {minSessions} or more times in the
+      last {intentWindow}; they did {paywall_viewed_event} 1 or more times in the last {intentWindow}; they did not do {subscription_started_event}
+      at any time.'
+  - id: s2
+    builds: automation
+    uses:
+    - s1
+    - session_start_event
+    - paywall_viewed_event
+    - subscription_started_event
+    - plan_attribute
+    - account_attribute
+    - intentWindow
     - pqaMinPqls
-    - trailingWindow
-    - boardVisibility
-    instruction: 'Create a 12-column dashboard titled "PLG Sales Handoff" with visibility {boardVisibility}. Answer the question:
-      which free users are showing strong intent, and which features are driving them toward paid? Set the default date range
-      to {dateRange} and exclude the {exclusionPeriod} period from results, because partial data for that period is unreliable.
-      Add a board filter so only users whose subscription is null or trial are included, to scope the board to free and trial
-      users. Add a board breakdown by {utm_source_attribute}, applied to cards that support ICP filtering. Lay out four rows.
-
-
-      Row 1 (height 200 px): four metric cards, each 3 units wide. Card 1 is an insights metric on {pql_leaderboard_source}
-      titled "Active PQLs". Card 2 is an insights metric on {pql_leaderboard_source} titled "Active PQAs (≥{pqaMinPqls} PQLs/account)",
-      rolling up PQLs at the account level. Card 3 is an insights metric on {pql_leaderboard_source} titled "Trailing-{trailingWindow}
-      PQL to Paid Conversion". Card 4 is a funnel metric on {free_to_paid_funnel_source} titled "Trial to Paid Rate".
-
-
-      Row 2 (height 480 px): one full-width card (12 units). Insights on {pql_leaderboard_source} shown as a sortable table.
-      This is the PQL leaderboard that sales reps review every morning.
-
-
-      Row 3 (height 440 px): two 6-unit cards. Card 1 is an insights chart on {feature_paywall_conversion_source} using a
-      scatter visualization, forming a four-quadrant view that shows which features to gate and which to give away. Card 2
-      is a funnel chart on {free_to_paid_funnel_source} using funnel steps.
-
-
-      Row 4 (height 400 px): two 6-unit cards. Card 1 is a funnel chart on {activated_and_paying_source} using funnel steps,
-      which reveals the gap between vanity activation and real activation. Card 2 is an insights chart on {account_engagement_source}
-      using a line visualization, showing account-level engagement for free accounts.
-
-
-      Use only the canonical events {session_start_event}, {click_event}, {journey_goal_event}, and {subscription_started_event},
-      with the /pricing page filter on paywall views. Roll up PQL and PQA scoring at the account level via the account the
-      user belongs to.'
+    - topUserCount
+    - digest_recipients
+    dependsOn:
+    - s1
+    instruction: 'Build an automation that runs Monday to Friday at 08:00 on a schedule. Each run it analyzes the users in
+      the segment from "Find free users with buying intent" and writes these figures: the number of users in it now and 7
+      days ago; the {topUserCount} users in it with the most {session_start_event} in the last {intentWindow}, each with their
+      email, {account_attribute} and the features they hit in {paywall_viewed_event.feature}; the {account_attribute} values
+      with {pqaMinPqls} or more users in it; the share of users who were free or trial 30 days ago who did {subscription_started_event}
+      in the last 30 days; the 5 {paywall_viewed_event.feature} values most often seen in the 7 days before a {subscription_started_event}
+      in the last 30 days. Then it emails these figures as plain-text lines, each with its window, to {digest_recipients}.
+      Nothing else is sent.'
 ---
 
 # Free users worth calling
 
 Slash command: /plg-sales-handoff-dashboard
 
-## Step 1: Build the PQL leaderboard
+## Step 1: Find free users with buying intent
 
-Create a Dash board (12-column composition canvas) titled "PLG Sales Handoff".
-Persona: PLG Sales Lead, Hybrid GTM operator, or PLG-aware AE. Question answered: "Which free users are showing strong intent, and which features are driving them toward paid?"
-This dashboard pairs the canonical PLG sales handoff signals (PQL leaderboard, paywall conversion) with the funnel and account-level views that surface the highest-intent users for sales outreach.
-Board-level configuration:
-- defaultDateRange: last_30_days
-- exclusionPeriod: today (PQL signals are fast-moving; today's data is partial)
-- visibility: project
-- boardFilters: subscription is null OR subscription is trial (default-pinned to scope to free/trial users only)
-- boardBreakdowns: UTM source: pushed down to ICP-filter applicable cards
-Layout: 4 rows.
-Row 1: Handoff KPIs (heightPx: 200, four metric cards at widthUnits: 3):
-- Card 1: Insights metric to source recipe: pql-leaderboard, vizType: metric, titleOverride: "Active PQLs"
-- Card 2: Insights metric to source recipe: pql-leaderboard, vizType: metric, titleOverride: "Active PQAs (≥3 PQLs/account)"
-- Card 3: Insights metric to source recipe: pql-leaderboard, vizType: metric, titleOverride: "Trailing-7d PQL to Paid Conversion"
-- Card 4: Funnel metric to source recipe: free-paid-conversion-funnel, vizType: metric, titleOverride: "Trial to Paid Rate"
-Row 2: The leaderboard (heightPx: 480, full-width single card at widthUnits: 12):
-- Card 1: Insights to source recipe: pql-leaderboard, displayMode: table (the sortable PQL leaderboard: the canonical sales-handoff artifact)
-Row 3: Paywall and feature intelligence (heightPx: 440, two cards at widthUnits: 6):
-- Card 1: Insights to source recipe: feature-paywall-conversion, displayMode: chart, vizType: scatter (the four-quadrant scatter)
-- Card 2: Funnel to source recipe: free-paid-conversion-funnel, displayMode: chart, vizType: funnel_steps
-Row 4: Activated-and-paying view (heightPx: 400, two cards at widthUnits: 6):
-- Card 1: Funnel to source recipe: compound-funnel-activated-and-paying, displayMode: chart, vizType: funnel_steps
-- Card 2: Insights to source recipe: account-engagement-score-trend, displayMode: chart, vizType: line (account-level engagement on free accounts)
-Annotations:
-- Row 1's KPIs are filtered views of the pql-leaderboard recipe (PQL count, PQA count via account-roll-up, trailing conversion).
-- Row 2 (the PQL leaderboard, full-width) is what sales reps look at every morning.
-- Row 3 Card 1 (paywall conversion scatter) tells the product team which features to gate vs. give away.
-- Row 4 Card 1 (Activated AND Paying) reveals the gap between vanity activation and real activation.
-Taxonomy notes:
-- All source recipes use canonical events: Session start, a click event, Completed a journey goal, View page (filtered to /pricing), Subscription started.
-- PQL/PQA scoring uses Users.the account the user belongs to for account-level rollup.
+Build a new segment of users named "Free Users with Buying Intent". A user is in it only when all of these are true: their plan attribute is free or trial; they did session start event 5 or more times in the last 7 d; they did paywall viewed event 1 or more times in the last 7 d; they did not do subscription started event at any time.
+
+## Step 2: Email sales the morning call list
+
+Build an automation that runs Monday to Friday at 08:00 on a schedule. Each run it analyzes the users in the segment from "Find free users with buying intent" and writes these figures: the number of users in it now and 7 days ago; the 20 users in it with the most session start event in the last 7 d, each with their email, account attribute and the features they hit in feature; the account attribute values with 3 or more users in it; the share of users who were free or trial 30 days ago who did subscription started event in the last 30 days; the 5 feature values most often seen in the 7 days before a subscription started event in the last 30 days. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.

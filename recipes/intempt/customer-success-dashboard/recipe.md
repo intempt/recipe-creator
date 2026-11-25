@@ -1,7 +1,8 @@
 ---
 frontmatter_id: customer-success-dashboard
 slash_command: /customer-success-dashboard
-description: Shows account health and customer base health using return-rate retention and NPS.
+description: Flags accounts whose product use is dropping or whose support load is rising, and emails customer success a weekly
+  digest of at-risk accounts, retention, NPS and early churn signals.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,143 +12,98 @@ classification:
   industry:
   - industry-agnostic
 portable:
-  summary: Gives customer success teams one dashboard showing which accounts are at risk, retention, expansion revenue, NPS,
-    and early churn signals to act on weekly.
+  summary: Builds an at-risk accounts segment and emails customer success a weekly digest of at-risk accounts, account retention,
+    NPS, engagement movers and tickets against cancellations.
   parameters:
-  - name: dateRange
-    type: enum
-    label: Default date range
-    default: last_30_days
+  - name: usageDropPct
+    type: number
+    label: Drop in sessions that makes an account at risk (%)
+    default: 30
     required: false
-    options:
-    - last_7_days
-    - last_30_days
-    - last_90_days
-  - name: visibility
-    type: enum
-    label: Board visibility
-    default: project
+  - name: ticketThreshold
+    type: number
+    label: Support tickets in 30 days that make an account at risk
+    default: 3
     required: false
-    options:
-    - private
-    - project
+  - name: npsSurveyType
+    type: string
+    label: Survey type value of NPS answers
+    default: nps
+    required: false
+  - name: topAccountCount
+    type: number
+    label: Accounts listed as rising and falling
+    default: 10
+    required: false
+  - name: digest_recipients
+    type: string
+    label: Email addresses that get the digest
+    required: true
   requirements:
-  - slot: accounts_at_risk_metric
-    kind: segment
-    meaning: A count of accounts showing declining engagement or health, used as the at-risk indicator
-  - slot: logo_retention_trend
-    kind: segment
-    meaning: A monthly trend of customer logo retention rate
-  - slot: net_revenue_retention
-    kind: segment
-    meaning: Net revenue retention by customer cohort over time
-  - slot: nps_tracking
-    kind: segment
-    meaning: Net Promoter Score tracking from customer feedback
-  - slot: account_engagement_score
-    kind: segment
-    meaning: Account-level engagement score trend with week-over-week change
-  - slot: expansion_revenue
-    kind: segment
-    meaning: Expansion revenue trend split by upgrades and seat additions
-  - slot: support_tickets_vs_churn
-    kind: segment
-    meaning: Correlation of support ticket volume with subscription churn over time
-  - slot: pre_churn_signals
-    kind: segment
-    meaning: Behavioral events that precede customer churn, ranked by lift over baseline
   - slot: session_start_event
     kind: event
-    meaning: A customer started a session in the product
-    properties:
-    - name: account
-      type: string
-      meaning: The account the user belongs to
-      optional: false
+    meaning: A user started a session in the product
   - slot: ticket_created_event
     kind: event
     meaning: A customer created a support ticket
-    properties:
-    - name: account
-      type: string
-      meaning: The account the user belongs to
-      optional: false
   - slot: subscription_canceled_event
     kind: event
     meaning: A customer canceled a subscription
-    properties:
-    - name: account
-      type: string
-      meaning: The account the user belongs to
-      optional: false
   - slot: feedback_submitted_event
     kind: event
-    meaning: A customer submitted feedback, including an NPS rating
+    meaning: A customer answered a feedback survey, including NPS
     properties:
-    - name: account
+    - name: survey_type
       type: string
-      meaning: The account the user belongs to
+      meaning: Kind of survey, such as nps
+      optional: false
+    - name: score
+      type: number
+      meaning: The 0-10 rating given
       optional: false
   steps:
   - id: s1
-    builds: dashboard
+    builds: segment
     uses:
-    - accounts_at_risk_metric
-    - logo_retention_trend
-    - net_revenue_retention
-    - nps_tracking
-    - account_engagement_score
-    - expansion_revenue
-    - support_tickets_vs_churn
-    - pre_churn_signals
-    - dateRange
-    - visibility
-    instruction: 'Create a Dash board (12-column composition canvas) titled "Customer Success" with default date range {dateRange}
-      and exclusion period set to incomplete periods. Set visibility to {visibility}. Add no board filters and no breakdowns
-      by default; users may add an owner filter at runtime to view their own accounts. Layout in four rows. Row 1 (height
-      200 px): four metric cards, each 3 units wide: ''Accounts at Risk'' from {accounts_at_risk_metric} shown as a metric;
-      ''Monthly Logo Retention'' from {logo_retention_trend} shown as a metric; ''Trailing-12mo NRR'' from {net_revenue_retention}
-      shown as a metric; ''NPS Score'' from {nps_tracking} shown as a metric. Row 2 (height 440 px): one full-width card (12
-      units) showing {account_engagement_score} as a table of the top 30 accounts by current engagement score, sortable by
-      week-over-week change. Row 3 (height 400 px): two 6-unit cards: a line chart of cohort NRR curves from {net_revenue_retention},
-      and a stacked bar chart of the upgrade versus seat expansion mix from {expansion_revenue}. Row 4 (height 440 px): two
-      6-unit cards: a dual-axis line chart of support tickets versus churns from {support_tickets_vs_churn}, and a chart ranking
-      precursor behavioral signals by lift over baseline from {pre_churn_signals}.'
+    - session_start_event
+    - ticket_created_event
+    - usageDropPct
+    - ticketThreshold
+    instruction: 'Build a new segment of accounts named "Accounts at Risk of Churn". An account is in it when either is true:
+      (a) the number of {session_start_event} events by its users in the last 14 days is at least {usageDropPct}% lower than
+      in the 14 days before that; (b) its users did {ticket_created_event} {ticketThreshold} or more times in the last 30
+      days.'
+  - id: s2
+    builds: automation
+    uses:
+    - s1
+    - session_start_event
+    - ticket_created_event
+    - subscription_canceled_event
+    - feedback_submitted_event
+    - npsSurveyType
+    - topAccountCount
+    - digest_recipients
+    dependsOn:
+    - s1
+    instruction: 'Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes accounts and writes
+      these figures: the number of accounts in the segment from "Find accounts at risk" now and 7 days ago; account retention,
+      the share of accounts active 30 to 60 days ago that did not do {subscription_canceled_event} in the last 30 days; NPS
+      over the last 90 days from {feedback_submitted_event} where {feedback_submitted_event.survey_type} is {npsSurveyType},
+      as % of scores 9-10 minus % of scores 0-6; the {topAccountCount} accounts with the largest rise and the {topAccountCount}
+      with the largest fall in {session_start_event} count this week against last week, each by name; {ticket_created_event}
+      and {subscription_canceled_event} counts per week for the last 8 weeks. Then it emails these figures as plain-text lines,
+      each with its window, to {digest_recipients}. Nothing else is sent.'
 ---
 
 # Account health and churn risk
 
 Slash command: /customer-success-dashboard
 
-## Step 1: Build the account health board
+## Step 1: Find accounts at risk
 
-Create a Dash board (12-column composition canvas) titled "Customer Success".
-Persona: Customer Success Lead or individual CSM. Question answered: "Which accounts need my attention this week, and is the customer base healthy overall?"
-Board-level configuration:
-- defaultDateRange: last_30_days
-- exclusionPeriod: incomplete_periods
-- visibility: project
-- boardFilters: none by default; CSMs typically add a filter on owner_id at runtime to view their book of business
-- boardBreakdowns: none
-Layout: 4 rows.
-Row 1: Health KPIs (heightPx: 200, four metric cards at widthUnits: 3):
-- Card 1: Insights metric to source recipe: accounts-at-risk-count, vizType: metric, titleOverride: "Accounts at Risk"
-- Card 2: Insights metric to source recipe: monthly-logo-retention-trend, vizType: metric, titleOverride: "Monthly Logo Retention"
-- Card 3: Retention metric to source recipe: net-revenue-retention-by-cohort, vizType: metric, titleOverride: "Trailing-12mo NRR"
-- Card 4: Insights metric to source recipe: nps-tracking, vizType: metric, titleOverride: "NPS Score"
-Row 2: Account-level intelligence (heightPx: 440, full-width single card at widthUnits: 12):
-- Card 1: Insights to source recipe: account-engagement-score-trend, displayMode: table (top 30 accounts by current engagement score, sortable by week-over-week change). The two key sort modes: sort by score-decline (descending) to "accounts to save"; sort by score-rise (descending) to "accounts to expand"
-Row 3: Revenue retention dynamics (heightPx: 400, two cards at widthUnits: 6):
-- Card 1: Retention to source recipe: net-revenue-retention-by-cohort, displayMode: chart, vizType: line (cohort NRR curves)
-- Card 2: Insights to source recipe: expansion-revenue-trend, displayMode: chart, vizType: stacked_bar (upgrade vs. seat expansion mix)
-Row 4: Churn early-warning (heightPx: 440, two cards at widthUnits: 6):
-- Card 1: Insights to source recipe: support-tickets-vs-churn-correlation, displayMode: chart, vizType: line (dual-axis tickets vs churns)
-- Card 2: Path to source recipe: pre-churn-behavioral-signals, displayMode: chart (precursor-event ranking by lift over baseline)
-Annotations:
-- Row 1's four KPIs together answer "how is the customer base health" from four angles: how many are slipping (Accounts at Risk), are we keeping them (Logo Retention), are they paying more (NRR), and how do they feel (NPS).
-- Row 2 (the full-width account table) is the centerpiece. CSMs work this list weekly: top of the "decline" sort = save plays; top of the "rise" sort = expansion outreach.
-- Row 4 is leading-indicator territory: support spikes precede churn by 2-4 weeks, and pre-churn behavioral signals surface 30 days out. Use these to fire intervention before retention erosion shows up in Row 3's NRR curves.
-Taxonomy notes:
-- All source recipes use canonical events: Session start, a click event, Ticket created, Subscription canceled, Subscription updated, Feedback submitted.
-- Account-level rollups via Users.the account the user belongs to.
-- accounts-at-risk-count, monthly-logo-retention-trend, and nps-tracking are new v5 recipes designed to fill the headline-KPI slots cleanly.
+Build a new segment of accounts named "Accounts at Risk of Churn". An account is in it when either is true: (a) the number of session start event events by its users in the last 14 days is at least 30% lower than in the 14 days before that; (b) its users did ticket created event 3 or more times in the last 30 days.
+
+## Step 2: Email the weekly account health digest
+
+Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes accounts and writes these figures: the number of accounts in the segment from "Find accounts at risk" now and 7 days ago; account retention, the share of accounts active 30 to 60 days ago that did not do subscription canceled event in the last 30 days; NPS over the last 90 days from feedback submitted event where survey type is nps, as % of scores 9-10 minus % of scores 0-6; the 10 accounts with the largest rise and the 10 with the largest fall in session start event count this week against last week, each by name; ticket created event and subscription canceled event counts per week for the last 8 weeks. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.
