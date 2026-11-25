@@ -1,7 +1,8 @@
 ---
 frontmatter_id: paid-user-retention
 slash_command: /paid-user-retention
-description: See whether paying customers continue logging in, tracked month by month and compared by plan.
+description: Builds a segment of paying users who stopped logging in, and emails a monthly digest of whether paying customers
+  keep logging in and keep paying month by month, by plan.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,61 +12,56 @@ classification:
   industry:
   - industry-agnostic
 portable:
-  summary: Shows whether paying customers keep logging in and keep paying month by month, broken down by plan, with flags
-    for weak retention and benchmark comparisons.
+  summary: Builds the paying users gone quiet segment and emails a monthly digest of logo and revenue retention for paid cohorts
+    by plan, with benchmark flags.
   parameters:
-  - name: report_name
-    type: string
-    label: Report name
-    default: Paid User Monthly Retention
+  - name: quiet_window
+    type: duration
+    label: Days without a session that count as gone quiet
+    default: 30 d
     required: false
-  - name: cohort_granularity
-    type: enum
-    label: Cohort granularity
-    default: monthly
-    required: false
-    options:
-    - daily
-    - weekly
-    - monthly
   - name: time_range
     type: duration
-    label: Time range
+    label: Paid signup cohorts covered
     default: 6 mo
     required: false
   - name: compare_window
     type: duration
-    label: Comparison period
+    label: Earlier cohorts they are compared with
     default: 6 mo
     required: false
   - name: logo_benchmark_good
     type: number
-    label: Good monthly logo retention benchmark (%)
+    label: Good month-1 logo retention (%)
     default: 95
     required: false
   - name: logo_benchmark_below_par
     type: number
-    label: Below-par monthly logo retention benchmark (%)
+    label: Below-par month-1 logo retention (%)
     default: 85
     required: false
   - name: m3_logo_flag_threshold
     type: number
-    label: Flag plan tiers whose M3 logo retention is below (%)
+    label: Month-3 logo retention below which a cohort is flagged (%)
     default: 80
     required: false
   - name: expansion_gap_threshold
     type: number
-    label: Flag cohorts where revenue retention exceeds logo retention by (points)
+    label: Revenue retention above logo retention that marks expansion (points)
     default: 10
     required: false
+  - name: digest_recipients
+    type: string
+    label: Email addresses that get the digest
+    required: true
   requirements:
   - slot: paid_subscription_started
     kind: event
-    meaning: A customer started a paid subscription
+    meaning: A customer started a subscription
     properties:
     - name: trial_end
       type: text
-      meaning: Trial end date; null means the start was a paid signup, not a trial
+      meaning: Trial end date; empty means the start was a paid signup, not a trial
       optional: true
     - name: plan
       type: text
@@ -82,58 +78,52 @@ portable:
       type: number
       meaning: Payment amount
       optional: false
-    - name: customer_id
-      type: text
-      meaning: Customer identifier
-      optional: false
-    - name: type
-      type: text
-      meaning: Revenue type marker identifying recurring revenue
-      optional: false
   steps:
   - id: s1
-    builds: report
+    builds: segment
     uses:
     - paid_subscription_started
     - session_start
     - revenue_completed
-    - report_name
-    - cohort_granularity
+    - quiet_window
+    instruction: 'Build a new segment of users named "Paying Users Gone Quiet": users who did {paid_subscription_started}
+      with {paid_subscription_started.trial_end} empty, did {revenue_completed} in the last 45 days, and did not do {session_start}
+      in the last {quiet_window}.'
+  - id: s2
+    builds: automation
+    uses:
+    - s1
+    - paid_subscription_started
+    - session_start
+    - revenue_completed
     - time_range
     - compare_window
-    instruction: 'Create a retention report named "{report_name}". Anchor event: {paid_subscription_started} where trial_end
-      is null (paid signup, not trial). Return events: {session_start} for logo retention and {revenue_completed} for revenue
-      retention, shown as two views. Cohort granularity: {cohort_granularity}. Time range: {time_range}. Breakdown: by plan
-      from {paid_subscription_started.plan}. Compare against the previous period of {compare_window} (prior cohorts). Chart
-      type: retention curve plus cohort table with M1 through M6 columns.'
+    - logo_benchmark_good
+    - logo_benchmark_below_par
+    - m3_logo_flag_threshold
+    - expansion_gap_threshold
+    - digest_recipients
+    dependsOn:
+    - s1
+    instruction: 'Build an automation that runs on the 1st of every month at 08:00 on a schedule. Each run it analyzes monthly
+      cohorts of users whose {paid_subscription_started} with {paid_subscription_started.trial_end} empty happened in the
+      last {time_range}, and writes for each cohort and each {paid_subscription_started.plan}: logo retention at months 1
+      to 6, the share who did {session_start} in that month; revenue retention at months 1 to 6, that month''s sum of {revenue_completed.amount}
+      against month 0; the same averages for cohorts in the {compare_window} before; where month-1 logo retention sits against
+      {logo_benchmark_below_par}% and {logo_benchmark_good}%; the number of users in the segment from "Find paying users gone
+      quiet". When a cohort''s month-3 logo retention is below {m3_logo_flag_threshold}%, or revenue retention is more than
+      {expansion_gap_threshold} points above logo retention, the email''s first line says so. Then it emails these figures
+      as plain-text lines, each with its window, to {digest_recipients}. Nothing else is sent.'
 ---
 
 # Paid user retention
 
 Slash command: /paid-user-retention
 
-## Step 1: Split logo and revenue retention
+## Step 1: Find paying users gone quiet
 
-Create a Retention report called "Paid User Monthly Retention".
-Anchor event: Subscription started where trial_end is null (paid signup, not trial)
-Return event: Session start (logo retention) AND Revenue completed (revenue retention): render as two views
-Cohort granularity: Monthly
-Time range: Last 6 months
-Breakdown: By Plan (from Subscription started.Plan)
-Compare: Previous period (prior 6 months of cohorts)
-Chart type: Retention curve plus cohort table with M1 through M6 columns
-Logo Retention view:
-- Cell value = % of cohort users who emitted at least one Session start in month N
-Revenue Retention view:
-- Cell value = Sum of Revenue completed.amount in month N from cohort users / Sum of Revenue completed.amount in month 0 from cohort users × 100, unit: %
-- This separates "do users stay?" from "do they pay the same or more?"
-Annotations:
-- Add benchmarks: 95% monthly logo retention is industry-good for self-serve SaaS; 85% is below par.
-- Flag any plan tier where M3 logo retention is below 80%.
-- Flag any cohort where revenue retention exceeded logo retention by 10+ percentage points (expansion offsetting churn: good).
-- Highlight the highest-retaining plan tier.
-Surface whether enterprise tiers retain materially better than starter tiers.
-Taxonomy notes:
-- Subscription started with trial_end=null marks paid (non-trial) starts.
-- Revenue completed has amount, customer_id, type: the canonical recurring revenue marker.
-- "any_active_event" as a return signal can be substituted with Session start (most reliable active marker).
+Build a new segment of users named "Paying Users Gone Quiet": users who did paid subscription started with trial end empty, did revenue completed in the last 45 days, and did not do session start in the last 30 d.
+
+## Step 2: Email the monthly paid retention digest
+
+Build an automation that runs on the 1st of every month at 08:00 on a schedule. Each run it analyzes monthly cohorts of users whose paid subscription started with trial end empty happened in the last 6 mo, and writes for each cohort and each plan: logo retention at months 1 to 6, the share who did session start in that month; revenue retention at months 1 to 6, that month's sum of amount against month 0; the same averages for cohorts in the 6 mo before; where month-1 logo retention sits against 85% and 95%; the number of users in the segment from "Find paying users gone quiet". When a cohort's month-3 logo retention is below 80%, or revenue retention is more than 10 points above logo retention, the email's first line says so. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.

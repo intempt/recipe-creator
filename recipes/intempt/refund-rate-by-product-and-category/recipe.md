@@ -1,7 +1,8 @@
 ---
 frontmatter_id: refund-rate-by-product-and-category
 slash_command: /refund-rate-by-product-and-category
-description: Shows which products get refunded most often and which ones are getting worse, over the last 90 days.
+description: Emails a weekly digest of which products and categories get refunded most often over the last 90 days and which
+  are getting worse, flagging high refund rates and quality issues.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,29 +12,33 @@ classification:
   industry:
   - ecommerce-retail
 portable:
-  summary: Shows which products get refunded most often and which are getting worse over the last 90 days, flagging high refund
-    rates and quality issues.
+  summary: Emails a weekly digest of refund rates by product and category over the last 90 days, flagging high rates and products
+    whose refunds are rising.
   parameters:
   - name: time_window
     type: duration
-    label: Analysis time range
+    label: Window analyzed
     default: 90 d
     required: false
   - name: top_n_products
     type: number
-    label: Number of top products by refund count
+    label: Products listed in the digest
     default: 20
     required: false
   - name: refund_rate_threshold
     type: number
-    label: High refund rate threshold (%)
+    label: Refund rate above which a product is flagged (%)
     default: 8
     required: false
   - name: rate_increase_threshold
     type: number
-    label: Refund rate increase threshold (percentage points)
+    label: Rise in refund rate that gets flagged (percentage points)
     default: 3
     required: false
+  - name: digest_recipients
+    type: string
+    label: Email addresses that get the digest
+    required: true
   requirements:
   - slot: order_refunded_event
     kind: event
@@ -47,14 +52,6 @@ portable:
       type: number
       meaning: Amount refunded
       optional: true
-    - name: reason
-      type: text
-      meaning: Free-text refund reason
-      optional: true
-    - name: order_total
-      type: number
-      meaning: Total value of the order
-      optional: true
   - slot: placed_order_event
     kind: event
     meaning: A customer placed an order
@@ -66,6 +63,7 @@ portable:
   - slot: products_object
     kind: product_feed
     meaning: Product catalog records with category metadata, joined by product_id
+    optional: true
     properties:
     - name: product_id
       type: string
@@ -75,10 +73,9 @@ portable:
       type: string
       meaning: Product category
       optional: true
-    optional: true
   steps:
   - id: s1
-    builds: report
+    builds: automation
     uses:
     - order_refunded_event
     - placed_order_event
@@ -87,35 +84,22 @@ portable:
     - top_n_products
     - refund_rate_threshold
     - rate_increase_threshold
-    instruction: 'Create an Insights report titled "Refund Rate by Product". Series A: count of {order_refunded_event}. Series
-      B: count of {placed_order_event}. Formula: (A / B) × 100, unit %, labeled "Refund Rate". Break down by {placed_order_event.items}
-      product_id, extracted from the line items (which flatten product_id, title, quantity, price, sku), showing the top {top_n_products}
-      products by absolute refund count. Time range: last {time_window}, compared against the prior period of the same length.
-      Chart: bar chart sorted by refund rate descending, plus a secondary view grouping the same products into category buckets
-      from {products_object} category metadata, if available. Annotations: flag any product whose refund rate exceeds {refund_rate_threshold}%;
-      flag any product whose refund rate rose by more than {rate_increase_threshold} percentage points versus the prior period;
-      highlight products with both a rising rate and rising refund volume as the highest-priority quality issues. Resolve
-      product to category by joining product_id against {products_object}. Do not group by refund reason text.'
+    - digest_recipients
+    instruction: 'Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes {placed_order_event}
+      and {order_refunded_event} in the last {time_window}, linking each refund to its order by {order_refunded_event.order_id}
+      and to products through the product_id in {placed_order_event.items}, and writes these figures: for the top {top_n_products}
+      products by refund count, the refund count, orders, refund rate (refunds divided by orders) and {order_refunded_event.refund_amount}
+      total, next to the rate for the {time_window} before; the same refund rate by {products_object.category} when the catalog
+      has it. When a product''s refund rate is above {refund_rate_threshold}% or rose by more than {rate_increase_threshold}
+      percentage points, the email''s first line names it; products where both the rate and the refund count rose are listed
+      first as quality issues. Then it emails these figures as plain-text lines, each with its window, to {digest_recipients}.
+      Nothing else is sent.'
 ---
 
 # Refund rate by product
 
 Slash command: /refund-rate-by-product-and-category
 
-## Step 1: Find the most refunded products
+## Step 1: Email the weekly refund digest
 
-Create an Insights report called "Refund Rate by Product".
-Series A: Event "Order refunded", aggregation: Count
-Series B: Event "Placed order", aggregation: Count
-Formula: (A / B) × 100, unit: %, label: "Refund Rate"
-Breakdown: By product_id (extracted from Placed order.items, which flattens product_id, title, quantity, price, sku): top 20 products by absolute refund count
-Time range: Last 90 days
-Compare: Previous period (prior 90 days)
-Chart type: Bar chart sorted by refund rate descending, secondary view grouping the same products into product-category buckets if the Products object has category metadata available
-Annotations:
-- Flag any product whose refund rate exceeds 8% (typical apparel/consumer-goods quality threshold).
-- Flag any item whose refund rate increased by more than 3 percentage points vs. the prior period.
-- Highlight items with both rising rate AND rising volume: the highest-priority quality issues.
-Taxonomy notes:
-- Placed order.items contains product_id, title, quantity, price, sku per line item. Resolve product to category by joining product_id against the Products record-object (Products has 27 attributes including category metadata).
-- Order refunded carries order_id (relation to Orders), refund_amount, reason, and Order total. Reason text is unstructured; not used for grouping here.
+Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes placed order event and order refunded event in the last 90 d, linking each refund to its order by order id and to products through the product_id in items, and writes these figures: for the top 20 products by refund count, the refund count, orders, refund rate (refunds divided by orders) and refund amount total, next to the rate for the 90 d before; the same refund rate by category when the catalog has it. When a product's refund rate is above 8% or rose by more than 3 percentage points, the email's first line names it; products where both the rate and the refund count rose are listed first as quality issues. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.

@@ -1,7 +1,8 @@
 ---
 frontmatter_id: deal-velocity-by-stage
 slash_command: /deal-velocity-by-stage
-description: Shows how long deals sit in each sales stage and which stage is the bottleneck, with won deals set against lost ones.
+description: Emails a weekly digest of how long deals stay in each sales stage, which stage is the bottleneck, and how won
+  deals' stage speed compares with lost deals.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,29 +12,33 @@ classification:
   industry:
   - industry-agnostic
 portable:
-  summary: Shows how long deals stay in each sales stage, which stage is the bottleneck, and how won deals' stage speed compares
-    with lost deals.
+  summary: Emails a weekly digest of median time in each sales stage, the bottleneck stage, stages that slowed down, and won
+    versus lost deal speed.
   parameters:
   - name: lookback_window
     type: duration
-    label: Time range for stage transitions
+    label: Window of stage changes analyzed
     default: 90 d
     required: false
   - name: comparison_window
     type: duration
-    label: Comparison period (previous period length)
+    label: Earlier window it is compared with
     default: 90 d
     required: false
   - name: worsening_threshold_pct
     type: number
-    label: Flag stage when median time worsens by more than (%)
+    label: Slowdown in a stage that gets flagged (%)
     default: 30
     required: false
   - name: won_vs_lost_speed_ratio
     type: number
-    label: Flag stage when won-deal velocity is faster than lost by at least (x)
+    label: How many times slower lost deals must be in a stage to be flagged
     default: 2
     required: false
+  - name: digest_recipients
+    type: string
+    label: Email addresses that get the digest
+    required: true
   requirements:
   - slot: deal_stage_changed_event
     kind: event
@@ -65,7 +70,7 @@ portable:
       optional: false
   - slot: deal_won_event
     kind: event
-    meaning: A customer's deal was won (closed won)
+    meaning: A deal was won (closed won)
     properties:
     - name: deal_id
       type: string
@@ -73,7 +78,7 @@ portable:
       optional: false
   - slot: deal_lost_event
     kind: event
-    meaning: A customer's deal was lost (closed lost)
+    meaning: A deal was lost (closed lost)
     properties:
     - name: deal_id
       type: string
@@ -81,45 +86,32 @@ portable:
       optional: false
   steps:
   - id: s1
-    builds: report
+    builds: automation
     uses:
     - deal_stage_changed_event
     - deal_created_event
+    - deal_won_event
+    - deal_lost_event
     - lookback_window
     - comparison_window
-    instruction: 'Create an Insights report titled "Deal Velocity by Stage". Time range: last {lookback_window} of stage transitions,
-      compared against the prior {comparison_window}. Compute time in stage from successive {deal_stage_changed_event} events
-      on the same {deal_stage_changed_event.deal_id}; for the first stage, use the time between {deal_created_event} and the
-      first {deal_stage_changed_event}. Series A: average of time in previous stage. Series B: median of time in previous
-      stage. Series C: 75th-percentile time in previous stage. Break down all series by {deal_stage_changed_event.previous_stage}.
-      Chart as horizontal bars per stage: median as the bar, p75 as the whisker, average as a marker.'
+    - worsening_threshold_pct
+    - won_vs_lost_speed_ratio
+    - digest_recipients
+    instruction: 'Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes {deal_stage_changed_event}
+      in the last {lookback_window}, taking time in stage from {deal_stage_changed_event.time_in_previous_stage}, or else
+      from the gap between successive events with the same {deal_stage_changed_event.deal_id} (for the first stage, from {deal_created_event}
+      with the same deal_id), and writes these figures per {deal_stage_changed_event.previous_stage}: the median, average
+      and 75th-percentile days in stage, next to the median for the {comparison_window} before; the stage with the longest
+      median, called the bottleneck; each stage''s median for deals that later did {deal_won_event} and for deals that later
+      did {deal_lost_event}. When a stage''s median rose by more than {worsening_threshold_pct}%, or lost deals sat in a stage
+      at least {won_vs_lost_speed_ratio} times longer than won deals, the email''s first line says so. Then it emails these
+      figures as plain-text lines, each with its window, to {digest_recipients}. Nothing else is sent.'
 ---
 
 # Deal velocity by stage
 
 Slash command: /deal-velocity-by-stage
 
-## Step 1: Time deals in each stage
+## Step 1: Email the weekly deal velocity digest
 
-Create an Insights report called "Deal Velocity by Stage".
-Series A: Event "Deal stage changed", aggregation: Average of "time_in_previous_stage": computed by Lovable as the time delta between consecutive Deal stage changed events for the same deal_id (or between Deal created and the first Deal stage changed for the entry-into-first-stage case)
-Series B: Same as A but using Median instead of Average (less sensitive to outlier slow deals)
-Series C: 75th-percentile time-in-stage (the "long tail" of slow deals)
-Breakdown: By "previous_stage" property on Deal stage changed
-Time range: Last 90 days of stage transitions
-Compare: Previous period (prior 90 days)
-Chart type: Horizontal bar chart per stage with median (Series B) as the bar, p75 (Series C) as a whisker, and average (Series A) as a marker
-Also include a parallel comparison view:
-- For deals that ultimately reached Deal won (won deals): median time-in-stage per stage
-- For deals that ultimately reached Deal lost (lost deals): median time-in-stage per stage
-- The delta surfaces which stages distinguish winners from losers (won deals are typically faster through middle stages; lost deals stall in qualification or proposal)
-Annotations:
-- Flag the stage with the longest median time-in-stage (the primary bottleneck).
-- Flag any stage where median velocity worsened by >30% vs. previous period (deteriorating sales process).
-- Highlight stages where won-deal velocity is materially faster than lost-deal velocity (>2× faster): these are the stages where decisive movement predicts close.
-- Surface the total median sales-cycle length (sum of stage medians) and the trend.
-Use case: knowing which stage is your bottleneck is the foundation of every sales-process improvement. Most CRMs report stage-conversion rate but not stage-velocity; this is the missing half.
-Taxonomy notes:
-- Deal stage changed has previous_stage and new_stage relations, plus deal_id.
-- "Time in stage" is computed by Lovable from successive Deal stage changed events on the same deal_id.
-- Deal won and Deal lost are canonical terminal states; deal_closed_won and deal_closed_lost may also fire depending on integration.
+Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes deal stage changed event in the last 90 d, taking time in stage from time in previous stage, or else from the gap between successive events with the same deal id (for the first stage, from deal created event with the same deal_id), and writes these figures per previous stage: the median, average and 75th-percentile days in stage, next to the median for the 90 d before; the stage with the longest median, called the bottleneck; each stage's median for deals that later did deal won event and for deals that later did deal lost event. When a stage's median rose by more than 30%, or lost deals sat in a stage at least 2 times longer than won deals, the email's first line says so. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.

@@ -1,7 +1,8 @@
 ---
 frontmatter_id: trial-to-paid-conversion-rate
 slash_command: /trial-to-paid-conversion-rate
-description: Shows what share of trials turn into paying customers each week, by signup source, against the 18% industry median.
+description: Emails a weekly digest of the share of trial starts that become paying customers, week by week and by signup
+  source, against 18% and 25% benchmarks.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,29 +12,33 @@ classification:
   industry:
   - saas-b2b-tech
 portable:
-  summary: Shows weekly the share of trial starts that become paying customers, broken down by signup source, against 18%
-    and 25% benchmarks.
+  summary: Emails a weekly digest of trial-to-paid conversion by trial-start week and signup source, against 18% and 25% benchmarks,
+    with a flag on sharp drops.
   parameters:
   - name: trial_window_weeks
     type: number
-    label: Lookback window in weeks
+    label: Weeks of trial starts in the digest
     default: 12
     required: false
   - name: benchmark_median
     type: number
-    label: Median benchmark conversion (%)
+    label: Median conversion benchmark (%)
     default: 18
     required: false
   - name: benchmark_top_quartile
     type: number
-    label: Top-quartile benchmark conversion (%)
+    label: Top-quartile conversion benchmark (%)
     default: 25
     required: false
   - name: drop_alert_points
     type: number
-    label: Week-over-week drop alert threshold (percentage points)
+    label: Drop against the previous period that gets flagged (percentage points)
     default: 3
     required: false
+  - name: digest_recipients
+    type: string
+    label: Email addresses that get the digest
+    required: true
   requirements:
   - slot: trial_started_event
     kind: event
@@ -47,30 +52,19 @@ portable:
       type: date
       meaning: When the trial ended
       optional: false
-    - name: Plan
-      type: string
-      meaning: Subscription plan name
-      optional: true
-    - name: amount
-      type: number
-      meaning: Subscription amount
-      optional: true
-    - name: status
-      type: string
-      meaning: Subscription status
-      optional: true
   - slot: revenue_completed_event
     kind: event
     meaning: A customer completed a revenue payment
   - slot: invoice_paid_event
     kind: event
     meaning: An invoice was paid through the billing system
+    optional: true
   - slot: user_utm_source
     kind: attribute
     meaning: The UTM source recorded on the user at signup
   steps:
   - id: s1
-    builds: report
+    builds: automation
     uses:
     - trial_started_event
     - revenue_completed_event
@@ -80,40 +74,22 @@ portable:
     - benchmark_median
     - benchmark_top_quartile
     - drop_alert_points
-    instruction: 'Create an Insights report titled "Trial-to-Paid Conversion Rate". Series A: count unique users of {trial_started_event}
-      where {trial_started_event.trial_end} is set and {trial_started_event.trial_start} is set; this is the trial-start cohort.
-      Series B: count users in Series A who have a follow-on {revenue_completed_event} or {invoice_paid_event} occurring after
-      their {trial_started_event.trial_end} date. Formula: (B / A) × 100, unit %, labeled "Trial-to-Paid Conversion". Group
-      cohorts by trial-start week and count only weeks where the trial window has fully elapsed. Time range: last {trial_window_weeks}
-      weeks. Break down by {user_utm_source}. Compare against the previous {trial_window_weeks} weeks. Chart: line chart with
-      previous-period overlay. Add horizontal benchmark lines at {benchmark_median}% (median) and {benchmark_top_quartile}%
-      (top quartile). Highlight any week where conversion dropped by more than {drop_alert_points} percentage points versus
-      the previous period. Finally, identify the signup source with the highest conversion and highest volume; that source
-      is the candidate for increased acquisition spend.'
+    - digest_recipients
+    instruction: 'Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes users who did {trial_started_event}
+      with {trial_started_event.trial_start} and {trial_started_event.trial_end} set, grouped by trial-start week over the
+      last {trial_window_weeks} weeks, counting only weeks whose trials have ended, and writes these figures: for each week,
+      trial starts and the conversion rate, the share who did {revenue_completed_event} or {invoice_paid_event} after their
+      trial_end; the overall rate next to the {trial_window_weeks} weeks before; the rate and trial count by {user_utm_source},
+      naming the source with both high conversion and high volume as the one to spend more on; where the latest rate sits
+      against {benchmark_median}% and {benchmark_top_quartile}%. When the latest week dropped by more than {drop_alert_points}
+      percentage points against the period before, the email''s first line says so. Then it emails these figures as plain-text
+      lines, each with its window, to {digest_recipients}. Nothing else is sent.'
 ---
 
 # Trial to paid conversion rate
 
 Slash command: /trial-to-paid-conversion-rate
 
-## Step 1: Track trial conversion weekly
+## Step 1: Email the weekly trial conversion digest
 
-Create an Insights report called "Trial-to-Paid Conversion Rate".
-Series A: Event "Subscription started" where trial_end is not null AND trial_start is not null, aggregation: Count Unique Users
- to this is the trial-start cohort
-Series B: Event "Subscription started" filtered to users in Series A whose subsequent subscription transitioned out of trial state: operationally: count users in Series A who have a follow-on Revenue completed event or an Invoice paid event after the trial_end date
-Formula: (B / A) × 100, unit: %, label: "Trial-to-Paid Conversion"
-Time granularity: Weekly (cohort by trial-start week, allow the trial window to fully elapse before counting)
-Time range: Last 12 weeks (where the trial window has fully elapsed)
-Breakdown: By "UTM source" attribute on the Users object (signup source)
-Compare: Previous period (previous 12 weeks)
-Chart type: Line chart with previous-period overlay
-Annotations:
-- Add a horizontal benchmark line at 18% (median for B2B SaaS with self-serve trials).
-- Add a horizontal benchmark line at 25% (top-quartile threshold).
-- Highlight any week where the conversion rate dropped >3 percentage points vs. previous period.
-Identify which signup source has the highest conversion AND volume: that's where to double down on acquisition spend.
-Taxonomy notes:
-- Subscription started carries trial_start, trial_end, Plan, amount, status. A trial = Subscription started with both trial_start and trial_end populated.
-- "Converted to paid" is computed from a follow-on Invoice paid (Stripe-billed) or Revenue completed event after trial_end. There is no canonical "trial_started" event: the trial-start cohort is derived from Subscription started with trial fields populated.
-- Users.UTM source is real; signup_source as a property name is not.
+Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes users who did trial started event with trial start and trial end set, grouped by trial-start week over the last 12 weeks, counting only weeks whose trials have ended, and writes these figures: for each week, trial starts and the conversion rate, the share who did revenue completed event or invoice paid event after their trial_end; the overall rate next to the 12 weeks before; the rate and trial count by user utm source, naming the source with both high conversion and high volume as the one to spend more on; where the latest rate sits against 18% and 25%. When the latest week dropped by more than 3 percentage points against the period before, the email's first line says so. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.

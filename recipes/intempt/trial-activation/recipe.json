@@ -2,8 +2,8 @@
   "frontmatter_id": "trial-activation",
   "title": "Trial to paid activation",
   "slash_command": "/trial-activation",
-  "description": "Scores how well each trial is going and sends different onboarding to the ones racing ahead, the ones drifting, and the ones at risk.",
-  "markdown": "# Trial to paid activation\n\n## Description\n\nScores how well each trial is going and sends different onboarding to the ones racing ahead, the ones drifting, and the ones at risk.\n\n## Steps\n\n### Step 1: Score how the trial is going\n\nDefine an AI-derived trial_health_score attribute computed from event signals (logins, key feature usage, team invites, data uploaded).\n\n### Step 2: Split trials into three tiers\n\nSegment trial users into risk tiers (high-engagement, moderate, at-risk) based on trial_health_score. Use the result of \"Score how the trial is going\".\n\n### Step 3: Write onboarding per tier\n\nGenerate tier-specific onboarding email content emphasizing relevant aha-moment features per tier. Use the result of \"Score how the trial is going\", \"Split trials into three tiers\". If the brand kit has no logo, use the brand name as a plain text header.\n\n### Step 4: Route each tier differently\n\nBuild a tiered onboarding journey routing each tier through appropriate education and conversion touches. Use the result of \"Score how the trial is going\", \"Split trials into three tiers\", \"Write onboarding per tier\".\n\n### Step 5: Track trial to paid\n\nCompose a funnel report tracking trial-signup to key-event-1 to key-event-2 to paid-conversion with retention overlay. Use the result of \"Score how the trial is going\", \"Split trials into three tiers\", \"Write onboarding per tier\", \"Route each tier differently\".\n",
+  "description": "Scores each trial's health, builds the active trials segment, writes an activation email and an upgrade email, and sends each trial the one that fits its score.",
+  "markdown": "# Trial to paid activation\n\n## Description\n\nScores each trial's health, builds the active trials segment, writes an activation email and an upgrade email, and sends each trial the one that fits its score.\n\n## Steps\n\n### Step 1: Score how the trial is going\n\nBuild a computed user attribute named \"Trial health score\", a number from 0 to 100 over the last 30 d: 30 points scaled by the number of distinct days with trial login event (full at 10 days), 30 points scaled by the number of distinct feature name values used (full at 3), 20 points when the user did team invite event at least once, 20 points when the user did data upload event at least once.\n\n### Step 2: Find the active trials\n\nBuild a new segment of users named \"Active Trial Users\": users who did trial signup event in the last 30 days and have not done paid conversion event.\n\n### Step 3: Write the activation email\n\nWrite an onboarding email in a encouraging tone for trial users who have not found their footing yet: it shows the 2-3 key features (key feature event) that deliver value fastest, one short how-to each, and one button to open the product. If the brand kit has no logo, use the brand name as a plain text header.\n\n### Step 4: Write the upgrade email\n\nWrite an email in a encouraging tone for highly engaged trial users: it recognizes how much they have set up, names what they keep by moving to a paid plan before the trial ends, and has one button to upgrade. If the brand kit has no logo, use the brand name as a plain text header.\n\n### Step 5: Send each trial the email that fits\n\nBuild an automation that starts when a user enters the segment from \"Find the active trials\". It waits 3 days, then splits on the attribute from \"Score how the trial is going\": score at least 70: send the email from \"Write the upgrade email\"; score below 70: send the email from \"Write the activation email\". Sends go through onboarding email channel. Then it waits 7 days and, if the user has not done paid conversion event and the score is now at least 70, sends the email from \"Write the upgrade email\" once if they have not had it. Then Blu asks to start it.\n",
   "classification": {
     "industry": [
       "saas-b2b-tech"
@@ -20,27 +20,27 @@
     {
       "id": "s1",
       "title": "Score how the trial is going",
-      "description": "Define an AI-derived trial_health_score attribute computed from event signals (logins, key feature usage, team invites, data uploaded)."
+      "description": "Build a computed user attribute named \"Trial health score\", a number from 0 to 100 over the last 30 d: 30 points scaled by the number of distinct days with trial login event (full at 10 days), 30 points scaled by the number of distinct feature name values used (full at 3), 20 points when the user did team invite event at least once, 20 points when the user did data upload event at least once."
     },
     {
       "id": "s2",
-      "title": "Split trials into three tiers",
-      "description": "Segment trial users into risk tiers (high-engagement, moderate, at-risk) based on trial_health_score. Use the result of \"Score how the trial is going\"."
+      "title": "Find the active trials",
+      "description": "Build a new segment of users named \"Active Trial Users\": users who did trial signup event in the last 30 days and have not done paid conversion event."
     },
     {
       "id": "s3",
-      "title": "Write onboarding per tier",
-      "description": "Generate tier-specific onboarding email content emphasizing relevant aha-moment features per tier. Use the result of \"Score how the trial is going\", \"Split trials into three tiers\". If the brand kit has no logo, use the brand name as a plain text header."
+      "title": "Write the activation email",
+      "description": "Write an onboarding email in a encouraging tone for trial users who have not found their footing yet: it shows the 2-3 key features (key feature event) that deliver value fastest, one short how-to each, and one button to open the product. If the brand kit has no logo, use the brand name as a plain text header."
     },
     {
       "id": "s4",
-      "title": "Route each tier differently",
-      "description": "Build a tiered onboarding journey routing each tier through appropriate education and conversion touches. Use the result of \"Score how the trial is going\", \"Split trials into three tiers\", \"Write onboarding per tier\"."
+      "title": "Write the upgrade email",
+      "description": "Write an email in a encouraging tone for highly engaged trial users: it recognizes how much they have set up, names what they keep by moving to a paid plan before the trial ends, and has one button to upgrade. If the brand kit has no logo, use the brand name as a plain text header."
     },
     {
       "id": "s5",
-      "title": "Track trial to paid",
-      "description": "Compose a funnel report tracking trial-signup to key-event-1 to key-event-2 to paid-conversion with retention overlay. Use the result of \"Score how the trial is going\", \"Split trials into three tiers\", \"Write onboarding per tier\", \"Route each tier differently\"."
+      "title": "Send each trial the email that fits",
+      "description": "Build an automation that starts when a user enters the segment from \"Find the active trials\". It waits 3 days, then splits on the attribute from \"Score how the trial is going\": score at least 70: send the email from \"Write the upgrade email\"; score below 70: send the email from \"Write the activation email\". Sends go through onboarding email channel. Then it waits 7 days and, if the user has not done paid conversion event and the score is now at least 70, sends the email from \"Write the upgrade email\" once if they have not had it. Then Blu asks to start it."
     }
   ],
   "availability": "coming_soon"

@@ -1,7 +1,8 @@
 ---
 frontmatter_id: support-tickets-vs-churn-correlation
 slash_command: /support-tickets-vs-churn-correlation
-description: Compare weekly support ticket volume with weekly subscription cancellations to see how the counts change over time.
+description: Builds a segment of customers with recent high-priority tickets, and emails a weekly digest comparing ticket
+  volume with subscription cancellations, flagging spikes and whether ticket surges come before churn.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,29 +12,38 @@ classification:
   industry:
   - saas-b2b-tech
 portable:
-  summary: Compares weekly support ticket volume with weekly subscription cancellations, flags unusual spikes, and checks
-    whether high-priority ticket surges come before churn spikes.
+  summary: Builds the high-priority ticket customers segment and emails a weekly digest of tickets against cancellations,
+    with spike flags and whether ticket surges lead churn.
   parameters:
+  - name: ticket_lookback
+    type: duration
+    label: High-priority ticket lookback for the segment
+    default: 30 d
+    required: false
   - name: time_range
     type: duration
-    label: Time range to compare
+    label: Weeks analyzed
     default: 12 w
     required: false
   - name: spike_threshold_pct
     type: number
-    label: High-priority ticket spike threshold (% above trailing average)
+    label: Rise over the trailing average that makes a ticket spike (%)
     default: 50
     required: false
   - name: trailing_window_weeks
     type: number
-    label: Trailing average window (weeks)
+    label: Weeks in the trailing average
     default: 8
     required: false
   - name: churn_spike_lead_threshold_pct
     type: number
-    label: Leading ticket volume elevation threshold (%)
+    label: Rise in tickets before a churn spike that gets flagged (%)
     default: 30
     required: false
+  - name: digest_recipients
+    type: string
+    label: Email addresses that get the digest
+    required: true
   requirements:
   - slot: ticket_created_event
     kind: event
@@ -41,7 +51,7 @@ portable:
     properties:
     - name: priority
       type: text
-      meaning: Priority level of the ticket
+      meaning: Priority level of the ticket (e.g. P1-P4 or High/Medium/Low)
       optional: false
   - slot: subscription_canceled_event
     kind: event
@@ -49,49 +59,50 @@ portable:
     properties:
     - name: reason
       type: text
-      meaning: Free-text reason given for the cancellation, clustered into reason categories
-      optional: false
+      meaning: Free-text reason given for the cancellation
+      optional: true
   steps:
   - id: s1
-    builds: report
+    builds: segment
     uses:
+    - ticket_created_event
+    - subscription_canceled_event
+    - ticket_lookback
+    instruction: 'Build a new segment of users named "Customers With High-Priority Tickets": users who did {ticket_created_event}
+      with {ticket_created_event.priority} equal to P1, P2, High or Urgent in the last {ticket_lookback} and did not do {subscription_canceled_event}
+      in the last {ticket_lookback}.'
+  - id: s2
+    builds: automation
+    uses:
+    - s1
     - ticket_created_event
     - subscription_canceled_event
     - time_range
     - spike_threshold_pct
     - trailing_window_weeks
     - churn_spike_lead_threshold_pct
-    instruction: 'Create an Insights report called "Support Volume vs Churn". Series A: count of {ticket_created_event} labeled
-      "Tickets". Series B: count of {subscription_canceled_event} labeled "Churns". Use weekly time granularity over the last
-      {time_range}, and compare against the previous period of the same length. Break down Series A by {ticket_created_event.priority}.
-      Break down Series B by cluster of {subscription_canceled_event.reason} into cleaned, tokenized reason categories before
-      breakdown. Chart type: dual-axis; left axis shows tickets as a stacked area by priority, right axis shows churns as
-      lines by reason group. Annotations: highlight any week where high-priority tickets exceed the trailing {trailing_window_weeks}-week
-      average by {spike_threshold_pct}% or more. For each churn spike, show the leading 2-week ticket volume and flag it if
-      elevated by more than {churn_spike_lead_threshold_pct}% versus baseline. Surface whether high-priority ticket spikes
-      precede churn spikes (typical lag 2-4 weeks). If the correlation is strong, identify which churn reason categories are
-      most associated with prior support load.'
+    - digest_recipients
+    dependsOn:
+    - s1
+    instruction: 'Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes the last {time_range}
+      week by week and writes these figures: {ticket_created_event} count per week by {ticket_created_event.priority}; {subscription_canceled_event}
+      count per week, grouped into a few reason themes from {subscription_canceled_event.reason}; weeks where high-priority
+      tickets were {spike_threshold_pct}% or more above the trailing {trailing_window_weeks}-week average; for each churn
+      spike week, ticket volume in the 2 weeks before against that average; whether high-priority ticket spikes came 2 to
+      4 weeks before churn spikes, and which reason themes follow them; the number of users in the segment from "Find customers
+      with urgent tickets". When last week was a ticket spike, or tickets before a churn spike rose more than {churn_spike_lead_threshold_pct}%,
+      the email''s first line says so. Then it emails these figures as plain-text lines, each with its window, to {digest_recipients}.
+      Nothing else is sent.'
 ---
 
 # Support volume versus churn
 
 Slash command: /support-tickets-vs-churn-correlation
 
-## Step 1: Line up tickets against churn
+## Step 1: Find customers with urgent tickets
 
-Create an Insights report called "Support Volume vs Churn".
-Series A: Event "Ticket created", aggregation: Count, label: "Tickets"
-Series B: Event "Subscription canceled", aggregation: Count, label: "Churns"
-Time granularity: Weekly
-Breakdown for Series A: By "priority" property on Ticket created (the canonical event has priority as a property)
-Breakdown for Series B: By "reason" property on Subscription canceled (text: group by cleaned/tokenized reason categories)
-Time range: Last 12 weeks
-Compare: Previous period (prior 12 weeks)
-Chart type: Dual-axis chart: left axis tickets (stacked area by priority), right axis churns (lines by reason group)
-Annotations:
-- Highlight any week where high-priority tickets exceeded the trailing 8-week average by 50% or more.
-- For each spike in churns, surface the leading 2-week ticket volume: flag if elevated by more than 30% vs. baseline.
-Surface whether high-priority ticket spikes precede churn spikes (typical lag is 2-4 weeks). If correlation is strong, identify which Subscription canceled.reason categories are most associated with prior support load.
-Taxonomy notes:
-- Ticket created is canonical (no "support_" prefix). Properties: ticket_id, priority, source_type, status, subject.
-- Subscription canceled (British spelling) carries reason as a free-text field. Cluster reasons before breakdown.
+Build a new segment of users named "Customers With High-Priority Tickets": users who did ticket created event with priority equal to P1, P2, High or Urgent in the last 30 d and did not do subscription canceled event in the last 30 d.
+
+## Step 2: Email the weekly tickets vs churn digest
+
+Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes the last 12 w week by week and writes these figures: ticket created event count per week by priority; subscription canceled event count per week, grouped into a few reason themes from reason; weeks where high-priority tickets were 50% or more above the trailing 8-week average; for each churn spike week, ticket volume in the 2 weeks before against that average; whether high-priority ticket spikes came 2 to 4 weeks before churn spikes, and which reason themes follow them; the number of users in the segment from "Find customers with urgent tickets". When last week was a ticket spike, or tickets before a churn spike rose more than 30%, the email's first line says so. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.

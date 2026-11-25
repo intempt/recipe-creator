@@ -1,7 +1,8 @@
 ---
 frontmatter_id: multi-threading-coverage-by-deal
 slash_command: /multi-threading-coverage-by-deal
-description: Shows distinct stakeholders engaged per open deal from deal and contact data.
+description: Emails a weekly digest of how many distinct stakeholders are engaged on each open deal, open deals by threading
+  level and stage, and pipeline dollars at risk from single-threaded deals.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,44 +12,43 @@ classification:
   industry:
   - saas-b2b-tech
 portable:
-  summary: Shows how many distinct stakeholders are engaged on each open deal, buckets deals by threading level, and quantifies
-    pipeline dollars at risk from single-threaded deals.
+  summary: Emails a weekly digest of stakeholder coverage on open deals by threading level and stage, the pipeline in single-threaded
+    deals, and win rate by threading level.
   parameters:
   - name: window_closed
     type: duration
-    label: Lookback for closed deals in stage view
+    label: Window of closed deals included
     default: 90 d
     required: false
   - name: win_rate_window
     type: duration
-    label: Lookback for win-rate by threading level
+    label: Window for win rate by threading level
     default: 12 mo
-    required: false
-  - name: threaded_benchmark_multiplier
-    type: number
-    label: Win-rate multiplier benchmark for 5+ stakeholder deals
-    default: 1.8
     required: false
   - name: benchmark_min_stakeholders
     type: number
-    label: Minimum engaged stakeholders for benchmark
+    label: Stakeholders a well-covered deal should have
     default: 5
     required: false
   - name: single_threaded_max
     type: number
-    label: Max contacts counted as single-threaded
+    label: Most contacts on a single-threaded deal
     default: 1
     required: false
   - name: lightly_threaded_max
     type: number
-    label: Max contacts counted as lightly threaded
+    label: Most contacts on a lightly threaded deal
     default: 3
     required: false
   - name: multi_threaded_max
     type: number
-    label: Max contacts counted as multi-threaded
+    label: Most contacts on a multi-threaded deal
     default: 6
     required: false
+  - name: digest_recipients
+    type: string
+    label: Email addresses that get the digest
+    required: true
   requirements:
   - slot: deal_stage_event
     kind: event
@@ -98,25 +98,9 @@ portable:
       type: string
       meaning: Identifier of the deal
       optional: false
-  - slot: call_completed_event
-    kind: event
-    meaning: A call with a customer was completed
-    properties:
-    - name: deal_id
-      type: string
-      meaning: Deal the call is linked to
-      optional: true
-  - slot: email_sent_event
-    kind: event
-    meaning: An email was sent to a customer about a deal
-    properties:
-    - name: deal_id
-      type: string
-      meaning: Deal the email is linked to
-      optional: true
   steps:
   - id: s1
-    builds: report
+    builds: automation
     uses:
     - deal_stage_event
     - meeting_scheduled_event
@@ -124,44 +108,26 @@ portable:
     - deal_lost_event
     - window_closed
     - win_rate_window
-    - threaded_benchmark_multiplier
     - benchmark_min_stakeholders
     - single_threaded_max
     - lightly_threaded_max
     - multi_threaded_max
-    instruction: 'Create an Insights report named "Multi-Threading Coverage by Deal". Series A: count unique {deal_stage_event.user_ids}
-      per active {deal_stage_event.deal_id}, counting distinct stakeholders attached to the deal across all stage events.
-      Series B: same per-deal computation over {meeting_scheduled_event} events linked via {meeting_scheduled_event.deal_ids},
-      counting distinct {meeting_scheduled_event.user_ids} who attended a meeting. Series C: bucket Series A into Single-threaded
-      (1 contact), Lightly threaded (2-3), Multi-threaded (4-6), and Deeply threaded (7+) using {single_threaded_max}, {lightly_threaded_max},
-      and {multi_threaded_max} as the upper bounds. Breakdown by current stage from {deal_stage_event.new_stage}, open deals
-      only. Time range: all open deals plus closed deals within {window_closed}. Chart: stacked bar, one bar per stage, segments
-      showing the threading-bucket distribution.'
+    - digest_recipients
+    instruction: 'Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes open deals (a {deal_stage_event.deal_id}
+      with no {deal_won_event} or {deal_lost_event}) and counts each deal''s distinct contacts in {deal_stage_event.user_ids}
+      and in {meeting_scheduled_event.user_ids} of meetings whose {meeting_scheduled_event.deal_ids} include it. It writes:
+      open deals by current {deal_stage_event.new_stage} and threading level, single-threaded (up to {single_threaded_max}
+      contact), lightly (up to {lightly_threaded_max}), multi (up to {multi_threaded_max}) or deeply threaded (more); the
+      sum of the latest {deal_stage_event.amount} in single-threaded deals; the share of open deals with at least {benchmark_min_stakeholders}
+      contacts; win rate by threading level for deals closed in the last {win_rate_window}; the same counts for deals closed
+      in the last {window_closed}. Then it emails these figures as plain-text lines, each with its window, to {digest_recipients}.
+      Nothing else is sent.'
 ---
 
 # Multi threading coverage
 
 Slash command: /multi-threading-coverage-by-deal
 
-## Step 1: Count contacts on each deal
+## Step 1: Email the weekly threading digest
 
-Create an Insights report called "Multi-Threading Coverage by Deal".
-Series A: Event "Deal stage changed", scope: per active deal_id, aggregation: Count Unique users from the user_ids property (the distinct stakeholders attached to the deal across all stage events)
-Series B: Same per-deal computation but counting only Meeting scheduled events linked to the deal (via deal_ids relation): distinct users who actually attended a meeting
-Series C: Computed: Series A bucketed into "Single-threaded (1 contact)" / "Lightly threaded (2-3)" / "Multi-threaded (4-6)" / "Deeply threaded (7+)"
-Breakdown: By deal stage (open deals only, group by current stage from Deal stage changed.new_stage)
-Time range: All open deals + last 90 days of closed deals
-Chart type: Stacked bar chart: bar per stage, segments showing the threading-bucket distribution
-Also include a parallel "win-rate by threading level" view:
-- For closed deals (Deal won + Deal lost) in the last 12 months, compute win rate by threading bucket
-- Surface: single-threaded deals win X%, multi-threaded deals win Y%, with the gap quantified
-Annotations:
-- Flag any open deals (especially in late-stage proposal/negotiation) that are still single-threaded: these are at acute risk and need multi-threading action by the AE.
-- Add the Gartner benchmark: B2B deals with 5+ engaged stakeholders close at 1.8× the rate of single-threaded deals.
-- Highlight the share of pipeline value (sum of deal amount) currently sitting in single-threaded deals: this is the dollar amount at risk.
-- Flag any deals where threading shrank vs. prior period (a stakeholder went silent: investigate champion-departure risk).
-Use case: the standard B2B sales hygiene report. AEs are notoriously single-threaded; this report makes the risk visible and quantifies it in dollars. Top-performing sales orgs make this their #1 weekly review.
-Taxonomy notes:
-- Deal stage changed.user_ids is a relation (multi-value) carrying associated users.
-- Meeting scheduled.user_ids and Meeting scheduled.deal_ids together let us count meeting-attended stakeholders per deal.
-- Deal "current threading count" is computed across all events linked to the deal_id (Deal stage changed, Meeting scheduled, Call completed, Email sent).
+Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes open deals (a deal id with no deal won event or deal lost event) and counts each deal's distinct contacts in user ids and in user ids of meetings whose deal ids include it. It writes: open deals by current new stage and threading level, single-threaded (up to 1 contact), lightly (up to 3), multi (up to 6) or deeply threaded (more); the sum of the latest amount in single-threaded deals; the share of open deals with at least 5 contacts; win rate by threading level for deals closed in the last 12 mo; the same counts for deals closed in the last 90 d. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.

@@ -1,7 +1,8 @@
 ---
 frontmatter_id: rep-activity-leaderboard
 slash_command: /rep-activity-leaderboard
-description: Shows what each rep actually did last month, calls, emails, meetings and tasks, next to the revenue they closed.
+description: Emails a sales manager a weekly per-rep leaderboard of calls, emails, meetings and tasks next to revenue closed,
+  with revenue per 100 calls and flags for coaching and engagement drops.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,32 +12,32 @@ classification:
   industry:
   - saas-b2b-tech
 portable:
-  summary: Gives a sales manager a weekly per-rep leaderboard of calls, emails, meetings and tasks next to revenue closed,
-    with ratios, sorts, and flags for coaching and engagement drops.
+  summary: Emails a weekly per-rep leaderboard of calls, outbound emails, meetings and tasks next to revenue closed, with
+    flags for engagement drops and coaching.
   parameters:
   - name: time_window
     type: duration
-    label: Reporting window
+    label: Window analyzed
     default: 30 d
     required: false
   - name: comparison_window
     type: duration
-    label: Comparison window (prior period)
+    label: Earlier window it is compared with
     default: 30 d
     required: false
   - name: engagement_drop_threshold
     type: number
-    label: Week-over-week activity drop that triggers a check-in (%)
+    label: Drop in a rep's activity that gets flagged (%)
     default: 30
     required: false
   - name: efficiency_benchmark_factor
     type: number
-    label: Efficiency warning factor applied to team average revenue per call
+    label: Share of the team median revenue per 100 calls below which a rep is flagged for coaching
     default: 0.5
     required: false
   - name: default_sort
     type: enum
-    label: Default leaderboard sort
+    label: Leaderboard sort
     default: revenue_closed
     required: false
     options:
@@ -44,6 +45,10 @@ portable:
     - calls
     - revenue_per_100_calls
     - activity_velocity
+  - name: digest_recipients
+    type: string
+    label: Email addresses that get the digest
+    required: true
   requirements:
   - slot: call_completed_event
     kind: event
@@ -53,68 +58,75 @@ portable:
       type: string
       meaning: Rep who made the call
       optional: false
+  - slot: outbound_email_event
+    kind: event
+    meaning: A sales rep sent an outbound email to a prospect or customer
+    optional: true
+    properties:
+    - name: created_by
+      type: string
+      meaning: Rep who sent the email
+      optional: false
+  - slot: meeting_scheduled_event
+    kind: event
+    meaning: A sales rep booked a meeting with a prospect or customer
+    optional: true
+    properties:
+    - name: created_by
+      type: string
+      meaning: Rep who booked the meeting
+      optional: false
+  - slot: task_completed_event
+    kind: event
+    meaning: A sales rep completed a sales task
+    optional: true
+    properties:
     - name: owner_id
       type: string
-      meaning: Owner of the call record
-      optional: true
+      meaning: Rep who owns the task
+      optional: false
+  - slot: deal_won_event
+    kind: event
+    meaning: A deal was won (closed won)
+    properties:
+    - name: owner_id
+      type: string
+      meaning: Rep who owns the deal
+      optional: false
+    - name: amount
+      type: number
+      meaning: Deal amount
+      optional: false
   steps:
   - id: s1
-    builds: report
+    builds: automation
     uses:
     - call_completed_event
+    - outbound_email_event
+    - meeting_scheduled_event
+    - task_completed_event
+    - deal_won_event
     - time_window
     - comparison_window
-    instruction: 'Create an Insights report titled "Rep Activity Leaderboard" showing the last {time_window} broken down by
-      rep, with the previous {comparison_window} as the comparison period. Build these series: (A) Count of {call_completed_event}
-      or call logged event events grouped by owner, labeled "Calls". (B) Count of messaged email event events where messaged
-      email event is outbound, grouped by the rep who created it, labeled "Outbound Emails". (C) Count of meeting scheduled
-      event events where meeting scheduled event is empty, grouped by the rep who created it, labeled "Meetings Booked". (D)
-      Count of task completed event events grouped by task completed event, labeled "Tasks Completed". (E) Sum of deal won
-      event grouped by deal won event, in dollars, labeled "Revenue Closed". (F) Computed: Series E divided by Series A multiplied
-      by 100, labeled "Revenue per 100 Calls". Resolve the rep identifiers from all events to the same user record so each
-      row is one rep. Display as a sortable table with rep name, all activity counts, revenue closed and the ratios, plus
-      a secondary stacked bar chart of activity volume per rep.'
+    - engagement_drop_threshold
+    - efficiency_benchmark_factor
+    - default_sort
+    - digest_recipients
+    instruction: 'Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes the last {time_window}
+      and writes one line per rep, matching reps across events: calls ({call_completed_event} by {call_completed_event.created_by}),
+      outbound emails ({outbound_email_event} by {outbound_email_event.created_by}), meetings booked ({meeting_scheduled_event}
+      by {meeting_scheduled_event.created_by}), tasks completed ({task_completed_event} by {task_completed_event.owner_id}),
+      revenue closed (sum of {deal_won_event.amount} by {deal_won_event.owner_id}) and revenue per 100 calls, each next to
+      the {comparison_window} before, sorted by {default_sort}. When a rep''s total activity fell by more than {engagement_drop_threshold}%,
+      or their revenue per 100 calls is below {efficiency_benchmark_factor} times the team median, the email''s first line
+      names them. Then it emails these figures as plain-text lines, each with its window, to {digest_recipients}. Nothing
+      else is sent.'
 ---
 
 # Rep activity leaderboard
 
 Slash command: /rep-activity-leaderboard
 
-## Step 1: Tie rep activity to revenue
+## Step 1: Email the weekly rep leaderboard
 
-Create an Insights report called "Rep Activity Leaderboard".
-Series A: Event "Call completed" OR "call_logged", aggregation: Count grouped by owner_id, label: "Calls"
-Series B: Event "Messaged email" where direction = outbound (sent emails), aggregation: Count grouped by created_by (the rep), label: "Outbound Emails"
-Series C: Event "Meeting scheduled" where canceled_at is null, aggregation: Count grouped by created_by, label: "Meetings Booked"
-Series D: Event "Task completed", aggregation: Count grouped by assignee_id, label: "Tasks Completed"
-Series E: Sum of Deal won.amount grouped by owner_id (rep's revenue contribution in period), unit: $, label: "Revenue Closed"
-Series F: Computed: Series E / Series A × 100, label: "Revenue per 100 Calls"
- - The Gong-popularized leading-indicator metric: ties activity volume to revenue outcomes.
-Time range: Last 30 days
-Breakdown: By owner_id (per-rep, sortable leaderboard)
-Compare: Previous period (prior 30 days)
-Chart type: Sortable table (the leaderboard) with rep name, all activity counts, revenue closed, and the activity-to-revenue ratios. Plus a secondary chart showing activity volume distribution per rep (stacked bar).
-Sort modes (toggle):
-- By Revenue Closed (descending) to "Top Performers"
-- By Calls (descending) to "Most Active"
-- By Revenue per 100 Calls (descending) to "Most Efficient"
-- By Activity Velocity (week-over-week change) to "Rising / Falling Stars"
-Annotations:
-- Flag reps with high activity (top quartile in calls/emails) but low revenue (bottom quartile): coaching opportunity, likely qualification or close-rate issue.
-- Flag reps with low activity (bottom quartile) but high revenue (top quartile): outliers worth understanding (might be working strategic accounts, or might be inheriting deals).
-- Highlight any rep whose activity dropped >30% week-over-week (engagement drop: disengagement or PTO; flag for manager check-in).
-- Surface team averages alongside each metric (so any rep can see how they compare).
-- Add the trailing-week revenue-per-call benchmark; below team-average × 0.5 indicates serious efficiency issue.
-Use case: the canonical sales-manager weekly review. Activity metrics are leading indicators (per Gong); revenue is the lagging outcome. Reading them together surfaces both the "rising stars" (activity climbing, revenue about to follow) and the "coaching opportunities" (activity high but revenue stuck).
-Taxonomy notes:
-- Call completed and call_logged are both canonical (varies by integration: HubSpot/Salesforce typically emit Call completed with metadata; manually-logged calls emit call_logged).
-- Messaged email.direction is a canonical property; outbound emails have direction = "outbound".
-- Meeting scheduled.canceled_at being null means the meeting wasn't canceled. End_time being in the past indicates it actually occurred.
-- Task completed.assignee_id is the rep responsible for the task.
-- "Rep" identification varies by event:
- - Call completed: created_by
- - Messaged email: created_by
- - Meeting scheduled: created_by
- - Task completed: assignee_id
- - Deal won: owner_id
- These should all resolve to the same Users object (owner_id is a canonical user-attribute): Lovable's translation layer must unify these for per-rep aggregation.
+Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes the last 30 d and writes one line per rep, matching reps across events: calls (call completed event by created by), outbound emails (outbound email event by created by), meetings booked (meeting scheduled event by created by), tasks completed (task completed event by owner id), revenue closed (sum of amount by owner id) and revenue per 100 calls, each next to the 30 d before, sorted by revenue_closed. When a rep's total activity fell by more than 30%, or their revenue per 100 calls is below 0.5 times the team median, the email's first line names them. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.

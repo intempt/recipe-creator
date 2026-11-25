@@ -1,7 +1,8 @@
 ---
 frontmatter_id: weekly-active-users-trend
 slash_command: /weekly-active-users-trend
-description: Shows weekly active users and monthly active users, plus the WAU to MAU ratio, to indicate engagement stickiness.
+description: Builds a segment of monthly users who skipped this week, and emails a weekly digest of weekly and monthly active
+  users and their ratio, by plan, to see whether users come back often enough.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,8 +12,8 @@ classification:
   industry:
   - industry-agnostic
 portable:
-  summary: Shows weekly and monthly active users plus their ratio, so you can see whether users come back often enough to
-    stay engaged, broken down by plan.
+  summary: Builds the monthly-but-not-weekly users segment and emails a weekly digest of weekly and monthly active users and
+    stickiness by plan, with drop flags.
   parameters:
   - name: wau_window
     type: duration
@@ -21,12 +22,12 @@ portable:
     required: false
   - name: mau_window
     type: duration
-    label: Monthly active window (rolling)
+    label: Monthly active window
     default: 28 d
     required: false
   - name: report_range
     type: duration
-    label: Time range of report
+    label: Weeks of history in the digest
     default: 12 w
     required: false
   - name: benchmark_low
@@ -41,39 +42,34 @@ portable:
     required: false
   - name: drop_threshold
     type: number
-    label: Stickiness drop alert threshold (points)
+    label: Stickiness drop in a plan that gets flagged (points)
     default: 3
     required: false
+  - name: digest_recipients
+    type: string
+    label: Email addresses that get the digest
+    required: true
   requirements:
   - slot: active_user_event
     kind: event
     meaning: A user started a session in the product
-    properties:
-    - name: device_type
-      type: string
-      meaning: Device the session ran on
-      optional: true
-    - name: country
-      type: string
-      meaning: Country of the session
-      optional: true
-    - name: utm_source
-      type: string
-      meaning: Marketing source of the session
-      optional: true
   - slot: plan_attribute
     kind: attribute
-    meaning: The plan of a user's most recent active subscription, taken from the subscription start record
-  - slot: active_user_identify
-    kind: event
-    meaning: A user was identified in the product, used as an alternative active-user signal if the workspace uses identify
-    optional: true
+    meaning: The plan of a user's most recent active subscription
   steps:
   - id: s1
-    builds: report
+    builds: segment
     uses:
     - active_user_event
-    - active_user_identify
+    - wau_window
+    - mau_window
+    instruction: 'Build a new segment of users named "Monthly Active, Not Weekly Active": users who did {active_user_event}
+      in the last {mau_window} and did not do {active_user_event} in the last {wau_window}.'
+  - id: s2
+    builds: automation
+    uses:
+    - s1
+    - active_user_event
     - plan_attribute
     - wau_window
     - mau_window
@@ -81,40 +77,27 @@ portable:
     - benchmark_low
     - benchmark_high
     - drop_threshold
-    instruction: 'Create an Insights report called "Weekly Active Users Trend". Series A: event {active_user_event}, aggregation
-      Count Unique Users, time granularity weekly, label "WAU" (alternative: use {active_user_identify} if the workspace uses
-      identify as the active-user signal). Series B: event {active_user_event}, aggregation Count Unique Users, rolling {mau_window}
-      window, label "MAU". Series C: computed Series A (WAU) divided by Series B (MAU) multiplied by 100, unit %, label "Stickiness
-      (WAU/MAU)". Time granularity weekly. Time range last {report_range}. Breakdown by {plan_attribute}, derived from each
-      user''s most recent active subscription start record. Compare to previous period (prior {report_range}). Chart type:
-      dual-axis, left axis user counts (WAU and MAU as lines), right axis stickiness % as a line. Annotations: add a horizontal
-      benchmark line at {benchmark_low}% stickiness; add a horizontal benchmark line at {benchmark_high}% stickiness; highlight
-      any plan where stickiness dropped more than {drop_threshold} points versus the previous period; flag any plan where
-      WAU is growing but stickiness is falling.'
+    - digest_recipients
+    dependsOn:
+    - s1
+    instruction: 'Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes {active_user_event}
+      and writes these figures: weekly active users (unique users in the last {wau_window}), monthly active users (unique
+      users in the last {mau_window}) and stickiness, weekly divided by monthly as a %, next to the values a week ago and
+      {report_range} ago; the weekly values over the last {report_range}; the same three figures by {plan_attribute}; where
+      stickiness sits against {benchmark_low}% and {benchmark_high}%; the number of users in the segment from "Find monthly
+      users who skipped this week". When a plan''s stickiness dropped more than {drop_threshold} points against {report_range}
+      ago, or a plan''s weekly users grew while its stickiness fell, the email''s first line says so. Then it emails these
+      figures as plain-text lines, each with its window, to {digest_recipients}. Nothing else is sent.'
 ---
 
 # Weekly active users
 
 Slash command: /weekly-active-users-trend
 
-## Step 1: Track weekly users and stickiness
+## Step 1: Find monthly users who skipped this week
 
-Create an Insights report called "Weekly Active Users Trend".
-Series A: Event "Session start", aggregation: Count Unique Users, time granularity: Weekly, label: "WAU"
- (alternative: use "identify" if the workspace uses identify as the active-user signal)
-Series B: Event "Session start", aggregation: Count Unique Users, rolling 28-day window, label: "MAU"
-Series C: Computed: Series A (WAU) / Series B (MAU) × 100, unit: %, label: "Stickiness (WAU/MAU)"
-Time granularity: Weekly
-Time range: Last 12 weeks
-Breakdown: By Plan: derive from each user's most-recent active Subscription started.Plan
-Compare: Previous period (prior 12 weeks)
-Chart type: Dual-axis: left axis user counts (WAU/MAU as lines), right axis stickiness % (line)
-Annotations:
-- Add a horizontal benchmark line at 20% stickiness (industry "good" for B2B SaaS).
-- Add a horizontal benchmark at 50% (top-quartile, near-daily-use products).
-- Highlight any plan where stickiness dropped >3 points vs. previous period.
-- Flag any plan where WAU is growing but stickiness is falling (acquiring users but losing engagement).
-Stickiness is the leading indicator of retention; raw WAU growth without stickiness growth is a vanity metric.
-Taxonomy notes:
-- Session start is canonical and carries device_type, country, UTM source. "user_active" as an event does not exist; Session start (or identify) is the active-user signal.
-- plan_tier as a property does not exist; Plan on Subscription started is the canonical plan attribute.
+Build a new segment of users named "Monthly Active, Not Weekly Active": users who did active user event in the last 28 d and did not do active user event in the last 7 d.
+
+## Step 2: Email the weekly active users digest
+
+Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes active user event and writes these figures: weekly active users (unique users in the last 7 d), monthly active users (unique users in the last 28 d) and stickiness, weekly divided by monthly as a %, next to the values a week ago and 12 w ago; the weekly values over the last 12 w; the same three figures by plan attribute; where stickiness sits against 20% and 50%; the number of users in the segment from "Find monthly users who skipped this week". When a plan's stickiness dropped more than 3 points against 12 w ago, or a plan's weekly users grew while its stickiness fell, the email's first line says so. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.

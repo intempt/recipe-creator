@@ -1,7 +1,8 @@
 ---
 frontmatter_id: free-paid-conversion-funnel
 slash_command: /free-paid-conversion-funnel
-description: Shows how many trials go on to view pricing, start checkout and pay, and which plan loses people at which step.
+description: Builds a segment of trial users who viewed pricing but never started checkout, and emails a weekly digest of
+  trial to pricing to checkout to paid conversion by plan.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,8 +12,8 @@ classification:
   industry:
   - saas-b2b-tech
 portable:
-  summary: Shows how many trial users go on to view pricing, start checkout, and pay, by plan, and flags the plan and step
-    where people drop off most.
+  summary: Builds the trial users who viewed pricing segment and emails a weekly digest of how trial users move to pricing,
+    checkout and payment, by plan, with drop-off flags.
   parameters:
   - name: conversionWindow
     type: duration
@@ -21,24 +22,28 @@ portable:
     required: false
   - name: comparisonPeriod
     type: duration
-    label: Comparison period (previous period)
+    label: Window analyzed and compared with the one before
     default: 30 d
     required: false
   - name: pricingToCheckoutThreshold
     type: number
-    label: 'Price-objection flag: pricing-to-checkout conversion below (%)'
+    label: Pricing to checkout rate below which it is flagged (%)
     default: 20
     required: false
   - name: checkoutToSubscribedThreshold
     type: number
-    label: 'Checkout friction flag: checkout-to-subscribed conversion below (%)'
+    label: Checkout to paid rate below which it is flagged (%)
     default: 60
     required: false
   - name: pricingPageUrlFilter
     type: string
-    label: Pricing page URL contains
+    label: Text in the pricing page URL
     default: /pricing
     required: false
+  - name: digest_recipients
+    type: string
+    label: Email addresses that get the digest
+    required: true
   requirements:
   - slot: trial_subscription_event
     kind: event
@@ -69,48 +74,55 @@ portable:
     meaning: A customer created a checkout session
   - slot: paid_conversion_event
     kind: event
-    meaning: A customer converted from trial to a paid subscription or paid invoice
-    properties:
-    - name: trial_end
-      type: date
-      meaning: Trial end date of the original subscription
-      optional: true
+    meaning: A customer converted from trial to a paid subscription or paid an invoice
   steps:
   - id: s1
-    builds: report
-    instruction: 'Create a Funnel report called "Free to Paid Conversion" with these steps in order: 1) {trial_subscription_event}
-      where trial_start and trial_end are both not null, labeled "Started Trial"; 2) {page_view_event} where page_url contains
-      {pricingPageUrlFilter}, labeled "Viewed Pricing"; 3) {checkout_created_event}, labeled "Started Checkout"; 4) a follow-on
-      {trial_subscription_event} without trial fields, or a Revenue completed or Invoice paid event after the trial_end of
-      the original subscription, labeled "Subscribed Paid". Set the conversion window to {conversionWindow}. Break down by
-      plan on the trial subscription (the plan they signed up to trial). Compare against the previous {comparisonPeriod}.'
+    builds: segment
+    uses:
+    - trial_subscription_event
+    - page_view_event
+    - checkout_created_event
+    - paid_conversion_event
+    - pricingPageUrlFilter
+    - conversionWindow
+    instruction: 'Build a new segment of users named "Trial Users Who Viewed Pricing": users whose latest {trial_subscription_event}
+      has {trial_subscription_event.trial_end} in the future, who have not done {paid_conversion_event}, who did {page_view_event}
+      with {page_view_event.page_url} containing {pricingPageUrlFilter} in the last {conversionWindow}, and who did not do
+      {checkout_created_event} in the last {conversionWindow}.'
+  - id: s2
+    builds: automation
+    uses:
+    - s1
+    - trial_subscription_event
+    - page_view_event
+    - checkout_created_event
+    - paid_conversion_event
+    - conversionWindow
+    - comparisonPeriod
+    - pricingToCheckoutThreshold
+    - checkoutToSubscribedThreshold
+    - pricingPageUrlFilter
+    - digest_recipients
+    dependsOn:
+    - s1
+    instruction: 'Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes users who did {trial_subscription_event}
+      with {trial_subscription_event.trial_start} set in the last {comparisonPeriod} and writes these figures: how many then
+      did {page_view_event} with {page_view_event.page_url} containing {pricingPageUrlFilter}, then {checkout_created_event},
+      then {paid_conversion_event}, each within {conversionWindow}, with the conversion rate of each step, next to the {comparisonPeriod}
+      before; the same rates split by {trial_subscription_event.plan}; the plan and step with the largest drop-off; the number
+      of users in the segment from "Find trial users stuck at pricing". When pricing to checkout is below {pricingToCheckoutThreshold}%
+      or checkout to paid is below {checkoutToSubscribedThreshold}%, the email''s first line says so. Then it emails these
+      figures as plain-text lines, each with its window, to {digest_recipients}. Nothing else is sent.'
 ---
 
 # Free to paid conversion
 
 Slash command: /free-paid-conversion-funnel
 
-## Step 1: Follow trials through to payment
+## Step 1: Find trial users stuck at pricing
 
-Create a Funnel report called "Free to Paid Conversion".
-Steps:
-1. Event "Subscription started" where trial_end is not null AND trial_start is not null: "Started Trial"
-2. Event "View page" where Page URL contains "/pricing": "Viewed Pricing"
-3. Event "Checkout created": "Started Checkout"
-4. Event "Subscription started" filtered to non-trial conversions: "Subscribed Paid"
- (operationally: a follow-on Subscription started without trial fields, OR a Revenue completed/Invoice paid event after the trial_end of the original subscription)
-Conversion window: 30 days
-Breakdown: By Plan on the trial subscription (which plan they signed up to trial)
-Compare: Previous period (prior 30 days)
-For each step, also surface:
-- Median and 75th-percentile time-to-convert from previous step
-- Per-plan conversion rate at each stage
-- For users who reached "Started Checkout" but did NOT reach "Subscribed Paid": time spent on the View page events between Step 3 and timeout (price-sensitivity proxy)
-Annotations:
-- Flag the largest drop-off step (typical largest drops: pricing to checkout, or checkout to subscribed).
-- Flag any plan where pricing-to-checkout conversion is below 20% (price-objection signal).
-- Flag any plan where checkout-to-subscribed conversion is below 60% (checkout friction).
-- Highlight the plan with the highest end-to-end conversion AND volume.
-Taxonomy notes:
-- "pricing_page_viewed" and "checkout_started" as standalone events do not exist. Use View page.Page URL filters and Checkout created.
-- "trial_started" does not exist; the trial-start cohort is derived from Subscription started with trial fields populated.
+Build a new segment of users named "Trial Users Who Viewed Pricing": users whose latest trial subscription event has trial end in the future, who have not done paid conversion event, who did page view event with page url containing /pricing in the last 30 d, and who did not do checkout created event in the last 30 d.
+
+## Step 2: Email the weekly free-to-paid digest
+
+Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes users who did trial subscription event with trial start set in the last 30 d and writes these figures: how many then did page view event with page url containing /pricing, then checkout created event, then paid conversion event, each within 30 d, with the conversion rate of each step, next to the 30 d before; the same rates split by plan; the plan and step with the largest drop-off; the number of users in the segment from "Find trial users stuck at pricing". When pricing to checkout is below 20% or checkout to paid is below 60%, the email's first line says so. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.

@@ -1,7 +1,8 @@
 ---
 frontmatter_id: feature-adoption-by-plan
 slash_command: /feature-adoption-by-plan
-description: Shows feature adoption across plan tiers using a breakdown of active users.
+description: Emails a weekly digest of which features each plan tier adopts, the adoption rate of each feature per plan, and
+  flags for upsell, deprecation and load-bearing features.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,34 +12,33 @@ classification:
   industry:
   - industry-agnostic
 portable:
-  summary: Shows which features each plan tier adopts, as a heatmap of active-user adoption rates, with trends and flags for
-    upsell, deprecation and load-bearing features.
+  summary: Emails a weekly digest of feature adoption rates per plan tier, with the change from the period before and flags
+    for upsell, low-use and load-bearing features.
   parameters:
   - name: time_window
     type: duration
-    label: Analysis window
+    label: Window analyzed
     default: 30 d
     required: false
   - name: comparison_window
     type: duration
-    label: Comparison period
+    label: Earlier window it is compared with
     default: 30 d
-    required: false
-  - name: trend_weeks
-    type: number
-    label: Trend lookback (weeks)
-    default: 12
     required: false
   - name: high_adoption_threshold
     type: number
-    label: Load-bearing adoption threshold (%)
+    label: Adoption rate that makes a feature load-bearing (%)
     default: 40
     required: false
   - name: upgrade_ratio_threshold
     type: number
-    label: Higher-to-lower tier adoption ratio
+    label: How many times higher adoption on a higher plan marks an upsell feature
     default: 2
     required: false
+  - name: digest_recipients
+    type: string
+    label: Email addresses that get the digest
+    required: true
   requirements:
   - slot: feature_click_event
     kind: event
@@ -52,22 +52,6 @@ portable:
       type: text
       meaning: Human-readable label of the clicked element
       optional: true
-    - name: target_class
-      type: text
-      meaning: CSS class of the clicked element
-      optional: true
-    - name: target_tag
-      type: text
-      meaning: HTML tag of the clicked element
-      optional: true
-    - name: hierarchy
-      type: text
-      meaning: DOM hierarchy of the clicked element
-      optional: true
-    - name: path
-      type: text
-      meaning: Page path where the click happened
-      optional: true
   - slot: subscription_started_event
     kind: event
     meaning: A customer started a subscription to a plan
@@ -76,48 +60,31 @@ portable:
       type: text
       meaning: The plan tier the customer subscribed to
       optional: false
-  - slot: active_users
-    kind: segment
-    meaning: Users active in the analysis window
   steps:
   - id: s1
-    builds: report
+    builds: automation
     uses:
     - feature_click_event
     - subscription_started_event
-    - active_users
     - time_window
     - comparison_window
     - high_adoption_threshold
     - upgrade_ratio_threshold
-    instruction: 'Create an Insights report titled "Feature Adoption by Plan". Series A: count unique users of {feature_click_event}
-      filtered by {feature_click_event.target_id}. Series B: computed as Series A divided by total {active_users} in the same
-      plan tier, times 100, unit %, labeled "Adoption Rate". Resolve plan tier from each user''s most recent {subscription_started_event.Plan}.
-      Break down by {feature_click_event.target_id} on the X axis and by plan tier on the Y axis. Time range: {time_window}.
-      Compare against the previous period of equal length, {comparison_window}. Render as a heatmap with features on the vertical
-      axis and plan tiers on the horizontal axis, cell value = adoption rate, color intensity scaled.'
+    - digest_recipients
+    instruction: 'Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes users active in
+      the last {time_window}, with each user''s plan taken from their latest {subscription_started_event.Plan}, and writes
+      these figures: for each feature by {feature_click_event.target_id} (named by {feature_click_event.target_text} when
+      set) and each plan, the adoption rate, the share of that plan''s active users who did {feature_click_event} on it, next
+      to the {comparison_window} before; features whose adoption is at least {high_adoption_threshold}% on every plan, called
+      load-bearing; features adopted at least {upgrade_ratio_threshold} times more on a higher plan than on a lower one, called
+      upsell features; the 5 features with the lowest adoption on every plan, called low-use. Then it emails these figures
+      as plain-text lines, each with its window, to {digest_recipients}. Nothing else is sent.'
 ---
 
 # Feature adoption by plan
 
 Slash command: /feature-adoption-by-plan
 
-## Step 1: Map feature use to plan tier
+## Step 1: Email the weekly feature adoption digest
 
-Create an Insights report called "Feature Adoption by Plan".
-Series A: the click event filtered by target_id (a stable identifier representing a feature surface: e.g. /feature/<feature-slug>), aggregation: Count Unique Users
-Series B: Computed: Series A / total active users in the same plan tier × 100, unit: %, label: "Adoption Rate"
-Breakdown: By target_id (the feature) on the X axis, secondary breakdown by Plan (resolved from the user's most-recent Subscription started.Plan) on the Y axis
-Time range: Last 30 days
-Compare: Previous period (prior 30 days)
-Chart type: Heatmap (target_id / feature on Y axis, plan tier on X axis), cell value = adoption rate %, color intensity scaled
-Also include a parallel view: per-feature adoption-rate trend over the last 12 weeks, broken down by plan tier: to show whether adoption is accelerating, flat, or declining per feature.
-Annotations:
-- Flag features with high adoption in higher tiers but low adoption in lower tiers (candidates to promote down-tier OR signs of plan-feature mismatch).
-- Flag features with declining adoption in any tier (deprecation candidate or UX issue).
-- Highlight features used by >40% of paying users: these are the load-bearing features whose performance and reliability matter most.
-- Highlight features where higher-tier users adopt at >2× the rate of lower-tier users (the best upgrade-pitch features).
-Taxonomy notes:
-- the click event carries target_id, target_text, target_class, target_tag, hierarchy, path. The product team identifies features by stable target_id values.
-- "feature_name" is not a canonical property; target_id (or target_text for human labels) is the canonical handle.
-- Plan lives on Subscription started; this requires joining to the user's active subscription.
+Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes users active in the last 30 d, with each user's plan taken from their latest Plan, and writes these figures: for each feature by target id (named by target text when set) and each plan, the adoption rate, the share of that plan's active users who did feature click event on it, next to the 30 d before; features whose adoption is at least 40% on every plan, called load-bearing; features adopted at least 2 times more on a higher plan than on a lower one, called upsell features; the 5 features with the lowest adoption on every plan, called low-use. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.

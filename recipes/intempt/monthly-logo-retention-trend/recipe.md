@@ -1,7 +1,8 @@
 ---
 frontmatter_id: monthly-logo-retention-trend
 slash_command: /monthly-logo-retention-trend
-description: 'Shows a single trailing logo-retention rate: the share of customers still subscribed at the end of the current period. Uses subscription status data for the current period.'
+description: Emails a monthly digest of the share of paying customers kept each month, its 3-month rolling trend by plan,
+  benchmarks, churn-spike flags and an annualized retention figure.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,44 +12,48 @@ classification:
   industry:
   - saas-b2b-tech
 portable:
-  summary: Shows the monthly logo retention rate and its 3-month rolling trend by plan, with benchmarks, churn-spike flags,
-    and an annualized retention callout for board reporting.
+  summary: Emails a monthly digest of logo retention for paying customers, its rolling trend by plan, the annualized rate,
+    and flags for churn spikes and steady declines.
   parameters:
   - name: trend_window_months
     type: number
-    label: Time range (months)
+    label: Months of history in the digest
     default: 12
     required: false
   - name: rolling_window_months
     type: number
-    label: Rolling average window (months)
+    label: Months in the rolling average
     default: 3
     required: false
   - name: spike_threshold_points
     type: number
-    label: Churn spike threshold (percentage points below trailing average)
+    label: Drop below the rolling average that counts as a churn spike (points)
     default: 2
     required: false
   - name: decline_months
     type: number
-    label: Consecutive declining months that trigger an erosion flag
+    label: Months of decline in a row that get flagged
     default: 3
     required: false
   - name: benchmark_good_pct
     type: number
-    label: Industry-good monthly logo retention (%)
+    label: Good monthly retention benchmark (%)
     default: 95
     required: false
   - name: benchmark_best_pct
     type: number
-    label: Best-in-class monthly logo retention (%)
+    label: Best-in-class monthly retention benchmark (%)
     default: 97
     required: false
   - name: benchmark_risk_pct
     type: number
-    label: Retention issue threshold (%)
+    label: At-risk monthly retention benchmark (%)
     default: 90
     required: false
+  - name: digest_recipients
+    type: string
+    label: Email addresses that get the digest
+    required: true
   requirements:
   - slot: subscription_started
     kind: event
@@ -68,13 +73,9 @@ portable:
   - slot: subscription_expired
     kind: event
     meaning: A customer subscription expired
-  - slot: subscription_paused
-    kind: event
-    meaning: A customer paused a subscription (not counted as churn)
-    optional: true
   steps:
   - id: s1
-    builds: report
+    builds: automation
     uses:
     - subscription_started
     - subscription_canceled
@@ -86,42 +87,22 @@ portable:
     - benchmark_good_pct
     - benchmark_best_pct
     - benchmark_risk_pct
-    instruction: Create an Insights report titled "Monthly Logo Retention Trend" with monthly granularity over the last {trend_window_months}
-      months. Scope to paid subscriptions by filtering {subscription_started.trial_end} to empty. For each calendar month
-      M, define the cohort as unique customers with a {subscription_started} event before the start of M and no {subscription_canceled}
-      or {subscription_expired} event before the start of M. Series A is the cohort count. Series B is the number of cohort
-      members with no {subscription_canceled} or {subscription_expired} event during M. Series C is Series B divided by Series
-      A times 100, in %, labeled "Monthly Logo Retention Rate". Series D is the trailing {rolling_window_months}-month rolling
-      average of Series C, labeled "Logo Retention ({rolling_window_months}-mo rolling)". Break down by {subscription_started.Plan}
-      as resolved at the start of month M. Compare year over year using a dotted overlay of the same month in the prior year.
-      Chart as a line chart with Series C and Series D as primary lines, plus a small multiple of Series C per plan tier.
-      Pause events from {subscription_paused} are not churn and must be excluded from the churn counts.
+    - digest_recipients
+    instruction: 'Build an automation that runs on the 1st of every month at 08:00 on a schedule. Each run it analyzes paying
+      customers, those whose {subscription_started} has {subscription_started.trial_end} empty, and for each of the last {trend_window_months}
+      months writes: customers active at the month''s start (no {subscription_canceled} or {subscription_expired} before it)
+      and the share of them with neither event during the month, the monthly logo retention rate; the {rolling_window_months}-month
+      rolling average; the last month''s rate by {subscription_started.Plan} and for the same month a year ago; the annualized
+      rate, last month''s rate to the power of 12; where last month sits against {benchmark_risk_pct}%, {benchmark_good_pct}%
+      and {benchmark_best_pct}%. When last month is more than {spike_threshold_points} points below the rolling average, or
+      the rate fell {decline_months} months in a row, the email''s first line says so. Then it emails these figures as plain-text
+      lines, each with its window, to {digest_recipients}. Nothing else is sent.'
 ---
 
 # Monthly logo retention
 
 Slash command: /monthly-logo-retention-trend
 
-## Step 1: Track monthly customer retention
+## Step 1: Email the monthly logo retention digest
 
-Create an Insights report called "Monthly Logo Retention Trend".
-Series A: For each calendar month M, count the unique customers who had an active subscription at the START of month M (no Subscription canceled or subscription_expired before M-start)
-Series B: For the same cohort, count those who STILL have an active subscription at the END of month M (no Subscription canceled or subscription_expired during M)
-Series C: Computed: Series B / Series A × 100, unit: %, label: "Monthly Logo Retention Rate"
-Series D: Trailing 3-month rolling average of Series C (smoother trend), label: "Logo Retention (3-mo rolling)"
-Time granularity: Monthly
-Time range: Last 12 months
-Breakdown: By Plan (resolved from each user's Subscription started.Plan at the START of month M)
-Compare: Year-over-year (same month previous year, dotted overlay)
-Chart type: Line chart with Series C and Series D as primary lines, plus a small-multiple of Series C per plan tier
-Annotations:
-- Add benchmarks: 95% monthly logo retention is industry-good for self-serve SaaS; 97%+ is best-in-class; <90% indicates retention issues that compound rapidly (90% monthly = 28% annual retention).
-- Flag any month where Series C dropped >2 percentage points vs. trailing-3-month average (acute churn spike).
-- Flag if Series D (rolling) has been declining for 3+ consecutive months (durable retention erosion).
-- Highlight the plan tier with the highest retention AND the one with the lowest: the gap between them is often the strongest pricing/positioning signal.
-- Surface the implied annualized retention rate (Series C compounded over 12 months) as a single callout for board reporting.
-Use case: the trend version of paid-user-retention's headline number. Where paid-user-retention shows the cohort table (deep dive), this recipe shows the single-line trend (headline metric for monthly review). Both are useful; this one is the dashboard-friendly version.
-Taxonomy notes:
-- Subscription started marks active subscription start (with Plan, amount, trial_end). Filter for trial_end null to scope to paid (not trial) subscriptions.
-- Subscription canceled and subscription_expired mark subscription end. subscription_paused is NOT counted as churn (paused subscriptions can resume).
-- "Active at start of month" computed by Lovable: Subscription started exists prior to month-start, with no terminal event before month-start.
+Build an automation that runs on the 1st of every month at 08:00 on a schedule. Each run it analyzes paying customers, those whose subscription started has trial end empty, and for each of the last 12 months writes: customers active at the month's start (no subscription canceled or subscription expired before it) and the share of them with neither event during the month, the monthly logo retention rate; the 3-month rolling average; the last month's rate by Plan and for the same month a year ago; the annualized rate, last month's rate to the power of 12; where last month sits against 90%, 95% and 97%. When last month is more than 2 points below the rolling average, or the rate fell 3 months in a row, the email's first line says so. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.

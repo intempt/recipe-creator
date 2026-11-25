@@ -1,7 +1,8 @@
 ---
 frontmatter_id: trial-activation
 slash_command: /trial-activation
-description: Scores how well each trial is going and sends different onboarding to the ones racing ahead, the ones drifting, and the ones at risk.
+description: Scores each trial's health, builds the active trials segment, writes an activation email and an upgrade email,
+  and sends each trial the one that fits its score.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,23 +12,18 @@ classification:
   industry:
   - saas-b2b-tech
 portable:
-  summary: Scores each trial's health, splits trials into three tiers, and sends each tier tailored onboarding that leads
-    toward paid conversion, tracked in a funnel report.
+  summary: Scores each trial's health and sends trial users an activation or upgrade email by score, leading them toward paid
+    conversion.
   parameters:
   - name: login_window
     type: duration
-    label: Engagement lookback window
+    label: Window the score looks at
     default: 30 d
     required: false
   - name: tier_high_min_score
     type: number
-    label: Minimum trial health score for high-engagement tier
+    label: Score from which a trial counts as highly engaged
     default: 70
-    required: false
-  - name: tier_at_risk_max_score
-    type: number
-    label: Maximum trial health score for at-risk tier
-    default: 40
     required: false
   - name: tone
     type: enum
@@ -39,17 +35,15 @@ portable:
     - neutral
     - direct
   requirements:
-  - slot: trial_user
-    kind: segment
-    meaning: Users currently on a free trial
+  - slot: trial_signup_event
+    kind: event
+    meaning: A customer signed up for a trial
+  - slot: paid_conversion_event
+    kind: event
+    meaning: A trial customer converted to a paid subscription
   - slot: trial_login_event
     kind: event
     meaning: A customer logged into the product
-    properties:
-    - name: timestamp
-      type: date
-      meaning: When the login happened
-      optional: false
   - slot: key_feature_event
     kind: event
     meaning: A customer used a key product feature
@@ -61,93 +55,69 @@ portable:
   - slot: team_invite_event
     kind: event
     meaning: A customer invited a teammate to the product
-    properties:
-    - name: invitee_count
-      type: number
-      meaning: How many teammates were invited
-      optional: true
   - slot: data_upload_event
     kind: event
     meaning: A customer uploaded data into the product
-    properties:
-    - name: row_count
-      type: number
-      meaning: How many rows or records were uploaded
-      optional: true
-  - slot: key_event_1
-    kind: event
-    meaning: A trial customer reached the first key activation milestone
-  - slot: key_event_2
-    kind: event
-    meaning: A trial customer reached the second key activation milestone
-  - slot: trial_signup_event
-    kind: event
-    meaning: A customer signed up for a trial
-  - slot: paid_conversion_event
-    kind: event
-    meaning: A trial customer converted to a paid subscription
-  - slot: trial_health_score
-    kind: attribute
-    meaning: A computed score of how well each trial is going, based on engagement signals
-  - slot: trial_tier
-    kind: segment
-    meaning: Trial users grouped into high-engagement, moderate, and at-risk tiers by health score
   - slot: onboarding_email_channel
     kind: destination
-    meaning: Channel used to send onboarding emails to trial users
     channel: email
+    meaning: Channel used to send onboarding emails to trial users
   steps:
   - id: s1
     builds: attribute
-    instruction: Define an AI-derived {trial_health_score} attribute computed from {trial_login_event} within {login_window},
-      {key_feature_event}, {team_invite_event}, and {data_upload_event} signals.
+    uses:
+    - trial_login_event
+    - key_feature_event
+    - team_invite_event
+    - data_upload_event
+    - login_window
+    instruction: 'Build a computed user attribute named "Trial health score", a number from 0 to 100 over the last {login_window}:
+      30 points scaled by the number of distinct days with {trial_login_event} (full at 10 days), 30 points scaled by the
+      number of distinct {key_feature_event.feature_name} values used (full at 3), 20 points when the user did {team_invite_event}
+      at least once, 20 points when the user did {data_upload_event} at least once.'
   - id: s2
     builds: segment
     uses:
-    - trial_user
-    - s1
-    - tier_high_min_score
-    - tier_at_risk_max_score
-    instruction: 'Segment {trial_user} into three risk tiers using the result of "Score how the trial is going": high-engagement
-      where {trial_health_score} is at least {tier_high_min_score}, at-risk where it is at most {tier_at_risk_max_score},
-      and moderate for everyone in between.'
+    - trial_signup_event
+    - paid_conversion_event
+    instruction: 'Build a new segment of users named "Active Trial Users": users who did {trial_signup_event} in the last
+      30 days and have not done {paid_conversion_event}.'
   - id: s3
     builds: email
     uses:
-    - s1
-    - s2
+    - key_feature_event
     - tone
-    instruction: Write tier-specific onboarding email content in a {tone} tone for each tier in {trial_tier}, using the result
-      of "Score how the trial is going" and "Split trials into three tiers" to emphasize the aha-moment features relevant
-      to each tier. If the brand kit has no logo, use the brand name as a plain text header.
+    instruction: 'Write an onboarding email in a {tone} tone for trial users who have not found their footing yet: it shows
+      the 2-3 key features ({key_feature_event}) that deliver value fastest, one short how-to each, and one button to open
+      the product. If the brand kit has no logo, use the brand name as a plain text header.'
   - id: s4
+    builds: email
+    uses:
+    - tone
+    instruction: 'Write an email in a {tone} tone for highly engaged trial users: it recognizes how much they have set up,
+      names what they keep by moving to a paid plan before the trial ends, and has one button to upgrade. If the brand kit
+      has no logo, use the brand name as a plain text header.'
+  - id: s5
     builds: automation
     uses:
     - s1
     - s2
     - s3
-    - trial_user
-    - onboarding_email_channel
-    - key_event_1
-    - key_event_2
+    - s4
+    - tier_high_min_score
     - paid_conversion_event
-    instruction: Build a tiered onboarding journey for {trial_tier} that routes each tier through appropriate education and
-      conversion touches over {onboarding_email_channel}, using the result of "Score how the trial is going", "Split trials
-      into three tiers", and "Write onboarding per tier".
-  - id: s5
-    builds: report
-    uses:
+    - onboarding_email_channel
+    dependsOn:
     - s1
     - s2
     - s3
     - s4
-    - trial_signup_event
-    - key_event_1
-    - key_event_2
-    - paid_conversion_event
-    instruction: Compose a funnel report tracking {trial_signup_event} to {key_event_1} to {key_event_2} to {paid_conversion_event}
-      with a retention overlay, using the result of "Score how the trial is going", "Split trials into three tiers", "Write
-      onboarding per tier", and "Route each tier differently".
+    instruction: 'Build an automation that starts when a user enters the segment from "Find the active trials". It waits 3
+      days, then splits on the attribute from "Score how the trial is going": score at least {tier_high_min_score}: send the
+      email from "Write the upgrade email"; score below {tier_high_min_score}: send the email from "Write the activation email".
+      Sends go through {onboarding_email_channel}. Then it waits 7 days and, if the user has not done {paid_conversion_event}
+      and the score is now at least {tier_high_min_score}, sends the email from "Write the upgrade email" once if they have
+      not had it. Then Blu asks to start it.'
 ---
 
 # Trial to paid activation
@@ -156,20 +126,20 @@ Slash command: /trial-activation
 
 ## Step 1: Score how the trial is going
 
-Define an AI-derived trial_health_score attribute computed from event signals (logins, key feature usage, team invites, data uploaded).
+Build a computed user attribute named "Trial health score", a number from 0 to 100 over the last 30 d: 30 points scaled by the number of distinct days with trial login event (full at 10 days), 30 points scaled by the number of distinct feature name values used (full at 3), 20 points when the user did team invite event at least once, 20 points when the user did data upload event at least once.
 
-## Step 2: Split trials into three tiers
+## Step 2: Find the active trials
 
-Segment trial users into risk tiers (high-engagement, moderate, at-risk) based on trial_health_score. Use the result of "Score how the trial is going".
+Build a new segment of users named "Active Trial Users": users who did trial signup event in the last 30 days and have not done paid conversion event.
 
-## Step 3: Write onboarding per tier
+## Step 3: Write the activation email
 
-Generate tier-specific onboarding email content emphasizing relevant aha-moment features per tier. Use the result of "Score how the trial is going", "Split trials into three tiers". If the brand kit has no logo, use the brand name as a plain text header.
+Write an onboarding email in a encouraging tone for trial users who have not found their footing yet: it shows the 2-3 key features (key feature event) that deliver value fastest, one short how-to each, and one button to open the product. If the brand kit has no logo, use the brand name as a plain text header.
 
-## Step 4: Route each tier differently
+## Step 4: Write the upgrade email
 
-Build a tiered onboarding journey routing each tier through appropriate education and conversion touches. Use the result of "Score how the trial is going", "Split trials into three tiers", "Write onboarding per tier".
+Write an email in a encouraging tone for highly engaged trial users: it recognizes how much they have set up, names what they keep by moving to a paid plan before the trial ends, and has one button to upgrade. If the brand kit has no logo, use the brand name as a plain text header.
 
-## Step 5: Track trial to paid
+## Step 5: Send each trial the email that fits
 
-Compose a funnel report tracking trial-signup to key-event-1 to key-event-2 to paid-conversion with retention overlay. Use the result of "Score how the trial is going", "Split trials into three tiers", "Write onboarding per tier", "Route each tier differently".
+Build an automation that starts when a user enters the segment from "Find the active trials". It waits 3 days, then splits on the attribute from "Score how the trial is going": score at least 70: send the email from "Write the upgrade email"; score below 70: send the email from "Write the activation email". Sends go through onboarding email channel. Then it waits 7 days and, if the user has not done paid conversion event and the score is now at least 70, sends the email from "Write the upgrade email" once if they have not had it. Then Blu asks to start it.

@@ -1,7 +1,8 @@
 ---
 frontmatter_id: cart-abandonment-rate
 slash_command: /cart-abandonment-rate
-description: Shows what share of shoppers who add to cart never order, week by week and by device, against the 70% industry line.
+description: Builds a segment of shoppers who add to cart but never order, and emails a weekly digest of the cart abandonment
+  rate by device against the 70% benchmark.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,21 +12,17 @@ classification:
   industry:
   - ecommerce-retail
 portable:
-  summary: Shows the weekly share of shoppers who add to cart but never order, broken down by device, with a 70% benchmark
-    and alerts for sharp week-over-week rises.
+  summary: Builds the abandoned-cart shoppers segment and emails a weekly digest of the cart abandonment rate by device, with
+    a 70% benchmark and a flag on sharp rises.
   parameters:
-  - name: time_granularity
-    type: enum
-    label: Time granularity
-    default: weekly
+  - name: abandon_window
+    type: duration
+    label: Days since adding to cart with no order
+    default: 7 d
     required: false
-    options:
-    - daily
-    - weekly
-    - monthly
   - name: lookback_window
     type: duration
-    label: Lookback window
+    label: Weeks of weekly rates in the digest
     default: 8 w
     required: false
   - name: benchmark_rate
@@ -35,9 +32,13 @@ portable:
     required: false
   - name: alert_threshold_pp
     type: number
-    label: Alert threshold over previous period (percentage points)
+    label: Rise over the previous week that gets flagged (percentage points)
     default: 5
     required: false
+  - name: digest_recipients
+    type: string
+    label: Email addresses that get the digest
+    required: true
   requirements:
   - slot: cart_created_event
     kind: event
@@ -46,11 +47,7 @@ portable:
     - name: cart_id
       type: string
       meaning: Identifier of the cart
-      optional: false
-    - name: items
-      type: text
-      meaning: Items placed in the cart
-      optional: false
+      optional: true
   - slot: placed_order_event
     kind: event
     meaning: A customer placed an order
@@ -59,44 +56,44 @@ portable:
     meaning: The device type a user shops on (desktop, mobile, tablet)
   steps:
   - id: s1
-    builds: report
+    builds: segment
     uses:
     - cart_created_event
     - placed_order_event
+    - abandon_window
+    instruction: 'Build a new segment of users named "Abandoned Cart Shoppers": users who did {cart_created_event} in the
+      last {abandon_window} and did not do {placed_order_event} after their latest {cart_created_event}.'
+  - id: s2
+    builds: automation
+    uses:
+    - s1
+    - cart_created_event
+    - placed_order_event
     - device_type
-    - time_granularity
     - lookback_window
     - benchmark_rate
     - alert_threshold_pp
-    instruction: 'Create an Insights report called "Cart Abandonment Rate". Series A: {cart_created_event}, aggregation: count
-      of unique users. Series B: {placed_order_event}, aggregation: count of unique users. Formula: ((A - B) / A) × 100, unit:
-      %, label: "Abandonment Rate". Time granularity: {time_granularity}. Time range: last {lookback_window}. Breakdown: by
-      {device_type} on the users object (desktop, mobile, tablet). Compare: previous period (previous {lookback_window}).
-      Chart type: line chart with previous-period overlay. Annotations: add a horizontal benchmark line at {benchmark_rate}%.
-      Highlight any week where abandonment rate exceeded the previous period by {alert_threshold_pp} percentage points or
-      more. Identify which device type has the highest abandonment rate and whether the gap between mobile and desktop is
-      widening over time.'
+    - digest_recipients
+    dependsOn:
+    - s1
+    instruction: 'Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes users who did {cart_created_event}
+      and writes these figures: the cart abandonment rate for the last 7 days, the share of unique users who did {cart_created_event}
+      and did not do {placed_order_event} afterwards in that week, next to the 7 days before; the same rate split by {device_type};
+      the weekly rate for each of the last {lookback_window}; the gap between the mobile and desktop rate this week and 4
+      weeks ago; the number of users in the segment from "Find shoppers who left their cart". When this week''s rate is above
+      {benchmark_rate}% or more than {alert_threshold_pp} percentage points above the week before, the email''s first line
+      says so. Then it emails these figures as plain-text lines, each with its window, to {digest_recipients}. Nothing else
+      is sent.'
 ---
 
 # Cart abandonment rate
 
 Slash command: /cart-abandonment-rate
 
-## Step 1: Track carts that never convert
+## Step 1: Find shoppers who left their cart
 
-Create an Insights report called "Cart Abandonment Rate".
-Series A: Event "Cart created", aggregation: Count Unique Users
-Series B: Event "Placed order", aggregation: Count Unique Users
-Formula: ((A - B) / A) × 100, unit: %, label: "Abandonment Rate"
-Time granularity: Weekly
-Time range: Last 8 weeks
-Breakdown: By "device_type" attribute on the Users object (desktop, mobile, tablet)
-Compare: Previous period (previous 8 weeks)
-Chart type: Line chart with previous-period overlay
-Annotations:
-- Add a horizontal benchmark line at 70% (industry baseline; abandonment above this is losing material revenue).
-- Highlight any week where abandonment rate exceeded the previous period by 5 percentage points or more.
-Identify which device type has the highest abandonment rate and whether the gap between mobile and desktop is widening over time.
-Taxonomy notes:
-- "Cart created" and "Placed order" are canonical events. Cart created carries cart_id and items.
-- Users object has device_type as an enum attribute.
+Build a new segment of users named "Abandoned Cart Shoppers": users who did cart created event in the last 7 d and did not do placed order event after their latest cart created event.
+
+## Step 2: Email the weekly abandonment digest
+
+Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes users who did cart created event and writes these figures: the cart abandonment rate for the last 7 days, the share of unique users who did cart created event and did not do placed order event afterwards in that week, next to the 7 days before; the same rate split by device type; the weekly rate for each of the last 8 w; the gap between the mobile and desktop rate this week and 4 weeks ago; the number of users in the segment from "Find shoppers who left their cart". When this week's rate is above 70% or more than 5 percentage points above the week before, the email's first line says so. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.
