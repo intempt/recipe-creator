@@ -59,14 +59,16 @@ portable:
     - inactivity_window
     - excluded_plans
     - low_engagement_paid_segment
-    instruction: 'Build a segment named "Paid Users: Low Engagement" containing users whose {plan_attribute} is not any of
-      {excluded_plans}, and who did not do {session_start} in the last {inactivity_window}.'
+    instruction: 'Build a segment named "Paid Users: Low Engagement" containing users whose {plan_attribute} has a value and
+      is not any of {excluded_plans}, and who did not do {session_start} in the last {inactivity_window}.'
   - id: s2
     builds: email
     uses:
     - s1
     - reminder_tone
     - reminder_sentence_count
+    dependsOn:
+    - s1
     instruction: 'Generate a designed marketing email for the users in the "Paid Users: Low Engagement" segment from step
       "Build the low-engagement list". The email reminds each user of one feature that drew them to sign up in the first place.
       Write {reminder_sentence_count} sentences in a {reminder_tone} tone. Include no discount language. Include one button
@@ -77,6 +79,8 @@ portable:
     uses:
     - s1
     - customer_success_list
+    dependsOn:
+    - s1
     instruction: 'Generate a plain-text email to {customer_success_list}. For each user in the "Paid Users: Low Engagement"
       segment from step "Build the low-engagement list", list their email address so the team can check in before they become
       a real churn risk. Take names and addresses from the member list in the result of the step that built the list (at most
@@ -90,16 +94,12 @@ Slash command: /paid-users-low-engagement
 
 ## Step 1: Build the low-engagement list
 
-Build a segment of users named "Paid Users: Low Engagement".
-A user is in the segment only when all of these are true:
-- their Plan attribute is not "free"
-- their Plan attribute is not "trial"
-- they did not do the Session start event in the last 14 days
+Build a segment named "Paid Users: Low Engagement" containing users whose plan attribute has a value and is not any of free, trial, and who did not do session start in the last 14 d.
 
 ## Step 2: Send a feature reminder
 
-Generate a designed marketing email for the users in "Paid Users: Low Engagement" reminding them of one feature that made them sign up in the first place. Three sentences, friendly and low-pressure tone, no discount language, one button linking back into the product. Use the result of "Build the low-engagement list". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.
+Generate a designed marketing email for the users in the "Paid Users: Low Engagement" segment from step "Build the low-engagement list". The email reminds each user of one feature that drew them to sign up in the first place. Write 3 sentences in a friendly and low-pressure tone. Include no discount language. Include one button that links back into the product. If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.
 
 ## Step 3: Flag to customer success
 
-Generate a plain-text email to the customer success distribution list For each user in "Paid Users: Low Engagement", name their email address, so the team can check in before this turns into real churn risk. Use the result of "Build the low-engagement list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in. The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe line.
+Generate a plain-text email to customer success list. For each user in the "Paid Users: Low Engagement" segment from step "Build the low-engagement list", list their email address so the team can check in before they become a real churn risk. Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in. The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe line.

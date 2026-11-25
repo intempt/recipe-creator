@@ -38,12 +38,6 @@ portable:
   - slot: plan_attribute
     kind: attribute
     meaning: The subscription plan a user is on
-  - slot: newly_activated_users
-    kind: segment
-    meaning: Paying users who completed the activation journey in the last week
-    creatable: true
-    definition: users who did {journey_completed_event} at least once in the last {activation_window} with journey_id equal
-      to {activation_journey_id}, and whose {plan_attribute} is not {excluded_plan}
   steps:
   - id: s1
     builds: segment
@@ -53,10 +47,9 @@ portable:
     - activation_window
     - activation_journey_id
     - excluded_plan
-    - newly_activated_users
-    instruction: Build a segment named {newly_activated_users} containing users who did {journey_completed_event} at least
+    instruction: Build a new segment named "Newly Activated Users" containing users who did {journey_completed_event} at least
       once in the last {activation_window} with {journey_completed_event.journey_id} equal to {activation_journey_id}, and
-      whose {plan_attribute} is not {excluded_plan}.
+      whose {plan_attribute} has a value and is not {excluded_plan}.
 ---
 
 # Newly activated users
@@ -65,7 +58,4 @@ Slash command: /newly-activated-users
 
 ## Step 1: Build the newly-activated list
 
-Build a segment of users named "Newly Activated Users".
-A user is in the segment only when all of these are true:
-- they did the Completed a journey goal event at least once in the last 7 days, with a journey_id equal to the activation journey chosen for this run
-- their Plan attribute is not "free"
+Build a new segment named "Newly Activated Users" containing users who did journey completed event at least once in the last 7 d with journey id equal to the activation journey ID chosen for this run, and whose plan attribute has a value and is not free.

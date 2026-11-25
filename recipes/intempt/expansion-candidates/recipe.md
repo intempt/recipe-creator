@@ -67,14 +67,16 @@ portable:
     - excludedPlan
     - sessionThreshold
     - sessionWindow
-    instruction: Build a segment named "Expansion Candidates" that includes users whose {plan_attribute} is not {excludedPlan}
-      and who did {session_start_event} {sessionThreshold} or more times in the last {sessionWindow}.
+    instruction: Build a segment named "Expansion Candidates" that includes users whose {plan_attribute} has a value and is
+      not {excludedPlan} and who did {session_start_event} {sessionThreshold} or more times in the last {sessionWindow}.
   - id: s2
     builds: email
     uses:
     - s1
     - upgrade_email_channel
     - tone
+    dependsOn:
+    - s1
     instruction: Generate a designed marketing email for the users in the "Expansion Candidates" segment highlighting one
       feature available only on a higher plan. Use a {tone} tone, three sentences, and no discount language. Include one button
       linking to the upgrade page. If the brand kit has no logo, use the brand name as a plain text header. Every button links
@@ -85,6 +87,8 @@ portable:
     - s1
     - growth_team_channel
     - user_email
+    dependsOn:
+    - s1
     instruction: 'Generate a plain-text email to the growth team distribution list ({growth_team_channel}). For each user
       in the "Expansion Candidates" segment, include their {user_email} so outreach can be timed to their actual usage instead
       of a generic drip. Take names and addresses from the member list in the result of the step that built the list (at most
@@ -98,15 +102,12 @@ Slash command: /expansion-candidates
 
 ## Step 1: Build the expansion-candidate list
 
-Build a segment of users named "Expansion Candidates".
-A user is in the segment only when all of these are true:
-- their Plan attribute is not "enterprise"
-- they did the Session start event 8 or more times in the last 14 days
+Build a segment named "Expansion Candidates" that includes users whose plan attribute has a value and is not enterprise and who did session start event 8 or more times in the last 14 d.
 
 ## Step 2: Send an upgrade email
 
-Generate a designed marketing email for the users in "Expansion Candidates" highlighting one feature available only on a higher plan. Three sentences, confident and helpful tone, no discount language, one button linking to the upgrade page. Use the result of "Build the expansion-candidate list". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.
+Generate a designed marketing email for the users in the "Expansion Candidates" segment highlighting one feature available only on a higher plan. Use a confident and helpful tone, three sentences, and no discount language. Include one button linking to the upgrade page. If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.
 
 ## Step 3: Notify growth
 
-Generate a plain-text email to the growth team distribution list For each user in "Expansion Candidates", name their email address, so outreach can be timed to their actual usage instead of a generic drip. Use the result of "Build the expansion-candidate list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in. The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe line.
+Generate a plain-text email to the growth team distribution list (growth team channel). For each user in the "Expansion Candidates" segment, include their user email so outreach can be timed to their actual usage instead of a generic drip. Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in. The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe line.

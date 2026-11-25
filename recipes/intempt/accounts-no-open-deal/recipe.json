@@ -3,7 +3,7 @@
   "title": "Expansion whitespace accounts",
   "slash_command": "/accounts-no-open-deal",
   "description": "Established accounts whose users log in constantly, checked in on by email and flagged to account executives to review for expansion whitespace.",
-  "markdown": "# Expansion whitespace accounts\n\n## Description\n\nEstablished accounts whose users log in constantly, checked in on by email and flagged to account executives to review for expansion whitespace.\n\n## Steps\n\n### Step 1: Build the whitespace list\n\nBuild a segment of accounts named \"Expansion Whitespace Accounts\".\nAn account is in the segment only when all of these are true:\n- its employees attribute is 50 or more\n- the users in the account together did the Session start event 5 or more times in the last 30 days\n\n### Step 2: Send a value check-in\n\nGenerate a designed marketing email for the accounts in \"Expansion Whitespace Accounts\" checking in on how the team is using the product and surfacing one feature they may not have tried yet. Three sentences, consultative and helpful tone, no pricing language, one button linking to a call-booking page. Use the result of \"Build the whitespace list\". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.\n\n### Step 3: Flag to account executives\n\nGenerate a plain-text email to the account executive distribution list For each account in \"Expansion Whitespace Accounts\", name the account and its employees count, so they can review each one for expansion opportunity. Use the result of \"Build the whitespace list\". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in. The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe line.\n",
+  "markdown": "# Expansion whitespace accounts\n\n## Description\n\nEstablished accounts whose users log in constantly, checked in on by email and flagged to account executives to review for expansion whitespace.\n\n## Steps\n\n### Step 1: Build the whitespace list\n\nBuild a segment of accounts named \"Expansion Whitespace Accounts\". An account is in the segment only when all of these are true: its account employees is 50 or more; and the users in the account together did session start 5 or more times in the last 30 d.\n\n### Step 2: Send a value check-in\n\nGenerate a designed marketing email for the accounts in \"Build the whitespace list\" checking in on how the team is using the product and surfacing one feature they may not have tried yet. Three sentences, consultative tone, no pricing language, one button linking to Call-booking page link for the email button. If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.\n\n### Step 3: Flag to account executives\n\nGenerate a plain-text email to account executives list. For each account in \"Build the whitespace list\", name the account and its account employees count, so they can review each one for expansion opportunity. Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in. The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe line.\n",
   "classification": {
     "industry": [
       "saas-b2b-tech"
@@ -24,7 +24,7 @@
     {
       "id": "s1",
       "title": "Build the whitespace list",
-      "description": "Build a segment of accounts named \"Expansion Whitespace Accounts\". An account is in the segment only when all of these are true: its employees attribute is 50 or more; the users in the account together did the Session start event 5 or more times in the last 30 days.",
+      "description": "Build a segment of accounts named \"Expansion Whitespace Accounts\". An account is in the segment only when all of these are true: its account employees is 50 or more; and the users in the account together did session start 5 or more times in the last 30 d.",
       "command": "create_segment",
       "entity": "segment",
       "kind": "static",
@@ -33,7 +33,7 @@
     {
       "id": "s2",
       "title": "Send a value check-in",
-      "description": "Generate a designed marketing email for the accounts in \"Expansion Whitespace Accounts\" checking in on how the team is using the product and surfacing one feature they may not have tried yet. Three sentences, consultative and helpful tone, no pricing language, one button linking to a call-booking page. Use the result of \"Build the whitespace list\". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.",
+      "description": "Generate a designed marketing email for the accounts in \"Build the whitespace list\" checking in on how the team is using the product and surfacing one feature they may not have tried yet. Three sentences, consultative tone, no pricing language, one button linking to Call-booking page link for the email button. If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.",
       "command": "create_email_content",
       "entity": "email_html",
       "modelConfig": []
@@ -41,7 +41,7 @@
     {
       "id": "s3",
       "title": "Flag to account executives",
-      "description": "Generate a plain-text email to the account executive distribution list For each account in \"Expansion Whitespace Accounts\", name the account and its employees count, so they can review each one for expansion opportunity. Use the result of \"Build the whitespace list\". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in. The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe line.",
+      "description": "Generate a plain-text email to account executives list. For each account in \"Build the whitespace list\", name the account and its account employees count, so they can review each one for expansion opportunity. Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in. The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe line.",
       "command": "create_email_content",
       "entity": "email_plain",
       "modelConfig": []

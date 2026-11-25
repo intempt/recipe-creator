@@ -89,9 +89,10 @@ portable:
     - signupWindow
     - sessionThreshold
     - sessionWindow
-    instruction: 'Build a segment named "Trial Users: High Engagement" of users whose {trial_plan_attribute} is {trialPlanValue},
-      who did {subscription_started_event} at least once between 0 and {signupWindow} ago, and who did {session_start_event}
-      {sessionThreshold} or more times in the last {sessionWindow}.'
+    instruction: 'Build a segment named "Trial Users: High Engagement" of users who are still on their trial and not yet paying
+      (never people who already converted): their {trial_plan_attribute} is {trialPlanValue}, who did {subscription_started_event}
+      at least once between 0 and {signupWindow} ago, and who did {session_start_event} {sessionThreshold} or more times in
+      the last {sessionWindow}.'
   - id: s2
     builds: slack
     uses:
@@ -99,6 +100,8 @@ portable:
     - sales_slack
     - salesChannel
     - trial_high_engagement_segment
+    dependsOn:
+    - s1
     instruction: Send a Slack message to the {salesChannel} channel for each user in {trial_high_engagement_segment} listing
       their email address {subscription_started_event.email} so reps can reach out while interest is at its peak. Use the
       result of "Build the fast-starter list". Take names and addresses from the member list in the result of the step that
@@ -111,6 +114,8 @@ portable:
     - tone
     - callBookingUrl
     - brand
+    dependsOn:
+    - s1
     instruction: Create a designed marketing email for users in {trial_high_engagement_segment} congratulating them on their
       fast start and offering a personal onboarding session. Write exactly three sentences in a {tone} tone with no discount
       language. Include one button linking to {callBookingUrl}. Use the result of "Build the fast-starter list". If the brand
@@ -124,16 +129,12 @@ Slash command: /trial-users-high-engagement
 
 ## Step 1: Build the fast-starter list
 
-Build a segment of users named "Trial Users: High Engagement".
-A user is in the segment only when all of these are true:
-- their Plan attribute is "trial"
-- they did the Subscription started event at least once between 0 and 7 days ago
-- they did the Session start event 5 or more times in the last 7 days
+Build a segment named "Trial Users: High Engagement" of users who are still on their trial and not yet paying (never people who already converted): their trial plan attribute is trial, who did subscription started event at least once between 0 and 7 d ago, and who did session start event 5 or more times in the last 7 d.
 
 ## Step 2: Fast-track to sales
 
-Generate a Slack message to the sales channel For each user in "Trial Users: High Engagement", name their email address, so reps can reach out while interest is at its peak. Use the result of "Build the fast-starter list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in.
+Send a Slack message to the sales channel for each user in trial high engagement segment listing their email address email so reps can reach out while interest is at its peak. Use the result of "Build the fast-starter list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in.
 
 ## Step 3: Offer a personal onboarding session
 
-Generate a designed marketing email for the users in "Trial Users: High Engagement" congratulating them on their fast start and offering a personal onboarding session. Three sentences, warm and encouraging tone, no discount language, one button linking to a call-booking page. Use the result of "Build the fast-starter list". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.
+Create a designed marketing email for users in trial high engagement segment congratulating them on their fast start and offering a personal onboarding session. Write exactly three sentences in a warm and encouraging tone with no discount language. Include one button linking to the call-booking page link for the email button. Use the result of "Build the fast-starter list". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.

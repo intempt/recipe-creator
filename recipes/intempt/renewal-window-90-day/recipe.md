@@ -82,12 +82,15 @@ portable:
     - window_min
     - window_max
     instruction: 'Build a segment of users named "Renewal Window 90 Days" who meet all of these conditions: their {paying_user_plan}
-      is not {plan_excluded}, and they did {subscription_started} at least once between {window_min} and {window_max} ago.'
+      has a value and is not {plan_excluded}, and they did {subscription_started} at least once between {window_min} and {window_max}
+      ago.'
   - id: s2
     builds: email_plain
     uses:
     - renewals_team_list
     - user_email
+    - s1
+    dependsOn:
     - s1
     instruction: 'Generate a plain-text email to the {renewals_team_list} distribution list. For each user in the segment
       built in "Build the renewal list", name their {user_email}, so conversations start months early instead of the week
@@ -104,6 +107,8 @@ portable:
     - account_manager_booking_page
     - call_booking_link_label
     - s1
+    dependsOn:
+    - s1
     instruction: Generate a designed marketing email for the users in the segment built in "Build the renewal list" recapping
       one meaningful result they have gotten from the product this year, using {product_results}. The email must be {recap_sentences}
       sentences long, in a {recap_tone} tone, with no pricing or discount language. Include one button labeled {call_booking_link_label}
@@ -117,15 +122,12 @@ Slash command: /renewal-window-90-day
 
 ## Step 1: Build the renewal list
 
-Build a segment of users named "Renewal Window 90 Days".
-A user is in the segment only when all of these are true:
-- their Plan attribute is not "free"
-- they did the Subscription started event at least once between 275 and 365 days ago
+Build a segment of users named "Renewal Window 90 Days" who meet all of these conditions: their paying user plan has a value and is not free, and they did subscription started at least once between 275 d and 365 d ago.
 
 ## Step 2: Notify the renewals team
 
-Generate a plain-text email to the renewals team distribution list For each user in "Renewal Window 90 Days", name their email address, so conversations start months early instead of the week before. Use the result of "Build the renewal list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in. The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe line.
+Generate a plain-text email to the renewals team list distribution list. For each user in the segment built in "Build the renewal list", name their user email, so conversations start months early instead of the week before. Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in. The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe line.
 
 ## Step 3: Send a value recap
 
-Generate a designed marketing email for the users in "Renewal Window 90 Days" recapping one meaningful result they have gotten from the product this year. Three sentences, warm and appreciative tone, no pricing or discount language, one button linking to a call-booking page with their account manager. Use the result of "Build the renewal list". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.
+Generate a designed marketing email for the users in the segment built in "Build the renewal list" recapping one meaningful result they have gotten from the product this year, using product results. The email must be 3 sentences long, in a warm and appreciative tone, with no pricing or discount language. Include one button labeled Book a call with your account manager that links to account manager booking page. If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.

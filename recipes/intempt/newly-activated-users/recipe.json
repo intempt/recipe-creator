@@ -3,7 +3,7 @@
   "title": "Newly activated users",
   "slash_command": "/newly-activated-users",
   "description": "Paying users who hit their activation milestone in the last week, while they are warm enough to say yes to more.",
-  "markdown": "# Newly activated users\n\n## Description\n\nPaying users who hit their activation milestone in the last week, while they are warm enough to say yes to more.\n\n## Steps\n\n### Step 1: Build the newly-activated list\n\nBuild a segment of users named \"Newly Activated Users\".\nA user is in the segment only when all of these are true:\n- they did the Completed a journey goal event at least once in the last 7 days, with a journey_id equal to the activation journey chosen for this run\n- their Plan attribute is not \"free\"\n",
+  "markdown": "# Newly activated users\n\n## Description\n\nPaying users who hit their activation milestone in the last week, while they are warm enough to say yes to more.\n\n## Steps\n\n### Step 1: Build the newly-activated list\n\nBuild a new segment named \"Newly Activated Users\" containing users who did journey completed event at least once in the last 7 d with journey id equal to the activation journey ID chosen for this run, and whose plan attribute has a value and is not free.\n",
   "classification": {
     "industry": [
       "saas-b2b-tech"
@@ -23,7 +23,7 @@
     {
       "id": "s1",
       "title": "Build the newly-activated list",
-      "description": "Build a segment of users named \"Newly Activated Users\". A user is in the segment only when all of these are true: they did the Completed a journey goal event at least once in the last 7 days, with a journey_id equal to the activation journey chosen for this run; their Plan attribute is not \"free\".",
+      "description": "Build a new segment named \"Newly Activated Users\" containing users who did journey completed event at least once in the last 7 d with journey id equal to the activation journey ID chosen for this run, and whose plan attribute has a value and is not free.",
       "command": "create_segment",
       "entity": "segment",
       "integration": [

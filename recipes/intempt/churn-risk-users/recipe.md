@@ -59,7 +59,8 @@ portable:
     - free_plan_value
     instruction: 'Build a segment named "Churn Risk Users" containing users who meet all of these conditions: they performed
       {session_start_event} at least {min_sessions} times between {earlier_window_start} and {earlier_window_end} ago; they
-      did not perform {session_start_event} in the last {silence_window}; and their {plan_attribute} is not "{free_plan_value}".'
+      did not perform {session_start_event} in the last {silence_window}; and their {plan_attribute} has a value and is not
+      "{free_plan_value}".'
 ---
 
 # Paid users going quiet
@@ -68,8 +69,4 @@ Slash command: /churn-risk-users
 
 ## Step 1: Build the silent paid-user list
 
-Build a segment of users named "Churn Risk Users".
-A user is in the segment only when all of these are true:
-- they did the Session start event 5 or more times between 60 and 90 days ago
-- they did not do the Session start event in the last 30 days
-- their Plan attribute is not "free"
+Build a segment named "Churn Risk Users" containing users who meet all of these conditions: they performed session start event at least 5 times between 90 d and 60 d ago; they did not perform session start event in the last 30 d; and their plan attribute has a value and is not "free".

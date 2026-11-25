@@ -53,13 +53,15 @@ portable:
     - plan_attribute
     - lookback_window
     instruction: Build a segment of users named "New Paying Customers" containing users who performed {subscription_started_event}
-      at least once in the last {lookback_window}, whose {plan_attribute} is not "free", and whose {plan_attribute} is not
-      "trial".
+      at least once in the last {lookback_window}, whose {plan_attribute} has a value and is not "free", and whose {plan_attribute}
+      is not "trial".
   - id: s2
     builds: email
     uses:
     - s1
     - welcome_sentence_count
+    dependsOn:
+    - s1
     instruction: Generate a designed marketing email for the users in the "New Paying Customers" segment. Welcome them warmly
       in {welcome_sentence_count} sentences and highlight one feature worth trying in their first week. Use no upsell language.
       Include one button linking to that feature inside the product. If the brand kit has no logo, use the brand name as a
@@ -70,6 +72,8 @@ portable:
     uses:
     - s1
     - customer_success_team
+    dependsOn:
+    - s1
     instruction: 'Generate a plain-text email to {customer_success_team}. For each user in the "New Paying Customers" segment,
       list their email address so the team can check in personally during their first week. Use the result of "Build the new-customer
       list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then
@@ -83,16 +87,12 @@ Slash command: /new-paying-customers
 
 ## Step 1: Build the new-customer list
 
-Build a segment of users named "New Paying Customers".
-A user is in the segment only when all of these are true:
-- they did the Subscription started event at least once in the last 30 days
-- their Plan attribute is not "free"
-- their Plan attribute is not "trial"
+Build a segment of users named "New Paying Customers" containing users who performed subscription started event at least once in the last 30 d, whose plan attribute has a value and is not "free", and whose plan attribute is not "trial".
 
 ## Step 2: Send a welcome email
 
-Generate a designed marketing email for the users in "New Paying Customers" welcoming them and highlighting one feature worth trying in their first week. Three sentences, warm tone, no upsell language, one button linking to that feature inside the product. Use the result of "Build the new-customer list". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.
+Generate a designed marketing email for the users in the "New Paying Customers" segment. Welcome them warmly in 3 sentences and highlight one feature worth trying in their first week. Use no upsell language. Include one button linking to that feature inside the product. If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.
 
 ## Step 3: Notify customer success
 
-Generate a plain-text email to the customer success distribution list For each user in "New Paying Customers", name their email address, so the team can check in personally during their first week. Use the result of "Build the new-customer list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in. The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe line.
+Generate a plain-text email to customer success team. For each user in the "New Paying Customers" segment, list their email address so the team can check in personally during their first week. Use the result of "Build the new-customer list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in. The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe line.

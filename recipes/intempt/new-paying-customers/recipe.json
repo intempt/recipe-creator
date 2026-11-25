@@ -3,7 +3,7 @@
   "title": "New paying customers",
   "slash_command": "/new-paying-customers",
   "description": "Customers who started paying in the last month, welcomed by email and flagged to customer success during the window where onboarding decides whether they stay.",
-  "markdown": "# New paying customers\n\n## Description\n\nCustomers who started paying in the last month, welcomed by email and flagged to customer success during the window where onboarding decides whether they stay.\n\n## Steps\n\n### Step 1: Build the new-customer list\n\nBuild a segment of users named \"New Paying Customers\".\nA user is in the segment only when all of these are true:\n- they did the Subscription started event at least once in the last 30 days\n- their Plan attribute is not \"free\"\n- their Plan attribute is not \"trial\"\n\n### Step 2: Send a welcome email\n\nGenerate a designed marketing email for the users in \"New Paying Customers\" welcoming them and highlighting one feature worth trying in their first week. Three sentences, warm tone, no upsell language, one button linking to that feature inside the product. Use the result of \"Build the new-customer list\". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.\n\n### Step 3: Notify customer success\n\nGenerate a plain-text email to the customer success distribution list For each user in \"New Paying Customers\", name their email address, so the team can check in personally during their first week. Use the result of \"Build the new-customer list\". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in. The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe line.\n",
+  "markdown": "# New paying customers\n\n## Description\n\nCustomers who started paying in the last month, welcomed by email and flagged to customer success during the window where onboarding decides whether they stay.\n\n## Steps\n\n### Step 1: Build the new-customer list\n\nBuild a segment of users named \"New Paying Customers\" containing users who performed subscription started event at least once in the last 30 d, whose plan attribute has a value and is not \"free\", and whose plan attribute is not \"trial\".\n\n### Step 2: Send a welcome email\n\nGenerate a designed marketing email for the users in the \"New Paying Customers\" segment. Welcome them warmly in 3 sentences and highlight one feature worth trying in their first week. Use no upsell language. Include one button linking to that feature inside the product. If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.\n\n### Step 3: Notify customer success\n\nGenerate a plain-text email to customer success team. For each user in the \"New Paying Customers\" segment, list their email address so the team can check in personally during their first week. Use the result of \"Build the new-customer list\". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in. The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe line.\n",
   "classification": {
     "industry": [
       "industry-agnostic"
@@ -24,7 +24,7 @@
     {
       "id": "s1",
       "title": "Build the new-customer list",
-      "description": "Build a segment of users named \"New Paying Customers\". A user is in the segment only when all of these are true: they did the Subscription started event at least once in the last 30 days; their Plan attribute is not \"free\"; their Plan attribute is not \"trial\".",
+      "description": "Build a segment of users named \"New Paying Customers\" containing users who performed subscription started event at least once in the last 30 d, whose plan attribute has a value and is not \"free\", and whose plan attribute is not \"trial\".",
       "command": "create_segment",
       "entity": "segment",
       "kind": "static",
@@ -33,7 +33,7 @@
     {
       "id": "s2",
       "title": "Send a welcome email",
-      "description": "Generate a designed marketing email for the users in \"New Paying Customers\" welcoming them and highlighting one feature worth trying in their first week. Three sentences, warm tone, no upsell language, one button linking to that feature inside the product. Use the result of \"Build the new-customer list\". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.",
+      "description": "Generate a designed marketing email for the users in the \"New Paying Customers\" segment. Welcome them warmly in 3 sentences and highlight one feature worth trying in their first week. Use no upsell language. Include one button linking to that feature inside the product. If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.",
       "command": "create_email_content",
       "entity": "email_html",
       "modelConfig": []
@@ -41,7 +41,7 @@
     {
       "id": "s3",
       "title": "Notify customer success",
-      "description": "Generate a plain-text email to the customer success distribution list For each user in \"New Paying Customers\", name their email address, so the team can check in personally during their first week. Use the result of \"Build the new-customer list\". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in. The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe line.",
+      "description": "Generate a plain-text email to customer success team. For each user in the \"New Paying Customers\" segment, list their email address so the team can check in personally during their first week. Use the result of \"Build the new-customer list\". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in. The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe line.",
       "command": "create_email_content",
       "entity": "email_plain",
       "modelConfig": []
