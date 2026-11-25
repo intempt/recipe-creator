@@ -1,7 +1,8 @@
 ---
 frontmatter_id: trial-activation-funnel
 slash_command: /trial-activation-funnel
-description: Shows how far trial users get through setup and core feature use before the trial ends, and which sources bring trials that activate.
+description: 'Emails a weekly trial activation digest: how far trial users get through setup and core feature use before the
+  trial ends, time to value, and which sources bring trials that activate.'
 author:
   name: Intempt
   last_name: Technologies
@@ -11,13 +12,9 @@ classification:
   industry:
   - saas-b2b-tech
 portable:
-  summary: placeholder
+  summary: Emails a weekly digest of how many new trial users return, finish setup, use the core feature and fully activate,
+    by source, with warnings.
   parameters:
-  - name: conversionWindow
-    type: duration
-    label: Conversion window
-    default: 14 d
-    required: false
   - name: comparisonWindow
     type: duration
     label: Comparison period (prior period length)
@@ -58,6 +55,22 @@ portable:
     label: Highlight sources whose full activation rate exceeds (%)
     default: 35
     required: false
+  - name: setupJourneyId
+    type: string
+    label: Journey id of the setup milestone
+    required: true
+  - name: coreFeatureJourneyId
+    type: string
+    label: Journey id of the core feature milestone
+    required: true
+  - name: fullActivationJourneyId
+    type: string
+    label: Journey id of the full activation milestone
+    required: true
+  - name: digest_recipients
+    type: string
+    label: Email addresses that get the digest
+    required: true
   requirements:
   - slot: trial_started_event
     kind: event
@@ -82,30 +95,17 @@ portable:
       type: text
       meaning: Identifier of the onboarding journey that emitted the goal
       optional: false
-  - slot: setup_journey
-    kind: knowledge
-    meaning: The onboarding journey id for integration and setup milestone
-  - slot: core_feature_journey
-    kind: knowledge
-    meaning: The onboarding journey id for core feature use milestone
-  - slot: full_activation_journey
-    kind: knowledge
-    meaning: The onboarding journey id for full activation milestone
   - slot: utm_source_attribute
     kind: attribute
     meaning: The UTM source of the user's acquisition
   steps:
   - id: s1
-    builds: report
+    builds: automation
     uses:
     - trial_started_event
     - session_start_event
     - journey_goal_event
-    - setup_journey
-    - core_feature_journey
-    - full_activation_journey
     - utm_source_attribute
-    - conversionWindow
     - comparisonWindow
     - firstReturnWindow
     - setupWindow
@@ -114,46 +114,25 @@ portable:
     - timeToValueThreshold
     - lowActivationThreshold
     - highActivationThreshold
-    instruction: 'Create a funnel report named "Trial Activation Funnel" that tracks trial users through setup and core feature
-      use. Steps: 1) {trial_started_event} where trial_start and trial_end are populated, labeled "Started Trial". 2) {session_start_event}
-      by the same user within {firstReturnWindow} of step 1, labeled "First Return Session". 3) {journey_goal_event} where
-      journey_id matches {setup_journey} and occurs within {setupWindow} of trial start, labeled "Completed Setup Goal". 4)
-      {journey_goal_event} where journey_id matches {core_feature_journey}, labeled "Used Core Feature". 5) {journey_goal_event}
-      where journey_id matches {full_activation_journey} and occurs within {fullActivationWindow} of trial start, labeled
-      "Fully Activated". Set conversion window to {conversionWindow}. Break down by {utm_source_attribute}. Compare against
-      the previous period of {comparisonWindow}. For each step, show the median time to convert from the previous step and
-      the per-source conversion rate at each stage. Annotations: flag if the share of trials reaching Step 3 within {setupWindow}
-      is below {setupRateThreshold}%; flag if the median time from Step 1 to Step 4 exceeds {timeToValueThreshold}; flag any
-      source whose Step 5 rate is below {lowActivationThreshold}%; highlight sources whose Step 5 rate exceeds {highActivationThreshold}%.
-      Surface the single highest-leverage step to optimize, defined as the largest drop-off multiplied by the largest downstream
-      lift on Step 5.'
+    - setupJourneyId
+    - coreFeatureJourneyId
+    - fullActivationJourneyId
+    - digest_recipients
+    instruction: 'Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes users who did {trial_started_event}
+      in the last {comparisonWindow} and in the {comparisonWindow} before that, and writes these figures for both windows:
+      the count who started a trial; the share who did {session_start_event} within {firstReturnWindow} of it; the share who
+      did {journey_goal_event} with {journey_goal_event.journey_id} equal to {setupJourneyId} within {setupWindow}; the share
+      who did it with {coreFeatureJourneyId}, and the median time from trial start to that; the share who did it with {fullActivationJourneyId}
+      within {fullActivationWindow}; that full activation share by {utm_source_attribute}. The email''s first line warns when
+      the setup share is below {setupRateThreshold}%, the median time to the core feature is above {timeToValueThreshold},
+      or a source''s full activation share is below {lowActivationThreshold}%, and names sources above {highActivationThreshold}%.
+      Then it emails these figures as plain-text lines, each with its window, to {digest_recipients}. Nothing else is sent.'
 ---
 
 # Trial activation funnel
 
 Slash command: /trial-activation-funnel
 
-## Step 1: Track trials through setup
+## Step 1: Email the weekly trial activation digest
 
-Create a Funnel report called "Trial Activation Funnel".
-Steps:
-1. Event "Subscription started" where trial_end and trial_start are populated: "Started Trial"
-2. Event "Session start" by the same user within 24h of step 1: "First Return Session"
-3. Event "Completed a journey goal" where journey_id matches the integration/setup journey: "Completed Setup Goal"
-4. Event "Completed a journey goal" where journey_id matches the core-feature-use journey: "Used Core Feature"
-5. Event "Completed a journey goal" where journey_id matches the full-activation journey AND occurred within 14 days of trial start: "Fully Activated"
-Conversion window: 14 days
-Breakdown: By Users.UTM source
-Compare: Previous period (prior 14 days)
-For each step, also surface:
-- Median time-to-convert from previous step
-- Per-source conversion rate at each stage
-Annotations:
-- Flag if the % of trials that hit Step 3 within 24 hours is below 50%: first-day setup is a strong activation predictor.
-- Flag if median time from Step 1 to Step 4 exceeds 48 hours: the time-to-value benchmark for self-serve PLG.
-- Flag any source where Step 5 (full activation) rate is below 15%.
-- Highlight sources where Step 5 rate exceeds 35%.
-Surface the single highest-leverage step to optimize: largest drop-off × largest downstream lift on Step 5.
-Taxonomy notes:
-- "integration_connected" and "onboarding_started" as standalone events do not exist. Setup milestones are tracked via Completed a journey goal events emitted by the relevant onboarding journey.
-- Each onboarding milestone (setup, core-feature use, full activation) corresponds to a different journey_id in the project's journey configuration.
+Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes users who did trial started event in the last 14 d and in the 14 d before that, and writes these figures for both windows: the count who started a trial; the share who did session start event within 24 h of it; the share who did journey goal event with journey id equal to the journey id of the setup milestone within 24 h; the share who did it with the journey id of the core feature milestone, and the median time from trial start to that; the share who did it with the journey id of the full activation milestone within 14 d; that full activation share by utm source attribute. The email's first line warns when the setup share is below 50%, the median time to the core feature is above 48 h, or a source's full activation share is below 15%, and names sources above 35%. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.

@@ -3,7 +3,7 @@
   "title": "Meeting booking and follow-up",
   "slash_command": "/scheduling-setup",
   "description": "Creates a booking link, routes requests to the right host, and supports post-booking journeys and workflows.",
-  "markdown": "# Meeting booking and follow-up\n\n## Description\n\nCreates a booking link, routes requests to the right host, and supports post-booking journeys and workflows.\n\n## Steps\n\n### Step 1: Set up the booking link\n\nConfigure the booking link with meeting types, durations, availability windows, and host assignment rules.\n\n### Step 2: Trigger follow-up on booking\n\nCreate a workflow firing on booking-completed: trigger the confirmation journey, create CRM meeting record, and prep notification to host. (Email/SMS are journey-only per architecture; this workflow triggers the journey rather than sending the message itself.) Use the result of \"Set up the booking link\".\n\n### Step 3: Send the confirmation email\n\nBuild a 1-touch journey that sends the booking confirmation email to the prospect when fired by the postbooking workflow. Use the result of \"Set up the booking link\", \"Trigger follow-up on booking\".\n\n### Step 4: Track bookings and show rate\n\nCompose a dashboard tracking booking volume, show-rate, time-to-book, and host utilization. Use the result of \"Set up the booking link\", \"Trigger follow-up on booking\", \"Send the confirmation email\".\n",
+  "markdown": "# Meeting booking and follow-up\n\n## Description\n\nCreates a booking link, routes requests to the right host, and supports post-booking journeys and workflows.\n\n## Steps\n\n### Step 1: Set up the booking link\n\nConfigure the booking link with the meeting types, durations and availability windows in Meeting types, durations, and availability windows as configured in the booking link. Apply the host assignment rule in Route each booking request to the right host according to the configured assignment rules so each request is routed to the right host, using booking tool.\n\n### Step 2: Trigger follow-up on booking\n\nCreate a workflow that fires on booking completed. Trigger the confirmation journey for the prospect, create a meeting record in crm meeting record from the booking details including meeting type, host and start time. If True is true, prepare a notification to the host host. Do not send email or SMS directly from this workflow; it only triggers the journey.\n\n### Step 3: Send the confirmation email\n\nBuild a one-touch journey that sends the booking confirmation email to the prospect at prospect email when fired by the workflow in \"Trigger follow-up on booking\". Use the booking details from \"Set up the booking link\".\n",
   "classification": {
     "industry": [
       "industry-agnostic"
@@ -20,22 +20,17 @@
     {
       "id": "s1",
       "title": "Set up the booking link",
-      "description": "Configure the booking link with meeting types, durations, availability windows, and host assignment rules."
+      "description": "Configure the booking link with the meeting types, durations and availability windows in Meeting types, durations, and availability windows as configured in the booking link. Apply the host assignment rule in Route each booking request to the right host according to the configured assignment rules so each request is routed to the right host, using booking tool."
     },
     {
       "id": "s2",
       "title": "Trigger follow-up on booking",
-      "description": "Create a workflow firing on booking-completed: trigger the confirmation journey, create CRM meeting record, and prep notification to host. (Email/SMS are journey-only per architecture; this workflow triggers the journey rather than sending the message itself.) Use the result of \"Set up the booking link\"."
+      "description": "Create a workflow that fires on booking completed. Trigger the confirmation journey for the prospect, create a meeting record in crm meeting record from the booking details including meeting type, host and start time. If True is true, prepare a notification to the host host. Do not send email or SMS directly from this workflow; it only triggers the journey."
     },
     {
       "id": "s3",
       "title": "Send the confirmation email",
-      "description": "Build a 1-touch journey that sends the booking confirmation email to the prospect when fired by the postbooking workflow. Use the result of \"Set up the booking link\", \"Trigger follow-up on booking\"."
-    },
-    {
-      "id": "s4",
-      "title": "Track bookings and show rate",
-      "description": "Compose a dashboard tracking booking volume, show-rate, time-to-book, and host utilization. Use the result of \"Set up the booking link\", \"Trigger follow-up on booking\", \"Send the confirmation email\"."
+      "description": "Build a one-touch journey that sends the booking confirmation email to the prospect at prospect email when fired by the workflow in \"Trigger follow-up on booking\". Use the booking details from \"Set up the booking link\"."
     }
   ],
   "availability": "coming_soon"

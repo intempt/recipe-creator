@@ -72,12 +72,11 @@ portable:
     - target_sheet
     - sheet_tab
     - failure_policy
-    instruction: 'Trigger when {deal_won_event} fires, i.e. a deal stage changes to Closed Won. Append one row to the sheet
-      {target_sheet}, tab {sheet_tab}, using the {google_sheets_integration} connection. Map columns by header name, never
-      by position, so inserting a column in the sheet does not redirect later writes. Write these values: deal name from {deal_won_event.deal_name},
+    instruction: 'Build an automation triggered when {deal_won_event} happens. It appends one row to the sheet {target_sheet},
+      tab {sheet_tab}, through {google_sheets_integration}, matching columns by header name: deal name from {deal_won_event.deal_name},
       account from {deal_won_event.account}, amount from {deal_won_event.amount}, close date from {deal_won_event.close_date},
-      owner from {deal_won_event.owner}, source from {deal_won_event.source}. On a write failure, apply {failure_policy}:
-      skip the row and record it so skipped rows can be recovered, so a temporarily locked sheet does not fail the run.'
+      owner from {deal_won_event.owner}, source from {deal_won_event.source}. When a row cannot be written it applies {failure_policy},
+      where skip_and_record skips the row and records it for recovery.'
 ---
 
 # Log won deals to a sheet
@@ -86,4 +85,4 @@ Slash command: /google-sheets-deal-won-row
 
 ## Step 1: Append a row on every win
 
-Create a workflow triggered on deal stage changing to Closed Won. One step: append a row to the chosen Google Sheet with deal name, account, amount, close date, owner and source. Map columns by header name, never by position, so someone inserting a column in the sheet does not silently redirect every write after it. Failure policy is skip-and-record: a sheet that is momentarily locked should not fail the run, and the skipped rows need to be recoverable.
+Build an automation triggered when deal won event happens. It appends one row to the sheet the google Sheet to append won deals to, tab the sheet tab name, through google sheets integration, matching columns by header name: deal name from deal name, account from account, amount from amount, close date from close date, owner from owner, source from source. When a row cannot be written it applies skip_and_record, where skip_and_record skips the row and records it for recovery.

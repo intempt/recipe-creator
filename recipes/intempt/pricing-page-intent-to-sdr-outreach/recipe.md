@@ -1,7 +1,8 @@
 ---
 frontmatter_id: pricing-page-intent-to-sdr-outreach
 slash_command: /pricing-page-intent-to-sdr-outreach
-description: Treats a repeat pricing page visit, or one after real product use, as a buying signal and puts it on an SDR with the visit context attached.
+description: Treats a repeat pricing page visit, or one after real product use, as a buying signal and emails an SDR the visit
+  context, with a weekly digest of what the signals turn into.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,8 +12,8 @@ classification:
   industry:
   - saas-b2b-tech
 portable:
-  summary: Flags repeat pricing page visitors, or visitors who pricing-viewed after real product use, as buying signals and
-    hands each to a sales rep with visit context attached.
+  summary: Flags repeat pricing page visitors, or visitors who viewed pricing after real product use, and emails a sales rep
+    each one with the visit context, plus a weekly digest.
   parameters:
   - name: repeat_visit_count
     type: number
@@ -29,21 +30,14 @@ portable:
     label: Minimum total product session time before a single pricing view qualifies
     default: 5 min
     required: false
-  - name: segment_lookback
-    type: duration
-    label: Lookback window for the intent segment
-    default: 7 d
-    required: false
-  - name: task_tag
+  - name: alert_recipients
     type: string
-    label: Tag applied to the SDR task
-    default: 'high-intent: pricing'
-    required: false
-  - name: dashboard_comparison_multiple
+    label: Email addresses of the SDRs who get the buying signals
+    required: true
+  - name: digest_recipients
     type: string
-    label: Expected conversion lift of pricing intent over cold outbound
-    default: 3-5x
-    required: false
+    label: Email addresses that get the digest
+    required: true
   requirements:
   - slot: pricing_page_viewed
     kind: event
@@ -79,36 +73,12 @@ portable:
     kind: attribute
     meaning: The ideal customer profile tier of the user's account
     optional: true
-  - slot: sdr_rep_territory
-    kind: attribute
-    meaning: The sales rep assigned to the account's territory
-  - slot: sales_crm
-    kind: integration
-    meaning: Connected CRM where SDR tasks and deals are created
-    channel: hubspot
-  - slot: sales_slack
-    kind: integration
-    meaning: Connected Slack workspace used to notify reps
-    channel: slack
-  - slot: account_enrichment
-    kind: integration
-    meaning: Connected service that enriches a user's account data
-    optional: true
-    channel: email
-  - slot: identification_prompt
-    kind: destination
-    meaning: In-app channel for asking an anonymous visitor for their email
-    optional: true
-    channel: email
   - slot: demo_scheduled
     kind: event
     meaning: A prospect scheduled a sales demo
   - slot: deal_created
     kind: event
     meaning: A sales deal was created
-  - slot: cold_outbound_deals
-    kind: segment
-    meaning: Deals sourced from cold outbound prospecting
   steps:
   - id: s1
     builds: segment
@@ -120,42 +90,39 @@ portable:
     - repeat_visit_count
     - repeat_window
     - min_session_time
-    - segment_lookback
-    instruction: Build a segment named 'Pricing-page intent - {segment_lookback}' of identified users who have either {repeat_visit_count}+
-      {pricing_page_viewed} events in the last {repeat_window}, OR one {pricing_page_viewed} event after at least {min_session_time}
-      of total {product_session.duration} in product sessions. Exclude users in {existing_paying_customer} and users in {open_deal}.
-      The repeat-visit and dwell-time qualifiers filter out casual one-click visits.
+    instruction: Build a new segment of users named "Pricing Page Intent". A user is in it when they are identified and either
+      they did {pricing_page_viewed} {repeat_visit_count} or more times in the last {repeat_window}, or they did {pricing_page_viewed}
+      at least once in the last {repeat_window} after a total {product_session.duration} of {min_session_time} or more. Users
+      in {existing_paying_customer} or in {open_deal} are left out.
   - id: s2
     builds: automation
     uses:
     - s1
-    - sales_crm
-    - sales_slack
-    - account_enrichment
-    - identification_prompt
-    - sdr_rep_territory
+    - pricing_page_viewed
+    - product_session
     - account_icp_tier
-    - task_tag
-    instruction: 'Create a workflow triggered by {pricing_page_viewed} when the user is identified. Step 1: check whether
-      the visit qualifies using the result of "Filter out the casual visits". Step 2: enrich the user''s account with {account_enrichment}
-      if not already done. Step 3: compute a context blob with visit count, pages viewed before {pricing_page_viewed.page},
-      key features from {product_session.feature_used} in session, and {account_icp_tier}. Step 4: create an SDR task in {sales_crm}
-      tagged ''{task_tag}'' with the context, assigned by {sdr_rep_territory}. Step 5: post a Slack notification to the assigned
-      rep in {sales_slack}. If the visitor is anonymous (not identified), start the identification journey instead by requesting
-      their email through {identification_prompt}.'
+    - repeat_window
+    - alert_recipients
+    dependsOn:
+    - s1
+    instruction: 'Build an automation triggered when a user enters the segment from "Filter out the casual visits". An analysis
+      step writes: how many times they did {pricing_page_viewed} in the last {repeat_window}; the {pricing_page_viewed.page}
+      values they viewed before pricing; their top {product_session.feature_used} values; their {account_icp_tier}. Then it
+      emails {alert_recipients} the user''s name, email and this context, marked high intent: pricing.'
   - id: s3
-    builds: dashboard
+    builds: automation
     uses:
     - s1
-    - s2
     - demo_scheduled
     - deal_created
-    - cold_outbound_deals
-    - dashboard_comparison_multiple
-    instruction: Build a pricing-intent dashboard showing weekly volume of signals from "Filter out the casual visits", median
-      minutes from signal to first SDR touch from "Send the visit to a rep", conversion rate from pricing-intent signal to
-      {demo_scheduled}, and conversion rate from pricing-intent signal to {deal_created}. Add a comparison against {cold_outbound_deals},
-      where pricing-intent leads are expected to convert {dashboard_comparison_multiple} better.
+    - digest_recipients
+    dependsOn:
+    - s1
+    instruction: 'Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes the users who entered
+      the segment from "Filter out the casual visits" and writes these figures: the count in the last 7 days and in each of
+      the 4 weeks before; of users who entered in the last 60 days, the share who did {demo_scheduled} within 14 days of entering,
+      and the share who did {deal_created} within 30 days. Then it emails these figures as plain-text lines, each with its
+      window, to {digest_recipients}. Nothing else is sent.'
 ---
 
 # Pricing page intent to outreach
@@ -164,12 +131,12 @@ Slash command: /pricing-page-intent-to-sdr-outreach
 
 ## Step 1: Filter out the casual visits
 
-Build a segment 'Pricing-page intent - last 7 days' capturing identified users with 2+ pricing_page_viewed events in the last 14 days, OR a single pricing_page_viewed event after at least 5 minutes of total product session time. Excludes existing paid customers and users with an open deal already. The repeat-visit and dwell-time qualifiers filter out casual one-click visits.
+Build a new segment of users named "Pricing Page Intent". A user is in it when they are identified and either they did pricing page viewed 2 or more times in the last 14 d, or they did pricing page viewed at least once in the last 14 d after a total duration of 5 min or more. Users in existing paying customer or in open deal are left out.
 
 ## Step 2: Send the visit to a rep
 
-Create a workflow firing on pricing_page_viewed when the user is identified. Step sequence: (1) check whether this is a qualifying visit per segment criteria; (2) enrich the user's account if not done already; (3) compute a context blob: visit count, pages viewed prior to pricing, key features used in session, account ICP tier; (4) create a SDR task tagged 'high-intent: pricing' with the context, assigned by territory; (5) post Slack notification to the rep. If the account is unidentified (anonymous visitor), trigger the identification journey instead (request email via in-app prompt). Use the result of "Filter out the casual visits".
+Build an automation triggered when a user enters the segment from "Filter out the casual visits". An analysis step writes: how many times they did pricing page viewed in the last 14 d; the page values they viewed before pricing; their top feature used values; their account icp tier. Then it emails the email addresses of the SDRs who get the buying signals the user's name, email and this context, marked high intent: pricing.
 
-## Step 3: Compare against cold sourcing
+## Step 3: Email the weekly pricing intent digest
 
-Compose a pricing-intent dashboard: pricing-page intent signal volume per week, SDR response time (median minutes from signal to first touch), conversion rate from pricing-intent signal to demo-scheduled, conversion rate from pricing-intent to Deal created. Compare against baseline (deals sourced from cold outbound): pricing-intent leads should convert 3-5x better. Use the result of "Filter out the casual visits", "Send the visit to a rep".
+Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes the users who entered the segment from "Filter out the casual visits" and writes these figures: the count in the last 7 days and in each of the 4 weeks before; of users who entered in the last 60 days, the share who did demo scheduled within 14 days of entering, and the share who did deal created within 30 days. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.

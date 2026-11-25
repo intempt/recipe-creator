@@ -3,7 +3,7 @@
   "title": "Weekly segment export to a sheet",
   "slash_command": "/google-sheets-segment-weekly-export",
   "description": "Writes a segment into a Google Sheet every week, replacing the CSV someone downloads and re-uploads by hand.",
-  "markdown": "# Weekly segment export to a sheet\n\n## Description\n\nWrites a segment into a Google Sheet every week, replacing the CSV someone downloads and re-uploads by hand.\n\n## Steps\n\n### Step 1: Pick the audience to export\n\nCreate or pick the segment whose members should land in the sheet each week. Keep it a segment rather than a filter inside the workflow, so the same definition drives the export and anything else that needs the same audience.\n\n### Step 2: Refresh the sheet each week\n\nCreate a scheduled workflow that reads the segment and appends its members to a Google Sheet weekly. Use append-or-update matched on the record identifier so a re-run maintains the sheet rather than duplicating it: a plain append turns a weekly export into a growing pile nobody trusts. State the row count before the run so an author can see a segment that has unexpectedly collapsed or exploded. Use the result of \"Pick the audience to export\".\n",
+  "markdown": "# Weekly segment export to a sheet\n\n## Description\n\nWrites a segment into a Google Sheet every week, replacing the CSV someone downloads and re-uploads by hand.\n\n## Steps\n\n### Step 1: Refresh the sheet each week\n\nBuild an automation that runs every Monday at 06:00 on a schedule. Each run it reads the current members of audience segment and writes them to the sheet the google Sheet the segment is written to, tab Sheet1, through export sheet: a member whose customer record id already has a row updates that row, any other member is appended as a new row. Each run first records the member count of audience segment and the count from the run before.\n",
   "classification": {
     "industry": [
       "industry-agnostic"
@@ -19,13 +19,8 @@
   "steps": [
     {
       "id": "s1",
-      "title": "Pick the audience to export",
-      "description": "Create or pick the segment whose members should land in the sheet each week. Keep it a segment rather than a filter inside the workflow, so the same definition drives the export and anything else that needs the same audience."
-    },
-    {
-      "id": "s2",
       "title": "Refresh the sheet each week",
-      "description": "Create a scheduled workflow that reads the segment and appends its members to a Google Sheet weekly. Use append-or-update matched on the record identifier so a re-run maintains the sheet rather than duplicating it: a plain append turns a weekly export into a growing pile nobody trusts. State the row count before the run so an author can see a segment that has unexpectedly collapsed or exploded. Use the result of \"Pick the audience to export\"."
+      "description": "Build an automation that runs every Monday at 06:00 on a schedule. Each run it reads the current members of audience segment and writes them to the sheet the google Sheet the segment is written to, tab Sheet1, through export sheet: a member whose customer record id already has a row updates that row, any other member is appended as a new row. Each run first records the member count of audience segment and the count from the run before."
     }
   ],
   "availability": "coming_soon"

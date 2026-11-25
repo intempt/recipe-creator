@@ -2,8 +2,8 @@
   "frontmatter_id": "video-remix",
   "title": "Reference-anchored video remix",
   "slash_command": "/video-remix",
-  "description": "Pin one image reference and get back a branded reel variant anchored to it.",
-  "markdown": "# Reference-anchored video remix\n\n## Description\n\nPin one image reference and get back a branded reel variant anchored to it.\n\n## Steps\n\n### Step 1: Pin clips and fan out\n\nGenerate branded video variations from reference pins.\nInputs:\n- references: 1: 4 video references (clip, scene, avatar, product)\n- fanout: number of variations (default: 4)\nPipeline: kling v3 i2v multi-ref\nRunner: video-remix (custom)\nFan out branded reel variants anchored to the reference clips.\n",
+  "description": "Pin one reference image and get back a short branded video clip anchored to it.",
+  "markdown": "# Reference-anchored video remix\n\n## Description\n\nPin one reference image and get back a short branded video clip anchored to it.\n\n## Steps\n\n### Step 1: Remix the reference into a clip\n\nGenerate one short video clip from reference clip. Keep its subject, composition and colours, and animate it with a slow camera push-in. Match the colours and look of brand identity. No text on screen, no people speaking, no visible cut.\n",
   "classification": {
     "industry": [
       "industry-agnostic"
@@ -19,8 +19,8 @@
   "steps": [
     {
       "id": "s1",
-      "title": "Pin clips and fan out",
-      "description": "Generate branded video variations from reference pins.\nInputs:\n- references: 1: 4 video references (clip, scene, avatar, product)\n- fanout: number of variations (default: 4)\nPipeline: kling v3 i2v multi-ref\nRunner: video-remix (custom)\nFan out branded reel variants anchored to the reference clips."
+      "title": "Remix the reference into a clip",
+      "description": "Generate one short video clip from reference clip. Keep its subject, composition and colours, and animate it with a slow camera push-in. Match the colours and look of brand identity. No text on screen, no people speaking, no visible cut."
     }
   ],
   "availability": "coming_soon"

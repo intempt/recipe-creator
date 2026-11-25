@@ -2,8 +2,8 @@
   "frontmatter_id": "customer-onboarding",
   "title": "Customer onboarding",
   "slash_command": "/customer-onboarding",
-  "description": "Sets up a new account, gives the CSM a dated checklist, books the kickoff, and walks the customer through to go live.",
-  "markdown": "# Customer onboarding\n\n## Description\n\nSets up a new account, gives the CSM a dated checklist, books the kickoff, and walks the customer through to go live.\n\n## Steps\n\n### Step 1: Set up the account record\n\nConfigure the new account record with onboarding fields, target go-live date, and CSM assignment.\n\n### Step 2: Give the CSM a checklist\n\nCreate the onboarding task checklist for the assigned CSM with default due dates. Use the result of \"Set up the account record\".\n\n### Step 3: Book the kickoff call\n\nCreate kickoff meeting calendar event with the account stakeholders. Use the result of \"Set up the account record\", \"Give the CSM a checklist\".\n\n### Step 4: Email through each milestone\n\nBuild an email journey supporting the user through onboarding milestones with helpful resources at each step. Use the result of \"Set up the account record\", \"Give the CSM a checklist\", \"Book the kickoff call\".\n\n### Step 5: Track progress to go live\n\nCompose a funnel report tracking onboarding milestone completion (kickoff to setup to first-value to go-live). Use the result of \"Set up the account record\", \"Give the CSM a checklist\", \"Book the kickoff call\", \"Email through each milestone\".\n",
+  "description": "Sets up a new account, gives the CSM a dated checklist, welcomes the customer with a kickoff invite, follows up on each onboarding milestone and emails weekly progress to go live.",
+  "markdown": "# Customer onboarding\n\n## Description\n\nSets up a new account, gives the CSM a dated checklist, welcomes the customer with a kickoff invite, follows up on each onboarding milestone and emails weekly progress to go live.\n\n## Steps\n\n### Step 1: Set up the account record\n\nFor each account that did new account, set up its account record with the name from account name, the CSM from csm assignment, and a target go-live date 30 d after the new account event.\n\n### Step 2: Give the CSM a checklist\n\nFor each account from \"Set up the account record\", create these tasks for its CSM from csm assignment, due the given number of days after the new account event: hold the kickoff call (3 days), confirm setup is done (10 days), confirm first value (20 days), confirm go-live (30 days).\n\n### Step 3: Write the welcome and kickoff email\n\nWrite a welcome email to a new customer user whose account was just created. It thanks them, says their CSM from csm assignment will run a kickoff call in the next 3 days and asks them to reply with times that suit them, lists the four onboarding milestones (kickoff, setup, first value, go-live), and links to the getting-started guide.\n\n### Step 4: Send the welcome and nudge stalled onboarding\n\nBuild an automation triggered when a user does new account. It sends the email from \"Write the welcome and kickoff email\" to that user. Then it waits 7 d; if the user's account has not done onboarding milestones completed in that time, it sends the user one email via Blu's mailer that names the next milestone not yet reached, in the order kickoff, setup, first value, go-live, and offers help from their CSM.\n\n### Step 5: Email weekly progress to go-live\n\nBuild an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes accounts that did new account in the last 60 days and writes these figures: how many reached each milestone value (kickoff, setup, first value, go-live); the median days from new account to go-live; the accounts past 30 d without go-live, each by name with its CSM from csm assignment. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.\n",
   "classification": {
     "industry": [
       "saas-b2b-tech"
@@ -20,27 +20,27 @@
     {
       "id": "s1",
       "title": "Set up the account record",
-      "description": "Configure the new account record with onboarding fields, target go-live date, and CSM assignment."
+      "description": "For each account that did new account, set up its account record with the name from account name, the CSM from csm assignment, and a target go-live date 30 d after the new account event."
     },
     {
       "id": "s2",
       "title": "Give the CSM a checklist",
-      "description": "Create the onboarding task checklist for the assigned CSM with default due dates. Use the result of \"Set up the account record\"."
+      "description": "For each account from \"Set up the account record\", create these tasks for its CSM from csm assignment, due the given number of days after the new account event: hold the kickoff call (3 days), confirm setup is done (10 days), confirm first value (20 days), confirm go-live (30 days)."
     },
     {
       "id": "s3",
-      "title": "Book the kickoff call",
-      "description": "Create kickoff meeting calendar event with the account stakeholders. Use the result of \"Set up the account record\", \"Give the CSM a checklist\"."
+      "title": "Write the welcome and kickoff email",
+      "description": "Write a welcome email to a new customer user whose account was just created. It thanks them, says their CSM from csm assignment will run a kickoff call in the next 3 days and asks them to reply with times that suit them, lists the four onboarding milestones (kickoff, setup, first value, go-live), and links to the getting-started guide."
     },
     {
       "id": "s4",
-      "title": "Email through each milestone",
-      "description": "Build an email journey supporting the user through onboarding milestones with helpful resources at each step. Use the result of \"Set up the account record\", \"Give the CSM a checklist\", \"Book the kickoff call\"."
+      "title": "Send the welcome and nudge stalled onboarding",
+      "description": "Build an automation triggered when a user does new account. It sends the email from \"Write the welcome and kickoff email\" to that user. Then it waits 7 d; if the user's account has not done onboarding milestones completed in that time, it sends the user one email via Blu's mailer that names the next milestone not yet reached, in the order kickoff, setup, first value, go-live, and offers help from their CSM."
     },
     {
       "id": "s5",
-      "title": "Track progress to go live",
-      "description": "Compose a funnel report tracking onboarding milestone completion (kickoff to setup to first-value to go-live). Use the result of \"Set up the account record\", \"Give the CSM a checklist\", \"Book the kickoff call\", \"Email through each milestone\"."
+      "title": "Email weekly progress to go-live",
+      "description": "Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes accounts that did new account in the last 60 days and writes these figures: how many reached each milestone value (kickoff, setup, first value, go-live); the median days from new account to go-live; the accounts past 30 d without go-live, each by name with its CSM from csm assignment. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent."
     }
   ],
   "availability": "coming_soon"

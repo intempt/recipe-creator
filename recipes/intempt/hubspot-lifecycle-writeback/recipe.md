@@ -10,20 +10,13 @@ author:
 classification:
   industry:
   - industry-agnostic
+visibility: draft
+rejected: Its purpose is writing the computed lifecycle stage onto the HubSpot contact; HubSpot writes are not planned on
+  Blu.
 portable:
   summary: Computes each contact's lifecycle stage from product and billing behaviour and writes it one way to the HubSpot
     contact so sales and marketing see the same value.
   parameters:
-  - name: lifecycle_stages
-    type: enum
-    label: Lifecycle stages to compute
-    default: trialing,active,at_risk,churned
-    required: false
-    options:
-    - trialing
-    - active
-    - at_risk
-    - churned
   - name: hubspot_property_name
     type: string
     label: HubSpot contact property to update
@@ -46,9 +39,6 @@ portable:
       type: string
       meaning: Current billing status of the subscription
       optional: false
-  - slot: lifecycle_attribute
-    kind: attribute
-    meaning: A user attribute holding the computed lifecycle stage (trialing, active, at risk, churned)
   - slot: hubspot_contact
     kind: integration
     meaning: A connected HubSpot account where contact properties can be updated by workflow
@@ -59,20 +49,20 @@ portable:
     uses:
     - product_usage_event
     - billing_event
-    - lifecycle_attribute
-    - lifecycle_stages
-    instruction: Create {lifecycle_attribute} from product activity in {product_usage_event} and billing status in {billing_event},
-      not from form data, assigning one of {lifecycle_stages} to each contact.
+    instruction: 'Build a computed attribute on users named "lifecycle_stage", refreshed daily, with exactly one of these
+      values: trialing, active, at_risk, churned, from {billing_event.subscription_status} on the user''s latest {billing_event}
+      and whether they did {product_usage_event} in the last 14 days.'
   - id: s2
     builds: automation
     uses:
     - s1
-    - lifecycle_attribute
     - hubspot_contact
     - hubspot_property_name
-    instruction: 'Create a one-way workflow that updates the {hubspot_property_name} property on the {hubspot_contact} contact
-      whenever {lifecycle_attribute} changes, using the value computed in "Define the lifecycle honestly". Treat the lifecycle
-      as owned by the CDP: HubSpot only displays it and must not write to this field.'
+    dependsOn:
+    - s1
+    instruction: Build an automation triggered when a user's lifecycle_stage from "Define the lifecycle honestly" changes.
+      It writes the new value to the {hubspot_property_name} property of the matching contact in {hubspot_contact}, one way
+      only.
 ---
 
 # Write lifecycle back to HubSpot
@@ -81,8 +71,8 @@ Slash command: /hubspot-lifecycle-writeback
 
 ## Step 1: Define the lifecycle honestly
 
-Create the lifecycle attribute from product and billing reality (trialing, active, at risk, churned) rather than from whatever a form last said. This is the value worth having in two systems.
+Build a computed attribute on users named "lifecycle_stage", refreshed daily, with exactly one of these values: trialing, active, at_risk, churned, from subscription status on the user's latest billing event and whether they did product usage event in the last 14 days.
 
 ## Step 2: Push it one way to HubSpot
 
-Create a workflow updating the HubSpot contact property when the lifecycle changes. The direction is one way on this field: Intempt owns it, HubSpot displays it. A field written from both sides needs a stated winner, and pretending otherwise is how a CRM and a CDP quietly disagree for months. Use the result of "Define the lifecycle honestly".
+Build an automation triggered when a user's lifecycle_stage from "Define the lifecycle honestly" changes. It writes the new value to the lifecycle_stage property of the matching contact in hubspot contact, one way only.

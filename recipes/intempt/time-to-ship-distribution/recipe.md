@@ -1,7 +1,8 @@
 ---
 frontmatter_id: time-to-ship-distribution
 slash_command: /time-to-ship-distribution
-description: Shows order fulfillment time from order creation to fulfillment, with median, 75th, and 95th percentile callouts.
+description: 'Emails a weekly time-to-ship digest: median, 75th and 95th percentile time from order to fulfillment, the share
+  shipped fast, the long tail of slow orders and the slowest sources.'
 author:
   name: Intempt
   last_name: Technologies
@@ -11,8 +12,8 @@ classification:
   industry:
   - ecommerce-retail
 portable:
-  summary: Shows how long orders take from creation to fulfillment, with a histogram, cumulative share, and median, p75 and
-    p95 callouts to expose the long tail.
+  summary: Emails a weekly digest of how long orders take from creation to fulfillment, with median, p75 and p95, the fast-ship
+    share and the long tail.
   parameters:
   - name: window
     type: duration
@@ -44,14 +45,10 @@ portable:
     label: Fast-ship share drop alert (percentage points)
     default: 10
     required: false
-  - name: breakdown_property
-    type: enum
-    label: Breakdown dimension
-    default: source
-    required: false
-    options:
-    - source
-    - country
+  - name: digest_recipients
+    type: string
+    label: Email addresses that get the digest
+    required: true
   requirements:
   - slot: placed_order_event
     kind: event
@@ -87,7 +84,7 @@ portable:
     optional: true
   steps:
   - id: s1
-    builds: report
+    builds: automation
     uses:
     - placed_order_event
     - order_fulfilled_event
@@ -98,48 +95,23 @@ portable:
     - long_tail_threshold
     - long_tail_alert_pct
     - fast_share_drop_alert_pts
-    - breakdown_property
-    instruction: 'Create an Insights report titled "Time-to-Ship Distribution". Series A: histogram of fulfillment time per
-      order, computed as the {order_fulfilled_event.created_date} minus the {placed_order_event.created_date} for each fulfilled
-      order, joined on {order_fulfilled_event.order_id} = {placed_order_event.order_id}. Buckets: 0 to {fast_ship_threshold};
-      {fast_ship_threshold} to 48 h; 48 h to 72 h; 3 to 5 days; 5 to 7 days; 7 to 14 days; 14+ days. Series B: cumulative
-      percentage of orders shipped within each time X. Time range: last {window} of {order_fulfilled_event} events, cohorted
-      by the fulfillment date, since orders fulfilled in the period may have been created earlier. Breakdown: by {order_fulfilled_event.source}
-      or by {customer_country} as selected with {breakdown_property}. Compare against the previous {comparison_window}. Chart
-      type: histogram with Series A as bars and Series B as a cumulative line overlay. Show headline callouts for the median,
-      75th percentile and 95th percentile fulfillment times. Annotations: (1) benchmark note that top-quartile direct-to-consumer
-      brands ship within {fast_ship_threshold}, 48 h is the industry median, and more than 72 h to first ship is competitively
-      weak. (2) Flag if the share shipped within {fast_ship_threshold} dropped by more than {fast_share_drop_alert_pts} percentage
-      points versus the previous period, as an operational regression. (3) Flag the long tail: report the percentage of orders
-      taking longer than {long_tail_threshold} to ship; flag any value above {long_tail_alert_pct}% as a fulfillment-process
-      and customer-experience problem. (4) Highlight the median as the typical experience, p75 as the experience customers
-      complain about, and p95 as the experience that drives bad reviews. (5) Surface any source or warehouse with materially
-      worse times than the others, since single-facility issues are easier to fix than systemic ones. Orders with no Order
-      fulfilled event are excluded; pair with an in-flight order status view for backlog.'
+    - digest_recipients
+    instruction: 'Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes the orders with
+      an {order_fulfilled_event} event in the last {window}, matched to their {placed_order_event} event on {order_fulfilled_event.order_id}
+      = {placed_order_event.order_id}, where time to ship is {order_fulfilled_event.created_date} minus {placed_order_event.created_date},
+      and writes these figures: the median, 75th percentile and 95th percentile time to ship, for the last {window} and the
+      {comparison_window} before it; the share of orders shipped within {fast_ship_threshold}, for both windows; the share
+      of orders that took longer than {long_tail_threshold}; the median time to ship by {order_fulfilled_event.source} and
+      by {customer_country} when set, slowest first. When the share shipped within {fast_ship_threshold} fell by more than
+      {fast_share_drop_alert_pts} percentage points, or the share above {long_tail_threshold} is above {long_tail_alert_pct}%,
+      the email''s first line says so. Then it emails these figures as plain-text lines, each with its window, to {digest_recipients}.
+      Nothing else is sent.'
 ---
 
 # Time to ship
 
 Slash command: /time-to-ship-distribution
 
-## Step 1: Measure how fast orders ship
+## Step 1: Email the weekly time-to-ship digest
 
-Create an Insights report called "Time-to-Ship Distribution".
-Series A: Distribution histogram of fulfillment-time per order: computed by Lovable as (Order fulfilled.Created date − Placed order.Created date) for each fulfilled order, joined on order_id
-Buckets for Series A: 0 (24h / 24) 48h / 48 (72h / 3) 5 days / 5 (7 days / 7) 14 days / 14+ days
-Series B: Cumulative percentage: what % of orders ship within X time
-Time range: Last 30 days of Order fulfilled events (use the fulfillment date for cohorting, since orders fulfilled in the period may have been created before)
-Breakdown: By "source" property on Order fulfilled (warehouse, fulfillment center, or 3PL: varies by integration) OR by Users.country for geographic distribution analysis
-Compare: Previous period (prior 30 days)
-Chart type: Histogram chart with Series A as the bar distribution, Series B as a cumulative line overlay; secondary callouts for median, p75, p95 fulfillment times
-Annotations:
-- Add benchmarks: top-quartile DTC ships within 24h (Amazon-trained customer expectations); 24: 48h is industry median; >72h to first ship is competitively weak.
-- Flag if the share shipping within 24h dropped >10 percentage points vs. previous period (operational regression).
-- Flag the long tail: what % of orders take >7 days to ship? Anything above 5% is a fulfillment-process problem and a customer-experience issue (these customers are likely to complain or refund).
-- Highlight the median and p75 times as headline numbers: the median is the typical experience, p75 is the experience customers complain about, p95 is the experience that drives bad reviews.
-- Surface any source/warehouse with materially worse times than others: single facility issues are easier to fix than systemic ones.
-Use case: post-purchase customer experience is increasingly a competitive lever. Brands that ship fast retain better. This recipe makes the actual time-to-ship distribution visible (most ops dashboards only show "average ship time" which obscures the long tail).
-Taxonomy notes:
-- Placed order.Created date and Order fulfilled.Created date are both real datetime properties; the join is on order_id.
-- Order fulfilled.source is a real property (warehouse / 3PL identifier; varies by integration).
-- This recipe excludes orders where fulfillment hasn't yet occurred (no Order fulfilled event). For an "in-flight" backlog view, pair this recipe with order-status-flow.
+Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes the orders with an order fulfilled event event in the last 30 d, matched to their placed order event event on order id = order id, where time to ship is created date minus created date, and writes these figures: the median, 75th percentile and 95th percentile time to ship, for the last 30 d and the 30 d before it; the share of orders shipped within 24 h, for both windows; the share of orders that took longer than 7 d; the median time to ship by source and by customer country when set, slowest first. When the share shipped within 24 h fell by more than 10 percentage points, or the share above 7 d is above 5%, the email's first line says so. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.

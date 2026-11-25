@@ -1,7 +1,8 @@
 ---
 frontmatter_id: free-to-paid-csm-kickoff
 slash_command: /free-to-paid-csm-kickoff
-description: Every upgrade from free to paid creates a CSM kickoff task carrying the customer's whole free period history, due inside five working days.
+description: Every upgrade from free to paid emails the CSM team a kickoff brief with the customer's whole free period history,
+  due inside five working days, plus a weekly hand-off digest.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,8 +12,8 @@ classification:
   industry:
   - saas-b2b-tech
 portable:
-  summary: Each free-to-paid upgrade creates a CSM kickoff task with the customer's free-period history attached, due within
-    five business days, plus a Slack hand-off and a dashboard tracking results.
+  summary: Each free-to-paid upgrade emails the CSM team a kickoff brief with the customer's free-period history, due within
+    five business days, plus a weekly hand-off digest.
   parameters:
   - name: conversion_window
     type: duration
@@ -39,11 +40,14 @@ portable:
     label: Retention measurement window
     default: 90 d
     required: false
-  - name: celebration_channel
+  - name: alert_recipients
     type: string
-    label: Slack channel for celebration message
-    default: '#wins'
-    required: false
+    label: Email addresses of the CSMs who get the kickoff briefs
+    required: true
+  - name: digest_recipients
+    type: string
+    label: Email addresses that get the digest
+    required: true
   requirements:
   - slot: subscription_started_event
     kind: event
@@ -60,95 +64,71 @@ portable:
   - slot: subscription_status_attribute
     kind: attribute
     meaning: The user's subscription status (free, trialing, paid)
-  - slot: account_lifecycle_attribute
-    kind: attribute
-    meaning: The account lifecycle stage of the customer account
-  - slot: preconversion_history_attribute
-    kind: attribute
-    meaning: A user attribute holding the pre-conversion history brief for the CSM
-    optional: true
-  - slot: free_converters_segment
-    kind: segment
-    meaning: Users who recently converted from free or trial to paid
-    creatable: true
-    definition: users who did {subscription_started_event} in the last {conversion_window} AND whose previous subscription_status
-      was free or trialing AND whose subscription MRR is at least {min_mrr}
-  - slot: csm_territory_rules
-    kind: knowledge
-    meaning: Territory and plan-tier rules that map accounts to named or pooled CSMs
-  - slot: csm_kickoff_task_destination
-    kind: integration
-    meaning: A task system where CSM kickoff tasks can be created
-    channel: hubspot
-  - slot: csm_slack_channel
-    kind: destination
-    meaning: A Slack destination for notifying assigned CSMs and posting wins
-    channel: slack
-  - slot: plg_handoff_dashboard_data
+  - slot: signup_event
     kind: event
-    meaning: Event data for free-to-paid conversions and CSM task completions
+    meaning: A user signed up for the product
+  - slot: feature_used_event
+    kind: event
+    meaning: A user used a product feature
     properties:
-    - name: kickoff_completed_at
-      type: date
-      meaning: When the CSM kickoff task was completed
-      optional: true
+    - name: feature_name
+      type: string
+      meaning: Name of the feature used
+      optional: false
+  - slot: kickoff_completed
+    kind: event
+    meaning: A CSM completed the kickoff call with a new paying customer
+    optional: true
   steps:
   - id: s1
     builds: segment
     uses:
     - subscription_started_event
     - subscription_status_attribute
-    - free_converters_segment
+    - signup_event
     - conversion_window
     - min_mrr
-    instruction: Build the segment '{free_converters_segment}' of users who did {subscription_started_event} in the last {conversion_window}
-      and whose prior {subscription_status_attribute} was free or trialing (genuine upgrades, excluding direct paid signups).
-      Exclude users whose subscription MRR is below {min_mrr}.
+    instruction: 'Build a new segment of users named "Free-to-Paid Converters". A user is in it when all of these are true:
+      they did {subscription_started_event} in the last {conversion_window} with {subscription_started_event.mrr} of {min_mrr}
+      or more; they did {signup_event} at least 1 day before their first {subscription_started_event}; their {subscription_status_attribute}
+      is paid.'
   - id: s2
-    builds: attribute
+    builds: automation
     uses:
+    - s1
     - subscription_started_event
-    - preconversion_history_attribute
-    instruction: 'Create an AI-derived user attribute ''{preconversion_history_attribute}'' computed at the time of {subscription_started_event}.
-      It captures: (a) days from signup to paid conversion; (b) features most used during the free period; (c) features never
-      used, as later expansion drivers; (d) team signal: how many users from the same account are on free and on paid; (e)
-      acquisition source (organic, paid, referral, or outbound). This is the CSM''s pre-call brief.'
+    - signup_event
+    - feature_used_event
+    - kickoff_due_days
+    - alert_recipients
+    dependsOn:
+    - s1
+    instruction: 'Build an automation triggered when a user enters the segment from "Find genuine upgrades". An analysis step
+      writes the pre-call brief: days from {signup_event} to {subscription_started_event}; the 5 {feature_used_event.feature_name}
+      values they used most while free; key features they never used; how many users from the same account are on free and
+      on paid; their {subscription_started_event.plan_tier} and {subscription_started_event.mrr}. Then it emails {alert_recipients}
+      the user''s name, email and this brief, asking for a kickoff call within {kickoff_due_days} business days, with a named
+      CSM for an enterprise plan tier and the pooled CSM team otherwise.'
   - id: s3
     builds: automation
     uses:
-    - subscription_started_event
-    - free_converters_segment
-    - preconversion_history_attribute
-    - csm_territory_rules
-    - csm_kickoff_task_destination
-    - kickoff_due_days
-    - account_lifecycle_attribute
-    - csm_slack_channel
-    - celebration_channel
     - s1
-    - s2
-    instruction: 'Create a workflow that fires on {subscription_started_event} for users in ''{free_converters_segment}''.
-      Steps in order: (1) compute {preconversion_history_attribute}; (2) assign a CSM using {csm_territory_rules}: enterprise
-      plan tier gets a named CSM, SMB plan tier gets a pooled CSM; (3) create a CSM kickoff task in {csm_kickoff_task_destination}
-      with the pre-call brief attached, due within {kickoff_due_days} business days; (4) trigger structured onboarding journey
-      for the user; (5) set {account_lifecycle_attribute} to new-customer; (6) post a Slack notification to the assigned CSM
-      in {csm_slack_channel} and a celebration message to {celebration_channel}.'
-  - id: s4
-    builds: dashboard
-    uses:
-    - plg_handoff_dashboard_data
-    - free_converters_segment
+    - subscription_started_event
+    - signup_event
+    - subscription_status_attribute
+    - kickoff_completed
     - kickoff_due_days
     - completion_target
     - retention_window
+    - digest_recipients
+    dependsOn:
     - s1
-    - s2
-    - s3
-    instruction: 'Build a PLG-to-CS handoff quality dashboard showing: free-to-paid conversion volume per week from ''{free_converters_segment}'';
-      the share of CSM kickoff tasks completed within {kickoff_due_days} business days against the {completion_target}% target;
-      median days from signup to conversion; and {retention_window} retention of free-to-paid converters split into ''CSM
-      kickoff completed within {kickoff_due_days} days'' and ''CSM kickoff missed''. Typical gap between these groups is 15
-      to 25 percentage points.'
+    instruction: 'Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes the segment from
+      "Find genuine upgrades" and writes these figures: users who entered it in the last 7 days and the 7 days before; the
+      median days from {signup_event} to {subscription_started_event} for them; the share who did {kickoff_completed} within
+      {kickoff_due_days} business days, against {completion_target}%; of users who entered {retention_window} ago or earlier,
+      the share still paid by {subscription_status_attribute}, split by whether they did {kickoff_completed} in time. Then
+      it emails these figures as plain-text lines, each with its window, to {digest_recipients}. Nothing else is sent.'
 ---
 
 # Free to paid CSM kickoff
@@ -157,16 +137,12 @@ Slash command: /free-to-paid-csm-kickoff
 
 ## Step 1: Find genuine upgrades
 
-Build a segment 'Free-to-paid converters - last 7 days' capturing users where Subscription started fired in the last 7 days AND the user previously had subscription_status = free OR trialing (true conversion, not net-new direct-paid signup, those go through a different flow). Excludes users where the subscription is < $50 MRR (consumer-tier; doesn't get CSM motion).
+Build a new segment of users named "Free-to-Paid Converters". A user is in it when all of these are true: they did subscription started event in the last 7 d with mrr of 50 or more; they did signup event at least 1 day before their first subscription started event; their subscription status attribute is paid.
 
-## Step 2: Write the pre call brief
+## Step 2: Brief the CSM for kickoff
 
-Create an AI-derived attribute 'preconversion_history' on the User object, computed at Subscription started time. Capture: (a) days from signup to paid conversion; (b) features most-used in free period; (c) features NEVER touched (potential expansion drivers later); (d) team-member signal: how many users from the same account are also on free / paid; (e) source: how they got to signup (organic / paid / referral / outbound). This becomes the CSM's pre-call brief.
+Build an automation triggered when a user enters the segment from "Find genuine upgrades". An analysis step writes the pre-call brief: days from signup event to subscription started event; the 5 feature name values they used most while free; key features they never used; how many users from the same account are on free and on paid; their plan tier and mrr. Then it emails the email addresses of the CSMs who get the kickoff briefs the user's name, email and this brief, asking for a kickoff call within 5 business days, with a named CSM for an enterprise plan tier and the pooled CSM team otherwise.
 
-## Step 3: Assign a CSM and kick off
+## Step 3: Email the weekly hand-off digest
 
-Create a workflow firing on Subscription started for free-to-paid converters. Step sequence: (1) compute preconversion_history attribute; (2) assign CSM via territory + plan-tier rules (enterprise tier gets named CSM, SMB tier gets pooled CSM); (3) create CSM kickoff task with the preconversion history pre-attached, due within 5 business days; (4) trigger the structured onboarding journey (separate recipe) for the user; (5) update account lifecycle to 'new-customer'; (6) post Slack notification to the assigned CSM and a celebration message to #wins. Use the result of "Find genuine upgrades", "Write the pre call brief".
-
-## Step 4: Prove the handoff matters
-
-Compose a PLG-to-CS handoff quality dashboard: free-to-paid conversion volume per week, CSM-task completion rate within 5 business days (target: 95%+), median days from signup-to-conversion (PLG funnel speed), and 90-day retention of free-to-paid converters split by 'CSM kickoff completed within 5 days' vs. 'CSM kickoff missed': typically the gap is 15-25 percentage points (the proof-of-value for human CSM motion). Use the result of "Find genuine upgrades", "Write the pre call brief", "Assign a CSM and kick off".
+Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes the segment from "Find genuine upgrades" and writes these figures: users who entered it in the last 7 days and the 7 days before; the median days from signup event to subscription started event for them; the share who did kickoff completed within 5 business days, against 95%; of users who entered 90 d ago or earlier, the share still paid by subscription status attribute, split by whether they did kickoff completed in time. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.

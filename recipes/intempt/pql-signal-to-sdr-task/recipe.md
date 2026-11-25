@@ -1,7 +1,8 @@
 ---
 frontmatter_id: pql-signal-to-sdr-task
 slash_command: /pql-signal-to-sdr-task
-description: When a free user's behaviour says they are ready for a conversation, it creates an SDR task carrying everything needed for the first touch.
+description: When a free user's behaviour says they are ready for a conversation, it emails an SDR everything needed for the
+  first touch, and a weekly digest of first-touch speed.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,18 +12,13 @@ classification:
   industry:
   - saas-b2b-tech
 portable:
-  summary: Flags free users whose product behaviour signals readiness for sales, then creates a high-priority SDR task with
-    usage context, routing poor-fit accounts to self-serve nurture instead.
+  summary: Scores free users on product behaviour, emails SDRs a first-touch brief for each user who crosses the bar, and
+    sends a weekly digest of PQL volume and first-touch speed.
   parameters:
   - name: pqlThreshold
     type: number
     label: PQL score threshold (0-100)
     default: 70
-    required: false
-  - name: scoreLookbackWindow
-    type: duration
-    label: Window for crossing the threshold
-    default: 7 d
     required: false
   - name: outreachCooldown
     type: duration
@@ -49,6 +45,14 @@ portable:
     label: Share of PQLs untouched that triggers a flag (%)
     default: 20
     required: false
+  - name: alert_recipients
+    type: string
+    label: Email addresses of the SDRs who get the briefs
+    required: true
+  - name: digest_recipients
+    type: string
+    label: Email addresses that get the digest
+    required: true
   requirements:
   - slot: free_user_activity
     kind: event
@@ -62,105 +66,82 @@ portable:
       type: string
       meaning: Account plan tier of the user
       optional: true
-  - slot: user_profile
-    kind: attribute
-    meaning: Attributes of a user such as plan tier, email domain and opt-out status
-  - slot: pql_score
-    kind: attribute
-    meaning: A numeric product-qualified-lead score for a user
-    optional: true
-  - slot: active_sdr_task
-    kind: event
-    meaning: An SDR task is open for a user
   - slot: outreach_event
     kind: event
     meaning: A sales or marketing outreach was sent to a user
   - slot: opt_out_list
     kind: segment
     meaning: Users who opted out of sales outreach
-  - slot: paid_users
-    kind: segment
-    meaning: Users on a paid plan
-  - slot: account_enrichment
-    kind: integration
-    meaning: A firmographic enrichment source for company size, industry and ICP fit
-    channel: email
-  - slot: sdr_territory_rules
-    kind: knowledge
-    meaning: Territory rules mapping geography, industry and account size to SDRs
-  - slot: sdr_task_queue
-    kind: destination
-    meaning: Queue where SDR tasks are created and assigned
-    channel: hubspot
-  - slot: sdr_slack
-    kind: integration
-    meaning: Slack workspace used to notify SDRs by direct message
-    channel: slack
-  - slot: pql_dashboard_home
-    kind: knowledge
-    meaning: Shared reporting space where the PQL conversion dashboard is kept
+  - slot: plan_attribute
+    kind: attribute
+    meaning: The user's plan, such as free, trial or a paid plan name
+  - slot: session_start
+    kind: event
+    meaning: A user started a session in the product
+  - slot: company_size
+    kind: attribute
+    meaning: The number of employees at the user's company
     optional: true
   steps:
   - id: s1
     builds: attribute
     uses:
     - free_user_activity
-    - user_profile
-    - pqlThreshold
+    - session_start
     - sessionWindow
-    instruction: 'Create an AI-derived attribute named pql_score on the user object, scored 0 to 100. Composite signal: (a)
-      high-value feature usage from {free_user_activity.feature_name}, key activation events weighted highest; (b) usage depth:
-      sessions in the last {sessionWindow}, features touched, and time in product; (c) account-level density: other users
-      from the same email domain active. A score at or above {pqlThreshold} counts as a PQL. Refresh daily and on every feature
-      usage event.'
+    instruction: 'Build a computed attribute on users named "pql_score", a number from 0 to 100, refreshed daily: 40 points
+      scaled by the number of distinct {free_user_activity.feature_name} values the user used in the last {sessionWindow};
+      30 points scaled by their {session_start} count in that window; 30 points scaled by the number of other users with the
+      same email domain who did {session_start} in that window.'
   - id: s2
     builds: segment
     uses:
     - s1
-    - pql_score
-    - active_sdr_task
+    - plan_attribute
     - outreach_event
-    - paid_users
     - opt_out_list
     - pqlThreshold
-    - scoreLookbackWindow
     - outreachCooldown
-    instruction: 'Build a segment named ''PQL: free users score >= {pqlThreshold}'' containing free-tier users whose pql_score
-      crossed {pqlThreshold} within the last {scoreLookbackWindow}, who have no open {active_sdr_task}, and who have had no
-      {outreach_event} in the last {outreachCooldown}. Exclude paid users in {paid_users} and anyone in {opt_out_list}.'
+    dependsOn:
+    - s1
+    instruction: 'Build a new segment of users named "Product Qualified Leads". A user is in it when all of these are true:
+      their {plan_attribute} is free; their pql_score from "Score free users on behaviour" is {pqlThreshold} or more; they
+      had no {outreach_event} in the last {outreachCooldown}; they are not in {opt_out_list}.'
   - id: s3
     builds: automation
     uses:
     - s1
     - s2
-    - account_enrichment
     - free_user_activity
-    - sdr_territory_rules
-    - sdr_task_queue
-    - sdr_slack
-    - pqlThreshold
-    instruction: 'Create a workflow that fires when a user''s pql_score crosses {pqlThreshold}. Step 1: if the account is
-      not yet enriched, enrich it with firmographics and ICP fit from {account_enrichment}. Step 2: compute outreach context:
-      top features used from {free_user_activity.feature_name}, usage frequency, account size, and ICP fit tier. Step 3: if
-      the account is at or above the ICP threshold, create a high-priority SDR task in {sdr_task_queue} with the outreach
-      context attached, assigned by {sdr_territory_rules} (geography, industry, account size). Step 4: post a brief Slack
-      direct message to the assigned SDR through {sdr_slack} with a link to the task. If the account is below the ICP threshold,
-      enrol the user in self serve nurture instead of creating an SDR task.'
+    - session_start
+    - company_size
+    - sessionWindow
+    - firstTouchSla
+    - alert_recipients
+    dependsOn:
+    - s1
+    - s2
+    instruction: 'Build an automation triggered when a user enters the segment from "Find product qualified leads". An analysis
+      step writes: their pql_score from "Score free users on behaviour"; their top 3 {free_user_activity.feature_name} values;
+      their {session_start} count in the last {sessionWindow}; their {company_size}; other users from their email domain.
+      Then it emails {alert_recipients} the user''s name, email and this brief, asking for a first touch within {firstTouchSla}.'
   - id: s4
-    builds: dashboard
+    builds: automation
     uses:
     - s2
-    - s3
-    - pqlThreshold
+    - outreach_event
     - firstTouchSla
     - untouchedAlertWindow
     - untouchedAlertShare
-    - pql_dashboard_home
-    instruction: 'Build a PQL conversion dashboard showing: weekly PQL volume (count of free users crossing {pqlThreshold})
-      with trend; median time from threshold cross to first SDR touch, with a target under {firstTouchSla}; PQL-to-meeting
-      conversion rate; PQL-to-deal conversion rate by ICP tier; and an SDR leaderboard ranking reps by PQL conversion rate.
-      Flag any week where more than {untouchedAlertShare}% of PQLs are still untouched after {untouchedAlertWindow}. Source
-      data comes from the segment in "Find free users crossing 70" and the workflow in "Give the SDR the context".'
+    - digest_recipients
+    dependsOn:
+    - s2
+    instruction: 'Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes the users who entered
+      the segment from "Find product qualified leads" in the last 7 days and the 4 weeks before, and writes these figures:
+      the count for each week; the share who got an {outreach_event} within {firstTouchSla} of entering; the share with no
+      {outreach_event} after {untouchedAlertWindow}. When that untouched share is above {untouchedAlertShare}%, the email''s
+      first line says so. Then it emails these figures as plain-text lines, each with its window, to {digest_recipients}.
+      Nothing else is sent.'
 ---
 
 # Product qualified lead to SDR task
@@ -169,16 +150,16 @@ Slash command: /pql-signal-to-sdr-task
 
 ## Step 1: Score free users on behaviour
 
-Create an AI-derived attribute 'pql_score' on the User object. Composite signal: (a) high-value feature usage (key activation events) weighted highest; (b) usage depth (sessions in last 14 days, features touched, time-in-product); (c) account-level density (other users from same domain active). Output: numeric score 0-100. Score >= 70 = PQL. Refreshed daily and on feature_used events.
+Build a computed attribute on users named "pql_score", a number from 0 to 100, refreshed daily: 40 points scaled by the number of distinct feature name values the user used in the last 14 d; 30 points scaled by their session start count in that window; 30 points scaled by the number of other users with the same email domain who did session start in that window.
 
-## Step 2: Find free users crossing 70
+## Step 2: Find product qualified leads
 
-Build a segment 'PQL: free users score >= 70' capturing free-tier users where pql_score crossed 70 in the last 7 days AND no active SDR task exists for this user AND no recent (last 30 days) outreach has occurred. Excludes paid users (different workflow) and users in opt-out list. Use the result of "Score free users on behaviour".
+Build a new segment of users named "Product Qualified Leads". A user is in it when all of these are true: their plan attribute is free; their pql_score from "Score free users on behaviour" is 70 or more; they had no outreach event in the last 30 d; they are not in opt out list.
 
 ## Step 3: Give the SDR the context
 
-Create a workflow firing when pql_score crosses 70. Step sequence: (1) enrich the user's account if not already enriched (firmographics, ICP fit); (2) compute outreach context: top features used, usage frequency, account size, ICP fit tier; (3) create a high-priority SDR task with the outreach context attached, assigned via territory rules (geo / industry / account size); (4) post a brief Slack notification to the assigned SDR's DM with the task link. If account is below ICP threshold, route to self-serve nurture journey instead of SDR queue. Use the result of "Score free users on behaviour", "Find free users crossing 70".
+Build an automation triggered when a user enters the segment from "Find product qualified leads". An analysis step writes: their pql_score from "Score free users on behaviour"; their top 3 feature name values; their session start count in the last 14 d; their company size; other users from their email domain. Then it emails the email addresses of the SDRs who get the briefs the user's name, email and this brief, asking for a first touch within 24 h.
 
-## Step 4: Hold the 24 hour first touch
+## Step 4: Email the weekly PQL digest
 
-Compose a PQL conversion dashboard: PQL volume (count of free users crossing threshold per week, trend), median time from threshold-cross to first SDR touch (SLA target: <24hr), PQL-to-meeting conversion rate, PQL-to-deal conversion rate by ICP tier, and rep leaderboard (SDRs converting PQLs at the highest rates). Flag any week where >20% of PQLs are untouched after 48 hours. Use the result of "Score free users on behaviour", "Find free users crossing 70", "Give the SDR the context".
+Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes the users who entered the segment from "Find product qualified leads" in the last 7 days and the 4 weeks before, and writes these figures: the count for each week; the share who got an outreach event within 24 h of entering; the share with no outreach event after 48 h. When that untouched share is above 20%, the email's first line says so. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.

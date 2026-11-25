@@ -10,6 +10,8 @@ author:
 classification:
   industry:
   - industry-agnostic
+visibility: draft
+rejected: Its purpose is creating and updating HubSpot deals from product signals; HubSpot writes are not planned on Blu.
 portable:
   summary: When product usage shows an account is ready to buy, the recipe updates its HubSpot deal, adds the contact to a
     list, or creates a task, so HubSpot reflects product evidence.
@@ -36,11 +38,6 @@ portable:
       type: string
       meaning: Identifier of the account that performed the usage
       optional: false
-  - slot: ready_to_buy_accounts
-    kind: segment
-    meaning: Accounts whose product usage shows they are ready to buy
-    creatable: true
-    definition: accounts that did {product_qualified_usage} with the usage that means ready to buy, agreed once and reused
   - slot: hubspot_account
     kind: integration
     meaning: A connected HubSpot account where deals, contacts, lists and tasks are managed
@@ -50,22 +47,22 @@ portable:
     builds: segment
     uses:
     - product_qualified_usage
-    instruction: 'Create the segment {ready_to_buy_accounts} describing the product-qualified account: the usage that means
-      someone is ready to buy, agreed once and reused. Base it on {product_qualified_usage}.'
+    instruction: Build a new segment of accounts named "Ready to Buy Accounts" with every account whose users did {product_qualified_usage}
+      in the last 30 days.
   - id: s2
     builds: automation
     uses:
     - s1
-    - ready_to_buy_accounts
     - hubspot_account
     - product_qualified_usage
     - signal_source
     - signal_score
-    instruction: 'Create a workflow that creates a HubSpot deal in {hubspot_account} for each account in the "Define what
-      ready to buy means" segment, matched on the account identifier {product_qualified_usage.account_id} so a second signal
-      updates the existing deal instead of opening a duplicate. Set only the fields the product signal owns: source to {signal_source},
-      the triggering signal to {product_qualified_usage.signal}, and the score to {signal_score}. Leave deal stage and amount
-      unchanged for the sales rep.'
+    dependsOn:
+    - s1
+    instruction: Build an automation triggered when an account enters the segment from "Define what ready to buy means". It
+      creates a deal in {hubspot_account} for that account, matched on {product_qualified_usage.account_id} so a second signal
+      updates the existing deal, setting only source to {signal_source}, signal to {product_qualified_usage.signal} and score
+      to {signal_score}.
 ---
 
 # Product qualified signal to a HubSpot deal
@@ -74,8 +71,8 @@ Slash command: /hubspot-pql-to-deal
 
 ## Step 1: Define what ready to buy means
 
-Create the segment describing the product-qualified account: the usage that means someone is ready to buy, agreed once and reused.
+Build a new segment of accounts named "Ready to Buy Accounts" with every account whose users did product qualified usage in the last 30 days.
 
 ## Step 2: Open the deal, leave the rest
 
-Create a workflow that creates a HubSpot deal for each qualifying account, matched on a key so a second signal updates the deal instead of opening a duplicate. Set only the fields Intempt owns (source, the signal that triggered it, the score) and leave stage and amount to the rep. Use the result of "Define what ready to buy means".
+Build an automation triggered when an account enters the segment from "Define what ready to buy means". It creates a deal in hubspot account for that account, matched on account id so a second signal updates the existing deal, setting only source to Intempt, signal to signal and score to the product signal score written to the deal.

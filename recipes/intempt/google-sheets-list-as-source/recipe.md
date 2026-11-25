@@ -1,7 +1,8 @@
 ---
 frontmatter_id: google-sheets-list-as-source
 slash_command: /google-sheets-list-as-source
-description: Turns a sheet your team keeps by hand, target accounts or an event list or a suppression list, into records you can segment and act on.
+description: Turns a sheet your team keeps by hand, target accounts or an event list or a suppression list, into imported
+  users and a segment you can act on.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,8 +12,8 @@ classification:
   industry:
   - industry-agnostic
 portable:
-  summary: Turns a hand-maintained Google Sheet, such as target accounts, event attendees or a suppression list, into records
-    you can segment and act on across the platform.
+  summary: Imports a hand-kept Google Sheet, such as target accounts, event attendees or a suppression list, on a schedule
+    and turns its rows into a segment you can act on.
   parameters:
   - name: sheet_name
     type: string
@@ -32,24 +33,14 @@ portable:
     label: Column used to match existing records (for example email or domain)
     default: email
     required: false
-  - name: segment_name
-    type: string
-    label: Name of the audience segment built from the imported records
-    default: Sheet list audience
-    required: false
   requirements:
   - slot: google_sheet_source
     kind: integration
     meaning: A connected Google Sheets account with read access to the named sheet
     channel: google_sheets
-  - slot: sheet_record
+  - slot: sheet_list_name
     kind: attribute
-    meaning: A record imported from the Google Sheet, matched on a key column such as email or domain
-    properties:
-    - name: row_key
-      type: string
-      meaning: The value of the key column for the row, such as email or domain
-      optional: false
+    meaning: The name of the sheet a user was last imported from, written by the import
   steps:
   - id: s1
     builds: automation
@@ -58,19 +49,21 @@ portable:
     - sheet_name
     - schedule_frequency
     - match_key
-    instruction: Create a scheduled workflow that runs {schedule_frequency} and reads rows from the sheet named {sheet_name}
-      via {google_sheet_source}, then upserts them as records matched on the {match_key} column. Report accepted, skipped
-      and rejected counts for each run, with a reason for every skipped or rejected row, so malformed rows can be found and
-      fixed.
+    - sheet_list_name
+    instruction: Build an automation that runs {schedule_frequency} on a schedule. Each run it reads the rows of the sheet
+      named {sheet_name} through {google_sheet_source} and adds or updates one user per row, matched on the {match_key} column,
+      setting the user's {sheet_list_name} attribute to {sheet_name}. Each run records how many rows were accepted, skipped
+      and rejected, with the reason for every skipped or rejected row.
   - id: s2
     builds: segment
     uses:
     - s1
-    - sheet_record
-    - segment_name
-    instruction: Create a segment named {segment_name} over the records imported by "Import the rows on a schedule" so the
-      list can be used by every other part of the platform. Build it on {sheet_record} so the imported list is an audience
-      the platform understands, rather than reading the sheet at the moment of use.
+    - sheet_list_name
+    - sheet_name
+    dependsOn:
+    - s1
+    instruction: Build a new segment of users named "Sheet list audience" with every user whose {sheet_list_name} attribute
+      equals {sheet_name}, as set by the automation from "Import the rows on a schedule".
 ---
 
 # Use a Google Sheet as a list
@@ -79,8 +72,8 @@ Slash command: /google-sheets-list-as-source
 
 ## Step 1: Import the rows on a schedule
 
-Create a scheduled workflow that reads rows from the named sheet and upserts them as records, matched on a key column such as email or domain. Report accepted, skipped and rejected counts per run with a reason per row: a hand-maintained sheet always has malformed rows, and a silent total teaches nobody which ones to fix.
+Build an automation that runs daily on a schedule. Each run it reads the rows of the sheet named the name of the Google Sheet to read through google sheet source and adds or updates one user per row, matched on the email column, setting the user's sheet list name attribute to the name of the Google Sheet to read. Each run records how many rows were accepted, skipped and rejected, with the reason for every skipped or rejected row.
 
 ## Step 2: Turn them into an audience
 
-Create a segment over the imported records so the list is usable everywhere else. This is the point of importing rather than reading the sheet at the moment of use: the list becomes an audience the rest of the platform understands. Use the result of "Import the rows on a schedule".
+Build a new segment of users named "Sheet list audience" with every user whose sheet list name attribute equals the name of the Google Sheet to read, as set by the automation from "Import the rows on a schedule".

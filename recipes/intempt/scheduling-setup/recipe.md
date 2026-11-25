@@ -10,6 +10,9 @@ author:
 classification:
   industry:
   - industry-agnostic
+visibility: draft
+rejected: Its purpose is a booking link with host routing and CRM meeting logging; meeting/booking setup and HubSpot writes
+  are not planned on Blu.
 portable:
   summary: Gives prospects a booking link that routes them to the right host, then sends a confirmation, logs the meeting
     in the CRM, and tracks bookings and show rate.
@@ -74,6 +77,8 @@ portable:
     - crm_meeting_record
     - notify_host
     - s1
+    dependsOn:
+    - s1
     instruction: Create a workflow that fires on {booking_completed}. Trigger the confirmation journey for the prospect, create
       a meeting record in {crm_meeting_record} from the booking details including {booking_completed.meeting_type}, {booking_completed.host}
       and {booking_completed.start_time}. If {notify_host} is true, prepare a notification to the host {booking_completed.host}.
@@ -84,17 +89,10 @@ portable:
     - prospect_email
     - s1
     - s2
+    dependsOn:
+    - s1
     instruction: Build a one-touch journey that sends the booking confirmation email to the prospect at {prospect_email} when
       fired by the workflow in "Trigger follow-up on booking". Use the booking details from "Set up the booking link".
-  - id: s4
-    builds: dashboard
-    uses:
-    - booking_completed
-    - s1
-    - s2
-    - s3
-    instruction: Create a dashboard tracking booking volume, show rate, time to book, and host utilization. Use data from
-      "Set up the booking link", "Trigger follow-up on booking" and "Send the confirmation email".
 ---
 
 # Meeting booking and follow-up
@@ -103,16 +101,12 @@ Slash command: /scheduling-setup
 
 ## Step 1: Set up the booking link
 
-Configure the booking link with meeting types, durations, availability windows, and host assignment rules.
+Configure the booking link with the meeting types, durations and availability windows in Meeting types, durations, and availability windows as configured in the booking link. Apply the host assignment rule in Route each booking request to the right host according to the configured assignment rules so each request is routed to the right host, using booking tool.
 
 ## Step 2: Trigger follow-up on booking
 
-Create a workflow firing on booking-completed: trigger the confirmation journey, create CRM meeting record, and prep notification to host. (Email/SMS are journey-only per architecture; this workflow triggers the journey rather than sending the message itself.) Use the result of "Set up the booking link".
+Create a workflow that fires on booking completed. Trigger the confirmation journey for the prospect, create a meeting record in crm meeting record from the booking details including meeting type, host and start time. If True is true, prepare a notification to the host host. Do not send email or SMS directly from this workflow; it only triggers the journey.
 
 ## Step 3: Send the confirmation email
 
-Build a 1-touch journey that sends the booking confirmation email to the prospect when fired by the postbooking workflow. Use the result of "Set up the booking link", "Trigger follow-up on booking".
-
-## Step 4: Track bookings and show rate
-
-Compose a dashboard tracking booking volume, show-rate, time-to-book, and host utilization. Use the result of "Set up the booking link", "Trigger follow-up on booking", "Send the confirmation email".
+Build a one-touch journey that sends the booking confirmation email to the prospect at prospect email when fired by the workflow in "Trigger follow-up on booking". Use the booking details from "Set up the booking link".

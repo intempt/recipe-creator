@@ -1,7 +1,8 @@
 ---
 frontmatter_id: call-recording-intelligence
 slash_command: /call-recording-intelligence
-description: Pulls the objections, the talk ratio, the sentiment and the buying signals out of every call recording, files them on the deal, and flags the bad calls.
+description: Pulls the objections, the talk ratio, the sentiment and the buying signals out of every call recording, emails
+  managers about the bad calls, and emails a weekly coaching digest.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,8 +12,8 @@ classification:
   industry:
   - industry-agnostic
 portable:
-  summary: Pulls objections, talk ratio, sentiment and buying signals from each call recording, files them on the deal, and
-    alerts managers to at-risk calls with coaching context.
+  summary: Reads every sales call transcript for objections, talk ratio, sentiment and buying signals, emails managers about
+    at-risk calls and sends a weekly coaching digest.
   parameters:
   - name: at_risk_threshold
     type: number
@@ -24,19 +25,14 @@ portable:
     label: Rep talk share (%) above which the alert flags talking too much
     default: 65
     required: false
-  - name: manager_review_window
-    type: duration
-    label: Time allowed for the manager to review a flagged call
-    default: 24 h
-    required: false
   - name: healthy_talk_min_percent
     type: number
-    label: Lower bound of healthy rep talk share (%) for dashboard
+    label: Lower bound of healthy rep talk share (%)
     default: 40
     required: false
   - name: healthy_talk_max_percent
     type: number
-    label: Upper bound of healthy rep talk share (%) for dashboard
+    label: Upper bound of healthy rep talk share (%)
     default: 55
     required: false
   - name: min_discovery_questions
@@ -44,16 +40,19 @@ portable:
     label: Discovery questions per call below which a rep is flagged
     default: 5
     required: false
-  - name: dashboard_rolling_window
+  - name: coaching_window
     type: duration
-    label: Rolling window for the coaching dashboard
+    label: Window the coaching digest covers
     default: 30 d
     required: false
-  - name: alert_channel_name
+  - name: alert_recipients
     type: string
-    label: Slack channel for manager alerts
-    default: '#sales-coaching'
-    required: false
+    label: Email addresses of the sales managers who get at-risk call alerts
+    required: true
+  - name: digest_recipients
+    type: string
+    label: Email addresses that get the digest
+    required: true
   requirements:
   - slot: call_recording_event
     kind: event
@@ -83,104 +82,47 @@ portable:
       type: string
       meaning: Link to jump to the recording
       optional: true
-  - slot: sales_meeting_object
-    kind: event
-    meaning: A meeting record linked to a deal and an account
-    properties:
-    - name: notes
-      type: text
-      meaning: Notes field on the meeting record
-      optional: false
-  - slot: rep_manager
-    kind: attribute
-    meaning: The manager assigned to each sales rep
-  - slot: sales_coaching_channel
-    kind: integration
-    meaning: A Slack workspace connection with the sales coaching channel
-    channel: slack
-  - slot: deal_record
-    kind: destination
-    meaning: The CRM deal the call insights are filed against
-    channel: hubspot
-  - slot: followup_task_exists
-    kind: attribute
-    meaning: Whether a follow-up next step already exists on the deal
   steps:
   - id: s1
-    builds: attribute
-    uses:
-    - call_recording_event
-    instruction: 'Create an AI-derived attribute on the Meeting object called ''call_insights'', computed when {call_recording_event}
-      becomes available, from {call_recording_event.transcript}. Output a structured object with: (a) talk-listen ratio per
-      participant; (b) objections detected, each with quote, timestamp and category (price, timing, competition, feature-gap,
-      authority, trust); (c) sentiment trajectory across call phases (open, discovery, demo, close); (d) buying signals detected,
-      each with quote, timestamp and category; (e) discovery question count; (f) at-risk score, a composite of high objections,
-      low buying signals and negative sentiment shifts.'
-  - id: s2
-    builds: slack
-    uses:
-    - s1
-    - sales_coaching_channel
-    - at_risk_threshold
-    - talk_ratio_flag_percent
-    instruction: 'Generate Slack alert content for sales managers when the at-risk score in s1 is at or above {at_risk_threshold}.
-      Include: rep name {call_recording_event.rep_name}, account name {call_recording_event.account_name}, deal value {call_recording_event.deal_value}
-      and stage {call_recording_event.deal_stage}; the 3 highest-severity objections from s1 with quoted clips; talk-listen
-      ratio from s1, flagged if the rep talked more than {talk_ratio_flag_percent}%; and a deep link {call_recording_event.meeting_link}
-      to the relevant transcript timestamps. Tone: coach-actionable, not punitive.'
-  - id: s3
     builds: automation
     uses:
     - call_recording_event
-    - s1
-    - s2
-    - deal_record
-    - sales_coaching_channel
-    - rep_manager
-    - followup_task_exists
     - at_risk_threshold
-    - manager_review_window
-    instruction: 'Create a workflow that fires when {call_recording_event} becomes available. Step 1: compute the call_insights
-      attribute from the transcript as defined in "Read every call transcript". Step 2: update the linked meeting record''s
-      notes in {sales_meeting_object} with the structured insights from s1 and link the meeting to {deal_record}. Step 3:
-      if the at-risk score is at or above {at_risk_threshold}, post the alert from "Write the manager alert" to {sales_coaching_channel}
-      and create a task for {rep_manager} to review the call within {manager_review_window}. Step 4: if buying signals in
-      s1 are strong and {followup_task_exists} is false, create a high-priority next-step task for the rep.'
-  - id: s4
-    builds: dashboard
+    - talk_ratio_flag_percent
+    - alert_recipients
+    instruction: 'Build an automation triggered when {call_recording_event} happens. An analysis step reads {call_recording_event.transcript}
+      and writes: the rep''s share of talk time; each objection with its quote and category (price, timing, competition, feature-gap,
+      authority, trust); the sentiment at the open, discovery, demo and close; each buying signal with its quote; the number
+      of discovery questions; an at-risk score from 0 to 100 that rises with objections and negative sentiment and falls with
+      buying signals. When the at-risk score is {at_risk_threshold} or more, it emails {alert_recipients} the rep {call_recording_event.rep_name},
+      account {call_recording_event.account_name}, {call_recording_event.deal_value} and {call_recording_event.deal_stage},
+      the 3 strongest objections with quotes, the talk share marked when above {talk_ratio_flag_percent}%, and {call_recording_event.meeting_link}.'
+  - id: s2
+    builds: automation
     uses:
-    - s1
-    - s2
-    - s3
+    - call_recording_event
     - healthy_talk_min_percent
     - healthy_talk_max_percent
     - min_discovery_questions
-    - dashboard_rolling_window
-    - sales_coaching_channel
-    instruction: Compose a coaching dashboard using the call insights from "Read every call transcript", the alerts from "Write
-      the manager alert" and the workflow from "File it and flag the bad ones". Show talk-listen ratio by rep over the rolling
-      {dashboard_rolling_window}, flagging any rep outside the {healthy_talk_min_percent}% to {healthy_talk_max_percent}%
-      rep-talk range. Show the top 5 objection categories by frequency, network-level and per rep. Show the discovery question
-      count distribution and flag reps consistently below {min_discovery_questions} per call. Show at-risk call count by rep
-      and week. Show a leaderboard of calls with the highest buying-signal density as listen-back examples for team training.
+    - coaching_window
+    - at_risk_threshold
+    - digest_recipients
+    instruction: 'Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes the transcripts
+      of {call_recording_event} in the last {coaching_window} and writes these figures: each rep''s average talk share, marked
+      when outside {healthy_talk_min_percent}% to {healthy_talk_max_percent}%; the top 5 objection categories, overall and
+      per rep; each rep''s average discovery questions per call, marked when below {min_discovery_questions}; at-risk calls
+      (score {at_risk_threshold} or more) per rep; the 3 calls with the most buying signals, each with its {call_recording_event.meeting_link}.
+      Then it emails these figures as plain-text lines, each with its window, to {digest_recipients}. Nothing else is sent.'
 ---
 
 # Call recording intelligence
 
 Slash command: /call-recording-intelligence
 
-## Step 1: Read every call transcript
+## Step 1: Read every call and flag the bad ones
 
-Create an AI-derived attribute on the Meeting object called 'call_insights'. Computed at call_recording_available from the transcript. Output: structured object with (a) talk-listen ratio per participant; (b) objections detected (list with quote + timestamp + category: price/timing/competition/feature-gap/authority/trust); (c) sentiment trajectory across call phases (open/discovery/demo/close); (d) buying signals detected (list with quote + timestamp + category); (e) discovery question count; (f) at-risk score (composite: high objections + low buying signals + negative sentiment shifts).
+Build an automation triggered when call recording event happens. An analysis step reads transcript and writes: the rep's share of talk time; each objection with its quote and category (price, timing, competition, feature-gap, authority, trust); the sentiment at the open, discovery, demo and close; each buying signal with its quote; the number of discovery questions; an at-risk score from 0 to 100 that rises with objections and negative sentiment and falls with buying signals. When the at-risk score is 70 or more, it emails the email addresses of the sales managers who get at-risk call alerts the rep rep name, account account name, deal value and deal stage, the 3 strongest objections with quotes, the talk share marked when above 65%, and meeting link.
 
-## Step 2: Write the manager alert
+## Step 2: Email the weekly coaching digest
 
-Generate Slack alert content for sales managers when a call's at-risk score crosses threshold. Include: rep name, account name, deal value/stage, the 3 highest-severity objections with quoted clips, talk-listen ratio (flag if rep talked >65%), and a deep link to jump to the relevant transcript timestamps. Tone: coach-actionable, not punitive. Use the result of "Read every call transcript".
-
-## Step 3: File it and flag the bad ones
-
-Create a workflow firing on call_recording_available. Step sequence: (1) compute call_insights attribute from the transcript; (2) update the linked Meeting record's notes with the structured insights and link to the deal; (3) if at-risk score crosses threshold (>=70), post the manager alert to Slack #sales-coaching and create a task for the rep's manager to review within 24h; (4) if buying signals are strong and no follow-up exists, create a high-priority next-step task for the rep. Use the result of "Read every call transcript", "Write the manager alert".
-
-## Step 4: Coach from the patterns
-
-Compose a coaching dashboard: talk-listen ratio by rep (rolling 30 days) flagging anyone outside the 40-55% rep-talk healthy range; top 5 objection categories by frequency (network-level + per-rep); discovery question count distribution (flag reps consistently below 5/call); at-risk call count by rep and week; and a leaderboard of calls with the highest buying-signal density (these are good listen-back examples for team training). Use the result of "Read every call transcript", "Write the manager alert", "File it and flag the bad ones".
+Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes the transcripts of call recording event in the last 30 d and writes these figures: each rep's average talk share, marked when outside 40% to 55%; the top 5 objection categories, overall and per rep; each rep's average discovery questions per call, marked when below 5; at-risk calls (score 70 or more) per rep; the 3 calls with the most buying signals, each with its meeting link. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.

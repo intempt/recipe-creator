@@ -1,7 +1,7 @@
 ---
 frontmatter_id: video-remix
 slash_command: /video-remix
-description: Pin one image reference and get back a branded reel variant anchored to it.
+description: Pin one reference image and get back a short branded video clip anchored to it.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,25 +11,25 @@ classification:
   industry:
   - industry-agnostic
 portable:
-  summary: Pins one image reference and generates several branded reel video variations anchored to that reference clip.
+  summary: Turns one reference image into a short branded video clip that keeps its subject, look and framing.
   parameters:
-  - name: fanout
-    type: number
-    label: Number of variations
-    default: 4
+  - name: clip_style
+    type: enum
+    label: Motion style
+    default: slow camera push-in
     required: false
-  - name: reference_count
-    type: number
-    label: Number of video references
-    default: 1
-    required: false
+    options:
+    - slow camera push-in
+    - gentle orbit
+    - handheld drift
+    - static camera, subject moves
   requirements:
   - slot: reference_clip
     kind: knowledge
-    meaning: A reference video clip, scene, avatar, or product image to anchor generated variations
+    meaning: The reference image (a scene, product or brand image) the clip is anchored to
   - slot: brand_identity
     kind: brand
-    meaning: The project's brand assets used to keep generated reels on-brand
+    meaning: The project's brand colours and look, used to keep the clip on-brand
     optional: true
   steps:
   - id: s1
@@ -37,23 +37,16 @@ portable:
     uses:
     - reference_clip
     - brand_identity
-    - fanout
-    - reference_count
-    instruction: Generate {fanout} branded reel video variations anchored to the {reference_clip} references, using up to
-      {reference_count} video reference(s) and the {brand_identity} assets, with the Kling v3 image-to-video multi-reference
-      pipeline.
+    - clip_style
+    instruction: Generate one short video clip from {reference_clip}. Keep its subject, composition and colours, and animate
+      it with a {clip_style}. Match the colours and look of {brand_identity}. No text on screen, no people speaking, no visible
+      cut.
 ---
 
 # Reference-anchored video remix
 
 Slash command: /video-remix
 
-## Step 1: Pin clips and fan out
+## Step 1: Remix the reference into a clip
 
-Generate branded video variations from reference pins.
-Inputs:
-- references: 1: 4 video references (clip, scene, avatar, product)
-- fanout: number of variations (default: 4)
-Pipeline: kling v3 i2v multi-ref
-Runner: video-remix (custom)
-Fan out branded reel variants anchored to the reference clips.
+Generate one short video clip from reference clip. Keep its subject, composition and colours, and animate it with a slow camera push-in. Match the colours and look of brand identity. No text on screen, no people speaking, no visible cut.

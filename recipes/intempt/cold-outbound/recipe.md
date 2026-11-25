@@ -1,7 +1,8 @@
 ---
 frontmatter_id: cold-outbound
 slash_command: /cold-outbound
-description: Builds a target list from your ICP, runs a multi touch sequence with a booking link in it, and shows what pipeline came out.
+description: Builds a target list from your ICP, sends a two-touch cold email sequence with a booking link that stops on reply
+  or booking, and emails a weekly digest of replies and meetings.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,39 +12,43 @@ classification:
   industry:
   - industry-agnostic
 portable:
-  summary: Builds a target prospect list from ideal-customer criteria, runs a multi-touch cold email sequence with a booking
-    link, and reports the pipeline it produces.
+  summary: Builds an ICP prospect list, runs a two-touch cold email sequence with your booking link, and emails a weekly digest
+    of replies and meetings booked.
   parameters:
-  - name: touch_count
+  - name: target_industries
+    type: string
+    label: Industries that fit your ideal customer (comma separated)
+    required: true
+  - name: min_employees
     type: number
-    label: Number of outbound touches
-    default: 5
+    label: Smallest company size that fits (employees)
+    default: 50
+    required: false
+  - name: max_employees
+    type: number
+    label: Largest company size that fits (employees)
+    default: 1000
     required: false
   - name: cadence_gap
     type: duration
     label: Gap between touches
     default: 3 d
     required: false
-  - name: meeting_duration
-    type: duration
-    label: Meeting length offered via booking link
-    default: 30 min
-    required: false
-  - name: brand_voice
-    type: text
-    label: Brand voice for email copy
-    default: brand voice
-    required: false
+  - name: booking_link
+    type: string
+    label: Link where prospects book a meeting
+    required: true
+  - name: digest_recipients
+    type: string
+    label: Email addresses that get the digest
+    required: true
   requirements:
-  - slot: icp_criteria
-    kind: segment
-    meaning: Prospect accounts matching the ideal customer profile, using firmographic and intent signals
-    creatable: true
-    definition: accounts matching ideal customer profile firmographic criteria and showing intent signals
-  - slot: booking_calendar
-    kind: integration
-    meaning: A meeting booking calendar that reps can link in outreach emails
-    channel: google_sheets
+  - slot: company_industry
+    kind: attribute
+    meaning: The industry of the prospect's company
+  - slot: company_employees
+    kind: attribute
+    meaning: The number of employees at the prospect's company
   - slot: outreach_sender
     kind: destination
     meaning: An email sending channel used to deliver outbound sequence messages
@@ -68,48 +73,61 @@ portable:
   - id: s1
     builds: segment
     uses:
-    - icp_criteria
-    instruction: Build a target prospect list from {icp_criteria} using firmographic criteria and intent signals.
+    - company_industry
+    - company_employees
+    - target_industries
+    - min_employees
+    - max_employees
+    - outbound_reply
+    - meeting_booked
+    instruction: 'Build a new segment of users named "Cold Outbound Prospects". A user is in it when all of these are true:
+      their {company_industry} is one of {target_industries}; their {company_employees} is between {min_employees} and {max_employees};
+      they never did {outbound_reply}; they never did {meeting_booked}.'
   - id: s2
     builds: email
     uses:
-    - s1
-    - brand_voice
-    instruction: Write personalized cold outbound email templates in {brand_voice} using prospect-specific personalization
-      fields, based on the "Build the target list" segment. If the brand kit has no logo, use the brand name as a plain text
-      header.
+    - booking_link
+    instruction: Write a short plain cold email to a prospect at a company that fits our ideal customer. It names one problem
+      companies in their industry have, says in one sentence how we solve it, and asks for a 30-minute call through {booking_link}.
+      No attachments, no prices.
   - id: s3
-    builds: automation
+    builds: email
     uses:
-    - s1
-    - s2
-    - outreach_sender
-    - touch_count
-    - cadence_gap
-    instruction: Build a multi-touch outbound journey of {touch_count} touches spaced {cadence_gap} apart over the "Build
-      the target list" segment, using the "Write the outbound emails" templates, sent through {outreach_sender}, with break-up
-      logic that stops the sequence after the final touch or on reply.
+    - booking_link
+    instruction: Write a short plain break-up email to a prospect who did not reply to our first cold email. It says this
+      is the last note, restates the one problem we solve in one sentence, and leaves {booking_link} in case the timing changes.
+      No prices.
   - id: s4
     builds: automation
     uses:
-    - s2
-    - s3
-    - booking_calendar
-    - meeting_duration
-    instruction: Configure the booking link reps include in outreach, offering {meeting_duration} meetings, with availability
-      drawn from {booking_calendar}, and insert it into the "Write the outbound emails" templates.
-  - id: s5
-    builds: dashboard
-    uses:
     - s1
     - s2
     - s3
-    - s4
+    - outreach_sender
+    - cadence_gap
     - outbound_reply
     - meeting_booked
-    instruction: Compose a dashboard tracking outreach volume, reply rate from {outbound_reply}, meeting-booked rate from
-      {meeting_booked}, and pipeline contribution across the "Build the target list" segment and the "Run the touches, then
-      break off" journey.
+    dependsOn:
+    - s1
+    - s2
+    - s3
+    instruction: Build an automation triggered when a user enters the segment from "Build the target list". It sends the email
+      from "Write the first touch" through {outreach_sender}. Then it waits {cadence_gap}; if the user did not do {outbound_reply}
+      or {meeting_booked} in that time, it sends the email from "Write the break-up email" through {outreach_sender}. It stops
+      as soon as the user does {outbound_reply} or {meeting_booked}.
+  - id: s5
+    builds: automation
+    uses:
+    - s1
+    - outbound_reply
+    - meeting_booked
+    - digest_recipients
+    dependsOn:
+    - s1
+    instruction: 'Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes the users who entered
+      the segment from "Build the target list" in the last 7 days and the 28 days before, and writes these figures for both
+      windows: prospects entered; share who did {outbound_reply}; share who did {meeting_booked}. Then it emails these figures
+      as plain-text lines, each with its window, to {digest_recipients}. Nothing else is sent.'
 ---
 
 # Cold outbound sequence
@@ -118,21 +136,20 @@ Slash command: /cold-outbound
 
 ## Step 1: Build the target list
 
-This step builds a segment.
-Build target prospect list from ICP criteria (firmographic + intent signals).
+Build a new segment of users named "Cold Outbound Prospects". A user is in it when all of these are true: their company industry is one of the industries that fit your ideal customer (comma separated); their company employees is between 50 and 1000; they never did outbound reply; they never did meeting booked.
 
-## Step 2: Write the outbound emails
+## Step 2: Write the first touch
 
-Generate personalized cold-outbound email templates with brand voice and prospect-specific personalization tokens. Use the result of "Build the target list". If the brand kit has no logo, use the brand name as a plain text header.
+Write a short plain cold email to a prospect at a company that fits our ideal customer. It names one problem companies in their industry have, says in one sentence how we solve it, and asks for a 30-minute call through the link where prospects book a meeting. No attachments, no prices.
 
-## Step 3: Run the touches, then break off
+## Step 3: Write the break-up email
 
-Build a multi-touch outbound journey with appropriate cadence and break-up logic. Use the result of "Build the target list", "Write the outbound emails".
+Write a short plain break-up email to a prospect who did not reply to our first cold email. It says this is the last note, restates the one problem we solve in one sentence, and leaves the link where prospects book a meeting in case the timing changes. No prices.
 
-## Step 4: Set up the booking link
+## Step 4: Run the touches, then break off
 
-Configure the booking link reps include in outreach, with availability and meeting-type config. Use the result of "Build the target list", "Write the outbound emails", "Run the touches, then break off".
+Build an automation triggered when a user enters the segment from "Build the target list". It sends the email from "Write the first touch" through outreach sender. Then it waits 3 d; if the user did not do outbound reply or meeting booked in that time, it sends the email from "Write the break-up email" through outreach sender. It stops as soon as the user does outbound reply or meeting booked.
 
-## Step 5: Track replies and meetings
+## Step 5: Email the weekly outbound digest
 
-Compose a dashboard tracking outreach volume, reply rate, meeting-booked rate, and pipeline contribution. Use the result of "Build the target list", "Write the outbound emails", "Run the touches, then break off", "Set up the booking link".
+Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes the users who entered the segment from "Build the target list" in the last 7 days and the 28 days before, and writes these figures for both windows: prospects entered; share who did outbound reply; share who did meeting booked. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.

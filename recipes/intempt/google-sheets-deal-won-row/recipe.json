@@ -3,7 +3,7 @@
   "title": "Log won deals to a sheet",
   "slash_command": "/google-sheets-deal-won-row",
   "description": "Adds a row to a Google Sheet every time a deal is won, so finance and ops keep working in the sheet they already have.",
-  "markdown": "# Log won deals to a sheet\n\n## Description\n\nAdds a row to a Google Sheet every time a deal is won, so finance and ops keep working in the sheet they already have.\n\n## Steps\n\n### Step 1: Append a row on every win\n\nCreate a workflow triggered on deal stage changing to Closed Won. One step: append a row to the chosen Google Sheet with deal name, account, amount, close date, owner and source. Map columns by header name, never by position, so someone inserting a column in the sheet does not silently redirect every write after it. Failure policy is skip-and-record: a sheet that is momentarily locked should not fail the run, and the skipped rows need to be recoverable.\n",
+  "markdown": "# Log won deals to a sheet\n\n## Description\n\nAdds a row to a Google Sheet every time a deal is won, so finance and ops keep working in the sheet they already have.\n\n## Steps\n\n### Step 1: Append a row on every win\n\nBuild an automation triggered when deal won event happens. It appends one row to the sheet the google Sheet to append won deals to, tab the sheet tab name, through google sheets integration, matching columns by header name: deal name from deal name, account from account, amount from amount, close date from close date, owner from owner, source from source. When a row cannot be written it applies skip_and_record, where skip_and_record skips the row and records it for recovery.\n",
   "classification": {
     "industry": [
       "industry-agnostic"
@@ -20,7 +20,7 @@
     {
       "id": "s1",
       "title": "Append a row on every win",
-      "description": "Create a workflow triggered on deal stage changing to Closed Won. One step: append a row to the chosen Google Sheet with deal name, account, amount, close date, owner and source. Map columns by header name, never by position, so someone inserting a column in the sheet does not silently redirect every write after it. Failure policy is skip-and-record: a sheet that is momentarily locked should not fail the run, and the skipped rows need to be recoverable."
+      "description": "Build an automation triggered when deal won event happens. It appends one row to the sheet the google Sheet to append won deals to, tab the sheet tab name, through google sheets integration, matching columns by header name: deal name from deal name, account from account, amount from amount, close date from close date, owner from owner, source from source. When a row cannot be written it applies skip_and_record, where skip_and_record skips the row and records it for recovery."
     }
   ],
   "availability": "coming_soon"
