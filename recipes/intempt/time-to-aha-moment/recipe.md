@@ -1,7 +1,8 @@
 ---
 frontmatter_id: time-to-aha-moment
 slash_command: /time-to-aha-moment
-description: Measure the median time for new users to reach their first activation goal. Use funnel percentiles to assess how quickly users activate.
+description: Emails a weekly digest of how long new users take to reach their first activation goal, with the median, the
+  share who never activate and the split by signup source.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,13 +12,12 @@ classification:
   industry:
   - industry-agnostic
 portable:
-  summary: Shows how long new users take to reach their first activation goal, as a time distribution with cumulative percentages,
-    split by signup source and compared to the prior period.
+  summary: Emails a weekly digest of time from signup to first activation goal, with median, share within 24 hours, never-activated
+    share and signup source split.
   parameters:
   - name: activation_journey_id
     type: string
-    label: Activation journey ID
-    default: <UNKNOWN>
+    label: Journey whose goal marks activation
     required: true
   - name: cohort_window
     type: duration
@@ -35,15 +35,14 @@ portable:
     type: number
     label: Alert threshold for share of users who never activate (%)
     default: 50
+  - name: digest_recipients
+    type: string
+    label: Email addresses that get the digest
+    required: true
   requirements:
   - slot: user_created_event
     kind: event
     meaning: A new user account was created (signup)
-    properties:
-    - name: utm_source
-      type: text
-      meaning: Signup source channel of the user
-      optional: true
   - slot: journey_goal_completed_event
     kind: event
     meaning: A user completed a journey goal in the activation journey
@@ -57,7 +56,7 @@ portable:
     meaning: The user's first-touch signup source (UTM source)
   steps:
   - id: s1
-    builds: report
+    builds: automation
     uses:
     - user_created_event
     - journey_goal_completed_event
@@ -67,41 +66,21 @@ portable:
     - activation_window
     - top_sources
     - never_alert_threshold
-    instruction: 'Create an Insights report titled "Time to Aha Moment". Series A: a distribution histogram of the time elapsed
-      between each user''s {user_created_event} and their first {journey_goal_completed_event} where journey_id equals {activation_journey_id}.
-      Use these buckets: 0-5 min, 5-30 min, 30 min-2 hr, 2-6 hr, 6-24 hr, 1-3 days, 3-7 days, 7-14 days, and never (no goal
-      within {activation_window}). Series B: cumulative percentage of new users who reached the aha moment within each time
-      X. Time range: users created in the last {cohort_window}, so every user has had at least {activation_window} to activate.
-      Break down by {user_utm_source_attribute}, showing the top {top_sources} signup sources. Compare against the previous
-      period of the same length. Display as a histogram with the cumulative percentage as a secondary line. Add these annotations:
-      (1) benchmarks: top-quartile product-led products see 30%+ of new users reach the aha moment within 24 hours, the median
-      is closer to 10% within 24 hours, and a good time-to-value is under 48 hours. (2) Highlight the 50th-percentile bucket
-      as the median time-to-aha. (3) Highlight the median time-to-aha for each signup source. (4) Flag if the never bucket
-      exceeds {never_alert_threshold}% of signups, meaning half of signups never reach value. (5) Flag the signup source with
-      the slowest median time-to-aha as either an audience mismatch or an onboarding sequence problem for that channel.'
+    - digest_recipients
+    instruction: 'Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes users who did {user_created_event}
+      between {activation_window} and {cohort_window} ago, and the time from {user_created_event} to their first {journey_goal_completed_event}
+      with {journey_goal_completed_event.journey_id} equal to {activation_journey_id}. It writes: the % activated within 30
+      minutes, 2 hours, 24 hours, 3 days, 7 days and {activation_window}; the % that never activated within {activation_window};
+      the median time to activate; the same median per {user_utm_source_attribute} for the top {top_sources} sources, naming
+      the slowest. Then it emails these figures as plain-text lines, each with its window, to {digest_recipients}. When the
+      never-activated share is above {never_alert_threshold}%, the email''s first line says so. It compares the 24-hour share
+      with 10% (median) and 30% (top quartile). Nothing else is sent.'
 ---
 
 # Time to first value
 
 Slash command: /time-to-aha-moment
 
-## Step 1: Chart time from signup to first goal
+## Step 1: Email the weekly time to value digest
 
-Create an Insights report called "Time to Aha Moment".
-Series A: Distribution histogram of time elapsed between each user's User created and their first Completed a journey goal for the activation journey
-Series B: Cumulative percentage: what % of new users hit the aha moment within X time
-Buckets for Series A: 0-5 min / 5-30 min / 30 min-2 hr / 2-6 hr / 6-24 hr / 1-3 days / 3-7 days / 7-14 days / never (haven't hit aha within 14 days)
-Time range: Users created in the last 90 days (those who have had 14+ days to activate)
-Breakdown: By Users.UTM source (signup source: top 6 channels)
-Compare: Previous period (prior 90 days of cohort)
-Chart type: Histogram with the cumulative % overlay as a secondary line
-Annotations:
-- Add benchmarks: top-quartile PLG products see 30%+ of new users hit aha within 24 hours; median is closer to 10% within 24 hours. Industry "good" time-to-value is <48 hours.
-- Highlight the median time-to-aha (the 50th percentile bucket).
-- Highlight the median per signup source: different sources often have wildly different aha-times (organic users often faster than paid; partner referrals often fastest of all).
-- Flag if the "never" bucket (didn't activate within 14 days) is >50%: half your signups never experience value; severe activation problem.
-- Flag the source with the worst aha-time: this is either an ICP mismatch or an onboarding sequence issue specific to that channel's audience.
-Use case: distinct from the activation funnel (which is conversion %). This is the time-distribution view: answers "WHEN do users get value?" not just "DO they?" Time-to-value is the leading indicator of retention; users who hit aha fast retain at materially higher rates.
-Taxonomy notes:
-- User created and Completed a journey goal are canonical. The activation journey is project-specific (configurable journey_id).
-- Users.UTM source is the canonical first-touch source.
+Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes users who did user created event between 14 d and 90 d ago, and the time from user created event to their first journey goal completed event with journey id equal to the journey whose goal marks activation. It writes: the % activated within 30 minutes, 2 hours, 24 hours, 3 days, 7 days and 14 d; the % that never activated within 14 d; the median time to activate; the same median per user utm source attribute for the top 6 sources, naming the slowest. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. When the never-activated share is above 50%, the email's first line says so. It compares the 24-hour share with 10% (median) and 30% (top quartile). Nothing else is sent.

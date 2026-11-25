@@ -1,7 +1,8 @@
 ---
 frontmatter_id: mrr-trend
 slash_command: /mrr-trend
-description: Shows recurring revenue by plan over the last 12 months, with the month on month change and how each month compares with the same month last year.
+description: Emails a monthly digest of recurring revenue by plan over the last 12 months, with the month on month change
+  and how each month compares with the same month last year.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,8 +12,8 @@ classification:
   industry:
   - saas-b2b-tech
 portable:
-  summary: Shows monthly recurring revenue by plan over the last 12 months, with month-on-month change, year-over-year comparison,
-    and flags for contraction and mix shifts.
+  summary: Emails a monthly digest of recurring revenue by plan, with month-on-month change, year-over-year comparison and
+    flags for contraction and plan mix shifts.
   parameters:
   - name: time_range
     type: duration
@@ -30,10 +31,14 @@ portable:
     default: 3 mo
     required: false
   - name: recurring_type_value
-    type: text
-    label: Revenue completed type value that marks recurring revenue
+    type: string
+    label: Revenue type value that marks recurring revenue
     default: subscription
     required: false
+  - name: digest_recipients
+    type: string
+    label: Email addresses that get the digest
+    required: true
   requirements:
   - slot: revenue_completed_event
     kind: event
@@ -55,19 +60,6 @@ portable:
       type: text
       meaning: Where the revenue payment originated
       optional: true
-  - slot: invoice_paid_event
-    kind: event
-    meaning: A customer's invoice was paid through the payment processor
-    properties:
-    - name: amount_paid_cents
-      type: number
-      meaning: Amount paid on the invoice in cents
-      optional: false
-    - name: customer_id
-      type: text
-      meaning: Identifier of the paying customer
-      optional: false
-    optional: true
   - slot: subscription_started_event
     kind: event
     meaning: A customer started a subscription to a plan
@@ -82,52 +74,30 @@ portable:
       optional: false
   steps:
   - id: s1
-    builds: report
+    builds: automation
     uses:
     - revenue_completed_event
-    - invoice_paid_event
     - subscription_started_event
     - time_range
     - yoy_share_shift_threshold
     - growth_average_window
     - recurring_type_value
-    instruction: 'Create an Insights report titled "Monthly Recurring Revenue Trend" showing monthly recurring revenue over
-      {time_range}, with monthly granularity. Series A is the sum of {revenue_completed_event.amount} for {revenue_completed_event}
-      where {revenue_completed_event.type} equals "{recurring_type_value}", labeled "MRR" in dollars. If {revenue_completed_event}
-      recurring type is not configured in the workspace, use {invoice_paid_event} instead, summing {invoice_paid_event.amount_paid_cents}
-      divided by 100 to get dollars. Break Series A down by plan: attribute each paying customer to the plan from their most
-      recent active {subscription_started_event.plan}, matched on customer id. Render Series A as a stacked area chart. Series
-      B is the month-over-month net new MRR, computed as current month MRR minus previous month MRR, labeled "Net New MRR"
-      in dollars, shown as a secondary line. Add a dotted year-over-year overlay comparing each month with the same month
-      of the prior year. Annotations: show the absolute MRR for the most recent month as a callout; show the month-over-month
-      growth rate as a percentage and the trailing {growth_average_window} average growth rate; flag any month where Net New
-      MRR is negative as contraction; highlight any plan whose share of MRR shifted by more than {yoy_share_shift_threshold}
-      percentage points year over year. Do not use a subscription_payment event, which does not exist in the taxonomy.'
+    - digest_recipients
+    instruction: 'Build an automation that runs on the 1st of every month at 08:00 on a schedule. Each run it analyzes {revenue_completed_event}
+      with {revenue_completed_event.type} equal to {recurring_type_value} and writes these figures: MRR, the sum of {revenue_completed_event.amount},
+      for the last 30 days and for each 30 days over the last {time_range}; MRR split by plan, each customer ({revenue_completed_event.customer_id})
+      taking the plan of their latest {subscription_started_event.plan} on the same {subscription_started_event.customer_id};
+      net new MRR, this 30 days minus the 30 days before; the growth rate % and its average over the last {growth_average_window};
+      MRR against the same 30 days a year ago. Then it emails these figures as plain-text lines, each with its window, to
+      {digest_recipients}. When net new MRR is negative, the email''s first line says MRR contracted; it also names any plan
+      whose share of MRR moved more than {yoy_share_shift_threshold} percentage points against a year ago. Nothing else is
+      sent.'
 ---
 
 # Monthly recurring revenue trend
 
 Slash command: /mrr-trend
 
-## Step 1: Chart MRR by plan each month
+## Step 1: Email the monthly MRR digest
 
-Create an Insights report called "Monthly Recurring Revenue Trend".
-Series A: Event "Revenue completed" where type indicates a recurring payment (or "Invoice paid" if Invoice paid is the canonical recurring revenue marker in this workspace), aggregation: Sum of "amount" property, unit: $, label: "MRR"
- - For Revenue completed, filter by type indicating subscription/recurring revenue.
- - For Invoice paid as fallback, aggregate amount_paid_cents and divide by 100 to get $.
-Series B: Computed: month-over-month MRR delta (current month MRR − previous month MRR), unit: $, label: "Net New MRR"
-Time granularity: Monthly
-Breakdown for Series A: By Plan: for Revenue completed users, the Plan comes from their Subscription started event (most recent active subscription). Render as stacked area.
-Time range: Last 12 months
-Compare: Year-over-year (same month previous year, dotted overlay)
-Chart type: Stacked area chart for Series A with Series B as a secondary line
-Annotations:
-- Add the absolute MRR figure for the most recent month as a callout.
-- Add the month-over-month growth rate (%) and the trailing 3-month average growth rate.
-- Flag any month where net new MRR went negative (contraction).
-- Highlight any plan tier whose share of MRR shifted by more than 5 percentage points YoY.
-Taxonomy notes:
-- Revenue completed has amount, customer_id, type, source: use type to filter for recurring revenue.
-- Invoice paid (Stripe) has amount_paid_cents: use as primary if Revenue completed type-discrimination is not configured.
-- Plan comes from Subscription started: join to user's most-recent active subscription to attribute the MRR.
-- "subscription_payment" as an event does not exist in the canonical taxonomy.
+Build an automation that runs on the 1st of every month at 08:00 on a schedule. Each run it analyzes revenue completed event with type equal to subscription and writes these figures: MRR, the sum of amount, for the last 30 days and for each 30 days over the last 12 mo; MRR split by plan, each customer (customer id) taking the plan of their latest plan on the same customer id; net new MRR, this 30 days minus the 30 days before; the growth rate % and its average over the last 3 mo; MRR against the same 30 days a year ago. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. When net new MRR is negative, the email's first line says MRR contracted; it also names any plan whose share of MRR moved more than 5 percentage points against a year ago. Nothing else is sent.

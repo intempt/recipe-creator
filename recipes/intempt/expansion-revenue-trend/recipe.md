@@ -1,7 +1,8 @@
 ---
 frontmatter_id: expansion-revenue-trend
 slash_command: /expansion-revenue-trend
-description: Shows month over month MRR change per subscription from Subscription updated change events, comparing each subscription's amount before and after the update.
+description: Emails a monthly digest of expansion revenue from subscription updates, split into plan upgrades and seat growth,
+  as a share of new subscription revenue, with a stall flag.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,12 +12,12 @@ classification:
   industry:
   - saas-b2b-tech
 portable:
-  summary: Shows month-over-month expansion revenue per subscription from plan upgrades and seat increases, and how much it
-    equals as a share of new MRR.
+  summary: Emails a monthly digest of expansion revenue from plan upgrades and seat increases, and how it compares with new
+    subscription revenue.
   parameters:
   - name: window
     type: duration
-    label: Time range to analyze
+    label: Months of history in the digest
     default: 12 mo
     required: false
   - name: healthy_threshold
@@ -31,9 +32,13 @@ portable:
     required: false
   - name: stall_decline_threshold
     type: number
-    label: MoM expansion decline that flags a stall (%)
+    label: Month-over-month expansion decline that flags a stall (%)
     default: 15
     required: false
+  - name: digest_recipients
+    type: string
+    label: Email addresses that get the digest
+    required: true
   requirements:
   - slot: subscription_updated_event
     kind: event
@@ -71,13 +76,9 @@ portable:
       type: string
       meaning: Starting plan tier used to break down results
       optional: false
-  - slot: revenue_event
-    kind: event
-    meaning: A customer payment was completed or an invoice was paid
-    optional: true
   steps:
   - id: s1
-    builds: report
+    builds: automation
     uses:
     - subscription_updated_event
     - subscription_started_event
@@ -85,45 +86,23 @@ portable:
     - healthy_threshold
     - best_in_class_threshold
     - stall_decline_threshold
-    instruction: 'Create an Insights report called "Expansion Revenue Trend" showing month-over-month MRR change per subscription
-      from {subscription_updated_event} events, comparing each subscription''s amount before and after the update. Series
-      A "Upgrade Revenue": from {subscription_updated_event}, where {subscription_updated_event.changed_fields} indicates
-      a plan change (contains "plan_id" or "plan_items" with a higher-priced target in {subscription_updated_event.plan_items});
-      for each event compare the new {subscription_updated_event.amount} with the prior amount on the same {subscription_updated_event.subscription_id};
-      sum positive deltas, unit $. Series B "Seat / Quantity Expansion Revenue": from {subscription_updated_event}, where
-      {subscription_updated_event.changed_fields} indicates a quantity increase in {subscription_updated_event.plan_items};
-      sum positive amount deltas, unit $. Series C "Expansion as % of New MRR": (A + B) divided by new MRR in the period times
-      100, unit %, where new MRR is the sum of {subscription_started_event.amount} in the period. Granularity monthly over
-      {window}, compare year-over-year, breakdown by starting plan tier using {subscription_started_event.plan}. Chart: stacked
-      bars for A and B, Series C as a line on a secondary axis. Annotate benchmarks: expansion as % of new MRR at or above
-      {healthy_threshold} is healthy and at or above {best_in_class_threshold} is best-in-class. Flag any month where total
-      expansion revenue declined month over month by more than {stall_decline_threshold}% as a stalling expansion engine.
-      Highlight whether upgrade-driven or seat-driven expansion dominates and whether the mix is shifting. Negative deltas
-      count as contraction and are excluded from expansion totals.'
+    - digest_recipients
+    instruction: 'Build an automation that runs on the 1st of every month at 08:00 on a schedule. Each run it analyzes the
+      last 30 days and writes these figures: upgrade revenue, the sum of positive changes in {subscription_updated_event.amount}
+      against the previous amount on the same {subscription_updated_event.subscription_id} where {subscription_updated_event.changed_fields}
+      shows a plan change; seat revenue, the same sum where {subscription_updated_event.plan_items} shows a quantity increase;
+      new revenue, the sum of {subscription_started_event.amount}; expansion as a % of new revenue, (upgrade + seat) / new
+      x 100, split by starting {subscription_started_event.plan}; and each figure per month over the last {window}. Negative
+      changes are contraction and are left out. Then it emails these figures as plain-text lines, each with its window, to
+      {digest_recipients}. When expansion revenue fell more than {stall_decline_threshold}% against the month before, the
+      email''s first line says so; it also says if expansion is under {healthy_threshold}% (below healthy) or at least {best_in_class_threshold}%
+      (best in class) of new revenue. Nothing else is sent.'
 ---
 
 # Expansion revenue trend
 
 Slash command: /expansion-revenue-trend
 
-## Step 1: Split upgrades from seat growth
+## Step 1: Email the monthly expansion digest
 
-Create an Insights report called "Expansion Revenue Trend".
-Series A: Event "Subscription updated" where changed_fields indicates a plan upgrade (parsed from the changed_fields text property: e.g. contains "plan_id" or "plan_items" with a higher-priced target), aggregation: Sum of the resulting subscription amount delta
- Computation: for each Subscription updated event, compare new amount vs. prior amount on the same subscription_id. Positive delta with plan change = upgrade. Sum positive deltas, unit: $, label: "Upgrade Revenue".
-Series B: Event "Subscription updated" where changed_fields indicates seat/quantity increase (e.g. plan_items quantity went up), aggregation: Sum of positive amount delta, unit: $, label: "Seat / Quantity Expansion Revenue"
-Series C: Computed: (A + B) / new_mrr_in_period × 100, unit: %, label: "Expansion as % of New MRR"
- where new_mrr = sum of Subscription started.amount in the period
-Time granularity: Monthly
-Breakdown: By Plan: show which starting plan tiers produce the most expansion
-Time range: Last 12 months
-Compare: Year-over-year
-Chart type: Stacked bar for A and B with Series C as a line on a secondary axis
-Annotations:
-- Add benchmarks: expansion as % of new MRR ≥ 30% is healthy; ≥ 50% is best-in-class.
-- Flag any month where total expansion revenue declined MoM by more than 15% (expansion engine stalling).
-- Highlight whether upgrade-driven expansion or seat-driven expansion dominates, and whether the mix is shifting.
-Taxonomy notes:
-- The canonical taxonomy has Subscription updated with a changed_fields text property and a plan_items property (flattenable to price_id, quantity, product). It does NOT have separate subscription_upgraded / subscription_downgraded events.
-- Computing upgrade vs downgrade requires comparing new vs prior subscription state: operationally this means: when Subscription updated fires, look up the prior Subscription started.amount and compute the delta. Positive delta = expansion, negative = contraction.
-- "subscription_payment" is not a canonical event. Use Revenue completed or Invoice paid for actual revenue capture.
+Build an automation that runs on the 1st of every month at 08:00 on a schedule. Each run it analyzes the last 30 days and writes these figures: upgrade revenue, the sum of positive changes in amount against the previous amount on the same subscription id where changed fields shows a plan change; seat revenue, the same sum where plan items shows a quantity increase; new revenue, the sum of amount; expansion as a % of new revenue, (upgrade + seat) / new x 100, split by starting plan; and each figure per month over the last 12 mo. Negative changes are contraction and are left out. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. When expansion revenue fell more than 15% against the month before, the email's first line says so; it also says if expansion is under 30% (below healthy) or at least 50% (best in class) of new revenue. Nothing else is sent.

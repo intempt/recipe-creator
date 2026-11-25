@@ -1,7 +1,8 @@
 ---
 frontmatter_id: feature-paywall-conversion
 slash_command: /feature-paywall-conversion
-description: Reports per-feature engagement among free users and their pricing page views, to inform feature-gating strategy. It does not sequence feature use to payment or show quadrants.
+description: Emails a weekly digest of which features free users try, and how often each feature leads to a pricing page view
+  and a paid subscription, to guide feature gating.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,8 +12,8 @@ classification:
   industry:
   - saas-b2b-tech
 portable:
-  summary: Shows which product features free users try most, and how often each feature leads to a pricing page view and a
-    paid subscription, to guide which features to gate.
+  summary: Emails a weekly per-feature digest of free-user use, pricing page reach and paid conversion, to guide which features
+    to gate.
   parameters:
   - name: lookbackWindow
     type: duration
@@ -29,6 +30,10 @@ portable:
     label: Feature target_id pattern to match
     default: feature
     required: false
+  - name: digest_recipients
+    type: string
+    label: Email addresses that get the digest
+    required: true
   requirements:
   - slot: feature_click_event
     kind: event
@@ -57,14 +62,9 @@ portable:
   - slot: paid_subscriber_attribute
     kind: attribute
     meaning: Whether a user has a paid subscription started (used to identify free-plan users)
-  - slot: feature_usage_report_destination
-    kind: destination
-    meaning: A destination where the feature-to-paywall report can be created
-    optional: true
-    channel: email
   steps:
   - id: s1
-    builds: report
+    builds: automation
     uses:
     - feature_click_event
     - pricing_page_view_event
@@ -73,51 +73,22 @@ portable:
     - lookbackWindow
     - conversionWindow
     - featurePattern
-    instruction: 'Create an insights report named "Feature to Paywall Conversion". Series A: count unique users of {feature_click_event}
-      where {feature_click_event.target_id} matches {featurePattern}, limited to users without a started paid subscription
-      ({paid_subscriber_attribute} not set), broken down by {feature_click_event.target_id}, labeled "Free Users Who Tried
-      Feature". Series B: of the users in Series A, those who later triggered {pricing_page_view_event} with {pricing_page_view_event.page_url}
-      containing "/pricing" within {conversionWindow} of the feature click, labeled "Reached Paywall". Series C: of the users
-      in Series A, those who later triggered {subscription_started_event} with {subscription_started_event.trial_end} empty
-      (paid, non-trial) within {conversionWindow}, labeled "Converted to Paid". Series D: computed as Series B divided by
-      Series A times 100, unit %, labeled "Feature to Paywall Rate". Series E: computed as Series C divided by Series A times
-      100, unit %, labeled "Feature to Paid Rate". Time range: {lookbackWindow}. Compare against the previous period of the
-      same length. Chart as a scatter plot with X = Series D, Y = Series E, bubble size = Series A, one bubble per feature.
-      Add quadrant labels: high paywall and high paid means monetizing features to gate or promote in upgrade prompts; high
-      paywall and low paid means features that intrigue but do not close, a pricing or positioning issue; low paywall and
-      high paid means stealth-monetization features that need no gate; low paywall and low paid means low-monetization features
-      to keep free without over-investing. Flag any feature with high free-tier usage and zero conversion lift as pure cost
-      to consider deprecating or gating. Highlight the top 3 features by Series E as the paywall-optimal features. Surface
-      the feature with the largest gap where Series D is much higher than Series E as a pricing-perception issue.'
+    - digest_recipients
+    instruction: 'Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes users whose {paid_subscriber_attribute}
+      is not set (free users) who did {feature_click_event} with {feature_click_event.target_id} matching {featurePattern}
+      in the last {lookbackWindow}, against the {lookbackWindow} before, and writes these figures per target_id: free users
+      who tried the feature; of those, users who did {pricing_page_view_event} with {pricing_page_view_event.page_url} containing
+      "/pricing" within {conversionWindow} after the click, and that as a % (paywall rate); users who did {subscription_started_event}
+      with {subscription_started_event.trial_end} empty within {conversionWindow} (paid rate %); the top 3 features by paid
+      rate; the feature with the largest gap where paywall rate is far above paid rate; features with many free users and
+      no paid conversions. Then it emails these figures as plain-text lines, each with its window, to {digest_recipients}.
+      Nothing else is sent.'
 ---
 
 # Feature to paywall conversion
 
 Slash command: /feature-paywall-conversion
 
-## Step 1: Rank features by paid conversion
+## Step 1: Email the weekly feature paywall digest
 
-Create an Insights report called "Feature to Paywall Conversion".
-Series A: the click event filtered by target_id matching a feature pattern, scoped to free-plan users (users without a paid Subscription started), aggregation: Count Unique Users per target_id, label: "Free Users Who Tried Feature"
-Series B: Of the users in Series A, those who subsequently emitted a View page where Page URL contains "/pricing" within 30 days of the feature click, label: "Reached Paywall"
-Series C: Of the users in Series A, those who subsequently emitted Subscription started (with trial_end null: paid, non-trial) within 30 days, label: "Converted to Paid"
-Series D: Computed: Series B / Series A × 100, unit: %, label: "Feature to Paywall Rate"
-Series E: Computed: Series C / Series A × 100, unit: %, label: "Feature to Paid Rate"
-Breakdown: By target_id (the specific feature)
-Time range: Last 90 days
-Compare: Previous period (prior 90 days)
-Chart type: Scatter plot: X axis = Feature to Paywall Rate (Series D), Y axis = Feature to Paid Rate (Series E), bubble size = Series A volume (free users who tried). Each bubble is a feature.
-Annotations:
-- Quadrant labeling on the scatter:
- - High Paywall + High Paid: features that drive monetization (gate them, or use them as the upgrade pitch). Promote in upgrade prompts.
- - High Paywall + Low Paid: features that intrigue but don't close (paywall view is happening but pricing isn't compelling: pricing/positioning issue).
- - Low Paywall + High Paid: stealth-monetization features (users convert without going through pricing: already sold; no need to gate).
- - Low Paywall + Low Paid: low-monetization features (giveaways: keep in free tier, don't gate, but also don't over-invest).
-- Flag any feature with high free-tier usage AND zero conversion lift: these features are pure cost; consider deprecating or gating.
-- Highlight the top 3 features by Feature to Paid Rate (Series E): these are the paywall-optimal features.
-- Surface the feature with the largest Free to Paywall conversion gap (Series D much higher than Series E): pricing-perception issue specific to that feature.
-Use case: Kyle Poyar's (OpenView) most-shared Amplitude template. Tells the product team which features to gate behind the paywall vs. which to give away vs. which to deprecate. The single most-actionable monetization analysis a SaaS product can run.
-Taxonomy notes:
-- the click event.target_id is the canonical feature handle.
-- View page.Page URL filtered to /pricing identifies paywall views.
-- Subscription started.trial_end null distinguishes paid from trial.
+Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes users whose paid subscriber attribute is not set (free users) who did feature click event with target id matching feature in the last 90 d, against the 90 d before, and writes these figures per target_id: free users who tried the feature; of those, users who did pricing page view event with page url containing "/pricing" within 30 d after the click, and that as a % (paywall rate); users who did subscription started event with trial end empty within 30 d (paid rate %); the top 3 features by paid rate; the feature with the largest gap where paywall rate is far above paid rate; features with many free users and no paid conversions. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.

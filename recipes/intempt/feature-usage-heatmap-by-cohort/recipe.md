@@ -1,7 +1,8 @@
 ---
 frontmatter_id: feature-usage-heatmap-by-cohort
 slash_command: /feature-usage-heatmap-by-cohort
-description: Compare feature usage across signup cohorts to see how adoption differs between groups.
+description: Emails a monthly digest comparing feature adoption across signup cohort months, flagging features that newer
+  cohorts use less and cohorts with weak onboarding.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,8 +12,8 @@ classification:
   industry:
   - industry-agnostic
 portable:
-  summary: Shows how feature adoption differs across signup cohort months with a heatmap, flagging features needing re-introduction
-    and cohorts with weak onboarding.
+  summary: Emails a monthly digest of feature adoption by signup cohort month, flagging features needing re-introduction and
+    cohorts with weak onboarding.
   parameters:
   - name: usage_window
     type: duration
@@ -32,7 +33,10 @@ portable:
   - name: feature_pattern
     type: text
     label: Feature target_id pattern
-    default: <UNKNOWN>
+    required: true
+  - name: digest_recipients
+    type: string
+    label: Email addresses that get the digest
     required: true
   requirements:
   - slot: feature_click_event
@@ -48,7 +52,7 @@ portable:
     meaning: The date and time a user first appeared in the product (first seen)
   steps:
   - id: s1
-    builds: report
+    builds: automation
     uses:
     - feature_click_event
     - user_first_seen
@@ -56,37 +60,20 @@ portable:
     - cohort_window
     - feature_pattern
     - sticky_threshold
-    instruction: 'Create an Insights report named "Feature Usage by Cohort". Series A: count unique users of {feature_click_event}
-      where {feature_click_event.target_id} matches {feature_pattern}, over {usage_window}. Series B: computed as Series A
-      divided by the cohort size times 100, unit %, labeled "Adoption Rate within Cohort". Break down by {feature_click_event.target_id}
-      and by the signup cohort month derived from {user_first_seen} bucketed to month. Limit users to those whose {user_first_seen}
-      falls within {cohort_window}. Display as a heatmap with features on the Y axis, cohort month on the X axis, cell value
-      as adoption rate %, and color intensity scaled. Annotate features showing a left-side fade (older cohorts adopt more
-      than newer cohorts) as a likely onboarding regression. Annotate features showing a right-side rise (newer cohorts adopt
-      more) as recent improvements. Highlight feature rows where adoption is uniformly above {sticky_threshold}% across all
-      cohorts as universally sticky. Highlight cohort columns where adoption is uniformly low across most features as possibly
-      broken onboarding. Summarize which features need re-introduction to recent cohorts and which cohort months had degraded
-      onboarding.'
+    - digest_recipients
+    instruction: 'Build an automation that runs on the 1st of every month at 08:00 on a schedule. Each run it analyzes users
+      whose {user_first_seen} is in the last {cohort_window}, grouped by the month of {user_first_seen} (signup cohort), and
+      writes these figures: for each {feature_click_event.target_id} matching {feature_pattern}, the % of each cohort that
+      did {feature_click_event} with it in the last {usage_window}; features where older cohorts adopt more than newer ones
+      (likely onboarding regression); features where newer cohorts adopt more (recent improvement); features above {sticky_threshold}%
+      in every cohort (universally sticky); cohorts with low adoption across most features (weak onboarding). Then it emails
+      these figures as plain-text lines, each with its window, to {digest_recipients}. Nothing else is sent.'
 ---
 
 # Feature usage by signup cohort
 
 Slash command: /feature-usage-heatmap-by-cohort
 
-## Step 1: Heatmap features against cohorts
+## Step 1: Email the monthly cohort adoption digest
 
-Create an Insights report called "Feature Usage by Cohort".
-Series A: the click event filtered by target_id (matching a defined feature pattern), aggregation: Count Unique Users
-Series B: Computed: Series A / cohort size × 100, unit: %, label: "Adoption Rate within Cohort"
-Breakdown: By target_id (feature) AND by cohort month derived from User.First seen (system-set datetime) bucketed to month
-Time range: Last 90 days of usage; cohorts from Users with First seen in the last 6 months
-Chart type: Heatmap (feature on Y axis, cohort month on X axis), cell value = adoption rate %, color intensity scaled
-Annotations:
-- Flag features that show "left-side fade" in the heatmap (older cohorts have higher adoption than newer cohorts): likely an onboarding regression where newer users aren't being introduced to the feature.
-- Flag features that show "right-side rise" (newer cohorts adopt at higher rates): recent product or onboarding improvements working.
-- Highlight rows (features) where adoption is uniformly >30% across all cohorts: universally sticky features.
-- Highlight columns (cohorts) where adoption is uniformly low across most features: that cohort's onboarding may have been broken.
-Surface which features need to be re-introduced to recent cohorts and which cohort months had degraded onboarding.
-Taxonomy notes:
-- Users.First seen is a system-set datetime; "signup_cohort_month" is a derived bucketing of First seen, not a stored property.
-- the click event.target_id is the canonical feature handle.
+Build an automation that runs on the 1st of every month at 08:00 on a schedule. Each run it analyzes users whose user first seen is in the last 6 mo, grouped by the month of user first seen (signup cohort), and writes these figures: for each target id matching the feature target_id pattern, the % of each cohort that did feature click event with it in the last 90 d; features where older cohorts adopt more than newer ones (likely onboarding regression); features where newer cohorts adopt more (recent improvement); features above 30% in every cohort (universally sticky); cohorts with low adoption across most features (weak onboarding). Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.

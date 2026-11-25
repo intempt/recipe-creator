@@ -1,7 +1,8 @@
 ---
 frontmatter_id: search-conversion
 slash_command: /search-conversion
-description: Shows how many on site searches lead to a click, a cart and an order, and compares that with shoppers who just browse.
+description: Emails a weekly digest of how many on site searches lead to a click, a cart and an order, compared with shoppers
+  who just browse.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,17 +12,17 @@ classification:
   industry:
   - ecommerce-retail
 portable:
-  summary: Shows how many site searches lead to a click, cart and order, and compares that conversion with shoppers who only
-    browse.
+  summary: Emails a weekly digest of site searches leading to a click, cart and order, compared with browse conversion, with
+    zero-click and missed-term flags.
   parameters:
+  - name: comparison_period
+    type: duration
+    label: Period compared with the one before
+    default: 7 d
+    required: false
   - name: conversion_window
     type: duration
     label: Conversion window
-    default: 3 d
-    required: false
-  - name: comparison_period
-    type: duration
-    label: Comparison period (prior period)
     default: 3 d
     required: false
   - name: top_query_categories
@@ -49,6 +50,10 @@ portable:
     label: Number of top zero-engagement query terms to highlight
     default: 5
     required: false
+  - name: digest_recipients
+    type: string
+    label: Email addresses that get the digest
+    required: true
   requirements:
   - slot: search_page_view
     kind: event
@@ -90,58 +95,37 @@ portable:
     meaning: A customer placed an order
   steps:
   - id: s1
-    builds: report
+    builds: automation
     uses:
     - search_page_view
     - search_result_click
     - browse_page_view
     - cart_created
     - order_placed
-    - conversion_window
     - comparison_period
+    - conversion_window
     - top_query_categories
     - zero_click_window
     - zero_click_benchmark
     - search_lag_threshold
     - top_missed_terms
-    instruction: 'Create a funnel report named "Search to Conversion" with these steps in order: (1) {search_page_view} where
-      {search_page_view.page_url} contains "/search" or {search_page_view.query} is not empty, labeled "Performed Search";
-      (2) {search_result_click} where {search_result_click.previous_page} indicates the search results page or {search_result_click.query}
-      is not empty, labeled "Clicked Result"; (3) {cart_created}, labeled "Added to Cart"; (4) {order_placed}, labeled "Purchased".
-      Set the conversion window to {conversion_window}. Break down by query category parsed from {search_page_view.query}
-      or {search_result_click.query}, showing the top {top_query_categories} categories. Compare against the previous period
-      of {comparison_period}. Show the conversion rate at each step for each query category. Count search page views with
-      no {search_result_click} within {zero_click_window}, as zero-engagement searches. Annotate: flag when the share of searches
-      with zero clicks exceeds {zero_click_benchmark}%. Flag any query category where search-to-purchase conversion is more
-      than {search_lag_threshold}% below browse-to-purchase conversion as a search-relevance issue. Highlight the top {top_missed_terms}
-      query terms with high search volume and zero downstream engagement as missed-revenue opportunities. State whether searchers
-      convert better than browsers.'
+    - digest_recipients
+    instruction: 'Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes the last {comparison_period}
+      against the {comparison_period} before. Searchers did {search_page_view} with {search_page_view.page_url} containing
+      "/search" or {search_page_view.query} not empty; browsers did {browse_page_view} and no search. It writes: searchers
+      who then did {search_result_click} with {search_result_click.query} not empty or {search_result_click.previous_page}
+      a search page, {cart_created}, and {order_placed}, each within {conversion_window}, with the step conversion %, split
+      by the top {top_query_categories} query categories; browse-to-order conversion %; the % of searches with no {search_result_click}
+      within {zero_click_window}; the top {top_missed_terms} queries by volume with no click. Then it emails these figures
+      as plain-text lines, each with its window, to {digest_recipients}. The email flags a zero-click share above {zero_click_benchmark}%
+      and query categories whose search-to-order conversion is more than {search_lag_threshold}% below browse-to-order. Nothing
+      else is sent.'
 ---
 
 # Search to purchase
 
 Slash command: /search-conversion
 
-## Step 1: Follow searches through to orders
+## Step 1: Email the weekly search conversion digest
 
-Create a Funnel report called "Search to Conversion".
-Steps:
-1. Event "View page" where Page URL contains /search OR query string is non-empty: "Performed Search"
-2. the click event where the user is in a search-results context (referrer or previous_page indicates the search page): "Clicked Result"
-3. Event "Cart created": "Added to Cart"
-4. Event "Placed order": "Purchased"
-Conversion window: 3 days
-Breakdown: By query keyword/category (parse the query string from View page.query or from the click event.query): top 10 query categories
-Compare: Previous period (prior 3 days)
-Also build a parallel "Browse to Purchase" comparison funnel (View page on category/listing to Cart created to Placed order) so search-conversion can be compared head-to-head with non-search browsing.
-For each step, also surface:
-- Per-query-category conversion rate at each step
-- Volume of search page views with zero subsequent click event within 5 minutes (zero-result or zero-engagement searches)
-Annotations:
-- Flag the share of searches that resulted in zero clicks: benchmark <10%.
-- Flag any query category where search-to-purchase conversion lags browse-to-purchase by >50% (search-relevance issue).
-- Highlight the top 5 query terms with high volume but zero downstream engagement: missed-revenue opportunities.
-Surface whether searchers convert better than browsers (typical: 2-3× better).
-Taxonomy notes:
-- "search_performed" and "search_result_clicked" as standalone events do not exist. Search interactions are derived from View page.Page URL + query string patterns and the click event.query / the click event.previous_page.
-- the click event carries query and previous_page properties that are useful for context detection.
+Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes the last 7 d against the 7 d before. Searchers did search page view with page url containing "/search" or query not empty; browsers did browse page view and no search. It writes: searchers who then did search result click with query not empty or previous page a search page, cart created, and order placed, each within 3 d, with the step conversion %, split by the top 10 query categories; browse-to-order conversion %; the % of searches with no search result click within 5 min; the top 5 queries by volume with no click. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. The email flags a zero-click share above 10% and query categories whose search-to-order conversion is more than 50% below browse-to-order. Nothing else is sent.

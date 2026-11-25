@@ -1,7 +1,8 @@
 ---
 frontmatter_id: post-purchase-second-order-velocity
 slash_command: /post-purchase-second-order-velocity
-description: Measure the time from a customer's first order to their second order. Use the median and conversion percentages to guide when to send replenishment reminders.
+description: Emails a monthly digest of the time from a customer's first order to their second, by product category, so replenishment
+  reminders can be timed to the typical gap.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,8 +12,8 @@ classification:
   industry:
   - ecommerce-retail
 portable:
-  summary: Shows how long customers take from their first order to their second, by product category, so replenishment reminders
-    can be timed to the typical gap and compared across periods.
+  summary: Emails a monthly digest of days from first to second order by product category, with high-velocity and long-cycle
+    flags, compared with an older cohort.
   parameters:
   - name: first_order_min_age
     type: duration
@@ -49,6 +50,10 @@ portable:
     label: Long-cycle median threshold (flag categories above this)
     default: 180 d
     required: false
+  - name: digest_recipients
+    type: string
+    label: Email addresses that get the digest
+    required: true
   requirements:
   - slot: placed_order_event
     kind: event
@@ -61,13 +66,9 @@ portable:
   - slot: product_category_catalog
     kind: product_feed
     meaning: Product catalog that maps each product to its category
-  - slot: time_to_second_purchase_report
-    kind: segment
-    meaning: Report showing the distribution of days between a customer's first and second order
-    optional: true
   steps:
   - id: s1
-    builds: report
+    builds: automation
     uses:
     - placed_order_event
     - product_category_catalog
@@ -78,40 +79,21 @@ portable:
     - early_loyalty_window
     - high_velocity_threshold
     - long_cycle_threshold
-    instruction: 'Create an Insights report named "Time from 1st to 2nd Purchase". Use {placed_order_event} events. Series
-      A: histogram of days between each customer''s first and second order, counted only for customers with at least two orders,
-      bucketed 0-3, 4-7, 8-14, 15-30, 31-60, 61-90, 91-180, 181-365, and 365+ days. Series B: cumulative percentage of repeat
-      buyers whose second order occurs within X days. Time range: customers whose first order is at least {first_order_min_age}
-      old. Breakdown: category of the first placed order''s items, resolved through {product_category_catalog}, top {top_categories}
-      categories. Compare against the cohort whose first order was between {comparison_window_start} and {comparison_window_end}
-      ago to see whether repeat velocity is getting faster or slower. Chart type: histogram with the cumulative percentage
-      as a secondary line. Annotations: highlight the median days to second purchase per category as the suggested replenishment
-      trigger delay; flag categories with median below {high_velocity_threshold} as high-velocity replenishment candidates
-      for subscribe-and-save; flag categories with median above {long_cycle_threshold} as long-cycle categories where replenishment
-      should fire at 6-9 months; highlight the share of repeat buyers who returned within {early_loyalty_window} and note
-      whether that share is rising or falling across cohorts.'
+    - digest_recipients
+    instruction: 'Build an automation that runs on the 1st of every month at 08:00 on a schedule. Each run it analyzes customers
+      whose first {placed_order_event} was between {first_order_min_age} and 12 months ago, grouped by the category of their
+      first order''s {placed_order_event.items} in {product_category_catalog} (top {top_categories} categories), and writes
+      these figures per category: the % who placed a second order; the median days from first to second order; the % of repeat
+      buyers back within 7, 30, 90 and 180 days; the % back within {early_loyalty_window}; the same median for customers whose
+      first order was between {comparison_window_start} and {comparison_window_end} ago. Then it emails these figures as plain-text
+      lines, each with its window, to {digest_recipients}. The email names categories with a median under {high_velocity_threshold}
+      as replenishment candidates and over {long_cycle_threshold} as long-cycle. Nothing else is sent.'
 ---
 
 # Time to second purchase
 
 Slash command: /post-purchase-second-order-velocity
 
-## Step 1: Measure the gap to order two
+## Step 1: Email the monthly second order digest
 
-Create an Insights report called "Time from 1st to 2nd Purchase".
-Series A: Distribution histogram of days between each user's 1st Placed order and 2nd Placed order (only users who have at least 2 orders)
-Series B: Cumulative percentage: what % of repeat-buyers make their 2nd purchase within X days
-Buckets for Series A: 0-3 days / 4-7 days / 8-14 days / 15-30 days / 31-60 days / 61-90 days / 91-180 days / 181-365 days / 365+ days
-Time range: Users whose 1st order was 6+ months ago (so we have a full follow-up window for measuring 2nd-purchase timing)
-Breakdown: By first-order product category (derived from first Placed order.items to Products.category): top 6 categories
-Compare: Previous period (cohorts whose 1st order was 12-18 months ago: answers: is repeat-velocity getting faster or slower?)
-Chart type: Histogram chart with the cumulative % overlay as a secondary line
-Annotations:
-- Highlight the median time-to-second-purchase per category: this is the right delay to set on replenishment journey triggers.
-- Flag any category where median time-to-second-purchase is <14 days (high-velocity replenishment: candidate for subscribe-and-save offering).
-- Flag any category where median time-to-second-purchase is >180 days (long-cycle category: replenishment journeys should fire at 6-9 months, not 30 days).
-- Highlight the share of repeat-buyers who returned within 30 days (the "early loyalty" group). This share growing over time = improving retention; shrinking = deteriorating.
-Use case: distinct from the existing purchase-retention recipe (which is cohort %). This is the histogram that tells you the actual time distribution: critical for journey-trigger timing. Most brands use a generic 30-day or 60-day replenishment delay; this recipe surfaces the right delay per category.
-Taxonomy notes:
-- "First order" and "second order" per user are derived from the temporal order of Placed order events for the same customer_id.
-- Placed order.items contains product_id which resolves to category via the Products record-object.
+Build an automation that runs on the 1st of every month at 08:00 on a schedule. Each run it analyzes customers whose first placed order event was between 6 mo and 12 months ago, grouped by the category of their first order's items in product category catalog (top 6 categories), and writes these figures per category: the % who placed a second order; the median days from first to second order; the % of repeat buyers back within 7, 30, 90 and 180 days; the % back within 30 d; the same median for customers whose first order was between 18 mo and 12 mo ago. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. The email names categories with a median under 14 d as replenishment candidates and over 180 d as long-cycle. Nothing else is sent.

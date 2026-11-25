@@ -1,7 +1,8 @@
 ---
 frontmatter_id: net-revenue-retention-by-cohort
 slash_command: /net-revenue-retention-by-cohort
-description: Tracks monthly cohort retention rates over time to measure ongoing customer and user engagement.
+description: Emails a monthly digest of net revenue retention for each monthly cohort of new paying customers, by starting
+  plan, with benchmarks and an early erosion flag.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,8 +12,8 @@ classification:
   industry:
   - industry-agnostic
 portable:
-  summary: Shows monthly cohort net revenue retention, broken down by starting plan, with benchmarks, a headline trailing
-    12-month NRR, and a cohort-quality trend check.
+  summary: Emails a monthly digest of net revenue retention per monthly customer cohort and starting plan, with a headline
+    12-month NRR and erosion flags.
   parameters:
   - name: time_range_cohort_months
     type: duration
@@ -49,6 +50,10 @@ portable:
     label: Benchmark NRR (%) - best in class
     default: 120
     required: false
+  - name: digest_recipients
+    type: string
+    label: Email addresses that get the digest
+    required: true
   requirements:
   - slot: subscription_started_event
     kind: event
@@ -106,27 +111,14 @@ portable:
       type: number
       meaning: Recurring amount on resume
       optional: false
-  - slot: revenue_completed_event
-    kind: event
-    meaning: A customer completed a payment
-    properties:
-    - name: amount
-      type: number
-      meaning: Payment amount
-      optional: false
-    - name: revenue_type
-      type: string
-      meaning: Whether the payment is recurring or one-time
-      optional: false
   steps:
   - id: s1
-    builds: report
+    builds: automation
     uses:
     - subscription_started_event
     - subscription_updated_event
     - subscription_canceled_event
     - subscription_resumed_event
-    - revenue_completed_event
     - time_range_cohort_months
     - max_months_after_cohort
     - early_warning_month
@@ -134,51 +126,23 @@ portable:
     - benchmark_low
     - benchmark_mid
     - benchmark_high
-    instruction: 'Create a Retention report named "Net Revenue Retention by Cohort". Define each cohort by the calendar month
-      of the user''s first paid subscription start, where a subscription started event counts as paid when its trial_end is
-      empty or it is a follow-on subscription started after a trial. Cover the last {time_range_cohort_months} of cohorts.
-      For each cohort month M and each month N from M to M+{max_months_after_cohort}, compute for cohort users: Starting MRR
-      as the sum of revenue_completed amount where revenue_type is recurring in month N-1; Expansion MRR as the sum of positive
-      changes in amount between consecutive subscription_updated amounts on the same subscription_id in month N; Reactivation
-      MRR as the sum of subscription_resumed amount in month N for users who previously had a subscription_canceled; Contraction
-      MRR as the sum of negative amount changes from subscription_updated in month N, subtracted; Churned MRR as the sum of
-      the prior amount of each subscription_canceled in month N, subtracted. Ending MRR equals Starting plus Expansion plus
-      Reactivation minus Contraction minus Churned. NRR at month N equals Ending MRR divided by the cohort''s original revenue
-      at month M, multiplied by 100, shown in percent. Break down cohorts by the plan on the cohort-defining subscription
-      started event. Chart as a multi-line chart with months since cohort on the X axis and NRR percent on the Y axis, one
-      line per cohort, plus a stacked bar showing the component breakdown for the most recent cohort. Add reference lines
-      at {benchmark_low}%, {benchmark_mid}% and {benchmark_high}%. Flag any cohort whose NRR at month {early_warning_month}
-      is below {erosion_nrr_threshold}%. Highlight the cohort with the highest NRR at month {max_months_after_cohort}. Indicate
-      whether NRR is improving across successive cohorts. Show a headline trailing 12-month blended NRR number and state whether
-      the cohort trend is improving. If subscription_updated events lack changed_fields or plan_items detail, note that the
-      report reflects logo retention only.'
+    - digest_recipients
+    instruction: 'Build an automation that runs on the 1st of every month at 08:00 on a schedule. Each run it groups paying
+      customers by the month of their first {subscription_started_event} with {subscription_started_event.trial_end} empty,
+      for cohorts in the last {time_range_cohort_months}, split by that event''s {subscription_started_event.plan}. For each
+      cohort and each month since it started, up to {max_months_after_cohort}, it writes NRR %: (starting {subscription_started_event.amount}
+      + positive changes in {subscription_updated_event.amount} per {subscription_updated_event.subscription_id} + {subscription_resumed_event.amount}
+      - negative changes - {subscription_canceled_event.amount}) / starting amount x 100. It also writes the blended NRR over
+      the last 12 months, the cohort with the highest NRR at month {max_months_after_cohort}, and whether NRR is rising across
+      newer cohorts. Then it emails these figures as plain-text lines, each with its window, to {digest_recipients}. The email
+      compares NRR with {benchmark_low}%, {benchmark_mid}% and {benchmark_high}%, and flags cohorts under {erosion_nrr_threshold}%
+      at month {early_warning_month}. Nothing else is sent.'
 ---
 
 # Net revenue retention by cohort
 
 Slash command: /net-revenue-retention-by-cohort
 
-## Step 1: Track cohort revenue month by month
+## Step 1: Email the monthly cohort NRR digest
 
-Create a Retention report called "Net Revenue Retention by Cohort".
-Cohort: Monthly cohort defined by month of first paid Subscription started (trial_end is null OR a follow-on after-trial Subscription started) per user.
-For each cohort and each month-after-cohort N (M, M+1, M+2, ... M+12), compute the dollar values for users in the cohort:
-- Starting MRR (cohort's recurring revenue in month N-1) = Sum of Revenue completed.amount filtered to recurring type, for cohort users
-- Expansion MRR = Sum of positive amount-deltas from Subscription updated events in month N for cohort users (where the post-event amount exceeds the prior amount on the same subscription_id)
-- Reactivation MRR = Sum of subscription_resumed.amount in month N for cohort users who had a prior Subscription canceled
-- Contraction MRR = Sum of negative amount-deltas from Subscription updated events (subtracted)
-- Churned MRR = Sum of the prior subscription amount for each Subscription canceled in month N (subtracted)
-- Ending MRR = Starting + Expansion + Reactivation − Contraction − Churn
-- NRR for cohort at month N = Ending MRR / Original cohort revenue at month M × 100, unit: %
-Time range: Last 12 cohort-months
-Breakdown: By initial Plan (the Plan on the cohort-defining Subscription started)
-Chart type: Multi-line chart: X axis is months-since-cohort, Y axis is NRR %; each cohort is a line. Plus a stacked bar showing the per-component decomposition for the most recent cohort.
-Annotations:
-- Add benchmarks: NRR ≥ 100% (cohort growing in revenue despite churn); ≥ 110% (top-quartile); ≥ 120% (best-in-class).
-- Flag any cohort whose NRR at M+6 is below 90% (revenue erosion).
-- Highlight the cohort with the highest M+12 NRR.
-- Flag whether NRR is improving across cohorts over time (cohort-quality trend).
-Surface the trailing 12-month blended NRR (a single headline number) and whether the cohort-level trend is improving.
-Taxonomy notes:
-- The canonical taxonomy does not have separate subscription_upgraded/_downgraded/_reactivated events. Expansion and Contraction are computed by Lovable from Subscription updated by comparing pre/post amount on the same subscription_id. Reactivation is computed as subscription_resumed (or subscription_activated) where the same customer_id had a recent Subscription canceled.
-- This recipe depends on Subscription updated firing reliably with sufficient detail (changed_fields, plan_items) for the delta computation. If the integration emits sparse Subscription updated, the report degrades to logo-retention only.
+Build an automation that runs on the 1st of every month at 08:00 on a schedule. Each run it groups paying customers by the month of their first subscription started event with trial end empty, for cohorts in the last 12 mo, split by that event's plan. For each cohort and each month since it started, up to 12, it writes NRR %: (starting amount + positive changes in amount per subscription id + amount - negative changes - amount) / starting amount x 100. It also writes the blended NRR over the last 12 months, the cohort with the highest NRR at month 12, and whether NRR is rising across newer cohorts. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. The email compares NRR with 100%, 110% and 120%, and flags cohorts under 90% at month 6. Nothing else is sent.

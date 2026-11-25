@@ -1,7 +1,8 @@
 ---
 frontmatter_id: retention-lifted-by-feature-adoption
 slash_command: /retention-lifted-by-feature-adoption
-description: Compares how long users stay when they adopt a given feature in their first week against users who never touch it.
+description: Builds a segment of users who adopt a given feature in their first week and emails a weekly digest comparing
+  how long they stay against users who never touch it.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,23 +12,17 @@ classification:
   industry:
   - industry-agnostic
 portable:
-  summary: Shows whether adopting a chosen feature in the first week goes with higher user retention than not adopting it,
-    with retention gaps flagged at W4 and W12.
+  summary: Builds a segment of first-week adopters of a chosen feature and emails a weekly digest of their retention against
+    non-adopters, with W4 and W12 gaps flagged.
   parameters:
   - name: target_id
     type: string
-    label: Target feature identifier (click event target_id) to analyse
-    default: most-clicked target_id matching the feature pattern in the last 30 days
-    required: false
+    label: Feature identifier (click event target_id) to analyse
+    required: true
   - name: adoption_window
     type: duration
     label: Window after User created that counts as early adoption
     default: 7 d
-    required: false
-  - name: retention_window_weeks
-    type: number
-    label: Retention weeks reported alongside the curves
-    default: 12
     required: false
   - name: strong_lever_gap_pp
     type: number
@@ -49,6 +44,10 @@ portable:
     label: Signup period analysed
     default: 12 w
     required: false
+  - name: digest_recipients
+    type: string
+    label: Email addresses that get the digest
+    required: true
   requirements:
   - slot: feature_click_event
     kind: event
@@ -66,59 +65,47 @@ portable:
     meaning: A user started a session in the product
   steps:
   - id: s1
-    builds: report
+    builds: segment
     uses:
     - feature_click_event
     - user_created_event
-    - session_start_event
     - target_id
     - adoption_window
-    - retention_window_weeks
+    - time_range
+    instruction: Build a new segment of users named "Early Feature Adopters". A user is in it when they did {user_created_event}
+      in the last {time_range} and did {feature_click_event} with {feature_click_event.target_id} equal to {target_id} within
+      {adoption_window} after their {user_created_event}.
+  - id: s2
+    builds: automation
+    uses:
+    - s1
+    - user_created_event
+    - session_start_event
     - strong_lever_gap_pp
     - weak_gap_pp
     - low_exposure_share
     - time_range
-    instruction: 'Create a Retention report named "Retention Lifted by Feature Adoption" for the feature identified by {feature_click_event.target_id}
-      equal to {target_id}; if {target_id} is not given, use the most-clicked target_id matching the feature pattern in the
-      last 30 days. Anchor on {user_created_event} and use {session_start_event} as the return event. Build weekly signup
-      cohorts over {time_range}. Cohort A: users who emitted {feature_click_event} with the matching target_id within {adoption_window}
-      after {user_created_event} (early adopters). Cohort B: users who did not emit {feature_click_event} with the matching
-      target_id within {adoption_window} after {user_created_event} (non-adopters). Chart both retention curves overlaid in
-      different colors, plus a delta line showing the absolute retention gap (A minus B) at each week. For weeks W1, W2, W4,
-      W8 and W12 (up to {retention_window_weeks} weeks), show Cohort A retention rate, Cohort B retention rate, the absolute
-      gap in percentage points, and the cohort sizes. Annotate: flag the week with the largest gap as the magic moment; flag
-      if the W4 gap exceeds {strong_lever_gap_pp} percentage points as a strong retention lever; flag if the W12 gap is below
-      {weak_gap_pp} percentage points as not retention-driving; and highlight early adopter cohort size if it is below {low_exposure_share}
-      percent of the base as insufficient first-week exposure. State whether the target feature is retention-correlated.'
+    - digest_recipients
+    dependsOn:
+    - s1
+    instruction: 'Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes users who did {user_created_event}
+      in the last {time_range}, in weekly signup cohorts, in two groups: users in the segment from "Find first week feature
+      adopters" (adopters) and the others (non-adopters). It writes, for weeks 1, 2, 4, 8 and 12 after signup: the % of each
+      group that did {session_start_event} that week, the gap in percentage points, and each group''s size; the week with
+      the largest gap; adopters as a % of all signups. Then it emails these figures as plain-text lines, each with its window,
+      to {digest_recipients}. The email says the feature is a strong retention lever when the week-4 gap is above {strong_lever_gap_pp}
+      points, not retention-driving when the week-12 gap is under {weak_gap_pp} points, and flags first-week exposure when
+      adopters are under {low_exposure_share}% of signups. Nothing else is sent.'
 ---
 
 # Retention lift from a feature
 
 Slash command: /retention-lifted-by-feature-adoption
 
-## Step 1: Compare adopters and non adopters
+## Step 1: Find first week feature adopters
 
-Create a Retention report called "Retention Lifted by Feature Adoption".
-Configuration: this recipe runs for a configurable target feature, identified by the click event.target_id (default: the most-clicked target_id matching the feature pattern in the last 30 days; user can specify).
-Cohort definitions:
-- Cohort A: users who emitted a click events with the target_id within their first 7 days after User created ("early adopters")
-- Cohort B: users who did NOT emit a click event with the target_id within their first 7 days ("non-adopters")
-Anchor event: User created
-Return event: Session start
-Cohort granularity: Weekly (signup cohorts based on User created)
-Time range: Last 12 weeks
-Chart type: Two retention curves overlaid (Cohort A in one color, Cohort B in another) plus delta line showing absolute retention gap at each week
-For each week (W1, W2, W4, W8, W12), surface:
-- Cohort A retention rate
-- Cohort B retention rate
-- Absolute retention gap (A − B) in percentage points
-- Cohort sizes
-Annotations:
-- Flag the week where the retention gap is largest (the "magic moment").
-- Flag if W4 retention gap is >15 percentage points (the feature is a strong retention lever).
-- Flag if W12 retention gap is <5 percentage points (feature isn't actually retention-driving).
-- Highlight the cohort size of "early adopters": if it's <30% of the base, the feature isn't getting enough first-week exposure.
-Surface whether the target feature is genuinely retention-correlated. This is the canonical "magic moment" / "north-star action" analysis.
-Taxonomy notes:
-- the click event.target_id is the canonical feature handle. User created and Session start are canonical.
-- Cohort A/B split is computed from the existence of a click events with the matching target_id within 7 days of User created.
+Build a new segment of users named "Early Feature Adopters". A user is in it when they did user created event in the last 12 w and did feature click event with target id equal to the feature identifier (click event target_id) to analyse within 7 d after their user created event.
+
+## Step 2: Email the weekly feature retention digest
+
+Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes users who did user created event in the last 12 w, in weekly signup cohorts, in two groups: users in the segment from "Find first week feature adopters" (adopters) and the others (non-adopters). It writes, for weeks 1, 2, 4, 8 and 12 after signup: the % of each group that did session start event that week, the gap in percentage points, and each group's size; the week with the largest gap; adopters as a % of all signups. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. The email says the feature is a strong retention lever when the week-4 gap is above 15 points, not retention-driving when the week-12 gap is under 5 points, and flags first-week exposure when adopters are under 30% of signups. Nothing else is sent.

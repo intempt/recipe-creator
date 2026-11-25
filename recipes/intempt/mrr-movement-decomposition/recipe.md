@@ -1,7 +1,8 @@
 ---
 frontmatter_id: mrr-movement-decomposition
 slash_command: /mrr-movement-decomposition
-description: Reports monthly recurring revenue movement by summing new and churned MRR from subscription data. Shows gross additions and losses by month.
+description: Emails a monthly digest that splits recurring revenue movement into new, expansion, contraction, churned and
+  reactivated MRR, with net new MRR and net revenue retention.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,16 +12,9 @@ classification:
   industry:
   - saas-b2b-tech
 portable:
-  summary: Builds a monthly MRR waterfall over the last 12 months that splits recurring revenue movement into new, expansion,
-    contraction, churn and reactivation, with NRR trend.
+  summary: Emails a monthly digest splitting MRR movement into new, expansion, contraction, churn and reactivation, with net
+    new MRR and NRR.
   parameters:
-  - name: time_granularity
-    type: enum
-    label: Time granularity
-    default: monthly
-    required: false
-    options:
-    - monthly
   - name: time_range
     type: duration
     label: Time range
@@ -31,15 +25,10 @@ portable:
     label: Reactivation lookback window
     default: 90 d
     required: false
-  - name: comparison_period
-    type: enum
-    label: Comparison period
-    default: year_over_year
-    required: false
-    options:
-    - none
-    - month_over_month
-    - year_over_year
+  - name: digest_recipients
+    type: string
+    label: Email addresses that get the digest
+    required: true
   requirements:
   - slot: subscription_started_event
     kind: event
@@ -104,13 +93,9 @@ portable:
   - slot: active_subscription_status
     kind: attribute
     meaning: Whether a customer currently has an active subscription
-  - slot: mrr_waterfall_report
-    kind: knowledge
-    meaning: Output report showing the MRR movement waterfall
-    optional: true
   steps:
   - id: s1
-    builds: report
+    builds: automation
     uses:
     - subscription_started_event
     - subscription_updated_event
@@ -118,49 +103,24 @@ portable:
     - subscription_resumed_event
     - active_subscription_status
     - time_range
-    - time_granularity
     - reactivation_window
-    - comparison_period
-    instruction: 'Create an Insights report called "MRR Movement Decomposition". Compute five monthly MRR movement categories
-      over the {time_range} window at {time_granularity} granularity. New MRR: sum of {subscription_started_event.amount}
-      for customers with no active subscription beforehand. Expansion MRR: from {subscription_updated_event} events, compute
-      the delta of {subscription_updated_event.amount} minus {subscription_updated_event.prior_amount} per subscription_id,
-      and sum the positive deltas where {subscription_updated_event.changed_fields} indicates a plan upgrade or seat/quantity
-      increase. Contraction MRR: same delta computation, summing negative deltas (shown as negative values). Churned MRR:
-      sum of {subscription_canceled_event.prior_amount} per cancellation (shown as negative). Reactivation MRR: sum of {subscription_resumed_event.amount}
-      where the same {subscription_canceled_event.customer_id} had a cancellation within {reactivation_window}. Net New MRR
-      = New + Expansion + Contraction + Churned + Reactivation. Net Revenue Retention (%) = (Starting MRR + Expansion + Reactivation
-      − Contraction − Churn) / Starting MRR × 100. Compare using {comparison_period}. Chart as a waterfall per month: New,
-      Expansion and Reactivation as positive stacks; Contraction and Churn as negative stacks; Net New as the connecting line;
-      add a secondary line with trailing 12-month NRR.'
+    - digest_recipients
+    instruction: 'Build an automation that runs on the 1st of every month at 08:00 on a schedule. Each run it analyzes subscription
+      revenue in the last 30 days and in each 30 days over the last {time_range}, and writes these figures: new MRR, the sum
+      of {subscription_started_event.amount} for customers with no active subscription before ({active_subscription_status});
+      expansion MRR, the sum of positive {subscription_updated_event.amount} minus {subscription_updated_event.prior_amount}
+      per {subscription_updated_event.subscription_id}; contraction MRR, the sum of the negative ones; churned MRR, the sum
+      of {subscription_canceled_event.prior_amount}; reactivation MRR, the sum of {subscription_resumed_event.amount} for
+      customers whose cancellation was within {reactivation_window} before; net new MRR (new + expansion + reactivation -
+      contraction - churned); net revenue retention %, (starting MRR + expansion + reactivation - contraction - churned) /
+      starting MRR x 100; and the same figures for the same 30 days a year ago. Then it emails these figures as plain-text
+      lines, each with its window, to {digest_recipients}. Nothing else is sent.'
 ---
 
 # MRR movement waterfall
 
 Slash command: /mrr-movement-decomposition
 
-## Step 1: Break MRR into its five parts
+## Step 1: Email the monthly MRR movement digest
 
-Create an Insights report called "MRR Movement Decomposition".
-This is the canonical SaaS MRR waterfall. Compute the five movement categories per month:
-New MRR: Sum of Subscription started.amount in the period for users who had no active subscription previously, unit: $
-Expansion MRR: From Subscription updated events: for each event, compute (new amount − prior subscription amount on the same subscription_id). Sum the positive deltas where changed_fields indicates plan upgrade or seat/quantity increase, unit: $
-Contraction MRR: Same Subscription updated computation; sum the negative deltas (will appear as negative values in the waterfall), unit: $
-Churned MRR: Sum of the prior subscription amount for each Subscription canceled event in the period (negative in the waterfall), unit: $
-Reactivation MRR: Sum of subscription_resumed.amount where the user previously had a Subscription canceled in the prior 90 days, unit: $
-Net New MRR: New + Expansion + Contraction (negative) + Churned (negative) + Reactivation
-Net Revenue Retention (NRR): (Starting MRR + Expansion + Reactivation − Contraction − Churn) / Starting MRR × 100, unit: %
-Time granularity: Monthly
-Time range: Last 12 months
-Compare: Year-over-year
-Chart type: Waterfall chart per month (New, Expansion, Reactivation as positive stacks; Contraction, Churn as negative stacks; Net New as the connecting line), with a secondary line showing trailing 12-month NRR
-Annotations:
-- Add benchmarks: a healthy SaaS business has Expansion + Reactivation ≥ |Contraction + Churn| (NRR ≥ 100%).
-- Flag any month where Net New MRR went negative.
-- Flag any month where Churned MRR exceeded New MRR.
-- Top-quartile NRR is ≥ 110%; world-class is ≥ 120%.
-Taxonomy notes:
-- The canonical Intempt taxonomy does NOT have separate subscription_upgraded, subscription_downgraded, or subscription_reactivated events. The available subscription state-change events are: Subscription started, Subscription updated, Subscription canceled, subscription_paused, subscription_resumed, subscription_expired, subscription_activated.
-- Expansion / Contraction split must be computed by Lovable's translation layer from Subscription updated by comparing new vs. prior subscription amount. The changed_fields property indicates what changed; plan_items carries the new state.
-- Reactivation is computed as subscription_resumed (or subscription_activated) where the same customer_id had a recent Subscription canceled.
-- This recipe requires the workspace to have these subscription state-change events flowing reliably from Stripe / HubSpot / Shopify subscription integrations. If Subscription updated is sparse, the report degrades to New MRR + Churned MRR only: still valuable but missing the expansion/contraction decomposition.
+Build an automation that runs on the 1st of every month at 08:00 on a schedule. Each run it analyzes subscription revenue in the last 30 days and in each 30 days over the last 12 mo, and writes these figures: new MRR, the sum of amount for customers with no active subscription before (active subscription status); expansion MRR, the sum of positive amount minus prior amount per subscription id; contraction MRR, the sum of the negative ones; churned MRR, the sum of prior amount; reactivation MRR, the sum of amount for customers whose cancellation was within 90 d before; net new MRR (new + expansion + reactivation - contraction - churned); net revenue retention %, (starting MRR + expansion + reactivation - contraction - churned) / starting MRR x 100; and the same figures for the same 30 days a year ago. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.

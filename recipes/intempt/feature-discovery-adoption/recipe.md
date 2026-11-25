@@ -1,7 +1,8 @@
 ---
 frontmatter_id: feature-discovery-adoption
 slash_command: /feature-discovery-adoption
-description: Shows how many people encounter a feature and go on to try it for the first time, using feature interaction events.
+description: Emails a weekly digest of how many users discover each feature, try it, use it repeatedly and become habitual
+  users, with flags for weak discovery and low stickiness.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,8 +12,8 @@ classification:
   industry:
   - industry-agnostic
 portable:
-  summary: Shows how many people discover a feature, try it for the first time, and become habitual users, with conversion
-    rates and flags for low-stickiness features.
+  summary: Emails a weekly per-feature digest of discovery, first use and habitual use, flagging low-stickiness features and
+    promotion candidates.
   parameters:
   - name: conversionWindow
     type: duration
@@ -69,6 +70,10 @@ portable:
     label: Comparison period
     default: 21 d
     required: false
+  - name: digest_recipients
+    type: string
+    label: Email addresses that get the digest
+    required: true
   requirements:
   - slot: feature_discovery_event
     kind: event
@@ -88,7 +93,7 @@ portable:
       optional: false
   steps:
   - id: s1
-    builds: report
+    builds: automation
     uses:
     - feature_discovery_event
     - feature_click_event
@@ -103,45 +108,23 @@ portable:
     - promotionRate
     - topN
     - comparisonPeriod
-    instruction: 'Create a funnel report named "Feature Discovery to Adoption" with these steps: (1) View page where page
-      URL contains the feature path, labeled "Discovered Feature" (first exposure); alternatively, click on where target_id
-      matches a feature-tour or tooltip element. (2) clicks where target_id matches the feature interaction handle, labeled
-      "Tried Feature" (first use). (3) the click event with the same target_id as step 2, at least {habitualUseThreshold}
-      times by the same user within {habitualWindow}, labeled "Used 3+ Times". (4) the click event with the same target_id,
-      active on at least {habitualActiveDays} distinct days within the last {recentDayWindow}, labeled "Habitual User". Set
-      the conversion window to {conversionWindow}. Break down by target_id (feature handle). Compare against the previous
-      {comparisonPeriod}. For each feature, also show discovery-to-habitual conversion rate (step 4 divided by step 1) and
-      median time from discovery to habitual status in days. Annotations: flag features with more than {highDiscoveryThreshold}
-      discovered users and habitual conversion below {lowStickinessRate}% as high-discovery, low-stickiness for UX investigation;
-      flag features with discovery-to-trial conversion below {lowTrialRate}% as having a weak discovery moment; highlight
-      features with discovery-to-habitual conversion above {promotionRate}% as promotion candidates. Surface the top {topN}
-      features by absolute habitual-user count and the top {topN} by habitual-conversion rate.'
+    - digest_recipients
+    instruction: 'Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes users per feature,
+      a feature being one {feature_click_event.target_id}, over the last {comparisonPeriod} against the {comparisonPeriod}
+      before, and writes per feature: users who discovered it ({feature_discovery_event} with {feature_discovery_event.page_url}
+      containing the feature path); of those, users who tried it ({feature_click_event} with that target_id within {conversionWindow});
+      users using it {habitualUseThreshold}+ times within {habitualWindow}; habitual users, active with it on {habitualActiveDays}
+      or more days in the last {recentDayWindow}; discovery-to-habitual rate %; the top {topN} features by habitual users
+      and by habitual rate. Then it emails these figures as plain-text lines, each with its window, to {digest_recipients}.
+      The email lists features with more than {highDiscoveryThreshold} discoverers and a habitual rate under {lowStickinessRate}%
+      as low stickiness, features with discovery-to-trial under {lowTrialRate}% as weak discovery, and features with a habitual
+      rate over {promotionRate}% as promotion candidates. Nothing else is sent.'
 ---
 
 # Feature discovery to adoption
 
 Slash command: /feature-discovery-adoption
 
-## Step 1: Follow a feature from first look
+## Step 1: Email the weekly feature adoption digest
 
-Create a Funnel report called "Feature Discovery to Adoption".
-Steps:
-1. Event "View page" where Page URL contains the feature path: "Discovered Feature" (first exposure)
- (alternative: clicks where target_id matches a feature-tour or tooltip element)
-2. the click event where target_id matches the feature interaction handle: "Tried Feature" (first use)
-3. the click event with same target_id as Step 2, count >= 3 by the same user within 21 days: "Used 3+ Times"
-4. the click event with same target_id, frequency: at least 3 distinct days of use in the last 5 days: "Habitual User"
-Conversion window: 21 days
-Breakdown: By target_id (feature handle)
-Compare: Previous period (prior 21 days)
-For each feature, also surface:
-- Discovery to Habitual conversion rate (Step 4 / Step 1)
-- Median time-to-habitual (days from discovery to habitual)
-Annotations:
-- Flag features with discovery > 1000 users AND habitual conversion < 5%: high-discovery, low-stickiness; investigate UX.
-- Flag features where discovery to trial conversion < 20%: discovery moment isn't compelling.
-- Highlight features with discovery to habitual conversion > 25%: surface candidates for promotion.
-Surface the top 3 features by absolute habitual-user count and the top 3 by habitual-conversion rate.
-Taxonomy notes:
-- "feature_discovered" and "feature_habitual" as standalone events do not exist. Feature interactions are tracked via click event with stable target_id values per feature.
-- Step 4 ("Habitual User") requires Lovable to compute the "3 of last 5 days" rule from click events timestamps grouped by user.
+Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes users per feature, a feature being one target id, over the last 21 d against the 21 d before, and writes per feature: users who discovered it (feature discovery event with page url containing the feature path); of those, users who tried it (feature click event with that target_id within 21 d); users using it 3+ times within 21 d; habitual users, active with it on 3 or more days in the last 5 d; discovery-to-habitual rate %; the top 3 features by habitual users and by habitual rate. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. The email lists features with more than 1000 discoverers and a habitual rate under 5% as low stickiness, features with discovery-to-trial under 20% as weak discovery, and features with a habitual rate over 25% as promotion candidates. Nothing else is sent.

@@ -1,7 +1,8 @@
 ---
 frontmatter_id: forecast-vs-actual-quota
 slash_command: /forecast-vs-actual-quota
-description: Shows period closed-won revenue alongside pipeline coverage.
+description: Emails a weekly digest of each rep's closed-won revenue against weighted forecast and quota, with pipeline coverage,
+  projected closes and forecast accuracy flags.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,13 +12,13 @@ classification:
   industry:
   - industry-agnostic
 portable:
-  summary: Shows each rep's closed-won revenue against forecast and quota, with pipeline coverage, projected near-term closes,
-    and forecast accuracy flags.
+  summary: Emails a weekly digest of closed-won revenue per rep against forecast and quota, with pipeline coverage and forecast
+    accuracy flags.
   parameters:
-  - name: trailing_periods
-    type: number
-    label: Trailing quota periods to show
-    default: 4
+  - name: late_stages
+    type: string
+    label: Deal stages counted as late stage (comma separated)
+    default: proposal, negotiation, contract
     required: false
   - name: coverage_minimum
     type: number
@@ -41,9 +42,13 @@ portable:
     required: false
   - name: low_attainment_streak
     type: number
-    label: Consecutive periods below quota to flag
-    default: 4
+    label: Months in a row below quota that get flagged
+    default: 3
     required: false
+  - name: digest_recipients
+    type: string
+    label: Email addresses that get the digest
+    required: true
   requirements:
   - slot: closed_won_deal
     kind: event
@@ -89,75 +94,36 @@ portable:
     kind: attribute
     meaning: Per-period dollar quota target for a rep or the workspace
     optional: true
-  - slot: late_stage_definition
-    kind: attribute
-    meaning: The set of deal stages treated as late-stage (negotiation, proposal, contract) in the project's deal-stage configuration
-  - slot: rep_user
-    kind: attribute
-    meaning: Sales rep user records used for per-rep breakdown
   steps:
   - id: s1
-    builds: report
+    builds: automation
     uses:
     - closed_won_deal
     - deal_stage_change
     - quota_target
-    - late_stage_definition
-    - rep_user
-    - trailing_periods
+    - late_stages
     - coverage_minimum
     - coverage_risk_threshold
     - projection_window
     - forecast_accuracy_band
     - low_attainment_streak
-    instruction: 'Create an Insights report titled "Forecast vs Actual vs Quota" with monthly granularity over the trailing
-      {trailing_periods} quota periods plus the current and next period, broken down by owner. Series A: sum of {closed_won_deal.amount}
-      per period, labeled "Actual Closed-Won" in dollars. Series B: sum of the most recent open-deal amount per {deal_stage_change.deal_id}
-      (from {deal_stage_change.amount}) multiplied by the historical close rate of its current stage, for deals whose {deal_stage_change.close_date}
-      falls in the period, labeled "Weighted Forecast" in dollars. Series C: the quota target for the period from {quota_target},
-      labeled "Quota Target" in dollars; if {quota_target} is not configured, omit Series C and Series D and show only Series
-      A and B. Series D: Series A divided by Series C times 100, labeled "Quota Attainment" in percent. Series E: sum of all
-      open-deal amounts divided by Series C, labeled "Pipeline Coverage Ratio". Series F: sum of deal amount where {deal_stage_change.close_date}
-      is within the next {projection_window} and the stage is in {late_stage_definition}, labeled "Projected Close (Next 30d)"
-      in dollars. Chart: combo chart with Series A and B as bars, Series C as a horizontal target line, Series D as a secondary-axis
-      callout, Series E as a separate KPI tile. Compare each period with the previous period and the same period last year.
-      Annotate the {coverage_minimum}:1 minimum coverage benchmark (healthy at 4 to 5:1, shortfall below 2:1). Flag any period
-      where Series B significantly exceeds Series A as a forecast-accuracy issue. Flag any rep whose pipeline coverage ratio
-      is below {coverage_risk_threshold}:1. Highlight any run of {low_attainment_streak} or more consecutive periods below
-      100% attainment. Add a forecast accuracy metric: absolute value of (Series A minus Series B) divided by Series A times
-      100, over the trailing {trailing_periods} periods, flagged when it exceeds {forecast_accuracy_band}%.'
+    - digest_recipients
+    instruction: 'Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes deals per rep ({closed_won_deal.owner_id},
+      {deal_stage_change.owner_id}) for the last 30 days, the 30 days before, and each 30 days over the last 120 days, and
+      writes these figures: closed-won revenue, the sum of {closed_won_deal.amount}; weighted forecast, the latest {deal_stage_change.amount}
+      of each open {deal_stage_change.deal_id} with {deal_stage_change.close_date} in the window times its stage''s close
+      rate over the last 180 days; quota attainment %, closed-won / {quota_target}, only when {quota_target} is set; pipeline
+      coverage, open pipeline / {quota_target}; projected closes, open amount in stages {late_stages} closing in the next
+      {projection_window}; forecast error %, |closed-won - forecast| / closed-won. Then it emails these figures as plain-text
+      lines, each with its window, to {digest_recipients}. The email flags reps with coverage under {coverage_risk_threshold}x
+      (minimum {coverage_minimum}x), forecast error above {forecast_accuracy_band}%, and {low_attainment_streak} or more 30-day
+      windows in a row below quota. Nothing else is sent.'
 ---
 
 # Forecast versus quota
 
 Slash command: /forecast-vs-actual-quota
 
-## Step 1: Compare closed, forecast and quota
+## Step 1: Email the weekly forecast and quota digest
 
-Create an Insights report called "Forecast vs Actual vs Quota".
-Series A: Sum of Deal won.amount per period (closed-won revenue), unit: $, label: "Actual Closed-Won"
-Series B: Sum of (open-deal amount × historical close-rate of current stage) for deals with close_date in the period: the weighted forecast, unit: $, label: "Weighted Forecast"
-Series C: Workspace-configured quota target for the period, unit: $, label: "Quota Target"
- - Default: pulled from a workspace-level quota attribute (per-period dollar target). If unconfigured, recipe degrades gracefully and surfaces just A and B.
-Series D: Computed: Series A / Series C × 100, unit: %, label: "Quota Attainment"
-Series E: Computed: (Sum of all open-deal amounts) / Series C, label: "Pipeline Coverage Ratio"
- - The canonical 3:1 ratio benchmark: pipeline-to-quota of 3x is the industry minimum for reliable close.
-Series F: Computed: Sum of deal amount where close_date IS within next 30 days AND stage is in late-stage (negotiation/proposal/contract), unit: $, label: "Projected Close (Next 30d)"
-Time granularity: Monthly (or per quota period: quarterly for most B2B teams)
-Time range: Trailing 4 quota periods + current + next period (forward-looking forecast)
-Breakdown: By owner_id (per-rep): pushed down so each rep's forecast/actual/quota is visible
-Compare: Previous period AND year-over-year same-period
-Chart type: Combo chart: Series A (actual) and B (forecast) as bars, Series C (quota) as a horizontal target line, Series D (attainment %) on a secondary axis as a callout, Series E (coverage ratio) as a separate KPI tile
-Annotations:
-- Add the canonical pipeline coverage benchmark: 3:1 minimum, 4-5:1 healthy, <2:1 indicates pipeline shortfall.
-- Flag any period where forecast (Series B) significantly exceeded actual (Series A): forecast-accuracy issue, investigate which deals slipped.
-- Flag any rep whose pipeline coverage ratio fell below 2:1 (acute risk for next period).
-- Highlight the period attainment trend: 4+ consecutive periods below 100% attainment indicates either quota is set too aggressively or systematic execution issues.
-- Surface forecast accuracy as an explicit metric: |Actual − Forecast| / Actual × 100 over trailing 4 periods. Top-quartile sales orgs forecast within ±10%; below ±20% accuracy indicates the forecasting process needs refinement.
-Use case: the canonical sales VP / CRO weekly report. Pipeline coverage ratio (Series E) is the most-cited B2B sales KPI; forecast accuracy is the leading indicator of sales-process maturity.
-Taxonomy notes:
-- Deal won.amount and Deal won.close_date are canonical properties.
-- Deal stage changed has new_stage and amount per state change; "current open-deal amount" comes from the most-recent Deal stage changed.amount per deal_id.
-- owner_id is a canonical property on Deal created and Deal stage changed; also on Users object.
-- IMPORTANT: quota target dependency: this recipe assumes the workspace has quota targets configured per period per rep, OR a workspace-level aggregate quota. If neither is configured, Series C and Series D return null and the report renders Series A, B, E, F only. Sales teams typically inject quota targets via HubSpot/Salesforce sync or as a manual workspace-level attribute.
-- "Late-stage" classification for Series F (Projected Close) follows the project's deal-stage configuration; standard convention is the final 2-3 stages before Deal won/Deal lost.
+Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes deals per rep (owner id, owner id) for the last 30 days, the 30 days before, and each 30 days over the last 120 days, and writes these figures: closed-won revenue, the sum of amount; weighted forecast, the latest amount of each open deal id with close date in the window times its stage's close rate over the last 180 days; quota attainment %, closed-won / quota target, only when quota target is set; pipeline coverage, open pipeline / quota target; projected closes, open amount in stages proposal, negotiation, contract closing in the next 30 d; forecast error %, |closed-won - forecast| / closed-won. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. The email flags reps with coverage under 2x (minimum 3x), forecast error above 20%, and 3 or more 30-day windows in a row below quota. Nothing else is sent.

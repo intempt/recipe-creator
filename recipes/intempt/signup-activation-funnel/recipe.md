@@ -1,7 +1,8 @@
 ---
 frontmatter_id: signup-activation-funnel
 slash_command: /signup-activation-funnel
-description: Shows how many new signups come back, use the core feature and activate within two weeks, and which signup source produces the best ones.
+description: Emails a weekly digest of how many new signups come back, use the core feature and activate within two weeks,
+  and which signup source produces the best ones.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,9 +12,17 @@ classification:
   industry:
   - industry-agnostic
 portable:
-  summary: Builds a signup-to-activation funnel that shows return, core-feature use and two-week activation, broken down by
-    signup source with flags.
+  summary: 'Emails a weekly signup-to-activation digest: return, core-feature use and activation, by signup source, with slow-step
+    and weak-source flags.'
   parameters:
+  - name: core_feature_journey_id
+    type: string
+    label: Journey whose goal marks core feature use
+    required: true
+  - name: activation_journey_id
+    type: string
+    label: Journey whose goal marks activation
+    required: true
   - name: conversion_window
     type: duration
     label: Conversion window
@@ -59,23 +68,17 @@ portable:
     label: Number of top signup sources to break down
     default: 6
     required: false
+  - name: digest_recipients
+    type: string
+    label: Email addresses that get the digest
+    required: true
   requirements:
   - slot: user_created_event
     kind: event
     meaning: A new user account was created (signup)
-    properties:
-    - name: user_id
-      type: string
-      meaning: Identifier of the user who signed up
-      optional: false
   - slot: session_start_event
     kind: event
     meaning: A user started a session in the product
-    properties:
-    - name: user_id
-      type: string
-      meaning: Identifier of the user who started the session
-      optional: false
   - slot: journey_goal_completed_event
     kind: event
     meaning: A user completed a journey goal in a marketing or onboarding journey
@@ -84,37 +87,19 @@ portable:
       type: string
       meaning: Identifier of the journey in which the goal was completed
       optional: false
-    - name: user_id
-      type: string
-      meaning: Identifier of the user who completed the goal
-      optional: false
-    - name: occurred_date
-      type: date
-      meaning: Date and time the goal was completed
-      optional: false
-  - slot: onboarding_journey
-    kind: knowledge
-    meaning: The onboarding/activation journey whose ID identifies the core feature goal
-  - slot: activation_journey
-    kind: knowledge
-    meaning: The activation journey whose ID identifies the activation goal
   - slot: signup_source_attribute
     kind: attribute
     meaning: The user's first-touch UTM source channel (signup source)
-  - slot: signup_timestamp_attribute
-    kind: attribute
-    meaning: The date and time the user signed up (signup_at)
   steps:
   - id: s1
-    builds: report
+    builds: automation
     uses:
     - user_created_event
     - session_start_event
     - journey_goal_completed_event
-    - onboarding_journey
-    - activation_journey
     - signup_source_attribute
-    - signup_timestamp_attribute
+    - core_feature_journey_id
+    - activation_journey_id
     - conversion_window
     - returned_window
     - comparison_period
@@ -124,46 +109,23 @@ portable:
     - returned_median_threshold
     - core_feature_median_threshold
     - top_sources_count
-    instruction: 'Create a funnel report named "Signup to Activation" with a conversion window of {conversion_window}. Steps:
-      (1) {user_created_event} labeled "Signed Up"; (2) {session_start_event} within {returned_window} of the signup event,
-      labeled "Returned After Signup"; (3) {journey_goal_completed_event} where journey_id matches {onboarding_journey}, labeled
-      "Used Core Feature"; (4) {journey_goal_completed_event} where journey_id matches {activation_journey} and occurred_date
-      minus {signup_timestamp_attribute} is at most {conversion_window}, labeled "Activated". Break down by {signup_source_attribute},
-      showing the top {top_sources_count} channels (organic, paid_search, paid_social, content, referral, direct). Compare
-      against the previous {comparison_period}. For each step, show median and 75th-percentile time-to-convert from the previous
-      step and per-source conversion rate at each stage. Annotations: add a benchmark that activation rate (Activated / Signed
-      Up) of {activation_rate_benchmark}% is typical for PLG SaaS; flag any source whose activation rate is below {low_activation_threshold}%
-      as poor lead quality or onboarding mismatch; flag any step where median time-to-convert exceeds {returned_median_threshold}
-      for "Returned After Signup" or {core_feature_median_threshold} for "Used Core Feature"; highlight sources whose activation
-      rate is above {high_activation_threshold}%. Identify the signup source that produces the highest-activating users at
-      sufficient volume.'
+    - digest_recipients
+    instruction: 'Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes users who did {user_created_event}
+      in the last {comparison_period}, against the {comparison_period} before, within {conversion_window}: signed up; returned
+      ({session_start_event} within {returned_window} of signup); used the core feature ({journey_goal_completed_event} with
+      {journey_goal_completed_event.journey_id} equal to {core_feature_journey_id}); activated ({journey_goal_completed_event}
+      with {journey_goal_completed_event.journey_id} equal to {activation_journey_id}). It writes: users at each step and
+      step conversion % by {signup_source_attribute} (top {top_sources_count} sources); median time between steps; activation
+      rate %, activated / signed up; the best-activating source at volume. Then it emails these figures as plain-text lines,
+      each with its window, to {digest_recipients}. It compares activation with {activation_rate_benchmark}%, flags sources
+      under {low_activation_threshold}%, names sources over {high_activation_threshold}%, and flags median time to return
+      above {returned_median_threshold} or to core use above {core_feature_median_threshold}. Nothing else is sent.'
 ---
 
 # Signup to activation
 
 Slash command: /signup-activation-funnel
 
-## Step 1: Follow signups to activation
+## Step 1: Email the weekly activation digest
 
-Create a Funnel report called "Signup to Activation".
-Steps:
-1. Event "User created": "Signed Up"
-2. Event "Session start" within 24 hours of User created: "Returned After Signup" (proxy for engagement after creation)
-3. Event "Completed a journey goal" where journey_id matches the onboarding/activation journey: "Used Core Feature"
-4. Event "Completed a journey goal" where journey_id matches the activation journey AND Occurred date - signup_at <= 14 days: "Activated"
-Conversion window: 14 days
-Breakdown: By Users.UTM source (signup source: top 6 channels: organic, paid_search, paid_social, content, referral, direct)
-Compare: Previous period (prior 14 days)
-For each step, also surface:
-- Median and 75th-percentile time-to-convert from previous step
-- Per-source conversion rate at each stage
-Annotations:
-- Add benchmark: activation rate (Step 4 / Step 1) of 30% is typical PLG SaaS.
-- Flag any source with activation rate <15% (poor lead quality or onboarding mismatch).
-- Flag any step where median time-to-convert exceeds 24 hours for "Returned After Signup" or 7 days for "Used Core Feature".
-- Highlight sources with activation rate >40%.
-Identify which signup source produces the highest-activating users at sufficient volume.
-Taxonomy notes:
-- User created and Completed a journey goal are canonical. Completed a journey goal carries journey_id, Occurred date, user_id.
-- "signup_completed", "onboarding_started" as standalone events do not exist; the activation journey itself emits Completed a journey goal when the user hits the activation goal.
-- Users.UTM source is the canonical first-touch source attribute.
+Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes users who did user created event in the last 14 d, against the 14 d before, within 14 d: signed up; returned (session start event within 24 h of signup); used the core feature (journey goal completed event with journey id equal to the journey whose goal marks core feature use); activated (journey goal completed event with journey id equal to the journey whose goal marks activation). It writes: users at each step and step conversion % by signup source attribute (top 6 sources); median time between steps; activation rate %, activated / signed up; the best-activating source at volume. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. It compares activation with 30%, flags sources under 15%, names sources over 40%, and flags median time to return above 24 h or to core use above 7 d. Nothing else is sent.

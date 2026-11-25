@@ -1,7 +1,8 @@
 ---
 frontmatter_id: funnel-dropoff-attribution-by-source
 slash_command: /funnel-dropoff-attribution-by-source
-description: Runs the same acquisition to retention funnel separately for each traffic source, so you can see which channels bring people who actually stick.
+description: Emails a weekly digest of the acquisition to retention funnel for each traffic source, so you can see which channels
+  bring people who activate, convert and stay.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,13 +12,13 @@ classification:
   industry:
   - industry-agnostic
 portable:
-  summary: Shows an acquisition-to-retention funnel for each traffic source, so you can see which channels bring in customers
-    who stay, with flags and per-source revenue.
+  summary: Emails a weekly digest of the signup-to-retention funnel per traffic source, with revenue per source and flags
+    for weak channels.
   parameters:
   - name: journey_id
     type: string
-    label: Journey goal ID used for the Activated step
-    required: false
+    label: Journey whose goal marks the Activated step
+    required: true
   - name: conversion_window
     type: duration
     label: Conversion window
@@ -41,6 +42,10 @@ portable:
     options:
     - saas
     - ecommerce
+  - name: digest_recipients
+    type: string
+    label: Email addresses that get the digest
+    required: true
   requirements:
   - slot: user_created_event
     kind: event
@@ -77,7 +82,7 @@ portable:
     meaning: First-touch UTM source of the user
   steps:
   - id: s1
-    builds: report
+    builds: automation
     uses:
     - user_created_event
     - journey_goal_event
@@ -91,45 +96,23 @@ portable:
     - top_sources
     - comparison_period
     - business_model
-    instruction: 'Create a funnel report called "Funnel Drop-off by Acquisition Source" with these steps: Step 1 "Acquired"
-      uses {user_created_event}; Step 2 "Activated" uses {journey_goal_event} filtered to journey_id {journey_id}; Step 3
-      "Converted" uses {subscription_started_event} when {business_model} is saas, or {placed_order_event} when it is ecommerce;
-      Step 4 "Retained {retention_window}" uses {session_start_event} occurring at least {retention_window} after the Step
-      3 conversion. Set the conversion window to {conversion_window}. Break down by {utm_source_attribute}, keeping the top
-      {top_sources} sources by Step 1 volume. Compare against the previous {comparison_period}. Render as small multiples,
-      one funnel per source, sorted by end-to-end conversion rate descending. Add a summary table with columns: Source, Volume
-      at Step 1, End-to-end conversion %, Volume at final step, and per-source revenue (sum of {subscription_started_event.amount}
-      or {placed_order_event.total_price} for users who reached Step 3 or later). Add annotations: flag the source with the
-      highest end-to-end conversion whose Step 1 volume is above the 33rd percentile; flag any source whose Step 1 to Step
-      2 conversion is below 50% of the average across sources; flag any source whose Step 3 to Step 4 conversion is below
-      average; highlight the largest gap between sources at any single step. Surface revenue-weighted ROI per source using
-      per-source revenue.'
+    - digest_recipients
+    instruction: 'Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes users who did {user_created_event}
+      in the last {comparison_period} against the {comparison_period} before, grouped by {utm_source_attribute} (the top {top_sources}
+      sources by signups), through four steps within {conversion_window}: acquired ({user_created_event}); activated ({journey_goal_event}
+      with {journey_goal_event.journey_id} equal to {journey_id}); converted ({subscription_started_event} when {business_model}
+      is saas, {placed_order_event} when it is ecommerce); retained ({session_start_event} at least {retention_window} after
+      converting). It writes per source: users at each step, end-to-end conversion %, revenue (sum of {subscription_started_event.amount}
+      or {placed_order_event.total_price}); the best source by end-to-end conversion; sources whose acquired-to-activated
+      rate is under half the average; sources whose converted-to-retained rate is below average; the largest gap between sources
+      at one step. Then it emails these figures as plain-text lines, each with its window, to {digest_recipients}. Nothing
+      else is sent.'
 ---
 
 # Funnel drop off by source
 
 Slash command: /funnel-dropoff-attribution-by-source
 
-## Step 1: Run one funnel per source
+## Step 1: Email the weekly funnel by source digest
 
-Create a Funnel report called "Funnel Drop-off by Acquisition Source".
-This is a configurable funnel: the user specifies which canonical events make up the funnel. Defaults if unspecified:
-1. Event "User created": "Acquired"
-2. Event "Completed a journey goal" (configurable journey_id): "Activated"
-3. Event "Subscription started" (saas) OR "Placed order" (ecommerce): "Converted"
-4. Event "Session start" with date 30+ days after the conversion event: "Retained 30 days"
-Conversion window: 60 days
-Breakdown: By Users.UTM source (top 8 sources by Step 1 volume)
-Compare: Previous period (prior 60 days)
-Render as small-multiples: one funnel per source, sorted by end-to-end conversion rate descending.
-Also include a summary table:
-- Source · Volume at Step 1 · End-to-end conversion % · Volume at final step · Per-source revenue (sum of Subscription started.amount or Placed order.total_price for users who reached Step 3+)
-Annotations:
-- Flag the source with highest end-to-end conversion AND volume above the 33rd percentile.
-- Flag any source where Step 1 to 2 conversion is below 50% of the average across sources (lead-quality issue).
-- Flag any source where Step 3 to 4 conversion is below average (conversion fine but customers don't retain).
-- Highlight the largest gap between sources at any single step.
-Surface the actual revenue-weighted ROI per source.
-Taxonomy notes:
-- All steps reference canonical events. Users.UTM source is a real first-touch attribution attribute.
-- Note: this recipe does NOT compute CAC because ad-spend is not in the canonical taxonomy. Per-source revenue is the closest proxy.
+Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes users who did user created event in the last 60 d against the 60 d before, grouped by utm source attribute (the top 8 sources by signups), through four steps within 60 d: acquired (user created event); activated (journey goal event with journey id equal to the journey whose goal marks the Activated step); converted (subscription started event when saas is saas, placed order event when it is ecommerce); retained (session start event at least 30 d after converting). It writes per source: users at each step, end-to-end conversion %, revenue (sum of amount or total price); the best source by end-to-end conversion; sources whose acquired-to-activated rate is under half the average; sources whose converted-to-retained rate is below average; the largest gap between sources at one step. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.

@@ -1,7 +1,8 @@
 ---
 frontmatter_id: lead-to-mql-to-sql-funnel
 slash_command: /lead-to-mql-to-sql-funnel
-description: Shows how leads move through MQL, SQL, demo and closed won, where they stall, and how long the whole cycle takes.
+description: Emails a weekly digest of how leads move through MQL, SQL, demo and closed won, where they stall, and how long
+  the whole sales cycle takes.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,9 +12,14 @@ classification:
   industry:
   - industry-agnostic
 portable:
-  summary: Shows how leads move from creation through MQL, SQL, demo and closed won, where they stall, and how long the full
-    sales cycle takes.
+  summary: Emails a weekly digest of leads moving from creation through MQL, SQL, demo and closed won, by source, with drop-off
+    flags and sales-cycle length.
   parameters:
+  - name: mql_stage
+    type: string
+    label: Lead stage name that marks an MQL
+    default: MQL
+    required: false
   - name: conversion_window
     type: duration
     label: Conversion window
@@ -44,6 +50,10 @@ portable:
     label: High-volume end-to-end conversion threshold (%)
     default: 5
     required: false
+  - name: digest_recipients
+    type: string
+    label: Email addresses that get the digest
+    required: true
   requirements:
   - slot: lead_created_event
     kind: event
@@ -59,32 +69,11 @@ portable:
     properties:
     - name: new_stage
       type: string
-      meaning: The lead stage the lead moved into, matched against the configured lead-stage records
+      meaning: The lead stage the lead moved into
       optional: false
-    - name: score
-      type: number
-      meaning: Lead score at the time of the change
-      optional: true
-    - name: intent_trend
-      type: string
-      meaning: Direction of buyer intent at the time of the change
-      optional: true
-    - name: stage_changed_by
-      type: string
-      meaning: Who or what changed the stage
-      optional: true
   - slot: deal_created_event
     kind: event
     meaning: A sales deal was created for a customer
-    properties:
-    - name: primary_user_id
-      type: string
-      meaning: Primary user linked to the deal
-      optional: true
-    - name: user_ids
-      type: string
-      meaning: User identifiers linked to the deal
-      optional: true
   - slot: meeting_scheduled_event
     kind: event
     meaning: A customer meeting was scheduled
@@ -100,70 +89,43 @@ portable:
   - slot: deal_won_event
     kind: event
     meaning: A sales deal was marked closed won
-  - slot: lead_stage_configuration
-    kind: knowledge
-    meaning: The project's configured lead-stage records that define the MQL and SQL boundaries
   - slot: utm_source_user_attribute
     kind: attribute
     meaning: The UTM source recorded on a user, used to break down the funnel by traffic source
   steps:
   - id: s1
-    builds: report
+    builds: automation
     uses:
     - lead_created_event
     - lead_stage_changed_event
     - deal_created_event
     - meeting_scheduled_event
     - deal_won_event
-    - lead_stage_configuration
     - utm_source_user_attribute
+    - mql_stage
     - conversion_window
     - breakdown_top_n
     - comparison_period
     - mql_to_sql_threshold
     - sql_to_won_threshold
     - high_volume_end_to_end_threshold
-    instruction: 'Create a funnel report named "Lead Qualification Funnel" that tracks leads through five steps in order.
-      Step 1 "Lead Created": a {lead_created_event} where {lead_created_event.utm_source} is not empty. Step 2 "Reached MQL":
-      a {lead_stage_changed_event} where {lead_stage_changed_event.new_stage} matches the MQL stage in {lead_stage_configuration},
-      counting unique users per lead. Step 3 "SQL Created": a {deal_created_event} linked to the user through {deal_created_event.primary_user_id}
-      or {deal_created_event.user_ids}. Step 4 "Demo Completed": a {meeting_scheduled_event} where {meeting_scheduled_event.canceled_at}
-      is empty and {meeting_scheduled_event.end_time} is before now. Step 5 "Closed Won": a {deal_won_event}. Use a conversion
-      window of {conversion_window}. Break down by {utm_source_user_attribute} for the top {breakdown_top_n} sources. Compare
-      against the previous {comparison_period}. For each step, show the median time to convert from the previous step, the
-      per-source conversion rate at each stage, and stage velocity from Step 1 to Step 5 as full sales-cycle length. Annotate
-      the largest stage drop-off. Flag any source where MQL-to-SQL conversion is below {mql_to_sql_threshold}% as a possible
-      MQL definition issue. Flag any source where SQL-to-Closed-Won is below {sql_to_won_threshold}% as a deal-execution issue.
-      Highlight sources that have high volume and end-to-end conversion above {high_volume_end_to_end_threshold}%. Surface
-      the median sales-cycle length and whether it is increasing or decreasing versus the comparison period.'
+    - digest_recipients
+    instruction: 'Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes users who did {lead_created_event}
+      with {lead_created_event.utm_source} not empty in the last {comparison_period}, against the {comparison_period} before,
+      through five steps within {conversion_window}: lead created; MQL ({lead_stage_changed_event} with {lead_stage_changed_event.new_stage}
+      equal to {mql_stage}); SQL ({deal_created_event} for that user); demo held ({meeting_scheduled_event} with {meeting_scheduled_event.canceled_at}
+      empty and {meeting_scheduled_event.end_time} in the past); closed won ({deal_won_event}). It writes: users at each step
+      and step-to-step conversion %, split by {utm_source_user_attribute} for the top {breakdown_top_n} sources; the largest
+      drop-off; median days between steps and median lead-to-won days, against the period before. Then it emails these figures
+      as plain-text lines, each with its window, to {digest_recipients}. The email flags sources with MQL-to-SQL under {mql_to_sql_threshold}%
+      or SQL-to-won under {sql_to_won_threshold}%, and names high-volume sources with end-to-end conversion above {high_volume_end_to_end_threshold}%.
+      Nothing else is sent.'
 ---
 
 # Lead qualification funnel
 
 Slash command: /lead-to-mql-to-sql-funnel
 
-## Step 1: Track leads through qualification
+## Step 1: Email the weekly lead qualification digest
 
-Create a Funnel report called "Lead Qualification Funnel".
-Steps:
-1. Event "User created" where Users.UTM source is not empty: "Lead Created"
-2. Event "Lead stage changed" where new_stage indicates MQL (lead_stage relation matches MQL stage in the project's lead-stage configuration), aggregation: Count Unique Users per lead: "Reached MQL"
-3. Event "Deal created" linked to the user (via primary_user_id or user_ids): "SQL Created"
-4. Event "Meeting scheduled" where canceled_at is null AND end_time < now: "Demo Completed"
-5. Event "Deal won": "Closed Won"
-Conversion window: 90 days
-Breakdown: By Users.UTM source (top 6 sources)
-Compare: Previous period (prior 90 days)
-For each step, also surface:
-- Median time-to-convert from previous step
-- Per-source conversion rate at each stage
-- Stage velocity from Step 1 to Step 5 (full sales-cycle length)
-Annotations:
-- Flag the largest stage drop-off.
-- Flag any source where MQL-to-SQL conversion is below 20% (MQL definition issue for that source).
-- Flag any source where SQL-to-Closed-Won is below 15% (deal-execution issue).
-- Highlight sources with high volume AND end-to-end conversion >5%.
-Surface the median sales-cycle length and whether it's increasing or decreasing.
-Taxonomy notes:
-- "lead_score" as a property is not canonical. Lead progression is tracked via Lead stage changed events (which include score, intent_trend, stage_changed_by properties). The lead_stage relation on the User points to a configured lead-stage record.
-- The MQL/SQL boundary is project-specific; the recipe uses the Lead stage changed.new_stage relation against the project's stage configuration.
+Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes users who did lead created event with utm source not empty in the last 90 d, against the 90 d before, through five steps within 90 d: lead created; MQL (lead stage changed event with new stage equal to MQL); SQL (deal created event for that user); demo held (meeting scheduled event with canceled at empty and end time in the past); closed won (deal won event). It writes: users at each step and step-to-step conversion %, split by utm source user attribute for the top 6 sources; the largest drop-off; median days between steps and median lead-to-won days, against the period before. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. The email flags sources with MQL-to-SQL under 20% or SQL-to-won under 15%, and names high-volume sources with end-to-end conversion above 5%. Nothing else is sent.
