@@ -8,22 +8,22 @@ Each one waits on the same thing: a builder for it in the engine's recipe allowl
 
 | builds | What it makes | Commands listed for it in `COMMAND_TO_BUILDS` | Recipes waiting | Only blocker for |
 |---|---|---|---|---|
-| `dashboard` | a dashboard | `create_dashboard` | 84 | 16 |
-| `report` | an insights, funnel, retention or paths report | `build_funnel_report`, `build_insights_report`, `build_paths_report`, `build_retention_report`, `create_report` | 74 | 62 |
-| `workflow` | a workflow and its steps | `create_workflow`, `publish_workflow` | 54 | 21 |
-| `journey` | a journey (turned off in the engine on 2026-09-21) | `create_journey` | 41 | 0 |
-| `experiment` | an A/B experiment | `create_experiment` | 32 | 23 |
-| `personalization` | a website personalization | `create_personalization` | 14 | 9 |
-| `video` | a video | `generate_video` | 11 | 11 |
-| `recommendation` | a product recommendation | `create_recommendation` | 10 | 0 |
-| `meeting` | a meeting action | `analyze_talk_listen_ratio` | 8 | 0 |
-| `page` | a landing page | `create_page_content` | 6 | 0 |
-| `meeting_type` | a meeting type | none listed | 5 | 1 |
-| `content` | a generic content asset | `create_content` | 4 | 4 |
-| `agent` | a custom agent | `create_agent` | 2 | 0 |
-| `account` | an account update | `update_account` | 1 | 0 |
-| `task` | a task | `create_task` | 1 | 0 |
+| `account` | an account update | `update_account` | 0 | 0 |
+| `agent` | a custom agent | `create_agent` | 0 | 0 |
+| `content` | a generic content asset | `create_content` | 0 | 0 |
+| `dashboard` | a dashboard | `create_dashboard` | 0 | 0 |
+| `experiment` | an A/B experiment | `create_experiment` | 0 | 0 |
+| `journey` | a journey (turned off in the engine on 2026-09-21) | `create_journey` | 0 | 0 |
+| `meeting` | a meeting action | `analyze_talk_listen_ratio` | 0 | 0 |
+| `meeting_type` | a meeting type | none listed | 0 | 0 |
+| `page` | a landing page | `create_page_content` | 0 | 0 |
+| `personalization` | a website personalization | `create_personalization` | 0 | 0 |
+| `recommendation` | a product recommendation | `create_recommendation` | 0 | 0 |
+| `report` | an insights, funnel, retention or paths report | `build_funnel_report`, `build_insights_report`, `build_paths_report`, `build_retention_report`, `create_report` | 0 | 0 |
 | `snippet` | a reusable content snippet | `create_snippet` | 0 | 0 |
+| `task` | a task | `create_task` | 0 | 0 |
+| `video` | a video | `generate_video` | 0 | 0 |
+| `workflow` | a workflow and its steps | `create_workflow`, `publish_workflow` | 0 | 0 |
 
 Recipes waiting: recipes in this repo that need the builder. Only blocker for: recipes that need nothing else, and flip to Install now the day it ships.
 
