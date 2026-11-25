@@ -3,7 +3,7 @@
   "title": "Long-time loyal customers",
   "slash_command": "/decision-maker-prospects",
   "description": "Customers who have paid for a year or two straight, invited into loyalty recognition by email and flagged to customer marketing for a testimonial or case study.",
-  "markdown": "# Long-time loyal customers\n\n## Description\n\nCustomers who have paid for a year or two straight, invited into loyalty recognition by email and flagged to customer marketing for a testimonial or case study.\n\n## Steps\n\n### Step 1: Build the loyal-customer list\n\nBuild a segment named \"Long-Time Loyal Customers\" containing users whose plan attribute has a value and is not free and who did subscription started event at least once between 365 d and 730 d ago.\n\n### Step 2: Send a loyalty recognition email\n\nGenerate a designed marketing email for the users in \"Long-Time Loyal Customers\" thanking them for their continued support and inviting them into loyalty recognition. The body is 3 sentences in a warm and appreciative tone, with no discount language. Include one button linking to the loyalty or referral page. If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.\n\n### Step 3: Alert customer marketing\n\nGenerate a Slack message to customer marketing channel that lists the email address of each user in \"Long-Time Loyal Customers\" as candidates for a testimonial or case study.\n",
+  "markdown": "# Long-time loyal customers\n\n## Description\n\nCustomers who have paid for a year or two straight, invited into loyalty recognition by email and flagged to customer marketing for a testimonial or case study.\n\n## Steps\n\n### Step 1: Build the loyal-customer list\n\nBuild a new segment named \"Long-Time Loyal Customers\" containing users whose plan attribute has a value and is not free and who did subscription started event at least once between 365 d and 730 d ago.\n\n### Step 2: Send a loyalty recognition email\n\nGenerate a designed marketing email for the users in \"Long-Time Loyal Customers\" thanking them for their continued support and inviting them into loyalty recognition. The body is 3 sentences in a warm and appreciative tone, with no discount language. Include one button linking to the loyalty or referral page. If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.\n\n### Step 3: Alert customer marketing\n\nGenerate a Slack message to customer marketing channel that lists the email address of each user in \"Long-Time Loyal Customers\" as candidates for a testimonial or case study.\n",
   "classification": {
     "industry": [
       "saas-b2b-tech"
@@ -24,7 +24,7 @@
     {
       "id": "s1",
       "title": "Build the loyal-customer list",
-      "description": "Build a segment named \"Long-Time Loyal Customers\" containing users whose plan attribute has a value and is not free and who did subscription started event at least once between 365 d and 730 d ago.",
+      "description": "Build a new segment named \"Long-Time Loyal Customers\" containing users whose plan attribute has a value and is not free and who did subscription started event at least once between 365 d and 730 d ago.",
       "command": "create_segment",
       "entity": "segment",
       "kind": "static",

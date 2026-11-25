@@ -52,12 +52,6 @@ portable:
     kind: integration
     meaning: A Slack connection that can post to the sales team channel
     channel: slack
-  - slot: still_engaged_submitters
-    kind: segment
-    meaning: Users who submitted a form and kept browsing right afterward
-    creatable: true
-    definition: users who did {submit_event} at least once in the last {submit_window} and did {page_view_event} at least
-      {min_page_views} times in the last {submit_window}
   steps:
   - id: s1
     builds: segment
@@ -66,8 +60,8 @@ portable:
     - page_view_event
     - submit_window
     - min_page_views
-    instruction: Build a segment named "Submitted And Still Engaged" containing users who did {submit_event} at least once
-      in the last {submit_window} and did {page_view_event} at least {min_page_views} times in the last {submit_window}.
+    instruction: Build a new segment named "Submitted And Still Engaged" containing users who did {submit_event} at least
+      once in the last {submit_window} and did {page_view_event} at least {min_page_views} times in the last {submit_window}.
   - id: s2
     builds: slack
     uses:
@@ -83,6 +77,8 @@ portable:
     - s1
     - email_sentence_count
     - email_tone
+    dependsOn:
+    - s1
     instruction: Draft a designed marketing email for users in the segment built in "Build the still-engaged submitter list"
       confirming their form submission and naming the one next step worth taking right now. Write {email_sentence_count} sentences
       in a {email_tone} and helpful tone, with no discount language, and include one button linking to that next step. Draft
@@ -96,12 +92,12 @@ Slash command: /submitted-and-still-engaged
 
 ## Step 1: Build the still-engaged submitter list
 
-Build a segment of users named "Submitted And Still Engaged". A user is in the segment only when all of these are true: triggered the form-submit event (a tracked submission of a form on the site, not a survey or NPS answer) at least once in the last 1 day; triggered "View page" at least 3 times in the last 1 day.
+Build a new segment named "Submitted And Still Engaged" containing users who did submit event at least once in the last 1 d and did page view event at least 3 times in the last 1 d.
 
 ## Step 2: Draft a sales alert
 
-Generate a Slack message to the sales team channel. State how many users are in "Submitted And Still Engaged" right now, using the member count in the result of "Build the still-engaged submitter list". If that result carries no count, write no number and no placeholder in square brackets; say instead that the list is saved as the segment "Submitted And Still Engaged" and can be opened in Segments. Say reps can follow up while these users are still active on the site today. This drafts the Slack message only; a person on the team still posts it.
+Draft a Slack message to the sales team channel stating how many users are currently in the segment built in "Build the still-engaged submitter list", so reps can follow up while these users are still active on the site today. Draft only; a team member posts it. Use the segment's current member count from the step that built it; never write a placeholder in square brackets. If no count is available, name the segment and say it can be opened in Segments.
 
 ## Step 3: Draft a next-step email
 
-Generate a designed marketing email for the users in "Submitted And Still Engaged" confirming their submission and naming the one next step worth taking right now. Three sentences, confident and helpful tone, no discount language, one button linking to the next-step page URL chosen for this run. If the brand kit has no logo, use the brand name as a plain text header. Use the result of "Build the still-engaged submitter list". This drafts the email only; a person still sends it.
+Draft a designed marketing email for users in the segment built in "Build the still-engaged submitter list" confirming their form submission and naming the one next step worth taking right now. Write 3 sentences in a confident and helpful tone, with no discount language, and include one button linking to that next step. Draft only; a person sends it. If the brand kit has no logo, use the brand name as a plain text header; the button links to the URL chosen for this run.

@@ -3,7 +3,7 @@
   "title": "Multi-Page Account Researchers",
   "slash_command": "/multi-page-account-researchers",
   "description": "Accounts where several people together are reading a lot of pages, tagged and surfaced to sales as a broad research-intensity signal draft worth account-based outreach.",
-  "markdown": "# Multi-Page Account Researchers\n\n## Description\n\nAccounts where several people together are reading a lot of pages, tagged and surfaced to sales as a broad research-intensity signal draft worth account-based outreach.\n\n## Steps\n\n### Step 1: Build the research-intensive account list\n\nBuild a segment of accounts named \"Multi-Page Account Researchers\". An account is in the segment only when all of these are true: the users in the account together did the View page event 15 or more times in the last 7 days.\n\n### Step 2: Tag the matched accounts\n\nCreate an attribute named \"research_intensive\" on accounts in \"Multi-Page Account Researchers\", set to true. Use the result of \"Build the research-intensive account list\".\n\n### Step 3: Draft a sales alert\n\nGenerate a Slack message to the sales channel. List the names of the accounts in \"Multi-Page Account Researchers\", taken from the member list in the result of \"Build the research-intensive account list\" (at most 20, then say how many more there are). If that result carries no member list, write no placeholder and do not ask the reader to paste anything in; say instead that the accounts are saved as the segment \"Multi-Page Account Researchers\" and can be opened in Segments. Say reps can prioritize outreach while research activity is high. This drafts the Slack message only; a person on the team still posts it.\n",
+  "markdown": "# Multi-Page Account Researchers\n\n## Description\n\nAccounts where several people together are reading a lot of pages, tagged and surfaced to sales as a broad research-intensity signal draft worth account-based outreach.\n\n## Steps\n\n### Step 1: Build the research-intensive account list\n\nBuild a new segment named \"Multi-Page Account Researchers\" of accounts where the users in the account together did page view event 15 or more times in the last 7 d. Include only accounts that meet this condition.\n\n### Step 2: Tag the matched accounts\n\nCreate an account attribute named \"research_intensive\" set to true for every account in the segment built in \"Build the research-intensive account list\".\n\n### Step 3: Draft a sales alert\n\nDraft a Slack message to the sales channel that names each account in the segment built in \"Build the research-intensive account list\", so reps can prioritize outreach while research activity is high. Draft only; a team member posts it manually. Take the names or addresses from the member list of the step that built the segment (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in. If no member list is available, name the segment and say it can be opened in Segments.\n",
   "classification": {
     "industry": [
       "industry-agnostic"
@@ -25,7 +25,7 @@
     {
       "id": "s1",
       "title": "Build the research-intensive account list",
-      "description": "Build a segment of accounts named \"Multi-Page Account Researchers\". An account is in the segment only when all of these are true: the users in the account together did the View page event 15 or more times in the last 7 days.",
+      "description": "Build a new segment named \"Multi-Page Account Researchers\" of accounts where the users in the account together did page view event 15 or more times in the last 7 d. Include only accounts that meet this condition.",
       "command": "create_segment",
       "entity": "segment",
       "modelConfig": []
@@ -33,7 +33,7 @@
     {
       "id": "s2",
       "title": "Tag the matched accounts",
-      "description": "Create an attribute named \"research_intensive\" on accounts in \"Multi-Page Account Researchers\", set to true. Use the result of \"Build the research-intensive account list\".",
+      "description": "Create an account attribute named \"research_intensive\" set to true for every account in the segment built in \"Build the research-intensive account list\".",
       "command": "create_attribute",
       "entity": "attribute",
       "modelConfig": []
@@ -41,7 +41,7 @@
     {
       "id": "s3",
       "title": "Draft a sales alert",
-      "description": "Generate a Slack message to the sales channel. List the names of the accounts in \"Multi-Page Account Researchers\", taken from the member list in the result of \"Build the research-intensive account list\" (at most 20, then say how many more there are). If that result carries no member list, write no placeholder and do not ask the reader to paste anything in; say instead that the accounts are saved as the segment \"Multi-Page Account Researchers\" and can be opened in Segments. Say reps can prioritize outreach while research activity is high. This drafts the Slack message only; a person on the team still posts it.",
+      "description": "Draft a Slack message to the sales channel that names each account in the segment built in \"Build the research-intensive account list\", so reps can prioritize outreach while research activity is high. Draft only; a team member posts it manually. Take the names or addresses from the member list of the step that built the segment (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in. If no member list is available, name the segment and say it can be opened in Segments.",
       "command": "create_slack_content",
       "entity": "slack",
       "modelConfig": []

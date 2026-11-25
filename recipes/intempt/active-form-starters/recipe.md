@@ -35,30 +35,27 @@ portable:
     kind: destination
     meaning: Slack workspace channel where the support team receives alerts
     channel: slack
-  - slot: active_form_starters
-    kind: segment
-    meaning: Users who triggered a form change event at least once in the lookback window
-    creatable: true
-    definition: users who did {form_change_event} at least once in the last {lookback_window}
   steps:
   - id: s1
     builds: segment
     uses:
     - form_change_event
     - lookback_window
-    instruction: 'Build a segment of users named "Active Form Starters". A user is in the segment only when all of these are
-      true: triggered {form_change_event} at least once in the last {lookback_window}.'
+    instruction: 'Build a new segment of users named "Active Form Starters". A user is in the segment only when all of these
+      are true: triggered {form_change_event} at least once in the last {lookback_window}.'
   - id: s2
     builds: slack
     uses:
     - s1
     - support_slack
     - alert_channel
-    instruction: Generate a Slack message to the {alert_channel} channel in {support_slack}. State how many users are in {active_form_starters}
-      right now, so the team knows someone is actively filling out a form today. Use the result of "Build the active form
-      starter list". This drafts the Slack message only; a person on the team still posts it. Use the segment's current member
-      count from the step that built it; never write a placeholder in square brackets. If no count is available, name the
-      segment and say it can be opened in Segments.
+    dependsOn:
+    - s1
+    instruction: Generate a Slack message to the {alert_channel} channel in {support_slack}. State how many users are in the
+      segment from "Build the active form starter list" right now, so the team knows someone is actively filling out a form
+      today. Use the result of "Build the active form starter list". This drafts the Slack message only; a person on the team
+      still posts it. Use the segment's current member count from the step that built it; never write a placeholder in square
+      brackets. If no count is available, name the segment and say it can be opened in Segments.
 ---
 
 # Active Form Starters
@@ -67,8 +64,8 @@ Slash command: /active-form-starters
 
 ## Step 1: Build the active form starter list
 
-Build a segment of users named "Active Form Starters". A user is in the segment only when all of these are true: triggered the form-field change event (a tracked edit of a field in a form on the site) at least once in the last 1 day.
+Build a new segment of users named "Active Form Starters". A user is in the segment only when all of these are true: triggered form change event at least once in the last 1 d.
 
 ## Step 2: Draft an alert for the team
 
-Generate a Slack message to the support team channel. State how many users are in "Active Form Starters" right now, using the member count in the result of "Build the active form starter list". If that result carries no count, write no number and no placeholder in square brackets; say instead that the list is saved as the segment "Active Form Starters" and can be opened in Segments. Say someone is actively filling out a form today. This drafts the Slack message only; a person on the team still posts it.
+Generate a Slack message to the support team channel in support slack. State how many users are in the segment from "Build the active form starter list" right now, so the team knows someone is actively filling out a form today. Use the result of "Build the active form starter list". This drafts the Slack message only; a person on the team still posts it. Use the segment's current member count from the step that built it; never write a placeholder in square brackets. If no count is available, name the segment and say it can be opened in Segments.

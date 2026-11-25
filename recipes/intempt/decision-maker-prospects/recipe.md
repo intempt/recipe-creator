@@ -47,12 +47,6 @@ portable:
   - slot: plan_attribute
     kind: attribute
     meaning: The plan a customer is currently on
-  - slot: long_time_loyal_customers
-    kind: segment
-    meaning: Users who are on a paid plan and started a subscription 365 to 730 days ago
-    creatable: true
-    definition: users whose {plan_attribute} is not {excludedPlan} and who did {subscription_started_event} at least once
-      between {minDaysSinceSubscribed} and {maxDaysSinceSubscribed} ago
   - slot: customer_marketing_channel
     kind: integration
     meaning: The Slack channel used by the customer marketing team
@@ -66,9 +60,9 @@ portable:
     - excludedPlan
     - minDaysSinceSubscribed
     - maxDaysSinceSubscribed
-    instruction: Build a segment named "Long-Time Loyal Customers" containing users whose {plan_attribute} has a value and
-      is not {excludedPlan} and who did {subscription_started_event} at least once between {minDaysSinceSubscribed} and {maxDaysSinceSubscribed}
-      ago.
+    instruction: Build a new segment named "Long-Time Loyal Customers" containing users whose {plan_attribute} has a value
+      and is not {excludedPlan} and who did {subscription_started_event} at least once between {minDaysSinceSubscribed} and
+      {maxDaysSinceSubscribed} ago.
   - id: s2
     builds: email
     uses:
@@ -99,7 +93,7 @@ Slash command: /decision-maker-prospects
 
 ## Step 1: Build the loyal-customer list
 
-Build a segment named "Long-Time Loyal Customers" containing users whose plan attribute has a value and is not free and who did subscription started event at least once between 365 d and 730 d ago.
+Build a new segment named "Long-Time Loyal Customers" containing users whose plan attribute has a value and is not free and who did subscription started event at least once between 365 d and 730 d ago.
 
 ## Step 2: Send a loyalty recognition email
 

@@ -3,7 +3,7 @@
   "title": "Engaged free users",
   "slash_command": "/engaged-free-users",
   "description": "Free-plan users logging in often enough to be ready for a paid plan, offered the upgrade by email and queued for growth outreach.",
-  "markdown": "# Engaged free users\n\n## Description\n\nFree-plan users logging in often enough to be ready for a paid plan, offered the upgrade by email and queued for growth outreach.\n\n## Steps\n\n### Step 1: Build the engaged free list\n\nBuild a segment of users named \"Engaged Free Users\".\nA user is in the segment only when all of these are true:\n- their Plan attribute is \"free\"\n- they did the Session start event 5 or more times in the last 14 days\n\n### Step 2: Send an upgrade email\n\nGenerate a designed marketing email for the users in \"Engaged Free Users\" introducing the paid plan's feature most relevant to someone already using the product this often. Three sentences, encouraging tone, no discount language, one button linking to the pricing page. Use the result of \"Build the engaged free list\". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.\n\n### Step 3: Notify growth\n\nGenerate a plain-text email to the growth team distribution list For each user in \"Engaged Free Users\", name their email address, so outreach can be prioritized by how active each one already is. Use the result of \"Build the engaged free list\". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in. The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe line.\n",
+  "markdown": "# Engaged free users\n\n## Description\n\nFree-plan users logging in often enough to be ready for a paid plan, offered the upgrade by email and queued for growth outreach.\n\n## Steps\n\n### Step 1: Build the engaged free list\n\nBuild a new segment named \"Engaged Free Users\" of users whose plan attribute is \"free\" and who did session start event 5 or more times in the last 14 d.\n\n### Step 2: Send an upgrade email\n\nGenerate a designed marketing email for the users in the segment from \"Build the engaged free list\" introducing the paid plan's feature most relevant to someone already using the product this often. Write three sentences in an encouraging tone, with no discount language. Include one button linking to the pricing page. If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.\n\n### Step 3: Notify growth\n\nGenerate a plain-text email to the growth team list distribution list. For each user in the segment from \"Build the engaged free list\", include their email address so outreach can be prioritized by how active each one already is. Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in. The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe line.\n",
   "classification": {
     "industry": [
       "saas-b2b-tech"
@@ -24,7 +24,7 @@
     {
       "id": "s1",
       "title": "Build the engaged free list",
-      "description": "Build a segment of users named \"Engaged Free Users\". A user is in the segment only when all of these are true: their Plan attribute is \"free\"; they did the Session start event 5 or more times in the last 14 days.",
+      "description": "Build a new segment named \"Engaged Free Users\" of users whose plan attribute is \"free\" and who did session start event 5 or more times in the last 14 d.",
       "command": "create_segment",
       "entity": "segment",
       "kind": "static",
@@ -33,7 +33,7 @@
     {
       "id": "s2",
       "title": "Send an upgrade email",
-      "description": "Generate a designed marketing email for the users in \"Engaged Free Users\" introducing the paid plan's feature most relevant to someone already using the product this often. Three sentences, encouraging tone, no discount language, one button linking to the pricing page. Use the result of \"Build the engaged free list\". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.",
+      "description": "Generate a designed marketing email for the users in the segment from \"Build the engaged free list\" introducing the paid plan's feature most relevant to someone already using the product this often. Write three sentences in an encouraging tone, with no discount language. Include one button linking to the pricing page. If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.",
       "command": "create_email_content",
       "entity": "email_html",
       "modelConfig": []
@@ -41,7 +41,7 @@
     {
       "id": "s3",
       "title": "Notify growth",
-      "description": "Generate a plain-text email to the growth team distribution list For each user in \"Engaged Free Users\", name their email address, so outreach can be prioritized by how active each one already is. Use the result of \"Build the engaged free list\". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in. The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe line.",
+      "description": "Generate a plain-text email to the growth team list distribution list. For each user in the segment from \"Build the engaged free list\", include their email address so outreach can be prioritized by how active each one already is. Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in. The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe line.",
       "command": "create_email_content",
       "entity": "email_plain",
       "modelConfig": []

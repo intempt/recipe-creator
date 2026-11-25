@@ -31,12 +31,6 @@ portable:
   - slot: form_submit_event
     kind: event
     meaning: A user submitted a form on the site (the project's form-submit event, never a survey or NPS answer)
-  - slot: form_abandoners
-    kind: segment
-    meaning: Users who started a form and did not submit it within the window
-    creatable: true
-    definition: users who did {form_change_event} at least once in the last {lookback_window} and did not do {form_submit_event}
-      in the last {lookback_window}
   steps:
   - id: s1
     builds: segment
@@ -44,16 +38,17 @@ portable:
     - form_change_event
     - form_submit_event
     - lookback_window
-    instruction: Build a segment named "Form Abandoners" of users who did {form_change_event} at least once in the last {lookback_window}
-      and did not do {form_submit_event} in the last {lookback_window}.
+    instruction: Build a new segment named "Form Abandoners" of users who did {form_change_event} at least once in the last
+      {lookback_window} and did not do {form_submit_event} in the last {lookback_window}.
   - id: s2
     builds: attribute
     uses:
-    - form_abandoners
     - attribute_name
     - s1
-    instruction: Create a user attribute named {attribute_name} set to true for every user in {form_abandoners} built in "Build
-      a segment named Form Abandoners".
+    dependsOn:
+    - s1
+    instruction: Create a user attribute named {attribute_name} set to true for every user in the segment from "Build the
+      form abandoner list" built in "Build a segment named Form Abandoners".
 ---
 
 # Form Abandoners
@@ -62,8 +57,8 @@ Slash command: /form-abandoners
 
 ## Step 1: Build the form abandoner list
 
-Build a segment of users named "Form Abandoners". A user is in the segment only when all of these are true: triggered the form-field change event (a tracked edit of a field in a form on the site) at least once in the last 3 days; did not trigger the form-submit event (a tracked submission of a form on the site, not a survey or NPS answer) in the last 3 days.
+Build a new segment named "Form Abandoners" of users who did form change event at least once in the last 3 d and did not do form submit event in the last 3 d.
 
 ## Step 2: Tag the matched users
 
-Create an attribute named "form_abandoner" on users in "Form Abandoners", set to true. Use the result of "Build the form abandoner list".
+Create a user attribute named form_abandoner set to true for every user in the segment from "Build the form abandoner list" built in "Build a segment named Form Abandoners".

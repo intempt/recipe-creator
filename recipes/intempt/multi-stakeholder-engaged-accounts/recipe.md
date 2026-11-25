@@ -59,12 +59,6 @@ portable:
   - slot: account_name
     kind: attribute
     meaning: The name of an account
-  - slot: multi_stakeholder_accounts
-    kind: segment
-    meaning: Accounts where several users together are actively using the product
-    creatable: true
-    definition: accounts whose users together did {session_start_event} at least {session_start_threshold} times in the last
-      {session_window} and together did {page_view_event} at least {page_view_threshold} times in the last {session_window}
   - slot: sales_slack
     kind: destination
     meaning: A Slack channel the sales team reads for account alerts
@@ -81,9 +75,9 @@ portable:
     - session_start_threshold
     - page_view_threshold
     - session_window
-    instruction: 'Build a segment of accounts named "Multi-Stakeholder Engaged Accounts". An account is in the segment only
-      when all of these are true: the users in the account together did {session_start_event} {session_start_threshold} or
-      more times in the last {session_window}; the users in the account together did {page_view_event} {page_view_threshold}
+    instruction: 'Build a new segment of accounts named "Multi-Stakeholder Engaged Accounts". An account is in the segment
+      only when all of these are true: the users in the account together did {session_start_event} {session_start_threshold}
+      or more times in the last {session_window}; the users in the account together did {page_view_event} {page_view_threshold}
       or more times in the last {session_window}.'
   - id: s2
     builds: slack
@@ -91,6 +85,8 @@ portable:
     - sales_slack
     - account_name
     - account_employee_count
+    - s1
+    dependsOn:
     - s1
     instruction: Send a Slack message to {sales_slack} for each account in "Multi-Stakeholder Engaged Accounts" naming the
       account {account_name} and its employee count {account_employee_count}, so reps know a buying committee may have formed
@@ -103,6 +99,8 @@ portable:
     - team_resource_brand
     - email_tone
     - email_sentence_count
+    - s1
+    dependsOn:
     - s1
     instruction: Generate a designed marketing email in the {email_tone} tone for the accounts in "Multi-Stakeholder Engaged
       Accounts" offering a resource built for teams evaluating the product together. The body is {email_sentence_count} sentences,
@@ -117,15 +115,12 @@ Slash command: /multi-stakeholder-engaged-accounts
 
 ## Step 1: Build the multi-stakeholder list
 
-Build a segment of accounts named "Multi-Stakeholder Engaged Accounts".
-An account is in the segment only when all of these are true:
-- the users in the account together did the Session start event 5 or more times in the last 14 days
-- the users in the account together did the View page event 10 or more times in the last 14 days
+Build a new segment of accounts named "Multi-Stakeholder Engaged Accounts". An account is in the segment only when all of these are true: the users in the account together did session start event 5 or more times in the last 14 d; the users in the account together did page view event 10 or more times in the last 14 d.
 
 ## Step 2: Alert sales
 
-Generate a Slack message to the sales channel For each account in "Multi-Stakeholder Engaged Accounts", name the account and its employees count, so reps know a buying committee may have formed and can act while interest is high. Use the result of "Build the multi-stakeholder list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in.
+Send a Slack message to sales slack for each account in "Multi-Stakeholder Engaged Accounts" naming the account account name and its employee count account employee count, so reps know a buying committee may have formed and can act while interest is high. Use the result of "Build the multi-stakeholder list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in.
 
 ## Step 3: Send a team resource
 
-Generate a designed marketing email for the accounts in "Multi-Stakeholder Engaged Accounts" offering a resource built for teams evaluating the product together. Three sentences, consultative tone, no discount language, one button linking to a call-booking page. Use the result of "Build the multi-stakeholder list". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.
+Generate a designed marketing email in the consultative tone for the accounts in "Multi-Stakeholder Engaged Accounts" offering a resource built for teams evaluating the product together. The body is 3 sentences, with no discount language, and one button linking to a call-booking page. Use the brand team resource brand. Use the result of "Build the multi-stakeholder list". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.

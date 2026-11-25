@@ -39,12 +39,6 @@ portable:
   - slot: session_start
     kind: event
     meaning: A user started a session in the product
-  - slot: at_risk_accounts
-    kind: segment
-    meaning: Paying accounts with large headcount where no user has started a session recently
-    creatable: true
-    definition: accounts where {account_employees} is at least {employee_threshold} and the users in the account did not do
-      {session_start} in the last {inactivity_window}
   - slot: retention_slack
     kind: integration
     meaning: Slack workspace used to message the retention team
@@ -57,30 +51,33 @@ portable:
     - session_start
     - employee_threshold
     - inactivity_window
-    instruction: 'Build a segment of accounts named "Accounts At Churn Risk". An account is in the segment only when all of
-      these are true: its {account_employees} is {employee_threshold} or more; and the users in the account together did not
-      do {session_start} in the last {inactivity_window}.'
+    instruction: 'Build a new segment of accounts named "Accounts At Churn Risk". An account is in the segment only when all
+      of these are true: its {account_employees} is {employee_threshold} or more; and the users in the account together did
+      not do {session_start} in the last {inactivity_window}.'
   - id: s2
     builds: email_plain
     uses:
     - s1
-    - at_risk_accounts
-    instruction: 'Generate a plain-text email for each account in {at_risk_accounts} written as a personal note from their
-      customer success manager, asking how things are going and offering a quick call. Three sentences, warm and personal
-      tone, no product pitch, no discount language. Take names and addresses from the member list in the result of the step
-      that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything
-      in. The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe line.'
+    dependsOn:
+    - s1
+    instruction: 'Generate a plain-text email for each account in the segment from "Build the at-risk account list" written
+      as a personal note from their customer success manager, asking how things are going and offering a quick call. Three
+      sentences, warm and personal tone, no product pitch, no discount language. Take names and addresses from the member
+      list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask
+      the reader to paste anything in. The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe
+      line.'
   - id: s3
     builds: slack
     uses:
     - s1
-    - at_risk_accounts
     - account_employees
     - retention_slack
-    instruction: Generate a Slack message to the retention team channel. For each account in {at_risk_accounts}, name the
-      account and its {account_employees} count, so the team can prioritize outreach before renewal conversations start. Take
-      names and addresses from the member list in the result of the step that built the list (at most 20, then how many more);
-      never write a placeholder or ask the reader to paste anything in.
+    dependsOn:
+    - s1
+    instruction: Generate a Slack message to the retention team channel. For each account in the segment from "Build the at-risk
+      account list", name the account and its {account_employees} count, so the team can prioritize outreach before renewal
+      conversations start. Take names and addresses from the member list in the result of the step that built the list (at
+      most 20, then how many more); never write a placeholder or ask the reader to paste anything in.
 ---
 
 # Paying accounts going quiet
@@ -89,15 +86,12 @@ Slash command: /accounts-at-churn-risk
 
 ## Step 1: Build the at-risk account list
 
-Build a segment of accounts named "Accounts At Churn Risk".
-An account is in the segment only when all of these are true:
-- its employees attribute is 100 or more
-- the users in the account together did not do the Session start event in the last 30 days
+Build a new segment of accounts named "Accounts At Churn Risk". An account is in the segment only when all of these are true: its account employees is 100 or more; and the users in the account together did not do session start in the last 30 d.
 
 ## Step 2: Draft a personal check-in
 
-Generate a plain-text email for the accounts in "Accounts At Churn Risk" written as a personal note from their customer success manager, asking how things are going and offering a quick call. Three sentences, warm and personal tone, no product pitch, no discount language. Use the result of "Build the at-risk account list". The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe line.
+Generate a plain-text email for each account in the segment from "Build the at-risk account list" written as a personal note from their customer success manager, asking how things are going and offering a quick call. Three sentences, warm and personal tone, no product pitch, no discount language. Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in. The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe line.
 
 ## Step 3: Alert the retention team
 
-Generate a Slack message to the retention team channel For each account in "Accounts At Churn Risk", name the account and its employees count, so the team can prioritize outreach before renewal conversations start. Use the result of "Build the at-risk account list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in.
+Generate a Slack message to the retention team channel. For each account in the segment from "Build the at-risk account list", name the account and its account employees count, so the team can prioritize outreach before renewal conversations start. Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in.

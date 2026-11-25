@@ -3,7 +3,7 @@
   "title": "At-risk VIP customers",
   "slash_command": "/at-risk-vips",
   "description": "High lifetime value customers who have stopped logging in, checked on personally by their account manager and flagged to the retention team before they churn.",
-  "markdown": "# At-risk VIP customers\n\n## Description\n\nHigh lifetime value customers who have stopped logging in, checked on personally by their account manager and flagged to the retention team before they churn.\n\n## Steps\n\n### Step 1: Build the at-risk VIP list\n\nBuild a segment of users named \"At-Risk VIP Customers\".\nA user is in the segment only when all of these are true:\n- their Lifetime value attribute is more than 1000\n- they did not do the Session start event in the last 30 days\n\n### Step 2: Draft a personal check-in\n\nGenerate a plain-text email for the users in \"At-Risk VIP Customers\" written as a personal note from their account manager, asking how things are going and offering a quick call. Three sentences, warm and personal tone, no product pitch, no discount language. Use the result of \"Build the at-risk VIP list\". The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe line.\n\n### Step 3: Alert the retention team\n\nGenerate a Slack message to the retention team channel For each user in \"At-Risk VIP Customers\", name their email address and their Lifetime value, so the team can prioritize outreach to the highest-value accounts first. Use the result of \"Build the at-risk VIP list\". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in.\n",
+  "markdown": "# At-risk VIP customers\n\n## Description\n\nHigh lifetime value customers who have stopped logging in, checked on personally by their account manager and flagged to the retention team before they churn.\n\n## Steps\n\n### Step 1: Build the at-risk VIP list\n\nBuild a new segment named \"At-Risk VIP Customers\" of users whose lifetime value is more than 1000 and who did not do session start event in the last 30 d.\n\n### Step 2: Draft a personal check-in\n\nWrite a plain-text email for the users in the segment from \"Build the at-risk VIP list\" as a personal note from their account manager. It asks how things are going and offers a quick call. Use exactly 3 sentences in a warm and personal tone. Do not pitch the product and do not use discount language. Use the segment built in \"Build the at-risk VIP list\". The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe line.\n\n### Step 3: Alert the retention team\n\nWrite a Slack message to the retention team channel retention team slack. For each user in the segment from \"Build the at-risk VIP list\", list their customer email and their lifetime value, sorted so the highest-value accounts come first for outreach prioritization. Use the segment built in \"Build the at-risk VIP list\". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in.\n",
   "classification": {
     "industry": [
       "industry-agnostic"
@@ -24,7 +24,7 @@
     {
       "id": "s1",
       "title": "Build the at-risk VIP list",
-      "description": "Build a segment of users named \"At-Risk VIP Customers\". A user is in the segment only when all of these are true: their Lifetime value attribute is more than 1000; they did not do the Session start event in the last 30 days.",
+      "description": "Build a new segment named \"At-Risk VIP Customers\" of users whose lifetime value is more than 1000 and who did not do session start event in the last 30 d.",
       "command": "create_segment",
       "entity": "segment",
       "kind": "static",
@@ -33,7 +33,7 @@
     {
       "id": "s2",
       "title": "Draft a personal check-in",
-      "description": "Generate a plain-text email for the users in \"At-Risk VIP Customers\" written as a personal note from their account manager, asking how things are going and offering a quick call. Three sentences, warm and personal tone, no product pitch, no discount language. Use the result of \"Build the at-risk VIP list\". The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe line.",
+      "description": "Write a plain-text email for the users in the segment from \"Build the at-risk VIP list\" as a personal note from their account manager. It asks how things are going and offers a quick call. Use exactly 3 sentences in a warm and personal tone. Do not pitch the product and do not use discount language. Use the segment built in \"Build the at-risk VIP list\". The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe line.",
       "command": "create_email_content",
       "entity": "email_plain",
       "modelConfig": []
@@ -41,7 +41,7 @@
     {
       "id": "s3",
       "title": "Alert the retention team",
-      "description": "Generate a Slack message to the retention team channel For each user in \"At-Risk VIP Customers\", name their email address and their Lifetime value, so the team can prioritize outreach to the highest-value accounts first. Use the result of \"Build the at-risk VIP list\". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in.",
+      "description": "Write a Slack message to the retention team channel retention team slack. For each user in the segment from \"Build the at-risk VIP list\", list their customer email and their lifetime value, sorted so the highest-value accounts come first for outreach prioritization. Use the segment built in \"Build the at-risk VIP list\". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in.",
       "command": "create_slack_content",
       "entity": "slack",
       "modelConfig": []

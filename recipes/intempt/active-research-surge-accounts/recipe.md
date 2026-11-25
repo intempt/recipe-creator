@@ -51,11 +51,6 @@ portable:
   - slot: page_view_event
     kind: event
     meaning: A user viewed a page on the website
-  - slot: research_surge_segment
-    kind: segment
-    meaning: Accounts whose users have a surge of page views recently
-    creatable: true
-    definition: accounts whose users together did {page_view_event} at least {view_threshold} times in the last {lookback_window}
   - slot: sales_slack
     kind: integration
     meaning: A Slack workspace connected to post alerts to the sales channel
@@ -77,8 +72,7 @@ portable:
     - page_view_event
     - view_threshold
     - lookback_window
-    - research_surge_segment
-    instruction: Build a segment named "Active Research Surge Accounts" of accounts where users together did {page_view_event}
+    instruction: Build a new segment named "Active Research Surge Accounts" of accounts where users together did {page_view_event}
       {view_threshold} or more times in the last {lookback_window}.
   - id: s2
     builds: slack
@@ -87,6 +81,8 @@ portable:
     - sales_slack
     - sales_team_channel
     - account_name
+    dependsOn:
+    - s1
     instruction: Post a Slack message to {sales_team_channel} for each account in "Active Research Surge Accounts", naming
       the account ({account_name}) so reps can reach out while interest is at its peak. Use the result of "Build the research-surge
       list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then
@@ -99,6 +95,8 @@ portable:
     - email_sentence_count
     - email_tone
     - cta_label
+    dependsOn:
+    - s1
     instruction: Create a designed marketing email for the accounts in "Active Research Surge Accounts" offering a resource
       that answers the questions a researching buyer usually has at this stage. Write {email_sentence_count} sentences in
       a {email_tone} tone with no discount language. Include one button labeled "{cta_label}" linking to {call_booking_page}.
@@ -112,14 +110,12 @@ Slash command: /active-research-surge-accounts
 
 ## Step 1: Build the research-surge list
 
-Build a segment of accounts named "Active Research Surge Accounts".
-An account is in the segment only when all of these are true:
-- the users in the account together did the View page event 3 or more times in the last 7 days
+Build a new segment named "Active Research Surge Accounts" of accounts where users together did page view event 3 or more times in the last 7 d.
 
 ## Step 2: Alert sales
 
-Generate a Slack message to the sales channel For each account in "Active Research Surge Accounts", name the account, so reps can reach out while interest is at its peak. Use the result of "Build the research-surge list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in.
+Post a Slack message to sales team channel for each account in "Active Research Surge Accounts", naming the account (account name) so reps can reach out while interest is at its peak. Use the result of "Build the research-surge list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in.
 
 ## Step 3: Send a relevant resource
 
-Generate a designed marketing email for the accounts in "Active Research Surge Accounts" offering a resource that answers the questions a researching buyer usually has at this stage. Three sentences, helpful and low-pressure tone, no discount language, one button linking to a call-booking page. Use the result of "Build the research-surge list". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.
+Create a designed marketing email for the accounts in "Active Research Surge Accounts" offering a resource that answers the questions a researching buyer usually has at this stage. Write 3 sentences in a helpful and low-pressure tone with no discount language. Include one button labeled "Book a call" linking to call booking page. Use the result of "Build the research-surge list". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.

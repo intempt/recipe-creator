@@ -35,11 +35,6 @@ portable:
     default: 3
     required: false
   requirements:
-  - slot: low_engagement_paid_segment
-    kind: segment
-    meaning: Paying customers who have not started a session recently
-    creatable: true
-    definition: users whose Plan attribute is not {excluded_plans} and who did not do {session_start} in the last {inactivity_window}
   - slot: session_start
     kind: event
     meaning: A customer started a session in the product
@@ -58,9 +53,8 @@ portable:
     - plan_attribute
     - inactivity_window
     - excluded_plans
-    - low_engagement_paid_segment
-    instruction: 'Build a segment named "Paid Users: Low Engagement" containing users whose {plan_attribute} has a value and
-      is not any of {excluded_plans}, and who did not do {session_start} in the last {inactivity_window}.'
+    instruction: 'Build a new segment named "Paid Users: Low Engagement" containing users whose {plan_attribute} has a value
+      and is not any of {excluded_plans}, and who did not do {session_start} in the last {inactivity_window}.'
   - id: s2
     builds: email
     uses:
@@ -94,7 +88,7 @@ Slash command: /paid-users-low-engagement
 
 ## Step 1: Build the low-engagement list
 
-Build a segment named "Paid Users: Low Engagement" containing users whose plan attribute has a value and is not any of free, trial, and who did not do session start in the last 14 d.
+Build a new segment named "Paid Users: Low Engagement" containing users whose plan attribute has a value and is not any of free, trial, and who did not do session start in the last 14 d.
 
 ## Step 2: Send a feature reminder
 

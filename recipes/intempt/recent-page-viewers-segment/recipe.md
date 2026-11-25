@@ -33,11 +33,6 @@ portable:
   - slot: page_view_event
     kind: event
     meaning: A user viewed a page on the site or app (default autotracked page load event)
-  - slot: recent_page_viewers_segment
-    kind: segment
-    meaning: Users who viewed a page within the lookback window, built by this recipe
-    creatable: true
-    definition: users who did {page_view_event} at least once in the last {viewWindow}
   steps:
   - id: s1
     builds: segment
@@ -52,9 +47,10 @@ portable:
     - s1
     - taggedAttributeName
     - tagValue
-    - recent_page_viewers_segment
-    instruction: Create a user attribute named {taggedAttributeName} set to {tagValue} for every user in {recent_page_viewers_segment}.
-      Use the segment built in "Create Recent Page Viewers Segment" as the audience.
+    dependsOn:
+    - s1
+    instruction: Create a user attribute named {taggedAttributeName} set to {tagValue} for every user in the segment from
+      "Create Recent Page Viewers Segment". Use the segment built in "Create Recent Page Viewers Segment" as the audience.
 ---
 
 # Recent Page Viewers Segment
@@ -63,8 +59,8 @@ Slash command: /recent-page-viewers-segment
 
 ## Step 1: Create Recent Page Viewers Segment
 
-Create a segment called "Recent Page Viewers" for users. Base it on the "View page" event, the default autotracked event that fires on every page load. Add one group with one condition: triggered "View page" at least once in the last 7 days.
+Create a segment named "Recent Page Viewers" for users. Add one group with one condition: users who triggered page view event at least once in the last 7 d.
 
 ## Step 2: Tag the matched visitors
 
-Create an attribute named "recent_page_viewer" on users in "Recent Page Viewers", set to true. Use the result of "Create Recent Page Viewers Segment".
+Create a user attribute named recent_page_viewer set to True for every user in the segment from "Create Recent Page Viewers Segment". Use the segment built in "Create Recent Page Viewers Segment" as the audience.

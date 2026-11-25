@@ -3,7 +3,7 @@
   "title": "Clicked But Did Not Return",
   "slash_command": "/clicked-but-did-not-return",
   "description": "Visitors who clicked around actively in one visit and then disappeared for days, tagged with a ready-to-send push nudge drafted to bring them back.",
-  "markdown": "# Clicked But Did Not Return\n\n## Description\n\nVisitors who clicked around actively in one visit and then disappeared for days, tagged with a ready-to-send push nudge drafted to bring them back.\n\n## Steps\n\n### Step 1: Build the clicked-but-gone list\n\nBuild a segment of users named \"Clicked But Did Not Return\". A user is in the segment only when all of these are true: triggered the click event (a tracked click on a page element) at least 3 times in the last 7 days; did not trigger \"Session start\" in the last 3 days.\n\n### Step 2: Tag the matched visitors\n\nCreate an attribute named \"clicked_then_gone\" on users in \"Clicked But Did Not Return\", set to true. Use the result of \"Build the clicked-but-gone list\".\n\n### Step 3: Draft a nudge push\n\nGenerate a push notification for the users in \"Clicked But Did Not Return\" inviting them back to pick up where they left off. Title under 40 characters, one short body line, friendly tone. Use the result of \"Build the clicked-but-gone list\". Write no link, URL, template tag or placeholder in the title or body; the push opens the site or app. This drafts the push only; a person still sends it.\n",
+  "markdown": "# Clicked But Did Not Return\n\n## Description\n\nVisitors who clicked around actively in one visit and then disappeared for days, tagged with a ready-to-send push nudge drafted to bring them back.\n\n## Steps\n\n### Step 1: Build the clicked-but-gone list\n\nBuild a new segment named \"Clicked But Did Not Return\" of users who triggered click event at least 3 times in the last 7 d and did not trigger session start event in the last 3 d.\n\n### Step 2: Tag the matched visitors\n\nCreate a user attribute named \"clicked_then_gone\" set to true for all users in the segment built in \"Build the clicked-but-gone list\".\n\n### Step 3: Draft a nudge push\n\nGenerate a push notification for users in the segment built in \"Build the clicked-but-gone list\" inviting them to pick up where they left off. Title must be under 40 characters, body one short line, friendly tone. This only drafts the push; a person still sends it. Write no link, URL, template tag or placeholder in the title or body; the push opens the site or app.\n",
   "classification": {
     "industry": [
       "industry-agnostic"
@@ -25,7 +25,7 @@
     {
       "id": "s1",
       "title": "Build the clicked-but-gone list",
-      "description": "Build a segment of users named \"Clicked But Did Not Return\". A user is in the segment only when all of these are true: triggered the click event (a tracked click on a page element) at least 3 times in the last 7 days; did not trigger \"Session start\" in the last 3 days.",
+      "description": "Build a new segment named \"Clicked But Did Not Return\" of users who triggered click event at least 3 times in the last 7 d and did not trigger session start event in the last 3 d.",
       "command": "create_segment",
       "entity": "segment",
       "modelConfig": []
@@ -33,7 +33,7 @@
     {
       "id": "s2",
       "title": "Tag the matched visitors",
-      "description": "Create an attribute named \"clicked_then_gone\" on users in \"Clicked But Did Not Return\", set to true. Use the result of \"Build the clicked-but-gone list\".",
+      "description": "Create a user attribute named \"clicked_then_gone\" set to true for all users in the segment built in \"Build the clicked-but-gone list\".",
       "command": "create_attribute",
       "entity": "attribute",
       "modelConfig": []
@@ -41,7 +41,7 @@
     {
       "id": "s3",
       "title": "Draft a nudge push",
-      "description": "Generate a push notification for the users in \"Clicked But Did Not Return\" inviting them back to pick up where they left off. Title under 40 characters, one short body line, friendly tone. Use the result of \"Build the clicked-but-gone list\". Write no link, URL, template tag or placeholder in the title or body; the push opens the site or app. This drafts the push only; a person still sends it.",
+      "description": "Generate a push notification for users in the segment built in \"Build the clicked-but-gone list\" inviting them to pick up where they left off. Title must be under 40 characters, body one short line, friendly tone. This only drafts the push; a person still sends it. Write no link, URL, template tag or placeholder in the title or body; the push opens the site or app.",
       "command": "create_push_content",
       "entity": "push",
       "modelConfig": []

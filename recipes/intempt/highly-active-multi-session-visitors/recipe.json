@@ -3,7 +3,7 @@
   "title": "Highly Active Multi-Session Visitors",
   "slash_command": "/highly-active-multi-session-visitors",
   "description": "Visitors who return across several sessions and view many pages, tagged with a reusable attribute and surfaced to growth as a draft alert, the strongest organic engagement signal available without any custom tracking.",
-  "markdown": "# Highly Active Multi-Session Visitors\n\n## Description\n\nVisitors who return across several sessions and view many pages, tagged with a reusable attribute and surfaced to growth as a draft alert, the strongest organic engagement signal available without any custom tracking.\n\n## Steps\n\n### Step 1: Build the highly active visitor list\n\nBuild a segment of users named \"Highly Active Multi-Session Visitors\". A user is in the segment only when all of these are true: triggered \"Session start\" at least 3 times in the last 30 days; triggered \"View page\" at least 5 times in the last 30 days.\n\n### Step 2: Tag the matched visitors\n\nCreate an attribute named \"power_browser\" on users in \"Highly Active Multi-Session Visitors\", set to true. Use the result of \"Build the highly active visitor list\".\n\n### Step 3: Draft a growth alert\n\nGenerate a Slack message to the growth team channel. State how many users are in \"Highly Active Multi-Session Visitors\" right now, using the member count in the result of \"Build the highly active visitor list\". If that result carries no count, write no number and no placeholder in square brackets; say instead that the list is saved as the segment \"Highly Active Multi-Session Visitors\" and can be opened in Segments. Say this is a shortlist worth a closer look. This drafts the Slack message only; a person on the team still posts it.\n",
+  "markdown": "# Highly Active Multi-Session Visitors\n\n## Description\n\nVisitors who return across several sessions and view many pages, tagged with a reusable attribute and surfaced to growth as a draft alert, the strongest organic engagement signal available without any custom tracking.\n\n## Steps\n\n### Step 1: Build the highly active visitor list\n\nBuild a new segment named \"Highly Active Multi-Session Visitors\". A user is in the segment only when all of these are true: triggered session start event at least 3 times in the last 30 d; triggered page view event at least 5 times in the last 30 d.\n\n### Step 2: Tag the matched visitors\n\nCreate the attribute power browser attribute on users in the segment from \"Build the highly active visitor list\", set to true. Use the result of \"Build the highly active visitor list\".\n\n### Step 3: Draft a growth alert\n\nDraft a Slack message to the growth channel on growth slack. State how many users are in the segment from \"Build the highly active visitor list\" right now, so the team has a ready-made shortlist worth a closer look. Use the result of \"Build the highly active visitor list\". This drafts the Slack message only; a person on the team still posts it. Use the segment's current member count from the step that built it; never write a placeholder in square brackets. If no count is available, name the segment and say it can be opened in Segments.\n",
   "classification": {
     "industry": [
       "industry-agnostic"
@@ -25,7 +25,7 @@
     {
       "id": "s1",
       "title": "Build the highly active visitor list",
-      "description": "Build a segment of users named \"Highly Active Multi-Session Visitors\". A user is in the segment only when all of these are true: triggered \"Session start\" at least 3 times in the last 30 days; triggered \"View page\" at least 5 times in the last 30 days.",
+      "description": "Build a new segment named \"Highly Active Multi-Session Visitors\". A user is in the segment only when all of these are true: triggered session start event at least 3 times in the last 30 d; triggered page view event at least 5 times in the last 30 d.",
       "command": "create_segment",
       "entity": "segment",
       "modelConfig": []
@@ -33,7 +33,7 @@
     {
       "id": "s2",
       "title": "Tag the matched visitors",
-      "description": "Create an attribute named \"power_browser\" on users in \"Highly Active Multi-Session Visitors\", set to true. Use the result of \"Build the highly active visitor list\".",
+      "description": "Create the attribute power browser attribute on users in the segment from \"Build the highly active visitor list\", set to true. Use the result of \"Build the highly active visitor list\".",
       "command": "create_attribute",
       "entity": "attribute",
       "modelConfig": []
@@ -41,7 +41,7 @@
     {
       "id": "s3",
       "title": "Draft a growth alert",
-      "description": "Generate a Slack message to the growth team channel. State how many users are in \"Highly Active Multi-Session Visitors\" right now, using the member count in the result of \"Build the highly active visitor list\". If that result carries no count, write no number and no placeholder in square brackets; say instead that the list is saved as the segment \"Highly Active Multi-Session Visitors\" and can be opened in Segments. Say this is a shortlist worth a closer look. This drafts the Slack message only; a person on the team still posts it.",
+      "description": "Draft a Slack message to the growth channel on growth slack. State how many users are in the segment from \"Build the highly active visitor list\" right now, so the team has a ready-made shortlist worth a closer look. Use the result of \"Build the highly active visitor list\". This drafts the Slack message only; a person on the team still posts it. Use the segment's current member count from the step that built it; never write a placeholder in square brackets. If no count is available, name the segment and say it can be opened in Segments.",
       "command": "create_slack_content",
       "entity": "slack",
       "modelConfig": []

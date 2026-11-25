@@ -44,13 +44,6 @@ portable:
   - slot: page_view_event
     kind: event
     meaning: A visitor viewed a page
-  - slot: highly_active_segment
-    kind: segment
-    meaning: Users who did session start at least a set number of times and did view page at least a set number of times in
-      the last window
-    creatable: true
-    definition: users who triggered {session_start_event} at least {session_threshold} times in the last {window} and triggered
-      {page_view_event} at least {page_view_threshold} times in the last {window}
   - slot: power_browser_attribute
     kind: attribute
     meaning: A user-level true/false flag marking highly engaged multi-session visitors
@@ -67,30 +60,31 @@ portable:
     - session_threshold
     - page_view_threshold
     - window
-    - highly_active_segment
-    instruction: 'Build the segment {highly_active_segment} named "Highly Active Multi-Session Visitors". A user is in the
-      segment only when all of these are true: triggered {session_start_event} at least {session_threshold} times in the last
-      {window}; triggered {page_view_event} at least {page_view_threshold} times in the last {window}.'
+    instruction: 'Build a new segment named "Highly Active Multi-Session Visitors". A user is in the segment only when all
+      of these are true: triggered {session_start_event} at least {session_threshold} times in the last {window}; triggered
+      {page_view_event} at least {page_view_threshold} times in the last {window}.'
   - id: s2
     builds: attribute
     uses:
-    - highly_active_segment
     - power_browser_attribute
     - s1
-    instruction: Create the attribute {power_browser_attribute} on users in {highly_active_segment}, set to true. Use the
-      result of "Build the highly active visitor list".
+    dependsOn:
+    - s1
+    instruction: Create the attribute {power_browser_attribute} on users in the segment from "Build the highly active visitor
+      list", set to true. Use the result of "Build the highly active visitor list".
   - id: s3
     builds: slack
     uses:
-    - highly_active_segment
     - growth_slack
     - growth_channel
     - s1
-    instruction: Draft a Slack message to the {growth_channel} channel on {growth_slack}. State how many users are in {highly_active_segment}
-      right now, so the team has a ready-made shortlist worth a closer look. Use the result of "Build the highly active visitor
-      list". This drafts the Slack message only; a person on the team still posts it. Use the segment's current member count
-      from the step that built it; never write a placeholder in square brackets. If no count is available, name the segment
-      and say it can be opened in Segments.
+    dependsOn:
+    - s1
+    instruction: Draft a Slack message to the {growth_channel} channel on {growth_slack}. State how many users are in the
+      segment from "Build the highly active visitor list" right now, so the team has a ready-made shortlist worth a closer
+      look. Use the result of "Build the highly active visitor list". This drafts the Slack message only; a person on the
+      team still posts it. Use the segment's current member count from the step that built it; never write a placeholder in
+      square brackets. If no count is available, name the segment and say it can be opened in Segments.
 ---
 
 # Highly Active Multi-Session Visitors
@@ -99,12 +93,12 @@ Slash command: /highly-active-multi-session-visitors
 
 ## Step 1: Build the highly active visitor list
 
-Build a segment of users named "Highly Active Multi-Session Visitors". A user is in the segment only when all of these are true: triggered "Session start" at least 3 times in the last 30 days; triggered "View page" at least 5 times in the last 30 days.
+Build a new segment named "Highly Active Multi-Session Visitors". A user is in the segment only when all of these are true: triggered session start event at least 3 times in the last 30 d; triggered page view event at least 5 times in the last 30 d.
 
 ## Step 2: Tag the matched visitors
 
-Create an attribute named "power_browser" on users in "Highly Active Multi-Session Visitors", set to true. Use the result of "Build the highly active visitor list".
+Create the attribute power browser attribute on users in the segment from "Build the highly active visitor list", set to true. Use the result of "Build the highly active visitor list".
 
 ## Step 3: Draft a growth alert
 
-Generate a Slack message to the growth team channel. State how many users are in "Highly Active Multi-Session Visitors" right now, using the member count in the result of "Build the highly active visitor list". If that result carries no count, write no number and no placeholder in square brackets; say instead that the list is saved as the segment "Highly Active Multi-Session Visitors" and can be opened in Segments. Say this is a shortlist worth a closer look. This drafts the Slack message only; a person on the team still posts it.
+Draft a Slack message to the growth channel on growth slack. State how many users are in the segment from "Build the highly active visitor list" right now, so the team has a ready-made shortlist worth a closer look. Use the result of "Build the highly active visitor list". This drafts the Slack message only; a person on the team still posts it. Use the segment's current member count from the step that built it; never write a placeholder in square brackets. If no count is available, name the segment and say it can be opened in Segments.

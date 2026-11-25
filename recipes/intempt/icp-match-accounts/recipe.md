@@ -50,9 +50,6 @@ portable:
   - slot: account_employees
     kind: attribute
     meaning: The number of employees at an account's company
-  - slot: icp_match_accounts
-    kind: segment
-    meaning: Accounts whose employee count falls within the ideal customer profile range
   - slot: sales_slack
     kind: integration
     meaning: A Slack workspace connection used to notify the sales channel
@@ -64,8 +61,8 @@ portable:
     - account_employees
     - min_employees
     - max_employees
-    instruction: 'Build a segment of accounts named "ICP Match Accounts". An account is in the segment only when all of these
-      are true: its {account_employees} is {min_employees} or more; its {account_employees} is less than {max_employees}.'
+    instruction: 'Build a new segment of accounts named "ICP Match Accounts". An account is in the segment only when all of
+      these are true: its {account_employees} is {min_employees} or more; its {account_employees} is less than {max_employees}.'
   - id: s2
     builds: slack
     uses:
@@ -73,6 +70,8 @@ portable:
     - sales_slack
     - account_employees
     - sales_channel
+    dependsOn:
+    - s1
     instruction: Generate a Slack message to the {sales_channel} channel for each account in the segment built in "Build the
       ICP list". Name the account and its {account_employees} count so reps can prioritize outreach to the newest matches
       first. Take names and addresses from the member list in the result of the step that built the list (at most 20, then
@@ -84,6 +83,8 @@ portable:
     - account_employees
     - tone
     - cta_url_type
+    dependsOn:
+    - s1
     instruction: Generate a designed marketing email for the accounts in the segment built in "Build the ICP list" introducing
       the product for a company of their size. Three sentences, {tone} tone, no discount language, one button linking to the
       {cta_url_type}. If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL
@@ -91,6 +92,8 @@ portable:
   - id: s4
     builds: attribute
     uses:
+    - s1
+    dependsOn:
     - s1
     instruction: Create an attribute named "icp_fit" on accounts in the segment built in "Build the ICP list", set to true.
 ---
@@ -101,19 +104,16 @@ Slash command: /icp-match-accounts
 
 ## Step 1: Build the ICP list
 
-Build a segment of accounts named "ICP Match Accounts".
-An account is in the segment only when all of these are true:
-- its employees attribute is 50 or more
-- its employees attribute is less than 500
+Build a new segment of accounts named "ICP Match Accounts". An account is in the segment only when all of these are true: its account employees is 50 or more; its account employees is less than 500.
 
 ## Step 2: Alert sales
 
-Generate a Slack message to the sales channel For each account in "ICP Match Accounts", name the account and its employees count, so reps can prioritize outreach to the newest matches first. Use the result of "Build the ICP list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in.
+Generate a Slack message to the sales channel for each account in the segment built in "Build the ICP list". Name the account and its account employees count so reps can prioritize outreach to the newest matches first. Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in.
 
 ## Step 3: Send an intro email
 
-Generate a designed marketing email for the accounts in "ICP Match Accounts" introducing the product for a company of their size. Three sentences, confident and consultative tone, no discount language, one button linking to a call-booking page. Use the result of "Build the ICP list". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.
+Generate a designed marketing email for the accounts in the segment built in "Build the ICP list" introducing the product for a company of their size. Three sentences, confident and consultative tone, no discount language, one button linking to the call-booking page. If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.
 
 ## Step 4: Tag the matched accounts
 
-Create an attribute named "icp_fit" on accounts in "ICP Match Accounts", set to true. Use the result of "Build the ICP list".
+Create an attribute named "icp_fit" on accounts in the segment built in "Build the ICP list", set to true.

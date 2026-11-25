@@ -58,12 +58,6 @@ portable:
   - slot: user_email
     kind: attribute
     meaning: The email address of a user
-  - slot: renewal_window_segment
-    kind: segment
-    meaning: Users on a paid plan whose subscription started within the renewal window
-    creatable: true
-    definition: users whose {paying_user_plan} is not {plan_excluded} and who did {subscription_started} at least once between
-      {window_min} and {window_max} ago
   - slot: account_manager_booking_page
     kind: destination
     meaning: Call-booking page where a customer can schedule time with their account manager
@@ -81,7 +75,7 @@ portable:
     - plan_excluded
     - window_min
     - window_max
-    instruction: 'Build a segment of users named "Renewal Window 90 Days" who meet all of these conditions: their {paying_user_plan}
+    instruction: 'Build a new segment of users named "Renewal Window 90 Days" who meet all of these conditions: their {paying_user_plan}
       has a value and is not {plan_excluded}, and they did {subscription_started} at least once between {window_min} and {window_max}
       ago.'
   - id: s2
@@ -100,7 +94,6 @@ portable:
   - id: s3
     builds: email
     uses:
-    - renewal_window_segment
     - product_results
     - recap_sentences
     - recap_tone
@@ -122,7 +115,7 @@ Slash command: /renewal-window-90-day
 
 ## Step 1: Build the renewal list
 
-Build a segment of users named "Renewal Window 90 Days" who meet all of these conditions: their paying user plan has a value and is not free, and they did subscription started at least once between 275 d and 365 d ago.
+Build a new segment of users named "Renewal Window 90 Days" who meet all of these conditions: their paying user plan has a value and is not free, and they did subscription started at least once between 275 d and 365 d ago.
 
 ## Step 2: Notify the renewals team
 

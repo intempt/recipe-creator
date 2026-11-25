@@ -3,7 +3,7 @@
   "title": "Trials nearing the end",
   "slash_command": "/trial-expiring-soon",
   "description": "Trial users who started their trial 3 to 4 weeks ago and still have not paid, nudged by email and flagged to sales while there is still time to close them.",
-  "markdown": "# Trials nearing the end\n\n## Description\n\nTrial users who started their trial 3 to 4 weeks ago and still have not paid, nudged by email and flagged to sales while there is still time to close them.\n\n## Steps\n\n### Step 1: Build the expiring-trial list\n\nBuild a segment of users named \"Trial Expiring Soon\".\nA user is in the segment only when all of these are true:\n- their Plan attribute is \"trial\"\n- they did the Subscription started event at least once between 23 and 30 days ago\n\n### Step 2: Send a final nudge\n\nGenerate a designed marketing email for the users in \"Trial Expiring Soon\" letting them know their trial is nearing its end and highlighting the one feature most worth trying before it does. Three sentences, warm and helpful tone, no discount language, one button linking to the upgrade page. Use the result of \"Build the expiring-trial list\". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.\n\n### Step 3: Alert sales\n\nGenerate a Slack message to the sales channel For each user in \"Trial Expiring Soon\", name their email address, so reps can reach out personally before the window closes. Use the result of \"Build the expiring-trial list\". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in.\n",
+  "markdown": "# Trials nearing the end\n\n## Description\n\nTrial users who started their trial 3 to 4 weeks ago and still have not paid, nudged by email and flagged to sales while there is still time to close them.\n\n## Steps\n\n### Step 1: Build the expiring-trial list\n\nBuild a new segment named \"Trial Expiring Soon\" of users who are still on their trial and not yet paying (never people who already converted): their plan attribute is trial and who did subscription started event at least once between 23 and 30 days ago.\n\n### Step 2: Send a final nudge\n\nGenerate a designed marketing email for the users in \"Trial Expiring Soon\" telling them their trial is nearing its end and highlighting the one feature most worth trying before it does. Use 3 sentences, a warm and helpful tone, no discount language, and one button linking to upgrade page. If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.\n\n### Step 3: Alert sales\n\nGenerate a Slack message to sales slack that names the email address (user email attribute) of each user in \"Trial Expiring Soon\", so reps can reach out personally before the window closes.\n",
   "classification": {
     "industry": [
       "saas-b2b-tech"
@@ -24,7 +24,7 @@
     {
       "id": "s1",
       "title": "Build the expiring-trial list",
-      "description": "Build a segment of users named \"Trial Expiring Soon\". A user is in the segment only when all of these are true: their Plan attribute is \"trial\"; they did the Subscription started event at least once between 23 and 30 days ago.",
+      "description": "Build a new segment named \"Trial Expiring Soon\" of users who are still on their trial and not yet paying (never people who already converted): their plan attribute is trial and who did subscription started event at least once between 23 and 30 days ago.",
       "command": "create_segment",
       "entity": "segment",
       "kind": "static",
@@ -33,7 +33,7 @@
     {
       "id": "s2",
       "title": "Send a final nudge",
-      "description": "Generate a designed marketing email for the users in \"Trial Expiring Soon\" letting them know their trial is nearing its end and highlighting the one feature most worth trying before it does. Three sentences, warm and helpful tone, no discount language, one button linking to the upgrade page. Use the result of \"Build the expiring-trial list\". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.",
+      "description": "Generate a designed marketing email for the users in \"Trial Expiring Soon\" telling them their trial is nearing its end and highlighting the one feature most worth trying before it does. Use 3 sentences, a warm and helpful tone, no discount language, and one button linking to upgrade page. If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.",
       "command": "create_email_content",
       "entity": "email_html",
       "modelConfig": []
@@ -41,7 +41,7 @@
     {
       "id": "s3",
       "title": "Alert sales",
-      "description": "Generate a Slack message to the sales channel For each user in \"Trial Expiring Soon\", name their email address, so reps can reach out personally before the window closes. Use the result of \"Build the expiring-trial list\". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in.",
+      "description": "Generate a Slack message to sales slack that names the email address (user email attribute) of each user in \"Trial Expiring Soon\", so reps can reach out personally before the window closes.",
       "command": "create_slack_content",
       "entity": "slack",
       "modelConfig": []

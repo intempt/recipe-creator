@@ -50,12 +50,6 @@ portable:
     kind: integration
     meaning: Slack workspace with a channel the lifecycle team reads
     channel: slack
-  - slot: welcome_back_list
-    kind: segment
-    meaning: Users active again recently who also had a session between 60 and 90 days ago
-    creatable: true
-    definition: users who did {session_start} at least once in the last {recent_window} and did {session_start} at least once
-      between {tenure_max_days} and {tenure_min_days} days ago
   steps:
   - id: s1
     builds: segment
@@ -64,7 +58,7 @@ portable:
     - recent_window
     - tenure_min_days
     - tenure_max_days
-    instruction: Build a segment named "Long-Tenure Returning Visitors" with users who triggered {session_start} at least
+    instruction: Build a new segment named "Long-Tenure Returning Visitors" with users who triggered {session_start} at least
       once in the last {recent_window} and triggered {session_start} at least once between {tenure_max_days} and {tenure_min_days}
       days ago.
   - id: s2
@@ -73,6 +67,8 @@ portable:
     - s1
     - email_sentences
     - email_tone
+    dependsOn:
+    - s1
     instruction: Generate a designed marketing email for the users in the "Long-Tenure Returning Visitors" segment that welcomes
       them back and points to what is new in the product since they last visited regularly. Use exactly {email_sentences}
       sentences in a {email_tone} tone. Do not use discount language. Include one button linking to the product. This drafts
@@ -95,12 +91,12 @@ Slash command: /long-tenure-returning-visitors
 
 ## Step 1: Build the long-tenure returning visitor list
 
-Build a segment of users named "Long-Tenure Returning Visitors". A user is in the segment only when all of these are true: triggered "Session start" at least once in the last 7 days; triggered "Session start" at least once between 60 and 90 days ago.
+Build a new segment named "Long-Tenure Returning Visitors" with users who triggered session start at least once in the last 7 d and triggered session start at least once between 90 and 60 days ago.
 
 ## Step 2: Draft a welcome-back email
 
-Generate a designed marketing email for the users in "Long-Tenure Returning Visitors" welcoming them back and pointing to what is new in the product since they last visited regularly. Three sentences, warm tone, no discount language, one button linking to the product URL chosen for this run. If the brand kit has no logo, use the brand name as a plain text header. Use the result of "Build the long-tenure returning visitor list". This drafts the email only; a person still sends it.
+Generate a designed marketing email for the users in the "Long-Tenure Returning Visitors" segment that welcomes them back and points to what is new in the product since they last visited regularly. Use exactly 3 sentences in a warm tone. Do not use discount language. Include one button linking to the product. This drafts the email only; a person still sends it. If the brand kit has no logo, use the brand name as a plain text header; the button links to the URL chosen for this run.
 
 ## Step 3: Draft a note for the lifecycle team
 
-Generate a Slack message to the lifecycle team channel. State how many users are in "Long-Tenure Returning Visitors" right now, using the member count in the result of "Build the long-tenure returning visitor list". If that result carries no count, write no number and no placeholder in square brackets; say instead that the list is saved as the segment "Long-Tenure Returning Visitors" and can be opened in Segments. Say a batch of long-time users is active again. This drafts the Slack message only; a person on the team still posts it.
+Draft a Slack message to lifecycle team channel stating how many users are currently in the "Long-Tenure Returning Visitors" segment, so the team knows a batch of long-time users is active again. This drafts the message only; a person on the team still posts it. Use the segment's current member count from the step that built it; never write a placeholder in square brackets. If no count is available, name the segment and say it can be opened in Segments.

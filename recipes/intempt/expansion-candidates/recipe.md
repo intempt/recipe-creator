@@ -44,12 +44,6 @@ portable:
   - slot: user_email
     kind: attribute
     meaning: The email address of a user
-  - slot: expansion_candidates
-    kind: segment
-    meaning: Users on a plan below enterprise who started sessions frequently in the recent window
-    creatable: true
-    definition: users whose {plan_attribute} is not {excludedPlan} and who did {session_start_event} at least {sessionThreshold}
-      times in the last {sessionWindow}
   - slot: upgrade_email_channel
     kind: destination
     meaning: An email channel able to send marketing emails to users
@@ -67,8 +61,8 @@ portable:
     - excludedPlan
     - sessionThreshold
     - sessionWindow
-    instruction: Build a segment named "Expansion Candidates" that includes users whose {plan_attribute} has a value and is
-      not {excludedPlan} and who did {session_start_event} {sessionThreshold} or more times in the last {sessionWindow}.
+    instruction: Build a new segment named "Expansion Candidates" that includes users whose {plan_attribute} has a value and
+      is not {excludedPlan} and who did {session_start_event} {sessionThreshold} or more times in the last {sessionWindow}.
   - id: s2
     builds: email
     uses:
@@ -102,7 +96,7 @@ Slash command: /expansion-candidates
 
 ## Step 1: Build the expansion-candidate list
 
-Build a segment named "Expansion Candidates" that includes users whose plan attribute has a value and is not enterprise and who did session start event 8 or more times in the last 14 d.
+Build a new segment named "Expansion Candidates" that includes users whose plan attribute has a value and is not enterprise and who did session start event 8 or more times in the last 14 d.
 
 ## Step 2: Send an upgrade email
 

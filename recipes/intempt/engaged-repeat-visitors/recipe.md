@@ -39,12 +39,6 @@ portable:
   - slot: click_event
     kind: event
     meaning: A user clicked an element on the site or app (the project's click event)
-  - slot: engaged_repeat_visitors
-    kind: segment
-    meaning: Users who viewed pages repeatedly and clicked on the website recently
-    creatable: true
-    definition: users who triggered {page_view_event} at least {page_view_min_count} times in the last {lookback_window} and
-      triggered {click_event} at least once in the last {lookback_window}
   - slot: slack_integration
     kind: integration
     meaning: A connected Slack workspace for posting alerts to the marketing team
@@ -57,21 +51,21 @@ portable:
     - click_event
     - page_view_min_count
     - lookback_window
-    - engaged_repeat_visitors
-    instruction: Build a segment named "Engaged Repeat Visitors" containing users who triggered {page_view_event} at least
+    instruction: Build a new segment named "Engaged Repeat Visitors" containing users who triggered {page_view_event} at least
       {page_view_min_count} times in the last {lookback_window} and triggered {click_event} at least once in the last {lookback_window}.
   - id: s2
     builds: slack
     uses:
     - s1
-    - engaged_repeat_visitors
     - slack_integration
     - marketing_channel_name
+    dependsOn:
+    - s1
     instruction: Draft a Slack message to the {marketing_channel_name} channel in {slack_integration} stating how many users
-      are in {engaged_repeat_visitors} right now, so the team knows who is browsing and clicking rather than just passing
-      through. This drafts the message only; a team member still posts it. Use the segment's current member count from the
-      step that built it; never write a placeholder in square brackets. If no count is available, name the segment and say
-      it can be opened in Segments.
+      are in the segment from "Build the engaged repeat visitor list" right now, so the team knows who is browsing and clicking
+      rather than just passing through. This drafts the message only; a team member still posts it. Use the segment's current
+      member count from the step that built it; never write a placeholder in square brackets. If no count is available, name
+      the segment and say it can be opened in Segments.
 ---
 
 # Engaged Repeat Visitors
@@ -80,8 +74,8 @@ Slash command: /engaged-repeat-visitors
 
 ## Step 1: Build the engaged repeat visitor list
 
-Build a segment of users named "Engaged Repeat Visitors". A user is in the segment only when all of these are true: triggered "View page" at least 3 times in the last 7 days; triggered the click event (a tracked click on a page element) at least once in the last 7 days.
+Build a new segment named "Engaged Repeat Visitors" containing users who triggered page view event at least 3 times in the last 7 d and triggered click event at least once in the last 7 d.
 
 ## Step 2: Draft a marketing alert
 
-Generate a Slack message to the marketing team channel. State how many users are in "Engaged Repeat Visitors" right now, using the member count in the result of "Build the engaged repeat visitor list". If that result carries no count, write no number and no placeholder in square brackets; say instead that the list is saved as the segment "Engaged Repeat Visitors" and can be opened in Segments. Say these visitors are browsing and clicking, not just passing through. This drafts the Slack message only; a person on the team still posts it.
+Draft a Slack message to the marketing channel in slack integration stating how many users are in the segment from "Build the engaged repeat visitor list" right now, so the team knows who is browsing and clicking rather than just passing through. This drafts the message only; a team member still posts it. Use the segment's current member count from the step that built it; never write a placeholder in square brackets. If no count is available, name the segment and say it can be opened in Segments.

@@ -34,12 +34,6 @@ portable:
     label: Concierge Slack channel name
     default: concierge team
   requirements:
-  - slot: vip_customers
-    kind: segment
-    meaning: Customers whose lifetime value meets the VIP threshold and who were recently active
-    creatable: true
-    definition: users whose lifetime value is at least {ltv_threshold} and who did {session_start} at least once in the last
-      {activity_window}
   - slot: session_start
     kind: event
     meaning: A customer started a session in the app or website
@@ -58,18 +52,19 @@ portable:
   - id: s1
     builds: segment
     uses:
-    - vip_customers
     - session_start
     - lifetime_value
     - ltv_threshold
     - activity_window
-    instruction: Build a segment named "VIP Customers" containing users whose {lifetime_value} is {ltv_threshold} or more
+    instruction: Build a new segment named "VIP Customers" containing users whose {lifetime_value} is {ltv_threshold} or more
       and who did {session_start} at least once in the last {activity_window}.
   - id: s2
     builds: email
     uses:
     - s1
     - email_tone
+    dependsOn:
+    - s1
     instruction: Generate a designed marketing email for the users in "VIP Customers" thanking them for their loyalty and
       inviting them into VIP recognition. Write three sentences in a {email_tone} tone with no discount language, and include
       one button linking to the rewards or early-access page. If the brand kit has no logo, use the brand name as a plain
@@ -82,6 +77,8 @@ portable:
     - customer_email
     - lifetime_value
     - concierge_channel
+    dependsOn:
+    - s1
     instruction: Generate a Slack message to the {concierge_channel} channel. For each user in "VIP Customers", name their
       {customer_email} and their {lifetime_value} so the team can give each one a personal welcome into the program. Take
       names and addresses from the member list in the result of the step that built the list (at most 20, then how many more);
@@ -94,15 +91,12 @@ Slash command: /vip-customers-high-ltv
 
 ## Step 1: Build the VIP list
 
-Build a segment of users named "VIP Customers".
-A user is in the segment only when all of these are true:
-- their Lifetime value attribute is 1000 or more
-- they did the Session start event at least once in the last 7 days
+Build a new segment named "VIP Customers" containing users whose lifetime value is 1000 or more and who did session start at least once in the last 7 d.
 
 ## Step 2: Send a VIP recognition email
 
-Generate a designed marketing email for the users in "VIP Customers" thanking them for their loyalty and inviting them into VIP recognition. Three sentences, warm and appreciative tone, no discount language, one button linking to the rewards or early-access page. Use the result of "Build the VIP list". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.
+Generate a designed marketing email for the users in "VIP Customers" thanking them for their loyalty and inviting them into VIP recognition. Write three sentences in a warm and appreciative tone with no discount language, and include one button linking to the rewards or early-access page. If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.
 
 ## Step 3: Alert the concierge team
 
-Generate a Slack message to the concierge team channel For each user in "VIP Customers", name their email address and their Lifetime value, so the team can give each one a personal welcome into the program. Use the result of "Build the VIP list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in.
+Generate a Slack message to the concierge team channel. For each user in "VIP Customers", name their customer email and their lifetime value so the team can give each one a personal welcome into the program. Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in.

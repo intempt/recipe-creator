@@ -3,7 +3,7 @@
   "title": "Flash sale text message",
   "slash_command": "/flash-sale-sms",
   "description": "Builds the list of recently active shoppers, drafts a time-limited offer text without inventing a discount or deadline it does not have, and drafts a reach note for marketing ops to review before anything sends.",
-  "markdown": "# Flash sale text message\n\n## Description\n\nBuilds the list of recently active shoppers, drafts a time-limited offer text without inventing a discount or deadline it does not have, and drafts a reach note for marketing ops to review before anything sends.\n\n## Steps\n\n### Step 1: Build the flash-sale audience\n\nBuild a segment of users named \"Flash Sale Audience\". A user is in the segment only when all of these are true: triggered \"View page\" at least 3 times in the last 7 days.\n\n### Step 2: Write the flash sale SMS\n\nGenerate an SMS for the users in \"Flash Sale Audience\" announcing a limited-time discount on their next purchase. Use the discount percentage and the offer's end date chosen for this run; do not invent either if neither is supplied. End with the offer's landing-page URL chosen for this run, written as a plain link. One or two sentences, direct and urgent tone. Use the result of \"Build the flash-sale audience\". This drafts the SMS only; a person still sends it.\n\n### Step 3: Draft a note for marketing ops\n\nGenerate a Slack message to the marketing ops channel. State how many users are in \"Flash Sale Audience\" right now, using the member count in the result of \"Build the flash-sale audience\". If that result carries no count, write no number and no placeholder in square brackets; say instead that the list is saved as the segment \"Flash Sale Audience\" and can be opened in Segments. Say the team can track reach before the sale goes out. This drafts the Slack message only; a person on the team still posts it.\n",
+  "markdown": "# Flash sale text message\n\n## Description\n\nBuilds the list of recently active shoppers, drafts a time-limited offer text without inventing a discount or deadline it does not have, and drafts a reach note for marketing ops to review before anything sends.\n\n## Steps\n\n### Step 1: Build the flash-sale audience\n\nBuild a new segment named \"Flash Sale Audience\". A user is in the segment only when they triggered page view event at least 3 times in the last 7 d.\n\n### Step 2: Write the flash sale SMS\n\nGenerate an SMS for the users in the segment from \"Build the flash-sale audience\" announcing a limited-time the discount percentage for this run% discount on their next purchase, ending the offer end date for this run. End with the offer's landing-page URL chosen for this run, written as a plain link. Write one or two sentences in a direct and urgent tone. Use the result of \"Build the flash-sale audience\". This drafts the SMS only; a person still sends it.\n\n### Step 3: Draft a note for marketing ops\n\nGenerate a Slack message to the marketing ops channel (marketing ops channel) noting the size of the segment from \"Build the flash-sale audience\" so the team can track reach before the sale goes out. Use the result of \"Build the flash-sale audience\". This drafts the Slack message only; a person on the team still posts it. Use the segment's current member count from the step that built it; never write a placeholder in square brackets. If no count is available, name the segment and say it can be opened in Segments.\n",
   "classification": {
     "industry": [
       "industry-agnostic"
@@ -24,7 +24,7 @@
     {
       "id": "s1",
       "title": "Build the flash-sale audience",
-      "description": "Build a segment of users named \"Flash Sale Audience\". A user is in the segment only when all of these are true: triggered \"View page\" at least 3 times in the last 7 days.",
+      "description": "Build a new segment named \"Flash Sale Audience\". A user is in the segment only when they triggered page view event at least 3 times in the last 7 d.",
       "command": "create_segment",
       "entity": "segment",
       "modelConfig": []
@@ -32,7 +32,7 @@
     {
       "id": "s2",
       "title": "Write the flash sale SMS",
-      "description": "Generate an SMS for the users in \"Flash Sale Audience\" announcing a limited-time discount on their next purchase. Use the discount percentage and the offer's end date chosen for this run; do not invent either if neither is supplied. End with the offer's landing-page URL chosen for this run, written as a plain link. One or two sentences, direct and urgent tone. Use the result of \"Build the flash-sale audience\". This drafts the SMS only; a person still sends it.",
+      "description": "Generate an SMS for the users in the segment from \"Build the flash-sale audience\" announcing a limited-time the discount percentage for this run% discount on their next purchase, ending the offer end date for this run. End with the offer's landing-page URL chosen for this run, written as a plain link. Write one or two sentences in a direct and urgent tone. Use the result of \"Build the flash-sale audience\". This drafts the SMS only; a person still sends it.",
       "command": "create_sms_content",
       "entity": "sms",
       "modelConfig": []
@@ -40,7 +40,7 @@
     {
       "id": "s3",
       "title": "Draft a note for marketing ops",
-      "description": "Generate a Slack message to the marketing ops channel. State how many users are in \"Flash Sale Audience\" right now, using the member count in the result of \"Build the flash-sale audience\". If that result carries no count, write no number and no placeholder in square brackets; say instead that the list is saved as the segment \"Flash Sale Audience\" and can be opened in Segments. Say the team can track reach before the sale goes out. This drafts the Slack message only; a person on the team still posts it.",
+      "description": "Generate a Slack message to the marketing ops channel (marketing ops channel) noting the size of the segment from \"Build the flash-sale audience\" so the team can track reach before the sale goes out. Use the result of \"Build the flash-sale audience\". This drafts the Slack message only; a person on the team still posts it. Use the segment's current member count from the step that built it; never write a placeholder in square brackets. If no count is available, name the segment and say it can be opened in Segments.",
       "command": "create_slack_content",
       "entity": "slack",
       "modelConfig": []

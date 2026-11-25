@@ -54,12 +54,6 @@ portable:
   - slot: plan_attribute
     kind: attribute
     meaning: The subscription plan a user is on
-  - slot: engaged_trial_users
-    kind: segment
-    meaning: Trial users who started sessions frequently in the recent window
-    creatable: true
-    definition: users whose {plan_attribute} is {plan_value} and who did {session_start_event} at least {session_threshold}
-      times in the last {window}
   - slot: sales_slack
     kind: integration
     meaning: A Slack workspace connection for posting alerts to the sales channel
@@ -77,14 +71,16 @@ portable:
     - session_threshold
     - window
     - plan_value
-    instruction: Build a segment named "Engaged Trial Users" containing users whose {plan_attribute} is {plan_value} and who
-      did {session_start_event} at least {session_threshold} times in the last {window}.
+    instruction: 'Build a new segment named "Engaged Trial Users" containing users who are still on their trial and not yet
+      paying (never people who already converted): their {plan_attribute} is {plan_value} and who did {session_start_event}
+      at least {session_threshold} times in the last {window}.'
   - id: s2
     builds: email
     uses:
-    - engaged_trial_users
     - demo_booking_page
     - demo_tone
+    - s1
+    dependsOn:
     - s1
     instruction: Generate a designed marketing email for the users in the "Engaged Trial Users" segment offering a personal
       walkthrough of a feature they have not tried yet. Write three sentences in a {demo_tone} tone with no discount language.
@@ -94,8 +90,9 @@ portable:
     builds: slack
     uses:
     - sales_slack
-    - engaged_trial_users
     - sales_channel
+    - s1
+    dependsOn:
     - s1
     instruction: Generate a Slack message to the {sales_channel} channel that lists the email address of each user in the
       "Engaged Trial Users" segment, so reps can reach out while the trial window is still open. Use {sales_slack} to post
@@ -108,15 +105,12 @@ Slash command: /onboarding-stalled-users
 
 ## Step 1: Build the engaged-trial list
 
-Build a segment of users named "Engaged Trial Users".
-A user is in the segment only when all of these are true:
-- their Plan attribute is "trial"
-- they did the Session start event 5 or more times in the last 14 days
+Build a new segment named "Engaged Trial Users" containing users who are still on their trial and not yet paying (never people who already converted): their plan attribute is trial and who did session start event at least 5 times in the last 14 d.
 
 ## Step 2: Offer a personal demo
 
-Generate a designed marketing email for the users in "Engaged Trial Users" offering a personal walkthrough of a feature they have not tried yet. Three sentences, warm and helpful tone, no discount language, one button linking to the demo booking page. Use the result of "Build the engaged-trial list". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.
+Generate a designed marketing email for the users in the "Engaged Trial Users" segment offering a personal walkthrough of a feature they have not tried yet. Write three sentences in a warm and helpful tone with no discount language. Include one button linking to demo booking page. If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.
 
 ## Step 3: Alert sales
 
-Generate a Slack message to the sales channel For each user in "Engaged Trial Users", name their email address, so reps can reach out while the trial window is still open. Use the result of "Build the engaged-trial list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in.
+Generate a Slack message to the sales channel that lists the email address of each user in the "Engaged Trial Users" segment, so reps can reach out while the trial window is still open. Use sales slack to post it.

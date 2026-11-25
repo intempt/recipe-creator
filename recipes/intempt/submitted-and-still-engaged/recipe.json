@@ -3,7 +3,7 @@
   "title": "Submitted And Still Engaged",
   "slash_command": "/submitted-and-still-engaged",
   "description": "Visitors who submitted a form today and kept browsing right afterward, the hottest possible same-day lead signal, surfaced to sales with a follow-up email drafted and ready to review.",
-  "markdown": "# Submitted And Still Engaged\n\n## Description\n\nVisitors who submitted a form today and kept browsing right afterward, the hottest possible same-day lead signal, surfaced to sales with a follow-up email drafted and ready to review.\n\n## Steps\n\n### Step 1: Build the still-engaged submitter list\n\nBuild a segment of users named \"Submitted And Still Engaged\". A user is in the segment only when all of these are true: triggered the form-submit event (a tracked submission of a form on the site, not a survey or NPS answer) at least once in the last 1 day; triggered \"View page\" at least 3 times in the last 1 day.\n\n### Step 2: Draft a sales alert\n\nGenerate a Slack message to the sales team channel. State how many users are in \"Submitted And Still Engaged\" right now, using the member count in the result of \"Build the still-engaged submitter list\". If that result carries no count, write no number and no placeholder in square brackets; say instead that the list is saved as the segment \"Submitted And Still Engaged\" and can be opened in Segments. Say reps can follow up while these users are still active on the site today. This drafts the Slack message only; a person on the team still posts it.\n\n### Step 3: Draft a next-step email\n\nGenerate a designed marketing email for the users in \"Submitted And Still Engaged\" confirming their submission and naming the one next step worth taking right now. Three sentences, confident and helpful tone, no discount language, one button linking to the next-step page URL chosen for this run. If the brand kit has no logo, use the brand name as a plain text header. Use the result of \"Build the still-engaged submitter list\". This drafts the email only; a person still sends it.\n",
+  "markdown": "# Submitted And Still Engaged\n\n## Description\n\nVisitors who submitted a form today and kept browsing right afterward, the hottest possible same-day lead signal, surfaced to sales with a follow-up email drafted and ready to review.\n\n## Steps\n\n### Step 1: Build the still-engaged submitter list\n\nBuild a new segment named \"Submitted And Still Engaged\" containing users who did submit event at least once in the last 1 d and did page view event at least 3 times in the last 1 d.\n\n### Step 2: Draft a sales alert\n\nDraft a Slack message to the sales team channel stating how many users are currently in the segment built in \"Build the still-engaged submitter list\", so reps can follow up while these users are still active on the site today. Draft only; a team member posts it. Use the segment's current member count from the step that built it; never write a placeholder in square brackets. If no count is available, name the segment and say it can be opened in Segments.\n\n### Step 3: Draft a next-step email\n\nDraft a designed marketing email for users in the segment built in \"Build the still-engaged submitter list\" confirming their form submission and naming the one next step worth taking right now. Write 3 sentences in a confident and helpful tone, with no discount language, and include one button linking to that next step. Draft only; a person sends it. If the brand kit has no logo, use the brand name as a plain text header; the button links to the URL chosen for this run.\n",
   "classification": {
     "industry": [
       "industry-agnostic"
@@ -24,7 +24,7 @@
     {
       "id": "s1",
       "title": "Build the still-engaged submitter list",
-      "description": "Build a segment of users named \"Submitted And Still Engaged\". A user is in the segment only when all of these are true: triggered the form-submit event (a tracked submission of a form on the site, not a survey or NPS answer) at least once in the last 1 day; triggered \"View page\" at least 3 times in the last 1 day.",
+      "description": "Build a new segment named \"Submitted And Still Engaged\" containing users who did submit event at least once in the last 1 d and did page view event at least 3 times in the last 1 d.",
       "command": "create_segment",
       "entity": "segment",
       "modelConfig": []
@@ -32,7 +32,7 @@
     {
       "id": "s2",
       "title": "Draft a sales alert",
-      "description": "Generate a Slack message to the sales team channel. State how many users are in \"Submitted And Still Engaged\" right now, using the member count in the result of \"Build the still-engaged submitter list\". If that result carries no count, write no number and no placeholder in square brackets; say instead that the list is saved as the segment \"Submitted And Still Engaged\" and can be opened in Segments. Say reps can follow up while these users are still active on the site today. This drafts the Slack message only; a person on the team still posts it.",
+      "description": "Draft a Slack message to the sales team channel stating how many users are currently in the segment built in \"Build the still-engaged submitter list\", so reps can follow up while these users are still active on the site today. Draft only; a team member posts it. Use the segment's current member count from the step that built it; never write a placeholder in square brackets. If no count is available, name the segment and say it can be opened in Segments.",
       "command": "create_slack_content",
       "entity": "slack",
       "modelConfig": []
@@ -40,7 +40,7 @@
     {
       "id": "s3",
       "title": "Draft a next-step email",
-      "description": "Generate a designed marketing email for the users in \"Submitted And Still Engaged\" confirming their submission and naming the one next step worth taking right now. Three sentences, confident and helpful tone, no discount language, one button linking to the next-step page URL chosen for this run. If the brand kit has no logo, use the brand name as a plain text header. Use the result of \"Build the still-engaged submitter list\". This drafts the email only; a person still sends it.",
+      "description": "Draft a designed marketing email for users in the segment built in \"Build the still-engaged submitter list\" confirming their form submission and naming the one next step worth taking right now. Write 3 sentences in a confident and helpful tone, with no discount language, and include one button linking to that next step. Draft only; a person sends it. If the brand kit has no logo, use the brand name as a plain text header; the button links to the URL chosen for this run.",
       "command": "create_email_content",
       "entity": "email_html",
       "modelConfig": []

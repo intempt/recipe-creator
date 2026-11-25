@@ -53,13 +53,6 @@ portable:
   - slot: click_event
     kind: event
     meaning: A user clicked an element on the site or app (the project's click event)
-  - slot: first_day_high_intent_segment
-    kind: segment
-    meaning: Users who started a session in the last day, had no session start more than one day ago, and clicked at least
-      a set number of times in the last day
-    creatable: true
-    definition: users who triggered {session_start_event} at least once in the last {lookback_window}, did not trigger {session_start_event}
-      more than {lookback_window} ago, and triggered {click_event} at least {min_clicks} times in the last {lookback_window}
   - slot: sales_team_slack
     kind: integration
     meaning: A Slack workspace connected to post alerts to the sales team channel
@@ -72,33 +65,35 @@ portable:
     - click_event
     - lookback_window
     - min_clicks
-    - first_day_high_intent_segment
-    instruction: 'Build the segment {first_day_high_intent_segment} with the rule: users who triggered {session_start_event}
+    instruction: 'Build a new segment named "First-Day High-Intent Visitors" with the rule: users who triggered {session_start_event}
       at least once in the last {lookback_window}; did not trigger {session_start_event} more than {lookback_window} ago;
       and triggered {click_event} at least {min_clicks} times in the last {lookback_window}.'
   - id: s2
     builds: slack
     uses:
     - s1
-    - first_day_high_intent_segment
     - sales_team_slack
+    dependsOn:
+    - s1
     instruction: Draft a Slack message for the sales team channel on {sales_team_slack} stating how many users are currently
-      in {first_day_high_intent_segment}, noting that these are brand-new visitors already showing strong interest today.
-      Use the result of "Build the first-day high-intent list". This drafts the message only; a person on the team posts it.
-      Use the segment's current member count from the step that built it; never write a placeholder in square brackets. If
-      no count is available, name the segment and say it can be opened in Segments.
+      in the segment from "Build the first-day high-intent list", noting that these are brand-new visitors already showing
+      strong interest today. Use the result of "Build the first-day high-intent list". This drafts the message only; a person
+      on the team posts it. Use the segment's current member count from the step that built it; never write a placeholder
+      in square brackets. If no count is available, name the segment and say it can be opened in Segments.
   - id: s3
     builds: push
     uses:
     - s1
-    - first_day_high_intent_segment
     - push_tone
     - push_title_max_chars
     - push_body_lines
-    instruction: Draft a push notification for users in {first_day_high_intent_segment} inviting them back to pick up where
-      they left off. Title must be under {push_title_max_chars} characters; body must be {push_body_lines} short line(s);
-      tone {push_tone}. Use the result of "Build the first-day high-intent list". This drafts the push only; a person still
-      sends it. Write no link, URL, template tag or placeholder in the title or body; the push opens the site or app.
+    dependsOn:
+    - s1
+    instruction: Draft a push notification for users in the segment from "Build the first-day high-intent list" inviting them
+      back to pick up where they left off. Title must be under {push_title_max_chars} characters; body must be {push_body_lines}
+      short line(s); tone {push_tone}. Use the result of "Build the first-day high-intent list". This drafts the push only;
+      a person still sends it. Write no link, URL, template tag or placeholder in the title or body; the push opens the site
+      or app.
 ---
 
 # First-Day High-Intent Visitors
@@ -107,12 +102,12 @@ Slash command: /first-day-high-intent-visitors
 
 ## Step 1: Build the first-day high-intent list
 
-Build a segment of users named "First-Day High-Intent Visitors". A user is in the segment only when all of these are true: triggered "Session start" at least once in the last 1 day; did not trigger "Session start" more than 1 day ago; triggered the click event (a tracked click on a page element) at least 5 times in the last 1 day.
+Build a new segment named "First-Day High-Intent Visitors" with the rule: users who triggered session start event at least once in the last 1 d; did not trigger session start event more than 1 d ago; and triggered click event at least 5 times in the last 1 d.
 
 ## Step 2: Draft a sales alert
 
-Generate a Slack message to the sales team channel. State how many users are in "First-Day High-Intent Visitors" right now, using the member count in the result of "Build the first-day high-intent list". If that result carries no count, write no number and no placeholder in square brackets; say instead that the list is saved as the segment "First-Day High-Intent Visitors" and can be opened in Segments. Say these are brand-new visitors already showing strong interest today. This drafts the Slack message only; a person on the team still posts it.
+Draft a Slack message for the sales team channel on sales team slack stating how many users are currently in the segment from "Build the first-day high-intent list", noting that these are brand-new visitors already showing strong interest today. Use the result of "Build the first-day high-intent list". This drafts the message only; a person on the team posts it. Use the segment's current member count from the step that built it; never write a placeholder in square brackets. If no count is available, name the segment and say it can be opened in Segments.
 
 ## Step 3: Draft a nudge push
 
-Generate a push notification for the users in "First-Day High-Intent Visitors" inviting them back to pick up where they left off. Title under 40 characters, one short body line, friendly and curious tone. Use the result of "Build the first-day high-intent list". Write no link, URL, template tag or placeholder in the title or body; the push opens the site or app. This drafts the push only; a person still sends it.
+Draft a push notification for users in the segment from "Build the first-day high-intent list" inviting them back to pick up where they left off. Title must be under 40 characters; body must be 1 short line(s); tone friendly and curious. Use the result of "Build the first-day high-intent list". This drafts the push only; a person still sends it. Write no link, URL, template tag or placeholder in the title or body; the push opens the site or app.

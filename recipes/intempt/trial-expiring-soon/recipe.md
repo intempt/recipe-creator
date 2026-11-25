@@ -44,12 +44,6 @@ portable:
   - slot: plan_attribute
     kind: attribute
     meaning: The plan a user is currently on, such as trial or paid
-  - slot: trial_expiring_segment
-    kind: segment
-    meaning: Users on a trial who started it 23 to 30 days ago and have not paid
-    creatable: true
-    definition: users whose {plan_attribute} is {plan_value} and who did {subscription_started_event} at least once between
-      {trial_min_days} and {trial_max_days} days ago
   - slot: sales_slack
     kind: destination
     meaning: A Slack channel that the sales team reads
@@ -70,8 +64,9 @@ portable:
     - plan_value
     - trial_min_days
     - trial_max_days
-    instruction: Build a segment named "Trial Expiring Soon" of users whose {plan_attribute} is {plan_value} and who did {subscription_started_event}
-      at least once between {trial_min_days} and {trial_max_days} days ago.
+    instruction: 'Build a new segment named "Trial Expiring Soon" of users who are still on their trial and not yet paying
+      (never people who already converted): their {plan_attribute} is {plan_value} and who did {subscription_started_event}
+      at least once between {trial_min_days} and {trial_max_days} days ago.'
   - id: s2
     builds: email
     uses:
@@ -79,6 +74,8 @@ portable:
     - upgrade_page
     - email_tone
     - email_sentence_count
+    dependsOn:
+    - s1
     instruction: Generate a designed marketing email for the users in "Trial Expiring Soon" telling them their trial is nearing
       its end and highlighting the one feature most worth trying before it does. Use {email_sentence_count} sentences, a {email_tone}
       tone, no discount language, and one button linking to {upgrade_page}. If the brand kit has no logo, use the brand name
@@ -90,6 +87,8 @@ portable:
     - s1
     - sales_slack
     - user_email_attribute
+    dependsOn:
+    - s1
     instruction: Generate a Slack message to {sales_slack} that names the email address ({user_email_attribute}) of each user
       in "Trial Expiring Soon", so reps can reach out personally before the window closes.
 ---
@@ -100,15 +99,12 @@ Slash command: /trial-expiring-soon
 
 ## Step 1: Build the expiring-trial list
 
-Build a segment of users named "Trial Expiring Soon".
-A user is in the segment only when all of these are true:
-- their Plan attribute is "trial"
-- they did the Subscription started event at least once between 23 and 30 days ago
+Build a new segment named "Trial Expiring Soon" of users who are still on their trial and not yet paying (never people who already converted): their plan attribute is trial and who did subscription started event at least once between 23 and 30 days ago.
 
 ## Step 2: Send a final nudge
 
-Generate a designed marketing email for the users in "Trial Expiring Soon" letting them know their trial is nearing its end and highlighting the one feature most worth trying before it does. Three sentences, warm and helpful tone, no discount language, one button linking to the upgrade page. Use the result of "Build the expiring-trial list". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.
+Generate a designed marketing email for the users in "Trial Expiring Soon" telling them their trial is nearing its end and highlighting the one feature most worth trying before it does. Use 3 sentences, a warm and helpful tone, no discount language, and one button linking to upgrade page. If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.
 
 ## Step 3: Alert sales
 
-Generate a Slack message to the sales channel For each user in "Trial Expiring Soon", name their email address, so reps can reach out personally before the window closes. Use the result of "Build the expiring-trial list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in.
+Generate a Slack message to sales slack that names the email address (user email attribute) of each user in "Trial Expiring Soon", so reps can reach out personally before the window closes.

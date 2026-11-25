@@ -3,7 +3,7 @@
   "title": "Warming Up Visitors",
   "slash_command": "/warming-up-visitors",
   "description": "Visitors who browsed lightly a few weeks ago and are browsing a lot more now, tagged and surfaced to growth as an escalating-interest signal draft worth a closer look.",
-  "markdown": "# Warming Up Visitors\n\n## Description\n\nVisitors who browsed lightly a few weeks ago and are browsing a lot more now, tagged and surfaced to growth as an escalating-interest signal draft worth a closer look.\n\n## Steps\n\n### Step 1: Build the warming-up visitor list\n\nBuild a segment of users named \"Warming Up Visitors\". A user is in the segment only when all of these are true: triggered \"View page\" at least once between 14 and 30 days ago; triggered \"View page\" at least 3 times in the last 7 days.\n\n### Step 2: Tag the matched visitors\n\nCreate an attribute named \"warming_up\" on users in \"Warming Up Visitors\", set to true. Use the result of \"Build the warming-up visitor list\".\n\n### Step 3: Draft a growth alert\n\nGenerate a Slack message to the growth team channel. State how many users are in \"Warming Up Visitors\" right now, using the member count in the result of \"Build the warming-up visitor list\". If that result carries no count, write no number and no placeholder in square brackets; say instead that the list is saved as the segment \"Warming Up Visitors\" and can be opened in Segments. Say this is a shortlist of visitors trending toward higher engagement. This drafts the Slack message only; a person on the team still posts it.\n",
+  "markdown": "# Warming Up Visitors\n\n## Description\n\nVisitors who browsed lightly a few weeks ago and are browsing a lot more now, tagged and surfaced to growth as an escalating-interest signal draft worth a closer look.\n\n## Steps\n\n### Step 1: Build the warming-up visitor list\n\nBuild a new segment named \"Warming Up Visitors\" of users who did page view event at least once between 14 d and 30 d ago and did page view event at least 3 times in the last 7 d.\n\n### Step 2: Tag the matched visitors\n\nCreate an attribute named \"warming_up\" on users in the segment built in \"Build the warming-up visitor list\", set to true.\n\n### Step 3: Draft a growth alert\n\nDraft a Slack message to growth team channel stating how many users are in the segment built in \"Build the warming-up visitor list\" right now, as a ready-made shortlist of visitors trending toward higher engagement. Draft only; a person on the team posts it. Use the segment's current member count from the step that built it; never write a placeholder in square brackets. If no count is available, name the segment and say it can be opened in Segments.\n",
   "classification": {
     "industry": [
       "industry-agnostic"
@@ -25,7 +25,7 @@
     {
       "id": "s1",
       "title": "Build the warming-up visitor list",
-      "description": "Build a segment of users named \"Warming Up Visitors\". A user is in the segment only when all of these are true: triggered \"View page\" at least once between 14 and 30 days ago; triggered \"View page\" at least 3 times in the last 7 days.",
+      "description": "Build a new segment named \"Warming Up Visitors\" of users who did page view event at least once between 14 d and 30 d ago and did page view event at least 3 times in the last 7 d.",
       "command": "create_segment",
       "entity": "segment",
       "modelConfig": []
@@ -33,7 +33,7 @@
     {
       "id": "s2",
       "title": "Tag the matched visitors",
-      "description": "Create an attribute named \"warming_up\" on users in \"Warming Up Visitors\", set to true. Use the result of \"Build the warming-up visitor list\".",
+      "description": "Create an attribute named \"warming_up\" on users in the segment built in \"Build the warming-up visitor list\", set to true.",
       "command": "create_attribute",
       "entity": "attribute",
       "modelConfig": []
@@ -41,7 +41,7 @@
     {
       "id": "s3",
       "title": "Draft a growth alert",
-      "description": "Generate a Slack message to the growth team channel. State how many users are in \"Warming Up Visitors\" right now, using the member count in the result of \"Build the warming-up visitor list\". If that result carries no count, write no number and no placeholder in square brackets; say instead that the list is saved as the segment \"Warming Up Visitors\" and can be opened in Segments. Say this is a shortlist of visitors trending toward higher engagement. This drafts the Slack message only; a person on the team still posts it.",
+      "description": "Draft a Slack message to growth team channel stating how many users are in the segment built in \"Build the warming-up visitor list\" right now, as a ready-made shortlist of visitors trending toward higher engagement. Draft only; a person on the team posts it. Use the segment's current member count from the step that built it; never write a placeholder in square brackets. If no count is available, name the segment and say it can be opened in Segments.",
       "command": "create_slack_content",
       "entity": "slack",
       "modelConfig": []

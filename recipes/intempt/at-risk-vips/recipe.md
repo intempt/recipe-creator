@@ -51,12 +51,6 @@ portable:
   - slot: customer_email
     kind: attribute
     meaning: The email address of a customer
-  - slot: at_risk_vip_customers
-    kind: segment
-    meaning: High lifetime value customers who have not started a session recently
-    creatable: true
-    definition: users whose {lifetime_value} is more than {ltv_threshold} and who did not do {session_start_event} in the
-      last {inactivity_window}
   - slot: retention_team_slack
     kind: integration
     meaning: A Slack workspace connection with a channel for the retention team
@@ -69,32 +63,35 @@ portable:
     - session_start_event
     - ltv_threshold
     - inactivity_window
-    instruction: Build a segment named "At-Risk VIP Customers" of users whose {lifetime_value} is more than {ltv_threshold}
+    instruction: Build a new segment named "At-Risk VIP Customers" of users whose {lifetime_value} is more than {ltv_threshold}
       and who did not do {session_start_event} in the last {inactivity_window}.
   - id: s2
     builds: email_plain
     uses:
-    - at_risk_vip_customers
     - s1
     - checkin_sentence_count
     - checkin_tone
-    instruction: 'Write a plain-text email for the users in {at_risk_vip_customers} as a personal note from their account
-      manager. It asks how things are going and offers a quick call. Use exactly {checkin_sentence_count} sentences in a {checkin_tone}
-      tone. Do not pitch the product and do not use discount language. Use the segment built in "Build the at-risk VIP list".
-      The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe line.'
+    dependsOn:
+    - s1
+    instruction: 'Write a plain-text email for the users in the segment from "Build the at-risk VIP list" as a personal note
+      from their account manager. It asks how things are going and offers a quick call. Use exactly {checkin_sentence_count}
+      sentences in a {checkin_tone} tone. Do not pitch the product and do not use discount language. Use the segment built
+      in "Build the at-risk VIP list". The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe
+      line.'
   - id: s3
     builds: slack
     uses:
     - retention_team_slack
-    - at_risk_vip_customers
     - customer_email
     - lifetime_value
     - s1
-    instruction: Write a Slack message to the retention team channel {retention_team_slack}. For each user in {at_risk_vip_customers},
-      list their {customer_email} and their {lifetime_value}, sorted so the highest-value accounts come first for outreach
-      prioritization. Use the segment built in "Build the at-risk VIP list". Take names and addresses from the member list
-      in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the
-      reader to paste anything in.
+    dependsOn:
+    - s1
+    instruction: Write a Slack message to the retention team channel {retention_team_slack}. For each user in the segment
+      from "Build the at-risk VIP list", list their {customer_email} and their {lifetime_value}, sorted so the highest-value
+      accounts come first for outreach prioritization. Use the segment built in "Build the at-risk VIP list". Take names and
+      addresses from the member list in the result of the step that built the list (at most 20, then how many more); never
+      write a placeholder or ask the reader to paste anything in.
 ---
 
 # At-risk VIP customers
@@ -103,15 +100,12 @@ Slash command: /at-risk-vips
 
 ## Step 1: Build the at-risk VIP list
 
-Build a segment of users named "At-Risk VIP Customers".
-A user is in the segment only when all of these are true:
-- their Lifetime value attribute is more than 1000
-- they did not do the Session start event in the last 30 days
+Build a new segment named "At-Risk VIP Customers" of users whose lifetime value is more than 1000 and who did not do session start event in the last 30 d.
 
 ## Step 2: Draft a personal check-in
 
-Generate a plain-text email for the users in "At-Risk VIP Customers" written as a personal note from their account manager, asking how things are going and offering a quick call. Three sentences, warm and personal tone, no product pitch, no discount language. Use the result of "Build the at-risk VIP list". The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe line.
+Write a plain-text email for the users in the segment from "Build the at-risk VIP list" as a personal note from their account manager. It asks how things are going and offers a quick call. Use exactly 3 sentences in a warm and personal tone. Do not pitch the product and do not use discount language. Use the segment built in "Build the at-risk VIP list". The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe line.
 
 ## Step 3: Alert the retention team
 
-Generate a Slack message to the retention team channel For each user in "At-Risk VIP Customers", name their email address and their Lifetime value, so the team can prioritize outreach to the highest-value accounts first. Use the result of "Build the at-risk VIP list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in.
+Write a Slack message to the retention team channel retention team slack. For each user in the segment from "Build the at-risk VIP list", list their customer email and their lifetime value, sorted so the highest-value accounts come first for outreach prioritization. Use the segment built in "Build the at-risk VIP list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in.

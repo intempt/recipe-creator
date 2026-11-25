@@ -62,12 +62,6 @@ portable:
   - slot: customer_email
     kind: attribute
     meaning: The email address of a customer
-  - slot: power_users
-    kind: segment
-    meaning: Users with paid lifetime value who started sessions frequently in the recent window
-    creatable: true
-    definition: users where {lifetime_value} is more than {minLifetimeValue} and who did {session_start_event} {sessionThreshold}
-      or more times in the last {sessionWindow}
   - slot: referral_push_channel
     kind: destination
     meaning: A push notification channel to reach customers on their devices
@@ -81,17 +75,17 @@ portable:
     - minLifetimeValue
     - sessionThreshold
     - sessionWindow
-    - power_users
-    instruction: Build a segment named {power_users} of users whose {lifetime_value} is more than {minLifetimeValue} and who
-      did {session_start_event} {sessionThreshold} or more times in the last {sessionWindow}.
+    instruction: Build a new segment named "Power Users" of users whose {lifetime_value} is more than {minLifetimeValue} and
+      who did {session_start_event} {sessionThreshold} or more times in the last {sessionWindow}.
   - id: s2
     builds: push
     uses:
-    - power_users
     - referral_push_channel
     - referralPageLink
     - pushTone
     - pushTitleMaxChars
+    - s1
+    dependsOn:
     - s1
     instruction: Generate a push notification for the users in the segment from "Build the power-user list" inviting them
       to join the referral program. Title must be under {pushTitleMaxChars} characters, with one short body line, in a {pushTone}
@@ -100,9 +94,10 @@ portable:
   - id: s3
     builds: email_plain
     uses:
-    - power_users
     - customer_email
     - growthTeamList
+    - s1
+    dependsOn:
     - s1
     instruction: 'Generate a plain-text email to {growthTeamList} listing, for each user in the segment from "Build the power-user
       list", their {customer_email}, as candidates for case studies and advocacy, not just referrals. Take names and addresses
@@ -117,15 +112,12 @@ Slash command: /power-users
 
 ## Step 1: Build the power-user list
 
-Build a segment of users named "Power Users".
-A user is in the segment only when all of these are true:
-- their Lifetime value attribute is more than 0
-- they did the Session start event 10 or more times in the last 30 days
+Build a new segment named "Power Users" of users whose lifetime value is more than 0 and who did session start event 10 or more times in the last 30 d.
 
 ## Step 2: Invite them to the referral program
 
-Generate a push notification for the users in "Power Users" inviting them to join the referral program. Title under 40 characters, one short body line, friendly and appreciative tone, deep link to the referral program page. Use the result of "Build the power-user list". Write no template tag or placeholder (such as a deeplink tag) in the push title or body; a link, if any, is the URL given for this run.
+Generate a push notification for the users in the segment from "Build the power-user list" inviting them to join the referral program. Title must be under 40 characters, with one short body line, in a friendly and appreciative tone, and deep link to the referral program page deep link. Write no template tag or placeholder (such as a deeplink tag) in the push title or body; a link, if any, is the URL given for this run.
 
 ## Step 3: Share the shortlist with growth
 
-Generate a plain-text email to the growth team distribution list For each user in "Power Users", name their email address, as candidates for case studies and advocacy, not just referrals. Use the result of "Build the power-user list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in. The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe line.
+Generate a plain-text email to the growth team distribution list listing, for each user in the segment from "Build the power-user list", their customer email, as candidates for case studies and advocacy, not just referrals. Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in. The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe line.

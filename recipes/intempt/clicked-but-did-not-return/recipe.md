@@ -51,12 +51,6 @@ portable:
   - slot: session_start_event
     kind: event
     meaning: A customer started a session in the app or site
-  - slot: clicked_then_gone_segment
-    kind: segment
-    meaning: Users who clicked actively in one visit and have not started a session for several days
-    creatable: true
-    definition: users who triggered {click_event} at least {min_clicks} times in the last {click_window} and did not trigger
-      {session_start_event} in the last {absence_window}
   - slot: clicked_then_gone_flag
     kind: attribute
     meaning: A user attribute that marks whether the user clicked then went quiet
@@ -73,13 +67,15 @@ portable:
     - click_window
     - min_clicks
     - absence_window
-    instruction: Build a segment named "Clicked But Did Not Return" of users who triggered {click_event} at least {min_clicks}
+    instruction: Build a new segment named "Clicked But Did Not Return" of users who triggered {click_event} at least {min_clicks}
       times in the last {click_window} and did not trigger {session_start_event} in the last {absence_window}.
   - id: s2
     builds: attribute
     uses:
     - s1
     - clicked_then_gone_flag
+    dependsOn:
+    - s1
     instruction: Create a user attribute named "clicked_then_gone" set to true for all users in the segment built in "Build
       the clicked-but-gone list".
   - id: s3
@@ -89,6 +85,8 @@ portable:
     - push_channel
     - push_tone
     - title_max_length
+    dependsOn:
+    - s1
     instruction: Generate a push notification for users in the segment built in "Build the clicked-but-gone list" inviting
       them to pick up where they left off. Title must be under {title_max_length} characters, body one short line, {push_tone}
       tone. This only drafts the push; a person still sends it. Write no link, URL, template tag or placeholder in the title
@@ -101,12 +99,12 @@ Slash command: /clicked-but-did-not-return
 
 ## Step 1: Build the clicked-but-gone list
 
-Build a segment of users named "Clicked But Did Not Return". A user is in the segment only when all of these are true: triggered the click event (a tracked click on a page element) at least 3 times in the last 7 days; did not trigger "Session start" in the last 3 days.
+Build a new segment named "Clicked But Did Not Return" of users who triggered click event at least 3 times in the last 7 d and did not trigger session start event in the last 3 d.
 
 ## Step 2: Tag the matched visitors
 
-Create an attribute named "clicked_then_gone" on users in "Clicked But Did Not Return", set to true. Use the result of "Build the clicked-but-gone list".
+Create a user attribute named "clicked_then_gone" set to true for all users in the segment built in "Build the clicked-but-gone list".
 
 ## Step 3: Draft a nudge push
 
-Generate a push notification for the users in "Clicked But Did Not Return" inviting them back to pick up where they left off. Title under 40 characters, one short body line, friendly tone. Use the result of "Build the clicked-but-gone list". Write no link, URL, template tag or placeholder in the title or body; the push opens the site or app. This drafts the push only; a person still sends it.
+Generate a push notification for users in the segment built in "Build the clicked-but-gone list" inviting them to pick up where they left off. Title must be under 40 characters, body one short line, friendly tone. This only drafts the push; a person still sends it. Write no link, URL, template tag or placeholder in the title or body; the push opens the site or app.

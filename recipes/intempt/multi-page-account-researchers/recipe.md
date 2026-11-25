@@ -36,11 +36,6 @@ portable:
   - slot: page_view_event
     kind: event
     meaning: A person viewed a web page
-  - slot: account_research_segment_target
-    kind: segment
-    meaning: Accounts whose users combined page views cross the research-intensity threshold
-    creatable: true
-    definition: accounts whose users together did {page_view_event} at least {page_view_threshold} times in the last {lookback_window}
   - slot: research_flag_attribute
     kind: attribute
     meaning: An account-level true/false flag that marks research-intensive accounts
@@ -56,8 +51,7 @@ portable:
     - page_view_event
     - page_view_threshold
     - lookback_window
-    - account_research_segment_target
-    instruction: Build a segment named "Multi-Page Account Researchers" of accounts where the users in the account together
+    instruction: Build a new segment named "Multi-Page Account Researchers" of accounts where the users in the account together
       did {page_view_event} {page_view_threshold} or more times in the last {lookback_window}. Include only accounts that
       meet this condition.
   - id: s2
@@ -65,6 +59,8 @@ portable:
     uses:
     - s1
     - research_flag_attribute
+    dependsOn:
+    - s1
     instruction: Create an account attribute named "research_intensive" set to true for every account in the segment built
       in "Build the research-intensive account list".
   - id: s3
@@ -86,12 +82,12 @@ Slash command: /multi-page-account-researchers
 
 ## Step 1: Build the research-intensive account list
 
-Build a segment of accounts named "Multi-Page Account Researchers". An account is in the segment only when all of these are true: the users in the account together did the View page event 15 or more times in the last 7 days.
+Build a new segment named "Multi-Page Account Researchers" of accounts where the users in the account together did page view event 15 or more times in the last 7 d. Include only accounts that meet this condition.
 
 ## Step 2: Tag the matched accounts
 
-Create an attribute named "research_intensive" on accounts in "Multi-Page Account Researchers", set to true. Use the result of "Build the research-intensive account list".
+Create an account attribute named "research_intensive" set to true for every account in the segment built in "Build the research-intensive account list".
 
 ## Step 3: Draft a sales alert
 
-Generate a Slack message to the sales channel. List the names of the accounts in "Multi-Page Account Researchers", taken from the member list in the result of "Build the research-intensive account list" (at most 20, then say how many more there are). If that result carries no member list, write no placeholder and do not ask the reader to paste anything in; say instead that the accounts are saved as the segment "Multi-Page Account Researchers" and can be opened in Segments. Say reps can prioritize outreach while research activity is high. This drafts the Slack message only; a person on the team still posts it.
+Draft a Slack message to the sales channel that names each account in the segment built in "Build the research-intensive account list", so reps can prioritize outreach while research activity is high. Draft only; a team member posts it manually. Take the names or addresses from the member list of the step that built the segment (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in. If no member list is available, name the segment and say it can be opened in Segments.

@@ -45,11 +45,6 @@ portable:
   - slot: daily_habit_user_attribute
     kind: attribute
     meaning: A user-level true/false flag marking daily habit users
-  - slot: daily_habit_visitors
-    kind: segment
-    meaning: Users who started a session at least a set number of times in the look-back window
-    creatable: true
-    definition: users who did {session_start_event} at least {minSessions} times in the last {windowDays}
   steps:
   - id: s1
     builds: segment
@@ -57,13 +52,15 @@ portable:
     - session_start_event
     - minSessions
     - windowDays
-    instruction: Build a segment named "Daily Habit Visitors" of users who did {session_start_event} at least {minSessions}
+    instruction: Build a new segment named "Daily Habit Visitors" of users who did {session_start_event} at least {minSessions}
       times in the last {windowDays}. Only users meeting this condition are included.
   - id: s2
     builds: attribute
     uses:
     - s1
     - daily_habit_user_attribute
+    dependsOn:
+    - s1
     instruction: Create the user attribute {daily_habit_user_attribute} set to true for every user in the segment built in
       "Build the daily habit visitor list".
   - id: s3
@@ -72,6 +69,8 @@ portable:
     - s1
     - emailTone
     - emailSentenceCount
+    dependsOn:
+    - s1
     instruction: Generate a designed marketing email for users in the segment built in "Build the daily habit visitor list"
       inviting them to join an early-access or loyalty list in recognition of how often they visit. Use a {emailTone} tone
       with {emailSentenceCount} sentences in the body. Do not use any discount language. Include exactly one button that lets
@@ -85,12 +84,12 @@ Slash command: /daily-habit-visitors
 
 ## Step 1: Build the daily habit visitor list
 
-Build a segment of users named "Daily Habit Visitors". A user is in the segment only when all of these are true: triggered "Session start" at least 4 times in the last 4 days.
+Build a new segment named "Daily Habit Visitors" of users who did session start event at least 4 times in the last 4 d. Only users meeting this condition are included.
 
 ## Step 2: Tag the matched visitors
 
-Create an attribute named "daily_habit_user" on users in "Daily Habit Visitors", set to true. Use the result of "Build the daily habit visitor list".
+Create the user attribute daily habit user attribute set to true for every user in the segment built in "Build the daily habit visitor list".
 
 ## Step 3: Draft an early-access invite email
 
-Generate a designed marketing email for the users in "Daily Habit Visitors" inviting them into an early-access or loyalty list in recognition of how often they show up. Three sentences, warm and appreciative tone, no discount language, one button linking to the sign-up page URL chosen for this run. If the brand kit has no logo, use the brand name as a plain text header. Use the result of "Build the daily habit visitor list". This drafts the email only; a person still sends it.
+Generate a designed marketing email for users in the segment built in "Build the daily habit visitor list" inviting them to join an early-access or loyalty list in recognition of how often they visit. Use a warm tone with 3 sentences in the body. Do not use any discount language. Include exactly one button that lets them join. Save as a draft only; a person reviews and sends it. If the brand kit has no logo, use the brand name as a plain text header; the button links to the URL chosen for this run.

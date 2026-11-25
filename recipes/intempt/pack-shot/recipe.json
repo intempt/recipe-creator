@@ -3,7 +3,7 @@
   "title": "Studio product shots",
   "slash_command": "/pack-shot",
   "description": "Generates clean studio stills of one catalog product, in a background and lighting you pick.",
-  "markdown": "# Studio product shots\n\n## Description\n\nGenerates clean studio stills of one catalog product, in a background and lighting you pick.\n\n## Steps\n\n### Step 1: Render the product\n\nGenerate four studio images of the catalog product chosen for this run: front, three-quarter, a detail close-up, and a lifestyle insert.\nUse the background and lighting of the scene chosen for this run.\n",
+  "markdown": "# Studio product shots\n\n## Description\n\nGenerates clean studio stills of one catalog product, in a background and lighting you pick.\n\n## Steps\n\n### Step 1: Render the product\n\nGenerate four studio images of product catalog for the product chosen for this run: front view, three-quarter view, a detail close-up, and a lifestyle insert. Use the studio background as the background and the studio lighting as the lighting for all four images.\n",
   "classification": {
     "industry": [
       "ecommerce-retail"
@@ -22,12 +22,8 @@
   "steps": [
     {
       "id": "s1",
-      "title": "Render front image",
-      "description": "Generate a studio image of the catalog product chosen for this run, shot from the front, using the background and lighting of the scene chosen for this run.",
-      "command": "generate_image",
-      "entity": "image",
-      "kind": "dynamic",
-      "modelConfig": []
+      "title": "Render the product",
+      "description": "Generate four studio images of product catalog for the product chosen for this run: front view, three-quarter view, a detail close-up, and a lifestyle insert. Use the studio background as the background and the studio lighting as the lighting for all four images."
     }
   ],
   "availability": "coming_soon"

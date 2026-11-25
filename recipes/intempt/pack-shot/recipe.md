@@ -16,12 +16,10 @@ portable:
   - name: background
     type: string
     label: Studio background
-    default: <UNKNOWN>
     required: true
   - name: lighting
     type: string
     label: Studio lighting
-    default: <UNKNOWN>
     required: true
   requirements:
   - slot: product_catalog
@@ -45,5 +43,4 @@ Slash command: /pack-shot
 
 ## Step 1: Render the product
 
-Generate four studio images of the catalog product chosen for this run: front, three-quarter, a detail close-up, and a lifestyle insert.
-Use the background and lighting of the scene chosen for this run.
+Generate four studio images of product catalog for the product chosen for this run: front view, three-quarter view, a detail close-up, and a lifestyle insert. Use the studio background as the background and the studio lighting as the lighting for all four images.

@@ -54,12 +54,6 @@ portable:
   - slot: customer_email_attribute
     kind: attribute
     meaning: The email address of a customer
-  - slot: winnable_churned_users
-    kind: segment
-    meaning: Users who canceled recently, have lifetime value above the minimum, and were active recently
-    creatable: true
-    definition: users who did {subscription_canceled_event} at least once in the last {churn_window} and whose {lifetime_value_attribute}
-      is more than {min_lifetime_value} and who did {session_start_event} at least once in the last {activity_window}
   - slot: retention_team_slack
     kind: destination
     meaning: The Slack channel used by the retention team
@@ -75,34 +69,35 @@ portable:
     - subscription_canceled_event
     - session_start_event
     - lifetime_value_attribute
-    - winnable_churned_users
     - churn_window
     - min_lifetime_value
     - activity_window
-    instruction: 'Build a segment named {winnable_churned_users}. A user is in the segment only when all of these are true:
-      they did {subscription_canceled_event} at least once in the last {churn_window}; their {lifetime_value_attribute} is
-      more than {min_lifetime_value}; they did {session_start_event} at least once in the last {activity_window}.'
+    instruction: 'Build a new segment named "Winnable Churned Users". A user is in the segment only when all of these are
+      true: they did {subscription_canceled_event} at least once in the last {churn_window}; their {lifetime_value_attribute}
+      is more than {min_lifetime_value}; they did {session_start_event} at least once in the last {activity_window}.'
   - id: s2
     builds: sms
     uses:
-    - winnable_churned_users
     - sms_tone
     - s1
-    instruction: Generate an SMS for the users in {winnable_churned_users} telling them they are welcome back and that it
-      only takes a minute to reactivate. Use one or two sentences, a {sms_tone} tone, and no discount language. Use the segment
-      built in "Build the win-back list".
+    dependsOn:
+    - s1
+    instruction: Generate an SMS for the users in the segment from "Build the win-back list" telling them they are welcome
+      back and that it only takes a minute to reactivate. Use one or two sentences, a {sms_tone} tone, and no discount language.
+      Use the segment built in "Build the win-back list".
   - id: s3
     builds: slack
     uses:
     - retention_team_slack
-    - winnable_churned_users
     - customer_email_attribute
     - s1
-    instruction: Generate a Slack message to {retention_team_slack}. For each user in {winnable_churned_users}, include their
-      {customer_email_attribute} and note that they are still active despite cancelling, so the team prioritizes them first.
-      Use the segment built in "Build the win-back list". Take names and addresses from the member list in the result of the
-      step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything
-      in.
+    dependsOn:
+    - s1
+    instruction: Generate a Slack message to {retention_team_slack}. For each user in the segment from "Build the win-back
+      list", include their {customer_email_attribute} and note that they are still active despite cancelling, so the team
+      prioritizes them first. Use the segment built in "Build the win-back list". Take names and addresses from the member
+      list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask
+      the reader to paste anything in.
 ---
 
 # Winnable churned users
@@ -111,16 +106,12 @@ Slash command: /winnable-churned-users
 
 ## Step 1: Build the win-back list
 
-Build a segment of users named "Winnable Churned Users".
-A user is in the segment only when all of these are true:
-- they did the Subscription canceled event at least once in the last 60 days
-- their Lifetime value attribute is more than 0
-- they did the Session start event at least once in the last 7 days
+Build a new segment named "Winnable Churned Users". A user is in the segment only when all of these are true: they did subscription canceled event at least once in the last 60 d; their lifetime value attribute is more than 0; they did session start event at least once in the last 7 d.
 
 ## Step 2: Send a quick win-back text
 
-Generate an SMS for the users in "Winnable Churned Users" letting them know they are welcome back and it only takes a minute to reactivate. One or two sentences, warm and direct tone, no discount language. Use the result of "Build the win-back list".
+Generate an SMS for the users in the segment from "Build the win-back list" telling them they are welcome back and that it only takes a minute to reactivate. Use one or two sentences, a warm and direct tone, and no discount language. Use the segment built in "Build the win-back list".
 
 ## Step 3: Alert the retention team
 
-Generate a Slack message to the retention team channel For each user in "Winnable Churned Users", name their email address, and noting that they are still active despite cancelling, so the team prioritizes them first. Use the result of "Build the win-back list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in.
+Generate a Slack message to retention team slack. For each user in the segment from "Build the win-back list", include their customer email attribute and note that they are still active despite cancelling, so the team prioritizes them first. Use the segment built in "Build the win-back list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in.

@@ -39,12 +39,6 @@ portable:
     default: sdr-team
     required: false
   requirements:
-  - slot: net_new_account_list
-    kind: segment
-    meaning: Accounts with fewer than a set number of employees whose users started a session recently
-    creatable: true
-    definition: accounts where employees attribute is less than {employee_threshold} and the users in the account together
-      did {session_start} at least once in the last {activity_window}
   - slot: session_start
     kind: event
     meaning: A customer started a session in the product
@@ -65,8 +59,7 @@ portable:
     - employee_threshold
     - session_start
     - activity_window
-    - net_new_account_list
-    instruction: Build a segment named "Net-New Prospects" of accounts where {employees_count} is less than {employee_threshold}
+    instruction: Build a new segment named "Net-New Prospects" of accounts where {employees_count} is less than {employee_threshold}
       and the users in the account together did {session_start} at least once in the last {activity_window}.
   - id: s2
     builds: email
@@ -74,6 +67,8 @@ portable:
     - s1
     - product_feature
     - welcome_tone
+    dependsOn:
+    - s1
     instruction: Generate a designed marketing email for the accounts in "Net-New Prospects" welcoming the team and pointing
       to {product_feature}. Write three sentences in a {welcome_tone} tone with no discount language. Include exactly one
       button linking to that feature inside the product. If the brand kit has no logo, use the brand name as a plain text
@@ -85,6 +80,8 @@ portable:
     - account_name
     - employees_count
     - sdr_distribution_list
+    dependsOn:
+    - s1
     instruction: 'Generate a plain-text email to {sdr_distribution_list}. For each account in "Net-New Prospects", name the
       account using {account_name} and its employee count using {employees_count}, so follow-up happens while the account
       is still fresh. Take names and addresses from the member list in the result of the step that built the list (at most
@@ -98,15 +95,12 @@ Slash command: /net-new-prospects
 
 ## Step 1: Build the net-new account list
 
-Build a segment of accounts named "Net-New Prospects".
-An account is in the segment only when all of these are true:
-- its employees attribute is less than 100
-- the users in the account together did the Session start event at least once in the last 7 days
+Build a new segment named "Net-New Prospects" of accounts where employees count is less than 100 and the users in the account together did session start at least once in the last 7 d.
 
 ## Step 2: Send a welcome email
 
-Generate a designed marketing email for the accounts in "Net-New Prospects" welcoming the team and pointing to the one feature most worth trying first. Three sentences, warm and encouraging tone, no discount language, one button linking to that feature inside the product. Use the result of "Build the net-new account list". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.
+Generate a designed marketing email for the accounts in "Net-New Prospects" welcoming the team and pointing to product feature. Write three sentences in a warm tone with no discount language. Include exactly one button linking to that feature inside the product. If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.
 
 ## Step 3: Notify SDRs
 
-Generate a plain-text email to the SDR distribution list For each account in "Net-New Prospects", name the account and its employees count, so follow-up happens while the account is still fresh. Use the result of "Build the net-new account list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in. The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe line.
+Generate a plain-text email to sdr-team. For each account in "Net-New Prospects", name the account using account name and its employee count using employees count, so follow-up happens while the account is still fresh. Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in. The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe line.

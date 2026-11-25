@@ -3,7 +3,7 @@
   "title": "Repeat buyers",
   "slash_command": "/repeat-buyers",
   "description": "Customers who have ordered three or more times this quarter and spent real money, the right list for loyalty perks and review requests.",
-  "markdown": "# Repeat buyers\n\n## Description\n\nCustomers who have ordered three or more times this quarter and spent real money, the right list for loyalty perks and review requests.\n\n## Steps\n\n### Step 1: Build the repeat-buyer list\n\nBuild a segment of users named \"Repeat Buyers\".\nA user is in the segment only when all of these are true:\n- they did the Placed order event 3 or more times in the last 90 days\n- their Lifetime value attribute is 100 or more\n",
+  "markdown": "# Repeat buyers\n\n## Description\n\nCustomers who have ordered three or more times this quarter and spent real money, the right list for loyalty perks and review requests.\n\n## Steps\n\n### Step 1: Build the repeat-buyer list\n\nBuild a new segment named \"Repeat Buyers\" of users who did placed order event 3 or more times in the last 90 d and whose lifetime value attribute is 100 or more.\n",
   "classification": {
     "industry": [
       "ecommerce-retail"
@@ -23,7 +23,7 @@
     {
       "id": "s1",
       "title": "Build the repeat-buyer list",
-      "description": "Build a segment of users named \"Repeat Buyers\". A user is in the segment only when all of these are true: they did the Placed order event 3 or more times in the last 90 days; their Lifetime value attribute is 100 or more.",
+      "description": "Build a new segment named \"Repeat Buyers\" of users who did placed order event 3 or more times in the last 90 d and whose lifetime value attribute is 100 or more.",
       "command": "create_segment",
       "entity": "segment",
       "integration": [

@@ -45,12 +45,6 @@ portable:
   - slot: plan_attribute
     kind: attribute
     meaning: The subscription plan a user is on (for example free or paid)
-  - slot: high_intent_visitors
-    kind: segment
-    meaning: Users on the free plan who viewed pages heavily in a recent window
-    creatable: true
-    definition: users whose {plan_attribute} is free and who did {page_view_event} at least {visitThreshold} times in the
-      last {windowLength}
   - slot: paid_only_feature
     kind: knowledge
     meaning: A feature that is available only on a paid plan, to highlight in the push
@@ -66,30 +60,32 @@ portable:
     - page_view_event
     - visitThreshold
     - windowLength
-    instruction: Build a segment named "High-Intent Visitors" of users where {plan_attribute} is free and who did {page_view_event}
+    instruction: Build a new segment named "High-Intent Visitors" of users where {plan_attribute} is free and who did {page_view_event}
       at least {visitThreshold} times in the last {windowLength}.
   - id: s2
     builds: push
     uses:
     - s1
-    - high_intent_visitors
     - paid_only_feature
     - pushTitleMaxChars
     - pushTone
     - pricingPageLink
-    instruction: Write a push notification for the users in {high_intent_visitors} highlighting one feature from {paid_only_feature}
-      that is available only on a paid plan. Keep the title under {pushTitleMaxChars} characters, add one short body line,
-      use a {pushTone} tone, and deep link to {pricingPageLink}. Write no template tag or placeholder (such as a deeplink
-      tag) in the push title or body; a link, if any, is the URL given for this run.
+    dependsOn:
+    - s1
+    instruction: Write a push notification for the users in the segment from "Build the high-intent list" highlighting one
+      feature from {paid_only_feature} that is available only on a paid plan. Keep the title under {pushTitleMaxChars} characters,
+      add one short body line, use a {pushTone} tone, and deep link to {pricingPageLink}. Write no template tag or placeholder
+      (such as a deeplink tag) in the push title or body; a link, if any, is the URL given for this run.
   - id: s3
     builds: email_plain
     uses:
     - s1
-    - high_intent_visitors
     - growth_team_list
-    instruction: 'Write a plain-text email to {growth_team_list} listing the email address of each user in {high_intent_visitors}
-      so outreach can be timed to their actual research activity. The plain-text email is plain text only: no HTML tags, no
-      markup and no unsubscribe line.'
+    dependsOn:
+    - s1
+    instruction: 'Write a plain-text email to {growth_team_list} listing the email address of each user in the segment from
+      "Build the high-intent list" so outreach can be timed to their actual research activity. The plain-text email is plain
+      text only: no HTML tags, no markup and no unsubscribe line.'
 ---
 
 # Free users researching heavily
@@ -98,15 +94,12 @@ Slash command: /high-intent-visitors
 
 ## Step 1: Build the high-intent list
 
-Build a segment of users named "High-Intent Visitors".
-A user is in the segment only when all of these are true:
-- their Plan attribute is "free"
-- they did the View page event 3 or more times in the last 14 days
+Build a new segment named "High-Intent Visitors" of users where plan attribute is free and who did page view event at least 3 times in the last 14 d.
 
 ## Step 2: Nudge toward a paid feature
 
-Generate a push notification for the users in "High-Intent Visitors" highlighting one feature only available on a paid plan. Title under 40 characters, one short body line, helpful and not pushy tone, deep link to the pricing page. Use the result of "Build the high-intent list". Write no template tag or placeholder (such as a deeplink tag) in the push title or body; a link, if any, is the URL given for this run.
+Write a push notification for the users in the segment from "Build the high-intent list" highlighting one feature from paid only feature that is available only on a paid plan. Keep the title under 40 characters, add one short body line, use a helpful tone, and deep link to /pricing. Write no template tag or placeholder (such as a deeplink tag) in the push title or body; a link, if any, is the URL given for this run.
 
 ## Step 3: Share the shortlist with growth
 
-Generate a plain-text email to the growth team distribution list For each user in "High-Intent Visitors", name their email address, so outreach can be timed to their actual research activity. Use the result of "Build the high-intent list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in. The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe line.
+Write a plain-text email to growth team list listing the email address of each user in the segment from "Build the high-intent list" so outreach can be timed to their actual research activity. The plain-text email is plain text only: no HTML tags, no markup and no unsubscribe line.

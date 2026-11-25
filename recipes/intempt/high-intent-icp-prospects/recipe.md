@@ -77,25 +77,20 @@ portable:
   - slot: call_booking_page
     kind: knowledge
     meaning: Link to the company's call-booking page used as the email button target
-  - slot: high_intent_icp_prospects
-    kind: segment
-    meaning: Accounts that are ICP-sized and showed recent site activity
-    creatable: true
-    definition: accounts where {account_employees} is at least {minEmployees} and less than {maxEmployees}, and the users
-      in the account together did {view_page_event} at least once in the last {activityWindow}
   steps:
   - id: s1
     builds: segment
-    instruction: 'Build a segment named "High-Intent ICP Prospects" ({high_intent_icp_prospects}). An account is included
-      only when all of these are true: its {account_employees} is {minEmployees} or more; its {account_employees} is less
-      than {maxEmployees}; and the users in the account together did {view_page_event} at least once in the last {activityWindow}.'
+    instruction: 'Build a new segment named "High-Intent ICP Prospects". An account is included only when all of these are
+      true: its {account_employees} is {minEmployees} or more; its {account_employees} is less than {maxEmployees}; and the
+      users in the account together did {view_page_event} at least once in the last {activityWindow}.'
   - id: s2
     builds: slack
     uses:
     - s1
     - sales_slack
-    - high_intent_icp_prospects
     - salesChannel
+    dependsOn:
+    - s1
     instruction: Post a Slack message to the {salesChannel} channel in {sales_slack} for each account in "High-Intent ICP
       Prospects". Name the account and its {account_employees} count so reps can reach out while interest is still warm. Use
       the result of "Build the hot ICP list". Take names and addresses from the member list in the result of the step that
@@ -107,15 +102,16 @@ portable:
     - outreach_email_destination
     - product_feature_knowledge
     - call_booking_page
-    - high_intent_icp_prospects
     - emailTone
     - emailSentenceCount
-    instruction: Create a designed marketing email for the accounts in "High-Intent ICP Prospects" ({high_intent_icp_prospects})
-      introducing the product feature from {product_feature_knowledge} that is most relevant to a company of their size. Write
-      {emailSentenceCount} sentences in a {emailTone} tone with no discount language. Include one button linking to {call_booking_page}.
-      Send through {outreach_email_destination}. Use the result of "Build the hot ICP list". If the brand kit has no logo,
-      use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never
-      leave a button without a link.
+    dependsOn:
+    - s1
+    instruction: Create a designed marketing email for the accounts in "High-Intent ICP Prospects" (the segment from "Build
+      the hot ICP list") introducing the product feature from {product_feature_knowledge} that is most relevant to a company
+      of their size. Write {emailSentenceCount} sentences in a {emailTone} tone with no discount language. Include one button
+      linking to {call_booking_page}. Send through {outreach_email_destination}. Use the result of "Build the hot ICP list".
+      If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this
+      run or named in this step; never leave a button without a link.
 ---
 
 # ICP accounts showing intent
@@ -124,16 +120,12 @@ Slash command: /high-intent-icp-prospects
 
 ## Step 1: Build the hot ICP list
 
-Build a segment of accounts named "High-Intent ICP Prospects".
-An account is in the segment only when all of these are true:
-- its employees attribute is 50 or more
-- its employees attribute is less than 1000
-- the users in the account together did the View page event at least once in the last 7 days
+Build a new segment named "High-Intent ICP Prospects". An account is included only when all of these are true: its account employees is 50 or more; its account employees is less than 1000; and the users in the account together did view page event at least once in the last 7 d.
 
 ## Step 2: Alert sales
 
-Generate a Slack message to the sales channel For each account in "High-Intent ICP Prospects", name the account and its employees count, so reps can reach out while interest is still warm. Use the result of "Build the hot ICP list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in.
+Post a Slack message to the sales channel in sales slack for each account in "High-Intent ICP Prospects". Name the account and its account employees count so reps can reach out while interest is still warm. Use the result of "Build the hot ICP list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in.
 
 ## Step 3: Send an outreach email
 
-Generate a designed marketing email for the accounts in "High-Intent ICP Prospects" introducing the product's most relevant feature for a company of their size. Three sentences, confident and consultative tone, no discount language, one button linking to a call-booking page. Use the result of "Build the hot ICP list". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.
+Create a designed marketing email for the accounts in "High-Intent ICP Prospects" (the segment from "Build the hot ICP list") introducing the product feature from product feature knowledge that is most relevant to a company of their size. Write 3 sentences in a confident and consultative tone with no discount language. Include one button linking to call booking page. Send through outreach email destination. Use the result of "Build the hot ICP list". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.

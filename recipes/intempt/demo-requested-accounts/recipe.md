@@ -35,23 +35,16 @@ portable:
   - slot: has_open_deal
     kind: attribute
     meaning: Whether the account has an open deal
-  - slot: demo_requested_accounts
-    kind: segment
-    meaning: Accounts whose users submitted a demo request and that have no open deal
-    creatable: true
-    definition: accounts where users in the account did {demo_request_submitted} with form_name equal to {demoFormName} at
-      least once in the last {lookbackWindow} and {has_open_deal} is false
   steps:
   - id: s1
     builds: segment
     uses:
     - demo_request_submitted
     - has_open_deal
-    - demo_requested_accounts
     - lookbackWindow
     - demoFormName
-    instruction: 'Build a segment of accounts named "Demo-Requested Accounts". An account is in the segment only when all
-      of these are true: the users in the account together did {demo_request_submitted} with form_name equal to {demoFormName}
+    instruction: 'Build a new segment of accounts named "Demo-Requested Accounts". An account is in the segment only when
+      all of these are true: the users in the account together did {demo_request_submitted} with form_name equal to {demoFormName}
       at least once in the last {lookbackWindow}; and {has_open_deal} is false.'
 ---
 
@@ -61,7 +54,4 @@ Slash command: /demo-requested-accounts
 
 ## Step 1: Build the demo-request list
 
-Build a segment of accounts named "Demo-Requested Accounts".
-An account is in the segment only when all of these are true:
-- the users in the account together did the form-submit event on the demo request form chosen for this run at least once in the last 30 days
-- its Has an open deal attribute is false
+Build a new segment of accounts named "Demo-Requested Accounts". An account is in the segment only when all of these are true: the users in the account together did demo request submitted with form_name equal to the demo request form chosen for this run at least once in the last 30 d; and has open deal is false.

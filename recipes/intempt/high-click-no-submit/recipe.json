@@ -3,7 +3,7 @@
   "title": "High-Click Non-Converters",
   "slash_command": "/high-click-no-submit",
   "description": "Visitors clicking around heavily without ever submitting a form, surfaced to growth as a friction-signal draft worth a closer look.",
-  "markdown": "# High-Click Non-Converters\n\n## Description\n\nVisitors clicking around heavily without ever submitting a form, surfaced to growth as a friction-signal draft worth a closer look.\n\n## Steps\n\n### Step 1: Build the high-click non-converter list\n\nBuild a segment of users named \"High-Click Non-Converters\". A user is in the segment only when all of these are true: triggered the click event (a tracked click on a page element) at least 8 times in the last 7 days; did not trigger the form-submit event (a tracked submission of a form on the site, not a survey or NPS answer) in the last 7 days.\n\n### Step 2: Draft a growth alert\n\nGenerate a Slack message to the growth team channel. State how many users are in \"High-Click Non-Converters\" right now, using the member count in the result of \"Build the high-click non-converter list\". If that result carries no count, write no number and no placeholder in square brackets; say instead that the list is saved as the segment \"High-Click Non-Converters\" and can be opened in Segments. Say this is a shortlist of high-friction visitors worth a closer look. This drafts the Slack message only; a person on the team still posts it.\n",
+  "markdown": "# High-Click Non-Converters\n\n## Description\n\nVisitors clicking around heavily without ever submitting a form, surfaced to growth as a friction-signal draft worth a closer look.\n\n## Steps\n\n### Step 1: Build the high-click non-converter list\n\nBuild a new segment named High-Click Non-Converters. A user is in the segment only when all of these are true: triggered click event at least 8 times in the last 7 d; did not trigger submit event in the last 7 d.\n\n### Step 2: Draft a growth alert\n\nDraft a Slack message to growth team channel stating how many users are in the segment built in \"Build the high-click non-converter list\" right now, as a shortlist of high-friction visitors worth a closer look. This drafts the Slack message only; a person on the team still posts it. Use the segment's current member count from the step that built it; never write a placeholder in square brackets. If no count is available, name the segment and say it can be opened in Segments.\n",
   "classification": {
     "industry": [
       "industry-agnostic"
@@ -24,7 +24,7 @@
     {
       "id": "s1",
       "title": "Build the high-click non-converter list",
-      "description": "Build a segment of users named \"High-Click Non-Converters\". A user is in the segment only when all of these are true: triggered the click event (a tracked click on a page element) at least 8 times in the last 7 days; did not trigger the form-submit event (a tracked submission of a form on the site, not a survey or NPS answer) in the last 7 days.",
+      "description": "Build a new segment named High-Click Non-Converters. A user is in the segment only when all of these are true: triggered click event at least 8 times in the last 7 d; did not trigger submit event in the last 7 d.",
       "command": "create_segment",
       "entity": "segment",
       "modelConfig": []
@@ -32,7 +32,7 @@
     {
       "id": "s2",
       "title": "Draft a growth alert",
-      "description": "Generate a Slack message to the growth team channel. State how many users are in \"High-Click Non-Converters\" right now, using the member count in the result of \"Build the high-click non-converter list\". If that result carries no count, write no number and no placeholder in square brackets; say instead that the list is saved as the segment \"High-Click Non-Converters\" and can be opened in Segments. Say this is a shortlist of high-friction visitors worth a closer look. This drafts the Slack message only; a person on the team still posts it.",
+      "description": "Draft a Slack message to growth team channel stating how many users are in the segment built in \"Build the high-click non-converter list\" right now, as a shortlist of high-friction visitors worth a closer look. This drafts the Slack message only; a person on the team still posts it. Use the segment's current member count from the step that built it; never write a placeholder in square brackets. If no count is available, name the segment and say it can be opened in Segments.",
       "command": "create_slack_content",
       "entity": "slack",
       "modelConfig": []
