@@ -1,7 +1,8 @@
 ---
 frontmatter_id: average-order-value-trend
 slash_command: /average-order-value-trend
-description: Tracks average order value weekly and splits the movement into how many items people buy versus what they pay per item, for new and returning customers.
+description: Emails average order value weekly and splits the movement into how many items people buy versus what they pay
+  per item, for new and returning customers.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,34 +12,23 @@ classification:
   industry:
   - ecommerce-retail
 portable:
-  summary: Shows weekly average order value and splits its movement into units per order versus price per unit, for new and
-    returning customers, with alerts on large weekly swings.
+  summary: Emails a weekly digest of average order value split into units per order and price per unit, for new and returning
+    customers, flagging large weekly swings.
   parameters:
   - name: trend_window
     type: duration
-    label: Time range to chart
-    default: 12 w
-    required: false
-  - name: compare_window
-    type: duration
-    label: Comparison period
+    label: Longer window for the average
     default: 12 w
     required: false
   - name: movement_threshold_pct
     type: number
-    label: Weekly AOV move that gets flagged (%)
+    label: Weekly AOV change that is flagged (%)
     default: 5
     required: false
-  - name: returning_gap_low
-    type: number
-    label: Expected returning-to-new AOV ratio, low end
-    default: 1.5
-    required: false
-  - name: returning_gap_high
-    type: number
-    label: Expected returning-to-new AOV ratio, high end
-    default: 2
-    required: false
+  - name: digest_recipients
+    type: string
+    label: Email addresses that get the digest
+    required: true
   requirements:
   - slot: order_placed_event
     kind: event
@@ -46,65 +36,34 @@ portable:
     properties:
     - name: total_price
       type: number
-      meaning: Total price of the order
+      meaning: Order total
       optional: false
     - name: items
-      type: array
-      meaning: Line items in the order, each with product_id, title, quantity, price and sku
+      type: string
+      meaning: Line items in the order
       optional: false
-  - slot: customer_lifetime_value
-    kind: attribute
-    meaning: Computed lifetime value of the customer who placed the order
-  - slot: customer_orders_count
-    kind: attribute
-    meaning: System-computed count of orders placed by the customer
-    optional: true
   steps:
   - id: s1
-    builds: report
+    builds: automation
     uses:
     - order_placed_event
-    - customer_lifetime_value
-    - customer_orders_count
     - trend_window
-    - compare_window
     - movement_threshold_pct
-    - returning_gap_low
-    - returning_gap_high
-    instruction: 'Create an Insights report titled "AOV Trend". Series A: event {order_placed_event}, aggregation average
-      of {order_placed_event.total_price}, unit $, label "AOV". Series B: event {order_placed_event}, aggregation average
-      of the count of line items in {order_placed_event.items}, label "Units per Order". Series C: computed as Series A divided
-      by Series B, unit $, label "Average Price per Unit". Time granularity weekly over the last {trend_window}. Breakdown
-      by customer type: classify as returning if {customer_lifetime_value} is greater than 0 at the time of the order, otherwise
-      new; alternatively use {customer_orders_count} to classify. Compare against the previous {compare_window}. Chart as
-      a multi-line chart with all three series, using separate axes for AOV and Price per Unit in $ and Units per Order in
-      #. Add a callout showing the period-over-period change for AOV, Units per Order and Price per Unit. Flag any week where
-      AOV moved more than {movement_threshold_pct}% and state whether the move came from units, price, or both. Highlight
-      the AOV gap between returning and new customers, noting whether it falls between {returning_gap_low} and {returning_gap_high}
-      times the new-customer AOV. Interpretation: AOV moving via price suggests merchandising or pricing impact; AOV moving
-      via units suggests bundling or cross-sell impact.'
+    - digest_recipients
+    instruction: 'Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes {order_placed_event}
+      by customers and writes these figures for the last 7 days, the 7 days before, and the weekly average over the last {trend_window}:
+      average order value, the average {order_placed_event.total_price}; units per order, the average number of line items
+      in {order_placed_event.items}; price per unit, average order value divided by units per order; the same three for new
+      customers (their first {order_placed_event}) and for returning customers (they did {order_placed_event} before). The
+      first line says so when average order value moved more than {movement_threshold_pct}% against the 7 days before, and
+      whether units, price or both drove it. Then it emails these figures as plain-text lines, each with its window, to {digest_recipients}.
+      Nothing else is sent.'
 ---
 
 # Average order value trend
 
 Slash command: /average-order-value-trend
 
-## Step 1: Break down AOV week by week
+## Step 1: Email the weekly order value digest
 
-Create an Insights report called "AOV Trend".
-Series A: Event "Placed order", aggregation: Average of "total_price" property, unit: $, label: "AOV"
-Series B: Event "Placed order", aggregation: Average of items length (count of line items in items array), label: "Units per Order"
-Series C: Computed: Series A / Series B, unit: $, label: "Average Price per Unit"
-Time granularity: Weekly
-Time range: Last 12 weeks
-Breakdown: By customer type: derive new vs returning from the User.Lifetime value computed attribute (Lifetime value > 0 at the time of the order = returning, otherwise new) OR from User.orders_count.
-Compare: Previous period (previous 12 weeks)
-Chart type: Multi-line chart with all three series, separate axes for AOV/Price-per-Unit ($) and Units-per-Order (#)
-Annotations:
-- Add a callout showing the period-over-period change in each component (AOV, Units/Order, Price/Unit).
-- Flag any week where AOV moved >5%: and identify whether the move came from units, price, or both.
-- Highlight the AOV gap between new and returning customers (returning typically 1.5: 2× new for healthy DTC).
-AOV moving via price suggests merchandising/pricing impact; AOV moving via units suggests bundling/cross-sell impact.
-Taxonomy notes:
-- Placed order has total_price (Shopify) and items (flattened: product_id, title, quantity, price, sku). "order_total" is not a real property.
-- Users.Lifetime value and User.orders_count (system-computed) are real attributes.
+Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes order placed event by customers and writes these figures for the last 7 days, the 7 days before, and the weekly average over the last 12 w: average order value, the average total price; units per order, the average number of line items in items; price per unit, average order value divided by units per order; the same three for new customers (their first order placed event) and for returning customers (they did order placed event before). The first line says so when average order value moved more than 5% against the 7 days before, and whether units, price or both drove it. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.

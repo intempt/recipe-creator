@@ -1,7 +1,8 @@
 ---
 frontmatter_id: active-vs-passive-users
 slash_command: /active-vs-passive-users
-description: Classifies each user with custom multi-threshold rules on their event activity, and outputs a report for segmenting active and passive users.
+description: Classifies each user as Producer, Consumer, Lurker or Inactive from their event activity, and emails a weekly
+  digest of how active users split across these types, with revenue concentration.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,170 +12,126 @@ classification:
   industry:
   - industry-agnostic
 portable:
-  summary: Classifies each user as Producer, Consumer, Lurker or Inactive from 30-day event activity and builds a weekly report
-    showing how active users split across these groups, with revenue concentration.
+  summary: Classifies each user as Producer, Consumer, Lurker or Inactive from 30-day activity and emails a weekly digest
+    of the split and where revenue comes from.
   parameters:
   - name: producer_click_min
     type: number
-    label: Minimum click events for Producer
+    label: Clicks needed for Producer
     default: 10
     required: false
   - name: producer_submit_min
     type: number
-    label: Minimum form-submit event events for Producer
+    label: Submissions needed for Producer
     default: 1
     required: false
   - name: consumer_session_min
     type: number
-    label: Minimum Session start events for Consumer
+    label: Sessions needed for Consumer
     default: 3
     required: false
   - name: consumer_view_min
     type: number
-    label: Minimum View page events for Consumer
+    label: Page views needed for Consumer
     default: 10
     required: false
   - name: consumer_click_max
     type: number
-    label: click events must be below this for Consumer
+    label: Clicks a Consumer stays under
     default: 5
-    required: false
-  - name: lurker_session_min
-    type: number
-    label: Minimum Session start events for Lurker
-    default: 1
     required: false
   - name: classification_window
     type: duration
-    label: Trailing window for classification
+    label: Activity window
     default: 30 d
-    required: false
-  - name: report_time_range
-    type: duration
-    label: Report time range
-    default: 12 w
-    required: false
-  - name: comparison_period
-    type: duration
-    label: Comparison period (prior)
-    default: 12 w
     required: false
   - name: producer_share_low
     type: number
-    label: Producer share below which the product leans consumer (%)
+    label: Producer share that flags risk (%)
     default: 15
     required: false
   - name: revenue_concentration_threshold
     type: number
-    label: Producer revenue share above which power-user risk is flagged (%)
+    label: Producer revenue share that flags concentration (%)
     default: 70
     required: false
+  - name: digest_recipients
+    type: string
+    label: Email addresses that get the digest
+    required: true
   requirements:
   - slot: click_event
     kind: event
     meaning: A customer clicked on something in the product or site
   - slot: submit_event
     kind: event
-    meaning: A customer submitted an action such as a form submission (a form on the site, never a survey or NPS answer)
+    meaning: A customer submitted a form on the site, never a survey or NPS answer
   - slot: view_page_event
     kind: event
     meaning: A customer viewed a page
   - slot: session_start_event
     kind: event
     meaning: A customer started a session
-  - slot: subscription_started_event
+  - slot: revenue_event
     kind: event
-    meaning: A customer started a subscription
+    meaning: A customer paid, such as a subscription start or a purchase
     properties:
     - name: amount
       type: number
-      meaning: Subscription amount charged
+      meaning: Amount paid
       optional: false
-    - name: plan
-      type: string
-      meaning: Plan the subscription belongs to
-      optional: true
-    optional: true
-  - slot: revenue_completed_event
-    kind: event
-    meaning: A customer completed a revenue-generating purchase
-    properties:
-    - name: amount
-      type: number
-      meaning: Revenue amount of the completed purchase
-      optional: false
-    optional: true
   - slot: user_plan_attribute
     kind: attribute
-    meaning: The subscription plan tier a user is on, taken from their most recent active subscription
+    meaning: The subscription plan a user is on
+    optional: true
   steps:
   - id: s1
-    builds: report
+    builds: attribute
     uses:
     - click_event
     - submit_event
     - view_page_event
     - session_start_event
-    - subscription_started_event
-    - revenue_completed_event
-    - user_plan_attribute
     - producer_click_min
     - producer_submit_min
     - consumer_session_min
     - consumer_view_min
     - consumer_click_max
-    - lurker_session_min
     - classification_window
-    - report_time_range
-    - comparison_period
+    instruction: 'Build a new attribute on users named "activity_type", counted over the last {classification_window}. Producer:
+      at least {producer_click_min} {click_event} and at least {producer_submit_min} {submit_event}. Consumer, when not Producer:
+      at least {consumer_session_min} {session_start_event}, at least {consumer_view_min} {view_page_event} and fewer than
+      {consumer_click_max} {click_event}. Lurker: at least 1 {session_start_event} and neither Producer nor Consumer. Inactive:
+      no {session_start_event}. It refreshes daily.'
+  - id: s2
+    builds: automation
+    uses:
+    - s1
+    - revenue_event
+    - user_plan_attribute
+    - classification_window
     - producer_share_low
     - revenue_concentration_threshold
-    instruction: 'Create an Insights report titled "Active vs. Passive Users". Classify each user using activity over the
-      trailing {classification_window}: Producer if the user has at least {producer_click_min} {click_event} events and at
-      least {producer_submit_min} {submit_event} events; Consumer if the user has at least {consumer_session_min} {session_start_event}
-      events and at least {consumer_view_min} {view_page_event} events but fewer than {consumer_click_max} {click_event} events;
-      Lurker if the user has at least {lurker_session_min} {session_start_event} event in the window but meets neither the
-      Producer nor Consumer rule; Inactive if the user has zero {session_start_event} events in the window. Series A: count
-      unique users per bucket, weekly granularity. Series B: share of total active users (excluding Inactive) per bucket,
-      as a percentage. Series C: sum of {subscription_started_event.amount} or {revenue_completed_event.amount} per bucket
-      to show revenue concentration. Use a weekly snapshot over the last {report_time_range}, broken down by {user_plan_attribute}
-      (the plan from each user''s most recent active subscription), and compare against the prior {comparison_period}. Show
-      a stacked area chart for the weekly distribution plus a secondary view of revenue concentration per bucket. Annotations:
-      flag if Producer share is below {producer_share_low}% (product leans consumer, engagement risk); flag if Producer share
-      declines week over week (engagement erosion, leading indicator of churn); highlight the Consumer-to-Producer migration
-      rate, meaning the percentage of users classified Consumer last week who are Producers this week; flag if Producers are
-      under 20% of users but above {revenue_concentration_threshold}% of revenue (power-user risk); flag any plan tier where
-      Producer share is materially lower than other tiers (acquiring lurkers, pricing or positioning issue). For reference,
-      healthy distributions are roughly Producers 20-40%, Consumers 40-60%, Lurkers 10-20% of active users.'
+    - digest_recipients
+    dependsOn:
+    - s1
+    instruction: 'Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes users by the attribute
+      from "Classify users by activity" and writes these figures: users per type now and 7 days ago; each type''s share of
+      active users (all but Inactive); the sum of {revenue_event.amount} in the last {classification_window} per type and
+      its share of the total; Producer share per {user_plan_attribute}. The first line says so when Producer share is below
+      {producer_share_low}%, or when Producers are under 20% of active users but over {revenue_concentration_threshold}% of
+      revenue. Then it emails these figures as plain-text lines, each with its window, to {digest_recipients}. Nothing else
+      is sent.'
 ---
 
 # Active versus passive users
 
 Slash command: /active-vs-passive-users
 
-## Step 1: Split users by what they do
+## Step 1: Classify users by activity
 
-Create an Insights report called "Active vs. Passive Users".
-Per-user classification computed from the trailing 30-day window:
- - Producer: emitted ≥10 click events AND ≥1 the form-submit event (taking actions, creating, configuring)
- - Consumer: emitted ≥3 Session start AND ≥10 View page BUT <5 the click event (browsing, reading, but not creating)
- - Lurker: emitted ≥1 Session start in the last 30 days BUT below both thresholds above (logging in but barely engaging)
- - Inactive: zero Session start in the last 30 days
-Series A: Count Unique Users per classification bucket, time granularity: Weekly
-Series B: Computed: share of total active users (excluding Inactive) per bucket, unit: %
-Series C: Sum of Subscription started.amount or Revenue completed.amount per bucket: surfaces revenue concentration
-Time granularity: Weekly snapshot
-Time range: Last 12 weeks
-Breakdown: By Plan (resolved from each user's most-recent active Subscription started)
-Compare: Previous period (prior 12 weeks)
-Chart type: Stacked area chart for the weekly distribution, with a secondary view showing revenue concentration per bucket
-Annotations:
-- Add the classic distribution: in healthy products, Producers should be 20-40% of active users, Consumers 40-60%, Lurkers 10-20%. If Producers are <15%, the product is "leaning consumer": engagement risk.
-- Flag if the Producer share is shrinking week-over-week (engagement erosion: leading indicator of churn before retention metrics catch it).
-- Highlight Consumer-to-Producer migration rate: of users classified as Consumer last week, what % became Producers this week? This is the latent activation rate.
-- Surface revenue concentration: in many SaaS products, Producers generate disproportionate revenue. If Producers are <20% of users but >70% of revenue, you have a "power user" risk: losing one Producer hurts more than losing 10 Lurkers.
-- Flag any plan tier where Producer share is materially lower than other tiers (the plan is acquiring lurkers: pricing/positioning issue).
-Use case: most engagement reports just count "active users." This recipe surfaces the hidden segment of "active but passive": users who log in regularly but never DO anything. They look retained but are pre-churn. Catching them before they go inactive is high-leverage.
-Taxonomy notes:
-- the click event, the form-submit event, View page, Session start are all canonical. the form-submit event is specifically the "user took an action" canonical event (form submissions, etc.).
-- The classification thresholds are configurable per workspace.
+Build a new attribute on users named "activity_type", counted over the last 30 d. Producer: at least 10 click event and at least 1 submit event. Consumer, when not Producer: at least 3 session start event, at least 10 view page event and fewer than 5 click event. Lurker: at least 1 session start event and neither Producer nor Consumer. Inactive: no session start event. It refreshes daily.
+
+## Step 2: Email the weekly activity digest
+
+Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes users by the attribute from "Classify users by activity" and writes these figures: users per type now and 7 days ago; each type's share of active users (all but Inactive); the sum of amount in the last 30 d per type and its share of the total; Producer share per user plan attribute. The first line says so when Producer share is below 15%, or when Producers are under 20% of active users but over 70% of revenue. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.

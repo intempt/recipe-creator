@@ -1,7 +1,8 @@
 ---
 frontmatter_id: post-purchase-upsell-on-page-placement
 slash_command: /post-purchase-upsell-on-page-placement
-description: Compares three places to put the upsell on the order confirmation page, scored on extra revenue within 24 hours.
+description: Tests three on-page places for a post-purchase upsell on the order confirmation page, scored by extra orders
+  placed within 24 hours.
 author:
   name: Intempt
   last_name: Technologies
@@ -18,107 +19,103 @@ portable:
     type: string
     label: Experiment title
     default: 'Post-Purchase Upsell: On-Page Placement'
+    required: false
   - name: traffic_split_control
     type: number
     label: Control traffic share (%)
     default: 34
+    required: false
   - name: traffic_split_variant_b
     type: number
     label: Variant B traffic share (%)
     default: 33
+    required: false
   - name: traffic_split_variant_c
     type: number
     label: Variant C traffic share (%)
     default: 33
+    required: false
   - name: modal_delay
     type: duration
-    label: Modal delay after page load
+    label: Delay before the Variant C modal opens
     default: 5 s
+    required: false
   - name: revenue_window
     type: duration
-    label: Revenue attribution window
+    label: Window for an extra order after exposure
     default: 24 h
-  - name: add_to_second_order_window
-    type: duration
-    label: Add-to-second-order window
-    default: 1 h
+    required: false
   - name: satisfaction_window
     type: duration
-    label: Satisfaction feedback window after order
+    label: Feedback window after the order
     default: 7 d
+    required: false
   - name: modal_dismiss_threshold
     type: number
-    label: Maximum modal dismiss rate (%)
+    label: Max Variant C dismiss rate (%)
     default: 80
+    required: false
   - name: test_duration
     type: duration
-    label: Experiment duration
+    label: Test duration
     default: 30 d
+    required: false
   requirements:
-  - slot: upsell_placed_order_event
+  - slot: order_placed
     kind: event
-    meaning: A customer completed an order (Placed order)
-  - slot: upsell_click_event
+    meaning: A customer placed an order
+    properties:
+    - name: total_price
+      type: number
+      meaning: Order total
+      optional: false
+  - slot: upsell_click
     kind: event
     meaning: A customer clicked an upsell product button on the website
     properties:
     - name: target_id
-      type: text
-      meaning: Identifier of the clicked element, starting with upsell-product-
+      type: string
+      meaning: Identifier of the clicked upsell button
       optional: false
-  - slot: cart_created_event
-    kind: event
-    meaning: A customer created a cart
-  - slot: feedback_event
+  - slot: feedback_submitted
     kind: event
     meaning: A customer submitted feedback with a satisfaction score
+    optional: true
     properties:
     - name: score
       type: number
-      meaning: Satisfaction score submitted
+      meaning: Satisfaction score
       optional: false
-  - slot: dismiss_event
+  - slot: upsell_dismissed
     kind: event
-    meaning: A customer dismissed the upsell modal on the website
-  - slot: upsell_accepted_value
-    kind: attribute
-    meaning: Value of an upsell product added to an order
+    meaning: A customer closed the upsell modal on the website
+    optional: true
   steps:
   - id: s1
     builds: experiment
     uses:
+    - order_placed
+    - upsell_click
+    - feedback_submitted
+    - upsell_dismissed
     - experiment_title
     - traffic_split_control
     - traffic_split_variant_b
     - traffic_split_variant_c
     - modal_delay
     - revenue_window
-    - add_to_second_order_window
     - satisfaction_window
     - modal_dismiss_threshold
     - test_duration
-    - upsell_placed_order_event
-    - upsell_click_event
-    - cart_created_event
-    - feedback_event
-    - dismiss_event
-    - upsell_accepted_value
-    instruction: 'Create a client-side website experiment titled "{experiment_title}" that runs for {test_duration}. Targeting:
-      pages whose URL contains "/order-confirmation" or "/thank-you", any device, customers who just completed a {upsell_placed_order_event},
-      shown once per order. Variants: Control ({traffic_split_control}%) shows an upsell carousel above the order details;
-      Variant B ({traffic_split_variant_b}%) shows an upsell strip below the order details; Variant C ({traffic_split_variant_c}%)
-      shows an inline modal that opens {modal_delay} after the confirmation page loads. Control HTML: a section with class
-      post-purchase-upsell and heading "Customers like you also bought", containing a carousel of three product cards, each
-      with an image, product name, price, and an "Add to Order" button with ids upsell-product-1, upsell-product-2, upsell-product-3.
-      Insert before the order confirmation block. Variant B: same carousel markup, inserted after the order confirmation block.
-      Variant C: a hidden modal overlay with a close button (id upsell-modal-dismiss, aria-label Close) and heading "One more
-      thing: customers also love these", containing the same three product buttons; appended to the body. Trigger: after the
-      page view on the confirmation page, wait {modal_delay} and then unhide the overlay; add a CSS fade animation. Primary
-      goal: a {upsell_placed_order_event} within {revenue_window} of upsell exposure (incremental revenue). Secondary metrics:
-      click rate on {upsell_click_event} for upsell-product buttons; {cart_created_event} within {add_to_second_order_window}
-      for shown users; average {upsell_accepted_value} when accepted. Guardrails: the average {feedback_event} score within
-      {satisfaction_window} of the order must not drop; {dismiss_event} rate for Variant C must not exceed {modal_dismiss_threshold}%.
-      Attribute upsell-driven orders by joining the upsell click to a later order within the revenue window.'
+    instruction: 'Create a client-side experiment named "{experiment_title}" for customers on pages whose URL contains /order-confirmation
+      or /thank-you, all devices, shown once per order, running {test_duration}. Each variant shows the heading "Customers
+      like you also bought" and three product cards with an "Add to order" button (ids upsell-product-1 to upsell-product-3).
+      Control ({traffic_split_control}%): the cards as a carousel above the order details. Variant B ({traffic_split_variant_b}%):
+      the same carousel below the order details. Variant C ({traffic_split_variant_c}%): the cards in a modal with a close
+      button (id upsell-modal-dismiss) that opens {modal_delay} after the page loads. Primary metric: sum of {order_placed.total_price}
+      of a further {order_placed} within {revenue_window} of exposure. Secondary metrics: {upsell_click} where {upsell_click.target_id}
+      starts with upsell-product. Guardrails: average {feedback_submitted.score} within {satisfaction_window} of the order
+      must not drop below Control; Variant C''s {upsell_dismissed} rate must stay under {modal_dismiss_threshold}%.'
 ---
 
 # Post-purchase upsell placement test
@@ -127,54 +124,4 @@ Slash command: /post-purchase-upsell-on-page-placement
 
 ## Step 1: Set up the upsell placement test
 
-Create a CLIENT EXPERIMENT on /experiences titled "Post-Purchase Upsell: On-Page Placement".
-NOTE: This recipe was previously authored with email and push notification variants. The current product scope is website-only personalizations and experiments: email and push are outside the product. The recipe now focuses exclusively on the on-page placement dimension.
-═══ PATH 1: Top-level configuration ═══
-Experience type: client_experiment
-Variants:
-- Control (34%): upsell carousel above order details on the confirmation page
-- Variant B (33%): upsell strip below order details on the confirmation page
-- Variant C (33%): inline modal that appears 5 seconds after order confirmation page loads
-Targeting:
-- Pages: page URL contains "/order-confirmation" OR "/thank-you"
-- Devices: any
-- Audience: customers who just completed an Placed order event
-- Display frequency: once (per order)
-Primary metric: goal_completed_in_experience where experience_id = <this> (goal fires on additional Placed order within 24 hours of upsell exposure: incremental revenue)
-Secondary metrics:
-- clicks where target_id starts with "upsell-product-" (upsell engagement rate)
-- Add-to-second-order rate (Cart created within 1 hour for any user shown the upsell)
-- Average upsell value when accepted
-Guardrail: customer satisfaction (Feedback submitted score within 7 days of order) must not drop; modal-dismiss rate (variant C) must not exceed 80% (high dismissal = annoyance signal)
-Schedule: 30 days
-═══ PATH 2: Variant HTML content (Visual Editor) ═══
-Variant: Control (above order details)
- HTML target selector: .order-confirmation (insert before)
- Variant DOM:
- <section class="post-purchase-upsell" data-variant="control" data-placement="above-order">
- <h2>Customers like you also bought</h2>
- <div class="upsell-carousel">
- <article class="upsell-product"><img /><h3>(fill in: Product)</h3><span>(fill in: $X.XX)</span><button id="upsell-product-1">Add to Order</button></article>
- <article class="upsell-product"><img /><h3>(fill in: Product)</h3><span>(fill in: $X.XX)</span><button id="upsell-product-2">Add to Order</button></article>
- <article class="upsell-product"><img /><h3>(fill in: Product)</h3><span>(fill in: $X.XX)</span><button id="upsell-product-3">Add to Order</button></article>
- </div>
- </section>
-Variant: B (below order details)
- HTML target selector: .order-confirmation (append after)
- Same upsell carousel HTML as Control.
-Variant: C (inline modal, 5s delay)
- HTML target selector: body (append modal)
- Variant DOM:
- <div class="upsell-modal-overlay" data-variant="c" data-trigger="5s-delay" hidden>
- <div class="upsell-modal">
- <button class="modal-close" id="upsell-modal-dismiss" aria-label="Close">×</button>
- <h2>One more thing: customers also love these</h2>
- <div class="upsell-carousel">
- <!-- 3 upsell products with id="upsell-product-1/2/3" -->
- </div>
- </div>
- </div>
- Trigger JS: setTimeout 5000ms after View page on /order-confirmation, set overlay hidden=false. Pair with a CSS modal animation.
-Taxonomy notes:
-- Email and push variants from the original template are explicitly removed because the product scope is website-only.
-- The "incremental revenue" measurement requires the upsell-attributed Placed order to be distinguished from the original purchase: typically done by session tracking joining the click event (target_id starts with "upsell-") to a subsequent Placed order within the attribution window. Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.
+Create a client-side experiment named "Post-Purchase Upsell: On-Page Placement" for customers on pages whose URL contains /order-confirmation or /thank-you, all devices, shown once per order, running 30 d. Each variant shows the heading "Customers like you also bought" and three product cards with an "Add to order" button (ids upsell-product-1 to upsell-product-3). Control (34%): the cards as a carousel above the order details. Variant B (33%): the same carousel below the order details. Variant C (33%): the cards in a modal with a close button (id upsell-modal-dismiss) that opens 5 s after the page loads. Primary metric: sum of total price of a further order placed within 24 h of exposure. Secondary metrics: upsell click where target id starts with upsell-product. Guardrails: average score within 7 d of the order must not drop below Control; Variant C's upsell dismissed rate must stay under 80%.

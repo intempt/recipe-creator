@@ -1,7 +1,8 @@
 ---
 frontmatter_id: checkout-form-friction
 slash_command: /checkout-form-friction
-description: Shows which checkout step loses you orders, how long shoppers sit on each one, and where mobile is worse than desktop.
+description: Emails a weekly digest of which checkout step loses you orders, how long shoppers sit on each one, and where
+  mobile is worse than desktop.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,44 +12,48 @@ classification:
   industry:
   - ecommerce-retail
 portable:
-  summary: Shows which checkout step loses the most orders, how long shoppers spend on each step, and where mobile drop-off
-    is worse than desktop.
+  summary: Emails a weekly digest of which checkout step loses the most orders, how long shoppers spend on each step, and
+    where mobile drop-off is worse than desktop.
   parameters:
   - name: conversionWindow
     type: duration
-    label: Conversion window
+    label: Time allowed from checkout start to order
     default: 1 h
     required: false
   - name: comparisonPeriod
     type: duration
-    label: Comparison period (prior period length)
-    default: 30 d
+    label: Window analyzed and compared with the one before
+    default: 7 d
     required: false
   - name: timeThreshold
     type: number
-    label: Median time-on-page flag threshold (seconds)
+    label: Median seconds on a step that are flagged
     default: 90
     required: false
   - name: mobileGapThreshold
     type: number
-    label: Mobile vs desktop drop-off gap flag (percentage points)
+    label: Mobile drop-off gap over desktop that is flagged (points)
     default: 15
     required: false
   - name: shippingPathPattern
     type: string
-    label: Shipping step URL pattern
+    label: Shipping step URL contains
     default: /checkout/shipping
     required: false
   - name: paymentPathPattern
     type: string
-    label: Payment step URL pattern
+    label: Payment step URL contains
     default: /checkout/payment
     required: false
   - name: reviewPathPattern
     type: string
-    label: Review step URL pattern
+    label: Review step URL contains
     default: /checkout/review
     required: false
+  - name: digest_recipients
+    type: string
+    label: Email addresses that get the digest
+    required: true
   requirements:
   - slot: checkout_started_event
     kind: event
@@ -62,7 +67,7 @@ portable:
     properties:
     - name: page_url
       type: string
-      meaning: URL of the page viewed
+      meaning: URL of the viewed page
       optional: false
   - slot: device_type_attribute
     kind: attribute
@@ -73,11 +78,11 @@ portable:
     optional: true
   steps:
   - id: s1
-    builds: report
+    builds: automation
     uses:
     - checkout_started_event
-    - page_view_event
     - checkout_completed_event
+    - page_view_event
     - device_type_attribute
     - abandoned_checkout_event
     - conversionWindow
@@ -87,47 +92,22 @@ portable:
     - shippingPathPattern
     - paymentPathPattern
     - reviewPathPattern
-    instruction: 'Create a funnel report called "Checkout Form Friction" with these steps in order: 1) {checkout_started_event};
-      2) {page_view_event} where page_url contains {shippingPathPattern} (shipping step), labeled "Reached Shipping"; 3) {page_view_event}
-      where page_url contains {paymentPathPattern} (payment step), labeled "Reached Payment"; 4) {page_view_event} where page_url
-      contains {reviewPathPattern} (review step), labeled "Reached Review"; 5) {checkout_completed_event}, labeled "Completed
-      Order". Set the conversion window to {conversionWindow}. Break down by {device_type_attribute}. Compare against the
-      previous {comparisonPeriod}. For each step, also show the median and 75th-percentile time on that step''s page, the
-      drop-off rate versus the previous period, and, for users who reached but did not pass each step, their last in-checkout
-      action. Annotate the step with the largest drop-off as the primary checkout bottleneck. Flag any step where median time-on-page
-      exceeds {timeThreshold} seconds. Flag any step where mobile drop-off exceeds desktop drop-off by more than {mobileGapThreshold}
-      percentage points. Highlight the volume of {abandoned_checkout_event} in the same period as recoverable users to pair
-      with abandoned-cart recovery.'
+    - digest_recipients
+    instruction: 'Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes customers who did
+      {checkout_started_event} in the last {comparisonPeriod} and in the {comparisonPeriod} before, through these steps in
+      order within {conversionWindow}: {page_view_event} with {page_view_event.page_url} containing {shippingPathPattern};
+      then containing {paymentPathPattern}; then containing {reviewPathPattern}; then {checkout_completed_event}. It writes
+      these figures for both windows: customers at each step and drop-off % from the step before, overall and per {device_type_attribute};
+      median and 75th percentile seconds on each step''s page; the count of {abandoned_checkout_event}. The first lines name
+      the step with the largest drop-off, any step whose median time is over {timeThreshold} seconds, and any step where mobile
+      drop-off is more than {mobileGapThreshold} points above desktop. Then it emails these figures as plain-text lines, each
+      with its window, to {digest_recipients}. Nothing else is sent.'
 ---
 
 # Checkout friction
 
 Slash command: /checkout-form-friction
 
-## Step 1: Find the stalling checkout step
+## Step 1: Email the weekly checkout friction digest
 
-Create a Funnel report called "Checkout Form Friction".
-Steps:
-1. Event "Checkout created": "Started Checkout"
-2. Event "View page" where Page URL contains "/checkout/shipping" or equivalent shipping step: "Reached Shipping"
-3. Event "View page" where Page URL contains "/checkout/payment" or equivalent payment step: "Reached Payment"
-4. Event "View page" where Page URL contains "/checkout/review" or equivalent review step: "Reached Review"
-5. Event "Checkout completed" OR "Placed order": "Completed Order"
-Conversion window: 1 hour (in-session checkout completion)
-Breakdown: By "device_type" attribute on the Users object (mobile checkout typically 30% lower conversion than desktop)
-Compare: Previous period (prior 30 days)
-For each step, also surface:
-- Median and 75th-percentile time on the step page (long times suggest friction)
-- Drop-off rate vs. previous period
-- For users who reached but didn't pass each step: what was their last in-checkout action (helps identify the specific field/element that caused exit)
-Annotations:
-- Flag the step with the largest drop-off (the primary checkout bottleneck).
-- Flag any step where median time-on-page exceeds 90 seconds (typically signals form complexity, validation issues, or payment-method confusion).
-- Flag if mobile drop-off at any step is >15 percentage points worse than desktop (mobile-specific UX issue at that step).
-- Highlight the Abandoned checkout volume in the same period: these are recoverable users; pair this report with abandoned-cart recovery.
-Industry benchmarks: average ecommerce checkout completion rate is ~50%; top-quartile is 70%+. Step-level: shipping to payment typically 80%+ of the drop-off.
-Use case: every ecommerce team optimizes the checkout but most see only the top-line drop-off, not the per-step diagnosis. This recipe surfaces exactly where the friction lives.
-Taxonomy notes:
-- Checkout created and Checkout completed are canonical (Stripe-sourced).
-- Abandoned checkout (Shopify) is canonical and complementary.
-- Per-step pages are derived from View page.Page URL patterns since separate canonical events for each checkout substep don't exist.
+Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes customers who did checkout started event in the last 7 d and in the 7 d before, through these steps in order within 1 h: page view event with page url containing /checkout/shipping; then containing /checkout/payment; then containing /checkout/review; then checkout completed event. It writes these figures for both windows: customers at each step and drop-off % from the step before, overall and per device type attribute; median and 75th percentile seconds on each step's page; the count of abandoned checkout event. The first lines name the step with the largest drop-off, any step whose median time is over 90 seconds, and any step where mobile drop-off is more than 15 points above desktop. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.
