@@ -67,10 +67,6 @@ portable:
     kind: integration
     meaning: Slack workspace connected for posting alerts to the sales channel
     channel: slack
-  - slot: outreach_email_destination
-    kind: destination
-    meaning: Email sending capability for outreach emails to accounts
-    channel: email
   - slot: product_feature_knowledge
     kind: knowledge
     meaning: Product features and their relevance for companies of different sizes
@@ -91,7 +87,7 @@ portable:
     - salesChannel
     dependsOn:
     - s1
-    instruction: Post a Slack message to the {salesChannel} channel in {sales_slack} for each account in "High-Intent ICP
+    instruction: Write a Slack message for the {salesChannel} channel in {sales_slack} for each account in "High-Intent ICP
       Prospects". Name the account and its {account_employees} count so reps can reach out while interest is still warm. Use
       the result of "Build the hot ICP list". Take names and addresses from the member list in the result of the step that
       built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in.
@@ -99,7 +95,6 @@ portable:
     builds: email
     uses:
     - s1
-    - outreach_email_destination
     - product_feature_knowledge
     - call_booking_page
     - emailTone
@@ -109,9 +104,9 @@ portable:
     instruction: Create a designed marketing email for the accounts in "High-Intent ICP Prospects" (the segment from "Build
       the hot ICP list") introducing the product feature from {product_feature_knowledge} that is most relevant to a company
       of their size. Write {emailSentenceCount} sentences in a {emailTone} tone with no discount language. Include one button
-      linking to {call_booking_page}. Send through {outreach_email_destination}. Use the result of "Build the hot ICP list".
-      If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this
-      run or named in this step; never leave a button without a link.
+      linking to {call_booking_page}. Use the result of "Build the hot ICP list". If the brand kit has no logo, use the brand
+      name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button
+      without a link.
 ---
 
 # ICP accounts showing intent
@@ -124,8 +119,8 @@ Build a new segment named "High-Intent ICP Prospects". An account is included on
 
 ## Step 2: Alert sales
 
-Post a Slack message to the sales channel in sales slack for each account in "High-Intent ICP Prospects". Name the account and its account employees count so reps can reach out while interest is still warm. Use the result of "Build the hot ICP list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in.
+Write a Slack message for the sales channel in sales slack for each account in "High-Intent ICP Prospects". Name the account and its account employees count so reps can reach out while interest is still warm. Use the result of "Build the hot ICP list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in.
 
 ## Step 3: Send an outreach email
 
-Create a designed marketing email for the accounts in "High-Intent ICP Prospects" (the segment from "Build the hot ICP list") introducing the product feature from product feature knowledge that is most relevant to a company of their size. Write 3 sentences in a confident and consultative tone with no discount language. Include one button linking to call booking page. Send through outreach email destination. Use the result of "Build the hot ICP list". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.
+Create a designed marketing email for the accounts in "High-Intent ICP Prospects" (the segment from "Build the hot ICP list") introducing the product feature from product feature knowledge that is most relevant to a company of their size. Write 3 sentences in a confident and consultative tone with no discount language. Include one button linking to call booking page. Use the result of "Build the hot ICP list". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.

@@ -88,7 +88,7 @@ portable:
     - s1
     dependsOn:
     - s1
-    instruction: Send a Slack message to {sales_slack} for each account in "Multi-Stakeholder Engaged Accounts" naming the
+    instruction: Write a Slack message for {sales_slack} for each account in "Multi-Stakeholder Engaged Accounts" naming the
       account {account_name} and its employee count {account_employee_count}, so reps know a buying committee may have formed
       and can act while interest is high. Use the result of "Build the multi-stakeholder list". Take names and addresses from
       the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder
@@ -119,7 +119,7 @@ Build a new segment of accounts named "Multi-Stakeholder Engaged Accounts". An a
 
 ## Step 2: Alert sales
 
-Send a Slack message to sales slack for each account in "Multi-Stakeholder Engaged Accounts" naming the account account name and its employee count account employee count, so reps know a buying committee may have formed and can act while interest is high. Use the result of "Build the multi-stakeholder list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in.
+Write a Slack message for sales slack for each account in "Multi-Stakeholder Engaged Accounts" naming the account account name and its employee count account employee count, so reps know a buying committee may have formed and can act while interest is high. Use the result of "Build the multi-stakeholder list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in.
 
 ## Step 3: Send a team resource
 

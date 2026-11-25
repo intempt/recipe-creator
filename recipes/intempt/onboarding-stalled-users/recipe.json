@@ -3,7 +3,7 @@
   "title": "Engaged trial users",
   "slash_command": "/onboarding-stalled-users",
   "description": "Trial users logging in often enough to be ready to buy, offered a personal demo by email while sales still has the window to close them.",
-  "markdown": "# Engaged trial users\n\n## Description\n\nTrial users logging in often enough to be ready to buy, offered a personal demo by email while sales still has the window to close them.\n\n## Steps\n\n### Step 1: Build the engaged-trial list\n\nBuild a new segment named \"Engaged Trial Users\" containing users who are still on their trial and not yet paying (never people who already converted): their plan attribute is trial and who did session start event at least 5 times in the last 14 d.\n\n### Step 2: Offer a personal demo\n\nGenerate a designed marketing email for the users in the \"Engaged Trial Users\" segment offering a personal walkthrough of a feature they have not tried yet. Write three sentences in a warm and helpful tone with no discount language. Include one button linking to demo booking page. If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.\n\n### Step 3: Alert sales\n\nGenerate a Slack message to the sales channel that lists the email address of each user in the \"Engaged Trial Users\" segment, so reps can reach out while the trial window is still open. Use sales slack to post it.\n",
+  "markdown": "# Engaged trial users\n\n## Description\n\nTrial users logging in often enough to be ready to buy, offered a personal demo by email while sales still has the window to close them.\n\n## Steps\n\n### Step 1: Build the engaged-trial list\n\nBuild a new segment named \"Engaged Trial Users\" containing users who are still on their trial and not yet paying (never people who already converted): their plan attribute is trial and who did session start event at least 5 times in the last 14 d.\n\n### Step 2: Offer a personal demo\n\nGenerate a designed marketing email for the users in the \"Engaged Trial Users\" segment offering a personal walkthrough of a feature they have not tried yet. Write three sentences in a warm and helpful tone with no discount language. Include one button linking to demo booking page. If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.\n\n### Step 3: Alert sales\n\nGenerate a Slack message to the sales channel that lists the email address of each user in the \"Engaged Trial Users\" segment, so reps can reach out while the trial window is still open. It is for sales slack.\n",
   "classification": {
     "industry": [
       "industry-agnostic"
@@ -41,7 +41,7 @@
     {
       "id": "s3",
       "title": "Alert sales",
-      "description": "Generate a Slack message to the sales channel that lists the email address of each user in the \"Engaged Trial Users\" segment, so reps can reach out while the trial window is still open. Use sales slack to post it.",
+      "description": "Generate a Slack message to the sales channel that lists the email address of each user in the \"Engaged Trial Users\" segment, so reps can reach out while the trial window is still open. It is for sales slack.",
       "command": "create_slack_content",
       "entity": "slack",
       "modelConfig": []

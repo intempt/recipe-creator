@@ -95,7 +95,7 @@ portable:
     - salesChannel
     dependsOn:
     - s1
-    instruction: Send a Slack message to the {salesChannel} channel for each user in the segment from "Build the fast-starter
+    instruction: Write a Slack message for the {salesChannel} channel for each user in the segment from "Build the fast-starter
       list" listing their email address {subscription_started_event.email} so reps can reach out while interest is at its
       peak. Use the result of "Build the fast-starter list". Take names and addresses from the member list in the result of
       the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste
@@ -126,7 +126,7 @@ Build a new segment named "Trial Users: High Engagement" of users who are still 
 
 ## Step 2: Fast-track to sales
 
-Send a Slack message to the sales channel for each user in the segment from "Build the fast-starter list" listing their email address email so reps can reach out while interest is at its peak. Use the result of "Build the fast-starter list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in.
+Write a Slack message for the sales channel for each user in the segment from "Build the fast-starter list" listing their email address email so reps can reach out while interest is at its peak. Use the result of "Build the fast-starter list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in.
 
 ## Step 3: Offer a personal onboarding session
 

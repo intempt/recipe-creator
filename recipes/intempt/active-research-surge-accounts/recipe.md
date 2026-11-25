@@ -83,7 +83,7 @@ portable:
     - account_name
     dependsOn:
     - s1
-    instruction: Post a Slack message to {sales_team_channel} for each account in "Active Research Surge Accounts", naming
+    instruction: Write a Slack message for {sales_team_channel} for each account in "Active Research Surge Accounts", naming
       the account ({account_name}) so reps can reach out while interest is at its peak. Use the result of "Build the research-surge
       list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then
       how many more); never write a placeholder or ask the reader to paste anything in.
@@ -114,7 +114,7 @@ Build a new segment named "Active Research Surge Accounts" of accounts where use
 
 ## Step 2: Alert sales
 
-Post a Slack message to sales team channel for each account in "Active Research Surge Accounts", naming the account (account name) so reps can reach out while interest is at its peak. Use the result of "Build the research-surge list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in.
+Write a Slack message for sales team channel for each account in "Active Research Surge Accounts", naming the account (account name) so reps can reach out while interest is at its peak. Use the result of "Build the research-surge list". Take names and addresses from the member list in the result of the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in.
 
 ## Step 3: Send a relevant resource
 

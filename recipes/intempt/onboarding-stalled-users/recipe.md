@@ -95,8 +95,7 @@ portable:
     dependsOn:
     - s1
     instruction: Generate a Slack message to the {sales_channel} channel that lists the email address of each user in the
-      "Engaged Trial Users" segment, so reps can reach out while the trial window is still open. Use {sales_slack} to post
-      it.
+      "Engaged Trial Users" segment, so reps can reach out while the trial window is still open. It is for {sales_slack}.
 ---
 
 # Engaged trial users
@@ -113,4 +112,4 @@ Generate a designed marketing email for the users in the "Engaged Trial Users" s
 
 ## Step 3: Alert sales
 
-Generate a Slack message to the sales channel that lists the email address of each user in the "Engaged Trial Users" segment, so reps can reach out while the trial window is still open. Use sales slack to post it.
+Generate a Slack message to the sales channel that lists the email address of each user in the "Engaged Trial Users" segment, so reps can reach out while the trial window is still open. It is for sales slack.
