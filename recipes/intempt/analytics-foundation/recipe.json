@@ -2,8 +2,8 @@
   "frontmatter_id": "analytics-foundation",
   "title": "Analytics foundation",
   "slash_command": "/analytics-foundation",
-  "description": "Set up core analytics from your events: Insights, Funnels, and Retention reports, plus an executive dashboard for headline numbers.",
-  "markdown": "# Analytics foundation\n\n## Description\n\nSet up core analytics from your events: Insights, Funnels, and Retention reports, plus an executive dashboard for headline numbers.\n\n## Steps\n\n### Step 1: Build the core report set\n\nBuild the core report set: Insights (key metrics), Funnels (conversion paths), Retention (cohort analysis), Paths (user flows).\n\n### Step 2: Compose the exec dashboard\n\nCompose an executive dashboard surfacing headline metrics with comparisons and trends. Use the result of \"Build the core report set\".\n",
+  "description": "Analyzes your tracked product events every week and emails the headline numbers: active users, top actions, conversion between your key steps and new-user retention, each against the week before.",
+  "markdown": "# Analytics foundation\n\n## Description\n\nAnalyzes your tracked product events every week and emails the headline numbers: active users, top actions, conversion between your key steps and new-user retention, each against the week before.\n\n## Steps\n\n### Step 1: Email the weekly headline numbers\n\nBuild an analytics automation that runs every Monday at 08:00 on a schedule. Each run it analyzes product events and signup event and writes these figures, each for the last 7 days and the 7 days before with the change in percent: weekly active users (users who did any product events); new users who did signup event; the 5 most frequent product events by count; the share of users who did signup event between 7 and 14 days ago who then did the the event name that counts as the key conversion step event within 7 days of signing up; the share of users who signed up between 28 and 35 days ago who did any product events in the last 7 days (week-4 retention). Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.\n",
   "classification": {
     "industry": [
       "industry-agnostic"
@@ -19,13 +19,8 @@
   "steps": [
     {
       "id": "s1",
-      "title": "Build the core report set",
-      "description": "Build the core report set: Insights (key metrics), Funnels (conversion paths), Retention (cohort analysis), Paths (user flows)."
-    },
-    {
-      "id": "s2",
-      "title": "Compose the exec dashboard",
-      "description": "Compose an executive dashboard surfacing headline metrics with comparisons and trends. Use the result of \"Build the core report set\"."
+      "title": "Email the weekly headline numbers",
+      "description": "Build an analytics automation that runs every Monday at 08:00 on a schedule. Each run it analyzes product events and signup event and writes these figures, each for the last 7 days and the 7 days before with the change in percent: weekly active users (users who did any product events); new users who did signup event; the 5 most frequent product events by count; the share of users who did signup event between 7 and 14 days ago who then did the the event name that counts as the key conversion step event within 7 days of signing up; the share of users who signed up between 28 and 35 days ago who did any product events in the last 7 days (week-4 retention). Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent."
     }
   ],
   "availability": "coming_soon"

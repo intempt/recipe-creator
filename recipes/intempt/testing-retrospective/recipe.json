@@ -2,8 +2,8 @@
   "frontmatter_id": "testing-retrospective",
   "title": "Quarterly experiment retrospective",
   "slash_command": "/testing-retrospective",
-  "description": "Builds a quarterly retrospective dashboard tracking exposure events, conversion metrics, and engagement trends across your testing periods.",
-  "markdown": "# Quarterly experiment retrospective\n\n## Description\n\nBuilds a quarterly retrospective dashboard tracking exposure events, conversion metrics, and engagement trends across your testing periods.\n\n## Steps\n\n### Step 1: Compile the quarter's results\n\nThis step builds a report.\nCompile results across all experiments run in the period: winners, losers, inconclusive.\n\n### Step 2: Find the patterns that repeat\n\nGenerate insights report extracting patterns: which hypothesis families won, which traffic sources differed, best surfaces. Use the result of \"Compile the quarter's results\".\n\n### Step 3: Track cadence and impact\n\nCompose a dashboard summarizing testing cadence, win rate, and revenue impact. Use the result of \"Compile the quarter's results\", \"Find the patterns that repeat\".\n",
+  "description": "Analyzes every experiment run in the last quarter from exposure and conversion events and emails a retrospective: winners, losers, inconclusive tests and the patterns that repeat.",
+  "markdown": "# Quarterly experiment retrospective\n\n## Description\n\nAnalyzes every experiment run in the last quarter from exposure and conversion events and emails a retrospective: winners, losers, inconclusive tests and the patterns that repeat.\n\n## Steps\n\n### Step 1: Email the quarter's experiment results\n\nBuild an automation that runs on the first day of each quarter at 08:00 on a schedule. Each run it analyzes experiment exposure and conversion event in the last 90 d, grouped by experiment id and variant, and writes these figures: for each experiment, users exposed and conversion rate per variant, and its result: winner when a variant beats the first variant by 95% confidence, loser when it is worse by 95% confidence, inconclusive otherwise; the number of experiments run and the win rate, against the 90 d before; total revenue of winning variants; win rate by traffic source; win rate by surface. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.\n",
   "classification": {
     "industry": [
       "industry-agnostic"
@@ -19,18 +19,8 @@
   "steps": [
     {
       "id": "s1",
-      "title": "Compile the quarter's results",
-      "description": "This step builds a report.\nCompile results across all experiments run in the period: winners, losers, inconclusive."
-    },
-    {
-      "id": "s2",
-      "title": "Find the patterns that repeat",
-      "description": "Generate insights report extracting patterns: which hypothesis families won, which traffic sources differed, best surfaces. Use the result of \"Compile the quarter's results\"."
-    },
-    {
-      "id": "s3",
-      "title": "Track cadence and impact",
-      "description": "Compose a dashboard summarizing testing cadence, win rate, and revenue impact. Use the result of \"Compile the quarter's results\", \"Find the patterns that repeat\"."
+      "title": "Email the quarter's experiment results",
+      "description": "Build an automation that runs on the first day of each quarter at 08:00 on a schedule. Each run it analyzes experiment exposure and conversion event in the last 90 d, grouped by experiment id and variant, and writes these figures: for each experiment, users exposed and conversion rate per variant, and its result: winner when a variant beats the first variant by 95% confidence, loser when it is worse by 95% confidence, inconclusive otherwise; the number of experiments run and the win rate, against the 90 d before; total revenue of winning variants; win rate by traffic source; win rate by surface. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent."
     }
   ],
   "availability": "coming_soon"

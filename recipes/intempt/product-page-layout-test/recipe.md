@@ -94,23 +94,29 @@ portable:
   - id: s1
     builds: experiment
     uses:
-    - experimentTitle
-    - targetingUrlContains
+    - add_to_cart_click
+    - bounceRateIncreaseLimit
+    - cart_created
     - controlTrafficPercent
+    - experimentTitle
+    - minUniqueVisitorsPerVariant
+    - orderWindow
+    - order_placed
+    - product_page_views
+    - targetingUrlContains
+    - testDuration
     - variantBTrafficPercent
     - variantCTrafficPercent
-    - product_page_views
-    - cart_created
-    - add_to_cart_click
-    instruction: 'Create a client-side experiment on /experiences titled "{experimentTitle}". Target visitors on pages whose
-      URL contains "{targetingUrlContains}", all devices, all visitors, display frequency always. Variants: Control ({controlTrafficPercent}%)
-      keeps the existing product page with image gallery on the left and details on the right, with no DOM changes. Variant
-      B ({variantBTrafficPercent}%) replaces the .product-detail structure with a full-width hero image and a floating details
-      panel. Variant C ({variantCTrafficPercent}%) replaces .product-detail with a video-first layout featuring an autoplay
-      muted looping product demo video above the product name, price and add-to-cart button, with description and reviews
-      below. Variant B''s floating panel needs an explicit mobile design. Variant C''s autoplay must respect prefers-reduced-motion.
-      Keep the element id add-to-cart-button identical across all variants so click rates are comparable. Use product_id,
-      quantity and order_total from the cart-created event for the add-to-cart measurement.'
+    instruction: 'Create a client experiment titled "{experimentTitle}" on the experiences page. Target visitors on pages
+      whose URL contains "{targetingUrlContains}", all devices, all visitors, display frequency always. Variants: Control
+      ({controlTrafficPercent}%) keeps the existing product page, image gallery on the left and details on the right. Variant
+      B ({variantBTrafficPercent}%) shows a full-width hero image with a floating details panel, with its own mobile layout.
+      Variant C ({variantCTrafficPercent}%) puts a muted, looping product video above the product name, price and add-to-cart
+      button, with description and reviews below; it does not autoplay for visitors who prefer reduced motion. Keep the add-to-cart
+      button id add-to-cart-button the same in all variants. Primary metric: add-to-cart rate, from {add_to_cart_click} and
+      {cart_created}. Secondary metrics: share of {product_page_views} visitors who do {order_placed} within {orderWindow};
+      time on page. Guardrail: bounce rate must not rise by more than {bounceRateIncreaseLimit}%. Run for {testDuration} and
+      until each variant has {minUniqueVisitorsPerVariant} unique visitors.'
 ---
 
 # Product page layout test
@@ -119,59 +125,4 @@ Slash command: /product-page-layout-test
 
 ## Step 1: Set up the layout test
 
-Create a CLIENT EXPERIMENT on /experiences titled "Product Page Layout".
-═══ PATH 1: Top-level configuration ═══
-Experience type: client_experiment
-Variants:
-- Control (34%): existing PDP: image gallery on left, details on right
-- Variant B (33%): full-width hero image with floating details panel
-- Variant C (33%): video-first layout with autoplay product demo
-Targeting:
-- Pages: page URL contains "/products/"
-- Devices: any (note: variant B's floating panel needs explicit mobile design; variant C autoplay should respect prefers-reduced-motion)
-- Audience: all visitors
-- Display frequency: always
-Primary metric: goal_completed_in_experience where experience_id = <this> (goal fires on Cart created within session of exposure)
-Secondary metrics:
-- clicks where target_id = "add-to-cart-button"
-- Placed order within 7 days of exposure
-- Time on PDP (time from View page to next View page or Session end)
-Guardrail: bounce rate on PDPs must not increase >5%
-Schedule: 14 days, 2,000 unique PDP visitors per variant minimum
-═══ PATH 2: Variant HTML content (Visual Editor) ═══
-Variant: Control (no DOM changes)
-Variant: B (full-width hero + floating panel)
- HTML target selector: .product-detail (replace structure)
- Replacement HTML:
- <article class="pdp-hero-layout" data-variant="b">
- <div class="hero-image-wrapper">
- <img src="(fill in: primary product image)" alt="(fill in: product name)" class="hero-image" />
- </div>
- <aside class="floating-details-panel">
- <h1 class="product-title">(fill in: Product name)</h1>
- <div class="product-price">(fill in: $X.XX)</div>
- <div class="product-rating">★★★★☆ (123 reviews)</div>
- <div class="variant-selectors"><!-- size, color etc --></div>
- <button class="add-to-cart-btn" id="add-to-cart-button" data-variant="b">Add to Cart</button>
- </aside>
- <section class="product-description"><!-- collapsed below the fold --></section>
- </article>
-Variant: C (video-first)
- HTML target selector: .product-detail (replace structure)
- Replacement HTML:
- <article class="pdp-video-layout" data-variant="c">
- <div class="video-hero">
- <video autoplay muted loop playsinline poster="(fill in: product poster)">
- <source src="(fill in: product demo video)" type="video/mp4" />
- </video>
- </div>
- <div class="product-actions">
- <h1>(fill in: Product name)</h1>
- <div class="product-price">(fill in: $X.XX)</div>
- <button class="add-to-cart-btn" id="add-to-cart-button" data-variant="c">Add to Cart</button>
- </div>
- <section class="product-info"><!-- description, reviews --></section>
- </article>
-Taxonomy notes:
-- Cart created is the canonical add-to-cart event; it fires with product_id, quantity, Order total.
-- "add-to-cart-button" target_id must be preserved across variants for click-rate comparability. Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.
+Create a client experiment titled "Product Page Layout" on the experiences page. Target visitors on pages whose URL contains "/products/", all devices, all visitors, display frequency always. Variants: Control (34%) keeps the existing product page, image gallery on the left and details on the right. Variant B (33%) shows a full-width hero image with a floating details panel, with its own mobile layout. Variant C (33%) puts a muted, looping product video above the product name, price and add-to-cart button, with description and reviews below; it does not autoplay for visitors who prefer reduced motion. Keep the add-to-cart button id add-to-cart-button the same in all variants. Primary metric: add-to-cart rate, from add to cart click and cart created. Secondary metrics: share of product page views visitors who do order placed within 7 d; time on page. Guardrail: bounce rate must not rise by more than 5%. Run for 14 d and until each variant has 2000 unique visitors.

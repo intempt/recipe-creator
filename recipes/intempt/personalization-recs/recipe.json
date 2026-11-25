@@ -2,8 +2,8 @@
   "frontmatter_id": "personalization-recs",
   "title": "Product recommendations across channels",
   "slash_command": "/personalization-recs",
-  "description": "Generates catalog-aware product recommendations tailored to user cohorts and evaluates their performance with A/B experiments.",
-  "markdown": "# Product recommendations across channels\n\n## Description\n\nGenerates catalog-aware product recommendations tailored to user cohorts and evaluates their performance with A/B experiments.\n\n## Steps\n\n### Step 1: Build the recommendation model\n\nConfigure recommendation engine sourcing from product catalog with collaborative-filtering and item-similarity models.\n\n### Step 2: Place them on each surface\n\nConfigure personalization rules serving recommendations on PDP, cart, post-purchase, and email surfaces. Use the result of \"Build the recommendation model\".\n\n### Step 3: Split shoppers into cohorts\n\nSegment users into recommendation cohorts (new visitor, browsing, returning, lapsed) for tuned strategies. Use the result of \"Build the recommendation model\", \"Place them on each surface\".\n\n### Step 4: Test against the alternatives\n\nAdd A/B variants comparing personalized recs vs trending products vs editor's-pick. Use the result of \"Build the recommendation model\", \"Place them on each surface\", \"Split shoppers into cohorts\".\n\n### Step 5: Build the email modules\n\nGenerate email modules that surface recommendations within campaign and journey emails. Use the result of \"Build the recommendation model\", \"Place them on each surface\", \"Split shoppers into cohorts\", \"Test against the alternatives\". If the brand kit has no logo, use the brand name as a plain text header.\n\n### Step 6: Follow up with high-intent browsers\n\nBuild a journey delivering personalized product picks to high-intent browsers. Use the result of \"Build the recommendation model\", \"Place them on each surface\", \"Split shoppers into cohorts\", \"Test against the alternatives\", \"Build the email modules\".\n\n### Step 7: Track what recommendations earn\n\nCompose a dashboard tracking recommendation CTR, attributed revenue, and per-surface performance. Use the result of \"Build the recommendation model\", \"Place them on each surface\", \"Split shoppers into cohorts\", \"Test against the alternatives\", \"Build the email modules\", \"Follow up with high-intent browsers\".\n",
+  "description": "Builds catalog-aware product recommendations, shows them on the product page, cart and post-purchase page, and emails product picks to high-intent browsers who have not bought.",
+  "markdown": "# Product recommendations across channels\n\n## Description\n\nBuilds catalog-aware product recommendations, shows them on the product page, cart and post-purchase page, and emails product picks to high-intent browsers who have not bought.\n\n## Steps\n\n### Step 1: Build the recommendation model\n\nCreate a product recommendation named \"Recommended for you\" from product catalog. For each user it ranks products by what users with similar product viewed and order completed history bought (by product id and product id) and by similarity to the products the user viewed in the last 30 days. It leaves out products the user ordered in the last 30 days and products that are out of stock. Users with no history get the best sellers of the last 30 days.\n\n### Step 2: Place them on each surface\n\nCreate a website personalization that shows 4 products from the recommendation from \"Build the recommendation model\" in a \"Recommended for you\" row on three pages: below the product details on product pages, below the line items on the cart page, and on the order confirmation page. Audience: all visitors; devices: any; display frequency: always; schedule: continuous.\n\n### Step 3: Find high-intent browsers\n\nBuild a new segment of users named \"High-Intent Browsers\". A user is in it when they did product viewed 3 or more times in the last 7 d and did not do order completed in the last 7 d.\n\n### Step 4: Write the product picks email\n\nWrite an email for users in the segment from \"Find high-intent browsers\". It shows the last product they viewed (product id) and four similar products from product catalog, each with its image, name and a link to its product page. Subject line about the product they looked at. Helpful tone, no discount. If the brand kit has no logo, use the brand name as a plain text header.\n\n### Step 5: Follow up with high-intent browsers\n\nBuild an automation triggered when a user enters the segment from \"Find high-intent browsers\". After 24 hours, if the user has not done order completed since entering, it sends the email from \"Write the product picks email\" through email channel. Each user gets it at most once in 30 days.\n",
   "classification": {
     "industry": [
       "ecommerce-retail"
@@ -20,37 +20,27 @@
     {
       "id": "s1",
       "title": "Build the recommendation model",
-      "description": "Configure recommendation engine sourcing from product catalog with collaborative-filtering and item-similarity models."
+      "description": "Create a product recommendation named \"Recommended for you\" from product catalog. For each user it ranks products by what users with similar product viewed and order completed history bought (by product id and product id) and by similarity to the products the user viewed in the last 30 days. It leaves out products the user ordered in the last 30 days and products that are out of stock. Users with no history get the best sellers of the last 30 days."
     },
     {
       "id": "s2",
       "title": "Place them on each surface",
-      "description": "Configure personalization rules serving recommendations on PDP, cart, post-purchase, and email surfaces. Use the result of \"Build the recommendation model\"."
+      "description": "Create a website personalization that shows 4 products from the recommendation from \"Build the recommendation model\" in a \"Recommended for you\" row on three pages: below the product details on product pages, below the line items on the cart page, and on the order confirmation page. Audience: all visitors; devices: any; display frequency: always; schedule: continuous."
     },
     {
       "id": "s3",
-      "title": "Split shoppers into cohorts",
-      "description": "Segment users into recommendation cohorts (new visitor, browsing, returning, lapsed) for tuned strategies. Use the result of \"Build the recommendation model\", \"Place them on each surface\"."
+      "title": "Find high-intent browsers",
+      "description": "Build a new segment of users named \"High-Intent Browsers\". A user is in it when they did product viewed 3 or more times in the last 7 d and did not do order completed in the last 7 d."
     },
     {
       "id": "s4",
-      "title": "Test against the alternatives",
-      "description": "Add A/B variants comparing personalized recs vs trending products vs editor's-pick. Use the result of \"Build the recommendation model\", \"Place them on each surface\", \"Split shoppers into cohorts\"."
+      "title": "Write the product picks email",
+      "description": "Write an email for users in the segment from \"Find high-intent browsers\". It shows the last product they viewed (product id) and four similar products from product catalog, each with its image, name and a link to its product page. Subject line about the product they looked at. Helpful tone, no discount. If the brand kit has no logo, use the brand name as a plain text header."
     },
     {
       "id": "s5",
-      "title": "Build the email modules",
-      "description": "Generate email modules that surface recommendations within campaign and journey emails. Use the result of \"Build the recommendation model\", \"Place them on each surface\", \"Split shoppers into cohorts\", \"Test against the alternatives\". If the brand kit has no logo, use the brand name as a plain text header."
-    },
-    {
-      "id": "s6",
       "title": "Follow up with high-intent browsers",
-      "description": "Build a journey delivering personalized product picks to high-intent browsers. Use the result of \"Build the recommendation model\", \"Place them on each surface\", \"Split shoppers into cohorts\", \"Test against the alternatives\", \"Build the email modules\"."
-    },
-    {
-      "id": "s7",
-      "title": "Track what recommendations earn",
-      "description": "Compose a dashboard tracking recommendation CTR, attributed revenue, and per-surface performance. Use the result of \"Build the recommendation model\", \"Place them on each surface\", \"Split shoppers into cohorts\", \"Test against the alternatives\", \"Build the email modules\", \"Follow up with high-intent browsers\"."
+      "description": "Build an automation triggered when a user enters the segment from \"Find high-intent browsers\". After 24 hours, if the user has not done order completed since entering, it sends the email from \"Write the product picks email\" through email channel. Each user gets it at most once in 30 days."
     }
   ],
   "availability": "coming_soon"

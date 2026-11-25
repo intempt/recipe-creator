@@ -2,8 +2,8 @@
   "frontmatter_id": "welcome-series",
   "title": "Welcome series",
   "slash_command": "/welcome-series",
-  "description": "Introduces your brand to new subscribers over their first week in four emails, and tests the subject lines and the opening offer.",
-  "markdown": "# Welcome series\n\n## Description\n\nIntroduces your brand to new subscribers over their first week in four emails, and tests the subject lines and the opening offer.\n\n## Steps\n\n### Step 1: Find new subscribers\n\nThis step builds a segment.\nIdentify users who subscribed within the last 30 days and have not received a welcome email yet.\n\n### Step 2: Write the four emails\n\nGenerate a 4-email welcome sequence introducing the brand, product, and value props using brand voice. Use the result of \"Find new subscribers\". If the brand kit has no logo, use the brand name as a plain text header.\n\n### Step 3: Send across the first week\n\nBuild a 4-touch welcome journey sending the emails at 0hr, 1day, 3day, and 7day after subscription. Use the result of \"Find new subscribers\", \"Write the four emails\".\n\n### Step 4: Test subject lines and offer\n\nAdd A/B variants on subject lines and welcome offer presence. Use the result of \"Find new subscribers\", \"Write the four emails\", \"Send across the first week\".\n\n### Step 5: Track the first purchase\n\nCompose a dashboard tracking open rates, click rates, conversion rate, and time-to-first-purchase from the welcome journey. Use the result of \"Find new subscribers\", \"Write the four emails\", \"Send across the first week\", \"Test subject lines and offer\".\n",
+  "description": "Introduces your brand to new subscribers over their first week in four emails, tests the subject lines and the opening offer, and emails a weekly digest of first purchases.",
+  "markdown": "# Welcome series\n\n## Description\n\nIntroduces your brand to new subscribers over their first week in four emails, tests the subject lines and the opening offer, and emails a weekly digest of first purchases.\n\n## Steps\n\n### Step 1: Find new subscribers\n\nBuild a new segment of users named \"New Subscribers\". A user is in it when they did new subscriber event in the last 7 d and did not do purchase event at any time.\n\n### Step 2: Write the four emails\n\nWrite a four-email welcome sequence for the users in the segment from \"Find new subscribers\", in the voice of brand voice. Email 1 (on subscribe): welcome them and say who the brand is and what it stands for. Email 2 (day 1): the products and the main value they get. Email 3 (day 3): customer stories and best sellers. Email 4 (day 7): an opening offer of 10% off the first order. Each email has one call to action that links to the store. If the brand kit has no logo, use the brand name as a plain text header.\n\n### Step 3: Send across the first week\n\nBuild an automation triggered when a user does new subscriber event. It sends the four emails from \"Write the four emails\" through email channel: email 1 at once, email 2 after 1 day, email 3 after 3 days and email 4 after 7 days. Before each send it checks whether the user did purchase event since subscribing; if they did, the automation stops for that user.\n\n### Step 4: Test subject lines and offer\n\nCreate an experiment on the automation from \"Send across the first week\" for users in the segment from \"Find new subscribers\". Variant A sends the emails from \"Write the four emails\" as written. Variant B uses a question-style subject line on each email and leaves out the 10% offer in email 4. Split users 50/50 at random. Primary metric: share of users who did purchase event within 14 days of subscribing. Secondary metrics: open rate and click rate per email. Run for 30 days.\n\n### Step 5: Email the weekly first-purchase digest\n\nBuild an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes users who did new subscriber event in the last 7 days and in the 7 days before that, and writes these figures: new subscribers in each window; open rate and click rate of each email sent by \"Send across the first week\" in the last 7 days; the share of new subscribers who did purchase event within 7 days of subscribing; the median days from subscribing to the first purchase event; the total order value of those first orders. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.\n",
   "classification": {
     "industry": [
       "industry-agnostic"
@@ -20,27 +20,27 @@
     {
       "id": "s1",
       "title": "Find new subscribers",
-      "description": "This step builds a segment.\nIdentify users who subscribed within the last 30 days and have not received a welcome email yet."
+      "description": "Build a new segment of users named \"New Subscribers\". A user is in it when they did new subscriber event in the last 7 d and did not do purchase event at any time."
     },
     {
       "id": "s2",
       "title": "Write the four emails",
-      "description": "Generate a 4-email welcome sequence introducing the brand, product, and value props using brand voice. Use the result of \"Find new subscribers\". If the brand kit has no logo, use the brand name as a plain text header."
+      "description": "Write a four-email welcome sequence for the users in the segment from \"Find new subscribers\", in the voice of brand voice. Email 1 (on subscribe): welcome them and say who the brand is and what it stands for. Email 2 (day 1): the products and the main value they get. Email 3 (day 3): customer stories and best sellers. Email 4 (day 7): an opening offer of 10% off the first order. Each email has one call to action that links to the store. If the brand kit has no logo, use the brand name as a plain text header."
     },
     {
       "id": "s3",
       "title": "Send across the first week",
-      "description": "Build a 4-touch welcome journey sending the emails at 0hr, 1day, 3day, and 7day after subscription. Use the result of \"Find new subscribers\", \"Write the four emails\"."
+      "description": "Build an automation triggered when a user does new subscriber event. It sends the four emails from \"Write the four emails\" through email channel: email 1 at once, email 2 after 1 day, email 3 after 3 days and email 4 after 7 days. Before each send it checks whether the user did purchase event since subscribing; if they did, the automation stops for that user."
     },
     {
       "id": "s4",
       "title": "Test subject lines and offer",
-      "description": "Add A/B variants on subject lines and welcome offer presence. Use the result of \"Find new subscribers\", \"Write the four emails\", \"Send across the first week\"."
+      "description": "Create an experiment on the automation from \"Send across the first week\" for users in the segment from \"Find new subscribers\". Variant A sends the emails from \"Write the four emails\" as written. Variant B uses a question-style subject line on each email and leaves out the 10% offer in email 4. Split users 50/50 at random. Primary metric: share of users who did purchase event within 14 days of subscribing. Secondary metrics: open rate and click rate per email. Run for 30 days."
     },
     {
       "id": "s5",
-      "title": "Track the first purchase",
-      "description": "Compose a dashboard tracking open rates, click rates, conversion rate, and time-to-first-purchase from the welcome journey. Use the result of \"Find new subscribers\", \"Write the four emails\", \"Send across the first week\", \"Test subject lines and offer\"."
+      "title": "Email the weekly first-purchase digest",
+      "description": "Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes users who did new subscriber event in the last 7 days and in the 7 days before that, and writes these figures: new subscribers in each window; open rate and click rate of each email sent by \"Send across the first week\" in the last 7 days; the share of new subscribers who did purchase event within 7 days of subscribing; the median days from subscribing to the first purchase event; the total order value of those first orders. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent."
     }
   ],
   "availability": "coming_soon"

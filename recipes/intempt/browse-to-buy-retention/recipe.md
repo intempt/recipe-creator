@@ -1,7 +1,8 @@
 ---
 frontmatter_id: browse-to-buy-retention
 slash_command: /browse-to-buy-retention
-description: Measures how long first time visitors take to place an order, by acquisition source, so you can tell fast converting channels from slow ones.
+description: Measures how long first-time visitors take to place an order, by acquisition source, and emails it weekly so
+  you can tell fast converting channels from slow ones.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,85 +12,63 @@ classification:
   industry:
   - ecommerce-retail
 portable:
-  summary: Shows how long first-time visitors take to place an order, broken down by acquisition source, to spot fast and
-    slow converting channels.
+  summary: Emails a weekly digest of how fast first-time visitors place a first order, by acquisition source, flagging fast
+    and slow converting sources.
   parameters:
-  - name: cohort_granularity
-    type: enum
-    label: Cohort granularity
-    default: weekly
-    required: false
-    options:
-    - daily
-    - weekly
-    - monthly
   - name: time_range
     type: duration
-    label: Cohort time range
+    label: Weeks of first-visit cohorts looked at
     default: 12 w
     required: false
   - name: breakdown_top_n
     type: number
-    label: Number of top sources to break down
+    label: Sources listed
     default: 6
     required: false
   - name: benchmark_w1_rate
     type: number
-    label: Typical W1 first-purchase rate benchmark (%)
+    label: Typical week-1 first-order rate (%)
     default: 5
-    required: false
-  - name: impulse_w1_rate
-    type: number
-    label: Impulse-buy W1 first-purchase rate benchmark (%)
-    default: 10
     required: false
   - name: w12_flag_threshold
     type: number
-    label: W12 browse-to-buy gap flag threshold (%)
+    label: Week-12 first-order rate below which a source is flagged (%)
     default: 8
     required: false
+  - name: digest_recipients
+    type: string
+    label: Email addresses that get the digest
+    required: true
   requirements:
   - slot: session_start_event
     kind: event
     meaning: A visitor started a session on the site or app
-    properties:
-    - name: customer_id
-      type: text
-      meaning: Identifier of the customer who started the session
-      optional: false
   - slot: placed_order_event
     kind: event
     meaning: A customer placed an order
-    properties:
-    - name: customer_id
-      type: text
-      meaning: Identifier of the customer who placed the order
-      optional: false
   - slot: utm_source_attribute
     kind: attribute
     meaning: The UTM source that brought the user to the site
   steps:
   - id: s1
-    builds: report
+    builds: automation
     uses:
     - session_start_event
     - placed_order_event
     - utm_source_attribute
-    - cohort_granularity
     - time_range
     - breakdown_top_n
     - benchmark_w1_rate
-    - impulse_w1_rate
     - w12_flag_threshold
-    instruction: 'Create a retention report named "Browse to Buy Retention". Anchor event: each user''s first {session_start_event}
-      (earliest per customer_id). Return event: {placed_order_event}. Cohort granularity: {cohort_granularity}. Time range:
-      last {time_range}. Breakdown: by {utm_source_attribute}, top {breakdown_top_n} sources. Compare against the previous
-      period (prior {time_range} of cohorts). Chart: retention curve plus cohort table with W1, W2, W4, W8 and W12 columns.
-      Annotations: add benchmarks showing a typical W1 first-purchase rate of {benchmark_w1_rate}% for considered-purchase
-      DTC and {impulse_w1_rate}% or higher for impulse-buy. Flag any source whose W12 first-purchase rate is below {w12_flag_threshold}%
-      as a browse-to-buy gap. Highlight the source with the fastest first-purchase rate (steepest W1 conversion). Highlight
-      the source with the highest W12 conversion (best overall, even if slower). Surface which sources produce fast converters
-      and which produce slow converters.'
+    - digest_recipients
+    instruction: 'Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes users by the week
+      of their first {session_start_event}, for first visits in the last {time_range} and in the {time_range} before, and
+      writes these figures: the share of first-time visitors who did their first {placed_order_event} within 1, 2, 4, 8 and
+      12 weeks of the first visit, for both windows; the same week-1 and week-12 shares for the top {breakdown_top_n} values
+      of {utm_source_attribute} by visitors; the source with the highest week-1 share (fastest) and the one with the highest
+      week-12 share (best overall); each source whose week-12 share is below {w12_flag_threshold}%, named as a browse-to-buy
+      gap. When the overall week-1 share is below {benchmark_w1_rate}%, the email''s first line says so. Then it emails these
+      figures as plain-text lines, each with its window, to {digest_recipients}. Nothing else is sent.'
 ---
 
 # Browse to buy retention
@@ -98,20 +77,4 @@ Slash command: /browse-to-buy-retention
 
 ## Step 1: Track first visit to first order
 
-Create a Retention report called "Browse to Buy Retention".
-Anchor event: Session start (each user's first Session start)
-Return event: Placed order
-Cohort granularity: Weekly
-Time range: Last 12 weeks
-Breakdown: By Users.UTM source (top 6 sources)
-Compare: Previous period (prior 12 weeks of cohorts)
-Chart type: Retention curve plus cohort table with W1 / W2 / W4 / W8 / W12 columns
-Annotations:
-- Add benchmarks: W1 first-purchase rate of 5% is typical for considered-purchase DTC, 10%+ for impulse-buy.
-- Flag any source where W12 first-purchase rate is below 8% (browse-to-buy gap).
-- Highlight the source with the fastest first-purchase rate (steepest W1 conversion).
-- Highlight the source with the highest W12 conversion (best overall, even if slower).
-Surface which sources produce "fast converters" vs "slow converters."
-Taxonomy notes:
-- Session start and Placed order are canonical. Users.UTM source is canonical.
-- "first session" per-user is determined by the earliest Session start for that customer_id.
+Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes users by the week of their first session start event, for first visits in the last 12 w and in the 12 w before, and writes these figures: the share of first-time visitors who did their first placed order event within 1, 2, 4, 8 and 12 weeks of the first visit, for both windows; the same week-1 and week-12 shares for the top 6 values of utm source attribute by visitors; the source with the highest week-1 share (fastest) and the one with the highest week-12 share (best overall); each source whose week-12 share is below 8%, named as a browse-to-buy gap. When the overall week-1 share is below 5%, the email's first line says so. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.

@@ -2,8 +2,8 @@
   "frontmatter_id": "win-loss-analysis",
   "title": "Win/loss patterns from closed deals",
   "slash_command": "/win-loss-analysis",
-  "description": "Reads your closed deals to show which competitors, objections and decision criteria separate the ones you win from the ones you lose.",
-  "markdown": "# Win/loss patterns from closed deals\n\n## Description\n\nReads your closed deals to show which competitors, objections and decision criteria separate the ones you win from the ones you lose.\n\n## Steps\n\n### Step 1: Compare won and lost deals\n\nThis step builds a report.\nAnalyze closed deals (won and lost) to extract patterns: competitive mentions, objection themes, decision criteria.\n\n### Step 2: Write the battlecard\n\nThis step builds a page.\nGenerate a battlecard content asset summarizing competitive positioning, common objections, and counter-messaging. Use the result of \"Compare won and lost deals\".\n\n### Step 3: Track the patterns over time\n\nCompose a dashboard surfacing win/loss patterns by competitor, objection type, and deal size. Use the result of \"Compare won and lost deals\", \"Write the battlecard\".\n",
+  "description": "Reads your closed deals every month and emails which competitors, objections and decision criteria separate the deals you win from the ones you lose, with a short battlecard.",
+  "markdown": "# Win/loss patterns from closed deals\n\n## Description\n\nReads your closed deals every month and emails which competitors, objections and decision criteria separate the deals you win from the ones you lose, with a short battlecard.\n\n## Steps\n\n### Step 1: Email the monthly win/loss digest\n\nBuild an automation that runs on the 1st of every month at 08:00 on a schedule. Each run it analyzes closed deal events in the last 12 mo and writes these figures: deals won and lost and the win rate, in the last 12 mo and in the last 30 days; win rate by competitor for the 5 most frequent competitors; the 5 most frequent objection values in lost deals and in won deals; the 5 most frequent decision criteria values in won deals against lost deals; win rate and average deal size by deal size band (under 10000, 10000 to 50000, over 50000). Then it writes a battlecard of three lines per top-3 competitor: where we win, where we lose, and the counter to their most common objection, each drawn from those figures. It emails the figures as plain-text lines, each with its window, and the battlecard to the email addresses that get the digest. Nothing else is sent.\n",
   "classification": {
     "industry": [
       "saas-b2b-tech"
@@ -19,18 +19,8 @@
   "steps": [
     {
       "id": "s1",
-      "title": "Compare won and lost deals",
-      "description": "This step builds a report.\nAnalyze closed deals (won and lost) to extract patterns: competitive mentions, objection themes, decision criteria."
-    },
-    {
-      "id": "s2",
-      "title": "Write the battlecard",
-      "description": "This step builds a page.\nGenerate a battlecard content asset summarizing competitive positioning, common objections, and counter-messaging. Use the result of \"Compare won and lost deals\"."
-    },
-    {
-      "id": "s3",
-      "title": "Track the patterns over time",
-      "description": "Compose a dashboard surfacing win/loss patterns by competitor, objection type, and deal size. Use the result of \"Compare won and lost deals\", \"Write the battlecard\"."
+      "title": "Email the monthly win/loss digest",
+      "description": "Build an automation that runs on the 1st of every month at 08:00 on a schedule. Each run it analyzes closed deal events in the last 12 mo and writes these figures: deals won and lost and the win rate, in the last 12 mo and in the last 30 days; win rate by competitor for the 5 most frequent competitors; the 5 most frequent objection values in lost deals and in won deals; the 5 most frequent decision criteria values in won deals against lost deals; win rate and average deal size by deal size band (under 10000, 10000 to 50000, over 50000). Then it writes a battlecard of three lines per top-3 competitor: where we win, where we lose, and the counter to their most common objection, each drawn from those figures. It emails the figures as plain-text lines, each with its window, and the battlecard to the email addresses that get the digest. Nothing else is sent."
     }
   ],
   "availability": "coming_soon"

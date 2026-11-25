@@ -66,10 +66,6 @@ portable:
     default: 34 / 33 / 33
     required: false
   requirements:
-  - slot: search_ranking_experiment
-    kind: integration
-    meaning: A server-side experiment platform that serves a feature flag per user and tracks goal conversions per experience
-    channel: email
   - slot: search_query_event
     kind: event
     meaning: A customer ran a product search
@@ -94,37 +90,36 @@ portable:
       type: number
       meaning: Total price of the placed order
       optional: false
-  - slot: search_to_purchase_metric
-    kind: segment
-    meaning: An existing aggregate metric of search-to-purchase conversion used as a guardrail
   - slot: product_margin_data
     kind: attribute
     meaning: Per-product profit margin values available in the product catalog
-  - slot: search_backend
-    kind: integration
-    meaning: The application search service that ranks results using text relevance, sales velocity and margin weights
-    channel: email
   steps:
   - id: s1
     builds: experiment
     uses:
-    - search_ranking_experiment
-    - search_backend
-    - search_query_event
     - control_weight_text
-    - variant_b_weight_text
-    - variant_b_weight_popularity
-    - variant_c_weight_text
-    - variant_c_weight_margin
+    - experiment_window
+    - guardrail_max_drop
     - max_results
+    - min_searches_per_variant
+    - order_placed_event
+    - product_margin_data
+    - search_query_event
+    - search_result_click_event
+    - variant_b_weight_popularity
+    - variant_b_weight_text
+    - variant_c_weight_margin
+    - variant_c_weight_text
     - variant_split
-    instruction: 'Create a server experiment titled "Search Ranking Optimization" with flag key search_ranking_strategy. Serve
-      three variants: Control (34%) uses relevance-based ranking with text match weight {control_weight_text}, popularity
-      weight 0 and margin weight 0; Variant B (33%) uses popularity-weighted ranking with text match weight {variant_b_weight_text}
-      and popularity weight {variant_b_weight_popularity}; Variant C (33%) uses margin-weighted ranking with text match weight
-      {variant_c_weight_text} and margin weight {variant_c_weight_margin}. Split traffic {variant_split}. Each variant returns
-      max results {max_results}, and tie breakers are alphabetical for Control, popularity for Variant B and margin for Variant
-      C.'
+    instruction: 'Create a server experiment titled "Search Ranking Optimization" with flag key search_ranking_strategy, for
+      users who do {search_query_event}. Split traffic {variant_split}. Control ranks by text relevance: text match weight
+      {control_weight_text}, popularity and margin weight 0, ties broken alphabetically. Variant B ranks by popularity: text
+      match weight {variant_b_weight_text}, popularity weight {variant_b_weight_popularity}, ties broken by popularity. Variant
+      C ranks by margin: text match weight {variant_c_weight_text}, margin weight {variant_c_weight_margin} from {product_margin_data},
+      ties broken by margin. Each variant returns at most {max_results} results. Primary metric: revenue per searching user,
+      the sum of {order_placed_event.total_price} within 24 hours of a {search_query_event}. Secondary metric: search result
+      click rate from {search_result_click_event}. Guardrail: search-to-purchase conversion must not drop by more than {guardrail_max_drop}%.
+      Run for {experiment_window} and until each variant has {min_searches_per_variant} searches.'
 ---
 
 # Search ranking test
@@ -133,67 +128,4 @@ Slash command: /search-results-ranking-test
 
 ## Step 1: Set up the ranking test
 
-Create a SERVER EXPERIMENT on /experiences titled "Search Ranking Optimization".
-═══ PATH 1: Top-level configuration ═══
-Experience type: server_experiment
-Flag Key: search_ranking_strategy
-Variants:
-- Control (34%): relevance-based (text match score only)
-- Variant B (33%): popularity-weighted (relevance × sales velocity)
-- Variant C (33%): margin-weighted (relevance × profit margin)
-Targeting:
-- Pages: any page where the search backend is called: typically search results pages (page URL contains "/search") and inline search-as-you-type widgets in the header
-- Devices: any (server-side search is device-agnostic; the ranking algorithm runs in the search backend regardless of client device)
-- Audience: users performing product searches (search query string is non-empty, OR the form-submit event of the search form)
-- Display frequency: always (every search query call invokes getFlag and applies the assigned variant's ranking)
-Primary metric: goal_completed_in_experience where experience_id = <this> AND value > 0 (revenue from Placed order within session of a search)
-Secondary metrics:
-- clicks on search results (search-to-click conversion)
-- Average click position (which rank (1, 2, 3) got clicked)
-- Revenue per search (sum of Placed order.total_price / count of distinct searches)
-- Zero-result rate (searches where no click event followed within 30 seconds)
-Guardrail: search-to-purchase conversion (the existing aggregate metric) must not drop >5% in any variant. Note: variant C (margin-weighted) is a known accuracy/profit tradeoff: guardrails catch it if the accuracy drop is too steep.
-Schedule: 21 days, 5,000 searches per variant minimum
-═══ PATH 2: Variant JSON payload ═══
-Variant: Control (relevance)
- {
- "ranking_strategy": "relevance",
- "weights": {
- "text_match_score": 1.0,
- "popularity": 0.0,
- "margin": 0.0
- },
- "max_results": 24,
- "tie_breaker": "alphabetical"
- }
-Variant: B (popularity-weighted)
- {
- "ranking_strategy": "popularity_weighted",
- "weights": {
- "text_match_score": 0.6,
- "popularity": 0.4,
- "margin": 0.0
- },
- "max_results": 24,
- "tie_breaker": "popularity"
- }
-Variant: C (margin-weighted)
- {
- "ranking_strategy": "margin_weighted",
- "weights": {
- "text_match_score": 0.7,
- "popularity": 0.0,
- "margin": 0.3
- },
- "max_results": 24,
- "tie_breaker": "margin"
- }
-SDK integration:
- const ranking = await intempt.getFlag('search_ranking_strategy', userId);
- const results = await search.query(query, { weights: ranking.weights, max: ranking.max_results });
-Each rendered search result should have target_id = "search-result-{position}" so clicks per-position metrics roll up consistently.
-Taxonomy notes:
-- The search backend (search.query) is application-side and not part of canonical taxonomy.
-- "Click position" is the rank of the clicked result: typically captured as target_id ("search-result-3" to position 3) or as a property on the click event.
-- "Margin" data is required for variant C; if your product catalog doesn't track per-product margin, variant C cannot run faithfully.
-- "Display frequency: always": every search query for a given userId returns the same variant (sticky assignment) for the experiment's duration. The variant is computed once on first search and cached.
+Create a server experiment titled "Search Ranking Optimization" with flag key search_ranking_strategy, for users who do search query event. Split traffic 34 / 33 / 33. Control ranks by text relevance: text match weight 1.0, popularity and margin weight 0, ties broken alphabetically. Variant B ranks by popularity: text match weight 0.6, popularity weight 0.4, ties broken by popularity. Variant C ranks by margin: text match weight 0.7, margin weight 0.3 from product margin data, ties broken by margin. Each variant returns at most 24 results. Primary metric: revenue per searching user, the sum of total price within 24 hours of a search query event. Secondary metric: search result click rate from search result click event. Guardrail: search-to-purchase conversion must not drop by more than 5%. Run for 21 d and until each variant has 5000 searches.

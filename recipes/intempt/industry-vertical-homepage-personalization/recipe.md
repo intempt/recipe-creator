@@ -82,18 +82,13 @@ portable:
       meaning: Industry segment of the visitor at click
       optional: true
     optional: true
-  - slot: homepage_page
-    kind: destination
-    meaning: The public homepage and key marketing pages where personalized heroes are shown
-    channel: email
   steps:
   - id: s1
-    builds: experiment
+    builds: personalization
     uses:
     - industry_attribute
     - demo_request_event
     - primary_cta_event
-    - homepage_page
     - target_pages
     - display_frequency
     - schedule
@@ -101,15 +96,16 @@ portable:
     - finance_industries
     - healthcare_industries
     - manufacturing_industries
-    instruction: 'Create a client personalization titled "{experience_title}" on the experience page. It is an industry-segment
-      personalization, broader than per-account ABM and narrower than generic. Each variant binds to one industry audience
-      and the control is the fallback for visitors without industry identification. Set the control (audience: all) to show
-      the generic homepage. Variant B (Technology / SaaS) targets {industry_attribute} in {tech_industries}. Variant C (Financial
-      Services) targets {industry_attribute} in {finance_industries}. Variant D (Healthcare) targets {industry_attribute}
-      in {healthcare_industries}. Variant E (Manufacturing / Industrial) targets {industry_attribute} in {manufacturing_industries}.
-      Keep to four to five verticals. Targeting: pages {target_pages}, any device, display frequency {display_frequency}.
-      Metrics: demo-request form submissions per industry segment using {demo_request_event}, primary CTA clicks per segment
-      using {primary_cta_event}, and demo-request conversion rate per industry. Schedule: {schedule}.'
+    - experience_title
+    instruction: 'Create a client personalization titled "{experience_title}" on the experiences page. Each variant shows
+      to one industry audience; there is no random split. Control (audience: all visitors) shows the generic homepage hero
+      and proof points, including to visitors with no known industry. Variant B (Technology / SaaS) shows to visitors whose
+      {industry_attribute} is one of {tech_industries}. Variant C (Financial Services) to {industry_attribute} in {finance_industries}.
+      Variant D (Healthcare) to {industry_attribute} in {healthcare_industries}. Variant E (Manufacturing / Industrial) to
+      {industry_attribute} in {manufacturing_industries}. Each industry variant replaces the hero headline, sub-headline and
+      the three proof points (customer logos and one customer quote) with ones from that industry. Targeting: pages {target_pages},
+      any device, display frequency {display_frequency}. Metrics: {demo_request_event} submissions per industry audience,
+      {primary_cta_event} clicks per audience, and demo-request conversion rate per industry. Schedule: {schedule}.'
 ---
 
 # Homepage by visitor industry
@@ -118,62 +114,4 @@ Slash command: /industry-vertical-homepage-personalization
 
 ## Step 1: Set up the four industry heroes
 
-Create a CLIENT PERSONALIZATION on /experiences titled "Industry Vertical Homepage".
-This is a PERSONALIZATION at the industry-segment level (broader than per-account ABM, narrower than generic). Each variant binds to one industry vertical. Operational sweet spot: 4-5 verticals.
-═══ PATH 1: Top-level configuration ═══
-Experience type: client_personalization
-Variants (each binds to an industry audience: adjust to your top 4 verticals):
-- Control (audience = all: fallback): generic homepage for visitors without industry identification
-- Variant B (audience = "Technology / SaaS"): Tech/SaaS-specific hero
- - Audience: account_industry IN ("Technology", "SaaS", "Software")
-- Variant C (audience = "Financial Services"): Finance-specific hero
- - Audience: account_industry IN ("Banking", "Financial Services", "Insurance", "Fintech")
-- Variant D (audience = "Healthcare"): Healthcare-specific hero
- - Audience: account_industry IN ("Healthcare", "Health Tech", "Pharmaceuticals", "Medical Devices")
-- Variant E (audience = "Manufacturing / Industrial"): Industrial-specific hero
- - Audience: account_industry IN ("Manufacturing", "Industrial", "Logistics", "Supply Chain")
-Targeting:
-- Pages: homepage "/" and key marketing pages (/solutions, /pricing)
-- Devices: any
-- Display frequency: always
-Metrics:
-- Form submitted on demo-request form per industry segment
-- clicks on primary CTA per segment
-- Demo-request conversion rate per industry (typically the most important downstream metric)
-Schedule: continuous
-═══ PATH 2: Variant HTML content (Visual Editor) ═══
-Variant: Control (no DOM changes: fallback)
-Variant: B (Technology / SaaS)
- HTML target selector: .homepage-hero
- Variant DOM:
- <section class="homepage-hero" data-variant="b" data-vertical="technology">
- <h1>The platform that scales with your engineering org</h1>
- <p>From 10 engineers to 10,000. Used by Snowflake, Databricks, and Datadog.</p>
- <div class="hero-stats">
- <div><strong>500+</strong> SaaS companies</div>
- <div><strong>99.99%</strong> uptime</div>
- <div><strong>< 50ms</strong> p99 latency</div>
- </div>
- <button class="primary-cta" id="hero-cta-demo">See it in action</button>
- </section>
-Variant: C (Financial Services)
- Same structure with finance-specific copy:
- <h1>Compliant infrastructure for financial services</h1>
- <p>SOC2, PCI DSS, ISO 27001. Trusted by leading banks and fintechs.</p>
- Plus compliance badges and finance customer logos.
-Variant: D (Healthcare)
- Same structure with healthcare-specific copy:
- <h1>HIPAA-compliant data infrastructure for healthcare</h1>
- <p>BAA-ready. PHI-safe. Trusted by health tech and providers.</p>
- Plus HIPAA badge and healthcare customer logos.
-Variant: E (Manufacturing)
- Same structure with industrial-specific copy:
- <h1>Real-time operations data for manufacturing</h1>
- <p>Connect every machine, line, and warehouse. Built for industrial scale.</p>
- Plus industrial customer logos and IoT-specific imagery.
-The Visual Editor allows the user to swap logos, adjust copy, and select industry-specific stats per vertical. Avoid over-personalizing (vertical-specific case study links are good; vertical-specific pricing is usually too narrow).
-Taxonomy notes:
-- REQUIRES FIRMOGRAPHIC ENRICHMENT: account_industry must be populated via Clearbit, ZoomInfo, IP-reverse lookup, or manual segmentation. Without enrichment, all traffic falls through to Control.
-- This is a broader, more sustainable personalization than per-account ABM. ABM is high-effort per audience (named heroes); industry-vertical is medium-effort and applies to broader traffic.
-- Demandbase's research: 4-5 vertical segments is the operational sweet spot. Going beyond 5 makes content maintenance expensive without proportional return.
-- Don't combine industry-vertical personalization with ABM personalization concurrently on the same page: they'll conflict. Run sequentially or use the experience module's variant-targeting precedence (per-account beats per-industry beats default).
+Create a client personalization titled "Industry Vertical Homepage" on the experiences page. Each variant shows to one industry audience; there is no random split. Control (audience: all visitors) shows the generic homepage hero and proof points, including to visitors with no known industry. Variant B (Technology / SaaS) shows to visitors whose industry attribute is one of Technology, SaaS, Software. Variant C (Financial Services) to industry attribute in Banking, Financial Services, Insurance, Fintech. Variant D (Healthcare) to industry attribute in Healthcare, Health Tech, Pharmaceuticals, Medical Devices. Variant E (Manufacturing / Industrial) to industry attribute in Manufacturing, Industrial, Logistics, Supply Chain. Each industry variant replaces the hero headline, sub-headline and the three proof points (customer logos and one customer quote) with ones from that industry. Targeting: pages /, /solutions, /pricing, any device, display frequency always. Metrics: demo request event submissions per industry audience, primary cta event clicks per audience, and demo-request conversion rate per industry. Schedule: continuous.

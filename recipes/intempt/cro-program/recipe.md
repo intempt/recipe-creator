@@ -1,7 +1,8 @@
 ---
 frontmatter_id: cro-program
 slash_command: /cro-program
-description: Find the worst drop-off, run an A/B experiment with random variant assignment, and review lift and significance on the Result tab. Use Personalization separately for per-variant targeting.
+description: Runs an A/B experiment with random variant assignment on the conversion path step you pick, and emails a weekly
+  digest of step-by-step drop-off and the experiment's lift.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,99 +12,79 @@ classification:
   industry:
   - industry-agnostic
 portable:
-  summary: Finds the worst funnel drop-off, designs and runs an A/B test with random variant assignment, writes variant content,
-    and tracks lift and significance on a dashboard.
+  summary: Runs an A/B test on the conversion path step you pick and emails a weekly digest of where visitors drop off and
+    how each variant converts.
   parameters:
-  - name: primary_metric
+  - name: target_step
     type: string
-    label: Primary metric
-    default: conversion rate
-    required: false
+    label: Conversion path step the test targets (its step name)
+    required: true
+  - name: variant_change
+    type: text
+    label: What variant B changes on that step (copy, layout or call to action)
+    required: true
   - name: sample_size
     type: number
-    label: Sample-size target
-    required: true
-  - name: tone
-    type: string
-    label: Copy tone for variant content
-    default: not specified
+    label: Visitors needed per variant
+    default: 2000
     required: false
+  - name: test_duration
+    type: duration
+    label: Longest the test runs
+    default: 30 d
+    required: false
+  - name: digest_recipients
+    type: string
+    label: Email addresses that get the digest
+    required: true
   requirements:
   - slot: conversion_path_events
     kind: event
     meaning: A customer moved through a step of the conversion path
     properties:
     - name: step_name
-      type: text
-      meaning: Name of the funnel step reached
+      type: string
+      meaning: Name of the conversion path step reached
       optional: false
-  - slot: experiment_audience
-    kind: segment
-    meaning: The visitor group that the experiment is run on
   steps:
   - id: s1
-    builds: report
-    instruction: Build a funnel report over {conversion_path_events.step_name} that identifies the step with the highest-impact
-      drop-off in the conversion path.
-  - id: s2
     builds: experiment
     uses:
-    - s1
-    - primary_metric
+    - conversion_path_events
+    - target_step
+    - variant_change
     - sample_size
-    instruction: Define the experiment hypothesis, two variants, the primary metric {primary_metric}, a sample-size target
-      of {sample_size}, and stop conditions, targeting the drop-off step identified in "Find the worst drop-off".
-  - id: s3
-    builds: personalization
+    - test_duration
+    instruction: 'Create an experiment for visitors who reach the conversion path step where {conversion_path_events.step_name}
+      is {target_step}. Variant A keeps the step as it is. Variant B changes it this way: {variant_change}. Split visitors
+      50/50 at random; devices any; display frequency always. Primary metric: share of visitors who do {conversion_path_events}
+      for the next step after {target_step} within the same session. Stop when each variant has {sample_size} visitors or
+      after {test_duration}, whichever comes first.'
+  - id: s2
+    builds: automation
     uses:
     - s1
-    - s2
-    - experiment_audience
-    instruction: Configure a personalization rule on {experiment_audience} that serves variant content to the assigned cohort
-      per the design in "Design the test".
-  - id: s4
-    builds: email
-    uses:
+    - conversion_path_events
+    - target_step
+    - digest_recipients
+    dependsOn:
     - s1
-    - s2
-    - s3
-    instruction: Generate variant content (copy, layout, CTA changes) per the experiment design in "Design the test", using
-      a {tone} tone, aimed at the drop-off step from "Find the worst drop-off" and served to the cohort from "Target the right
-      visitors". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given
-      for this run or named in this step; never leave a button without a link.
-  - id: s5
-    builds: dashboard
-    uses:
-    - s1
-    - s2
-    - s3
-    - s4
-    - experiment_audience
-    instruction: Compose a dashboard tracking experiment lift, statistical significance, and segment-level performance for
-      {experiment_audience}, covering the variants from "Write the variant content" and the test from "Design the test".
+    instruction: 'Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes {conversion_path_events}
+      by {conversion_path_events.step_name} and writes these figures: visitors reaching each step in the last 7 days and in
+      the 7 days before; the conversion rate from each step to the next in both windows; the step with the largest drop-off
+      in the last 7 days; for the experiment from "Design the test" on {target_step}, visitors and next-step conversion rate
+      per variant since it started, and the lift of variant B over variant A. Then it emails these figures as plain-text lines,
+      each with its window, to {digest_recipients}. Nothing else is sent.'
 ---
 
 # Conversion optimization program
 
 Slash command: /cro-program
 
-## Step 1: Find the worst drop-off
+## Step 1: Design the test
 
-Build funnel report identifying highest-impact drop-off step in conversion path.
+Create an experiment for visitors who reach the conversion path step where step name is the conversion path step the test targets (its step name). Variant A keeps the step as it is. Variant B changes it this way: the what variant B changes on that step (copy, layout or call to action). Split visitors 50/50 at random; devices any; display frequency always. Primary metric: share of visitors who do conversion path events for the next step after the conversion path step the test targets (its step name) within the same session. Stop when each variant has 2000 visitors or after 30 d, whichever comes first.
 
-## Step 2: Design the test
+## Step 2: Email the weekly drop-off and lift digest
 
-Define experiment hypothesis, variants, primary metric, sample-size target, and stop conditions. Use the result of "Find the worst drop-off".
-
-## Step 3: Target the right visitors
-
-Configure personalization rule that serves variant content to assigned cohort. Use the result of "Find the worst drop-off", "Design the test".
-
-## Step 4: Write the variant content
-
-This step builds a designed marketing email (HTML).
-Generate variant content (copy, layout, CTA changes) per the experiment design. Use the result of "Find the worst drop-off", "Design the test", "Target the right visitors". If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.
-
-## Step 5: Build the results dashboard
-
-Compose a dashboard tracking experiment lift, statistical significance, and segment-level performance. Use the result of "Find the worst drop-off", "Design the test", "Target the right visitors", "Write the variant content".
+Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes conversion path events by step name and writes these figures: visitors reaching each step in the last 7 days and in the 7 days before; the conversion rate from each step to the next in both windows; the step with the largest drop-off in the last 7 days; for the experiment from "Design the test" on the conversion path step the test targets (its step name), visitors and next-step conversion rate per variant since it started, and the lift of variant B over variant A. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.

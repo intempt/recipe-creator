@@ -1,7 +1,8 @@
 ---
 frontmatter_id: vip-loyalty
 slash_command: /vip-loyalty
-description: Ranks your best customers into tiers, gives each tier something worth having, and tests which rewards actually keep them.
+description: Ranks your best customers into silver, gold and platinum tiers, thanks each tier by email, gives each tier something
+  worth having on site, and tests which rewards actually keep them.
 author:
   name: Intempt
   last_name: Technologies
@@ -12,33 +13,35 @@ classification:
   - ecommerce-retail
   - travel-hospitality
 portable:
-  summary: Ranks best customers into silver, gold and platinum tiers, gives each tier VIP rewards, sends appreciation and
-    tier-up messages, tests which rewards keep them, and tracks retention by tier.
+  summary: Ranks best customers into silver, gold and platinum tiers, sends tier welcome and tier-up emails, shows tier perks
+    on site and tests which reward keeps them buying.
   parameters:
   - name: silver_threshold
     type: number
-    label: Silver tier threshold (value tier score)
+    label: Orders for silver
     default: 2
     required: false
   - name: gold_threshold
     type: number
-    label: Gold tier threshold (value tier score)
+    label: Orders for gold
     default: 3
     required: false
   - name: platinum_threshold
     type: number
-    label: Platinum tier threshold (value tier score)
+    label: Orders for platinum
     default: 4
     required: false
   - name: recency_window
     type: duration
-    label: Recency window for value scoring
+    label: Window the orders are counted in
     default: 90 d
     required: false
+  - name: tier_up_delay
+    type: duration
+    label: Wait before the tier-up email
+    default: 30 d
+    required: false
   requirements:
-  - slot: customer_ltv
-    kind: attribute
-    meaning: A customer's lifetime value in revenue
   - slot: purchase_event
     kind: event
     meaning: A customer completed an order
@@ -47,77 +50,82 @@ portable:
       type: number
       meaning: Value of the order
       optional: false
-    - name: order_date
-      type: date
-      meaning: Date the order was placed
-      optional: false
-  - slot: vip_segment
-    kind: segment
-    meaning: Customers eligible for the VIP programme
-    creatable: true
-    definition: users who did {purchase_event} in the last {recency_window} with a value tier at or above {silver_threshold}
   - slot: email_channel
     kind: destination
     meaning: An email channel to send VIP messages
     channel: email
+  - slot: brand_voice
+    kind: brand
+    meaning: The brand's name and voice for customer messages
+    optional: true
   steps:
   - id: s1
     builds: attribute
     uses:
-    - customer_ltv
     - purchase_event
-    - recency_window
-    instruction: Define an AI-derived customer value tier attribute that scores each customer using {customer_ltv}, purchase
-      frequency from {purchase_event}, and recency within {recency_window}.
-  - id: s2
-    builds: segment
-    uses:
-    - s1
     - silver_threshold
     - gold_threshold
     - platinum_threshold
-    instruction: Segment VIP customers into silver, gold and platinum tiers based on customer value tier using thresholds
-      {silver_threshold}, {gold_threshold} and {platinum_threshold}.
-  - id: s3
-    builds: personalization
+    - recency_window
+    instruction: Create a computed user attribute named "vip_tier". Count each user's {purchase_event} events in the last
+      {recency_window}. The value is "platinum" when the count is {platinum_threshold} or more, "gold" when it is {gold_threshold}
+      or more, "silver" when it is {silver_threshold} or more, and empty otherwise.
+  - id: s2
+    builds: email
     uses:
     - s1
-    - s2
-    - vip_segment
-    instruction: 'Configure VIP-only personalizations for each tier: early access, exclusive products and free shipping, applied
-      to members of {vip_segment} by tier from "Set the silver and gold lines".'
-  - id: s4
+    - brand_voice
+    - silver_threshold
+    - gold_threshold
+    - platinum_threshold
+    - recency_window
+    dependsOn:
+    - s1
+    instruction: 'Write five VIP loyalty emails for users by their vip_tier attribute from "Rank customers by value", in the
+      voice of {brand_voice}. Three welcome emails, one per tier: silver (free shipping on every order), gold (free shipping
+      and early access to new products), platinum (free shipping, early access and exclusive products). Two tier-up emails:
+      for silver users, how many more orders in {recency_window} reach gold ({gold_threshold} in total); for gold users, how
+      many more reach platinum ({platinum_threshold} in total). Warm thank-you tone, one call to action to the store. If the
+      brand kit has no logo, use the brand name as a plain text header.'
+  - id: s3
     builds: automation
     uses:
     - s1
     - s2
-    - s3
-    - vip_segment
     - email_channel
-    instruction: Build a VIP-specific journey through {email_channel} with appreciation touches and tier-up encouragement
-      for members of {vip_segment}, using the tiers from "Set the silver and gold lines" and the offers from "Give each tier
-      something".
+    - tier_up_delay
+    dependsOn:
+    - s1
+    - s2
+    instruction: Build an automation triggered when a user's vip_tier attribute from "Rank customers by value" changes to
+      silver, gold or platinum. It sends the matching tier welcome email from "Write tier welcome and tier-up emails" through
+      {email_channel} at once. After {tier_up_delay}, if the user's vip_tier is silver or gold, it sends the matching tier-up
+      email from the same step. Each user gets each email at most once.
+  - id: s4
+    builds: personalization
+    uses:
+    - s1
+    dependsOn:
+    - s1
+    instruction: 'Create a website personalization for logged-in users by their vip_tier attribute from "Rank customers by
+      value". Users with vip_tier silver see a banner "Free shipping on every order". Gold users see the banner plus an "Early
+      access" badge on new products. Platinum users see both plus an "Exclusive products" collection link in the site header.
+      Users with no vip_tier see the site unchanged. Pages: all store pages; devices: any; display frequency: always; schedule:
+      continuous.'
   - id: s5
     builds: experiment
     uses:
     - s1
-    - s2
     - s3
-    - s4
-    - vip_segment
-    instruction: Add experiments comparing reward types (discount vs experience vs status) across the tiers from "Set the
-      silver and gold lines" for members of {vip_segment}, using the journey from "Thank them, show the next tier".
-  - id: s6
-    builds: dashboard
-    uses:
+    - purchase_event
+    dependsOn:
     - s1
-    - s2
     - s3
-    - s4
-    - s5
-    - vip_segment
-    instruction: Compose a dashboard tracking VIP retention rate, average revenue per tier, and tier-up rate for {vip_segment},
-      broken out by tier from "Set the silver and gold lines" and including results from "Test which reward works".
+    instruction: 'Create an experiment on the tier welcome emails sent by "Thank them, show the next tier" for users with
+      a vip_tier from "Rank customers by value". Variant A leads with a 10% discount on the next order, variant B with early
+      access to new products, variant C with status perks only (no discount). Split users evenly at random within each tier.
+      Primary metric: share of users who did {purchase_event} within 60 days of the email. Secondary metric: share still holding
+      their tier after 90 days. Run for 90 days.'
 ---
 
 # VIP loyalty programme
@@ -126,24 +134,20 @@ Slash command: /vip-loyalty
 
 ## Step 1: Rank customers by value
 
-Define an AI-derived customer_value_tier attribute using LTV, frequency, and recency.
+Create a computed user attribute named "vip_tier". Count each user's purchase event events in the last 90 d. The value is "platinum" when the count is 4 or more, "gold" when it is 3 or more, "silver" when it is 2 or more, and empty otherwise.
 
-## Step 2: Set the silver and gold lines
+## Step 2: Write tier welcome and tier-up emails
 
-Segment VIPs into tiers (silver, gold, platinum) by value tier with thresholds. Use the result of "Rank customers by value".
+Write five VIP loyalty emails for users by their vip_tier attribute from "Rank customers by value", in the voice of brand voice. Three welcome emails, one per tier: silver (free shipping on every order), gold (free shipping and early access to new products), platinum (free shipping, early access and exclusive products). Two tier-up emails: for silver users, how many more orders in 90 d reach gold (3 in total); for gold users, how many more reach platinum (4 in total). Warm thank-you tone, one call to action to the store. If the brand kit has no logo, use the brand name as a plain text header.
 
-## Step 3: Give each tier something
+## Step 3: Thank them, show the next tier
 
-Configure VIP-only personalizations: early access, exclusive products, free shipping. Use the result of "Rank customers by value", "Set the silver and gold lines".
+Build an automation triggered when a user's vip_tier attribute from "Rank customers by value" changes to silver, gold or platinum. It sends the matching tier welcome email from "Write tier welcome and tier-up emails" through email channel at once. After 30 d, if the user's vip_tier is silver or gold, it sends the matching tier-up email from the same step. Each user gets each email at most once.
 
-## Step 4: Thank them, show the next tier
+## Step 4: Give each tier something
 
-Build a VIP-specific journey with appreciation touches and tier-up encouragement. Use the result of "Rank customers by value", "Set the silver and gold lines", "Give each tier something".
+Create a website personalization for logged-in users by their vip_tier attribute from "Rank customers by value". Users with vip_tier silver see a banner "Free shipping on every order". Gold users see the banner plus an "Early access" badge on new products. Platinum users see both plus an "Exclusive products" collection link in the site header. Users with no vip_tier see the site unchanged. Pages: all store pages; devices: any; display frequency: always; schedule: continuous.
 
 ## Step 5: Test which reward works
 
-Add experiments comparing reward types (discount vs experience vs status). Use the result of "Rank customers by value", "Set the silver and gold lines", "Give each tier something", "Thank them, show the next tier".
-
-## Step 6: Track retention by tier
-
-Compose a dashboard tracking VIP retention rate, average revenue per tier, and tier-up rate. Use the result of "Rank customers by value", "Set the silver and gold lines", "Give each tier something", "Thank them, show the next tier", "Test which reward works".
+Create an experiment on the tier welcome emails sent by "Thank them, show the next tier" for users with a vip_tier from "Rank customers by value". Variant A leads with a 10% discount on the next order, variant B with early access to new products, variant C with status perks only (no discount). Split users evenly at random within each tier. Primary metric: share of users who did purchase event within 60 days of the email. Secondary metric: share still holding their tier after 90 days. Run for 90 days.

@@ -1,7 +1,7 @@
 ---
 frontmatter_id: product-launch-site
 slash_command: /product-launch-site
-description: Generates a product launch page artifact with hero, feature, call to action, and footer content in your brand styling.
+description: Builds a product launch page with hero, feature, call to action and footer sections in your brand styling.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,20 +11,38 @@ classification:
   industry:
   - industry-agnostic
 portable:
-  summary: Creates a multi-page product launch microsite with a hero section, feature pages, a call to action and footer,
-    styled with your brand, ready to deploy in one click.
-  parameters: []
+  summary: Builds a product launch page in your brand styling with a hero, three feature sections, a call to action and a
+    footer.
+  parameters:
+  - name: product_name
+    type: string
+    label: Name of the product being launched
+    required: true
+  - name: product_pitch
+    type: text
+    label: What the product does and its three main features
+    required: true
+  - name: cta_url
+    type: string
+    label: Link the call to action button opens
+    required: true
   requirements:
   - slot: brand_tokens
     kind: brand
-    meaning: The project's brand styling tokens such as colors, fonts and logo
+    meaning: The project's brand styling such as colors, fonts and logo
   steps:
   - id: s1
     builds: page
     uses:
     - brand_tokens
-    instruction: 'Create a product launch microsite. Build a multi-page site with: hero section, feature/benefit pages, call-to-action,
-      and footer. Apply {brand_tokens} brand tokens. Make it deploy-ready in one click. Output: multi-page microsite.'
+    - product_name
+    - product_pitch
+    - cta_url
+    instruction: 'Create a landing page that launches {product_name}, styled with {brand_tokens} colors, fonts and logo. Sections
+      in order: a hero with a headline, a one-line sub-headline and a call to action button; three feature sections, one per
+      feature, each with a short title, two sentences and an image; a closing call to action section; a footer with the brand
+      name and a link to the main site. All copy comes from this description of the product: {product_pitch}. Every call to
+      action button links to {cta_url}.'
 ---
 
 # Product launch microsite
@@ -33,6 +51,4 @@ Slash command: /product-launch-site
 
 ## Step 1: Build the launch microsite
 
-Create a product launch microsite.
-Build a multi-page site with: hero section, feature/benefit pages, call-to-action, and footer. Apply project brand tokens. Deploy-ready in one click.
-Output: multi-page microsite
+Create a landing page that launches the name of the product being launched, styled with brand tokens colors, fonts and logo. Sections in order: a hero with a headline, a one-line sub-headline and a call to action button; three feature sections, one per feature, each with a short title, two sentences and an image; a closing call to action section; a footer with the brand name and a link to the main site. All copy comes from this description of the product: the what the product does and its three main features. Every call to action button links to the link the call to action button opens.

@@ -2,8 +2,8 @@
   "frontmatter_id": "browse-abandonment",
   "title": "Browse abandonment follow up",
   "slash_command": "/browse-abandonment",
-  "description": "Reminds people who looked at products but never added anything to the cart, showing the items they viewed and a few they might prefer.",
-  "markdown": "# Browse abandonment follow up\n\n## Description\n\nReminds people who looked at products but never added anything to the cart, showing the items they viewed and a few they might prefer.\n\n## Steps\n\n### Step 1: Find people who only browsed\n\nThis step builds a segment.\nIdentify users with product_viewed events in last 7 days who did NOT trigger cart_added.\n\n### Step 2: Write the browse reminder\n\nGenerate browse-recovery email content highlighting the viewed products and similar items. Use the result of \"Find people who only browsed\". If the brand kit has no logo, use the brand name as a plain text header.\n\n### Step 3: Send at 24 and 72 hours\n\nBuild a 2-touch journey sending product reminder emails at 24hr and 72hr after browse. Use the result of \"Find people who only browsed\", \"Write the browse reminder\".\n\n### Step 4: Pick items for each shopper\n\nGenerate product recommendations for each browser based on their viewed items and purchase history. Use the result of \"Find people who only browsed\", \"Write the browse reminder\", \"Send at 24 and 72 hours\".\n\n### Step 5: Test picks against best sellers\n\nAdd A/B variants comparing personalized recommendations vs trending products. Use the result of \"Find people who only browsed\", \"Write the browse reminder\", \"Send at 24 and 72 hours\", \"Pick items for each shopper\".\n\n### Step 6: Follow browse through to sale\n\nCompose a funnel report tracking browse to email-open to email-click to cart-add to purchase. Use the result of \"Find people who only browsed\", \"Write the browse reminder\", \"Send at 24 and 72 hours\", \"Pick items for each shopper\", \"Test picks against best sellers\".\n",
+  "description": "Reminds people who looked at products but never added anything to the cart with two emails showing the items they viewed and similar ones, and emails a weekly browse-to-sale digest.",
+  "markdown": "# Browse abandonment follow up\n\n## Description\n\nReminds people who looked at products but never added anything to the cart with two emails showing the items they viewed and similar ones, and emails a weekly browse-to-sale digest.\n\n## Steps\n\n### Step 1: Find people who only browsed\n\nBuild a new segment of users named \"Browse Abandoners\". A user is in it when they did product viewed in the last 7 d and did not do cart added in the last 7 d.\n\n### Step 2: Write the browse reminder\n\nWrite two browse reminder emails for users in the segment from \"Find people who only browsed\". Email 1: shows the last product they viewed (product) with its image, name and a button to its page, plus three products from product feed in the same category. Email 2: a shorter nudge with the same viewed product and the three best sellers in its category from product feed. Helpful tone, no discount. If the brand kit has no logo, use the brand name as a plain text header.\n\n### Step 3: Send at 24 and 72 hours\n\nBuild an automation triggered when a user enters the segment from \"Find people who only browsed\". After 24 h it sends email 1 from \"Write the browse reminder\" through email channel; at 72 h after entering it sends email 2. Before each send it checks whether the user did cart added or purchase completed since entering; if so it stops for that user. Each user enters at most once in 14 days.\n\n### Step 4: Follow browse through to sale\n\nBuild an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes users who entered the segment from \"Find people who only browsed\" in the last 7 days and in the 7 days before, and writes these figures for both windows: users entered; open rate and click rate of each email sent by \"Send at 24 and 72 hours\"; share who did cart added within 7 days of entering; share who did purchase completed within 7 days of entering. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.\n",
   "classification": {
     "industry": [
       "ecommerce-retail"
@@ -20,32 +20,22 @@
     {
       "id": "s1",
       "title": "Find people who only browsed",
-      "description": "This step builds a segment.\nIdentify users with product_viewed events in last 7 days who did NOT trigger cart_added."
+      "description": "Build a new segment of users named \"Browse Abandoners\". A user is in it when they did product viewed in the last 7 d and did not do cart added in the last 7 d."
     },
     {
       "id": "s2",
       "title": "Write the browse reminder",
-      "description": "Generate browse-recovery email content highlighting the viewed products and similar items. Use the result of \"Find people who only browsed\". If the brand kit has no logo, use the brand name as a plain text header."
+      "description": "Write two browse reminder emails for users in the segment from \"Find people who only browsed\". Email 1: shows the last product they viewed (product) with its image, name and a button to its page, plus three products from product feed in the same category. Email 2: a shorter nudge with the same viewed product and the three best sellers in its category from product feed. Helpful tone, no discount. If the brand kit has no logo, use the brand name as a plain text header."
     },
     {
       "id": "s3",
       "title": "Send at 24 and 72 hours",
-      "description": "Build a 2-touch journey sending product reminder emails at 24hr and 72hr after browse. Use the result of \"Find people who only browsed\", \"Write the browse reminder\"."
+      "description": "Build an automation triggered when a user enters the segment from \"Find people who only browsed\". After 24 h it sends email 1 from \"Write the browse reminder\" through email channel; at 72 h after entering it sends email 2. Before each send it checks whether the user did cart added or purchase completed since entering; if so it stops for that user. Each user enters at most once in 14 days."
     },
     {
       "id": "s4",
-      "title": "Pick items for each shopper",
-      "description": "Generate product recommendations for each browser based on their viewed items and purchase history. Use the result of \"Find people who only browsed\", \"Write the browse reminder\", \"Send at 24 and 72 hours\"."
-    },
-    {
-      "id": "s5",
-      "title": "Test picks against best sellers",
-      "description": "Add A/B variants comparing personalized recommendations vs trending products. Use the result of \"Find people who only browsed\", \"Write the browse reminder\", \"Send at 24 and 72 hours\", \"Pick items for each shopper\"."
-    },
-    {
-      "id": "s6",
       "title": "Follow browse through to sale",
-      "description": "Compose a funnel report tracking browse to email-open to email-click to cart-add to purchase. Use the result of \"Find people who only browsed\", \"Write the browse reminder\", \"Send at 24 and 72 hours\", \"Pick items for each shopper\", \"Test picks against best sellers\"."
+      "description": "Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes users who entered the segment from \"Find people who only browsed\" in the last 7 days and in the 7 days before, and writes these figures for both windows: users entered; open rate and click rate of each email sent by \"Send at 24 and 72 hours\"; share who did cart added within 7 days of entering; share who did purchase completed within 7 days of entering. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent."
     }
   ],
   "availability": "coming_soon"

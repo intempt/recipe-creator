@@ -2,8 +2,8 @@
   "frontmatter_id": "win-back",
   "title": "Lapsed customer win back",
   "slash_command": "/win-back",
-  "description": "Sorts lapsed customers by how long they have been gone and escalates the offer with the gap, from a gentle nudge to an exclusive deal.",
-  "markdown": "# Lapsed customer win back\n\n## Description\n\nSorts lapsed customers by how long they have been gone and escalates the offer with the gap, from a gentle nudge to an exclusive deal.\n\n## Steps\n\n### Step 1: Sort lapsed users by the gap\n\nSegment lapsed users into tiers: 30-60 days inactive, 60-120 days inactive, 120+ days inactive.\n\n### Step 2: Write content per tier\n\nThis step builds a designed marketing email (HTML).\nGenerate tier-appropriate win-back content: gentle for early-lapsed, value-reminder for mid, exclusive offer for deep-lapsed. Use the result of \"Sort lapsed users by the gap\". If the brand kit has no logo, use the brand name as a plain text header.\n\n### Step 3: Escalate the offer by tier\n\nBuild a multi-arm journey routing each tier through appropriate touches with escalating incentives. Use the result of \"Sort lapsed users by the gap\", \"Write content per tier\".\n\n### Step 4: Measure who comes back\n\nCompose a retention report measuring re-engagement rates per tier over a 90-day window post-journey. Use the result of \"Sort lapsed users by the gap\", \"Write content per tier\", \"Escalate the offer by tier\".\n\n### Step 5: Test what brings them back\n\nAdd A/B variants on incentive type (discount vs free gift vs value-only). Use the result of \"Sort lapsed users by the gap\", \"Write content per tier\", \"Escalate the offer by tier\", \"Measure who comes back\".\n",
+  "description": "Sorts lapsed customers by how long they have been gone, emails each tier from a gentle nudge to an exclusive offer, emails a weekly digest of who comes back and tests which incentive works.",
+  "markdown": "# Lapsed customer win back\n\n## Description\n\nSorts lapsed customers by how long they have been gone, emails each tier from a gentle nudge to an exclusive offer, emails a weekly digest of who comes back and tests which incentive works.\n\n## Steps\n\n### Step 1: Sort lapsed users by the gap\n\nCreate a computed user attribute named \"lapse_tier\", refreshed daily, from the days since the user's customer last activity date. The value is \"early\" from 30 up to 60 days, \"mid\" from 60 up to 120 days, \"deep\" at 120 days or more, and empty under 30 days.\n\n### Step 2: Write content per tier\n\nWrite three win-back emails for users by their lapse_tier attribute from \"Sort lapsed users by the gap\", in the voice of brand voice. early: a gentle \"we miss you\" with what is new since their last visit. mid: a value reminder of why customers come back, with best sellers. deep: an exclusive offer of 15% off their next order. Each has one call to action to the store. If the brand kit has no logo, use the brand name as a plain text header.\n\n### Step 3: Escalate the offer by tier\n\nBuild an automation triggered when a user's lapse_tier attribute from \"Sort lapsed users by the gap\" changes to early, mid or deep. It sends the matching email from \"Write content per tier\" through email channel at once. It skips users who did purchase event in the last 7 days. Each user gets each tier's email at most once in 180 days.\n\n### Step 4: Measure who comes back\n\nBuild an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes the users emailed by \"Escalate the offer by tier\" and writes these figures by lapse_tier from \"Sort lapsed users by the gap\": users emailed in the last 7 days; open and click rate of those emails; the share of users emailed in the last 30 days who did purchase event within 30 days of the email; the same share for the 30 days before. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.\n\n### Step 5: Test what brings them back\n\nCreate an experiment on the deep-tier email sent by \"Escalate the offer by tier\" for users whose lapse_tier from \"Sort lapsed users by the gap\" is deep. Variant A: 15% off the next order. Variant B: a free gift with the next order. Variant C: value-only message with no incentive. Split users evenly at random. Primary metric: share who do purchase event within 30 days of the email. Run for 60 days.\n",
   "classification": {
     "industry": [
       "ecommerce-retail",
@@ -21,27 +21,27 @@
     {
       "id": "s1",
       "title": "Sort lapsed users by the gap",
-      "description": "Segment lapsed users into tiers: 30-60 days inactive, 60-120 days inactive, 120+ days inactive."
+      "description": "Create a computed user attribute named \"lapse_tier\", refreshed daily, from the days since the user's customer last activity date. The value is \"early\" from 30 up to 60 days, \"mid\" from 60 up to 120 days, \"deep\" at 120 days or more, and empty under 30 days."
     },
     {
       "id": "s2",
       "title": "Write content per tier",
-      "description": "This step builds a designed marketing email (HTML).\nGenerate tier-appropriate win-back content: gentle for early-lapsed, value-reminder for mid, exclusive offer for deep-lapsed. Use the result of \"Sort lapsed users by the gap\". If the brand kit has no logo, use the brand name as a plain text header."
+      "description": "Write three win-back emails for users by their lapse_tier attribute from \"Sort lapsed users by the gap\", in the voice of brand voice. early: a gentle \"we miss you\" with what is new since their last visit. mid: a value reminder of why customers come back, with best sellers. deep: an exclusive offer of 15% off their next order. Each has one call to action to the store. If the brand kit has no logo, use the brand name as a plain text header."
     },
     {
       "id": "s3",
       "title": "Escalate the offer by tier",
-      "description": "Build a multi-arm journey routing each tier through appropriate touches with escalating incentives. Use the result of \"Sort lapsed users by the gap\", \"Write content per tier\"."
+      "description": "Build an automation triggered when a user's lapse_tier attribute from \"Sort lapsed users by the gap\" changes to early, mid or deep. It sends the matching email from \"Write content per tier\" through email channel at once. It skips users who did purchase event in the last 7 days. Each user gets each tier's email at most once in 180 days."
     },
     {
       "id": "s4",
       "title": "Measure who comes back",
-      "description": "Compose a retention report measuring re-engagement rates per tier over a 90-day window post-journey. Use the result of \"Sort lapsed users by the gap\", \"Write content per tier\", \"Escalate the offer by tier\"."
+      "description": "Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes the users emailed by \"Escalate the offer by tier\" and writes these figures by lapse_tier from \"Sort lapsed users by the gap\": users emailed in the last 7 days; open and click rate of those emails; the share of users emailed in the last 30 days who did purchase event within 30 days of the email; the same share for the 30 days before. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent."
     },
     {
       "id": "s5",
       "title": "Test what brings them back",
-      "description": "Add A/B variants on incentive type (discount vs free gift vs value-only). Use the result of \"Sort lapsed users by the gap\", \"Write content per tier\", \"Escalate the offer by tier\", \"Measure who comes back\"."
+      "description": "Create an experiment on the deep-tier email sent by \"Escalate the offer by tier\" for users whose lapse_tier from \"Sort lapsed users by the gap\" is deep. Variant A: 15% off the next order. Variant B: a free gift with the next order. Variant C: value-only message with no incentive. Split users evenly at random. Primary metric: share who do purchase event within 30 days of the email. Run for 60 days."
     }
   ],
   "availability": "coming_soon"

@@ -1,7 +1,8 @@
 ---
 frontmatter_id: friction-point-detected-intervention
 slash_command: /friction-point-detected-intervention
-description: Detects friction from behavioral signals, segments those users, and sends email, SMS, push, or Slack follow- ups through a journey. Reply-agent adds 3-way sentiment tags to replies for triage.
+description: Detects where users get stuck in the product, shows in-app help at that spot, emails a fix if they stay stuck,
+  and alerts the customer success team when a high-value user is still stuck.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,240 +12,137 @@ classification:
   industry:
   - industry-agnostic
 portable:
-  summary: Detects where users get stuck in the product and rescues them with in-app help, a tutorial email, an offer of agent-led
-    walkthrough, and graduated escalation, plus a friction dashboard.
+  summary: Detects where users get stuck in the product and rescues them with in-app help, a tutorial email and an alert to
+    customer success for high-value users who stay stuck.
   parameters:
   - name: friction_window
     type: duration
-    label: Lookback window for active friction signals
+    label: Window friction is looked for in
     default: 7 d
     required: false
   - name: abandon_return_hours
     type: number
-    label: Hours without return that counts as an abandoned setup step
+    label: Hours without return that make a setup step abandoned
     default: 24
     required: false
   - name: repeat_attempt_threshold
     type: number
-    label: Failed attempts on same element that count as repeated failure
+    label: Failed attempts on the same element that count as stuck
     default: 3
     required: false
   - name: email_delay
     type: duration
-    label: Delay before email fallback
+    label: Wait before the fix email
     default: 4 h
     required: false
   - name: escalation_delay
     type: duration
-    label: Delay before agent or CSM escalation
+    label: Wait before alerting customer success
     default: 24 h
     required: false
-  - name: dismiss_limit
-    type: number
-    label: Help dismissals before stopping help
-    default: 3
-    required: false
-  - name: help_tone
-    type: enum
-    label: Tone of help content
-    default: helpful_colleague
-    required: false
-    options:
-    - helpful_colleague
-    - neutral
-    - concise
+  - name: alert_recipients
+    type: string
+    label: Email addresses of the customer success team that get the alert
+    required: true
   requirements:
-  - slot: friction_signal_attribute
-    kind: attribute
-    meaning: An AI-derived user attribute holding the detected friction type, friction location, severity and recommended
-      intervention
-    properties:
-    - name: friction_type
-      type: string
-      meaning: Kind of friction detected
-      optional: false
-    - name: friction_location
-      type: string
-      meaning: Where in the product the user is stuck
-      optional: false
-    - name: severity
-      type: enum
-      meaning: Mild, moderate or severe friction level
-      optional: false
-    - name: recommended_intervention
-      type: string
-      meaning: Suggested intervention for this friction
-      optional: true
   - slot: product_usage_event
     kind: event
-    meaning: A customer performed an action or hit an error inside the product (form submits, button clicks, errors, help
-      views, back-button or rage-click patterns, setup step starts and completions)
+    meaning: A customer performed an action or hit an error inside the product (form submits, button clicks, setup steps,
+      errors)
     properties:
     - name: element
       type: string
-      meaning: UI element the action happened on
-      optional: true
+      meaning: The form, button or setup step acted on
+      optional: false
     - name: location
       type: string
-      meaning: Product location of the action
-      optional: true
+      meaning: Where in the product the action happened
+      optional: false
     - name: outcome
       type: string
-      meaning: Whether the action succeeded or failed
-      optional: true
-  - slot: active_friction_segment
-    kind: segment
-    meaning: Users with recent friction at moderate or severe level, excluding users already in active intervention
-    creatable: true
-    definition: users with recent_friction_signal in the last {friction_window} where severity is moderate or severe, excluding
-      users already in active intervention, real-time refresh
+      meaning: 'Result of the action: success, failed, error, started'
+      optional: false
   - slot: in_app_messaging
     kind: destination
-    meaning: A destination that can deliver in-app help and emails to users
+    meaning: A destination that delivers emails to users
     channel: email
-  - slot: sms_channel
-    kind: integration
-    meaning: An SMS integration for sending messages to users
-    optional: true
-    channel: sms
-  - slot: push_channel
-    kind: integration
-    meaning: A push notification integration for sending messages to users
-    optional: true
-    channel: push
-  - slot: slack_channel
-    kind: integration
-    meaning: A Slack integration for internal alerts or customer messages
-    optional: true
-    channel: slack
-  - slot: support_agent
-    kind: integration
-    meaning: An AI agent that can chat with users and hand off to human support
-    channel: email
-  - slot: crm_tasks
-    kind: integration
-    meaning: A CRM where CSM outreach tasks can be created for high-value users
-    optional: true
-    channel: hubspot
   - slot: high_value_flag
     kind: attribute
-    meaning: A user attribute marking high-value accounts
-    optional: true
+    meaning: A user attribute that is true for high-value users
   - slot: product_brand
     kind: brand
     meaning: The company brand voice and product name used in messages
   - slot: help_content_library
     kind: knowledge
-    meaning: Product help articles and tutorial videos for common blockers
+    meaning: Product help articles and tutorials for common blockers
     optional: true
   steps:
   - id: s1
     builds: attribute
     uses:
-    - friction_signal_attribute
     - product_usage_event
+    - friction_window
     - abandon_return_hours
     - repeat_attempt_threshold
-    instruction: 'Create an AI-derived attribute {friction_signal_attribute} on the User object, refreshed in real time. Detect
-      these patterns: (a) repeated failed actions on the same UI element ({repeat_attempt_threshold}+ attempts at the same
-      form or button within a session); (b) abandoned setup step (multi-step flow started, not completed, no return for {abandon_return_hours}+
-      hours); (c) error events without a subsequent successful retry; (d) help-content visits without a subsequent action;
-      (e) rage-click or rapid back-button patterns. Output a structured object with friction_type, friction_location (where
-      in the product), severity (mild, moderate or severe based on time stuck and repetition), and recommended_intervention.'
+    instruction: 'Create a computed user attribute named "friction_location". Its value is the {product_usage_event.location}
+      of the user''s latest friction in the last {friction_window}, and empty when there is none. Friction is any one of:
+      (a) {product_usage_event} with {product_usage_event.outcome} "failed" {repeat_attempt_threshold} or more times on the
+      same {product_usage_event.element} within one hour; (b) {product_usage_event} with outcome "error" and no outcome "success"
+      on the same element in the next hour; (c) outcome "started" on a setup step with no outcome "success" on that step and
+      no {product_usage_event} at all for {abandon_return_hours} hours after it. Friction ends when the user does outcome
+      "success" on that element.'
   - id: s2
     builds: segment
     uses:
     - s1
-    - active_friction_segment
-    - friction_signal_attribute
-    - friction_window
-    instruction: Build the segment {active_friction_segment} of users with {friction_signal_attribute} in the last {friction_window}
-      where severity is moderate or severe. Refresh in real time. Exclude users already in active intervention from this journey.
-      Partition by friction_location so the journey routes contextually.
+    dependsOn:
+    - s1
+    instruction: Build a new segment of users named "Stuck Users". A user is in it when their friction_location attribute
+      from "Detect where people get stuck" has a value.
   - id: s3
     builds: page
     uses:
-    - s1
     - s2
-    - friction_signal_attribute
     - help_content_library
-    - help_tone
-    instruction: 'Generate in-app contextual help variants per {friction_signal_attribute.friction_location}. Setup abandonment:
-      contextual tooltip at the abandoned step with the answer to the common blocker. Repeated failed action: floating help
-      bubble reading ''Looks like you''re stuck: here''s what most users do'' with a GIF or short video. Error encountered:
-      helpful error explainer rendered where the error appeared. Long dwell time on a critical step (decision paralysis):
-      comparison guide or recommendation card. Each renders mid-session when friction is freshest. Tone: {help_tone}, not
-      aggressive sales. Draw content from {help_content_library} where relevant.'
+    - product_brand
+    dependsOn:
+    - s2
+    instruction: 'Create in-app help for users in the segment from "Find users who are stuck", shown at the product location
+      named in their friction_location attribute while they are in the product. For a failed form or button: a help bubble
+      with the two or three steps most users take there. For an error: a short explanation of the error and how to fix it,
+      shown where it appeared. For an abandoned setup step: a tooltip at that step with the answer to the most common blocker.
+      Content from {help_content_library}, in the voice of {product_brand}; friendly, never salesy; each piece can be dismissed.'
   - id: s4
     builds: email
     uses:
-    - s1
     - s2
-    - s3
-    - friction_signal_attribute
     - help_content_library
     - product_brand
-    instruction: 'Generate email fallback content sent if the user does not engage with the in-app help from ''Help them inside
-      the app'' or left the session before help was shown. Create variants per {friction_signal_attribute.friction_location}.
-      Subject directly addresses the issue, for example ''Stuck on (fill in: specific step)? Here''s the fix.'' Body is a
-      60-second tutorial (video link or step-by-step screenshots) with a one-click resume-where-you-left-off deep link. Tone:
-      specific to the exact friction, not a generic ''we noticed you got stuck'' message. Brand: {product_brand}. If the brand
-      kit has no logo, use the brand name as a plain text header. Fill each ''(fill in: ...)'' from the brand kit or the earlier
-      step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.'
+    dependsOn:
+    - s2
+    instruction: Write an email for users in the segment from "Find users who are stuck", in the voice of {product_brand}.
+      The subject names the product location from their friction_location attribute, for example "Stuck on importing contacts?
+      Here is the fix". The body gives the fix in three to five short steps from {help_content_library} and one button that
+      takes them back to that location in the product. Specific to the location, never a generic "we noticed you got stuck".
+      If the brand kit has no logo, use the brand name as a plain text header.
   - id: s5
     builds: automation
     uses:
-    - s1
     - s2
-    - s3
     - s4
-    - support_agent
-    - friction_signal_attribute
-    instruction: 'Configure an AI agent scenario named ''Friction rescue'' that engages users with severe {friction_signal_attribute}
-      who have not responded to ''Help them inside the app'' or ''Email the fix if that misses''. The agent opens by naming
-      the specific friction, for example ''I see you''ve been working on (fill in: step): happy to help walk through it'',
-      and offers to: (a) co-pilot the action with screen-share or step-by-step chat guidance, (b) escalate to human support
-      if the problem is technical or account-level, (c) flag the friction as a product bug for the engineering queue. The
-      agent never claims to be human. Offer handoff to a human when the agent cannot resolve within 3 turns. Agent: {support_agent}.
-      Fill each ''(fill in: ...)'' from the brand kit or the earlier step results; if a value is missing, write the sentence
-      without it. A draft never contains a placeholder.'
-  - id: s6
-    builds: automation
-    uses:
-    - s2
-    - s3
-    - s4
-    - s5
-    - active_friction_segment
-    - friction_signal_attribute
+    - in_app_messaging
+    - high_value_flag
     - email_delay
     - escalation_delay
-    - dismiss_limit
-    - high_value_flag
-    - crm_tasks
-    instruction: 'Build a graduated-escalation journey triggered when {friction_signal_attribute} becomes moderate or severe.
-      Touch 1 (mid-session, immediate): in-app contextual help from ''Help them inside the app'' renders at the friction location.
-      Touch 2 ({email_delay} later, if the user left without resolving): email fallback from ''Email the fix if that misses''
-      with tutorial and resume link. Touch 3 ({escalation_delay} later, if friction signal is still active or the user has
-      not returned): trigger the ''Friction rescue'' agent scenario from ''Offer to walk them through''; for severe-tier users
-      flagged {high_value_flag}, create a CSM task in {crm_tasks} for direct outreach. Exit when the friction signal resolves
-      (user completed the step), when the user dismisses help {dismiss_limit} times, or on unsubscribe. Audience: {active_friction_segment}.'
-  - id: s7
-    builds: dashboard
-    uses:
-    - s1
+    - alert_recipients
+    dependsOn:
     - s2
-    - s3
     - s4
-    - s5
-    - s6
-    - friction_signal_attribute
-    - active_friction_segment
-    instruction: 'Compose a friction intervention dashboard showing: top 10 friction locations by frequency (product-team
-      priority signal for UX issues); in-app help dismiss rate (high suggests irrelevant help, low suggests useful help);
-      friction-to-resolution rate by intervention touch to show which escalation level resolves friction; correlation between
-      severe-tier friction and churn; and journey-attributed activation lift. Source fields come from {friction_signal_attribute},
-      {active_friction_segment} and the touch results of ''Escalate if they stay stuck''.'
+    instruction: Build an automation triggered when a user enters the segment from "Find users who are stuck". After {email_delay},
+      if the user is still in the segment, it sends the email from "Email the fix if that misses" through {in_app_messaging}.
+      After a further {escalation_delay}, if the user is still in the segment and their {high_value_flag} attribute is true,
+      it emails an alert to {alert_recipients} with the user's name, email and friction_location. It stops for a user as soon
+      as they leave the segment. Each user gets the email at most once in 7 days.
 ---
 
 # Friction rescue
@@ -253,29 +151,20 @@ Slash command: /friction-point-detected-intervention
 
 ## Step 1: Detect where people get stuck
 
-Create an AI-derived attribute 'recent_friction_signal' on the User object, refreshed in real-time. Patterns detected: (a) repeated failed actions on the same UI element (3+ attempts at same form / button within a session); (b) abandoned setup step (started a multi-step flow, didn't complete, didn't return for 24+hrs); (c) error-encountered events without subsequent retry success; (d) help-content visits without subsequent action; (e) rage-click or rapid-back-button patterns. Output: structured object with friction_type, friction_location (where in product), severity (mild / moderate / severe based on time-stuck and repetition), and recommended_intervention.
+Create a computed user attribute named "friction_location". Its value is the location of the user's latest friction in the last 7 d, and empty when there is none. Friction is any one of: (a) product usage event with outcome "failed" 3 or more times on the same element within one hour; (b) product usage event with outcome "error" and no outcome "success" on the same element in the next hour; (c) outcome "started" on a setup step with no outcome "success" on that step and no product usage event at all for 24 hours after it. Friction ends when the user does outcome "success" on that element.
 
-## Step 2: Group by where they got stuck
+## Step 2: Find users who are stuck
 
-Build a segment 'Active friction signal' capturing users with recent_friction_signal in the last 7 days where severity is moderate or severe. Real-time refresh. Excludes users already in active intervention from this journey (no double-poking). Partitions by friction_location so the journey routes contextually. Use the result of "Detect where people get stuck".
+Build a new segment of users named "Stuck Users". A user is in it when their friction_location attribute from "Detect where people get stuck" has a value.
 
 ## Step 3: Help them inside the app
 
-This step builds a page.
-Generate in-app contextual help variants per friction_location. For setup-abandonment: contextual tooltip at the abandoned step with the answer to the common blocker. For repeated-failed-action: floating help bubble with 'Looks like you're stuck: here's what most users do' + GIF or short video. For error-encountered: helpful error explainer rendered where the error appeared. For decision-paralysis (long dwell time on a critical step): comparison guide or recommendation card. Each renders mid-session when the friction is freshest. Tone: helpful colleague, not aggressive sales. Use the result of "Detect where people get stuck", "Group by where they got stuck".
+Create in-app help for users in the segment from "Find users who are stuck", shown at the product location named in their friction_location attribute while they are in the product. For a failed form or button: a help bubble with the two or three steps most users take there. For an error: a short explanation of the error and how to fix it, shown where it appeared. For an abandoned setup step: a tooltip at that step with the answer to the most common blocker. Content from help content library, in the voice of product brand; friendly, never salesy; each piece can be dismissed.
 
 ## Step 4: Email the fix if that misses
 
-Generate email fallback content sent if the user doesn't engage with the in-app help OR has left the session before help was shown. Variants per friction_location. Format: subject directly addresses the issue ('Stuck on (fill in: specific step)? Here's the fix.'), body is a 60-second tutorial (video link or step-by-step screenshots), with a one-click resume-where-you-left-off deep link. Tone: not generic 'we noticed you got stuck': specific to the exact friction. Use the result of "Detect where people get stuck", "Group by where they got stuck", "Help them inside the app". If the brand kit has no logo, use the brand name as a plain text header. Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.
+Write an email for users in the segment from "Find users who are stuck", in the voice of product brand. The subject names the product location from their friction_location attribute, for example "Stuck on importing contacts? Here is the fix". The body gives the fix in three to five short steps from help content library and one button that takes them back to that location in the product. Specific to the location, never a generic "we noticed you got stuck". If the brand kit has no logo, use the brand name as a plain text header.
 
-## Step 5: Offer to walk them through
+## Step 5: Escalate if they stay stuck
 
-Configure an AI agent scenario 'Friction rescue' that engages users with severe friction signal who haven't responded to in-app help OR email. Scenario: agent opens with awareness of the specific friction ('I see you've been working on (fill in: step): happy to help walk through it'), offers to: (a) co-pilot the action with screen-share or step-by-step in chat, (b) escalate to human support if the problem is technical/account-level, (c) flag the friction as a product bug for the engineering queue. Agent NEVER pretends to be human; handoff to human is offered when agent can't resolve in 3 turns. Use the result of "Detect where people get stuck", "Group by where they got stuck". Fill each '(fill in: ...)' from the brand kit or the earlier step results; if a value is missing, write the sentence without it. A draft never contains a placeholder.
-
-## Step 6: Escalate if they stay stuck
-
-Build a graduated-escalation journey triggered when recent_friction_signal becomes moderate or severe. Touch 1 (mid-session, immediate): in-app contextual help renders at the friction location. Touch 2 (4 hours later, if user left without resolving): email fallback with tutorial + resume-link. Touch 3 (24 hours later, if friction signal still active OR user hasn't returned): trigger agent scenario or, for severe-tier high-value users, create a CSM task for direct outreach. Exit on: friction_signal resolves (user completed the step (success), user explicitly dismisses help 3 times (respect) don't pester), unsubscribe. Use the result of "Detect where people get stuck", "Group by where they got stuck", "Help them inside the app", "Email the fix if that misses", "Offer to walk them through".
-
-## Step 7: See where the product traps people
-
-Compose a friction intervention dashboard: top 10 friction locations by frequency (a product-team-priority signal: these are the UX bugs the data is telling you about), in-app-help dismiss rate (high = irrelevant help, low = useful), friction-to-resolution rate by intervention touch (which level of escalation actually resolves), severe-tier-to-churn correlation (do users stuck severely actually churn: proves the intervention's necessity), and journey-attributed activation lift (does this play meaningfully move activation rate). The product team gets a free UX-research stream as a side effect. Use the result of "Detect where people get stuck", "Group by where they got stuck", "Help them inside the app", "Email the fix if that misses", "Offer to walk them through", "Escalate if they stay stuck".
+Build an automation triggered when a user enters the segment from "Find users who are stuck". After 4 h, if the user is still in the segment, it sends the email from "Email the fix if that misses" through in app messaging. After a further 24 h, if the user is still in the segment and their high value flag attribute is true, it emails an alert to the email addresses of the customer success team that get the alert with the user's name, email and friction_location. It stops for a user as soon as they leave the segment. Each user gets the email at most once in 7 days.

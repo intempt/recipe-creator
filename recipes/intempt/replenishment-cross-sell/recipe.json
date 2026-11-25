@@ -2,8 +2,8 @@
   "frontmatter_id": "replenishment-cross-sell",
   "title": "Replenishment and cross sell",
   "slash_command": "/replenishment-cross-sell",
-  "description": "Reminds people to reorder before they run out, at the pace they actually get through it, and suggests what pairs with it.",
-  "markdown": "# Replenishment and cross sell\n\n## Description\n\nReminds people to reorder before they run out, at the pace they actually get through it, and suggests what pairs with it.\n\n## Steps\n\n### Step 1: Work out when they run out\n\nThis step builds a segment.\nIdentify users approaching their typical reorder window for consumable products based on purchase history.\n\n### Step 2: Write the reorder reminder\n\nGenerate reorder-reminder emails timed to the user's consumption pattern, with one-click reorder link. Use the result of \"Work out when they run out\". If the brand kit has no logo, use the brand name as a plain text header.\n\n### Step 3: Remind before they run dry\n\nBuild a journey sending reorder reminders at appropriate intervals before depletion. Use the result of \"Work out when they run out\", \"Write the reorder reminder\".\n\n### Step 4: Pick what pairs with it\n\nGenerate cross-sell recommendations for complementary products based on the customer's purchase history. Use the result of \"Work out when they run out\", \"Write the reorder reminder\", \"Remind before they run dry\".\n\n### Step 5: Test when to cross sell\n\nAdd A/B variants on cross-sell timing (with-reorder vs separate-touch). Use the result of \"Work out when they run out\", \"Write the reorder reminder\", \"Remind before they run dry\", \"Pick what pairs with it\".\n\n### Step 6: Track reorders and attach rate\n\nCompose a dashboard tracking reorder rate, cross-sell attach rate, and 12-month repeat-purchase value. Use the result of \"Work out when they run out\", \"Write the reorder reminder\", \"Remind before they run dry\", \"Pick what pairs with it\", \"Test when to cross sell\".\n",
+  "description": "Works out how often each customer reorders a consumable product, reminds them by email before they run out, and suggests products from the catalog that pair with it.",
+  "markdown": "# Replenishment and cross sell\n\n## Description\n\nWorks out how often each customer reorders a consumable product, reminds them by email before they run out, and suggests products from the catalog that pair with it.\n\n## Steps\n\n### Step 1: Work out when they run out\n\nCreate a computed user attribute named \"days_until_reorder\". For each user who did consumable purchase at least once in the last 365 days, take the median number of days between their consumable purchase events (use 30 d when they bought only once), and subtract the days since their latest consumable purchase. The value is that number of days; it is empty for users with no consumable purchase in the last 365 days.\n\n### Step 2: Find who is due to reorder\n\nBuild a new segment of users named \"Due to Reorder\". A user is in it when their days_until_reorder attribute from \"Work out when they run out\" is between 0 and 5, and they did not do consumable purchase in the last 7 days.\n\n### Step 3: Write the reorder reminder\n\nWrite a reorder reminder email for users in the segment from \"Find who is due to reorder\". It names the product from their latest consumable purchase (product) and the quantity (quantity), says they are likely to run out within a few days, and has one button linking to that product's page in product catalog to reorder. Below it, as a cross sell, show two products from product catalog in the same category that pair with it, each with image, name and link. If the brand kit has no logo, use the brand name as a plain text header.\n\n### Step 4: Remind before they run dry\n\nBuild an automation triggered when a user enters the segment from \"Find who is due to reorder\". It sends the email from \"Write the reorder reminder\" through email channel at once. After 3 days, if the user has not done consumable purchase since, it sends the same email once more. Each user gets at most two reminders per reorder cycle.\n",
   "classification": {
     "industry": [
       "ecommerce-retail"
@@ -20,32 +20,22 @@
     {
       "id": "s1",
       "title": "Work out when they run out",
-      "description": "This step builds a segment.\nIdentify users approaching their typical reorder window for consumable products based on purchase history."
+      "description": "Create a computed user attribute named \"days_until_reorder\". For each user who did consumable purchase at least once in the last 365 days, take the median number of days between their consumable purchase events (use 30 d when they bought only once), and subtract the days since their latest consumable purchase. The value is that number of days; it is empty for users with no consumable purchase in the last 365 days."
     },
     {
       "id": "s2",
-      "title": "Write the reorder reminder",
-      "description": "Generate reorder-reminder emails timed to the user's consumption pattern, with one-click reorder link. Use the result of \"Work out when they run out\". If the brand kit has no logo, use the brand name as a plain text header."
+      "title": "Find who is due to reorder",
+      "description": "Build a new segment of users named \"Due to Reorder\". A user is in it when their days_until_reorder attribute from \"Work out when they run out\" is between 0 and 5, and they did not do consumable purchase in the last 7 days."
     },
     {
       "id": "s3",
-      "title": "Remind before they run dry",
-      "description": "Build a journey sending reorder reminders at appropriate intervals before depletion. Use the result of \"Work out when they run out\", \"Write the reorder reminder\"."
+      "title": "Write the reorder reminder",
+      "description": "Write a reorder reminder email for users in the segment from \"Find who is due to reorder\". It names the product from their latest consumable purchase (product) and the quantity (quantity), says they are likely to run out within a few days, and has one button linking to that product's page in product catalog to reorder. Below it, as a cross sell, show two products from product catalog in the same category that pair with it, each with image, name and link. If the brand kit has no logo, use the brand name as a plain text header."
     },
     {
       "id": "s4",
-      "title": "Pick what pairs with it",
-      "description": "Generate cross-sell recommendations for complementary products based on the customer's purchase history. Use the result of \"Work out when they run out\", \"Write the reorder reminder\", \"Remind before they run dry\"."
-    },
-    {
-      "id": "s5",
-      "title": "Test when to cross sell",
-      "description": "Add A/B variants on cross-sell timing (with-reorder vs separate-touch). Use the result of \"Work out when they run out\", \"Write the reorder reminder\", \"Remind before they run dry\", \"Pick what pairs with it\"."
-    },
-    {
-      "id": "s6",
-      "title": "Track reorders and attach rate",
-      "description": "Compose a dashboard tracking reorder rate, cross-sell attach rate, and 12-month repeat-purchase value. Use the result of \"Work out when they run out\", \"Write the reorder reminder\", \"Remind before they run dry\", \"Pick what pairs with it\", \"Test when to cross sell\"."
+      "title": "Remind before they run dry",
+      "description": "Build an automation triggered when a user enters the segment from \"Find who is due to reorder\". It sends the email from \"Write the reorder reminder\" through email channel at once. After 3 days, if the user has not done consumable purchase since, it sends the same email once more. Each user gets at most two reminders per reorder cycle."
     }
   ],
   "availability": "coming_soon"
