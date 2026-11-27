@@ -108,7 +108,10 @@ portable:
       {account_plan} has a value that is not free or trial. Score from: (a) growth in distinct {account_usage_event.user_id}
       in the last {usage_growth_window} against the {growth_baseline_window} before; (b) growth in distinct {account_usage_event.feature}
       values per active user over the same windows; (c) the share of the account''s users active in the last {usage_growth_window}.
-      Also store the strongest signal as user-growth, feature-depth or seat-coverage.'
+      Also store the strongest signal as user-growth, feature-depth or seat-coverage. When a calculated attribute cannot
+      hold these windows, it saves one all-time number per account instead, the count of distinct {account_usage_event.user_id},
+      named as the stand-in; a strongest-signal label it cannot store is left out and named as left out. This step builds
+      no window segments: an account segment cannot read people segments.'
   - id: s2
     builds: segment
     uses:
@@ -175,7 +178,7 @@ Slash command: /usage-spike-expansion-play
 
 ## Step 1: Score the expansion signals
 
-Create a computed account attribute named expansion_signal_score, a number from 0 to 100, for accounts whose account plan has a value that is not free or trial. Score from: (a) growth in distinct user id in the last 30 d against the 90 d before; (b) growth in distinct feature values per active user over the same windows; (c) the share of the account's users active in the last 30 d. Also store the strongest signal as user-growth, feature-depth or seat-coverage.
+Create a computed account attribute named expansion_signal_score, a number from 0 to 100, for accounts whose account plan has a value that is not free or trial. Score from: (a) growth in distinct user id in the last 30 d against the 90 d before; (b) growth in distinct feature values per active user over the same windows; (c) the share of the account's users active in the last 30 d. Also store the strongest signal as user-growth, feature-depth or seat-coverage. When a calculated attribute cannot hold these windows, it saves one all-time number per account instead, the count of distinct user id, named as the stand-in; a strongest-signal label it cannot store is left out and named as left out. This step builds no window segments: an account segment cannot read people segments.
 
 ## Step 2: Find accounts outgrowing the plan
 
