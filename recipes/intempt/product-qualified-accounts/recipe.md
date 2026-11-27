@@ -92,9 +92,10 @@ portable:
     - s1
     instruction: Generate a designed marketing email for the accounts in the segment from "Build the active account list"
       showing what the team gets from a plan that fits how much they use the product. Write {upgrade_email_sentences} sentences
-      in a {email_tone} tone with no discount language, and include one button linking to {pricing_page}. Use the result of
-      "Build the active account list". This drafts the email only; a person still sends it. If the brand kit has no logo,
-      use the brand name as a plain text header; the button links to the URL chosen for this run.
+      in a {email_tone} tone with no discount language, and include one button linking to the pricing page address the person
+      gives, else the brand's website. Use the result of "Build the active account list". This drafts the email only; a person
+      still sends it. If the brand kit has no logo, use the brand name as a plain text header; the button links to the URL
+      chosen for this run.
 ---
 
 # Product-Qualified Active Accounts
@@ -111,4 +112,4 @@ Generate a Slack message to sales channel. For each account in the segment from 
 
 ## Step 3: Draft a plan email
 
-Generate a designed marketing email for the accounts in the segment from "Build the active account list" showing what the team gets from a plan that fits how much they use the product. Write 3 sentences in a confident and helpful tone with no discount language, and include one button linking to pricing page. Use the result of "Build the active account list". This drafts the email only; a person still sends it. If the brand kit has no logo, use the brand name as a plain text header; the button links to the URL chosen for this run.
+Generate a designed marketing email for the accounts in the segment from "Build the active account list" showing what the team gets from a plan that fits how much they use the product. Write 3 sentences in a confident and helpful tone with no discount language, and include one button linking to the pricing page address the person gives, else the brand's website. Use the result of "Build the active account list". This drafts the email only; a person still sends it. If the brand kit has no logo, use the brand name as a plain text header; the button links to the URL chosen for this run.

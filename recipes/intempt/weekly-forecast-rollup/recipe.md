@@ -49,7 +49,7 @@ portable:
   - name: quota_target
     type: number
     label: Team quota for the quarter
-    required: true
+    required: false
   - name: digest_recipients
     type: string
     label: Email addresses of sales leadership that get the digest
@@ -87,8 +87,8 @@ portable:
     instruction: 'Build an automation that runs every {send_day} at {send_time} on a schedule. Each run it analyzes the latest
       {pipeline_opportunity_event} per deal and writes these figures: open pipeline {pipeline_opportunity_event.amount_arr}
       by {pipeline_opportunity_event.stage}; the weighted forecast, each stage''s value times its win rate over the last 12
-      months; that forecast against {quota_target}; value by {pipeline_opportunity_event.forecast_category}; deals added,
-      advanced, lost and closed-won in the last 7 days with their value; the five largest moves by deal and {pipeline_opportunity_event.owner};
+      months; that forecast against {quota_target} when it is given (else the line says no quota is set); value by {pipeline_opportunity_event.forecast_category};
+      deals added, advanced, lost and closed-won in the last 7 days with their value; the five largest moves by deal and {pipeline_opportunity_event.owner};
       last week''s weighted forecast for comparison. Then it emails these figures as plain-text lines, each with its window,
       to {digest_recipients}. Nothing else is sent.'
   - id: s2
@@ -114,7 +114,7 @@ Slash command: /weekly-forecast-rollup
 
 ## Step 1: Email the weekly forecast
 
-Build an automation that runs every monday at 07:00 on a schedule. Each run it analyzes the latest pipeline opportunity event per deal and writes these figures: open pipeline amount arr by stage; the weighted forecast, each stage's value times its win rate over the last 12 months; that forecast against the team quota for the quarter; value by forecast category; deals added, advanced, lost and closed-won in the last 7 days with their value; the five largest moves by deal and owner; last week's weighted forecast for comparison. Then it emails these figures as plain-text lines, each with its window, to the email addresses of sales leadership that get the digest. Nothing else is sent.
+Build an automation that runs every monday at 07:00 on a schedule. Each run it analyzes the latest pipeline opportunity event per deal and writes these figures: open pipeline amount arr by stage; the weighted forecast, each stage's value times its win rate over the last 12 months; that forecast against the team quota for the quarter when it is given (else the line says no quota is set); value by forecast category; deals added, advanced, lost and closed-won in the last 7 days with their value; the five largest moves by deal and owner; last week's weighted forecast for comparison. Then it emails these figures as plain-text lines, each with its window, to the email addresses of sales leadership that get the digest. Nothing else is sent.
 
 ## Step 2: Email the monthly forecast accuracy check
 

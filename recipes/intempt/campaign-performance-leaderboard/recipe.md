@@ -83,7 +83,7 @@ portable:
     kind: event
     meaning: A customer placed an order
     properties:
-    - name: total_price
+    - name: revenue
       type: number
       meaning: Order total
       optional: false
@@ -104,14 +104,15 @@ portable:
     - conversion_low_threshold
     - digest_recipients
     instruction: 'Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes each campaign by
-      {email_sent_event.campaign_id} sent in the last {time_range} and writes, per campaign: sends ({email_sent_event} count);
-      open rate (customers with {email_opened_event} / sends); click rate (customers with {email_clicked_event} / sends);
-      click-to-open rate (clickers / openers); conversions (customers who did {placed_order_event} within {attribution_window}
-      after opening or clicking that campaign); attributed revenue (sum of {placed_order_event.total_price} of those orders);
-      revenue per send. It lists the top {top_n} campaigns by attributed revenue, and the top {top_highlight_count} by revenue
-      per send and by click-to-open rate. It flags campaigns with open rate above {open_rate_flag_threshold}%, click-to-open
-      below {ctor_low_threshold}%, or conversion below {conversion_low_threshold}% of sends. Then it emails these figures
-      as plain-text lines, each with its window, to {digest_recipients}. Nothing else is sent.'
+      {email_sent_event.campaign_id} sent in the last {time_range} and writes, per campaign: sends ({email_sent_event} count:
+      an email-channel campaign send, never a support, chat or conversation message; none with rows is said); open rate (customers
+      with {email_opened_event} / sends); click rate (customers with {email_clicked_event} / sends); click-to-open rate (clickers
+      / openers); conversions (customers who did {placed_order_event} within {attribution_window} after opening or clicking
+      that campaign); attributed revenue (sum of {placed_order_event.revenue} (the order total) of those orders); revenue
+      per send. It lists the top {top_n} campaigns by attributed revenue, and the top {top_highlight_count} by revenue per
+      send and by click-to-open rate. It flags campaigns with open rate above {open_rate_flag_threshold}%, click-to-open below
+      {ctor_low_threshold}%, or conversion below {conversion_low_threshold}% of sends. Then it emails these figures as plain-text
+      lines, each with its window, to {digest_recipients}. Nothing else is sent.'
 ---
 
 # Campaign performance leaderboard
@@ -120,4 +121,4 @@ Slash command: /campaign-performance-leaderboard
 
 ## Step 1: Email the weekly campaign leaderboard
 
-Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes each campaign by campaign id sent in the last 90 d and writes, per campaign: sends (email sent event count); open rate (customers with email opened event / sends); click rate (customers with email clicked event / sends); click-to-open rate (clickers / openers); conversions (customers who did placed order event within 7 d after opening or clicking that campaign); attributed revenue (sum of total price of those orders); revenue per send. It lists the top 10 campaigns by attributed revenue, and the top 3 by revenue per send and by click-to-open rate. It flags campaigns with open rate above 40%, click-to-open below 10%, or conversion below 0.5% of sends. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.
+Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes each campaign by campaign id sent in the last 90 d and writes, per campaign: sends (email sent event count: an email-channel campaign send, never a support, chat or conversation message; none with rows is said); open rate (customers with email opened event / sends); click rate (customers with email clicked event / sends); click-to-open rate (clickers / openers); conversions (customers who did placed order event within 7 d after opening or clicking that campaign); attributed revenue (sum of revenue (the order total) of those orders); revenue per send. It lists the top 10 campaigns by attributed revenue, and the top 3 by revenue per send and by click-to-open rate. It flags campaigns with open rate above 40%, click-to-open below 10%, or conversion below 0.5% of sends. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.

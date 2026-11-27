@@ -61,7 +61,7 @@ portable:
       type: string
       meaning: Id of the cart the order came from
       optional: false
-    - name: total_price
+    - name: revenue
       type: number
       meaning: Total value of the order
       optional: false
@@ -121,10 +121,10 @@ portable:
     - s4
     instruction: 'Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes the last 7 days
       and writes these figures: carts abandoned by {abandoned_cart_event}; the recovery rate, the share later matched by {order_event}
-      with the same {order_event.cart_id}; the revenue recovered, the sum of {order_event.total_price} on those orders; the
-      median time to recover; recovery by which email from "Send three emails over three days" came last. When the recovery
-      rate is below {alert_threshold}%, the email''s first line says so. Then it emails these figures as plain-text lines,
-      each with its window, to {digest_recipients}. Nothing else is sent.'
+      with the same {order_event.cart_id}; the revenue recovered, the sum of {order_event.revenue} (the order total) on those
+      orders; the median time to recover; recovery by which email from "Send three emails over three days" came last. When
+      the recovery rate is below {alert_threshold}%, the email''s first line says so. Then it emails these figures as plain-text
+      lines, each with its window, to {digest_recipients}. Nothing else is sent.'
 ---
 
 # Abandoned cart recovery
@@ -149,4 +149,4 @@ Build an automation triggered when a user does abandoned cart event. It sends th
 
 ## Step 5: Email the weekly recovery digest
 
-Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes the last 7 days and writes these figures: carts abandoned by abandoned cart event; the recovery rate, the share later matched by order event with the same cart id; the revenue recovered, the sum of total price on those orders; the median time to recover; recovery by which email from "Send three emails over three days" came last. When the recovery rate is below 15%, the email's first line says so. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.
+Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes the last 7 days and writes these figures: carts abandoned by abandoned cart event; the recovery rate, the share later matched by order event with the same cart id; the revenue recovered, the sum of revenue (the order total) on those orders; the median time to recover; recovery by which email from "Send three emails over three days" came last. When the recovery rate is below 15%, the email's first line says so. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.

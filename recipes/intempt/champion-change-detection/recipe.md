@@ -41,7 +41,7 @@ portable:
   requirements:
   - slot: champion_contact
     kind: attribute
-    meaning: True on a user who is the champion of their account's open deal
+    meaning: 'A user attribute marking the deal champion: true, or a role / contact-role value equal to champion'
   - slot: deal_stage
     kind: attribute
     meaning: The stage of the account's open deal, such as Discovery, Proposal, Closed Won or Closed Lost
@@ -65,12 +65,12 @@ portable:
     - email_engagement
     - active_window
     - quiet_window
-    instruction: Build a computed attribute on users named "champion_status", for users whose {champion_contact} is true.
-      Set it to GONE when the user did {email_engagement} with {email_engagement.event_type} equal to bounce in the last {quiet_window},
-      or did not do {email_engagement} with {email_engagement.event_type} equal to reply in the last {quiet_window}; QUIET
-      when their last {email_engagement} with {email_engagement.event_type} equal to reply was between {active_window} and
-      {quiet_window} ago; ACTIVE when they did {email_engagement} with {email_engagement.event_type} equal to reply in the
-      last {active_window}. Users whose {champion_contact} is not true get no value.
+    instruction: Build a computed attribute on users named "champion_status", for users whom {champion_contact} marks as the
+      champion (true, or a role value equal to champion). Set it to GONE when the user did {email_engagement} with {email_engagement.event_type}
+      equal to bounce in the last {quiet_window}, or did not do {email_engagement} with {email_engagement.event_type} equal
+      to reply in the last {quiet_window}; QUIET when their last {email_engagement} with {email_engagement.event_type} equal
+      to reply was between {active_window} and {quiet_window} ago; ACTIVE when they did {email_engagement} with {email_engagement.event_type}
+      equal to reply in the last {active_window}. Users it does not mark as the champion get no value.
   - id: s2
     builds: segment
     uses:
@@ -122,7 +122,7 @@ Slash command: /champion-change-detection
 
 ## Step 1: Track the champion daily
 
-Build a computed attribute on users named "champion_status", for users whose champion contact is true. Set it to GONE when the user did email engagement with event type equal to bounce in the last 45 d, or did not do email engagement with event type equal to reply in the last 45 d; QUIET when their last email engagement with event type equal to reply was between 21 d and 45 d ago; ACTIVE when they did email engagement with event type equal to reply in the last 21 d. Users whose champion contact is not true get no value.
+Build a computed attribute on users named "champion_status", for users whom champion contact marks as the champion (true, or a role value equal to champion). Set it to GONE when the user did email engagement with event type equal to bounce in the last 45 d, or did not do email engagement with event type equal to reply in the last 45 d; QUIET when their last email engagement with event type equal to reply was between 21 d and 45 d ago; ACTIVE when they did email engagement with event type equal to reply in the last 21 d. Users it does not mark as the champion get no value.
 
 ## Step 2: Find deals that lost theirs
 

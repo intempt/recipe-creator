@@ -72,15 +72,15 @@ portable:
     - mid_market_min_company_size
     - target_industries
     - brief_recipients
-    instruction: 'Build an automation that starts when an account does {account_created_event}. First it enriches the record
-      with basic company data only: company size, industry, country and domain, using {account_created_event.domain}. Then
-      it splits on {account_created_event.company_size} and {account_created_event.industry} (or the enriched values when
-      those are empty): (a) company size above {enterprise_min_company_size}: enrich the record in full with technology stack,
-      decision-makers by title, funding and recent news, then add an analysis step that writes a short brief on the account''s
-      priorities, competitive position and buying signals and emails it to {brief_recipients}; (b) company size from {mid_market_min_company_size}
-      to {enterprise_min_company_size} and industry in {target_industries}: enrich the record with one main contact (CEO,
-      founder or owner) and the company technology stack; (c) every other account: no more enrichment. Then Blu asks to start
-      it.'
+    instruction: 'Build an automation that starts when an account does {account_created_event}. It splits by tier first, before
+      any enrichment, on {account_created_event.company_size} and {account_created_event.industry} as the event carries them
+      (an account with no company size goes to the last branch): (a) company size above {enterprise_min_company_size}: enrich
+      the record in full, using {account_created_event.domain}, with company data, technology stack, decision-makers by title,
+      funding and recent news, then add an analysis step that writes a short brief on the account''s priorities, competitive
+      position and buying signals and emails it to {brief_recipients}; (b) company size from {mid_market_min_company_size}
+      to {enterprise_min_company_size} and industry in {target_industries}: enrich the record, using {account_created_event.domain},
+      with basic company data, one main contact (CEO, founder or owner) and the company technology stack; (c) every other
+      account (the default branch): no enrichment at all, so it costs nothing. Then Blu asks to start it.'
   - id: s2
     builds: automation
     uses:
@@ -107,7 +107,7 @@ Slash command: /conditional-enrichment-by-tier
 
 ## Step 1: Enrich new accounts by tier
 
-Build an automation that starts when an account does account created event. First it enriches the record with basic company data only: company size, industry, country and domain, using domain. Then it splits on company size and industry (or the enriched values when those are empty): (a) company size above 500: enrich the record in full with technology stack, decision-makers by title, funding and recent news, then add an analysis step that writes a short brief on the account's priorities, competitive position and buying signals and emails it to the email addresses that get the enterprise account briefs; (b) company size from 50 to 500 and industry in the industries that count as mid-market fit (comma separated): enrich the record with one main contact (CEO, founder or owner) and the company technology stack; (c) every other account: no more enrichment. Then Blu asks to start it.
+Build an automation that starts when an account does account created event. It splits by tier first, before any enrichment, on company size and industry as the event carries them (an account with no company size goes to the last branch): (a) company size above 500: enrich the record in full, using domain, with company data, technology stack, decision-makers by title, funding and recent news, then add an analysis step that writes a short brief on the account's priorities, competitive position and buying signals and emails it to the email addresses that get the enterprise account briefs; (b) company size from 50 to 500 and industry in the industries that count as mid-market fit (comma separated): enrich the record, using domain, with basic company data, one main contact (CEO, founder or owner) and the company technology stack; (c) every other account (the default branch): no enrichment at all, so it costs nothing. Then Blu asks to start it.
 
 ## Step 2: Email the monthly tier digest
 

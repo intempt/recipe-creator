@@ -23,7 +23,7 @@ portable:
     default: trial
   - name: signupWindow
     type: duration
-    label: Window after subscription start in which the user qualifies
+    label: Window after trial start in which the user qualifies
     default: 7 d
   - name: sessionThreshold
     type: number
@@ -53,9 +53,9 @@ portable:
   - slot: trial_plan_attribute
     kind: attribute
     meaning: The user's plan attribute indicating their account plan, such as trial
-  - slot: subscription_started_event
+  - slot: trial_started_event
     kind: event
-    meaning: A customer started a subscription
+    meaning: A user started a trial
     properties:
     - name: email
       type: text
@@ -77,14 +77,14 @@ portable:
     builds: segment
     uses:
     - trial_plan_attribute
-    - subscription_started_event
+    - trial_started_event
     - session_start_event
     - trialPlanValue
     - signupWindow
     - sessionThreshold
     - sessionWindow
     instruction: 'Build a new segment named "Trial Users: High Engagement" of users who are still on their trial and not yet
-      paying (never people who already converted): their {trial_plan_attribute} is {trialPlanValue}, who did {subscription_started_event}
+      paying (never people who already converted): their {trial_plan_attribute} is {trialPlanValue}, who did {trial_started_event}
       at least once between 0 and {signupWindow} ago, and who did {session_start_event} {sessionThreshold} or more times in
       the last {sessionWindow}.'
   - id: s2
@@ -96,10 +96,10 @@ portable:
     dependsOn:
     - s1
     instruction: Write a Slack message for the {salesChannel} channel for each user in the segment from "Build the fast-starter
-      list" listing their email address {subscription_started_event.email} so reps can reach out while interest is at its
-      peak. Use the result of "Build the fast-starter list". Take names and addresses from the member list in the result of
-      the step that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste
-      anything in.
+      list" listing their email address {trial_started_event.email} so reps can reach out while interest is at its peak. Use
+      the result of "Build the fast-starter list". Take names and addresses from the member list in the result of the step
+      that built the list (at most 20, then how many more); never write a placeholder or ask the reader to paste anything
+      in.
   - id: s3
     builds: email
     uses:
@@ -122,7 +122,7 @@ Slash command: /trial-users-high-engagement
 
 ## Step 1: Build the fast-starter list
 
-Build a new segment named "Trial Users: High Engagement" of users who are still on their trial and not yet paying (never people who already converted): their trial plan attribute is trial, who did subscription started event at least once between 0 and 7 d ago, and who did session start event 5 or more times in the last 7 d.
+Build a new segment named "Trial Users: High Engagement" of users who are still on their trial and not yet paying (never people who already converted): their trial plan attribute is trial, who did trial started event at least once between 0 and 7 d ago, and who did session start event 5 or more times in the last 7 d.
 
 ## Step 2: Fast-track to sales
 

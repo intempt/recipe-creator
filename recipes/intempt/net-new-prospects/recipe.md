@@ -69,10 +69,11 @@ portable:
     - welcome_tone
     dependsOn:
     - s1
-    instruction: Generate a designed marketing email for the accounts in "Net-New Prospects" welcoming the team and pointing
-      to {product_feature}. Write three sentences in a {welcome_tone} tone with no discount language. Include exactly one
-      button linking to that feature inside the product. If the brand kit has no logo, use the brand name as a plain text
-      header. Every button links to a URL given for this run or named in this step; never leave a button without a link.
+    instruction: Generate a designed marketing email for the accounts in "Net-New Prospects" introducing the product to the
+      team (they are prospects, not customers) and pointing to {product_feature}. Write three sentences in a {welcome_tone}
+      tone with no discount language. Include exactly one button linking to that feature inside the product. If the brand
+      kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named
+      in this step; never leave a button without a link.
   - id: s3
     builds: email_plain
     uses:
@@ -99,7 +100,7 @@ Build a new segment named "Net-New Prospects" of accounts where employees count 
 
 ## Step 2: Send a welcome email
 
-Generate a designed marketing email for the accounts in "Net-New Prospects" welcoming the team and pointing to product feature. Write three sentences in a warm tone with no discount language. Include exactly one button linking to that feature inside the product. If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.
+Generate a designed marketing email for the accounts in "Net-New Prospects" introducing the product to the team (they are prospects, not customers) and pointing to product feature. Write three sentences in a warm tone with no discount language. Include exactly one button linking to that feature inside the product. If the brand kit has no logo, use the brand name as a plain text header. Every button links to a URL given for this run or named in this step; never leave a button without a link.
 
 ## Step 3: Notify SDRs
 

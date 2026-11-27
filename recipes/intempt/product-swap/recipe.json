@@ -3,7 +3,7 @@
   "title": "Product swap in a scene",
   "slash_command": "/product-swap",
   "description": "Replaces the product in a shot you already have with a different one, keeping the scene, lighting and shadow the same.",
-  "markdown": "# Product swap in a scene\n\n## Description\n\nReplaces the product in a shot you already have with a different one, keeping the scene, lighting and shadow the same.\n\n## Steps\n\n### Step 1: Swap in the new product\n\nEdit the image attached to this run.\nReplace only the product with the new product chosen for this run, at identical size and position.\nKeep the scene, lighting, shadow and backdrop unchanged.\n",
+  "markdown": "# Product swap in a scene\n\n## Description\n\nReplaces the product in a shot you already have with a different one, keeping the scene, lighting and shadow the same.\n\n## Steps\n\n### Step 1: Swap in the new product\n\nEdit the scene picture attached to this run; when none is attached, use the newest saved scene picture in the project's assets. Replace only the product with new product (an in-stock catalog product: its catalog image when the catalog holds a real product photo for it; otherwise draw it from its catalog title and description in an image edit of the scene) at identical size and position. Keep the scene, lighting, shadow and backdrop unchanged.\n",
   "classification": {
     "industry": [
       "ecommerce-retail"
@@ -23,7 +23,7 @@
     {
       "id": "s1",
       "title": "Swap in the new product",
-      "description": "Edit the image attached to this run. Replace only the product with the new product chosen for this run, at identical size and position. Keep the scene, lighting, shadow and backdrop unchanged.",
+      "description": "Edit the scene picture attached to this run; when none is attached, use the newest saved scene picture in the project's assets. Replace only the product with new product (an in-stock catalog product: its catalog image when the catalog holds a real product photo for it; otherwise draw it from its catalog title and description in an image edit of the scene) at identical size and position. Keep the scene, lighting, shadow and backdrop unchanged.",
       "command": "generate_image",
       "entity": "image",
       "integration": [
