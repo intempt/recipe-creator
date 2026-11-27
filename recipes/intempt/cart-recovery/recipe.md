@@ -74,14 +74,18 @@ portable:
     uses:
     - brand_voice
     instruction: Write a gentle cart reminder email in the voice from {brand_voice} for shoppers who left items in their cart
-      an hour ago. It shows the items left in the cart and has one button back to the cart. No discount.
+      an hour ago. It shows the items left in the cart and has one button back to the cart (the cart item's own link when
+      there is no cart page). No discount.
   - id: s2
     builds: email
     uses:
     - brand_voice
+    - order_event
     instruction: Write a second cart email in the voice from {brand_voice} for shoppers who left items in their cart a day
-      ago. It shows the items, adds a short line of customer praise and a note that popular items sell out, with one button
-      back to the cart. No discount.
+      ago. It shows the items, adds a short line of customer praise taken from the brand's reviews or approved claims (else
+      a line on how often the item is ordered, from {order_event} data) and a note that popular items sell out, with one button
+      back to the cart (the cart item's own link when there is no cart page). A praise or sell-out line with no source is
+      left out and named in the run's notes. No discount.
   - id: s3
     builds: email
     uses:
@@ -89,7 +93,7 @@ portable:
     - final_discount_percent
     instruction: Write a final cart email in the voice from {brand_voice} for shoppers who left items in their cart three
       days ago. It says this is the last reminder, shows the items, and offers {final_discount_percent}% off with one button
-      back to the cart.
+      back to the cart (the cart item's own link when there is no cart page).
   - id: s4
     builds: automation
     uses:
@@ -133,15 +137,15 @@ Slash command: /cart-recovery
 
 ## Step 1: Write the reminder
 
-Write a gentle cart reminder email in the voice from brand voice for shoppers who left items in their cart an hour ago. It shows the items left in the cart and has one button back to the cart. No discount.
+Write a gentle cart reminder email in the voice from brand voice for shoppers who left items in their cart an hour ago. It shows the items left in the cart and has one button back to the cart (the cart item's own link when there is no cart page). No discount.
 
 ## Step 2: Write the social proof email
 
-Write a second cart email in the voice from brand voice for shoppers who left items in their cart a day ago. It shows the items, adds a short line of customer praise and a note that popular items sell out, with one button back to the cart. No discount.
+Write a second cart email in the voice from brand voice for shoppers who left items in their cart a day ago. It shows the items, adds a short line of customer praise taken from the brand's reviews or approved claims (else a line on how often the item is ordered, from order event data) and a note that popular items sell out, with one button back to the cart (the cart item's own link when there is no cart page). A praise or sell-out line with no source is left out and named in the run's notes. No discount.
 
 ## Step 3: Write the final reminder
 
-Write a final cart email in the voice from brand voice for shoppers who left items in their cart three days ago. It says this is the last reminder, shows the items, and offers 10% off with one button back to the cart.
+Write a final cart email in the voice from brand voice for shoppers who left items in their cart three days ago. It says this is the last reminder, shows the items, and offers 10% off with one button back to the cart (the cart item's own link when there is no cart page).
 
 ## Step 4: Send three emails over three days
 

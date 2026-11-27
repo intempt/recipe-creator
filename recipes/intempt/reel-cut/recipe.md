@@ -1,7 +1,7 @@
 ---
 frontmatter_id: reel-cut
 slash_command: /reel-cut
-description: Generate a new 9:16 vertical clip for a reel. This creates a vertical video rather than reframing an existing landscape clip.
+description: Cut a saved clip into a 9:16 vertical reel, or animate a still picture into one.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,8 +11,7 @@ classification:
   industry:
   - industry-agnostic
 portable:
-  summary: Creates a new 9:16 vertical reel clip from a landscape still or clip, with the subject reframed, a subtle push-in,
-    and drifting motion particles.
+  summary: Cuts a saved clip to a 9:16 reel; only a still picture gets a subtle push-in and drifting particles.
   parameters:
   - name: aspect_ratio
     type: string
@@ -21,7 +20,7 @@ portable:
     required: false
   - name: motion_style
     type: string
-    label: Motion style
+    label: Motion style (still pictures only)
     default: subtle Ken Burns push with drifting motion particles
     required: false
   - name: source_clip

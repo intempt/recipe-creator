@@ -67,20 +67,26 @@ portable:
     - session_event_threshold
     - usage_window
     instruction: Build a new segment named {segment_name}. An account is in the segment only when the users in the account
-      together did {session_start_event} {session_event_threshold} or more times in the last {usage_window}.
+      together did {session_start_event} {session_event_threshold} or more times in the last {usage_window}. When an account
+      segment can't count its users' events, say why it was left out, build or reuse no people segment in its place, and rank
+      the accounts by how many times their users together did {session_start_event} in the last {usage_window} (an analysis),
+      keeping those at {session_event_threshold} or more.
   - id: s2
     builds: slack
     uses:
     - sales_channel
     - s1
+    - usage_window
     dependsOn:
     - s1
     instruction: Generate a Slack message to {sales_channel}. For each account in the segment from "Build the active account
       list", name the account so reps can reach out to this product-qualified lead while usage is fresh. Use the result of
       "Build the active account list". This drafts the Slack message only; a person on the team still posts it. Take the names
       or addresses from the member list of the step that built the segment (at most 20, then how many more); never write a
-      placeholder or ask the reader to paste anything in. If no member list is available, name the segment and say it can
-      be opened in Segments.
+      placeholder or ask the reader to paste anything in. When "Build the active account list" ranked accounts instead of
+      building the segment, name those accounts (at most 20, then how many more) with each one's session count, and say they
+      are ranked by their users' sessions in the last {usage_window} because an account segment could not count them. If no
+      member list is available, name the segment and say it can be opened in Segments.
   - id: s3
     builds: email
     uses:
@@ -104,11 +110,11 @@ Slash command: /product-qualified-accounts
 
 ## Step 1: Build the active account list
 
-Build a new segment named PQL: Active Accounts. An account is in the segment only when the users in the account together did session start event 3 or more times in the last 14 d.
+Build a new segment named PQL: Active Accounts. An account is in the segment only when the users in the account together did session start event 3 or more times in the last 14 d. When an account segment can't count its users' events, say why it was left out, build or reuse no people segment in its place, and rank the accounts by how many times their users together did session start event in the last 14 d (an analysis), keeping those at 3 or more.
 
 ## Step 2: Draft a sales alert
 
-Generate a Slack message to sales channel. For each account in the segment from "Build the active account list", name the account so reps can reach out to this product-qualified lead while usage is fresh. Use the result of "Build the active account list". This drafts the Slack message only; a person on the team still posts it. Take the names or addresses from the member list of the step that built the segment (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in. If no member list is available, name the segment and say it can be opened in Segments.
+Generate a Slack message to sales channel. For each account in the segment from "Build the active account list", name the account so reps can reach out to this product-qualified lead while usage is fresh. Use the result of "Build the active account list". This drafts the Slack message only; a person on the team still posts it. Take the names or addresses from the member list of the step that built the segment (at most 20, then how many more); never write a placeholder or ask the reader to paste anything in. When "Build the active account list" ranked accounts instead of building the segment, name those accounts (at most 20, then how many more) with each one's session count, and say they are ranked by their users' sessions in the last 14 d because an account segment could not count them. If no member list is available, name the segment and say it can be opened in Segments.
 
 ## Step 3: Draft a plan email
 
