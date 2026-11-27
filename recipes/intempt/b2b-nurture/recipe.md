@@ -75,6 +75,8 @@ portable:
     - s1
     instruction: Build a new segment of users named "Sales-ready leads". A user is in it when their lead_score attribute from
       "Score every lead" is {hot_threshold} or more and they did {inbound_lead_event} at least once in the last 90 days.
+      When "Score every lead" can't be built, it reads the one existing lead score the plan names as the stand-in, the
+      same attribute "Nurture the warm leads" reads.
   - id: s3
     builds: email
     instruction: 'Write a designed HTML nurture email for warm B2B leads who asked for information but are not ready to buy
@@ -108,7 +110,8 @@ portable:
     instruction: Build an automation that starts when a user does {inbound_lead_event}. It waits {nurture_delay}. Then, only
       if the user's lead_score attribute from "Score every lead" is {warm_threshold} or more and below {hot_threshold}, it
       sends the email from "Write the warm-lead nurture email" to the user. Users with a lead_score of {hot_threshold} or
-      more, or below {warm_threshold}, get nothing.
+      more, or below {warm_threshold}, get nothing. When "Score every lead" can't be built, it reads the same stand-in
+      lead score as "Find sales-ready leads", never a second score.
 ---
 
 # B2B lead nurture and routing
@@ -121,7 +124,7 @@ Build a computed attribute on users named "lead_score", a number from 0 to 100, 
 
 ## Step 2: Find sales-ready leads
 
-Build a new segment of users named "Sales-ready leads". A user is in it when their lead_score attribute from "Score every lead" is 80 or more and they did inbound lead event at least once in the last 90 days.
+Build a new segment of users named "Sales-ready leads". A user is in it when their lead_score attribute from "Score every lead" is 80 or more and they did inbound lead event at least once in the last 90 days. When "Score every lead" can't be built, it reads the one existing lead score the plan names as the stand-in, the same attribute "Nurture the warm leads" reads.
 
 ## Step 3: Write the warm-lead nurture email
 
@@ -133,4 +136,4 @@ Build an automation that starts when a user enters the segment from "Find sales-
 
 ## Step 5: Nurture the warm leads
 
-Build an automation that starts when a user does inbound lead event. It waits 2 d. Then, only if the user's lead_score attribute from "Score every lead" is 50 or more and below 80, it sends the email from "Write the warm-lead nurture email" to the user. Users with a lead_score of 80 or more, or below 50, get nothing.
+Build an automation that starts when a user does inbound lead event. It waits 2 d. Then, only if the user's lead_score attribute from "Score every lead" is 50 or more and below 80, it sends the email from "Write the warm-lead nurture email" to the user. Users with a lead_score of 80 or more, or below 50, get nothing. When "Score every lead" can't be built, it reads the same stand-in lead score as "Find sales-ready leads", never a second score.
