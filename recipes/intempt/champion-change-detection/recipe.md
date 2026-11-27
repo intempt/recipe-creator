@@ -80,7 +80,8 @@ portable:
     - s1
     instruction: Build a new segment of accounts named "Champion-change deals". An account is in it when its {deal_stage}
       is not Closed Won and not Closed Lost, and at least one of its users has the attribute from "Track the champion daily"
-      equal to GONE or QUIET.
+      equal to GONE or QUIET. When an account segment can't hold its users' attribute, say why and build it with the {deal_stage}
+      condition alone, named "Open deals"; the steps that use it then check the champion in their analysis.
   - id: s3
     builds: automation
     uses:
@@ -97,7 +98,9 @@ portable:
       analyzes the account and writes: the account name, its {deal_stage}, the champion and their status from "Track the champion
       daily", and the other users at the account who did {email_engagement} with {email_engagement.event_type} equal to reply
       in the last {warm_contact_window}, as warm contacts to reach next. Then it emails these lines as an alert to {alert_recipients}.
-      It never emails the account''s contacts.'
+      When the segment from "Find deals that lost theirs" has no champion condition in its rule, the email goes out only through
+      a condition after the analysis: send only when the account''s champion is GONE or QUIET, else nothing is sent; the card
+      says this gate. It never emails the account''s contacts.'
   - id: s4
     builds: automation
     uses:
@@ -112,7 +115,8 @@ portable:
       the segment from "Find deals that lost theirs" and writes these figures: the number of accounts in it now and 7 days
       ago; how many have a champion GONE and how many QUIET by the attribute from "Track the champion daily"; the sum of {deal_amount}
       across the accounts in it, as the deal value at risk; the accounts that left the segment in the last 7 days with a deal
-      still open, as recovered. Then it emails these figures as plain-text lines, each with its window, to {digest_recipients}.
+      still open, as recovered. When that segment has no champion condition in its rule, each figure counts only its accounts
+      with a champion GONE or QUIET. Then it emails these figures as plain-text lines, each with its window, to {digest_recipients}.
       Nothing else is sent.'
 ---
 
@@ -126,12 +130,12 @@ Build a computed attribute on users named "champion_status", for users whom cham
 
 ## Step 2: Find deals that lost theirs
 
-Build a new segment of accounts named "Champion-change deals". An account is in it when its deal stage is not Closed Won and not Closed Lost, and at least one of its users has the attribute from "Track the champion daily" equal to GONE or QUIET.
+Build a new segment of accounts named "Champion-change deals". An account is in it when its deal stage is not Closed Won and not Closed Lost, and at least one of its users has the attribute from "Track the champion daily" equal to GONE or QUIET. When an account segment can't hold its users' attribute, say why and build it with the deal stage condition alone, named "Open deals"; the steps that use it then check the champion in their analysis.
 
 ## Step 3: Alert the rep team
 
-Build an automation triggered when an account enters the segment from "Find deals that lost theirs". It analyzes the account and writes: the account name, its deal stage, the champion and their status from "Track the champion daily", and the other users at the account who did email engagement with event type equal to reply in the last 30 d, as warm contacts to reach next. Then it emails these lines as an alert to the email addresses that get the champion alerts. It never emails the account's contacts.
+Build an automation triggered when an account enters the segment from "Find deals that lost theirs". It analyzes the account and writes: the account name, its deal stage, the champion and their status from "Track the champion daily", and the other users at the account who did email engagement with event type equal to reply in the last 30 d, as warm contacts to reach next. Then it emails these lines as an alert to the email addresses that get the champion alerts. When the segment from "Find deals that lost theirs" has no champion condition in its rule, the email goes out only through a condition after the analysis: send only when the account's champion is GONE or QUIET, else nothing is sent; the card says this gate. It never emails the account's contacts.
 
 ## Step 4: Email the weekly champion-risk digest
 
-Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes the accounts in the segment from "Find deals that lost theirs" and writes these figures: the number of accounts in it now and 7 days ago; how many have a champion GONE and how many QUIET by the attribute from "Track the champion daily"; the sum of deal amount across the accounts in it, as the deal value at risk; the accounts that left the segment in the last 7 days with a deal still open, as recovered. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.
+Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes the accounts in the segment from "Find deals that lost theirs" and writes these figures: the number of accounts in it now and 7 days ago; how many have a champion GONE and how many QUIET by the attribute from "Track the champion daily"; the sum of deal amount across the accounts in it, as the deal value at risk; the accounts that left the segment in the last 7 days with a deal still open, as recovered. When that segment has no champion condition in its rule, each figure counts only its accounts with a champion GONE or QUIET. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.
