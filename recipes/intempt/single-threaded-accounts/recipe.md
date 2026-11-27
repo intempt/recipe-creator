@@ -14,8 +14,8 @@ prerequisites:
   integrations:
     - { value: slack, severity: recommended }
 portable:
-  summary: Finds enterprise accounts with no logins for 30 days, sends each a personal check-in email from their account manager,
-    and alerts the key accounts team on Slack.
+  summary: 'Single-threaded accounts: finds enterprise accounts with no logins for 30 days, sends each a personal check-in
+    email from their account manager, and alerts the key accounts team on Slack.'
   parameters:
   - name: employee_threshold
     type: number
@@ -89,7 +89,7 @@ portable:
       how many more); never write a placeholder or ask the reader to paste anything in.
 ---
 
-# Enterprise accounts going quiet
+# Single-threaded enterprise accounts going quiet
 
 Slash command: /single-threaded-accounts
 

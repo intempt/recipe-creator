@@ -1,7 +1,7 @@
 ---
 frontmatter_id: reel-cut
 slash_command: /reel-cut
-description: Generate a new 9:16 vertical clip for a reel. This creates a vertical video rather than reframing an existing landscape clip.
+description: Cut a saved clip into a 9:16 vertical reel, or animate a still picture into one.
 author:
   name: Intempt
   last_name: Technologies
@@ -11,8 +11,7 @@ classification:
   industry:
   - industry-agnostic
 portable:
-  summary: Creates a new 9:16 vertical reel clip from a landscape still or clip, with the subject reframed, a subtle push-in,
-    and drifting motion particles.
+  summary: Cuts a saved clip to a 9:16 reel; only a still picture gets a subtle push-in and drifting particles.
   parameters:
   - name: aspect_ratio
     type: string
@@ -21,13 +20,15 @@ portable:
     required: false
   - name: motion_style
     type: string
-    label: Motion style
+    label: Motion style (still pictures only)
     default: subtle Ken Burns push with drifting motion particles
     required: false
-  requirements:
-  - slot: source_clip
-    kind: knowledge
-    meaning: A landscape still image or video clip to reformat into a vertical reel
+  - name: source_clip
+    type: string
+    label: Clip or still to reframe
+    default: the newest saved video in the project (else the newest saved picture)
+    required: false
+  requirements: []
   steps:
   - id: s1
     builds: video
@@ -35,8 +36,10 @@ portable:
     - source_clip
     - aspect_ratio
     - motion_style
-    instruction: Reformat {source_clip} into a {aspect_ratio} vertical reel by image-to-video generation. Re-frame the subject
-      vertically, apply a {motion_style}, and keep the output short-form and social-ready.
+    instruction: Reformat {source_clip} into a {aspect_ratio} vertical reel. When {source_clip} is a video, analyze that video
+      and cut the video itself to {aspect_ratio} (its own frames and sound, at most 30 s, the subject re-framed vertically);
+      no new clip is generated from a frame of it. Only when {source_clip} is a still picture, animate it by image-to-video
+      generation with a {motion_style}. Keep the output short-form and social-ready.
 ---
 
 # Vertical reel cut
@@ -45,6 +48,4 @@ Slash command: /reel-cut
 
 ## Step 1: Reframe to 9:16
 
-Reformat a landscape still/clip to a 9:16 vertical reel.
-Subject re-framed vertical with subtle Ken Burns push and drifting motion particles. Social-ready short format.
-Pipeline: image to video at 9:16
+Reformat the newest saved video in the project (else the newest saved picture) into a 9:16 vertical reel. When the newest saved video in the project (else the newest saved picture) is a video, analyze that video and cut the video itself to 9:16 (its own frames and sound, at most 30 s, the subject re-framed vertically); no new clip is generated from a frame of it. Only when the newest saved video in the project (else the newest saved picture) is a still picture, animate it by image-to-video generation with a subtle Ken Burns push with drifting motion particles. Keep the output short-form and social-ready.

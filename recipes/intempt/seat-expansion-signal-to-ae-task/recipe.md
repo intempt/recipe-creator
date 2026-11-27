@@ -70,8 +70,9 @@ portable:
     - active_seats
     - seat_limit
     instruction: 'Build a computed attribute on accounts named "seat_capacity_used": the account''s {active_seats} attribute
-      divided by its {seat_limit} attribute, as a number rounded to two decimals. Accounts with no {seat_limit} value have
-      no value.'
+      divided by its {seat_limit} attribute, as a number rounded to two decimals. When the project has no seats-in-use attribute,
+      the number of distinct users of the account who did {user_signed_up} or a session event in the last 30 days stands in
+      for {active_seats} (a stand-in the reply names). Accounts with no {seat_limit} value have no value.'
   - id: s2
     builds: segment
     uses:
@@ -127,7 +128,7 @@ Slash command: /seat-expansion-signal-to-ae-task
 
 ## Step 1: Measure how full the plan is
 
-Build a computed attribute on accounts named "seat_capacity_used": the account's active seats attribute divided by its seat limit attribute, as a number rounded to two decimals. Accounts with no seat limit value have no value.
+Build a computed attribute on accounts named "seat_capacity_used": the account's active seats attribute divided by its seat limit attribute, as a number rounded to two decimals. When the project has no seats-in-use attribute, the number of distinct users of the account who did user signed up or a session event in the last 30 days stands in for active seats (a stand-in the reply names). Accounts with no seat limit value have no value.
 
 ## Step 2: Find accounts near a limit
 

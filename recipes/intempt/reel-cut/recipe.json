@@ -2,8 +2,8 @@
   "frontmatter_id": "reel-cut",
   "title": "Vertical reel cut",
   "slash_command": "/reel-cut",
-  "description": "Generate a new 9:16 vertical clip for a reel. This creates a vertical video rather than reframing an existing landscape clip.",
-  "markdown": "# Vertical reel cut\n\n## Description\n\nGenerate a new 9:16 vertical clip for a reel. This creates a vertical video rather than reframing an existing landscape clip.\n\n## Steps\n\n### Step 1: Reframe to 9:16\n\nReformat a landscape still/clip to a 9:16 vertical reel.\nSubject re-framed vertical with subtle Ken Burns push and drifting motion particles. Social-ready short format.\nPipeline: image to video at 9:16\n",
+  "description": "Cut a saved clip into a 9:16 vertical reel, or animate a still picture into one.",
+  "markdown": "# Vertical reel cut\n\n## Description\n\nCut a saved clip into a 9:16 vertical reel, or animate a still picture into one.\n\n## Steps\n\n### Step 1: Reframe to 9:16\n\nReformat the newest saved video in the project (else the newest saved picture) into a 9:16 vertical reel. When the newest saved video in the project (else the newest saved picture) is a video, analyze that video and cut the video itself to 9:16 (its own frames and sound, at most 30 s, the subject re-framed vertically); no new clip is generated from a frame of it. Only when the newest saved video in the project (else the newest saved picture) is a still picture, animate it by image-to-video generation with a subtle Ken Burns push with drifting motion particles. Keep the output short-form and social-ready.\n",
   "classification": {
     "industry": [
       "industry-agnostic"
@@ -20,7 +20,7 @@
     {
       "id": "s1",
       "title": "Reframe to 9:16",
-      "description": "Reformat a landscape still/clip to a 9:16 vertical reel.\nSubject re-framed vertical with subtle Ken Burns push and drifting motion particles. Social-ready short format.\nPipeline: image to video at 9:16"
+      "description": "Reformat the newest saved video in the project (else the newest saved picture) into a 9:16 vertical reel. When the newest saved video in the project (else the newest saved picture) is a video, analyze that video and cut the video itself to 9:16 (its own frames and sound, at most 30 s, the subject re-framed vertically); no new clip is generated from a frame of it. Only when the newest saved video in the project (else the newest saved picture) is a still picture, animate it by image-to-video generation with a subtle Ken Burns push with drifting motion particles. Keep the output short-form and social-ready."
     }
   ],
   "availability": "coming_soon"

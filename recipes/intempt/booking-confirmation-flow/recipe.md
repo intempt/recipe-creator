@@ -122,7 +122,9 @@ portable:
       the meeting was booked less than {reminder_48h_offset} ahead); waits until {reminder_24h_offset} before the start and
       sends the email from "Write the 24-hour reminder"; waits until {sms_reminder_offset} before the start and, only if the
       user's {sms_opt_in} is true, sends the SMS from "Write the two hour text" through {reminder_sms_sender}. It stops when
-      the user does {meeting_cancelled_event} or {meeting_completed_event}.
+      the user does {meeting_cancelled_event} or {meeting_completed_event}. The text step is built only when an SMS
+      destination is connected; otherwise it sends the two emails and names the text as left out, with the SMS setup
+      line.
   - id: s5
     builds: automation
     uses:
@@ -155,7 +157,7 @@ Write an SMS reminder under 160 characters for people whose meeting with host st
 
 ## Step 4: Remind at 48, 24 and 2 hours
 
-Build an automation that starts when a user does meeting scheduled event. It waits until 48 h before meeting start time and sends the email from "Write the 48-hour reminder" (skipped when the meeting was booked less than 48 h ahead); waits until 24 h before the start and sends the email from "Write the 24-hour reminder"; waits until 2 h before the start and, only if the user's sms opt in is true, sends the SMS from "Write the two hour text" through reminder sms sender. It stops when the user does meeting cancelled event or meeting completed event.
+Build an automation that starts when a user does meeting scheduled event. It waits until 48 h before meeting start time and sends the email from "Write the 48-hour reminder" (skipped when the meeting was booked less than 48 h ahead); waits until 24 h before the start and sends the email from "Write the 24-hour reminder"; waits until 2 h before the start and, only if the user's sms opt in is true, sends the SMS from "Write the two hour text" through reminder sms sender. It stops when the user does meeting cancelled event or meeting completed event. The text step is built only when an SMS destination is connected; otherwise it sends the two emails and names the text as left out, with the SMS setup line.
 
 ## Step 5: See what reminders are worth
 

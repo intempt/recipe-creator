@@ -61,7 +61,7 @@ portable:
       type: string
       meaning: Id of the cart the order came from
       optional: false
-    - name: total_price
+    - name: revenue
       type: number
       meaning: Total value of the order
       optional: false
@@ -74,22 +74,27 @@ portable:
     uses:
     - brand_voice
     instruction: Write a gentle cart reminder email in the voice from {brand_voice} for shoppers who left items in their cart
-      an hour ago. It shows the items left in the cart and has one button back to the cart. No discount.
+      an hour ago. It shows the items left in the cart and has one button back to the cart (the cart item's own link when
+      there is no cart page). No discount.
   - id: s2
     builds: email
     uses:
     - brand_voice
+    - order_event
     instruction: Write a second cart email in the voice from {brand_voice} for shoppers who left items in their cart a day
-      ago. It shows the items, adds a short line of customer praise and a note that popular items sell out, with one button
-      back to the cart. No discount.
+      ago. It shows the items, adds a short line of customer praise taken from the brand's reviews or approved claims (else
+      a line on how often the item is ordered, from {order_event} data) and a note that popular items sell out, with one button
+      back to the cart (the cart item's own link when there is no cart page). A praise or sell-out line with no source is
+      left out and named in the run's notes. Its subject is its own, not the subject of "Write the reminder". No discount.
   - id: s3
     builds: email
     uses:
     - brand_voice
     - final_discount_percent
     instruction: Write a final cart email in the voice from {brand_voice} for shoppers who left items in their cart three
-      days ago. It says this is the last reminder, shows the items, and offers {final_discount_percent}% off with one button
-      back to the cart.
+      days ago. It says this is the last reminder, shows the items, and offers {final_discount_percent}% off under a subject
+      of its own, not an earlier email's, with one button back to the cart (the cart item's own link when there is no cart
+      page).
   - id: s4
     builds: automation
     uses:
@@ -121,10 +126,10 @@ portable:
     - s4
     instruction: 'Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes the last 7 days
       and writes these figures: carts abandoned by {abandoned_cart_event}; the recovery rate, the share later matched by {order_event}
-      with the same {order_event.cart_id}; the revenue recovered, the sum of {order_event.total_price} on those orders; the
-      median time to recover; recovery by which email from "Send three emails over three days" came last. When the recovery
-      rate is below {alert_threshold}%, the email''s first line says so. Then it emails these figures as plain-text lines,
-      each with its window, to {digest_recipients}. Nothing else is sent.'
+      with the same {order_event.cart_id}; the revenue recovered, the sum of {order_event.revenue} (the order total) on those
+      orders; the median time to recover; recovery by which email from "Send three emails over three days" came last. When
+      the recovery rate is below {alert_threshold}%, the email''s first line says so. Then it emails these figures as plain-text
+      lines, each with its window, to {digest_recipients}. Nothing else is sent.'
 ---
 
 # Abandoned cart recovery
@@ -133,15 +138,15 @@ Slash command: /cart-recovery
 
 ## Step 1: Write the reminder
 
-Write a gentle cart reminder email in the voice from brand voice for shoppers who left items in their cart an hour ago. It shows the items left in the cart and has one button back to the cart. No discount.
+Write a gentle cart reminder email in the voice from brand voice for shoppers who left items in their cart an hour ago. It shows the items left in the cart and has one button back to the cart (the cart item's own link when there is no cart page). No discount.
 
 ## Step 2: Write the social proof email
 
-Write a second cart email in the voice from brand voice for shoppers who left items in their cart a day ago. It shows the items, adds a short line of customer praise and a note that popular items sell out, with one button back to the cart. No discount.
+Write a second cart email in the voice from brand voice for shoppers who left items in their cart a day ago. It shows the items, adds a short line of customer praise taken from the brand's reviews or approved claims (else a line on how often the item is ordered, from order event data) and a note that popular items sell out, with one button back to the cart (the cart item's own link when there is no cart page). A praise or sell-out line with no source is left out and named in the run's notes. Its subject is its own, not the subject of "Write the reminder". No discount.
 
 ## Step 3: Write the final reminder
 
-Write a final cart email in the voice from brand voice for shoppers who left items in their cart three days ago. It says this is the last reminder, shows the items, and offers 10% off with one button back to the cart.
+Write a final cart email in the voice from brand voice for shoppers who left items in their cart three days ago. It says this is the last reminder, shows the items, and offers 10% off under a subject of its own, not an earlier email's, with one button back to the cart (the cart item's own link when there is no cart page).
 
 ## Step 4: Send three emails over three days
 
@@ -149,4 +154,4 @@ Build an automation triggered when a user does abandoned cart event. It sends th
 
 ## Step 5: Email the weekly recovery digest
 
-Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes the last 7 days and writes these figures: carts abandoned by abandoned cart event; the recovery rate, the share later matched by order event with the same cart id; the revenue recovered, the sum of total price on those orders; the median time to recover; recovery by which email from "Send three emails over three days" came last. When the recovery rate is below 15%, the email's first line says so. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.
+Build an automation that runs every Monday at 08:00 on a schedule. Each run it analyzes the last 7 days and writes these figures: carts abandoned by abandoned cart event; the recovery rate, the share later matched by order event with the same cart id; the revenue recovered, the sum of revenue (the order total) on those orders; the median time to recover; recovery by which email from "Send three emails over three days" came last. When the recovery rate is below 15%, the email's first line says so. Then it emails these figures as plain-text lines, each with its window, to the email addresses that get the digest. Nothing else is sent.

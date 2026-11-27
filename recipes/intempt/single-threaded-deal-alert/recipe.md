@@ -93,9 +93,12 @@ portable:
     - minDealAgeDays
     dependsOn:
     - s1
-    instruction: 'Build a new segment of accounts named "Single-Threaded Late-Stage Deals". An account is in it when all of
-      these are true: its {deal_stage} is one of {lateStageNames}; its {deal_created_date} is more than {minDealAgeDays} days
-      ago; its threading_depth from "Count who is actually engaged" is exactly 1; its {exec_buyer_flag} is not true.'
+    instruction: 'Build a new segment of accounts named "Single-Threaded Late-Stage Deals". An account is in it when all of these
+      are true: its threading_depth from "Count who is actually engaged" is exactly 1; it has an open deal whose {deal_stage}
+      is one of {lateStageNames}; that deal''s {deal_created_date} is more than {minDealAgeDays} days ago; its {exec_buyer_flag}
+      is not true. It is an account segment: threading_depth is an account attribute, never read as a user attribute. When the
+      project keeps deals as deal records, the stage and the deal age are read from the account''s deal records. A condition whose
+      signal the project does not hold is left out and named as left out; the segment''s name states no window its rule lacks.'
   - id: s3
     builds: automation
     uses:
@@ -107,11 +110,13 @@ portable:
     - alert_recipients
     dependsOn:
     - s2
-    instruction: 'Build an automation triggered when an account enters the segment from "Find the risky ones". An analysis
-      step names the one engaged {deal_engagement_event.contact}, then picks the {suggestedContactCount} other users of the
-      account most likely to influence the purchase, by {job_title}: peers, their manager and related teams. Then it emails
-      {alert_recipients} the account name, {deal_stage}, the engaged contact, and those {suggestedContactCount} people with
-      their titles and emails, asking the rep to bring them in.'
+    instruction: 'Build an automation triggered when an account enters the segment from "Find the risky ones". An analysis step
+      names the one engaged {deal_engagement_event.contact}, then picks the {suggestedContactCount} other users of the account
+      most likely to influence the purchase, by {job_title}: peers, their manager and related teams. Then it emails {alert_recipients}
+      the account name, {deal_stage}, the engaged contact, and those {suggestedContactCount} people with their titles and emails,
+      asking the rep to bring them in. When the project has no exec-buyer attribute, {job_title} values with VP, Chief, Head or
+      Director stand in for it, named as the stand-in; with no job titles either, the alert is sent without that check and names
+      it as left out. The alert is never dropped.'
   - id: s4
     builds: automation
     uses:
@@ -144,11 +149,11 @@ Build a computed attribute on accounts named "threading_depth", a whole number r
 
 ## Step 2: Find the risky ones
 
-Build a new segment of accounts named "Single-Threaded Late-Stage Deals". An account is in it when all of these are true: its deal stage is one of Demo, Proposal, Closing; its deal created date is more than 14 days ago; its threading_depth from "Count who is actually engaged" is exactly 1; its exec buyer flag is not true.
+Build a new segment of accounts named "Single-Threaded Late-Stage Deals". An account is in it when all of these are true: its threading_depth from "Count who is actually engaged" is exactly 1; it has an open deal whose deal stage is one of Demo, Proposal, Closing; that deal's deal created date is more than 14 days ago; its exec buyer flag is not true. It is an account segment: threading_depth is an account attribute, never read as a user attribute. When the project keeps deals as deal records, the stage and the deal age are read from the account's deal records. A condition whose signal the project does not hold is left out and named as left out; the segment's name states no window its rule lacks.
 
 ## Step 3: Give the rep three names
 
-Build an automation triggered when an account enters the segment from "Find the risky ones". An analysis step names the one engaged contact, then picks the 3 other users of the account most likely to influence the purchase, by job title: peers, their manager and related teams. Then it emails the email addresses of the reps who get the alerts the account name, deal stage, the engaged contact, and those 3 people with their titles and emails, asking the rep to bring them in.
+Build an automation triggered when an account enters the segment from "Find the risky ones". An analysis step names the one engaged contact, then picks the 3 other users of the account most likely to influence the purchase, by job title: peers, their manager and related teams. Then it emails the email addresses of the reps who get the alerts the account name, deal stage, the engaged contact, and those 3 people with their titles and emails, asking the rep to bring them in. When the project has no exec-buyer attribute, job title values with VP, Chief, Head or Director stand in for it, named as the stand-in; with no job titles either, the alert is sent without that check and names it as left out. The alert is never dropped.
 
 ## Step 4: Email the weekly threading digest
 

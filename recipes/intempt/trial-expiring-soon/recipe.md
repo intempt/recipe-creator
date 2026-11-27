@@ -1,7 +1,7 @@
 ---
 frontmatter_id: trial-expiring-soon
 slash_command: /trial-expiring-soon
-description: Trial users who started their trial 3 to 4 weeks ago and still have not paid, nudged by email and flagged to sales while there is still time to close them.
+description: Trial users whose trial ends within the next week and still have not paid, nudged by email and flagged to sales while there is still time to close them.
 author:
   name: Intempt
   last_name: Technologies
@@ -14,17 +14,17 @@ prerequisites:
   integrations:
     - { value: slack, severity: recommended }
 portable:
-  summary: Emails trial users who started 3 to 4 weeks ago and have not paid a warm nearing-end nudge, and alerts sales in
-    Slack so reps can reach out before the trial closes.
+  summary: Emails trial users whose trial ends within the next week and have not paid a warm nearing-end nudge, and alerts
+    sales in Slack so reps can reach out before the trial closes.
   parameters:
-  - name: trial_min_days
+  - name: days_before_end
     type: number
-    label: 'Trial start window: earliest days ago'
-    default: 23
-  - name: trial_max_days
+    label: Days before the trial ends
+    default: 7
+  - name: trial_length_days
     type: number
-    label: 'Trial start window: latest days ago'
-    default: 30
+    label: Trial length in days, used only when the trial start event has no end date
+    default: 14
   - name: plan_value
     type: string
     label: Plan attribute value that marks a trial
@@ -38,9 +38,9 @@ portable:
     label: Number of sentences in the email
     default: 3
   requirements:
-  - slot: subscription_started_event
+  - slot: trial_started_event
     kind: event
-    meaning: A customer started a paid subscription
+    meaning: A user started a trial (the event carries the trial's end date and its length in days)
   - slot: plan_attribute
     kind: attribute
     meaning: The plan a user is currently on, such as trial or paid
@@ -59,14 +59,15 @@ portable:
   - id: s1
     builds: segment
     uses:
-    - subscription_started_event
+    - trial_started_event
     - plan_attribute
     - plan_value
-    - trial_min_days
-    - trial_max_days
+    - days_before_end
+    - trial_length_days
     instruction: 'Build a new segment named "Trial Expiring Soon" of users who are still on their trial and not yet paying
-      (never people who already converted): their {plan_attribute} is {plan_value} and who did {subscription_started_event}
-      at least once between {trial_min_days} and {trial_max_days} days ago.'
+      (never people who already converted): their {plan_attribute} is {plan_value}, and the trial end date on their {trial_started_event}
+      falls within the next {days_before_end} days. If that event has no trial end date, use people who did {trial_started_event}
+      between ({trial_length_days} minus {days_before_end}) and {trial_length_days} days ago, and say that basis.'
   - id: s2
     builds: email
     uses:
@@ -99,7 +100,7 @@ Slash command: /trial-expiring-soon
 
 ## Step 1: Build the expiring-trial list
 
-Build a new segment named "Trial Expiring Soon" of users who are still on their trial and not yet paying (never people who already converted): their plan attribute is trial and who did subscription started event at least once between 23 and 30 days ago.
+Build a new segment named "Trial Expiring Soon" of users who are still on their trial and not yet paying (never people who already converted): their plan attribute is trial, and the trial end date on their trial started event falls within the next 7 days. If that event has no trial end date, use people who did trial started event between (14 minus 7) and 14 days ago, and say that basis.
 
 ## Step 2: Send a final nudge
 

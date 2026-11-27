@@ -22,7 +22,7 @@ portable:
     required: false
   - name: bounced_email_age_days
     type: duration
-    label: Bounced email age threshold
+    label: Window for recent hard bounces
     default: 90 d
     required: false
   - name: deal_stuck_days
@@ -91,8 +91,7 @@ portable:
     - email_bounced
     - bounced_email_age_days
     instruction: 'Build a new segment of users named "Incomplete or bounced users". A user is in it when any one of these
-      is true: {user_role} has no value; {user_company} has no value; they did {email_bounced} more than {bounced_email_age_days}
-      ago.'
+      is true: {user_role} has no value; {user_company} has no value; they did {email_bounced} in the last {bounced_email_age_days}.'
   - id: s3
     builds: automation
     uses:
@@ -129,7 +128,7 @@ Build a new segment of accounts named "Stale accounts". An account is in it when
 
 ## Step 2: Find the incomplete user records
 
-Build a new segment of users named "Incomplete or bounced users". A user is in it when any one of these is true: user role has no value; user company has no value; they did email bounced more than 90 d ago.
+Build a new segment of users named "Incomplete or bounced users". A user is in it when any one of these is true: user role has no value; user company has no value; they did email bounced in the last 90 d.
 
 ## Step 3: Email the weekly hygiene audit
 
